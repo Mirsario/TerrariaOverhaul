@@ -3,9 +3,9 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 {
-	public class AshSlime : OverhaulNPC
+	public class AshSlime : AshMonster
 	{
-		private const int BaseNPC = NPCID.BlueSlime;
+		protected override int BaseNPC => NPCID.BlueSlime;
 
 		public override void SetStaticDefaults()
 		{
