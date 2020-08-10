@@ -1,6 +1,6 @@
 ﻿using Terraria;
 
-namespace TerrariaOverhaul.Utils.Extensions
+namespace TerrariaOverhaul.Utilities.Extensions
 {
 	public static class PlayerExtensions
 	{
