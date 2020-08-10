@@ -6,7 +6,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public class PlayerRotation : ModPlayer
+	public class PlayerRotation : OverhaulPlayer
 	{
 		private const float GlobalRotationOffsetScale = 0.025f;
 

@@ -7,9 +7,11 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public class PlayerMovement : ModPlayer
+	public class PlayerMovement : OverhaulPlayer
 	{
 		public const int VelocityRecordSize = 5;
+		public float DefaultJumpSpeedScale = 1.52375f;
+		public float UnderwaterJumpSpeedScale = 0.775f;
 
 		public bool noMovement;
 		public int vanillaAccelerationTime;
@@ -27,10 +29,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			if(onGround || player.wet) {
 				Player.jumpHeight = 0;
-				Player.jumpSpeed *= player.chilled ? 1f : player.slowFall ? 1.1f : 1.52375f;
+
+				if(!player.chilled && !player.slowFall) {
+					Player.jumpSpeed *= DefaultJumpSpeedScale;
+				}
 
 				if(player.wet) {
-					Player.jumpSpeed *= 0.775f;
+					Player.jumpSpeed *= UnderwaterJumpSpeedScale;
 				}
 			}
 
@@ -41,7 +46,21 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				if(vanillaAccelerationTime>0) {
 					vanillaAccelerationTime--;
 				} else if(!player.slippy && !player.slippy2) {
-					player.runAcceleration = onGround ? 0.15f : wingFall ? 0.25f : wings ? player.wingsLogic==4 ? 0.5f : 0.2f : 0.125f;
+					//Run acceleration
+					if(onGround) {
+						player.runAcceleration = 0.15f;
+					} else {
+						//Is any of this needed?
+						if(wingFall) {
+							player.runAcceleration = 0.25f;
+						} else {
+							if(wings) {
+								player.runAcceleration = player.wingsLogic==4 ? 0.5f : 0.2f;
+							} else {
+								player.runAcceleration = 0.125f;
+							}
+						}
+					}
 
 					//Wind acceleration
 					if(player.FindBuffIndex(BuffID.WindPushed)>=0) {
@@ -53,6 +72,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					player.runSlowdown = onGround ? 0.3f : /* TODO: isDodging true ? 0.125f : */ 0.01f;
 				}
 
+				//Stops vanilla running sounds from playing. //TODO: Move to PlayerFootsteps.
 				player.runSoundDelay = 5;
 
 				if(noMovement) {
