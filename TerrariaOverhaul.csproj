@@ -20,7 +20,7 @@
     <Reference Include="Ionic.Zip.Reduced">
       <HintPath>..\..\references\Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
-    <Reference Remove="TerrariaHooks"/>
+    <Reference Remove="TerrariaHooks" />
   </ItemGroup>
   <ItemGroup>
 	<PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
