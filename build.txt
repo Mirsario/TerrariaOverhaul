@@ -1,0 +1,11 @@
+﻿author = Mirsario
+version = 5.0
+displayName = Terraria Overhaul - Journey's End Update
+homepage = https://forums.terraria.org/index.php?threads/.60369/
+hideCode = false
+hideResources = true
+includeSource = false
+buildIgnore = vs/*, *.csproj, *.sln, *.pidb, *.userprefs, *.user, *.bat, obj/*, bin/*, *.db, *.ignored, *Ignored/*, *ignored/*, *Old/*
+includePDB = false
+dllReferences = ICSharpCode.SharpZipLib, DiscordRichPresence
+noCompile = false
