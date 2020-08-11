@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
@@ -48,18 +47,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				} else if(!player.slippy && !player.slippy2) {
 					//Run acceleration
 					if(onGround) {
-						player.runAcceleration = 0.15f;
-					} else {
-						//Is any of this needed?
-						if(wingFall) {
-							player.runAcceleration = 0.25f;
-						} else {
-							if(wings) {
-								player.runAcceleration = player.wingsLogic==4 ? 0.5f : 0.2f;
-							} else {
-								player.runAcceleration = 0.125f;
-							}
-						}
+						player.runAcceleration *= 2f;
 					}
 
 					//Wind acceleration
@@ -69,7 +57,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 						}
 					}
 
-					player.runSlowdown = onGround ? 0.3f : /* TODO: isDodging true ? 0.125f : */ 0.01f;
+					player.runSlowdown = onGround ? 0.3f : /* TODO: isDodging true ? 0.125f : */ 0.02f;
 				}
 
 				//Stops vanilla running sounds from playing. //TODO: Move to PlayerFootsteps.
@@ -95,6 +83,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public override void PostUpdate()
 		{
 			Array.Copy(velocityRecord,0,velocityRecord,1,velocityRecord.Length-1); //Shift
+
 			velocityRecord[0] = player.velocity;
 
 			if(forcedPosition!=null) {
