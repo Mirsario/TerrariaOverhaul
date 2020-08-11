@@ -1,6 +1,4 @@
-﻿using Terraria.ModLoader;
-
-namespace TerrariaOverhaul.Common.ModEntities.Players
+﻿namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public class PlayerWings : OverhaulPlayer
 	{
