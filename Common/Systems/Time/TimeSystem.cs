@@ -34,7 +34,8 @@ namespace TerrariaOverhaul.Common.Systems.Time
 		public static bool Halloween { get; private set; }
 		public static bool Christmas { get; private set; }
 		public static bool NewYear { get; private set; }
-		public static int UpdateCount { get; private set; }
+		public static ulong UpdateCount { get; private set; }
+		public static double GlobalTime { get; private set; }
 
 		public static float RealTime => (float)(Main.time+(Main.dayTime ? 0d : Main.dayLength));
 
@@ -60,6 +61,7 @@ namespace TerrariaOverhaul.Common.Systems.Time
 		public override void PostUpdateEverything()
 		{
 			UpdateCount++;
+			GlobalTime += LogicDeltaTime;
 		}
 	}
 }
