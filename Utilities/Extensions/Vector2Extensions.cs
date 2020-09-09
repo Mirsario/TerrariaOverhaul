@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 
 namespace TerrariaOverhaul.Utilities.Extensions
 {

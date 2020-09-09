@@ -8,9 +8,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public class PlayerMovement : OverhaulPlayer
 	{
-		public const int VelocityRecordSize = 5;
-		public float DefaultJumpSpeedScale = 1.52375f;
-		public float UnderwaterJumpSpeedScale = 0.775f;
+		public static readonly int VelocityRecordSize = 5;
+		public static readonly float DefaultJumpSpeedScale = 1.52375f;
+		public static readonly float UnderwaterJumpSpeedScale = 0.775f;
 
 		public bool noMovement;
 		public int vanillaAccelerationTime;
@@ -90,6 +90,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				player.position = forcedPosition.Value;
 				forcedPosition = null;
 			}
+
+			player.oldVelocity = player.velocity;
 		}
 
 		/*public override bool PreItemCheck()
