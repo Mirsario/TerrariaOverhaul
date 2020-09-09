@@ -1,21 +1,17 @@
 ﻿using Terraria;
 using TerrariaOverhaul.Common.Systems.Footsteps;
+using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public class PlayerFootsteps : OverhaulPlayer
 	{
+		private const double FootstepCooldown = 0.1;
+
 		private byte stepState;
+		private double lastFootstepTime;
 
-		public override void PreUpdate()
-		{
-
-		}
-		public override void PostUpdate()
-		{
-
-		}
 		public override void PostItemCheck()
 		{
 			if(Main.dedServ) {
@@ -30,8 +26,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				int legFrame = player.legFrame.Y/player.legFrame.Height;
 
 				if(forceFootstep || (stepState==1 && (legFrame==16 || legFrame==17)) || (stepState==0 && (legFrame==9 || legFrame==10))) {
-					if(FootstepSystem.Foostep(player)) {
+					double time = TimeSystem.GlobalTime;
+					
+					if(time-lastFootstepTime>FootstepCooldown && FootstepSystem.Foostep(player)) {
 						stepState = stepState==0 ? (byte)1 : (byte)0;
+						lastFootstepTime = TimeSystem.GlobalTime;
 					}
 				}
 			}
