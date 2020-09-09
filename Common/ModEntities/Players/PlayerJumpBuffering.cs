@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerJumpBuffering : ModPlayer
 	{
-		private float jumpKeyBuffer;
+		public float JumpKeyBuffer { get; private set; }
 
 		public override void Load()
 		{
@@ -15,33 +15,33 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		}
 		public override void PostUpdate()
 		{
-			jumpKeyBuffer = MathUtils.StepTowards(jumpKeyBuffer,0f,TimeSystem.LogicDeltaTime);
+			JumpKeyBuffer = MathUtils.StepTowards(JumpKeyBuffer,0f,TimeSystem.LogicDeltaTime);
 		}
 		public override void SetControls()
 		{
-			if(player.controlJump) {
-				jumpKeyBuffer = 0.25f;
+			if(player.controlJump && player.releaseJump && player.velocity.Y!=0f) {
+				JumpKeyBuffer = 0.25f;
 			}
 		}
 
 		private static void JumpMovement(On.Terraria.Player.orig_JumpMovement orig,Player player)
 		{
 			var modPlayer = player.GetModPlayer<PlayerJumpBuffering>();
-			bool forceJump = !player.controlJump && modPlayer.jumpKeyBuffer>0f && player.velocity.Y==0f;
-			bool originalReleaseJump = player.releaseJump;
+			bool forceJump = !player.controlJump && modPlayer.JumpKeyBuffer>0f && player.velocity.Y==0f;
+			bool originalControlJump = player.controlJump;
+			bool originalAutoJump = player.autoJump;
 
 			if(forceJump) {
-				modPlayer.jumpKeyBuffer = 0f;
+				modPlayer.JumpKeyBuffer = 0f;
 
-				player.controlJump = true;
-				player.releaseJump = true;
+				player.controlJump = player.autoJump = true;
 			}
 
 			orig(player);
 
 			if(forceJump) {
-				player.controlJump = false;
-				player.releaseJump = originalReleaseJump;
+				player.controlJump = originalControlJump;
+				player.autoJump = originalAutoJump;
 			}
 		}
 	}
