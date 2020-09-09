@@ -12,14 +12,21 @@ namespace TerrariaOverhaul.Core.DataStructures
 
 			public GradientKey(float time,T value)
 			{
-				this.time=  time;
-				this.value= value;
+				this.time = time;
+				this.value = value;
 			}
 		}
 
 		public static Func<T,T,float,T> LerpFunc { protected get; set; }
 
-		public GradientKey[] keys;
+		private GradientKey[] keys;
+
+		public GradientKey[] Keys {
+			get => keys;
+			set {
+				keys = value ?? throw new ArgumentNullException();
+			}
+		}
 
 		static Gradient()
 		{
