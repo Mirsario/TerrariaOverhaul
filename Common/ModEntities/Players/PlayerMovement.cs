@@ -14,9 +14,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public bool noMovement;
 		public int vanillaAccelerationTime;
-		public int forcedDirection;
 		public Vector2? forcedPosition;
-		public Vector2 prevVelocity;
+		//public Vector2 prevVelocity;
 		public Vector2[] velocityRecord = new Vector2[VelocityRecordSize];
 
 		public override void PreUpdate()
