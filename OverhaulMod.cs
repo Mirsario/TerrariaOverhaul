@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Exceptions;
+using TerrariaOverhaul.Core.Systems.Networking;
 
 namespace TerrariaOverhaul
 {
@@ -45,8 +46,6 @@ namespace TerrariaOverhaul
 		{
 			Instance = this;
 
-			//MethodSwapper.InjectionLoop(InjectionMoment.Earliest);
-
 			Directory.CreateDirectory(PersonalDirectory);
 
 			if(ModLoader.version<MinimumTMLVersion) {
@@ -60,6 +59,8 @@ namespace TerrariaOverhaul
 				AutoloadBackgrounds = false
 			};
 		}
+
+		public override void HandlePacket(BinaryReader reader,int sender) => MultiplayerSystem.HandlePacket(reader,sender);
 
 		/*private void SubscribeToEvents()
 		{
