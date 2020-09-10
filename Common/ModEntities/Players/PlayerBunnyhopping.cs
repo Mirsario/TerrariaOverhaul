@@ -2,7 +2,7 @@
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public class PlayerBunnyhopping : OverhaulPlayer
+	public sealed class PlayerBunnyhopping : OverhaulPlayer
 	{
 		public static float DefaultBoost => 0.75f;
 

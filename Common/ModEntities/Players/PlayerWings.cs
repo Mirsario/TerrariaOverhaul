@@ -1,6 +1,6 @@
 ﻿namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public class PlayerWings : OverhaulPlayer
+	public sealed class PlayerWings : OverhaulPlayer
 	{
 		public int noWingsTime;
 

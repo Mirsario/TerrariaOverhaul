@@ -6,7 +6,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public class PlayerMovement : OverhaulPlayer
+	public sealed class PlayerMovement : OverhaulPlayer
 	{
 		public static readonly int VelocityRecordSize = 5;
 		public static readonly float DefaultJumpSpeedScale = 1.52375f;

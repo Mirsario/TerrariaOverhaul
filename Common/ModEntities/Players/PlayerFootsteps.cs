@@ -5,7 +5,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public class PlayerFootsteps : OverhaulPlayer
+	public sealed class PlayerFootsteps : OverhaulPlayer
 	{
 		private const double FootstepCooldown = 0.1;
 
