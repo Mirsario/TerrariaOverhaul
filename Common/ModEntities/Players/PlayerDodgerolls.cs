@@ -45,8 +45,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			return true;
 		}
-		public override bool CanBeHitByNPC(NPC npc,ref int cooldownSlot) => isDodging;
-		public override bool CanBeHitByProjectile(Projectile proj) => isDodging;
+		public override bool CanBeHitByNPC(NPC npc,ref int cooldownSlot) => !isDodging;
+		public override bool CanBeHitByProjectile(Projectile proj) => !isDodging;
 
 		public void QueueDodgeroll(float wantTime,sbyte direction,bool force = false)
 		{
