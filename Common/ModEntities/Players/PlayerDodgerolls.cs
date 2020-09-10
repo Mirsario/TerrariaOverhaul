@@ -47,6 +47,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		}
 		public override bool CanBeHitByNPC(NPC npc,ref int cooldownSlot) => !isDodging;
 		public override bool CanBeHitByProjectile(Projectile proj) => !isDodging;
+		public override bool CanUseItem(Item item) => !isDodging;
 
 		public void QueueDodgeroll(float wantTime,sbyte direction,bool force = false)
 		{
@@ -126,8 +127,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					}
 				}
 			} else {
-				player.GetModPlayer<PlayerItems>().canUseItems = true;
-
 				//Lower fall damage
 				if(dodgeTime<DodgeTimeMax/1.5f && onGround && !wasOnGround) {
 					player.fallStart = (int)MathHelper.Lerp(player.fallStart,(int)(player.position.Y/16f),0.35f);
