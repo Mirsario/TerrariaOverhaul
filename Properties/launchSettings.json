@@ -2,8 +2,8 @@
   "profiles": {
     "TerrariaOverhaul": {
       "commandName": "Executable",
-      "executablePath": "D:\\Steam\\steamapps\\common\\tModLoader\\tModLoaderDebug.exe",
-      "workingDirectory": "D:\\Steam\\steamapps\\common\\tModLoader\\"
+      "executablePath": "$(tMLPath)",
+      "workingDirectory": "$(TerrariaSteamPath)"
     }
   }
 }
