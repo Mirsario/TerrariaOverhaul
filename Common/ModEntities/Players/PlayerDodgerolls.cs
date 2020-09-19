@@ -21,7 +21,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public static float DodgeTimeMax => 0.37f;
 		public static float DodgeDefaultCooldown => 1.5f;
 
-		public int dodgeStartBodyFrame;
 		public sbyte dodgeDirection;
 		public sbyte dodgeDirectionVisual;
 		public sbyte wantedDodgerollDir;
@@ -61,7 +60,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private void UpdateDodging()
 		{
-
 			dodgeCooldown = MathUtils.StepTowards(dodgeCooldown,0f,TimeSystem.LogicDeltaTime);
 			wantsDodgerollTimer = MathUtils.StepTowards(wantsDodgerollTimer,0f,TimeSystem.LogicDeltaTime);
 
@@ -113,7 +111,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					dodgeStartRot = rotation;
 					dodgeItemRotation = player.itemRotation;
 					dodgeTime = 0f;
-					dodgeStartBodyFrame = player.bodyFrame.Y/56;
 					dodgeDirectionVisual = (sbyte)player.direction;
 					dodgeDirection = wantedDodgerollDir!=0 ? wantedDodgerollDir : (sbyte)player.direction;
 					dodgeCooldown = DodgeDefaultCooldown;
