@@ -15,10 +15,10 @@ namespace TerrariaOverhaul.Content.Items.Accessories
 			item.height = 32;
 			item.rare = ItemRarityID.Green;
 			item.scale = 0.25f;
-			item.value = Item.sellPrice(0,0,1);
+			item.value = Item.sellPrice(0, 0, 1);
 		}
 		public override void AddRecipes() => this.CreateRecipe(r => {
-			r.AddIngredient(ItemID.Bunny,5);
+			r.AddIngredient(ItemID.Bunny, 5);
 			r.AddTile(TileID.Sawmill);
 		});
 		//TODO: Reimplement.

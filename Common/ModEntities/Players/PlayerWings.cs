@@ -7,7 +7,7 @@
 		public override void PreUpdate()
 		{
 			//No Wings Time
-			if(noWingsTime>0) {
+			if(noWingsTime > 0) {
 				player.wingsLogic = 0;
 				noWingsTime--;
 			}

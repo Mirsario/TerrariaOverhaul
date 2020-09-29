@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 
 		public static ILog Logger => logger ?? (logger = LogManager.GetLogger(nameof(TerrariaOverhaul)));
 
-		public static void Log(object text,bool toChat = false,bool toConsole = false,bool toFile = true)
+		public static void Log(object text, bool toChat = false, bool toConsole = false, bool toFile = true)
 		{
 			string actualText = text?.ToString();
 

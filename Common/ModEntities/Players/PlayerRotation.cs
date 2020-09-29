@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				return;
 			}
 
-			player.fullRotationOrigin = new Vector2(11,22);
+			player.fullRotationOrigin = new Vector2(11, 22);
 		}
 		public override void PostUpdate()
 		{
@@ -26,9 +26,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				float movementRotation;
 
 				if(player.OnGround()) {
-					movementRotation = player.velocity.X*(player.velocity.X<Main.MouseWorld.X ? 1f : -1f)*GlobalRotationOffsetScale;
+					movementRotation = player.velocity.X * (player.velocity.X < Main.MouseWorld.X ? 1f : -1f) * GlobalRotationOffsetScale;
 				} else {
-					movementRotation = MathHelper.Clamp(player.velocity.Y*Math.Sign(player.velocity.X)*-0.015f,-0.4f,0.4f);
+					movementRotation = MathHelper.Clamp(player.velocity.Y * Math.Sign(player.velocity.X) * -0.015f, -0.4f, 0.4f);
 				}
 
 				rotation += movementRotation;

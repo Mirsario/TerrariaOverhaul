@@ -17,11 +17,11 @@ namespace TerrariaOverhaul.Core.Systems.Input
 
 		public override void Load()
 		{
-			KeyReload = Mod.RegisterHotKey("Reload","R");
-			KeyDodgeroll = Mod.RegisterHotKey("Dodgeroll","LeftControl");
-			KeyEmoteWheel = Mod.RegisterHotKey("Emote Wheel","Q");
-			KeyQuickAction = Mod.RegisterHotKey("Quick Action","F");
-			KeySwitchQuickItem = Mod.RegisterHotKey("Switch Quick Item","X");
+			KeyReload = Mod.RegisterHotKey("Reload", "R");
+			KeyDodgeroll = Mod.RegisterHotKey("Dodgeroll", "LeftControl");
+			KeyEmoteWheel = Mod.RegisterHotKey("Emote Wheel", "Q");
+			KeyQuickAction = Mod.RegisterHotKey("Quick Action", "F");
+			KeySwitchQuickItem = Mod.RegisterHotKey("Switch Quick Item", "X");
 		}
 	}
 }

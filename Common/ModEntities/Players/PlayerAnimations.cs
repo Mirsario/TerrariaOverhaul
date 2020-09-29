@@ -17,18 +17,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
-			void TryForceFrame(ref Rectangle frame,ref PlayerFrames? newFrame)
+			void TryForceFrame(ref Rectangle frame, ref PlayerFrames? newFrame)
 			{
 				if(newFrame.HasValue) {
-					frame = new Rectangle(0,PlayerSheetHeight*(int)newFrame.Value,PlayerSheetWidth,PlayerSheetHeight);
+					frame = new Rectangle(0, PlayerSheetHeight * (int)newFrame.Value, PlayerSheetWidth, PlayerSheetHeight);
 
 					newFrame = null;
 				}
 			}
 
-			TryForceFrame(ref player.headFrame,ref forcedHeadFrame);
-			TryForceFrame(ref player.bodyFrame,ref forcedBodyFrame);
-			TryForceFrame(ref player.legFrame,ref forcedLegFrame);
+			TryForceFrame(ref player.headFrame, ref forcedHeadFrame);
+			TryForceFrame(ref player.bodyFrame, ref forcedBodyFrame);
+			TryForceFrame(ref player.legFrame, ref forcedLegFrame);
 		}
 	}
 }

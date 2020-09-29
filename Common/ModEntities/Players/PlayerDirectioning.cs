@@ -28,7 +28,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public void SetDirection()
 		{
-			if(player.altFunctionUse!=0) {
+			if(player.altFunctionUse != 0) {
 				return;
 			}
 
@@ -41,7 +41,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			if(player.IsLocal() && Main.hasFocus) {
 				mouseWorld = Main.MouseWorld;
 
-				if(Main.netMode==NetmodeID.MultiplayerClient && Main.GameUpdateCount%MouseWorldSyncFrequency==0 && lastSyncedMouseWorld!=mouseWorld) {
+				if(Main.netMode == NetmodeID.MultiplayerClient && Main.GameUpdateCount % MouseWorldSyncFrequency == 0 && lastSyncedMouseWorld != mouseWorld) {
 					MultiplayerSystem.SendPacket(new PlayerMousePositionPacket(player));
 
 					lastSyncedMouseWorld = mouseWorld;
@@ -49,12 +49,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			if(!player.pulley && (!player.mount.Active || player.mount.AllowDirectionChange)) {
-				if(forcedDirection!=0) {
+				if(forcedDirection != 0) {
 					player.direction = forcedDirection;
 
 					forcedDirection = 0;
 				} else {
-					player.direction = mouseWorld.X>=player.Center.X ? 1 : -1;
+					player.direction = mouseWorld.X >= player.Center.X ? 1 : -1;
 				}
 			}
 		}

@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			bool onGround = player.OnGround();
 			bool wasOnGround = player.WasOnGround();
 
-			player.fullRotationOrigin = new Vector2(11,22);
+			player.fullRotationOrigin = new Vector2(11, 22);
 
 			if(onGround || player.wet) {
 				Player.jumpHeight = 0;
@@ -38,10 +38,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			if(!player.wet) {
-				bool wings = player.wingsLogic>0 && player.controlJump && !onGround && !wasOnGround;
-				bool wingFall = wings && player.wingTime==0;
+				bool wings = player.wingsLogic > 0 && player.controlJump && !onGround && !wasOnGround;
+				bool wingFall = wings && player.wingTime == 0;
 
-				if(vanillaAccelerationTime>0) {
+				if(vanillaAccelerationTime > 0) {
 					vanillaAccelerationTime--;
 				} else if(!player.slippy && !player.slippy2) {
 					//Run acceleration
@@ -50,9 +50,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					}
 
 					//Wind acceleration
-					if(player.FindBuffIndex(BuffID.WindPushed)>=0) {
-						if(Main.windSpeedCurrent>=0f ? player.velocity.X<Main.windSpeedCurrent : player.velocity.X>Main.windSpeedCurrent) {
-							player.velocity.X += Main.windSpeedCurrent/(player.KeyDirection()==-Math.Sign(Main.windSpeedCurrent) ? 180f : 70f);
+					if(player.FindBuffIndex(BuffID.WindPushed) >= 0) {
+						if(Main.windSpeedCurrent >= 0f ? player.velocity.X < Main.windSpeedCurrent : player.velocity.X > Main.windSpeedCurrent) {
+							player.velocity.X += Main.windSpeedCurrent / (player.KeyDirection() == -Math.Sign(Main.windSpeedCurrent) ? 180f : 70f);
 						}
 					}
 
@@ -72,20 +72,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 				player.maxFallSpeed = wingFall ? 10f : 1000f;
 
-				if(player.velocity.Y>player.maxFallSpeed) {
+				if(player.velocity.Y > player.maxFallSpeed) {
 					player.velocity.Y = player.maxFallSpeed;
-				} else if(player.velocity.Y>0f) {
+				} else if(player.velocity.Y > 0f) {
 					player.velocity.Y *= 0.995f;
 				}
 			}
 		}
 		public override void PostUpdate()
 		{
-			Array.Copy(velocityRecord,0,velocityRecord,1,velocityRecord.Length-1); //Shift
+			Array.Copy(velocityRecord, 0, velocityRecord, 1, velocityRecord.Length - 1); //Shift
 
 			velocityRecord[0] = player.velocity;
 
-			if(forcedPosition!=null) {
+			if(forcedPosition != null) {
 				player.position = forcedPosition.Value;
 				forcedPosition = null;
 			}

@@ -16,11 +16,11 @@ namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 		public Vector2? position;
 		public Gradient<float> powerGradient;
 
-		public ScreenShake(Gradient<float> powerGradient,float time,Vector2? position = null,float range = DefaultRange,string uniqueId = null) : this(0f,time,position,range,uniqueId)
+		public ScreenShake(Gradient<float> powerGradient, float time, Vector2? position = null, float range = DefaultRange, string uniqueId = null) : this(0f, time, position, range, uniqueId)
 		{
 			this.powerGradient = powerGradient;
 		}
-		public ScreenShake(float power,float time,Vector2? position = null,float range = DefaultRange,string uniqueId = null)
+		public ScreenShake(float power, float time, Vector2? position = null, float range = DefaultRange, string uniqueId = null)
 		{
 			this.power = power;
 			this.time = TimeMax = time;

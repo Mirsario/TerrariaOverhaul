@@ -21,20 +21,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			bool onGround = player.OnGround();
 			bool wasOnGround = player.WasOnGround();
 			bool forceFootstep = onGround != wasOnGround;
-			int legFrame = player.legFrame.Y/player.legFrame.Height;
+			int legFrame = player.legFrame.Y / player.legFrame.Height;
 
 			if(onGround || forceFootstep) {
-				if(forceFootstep || (stepState==1 && (legFrame==16 || legFrame==17)) || (stepState==0 && (legFrame==9 || legFrame==10))) {
+				if(forceFootstep || (stepState == 1 && (legFrame == 16 || legFrame == 17)) || (stepState == 0 && (legFrame == 9 || legFrame == 10))) {
 					double time = TimeSystem.GlobalTime;
 
-					if(time-lastFootstepTime>FootstepCooldown && FootstepSystem.Foostep(player)) {
-						stepState = stepState==0 ? (byte)1 : (byte)0;
+					if(time - lastFootstepTime > FootstepCooldown && FootstepSystem.Foostep(player)) {
+						stepState = stepState == 0 ? (byte)1 : (byte)0;
 						lastFootstepTime = TimeSystem.GlobalTime;
 					}
 				}
 			}
 
-			if(!onGround || legFrame==0) {
+			if(!onGround || legFrame == 0) {
 				stepState = 0;
 			}
 		}

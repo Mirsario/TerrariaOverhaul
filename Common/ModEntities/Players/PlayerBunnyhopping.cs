@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			bool onGround = player.OnGround();
 			bool wasOnGround = player.WasOnGround();
 
-			if(!onGround && wasOnGround && player.velocity.Y<0f) {
+			if(!onGround && wasOnGround && player.velocity.Y < 0f) {
 				player.velocity.X += player.controlLeft ? -boost : player.controlRight ? boost : 0f;
 			}
 		}

@@ -14,12 +14,12 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 	public class FootstepSystem : ModSystem
 	{
 		private static readonly SoundStyle DefaultFoostepSound;
-		private static readonly Dictionary<TagData,SoundStyle> FootstepSoundsByTag;
+		private static readonly Dictionary<TagData, SoundStyle> FootstepSoundsByTag;
 
 		static FootstepSystem()
 		{
-			DefaultFoostepSound = new ModSoundStyle(nameof(TerrariaOverhaul),"Assets/Sounds/Footsteps/Stone/Step",11);
-			FootstepSoundsByTag = new Dictionary<TagData,SoundStyle> {
+			DefaultFoostepSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Stone/Step", 11);
+			FootstepSoundsByTag = new Dictionary<TagData, SoundStyle> {
 				{ OverhaulTileTags.Stone, DefaultFoostepSound },
 				{ OverhaulTileTags.Dirt, new ModSoundStyle(nameof(TerrariaOverhaul),"Assets/Sounds/Footsteps/Dirt/Step",11) },
 				{ OverhaulTileTags.Grass, new ModSoundStyle(nameof(TerrariaOverhaul),"Assets/Sounds/Footsteps/Grass/Step",10) },
@@ -46,21 +46,21 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 
 			return DefaultFoostepSound;
 		}
-		public static bool Foostep(Entity entity,Point16? forcedPoint = null)
+		public static bool Foostep(Entity entity, Point16? forcedPoint = null)
 		{
 			if(Main.dedServ) {
 				return false;
 			}
 
-			var vec = entity.BottomLeft/16f;
-			var point = new Point((int)Math.Floor(vec.X),(int)Math.Ceiling(vec.Y));
+			var vec = entity.BottomLeft / 16f;
+			var point = new Point((int)Math.Floor(vec.X), (int)Math.Ceiling(vec.Y));
 			Tile tile = null;
 
-			if(forcedPoint.HasValue && forcedPoint.Value.IsInWorld() && Main.tile.TryGet(forcedPoint.Value,out var tempTile) && tempTile.active()) {
+			if(forcedPoint.HasValue && forcedPoint.Value.IsInWorld() && Main.tile.TryGet(forcedPoint.Value, out var tempTile) && tempTile.active()) {
 				tile = tempTile;
 			} else {
-				for(int x = 0;x<2;x++) {
-					if(Main.tile.TryGet(point.X+x,point.Y,out tempTile) && tempTile.active()) {
+				for(int x = 0; x < 2; x++) {
+					if(Main.tile.TryGet(point.X + x, point.Y, out tempTile) && tempTile.active()) {
 						tile = tempTile;
 
 						break;
@@ -68,11 +68,11 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 				}
 			}
 
-			if(tile==null) {
+			if(tile == null) {
 				return false;
 			}
 
-			SoundEngine.PlaySound(GetTileFootstepSound(tile),entity.Bottom);
+			SoundEngine.PlaySound(GetTileFootstepSound(tile), entity.Bottom);
 
 			return true;
 

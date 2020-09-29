@@ -15,19 +15,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		}
 		public override void PostUpdate()
 		{
-			JumpKeyBuffer = MathUtils.StepTowards(JumpKeyBuffer,0f,TimeSystem.LogicDeltaTime);
+			JumpKeyBuffer = MathUtils.StepTowards(JumpKeyBuffer, 0f, TimeSystem.LogicDeltaTime);
 		}
 		public override void SetControls()
 		{
-			if(player.controlJump && player.releaseJump && player.velocity.Y!=0f) {
+			if(player.controlJump && player.releaseJump && player.velocity.Y != 0f) {
 				JumpKeyBuffer = 0.25f;
 			}
 		}
 
-		private static void JumpMovement(On.Terraria.Player.orig_JumpMovement orig,Player player)
+		private static void JumpMovement(On.Terraria.Player.orig_JumpMovement orig, Player player)
 		{
 			var modPlayer = player.GetModPlayer<PlayerJumpBuffering>();
-			bool forceJump = !player.controlJump && modPlayer.JumpKeyBuffer>0f && player.velocity.Y==0f;
+			bool forceJump = !player.controlJump && modPlayer.JumpKeyBuffer > 0f && player.velocity.Y == 0f;
 			bool originalControlJump = player.controlJump;
 			bool originalAutoJump = player.autoJump;
 

@@ -41,23 +41,23 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 		{
 			if(!Main.dedServ) {
 				//Slight glow in the dark, due to the eye.
-				Lighting.AddLight(npc.Top,new Vector3(1f,0.75f,0f)*0.15f);
+				Lighting.AddLight(npc.Top, new Vector3(1f, 0.75f, 0f) * 0.15f);
 			}
 		}
-		public override void HitEffect(int hitDirection,double damage)
+		public override void HitEffect(int hitDirection, double damage)
 		{
-			int amount = npc.life<=0 ? 50 : (int)damage;
+			int amount = npc.life <= 0 ? 50 : (int)damage;
 
-			for(int i = 0;i<amount;i++) {
-				Dust.NewDust(npc.position,npc.width,npc.height,54,Main.rand.NextFloat(-3f,3f),Main.rand.NextFloat(-3f,3f));
+			for(int i = 0; i < amount; i++) {
+				Dust.NewDust(npc.position, npc.width, npc.height, 54, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));
 			}
 		}
 		public override void NPCLoot() //TODO: Use loot tables when tML implements their use.
 		{
-			Item.NewItem(npc.getRect(),ItemID.AshBlock,Main.rand.Next(5,10));
-			Item.NewItem(npc.getRect(),ModContent.ItemType<Charcoal>(),Main.rand.Next(1,3));
+			Item.NewItem(npc.getRect(), ItemID.AshBlock, Main.rand.Next(5, 10));
+			Item.NewItem(npc.getRect(), ModContent.ItemType<Charcoal>(), Main.rand.Next(1, 3));
 		}
-		public override void PostDraw(SpriteBatch sb,Color drawColor) //TODO: Reimplement this when tML simplifies glowmasks
+		public override void PostDraw(SpriteBatch sb, Color drawColor) //TODO: Reimplement this when tML simplifies glowmasks
 		{
 			/*var tex = TextureSystem.GetTexture2D("NPCs/AshSlime_Glow");
 			var effects = npc.spriteDirection==1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;

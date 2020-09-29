@@ -13,16 +13,16 @@ namespace TerrariaOverhaul
 	public partial class OverhaulMod : Mod
 	{
 		public static readonly uint BetaNumber = 1;
-		public static readonly bool SecretBeta = BetaNumber>0;
+		public static readonly bool SecretBeta = BetaNumber > 0;
 		public static readonly string VersionSuffix = "(BETA)";
 		public static readonly Version MinimumTMLVersion = new Version("0.12");
-		public static readonly string PersonalDirectory = Path.Combine(Main.SavePath,"TerrariaOverhaul");
+		public static readonly string PersonalDirectory = Path.Combine(Main.SavePath, "TerrariaOverhaul");
 		public static readonly Assembly Assembly;
 		public static readonly Type[] AssemblyTypes;
 		public static readonly Assembly EngineAssembly;
 		public static readonly Assembly TMLAssembly;
 
-		internal static readonly ResourceManager ResourceManager = new ResourceManager("TerrariaOverhaul.Properties.Resources",Assembly.GetExecutingAssembly());
+		internal static readonly ResourceManager ResourceManager = new ResourceManager("TerrariaOverhaul.Properties.Resources", Assembly.GetExecutingAssembly());
 
 		public static Exception mainThreadException;
 		public static string originalDisplayName;
@@ -48,7 +48,7 @@ namespace TerrariaOverhaul
 
 			Directory.CreateDirectory(PersonalDirectory);
 
-			if(ModLoader.version<MinimumTMLVersion) {
+			if(ModLoader.version < MinimumTMLVersion) {
 				throw new OutdatedTModLoaderException(MinimumTMLVersion);
 			}
 
@@ -60,7 +60,7 @@ namespace TerrariaOverhaul
 			};
 		}
 
-		public override void HandlePacket(BinaryReader reader,int sender) => MultiplayerSystem.HandlePacket(reader,sender);
+		public override void HandlePacket(BinaryReader reader, int sender) => MultiplayerSystem.HandlePacket(reader, sender);
 
 		/*private void SubscribeToEvents()
 		{

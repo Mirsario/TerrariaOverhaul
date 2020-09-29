@@ -15,12 +15,12 @@ namespace TerrariaOverhaul.Core.Systems.Networking
 		public static MultiplayerSystem Instance => ModContent.GetInstance<MultiplayerSystem>();
 
 		private static List<NetPacket> packets;
-		private static Dictionary<Type,NetPacket> packetsByType;
+		private static Dictionary<Type, NetPacket> packetsByType;
 
 		public override void Load()
 		{
 			packets = new List<NetPacket>();
-			packetsByType = new Dictionary<Type,NetPacket>();
+			packetsByType = new Dictionary<Type, NetPacket>();
 
 			foreach(var type in Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(NetPacket)))) {
 				var instance = (NetPacket)FormatterServices.GetUninitializedObject(type);
@@ -35,7 +35,7 @@ namespace TerrariaOverhaul.Core.Systems.Networking
 		}
 		public override void Unload()
 		{
-			if(packets!=null) {
+			if(packets != null) {
 				packets.Clear();
 
 				packets = null;
@@ -47,9 +47,9 @@ namespace TerrariaOverhaul.Core.Systems.Networking
 		public static NetPacket GetPacket(Type type) => packetsByType[type];
 		public static T GetPacket<T>() where T : NetPacket => ModContent.GetInstance<T>();
 		//Send
-		public static void SendPacket<T>(T packet,int toClient = -1,int ignoreClient = -1,Func<Player,bool> sendDelegate = null) where T : NetPacket
+		public static void SendPacket<T>(T packet, int toClient = -1, int ignoreClient = -1, Func<Player, bool> sendDelegate = null) where T : NetPacket
 		{
-			if(Main.netMode==NetmodeID.SinglePlayer) {
+			if(Main.netMode == NetmodeID.SinglePlayer) {
 				return;
 			}
 
@@ -59,15 +59,15 @@ namespace TerrariaOverhaul.Core.Systems.Networking
 			packet.Write(modPacket);
 
 			try {
-				if(Main.netMode==NetmodeID.MultiplayerClient) {
+				if(Main.netMode == NetmodeID.MultiplayerClient) {
 					modPacket.Send();
-				} else if(toClient!=-1) {
-					modPacket.Send(toClient,ignoreClient);
+				} else if(toClient != -1) {
+					modPacket.Send(toClient, ignoreClient);
 				} else {
-					for(int i = 0;i<Main.player.Length;i++) {
+					for(int i = 0; i < Main.player.Length; i++) {
 						var player = Main.player[i];
 
-						if(i!=ignoreClient && Netplay.Clients[i].State>=10 && (sendDelegate?.Invoke(player) ?? true)) {
+						if(i != ignoreClient && Netplay.Clients[i].State >= 10 && (sendDelegate?.Invoke(player) ?? true)) {
 							modPacket.Send(i);
 						}
 					}
@@ -76,18 +76,18 @@ namespace TerrariaOverhaul.Core.Systems.Networking
 			catch { }
 		}
 
-		internal static void HandlePacket(BinaryReader reader,int sender)
+		internal static void HandlePacket(BinaryReader reader, int sender)
 		{
 			try {
 				byte packetId = reader.ReadByte();
 
-				if(packetId>packets.Count) {
+				if(packetId > packets.Count) {
 					return;
 				}
 
 				var packet = packets[packetId];
 
-				packet.Read(reader,sender);
+				packet.Read(reader, sender);
 			}
 			catch {
 				//TODO: Log

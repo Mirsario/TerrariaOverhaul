@@ -6,11 +6,11 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 	{
 		void ILoadable.Load(Mod mod)
 		{
-			
+
 		}
 		void ILoadable.Unload()
 		{
-			
+
 		}
 	}
 }

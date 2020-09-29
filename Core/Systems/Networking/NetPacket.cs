@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Core.Systems.Networking
 			Writer = writer ?? throw new ArgumentNullException(nameof(writer));
 		}
 
-		public abstract void Read(BinaryReader reader,int sender);
+		public abstract void Read(BinaryReader reader, int sender);
 
 		public void Write(BinaryWriter writer) => Writer(writer);
 	}

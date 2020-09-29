@@ -5,26 +5,26 @@ namespace TerrariaOverhaul.Utilities.Extensions
 {
 	public static class TagExtensions
 	{
-		public static void Populate(this TagData tag,int length,Func<int,bool> predicate)
+		public static void Populate(this TagData tag, int length, Func<int, bool> predicate)
 		{
-			for(int i = 0;i<length;i++) {
+			for(int i = 0; i < length; i++) {
 				if(predicate(i)) {
-					tag.Set(i,true);
+					tag.Set(i, true);
 				}
 			}
 		}
-		public static void PopulateFromSets(this TagData tag,bool[] sets)
+		public static void PopulateFromSets(this TagData tag, bool[] sets)
 		{
-			for(int i = 0;i<sets.Length;i++) {
+			for(int i = 0; i < sets.Length; i++) {
 				if(sets[i]) {
-					tag.Set(i,true);
+					tag.Set(i, true);
 				}
 			}
 		}
-		public static void SetMultiple(this TagData tag,params int[] ids)
+		public static void SetMultiple(this TagData tag, params int[] ids)
 		{
-			for(int i = 0;i<ids.Length;i++) {
-				tag.Set(ids[i],true);
+			for(int i = 0; i < ids.Length; i++) {
+				tag.Set(ids[i], true);
 			}
 		}
 	}

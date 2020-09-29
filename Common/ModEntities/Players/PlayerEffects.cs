@@ -15,12 +15,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				return;
 			}
 
-			On.Terraria.Player.SetArmorEffectVisuals += (orig,player,drawPlayer) => {
-				orig(player,drawPlayer);
+			On.Terraria.Player.SetArmorEffectVisuals += (orig, player, drawPlayer) => {
+				orig(player, drawPlayer);
 
 				var modPlayer = drawPlayer.GetModPlayer<PlayerEffects>();
 
-				if(modPlayer.forceTrailEffectTime>0) {
+				if(modPlayer.forceTrailEffectTime > 0) {
 					player.armorEffectDrawShadow = true;
 
 					modPlayer.forceTrailEffectTime--;
@@ -28,6 +28,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			};
 		}
 
-		public void ForceTrailEffect(int forTicks) => forceTrailEffectTime = Math.Max(forceTrailEffectTime,forTicks);
+		public void ForceTrailEffect(int forTicks) => forceTrailEffectTime = Math.Max(forceTrailEffectTime, forTicks);
 	}
 }

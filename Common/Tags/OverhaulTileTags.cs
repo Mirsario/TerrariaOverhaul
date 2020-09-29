@@ -134,7 +134,7 @@ namespace TerrariaOverhaul.Common.Tags
 		}
 		void ILoadable.Unload()
 		{
-			
+
 		}
 	}
 }
