@@ -20,7 +20,7 @@ root = true
 
 # New line preferences
 	end_of_line = crlf
-	insert_final_newline = false
+	insert_final_newline = true
 
 #### .NET Coding Conventions ####
 
@@ -46,7 +46,8 @@ root = true
 	dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:silent
 
 # Modifier preferences
-	dotnet_style_require_accessibility_modifiers = for_non_interface_members:suggestion
+	# This would be good to keep at for_non_interface_members:suggestion, but, unfortunately, this applies to partial files, and is rather annoying.
+	dotnet_style_require_accessibility_modifiers = for_non_interface_members:silent
 
 # Expression-level preferences
 	dotnet_style_coalesce_expression = true:suggestion
@@ -77,12 +78,10 @@ root = true
 	csharp_style_var_when_type_is_apparent = true:none
 
 # Expression-bodied members
-	csharp_style_expression_bodied_lambdas = true:silent
-	csharp_style_expression_bodied_local_functions = false:silent
-	csharp_style_expression_bodied_operators = false:silent
-	# Prefer block bodies for constructors
-	csharp_style_expression_bodied_constructors = false:suggestion
-	# Prefer expression-bodied members for methods, properties, indexers and accessors when they will be a single line
+	csharp_style_expression_bodied_lambdas = when_on_single_line:suggestion
+	csharp_style_expression_bodied_local_functions = when_on_single_line:suggestion
+	csharp_style_expression_bodied_operators = when_on_single_line:suggestion
+	csharp_style_expression_bodied_constructors = when_on_single_line:silent
 	csharp_style_expression_bodied_methods = when_on_single_line:suggestion
 	csharp_style_expression_bodied_properties = when_on_single_line:suggestion
 	csharp_style_expression_bodied_indexers = when_on_single_line:suggestion
