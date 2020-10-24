@@ -45,10 +45,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			climbStartPos = player.position = posFrom;
 			climbEndPos = posTo;
 
-			typeof(Main)
-				.GetField("_gameUpdateCount", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic)
-				.SetValue(null, (uint)uint.MaxValue - 200);
-
 			player.GetModPlayer<PlayerDirectioning>().forcedDirection = climbEndPos.X >= climbStartPos.X ? 1 : -1;
 
 			if(Main.netMode == NetmodeID.MultiplayerClient && player.IsLocal()) {
