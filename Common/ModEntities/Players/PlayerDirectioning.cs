@@ -17,7 +17,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private Vector2 lastSyncedMouseWorld;
 
-		public override void PreUpdate() => SetDirection();
+		public override void PreUpdate() => SetDirection(true);
 		public override void PostUpdate() => SetDirection();
 		public override bool PreItemCheck()
 		{
@@ -26,7 +26,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			return true;
 		}
 
-		public void SetDirection()
+		public void SetDirection() => SetDirection(false);
+
+		private void SetDirection(bool resetForcedDirection)
 		{
 			if(player.altFunctionUse != 0) {
 				return;
@@ -52,7 +54,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				if(forcedDirection != 0) {
 					player.direction = forcedDirection;
 
-					forcedDirection = 0;
+					if(resetForcedDirection) {
+						forcedDirection = 0;
+					}
 				} else {
 					player.direction = mouseWorld.X >= player.Center.X ? 1 : -1;
 				}
