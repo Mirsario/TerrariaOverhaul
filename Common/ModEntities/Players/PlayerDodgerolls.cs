@@ -104,7 +104,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 						SoundEngine.PlaySound(DodgerollSound, player.Center);
 					}
 
-					//player.StopGrappling(); //TODO:
+					player.StopGrappling();
 					player.pulley = false;
 
 					isDodging = true;
