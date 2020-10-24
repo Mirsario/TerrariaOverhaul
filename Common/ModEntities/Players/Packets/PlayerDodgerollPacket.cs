@@ -8,15 +8,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 {
 	public class PlayerDodgerollPacket : NetPacket
 	{
-		public PlayerDodgerollPacket(Player player) : base(w => {
+		public PlayerDodgerollPacket(Player player)
+		{
 			var playerDodgerolls = player.GetModPlayer<PlayerDodgerolls>();
 
-			w.TryWriteSenderPlayer(player);
+			Writer.TryWriteSenderPlayer(player);
 
-			w.Write(playerDodgerolls.wantedDodgerollDir);
-			w.WriteVector2(player.velocity);
-		})
-		{ }
+			Writer.Write(playerDodgerolls.wantedDodgerollDir);
+			Writer.WriteVector2(player.velocity);
+		}
 
 		public override void Read(BinaryReader reader, int sender)
 		{

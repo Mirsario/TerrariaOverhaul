@@ -56,7 +56,7 @@ namespace TerrariaOverhaul.Core.Systems.Networking
 			ModPacket modPacket = Instance.Mod.GetPacket();
 
 			modPacket.Write((byte)packet.Id);
-			packet.Write(modPacket);
+			packet.WriteAndDispose(modPacket);
 
 			try {
 				if(Main.netMode == NetmodeID.MultiplayerClient) {

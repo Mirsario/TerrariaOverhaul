@@ -8,14 +8,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 {
 	public class PlayerMousePositionPacket : NetPacket
 	{
-		public PlayerMousePositionPacket(Player player) : base(w => {
+		public PlayerMousePositionPacket(Player player)
+		{
 			var modPlayer = player.GetModPlayer<PlayerDirectioning>();
 
-			w.TryWriteSenderPlayer(player);
+			Writer.TryWriteSenderPlayer(player);
 
-			w.WriteVector2(modPlayer.mouseWorld);
-		})
-		{ }
+			Writer.WriteVector2(modPlayer.mouseWorld);
+		}
 
 		public override void Read(BinaryReader reader, int sender)
 		{

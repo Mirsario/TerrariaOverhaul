@@ -3,20 +3,36 @@ using System.IO;
 
 namespace TerrariaOverhaul.Core.Systems.Networking
 {
-	public abstract class NetPacket
+	public abstract class NetPacket : IDisposable
 	{
 		public int Id { get; internal set; }
 
-		private readonly Action<BinaryWriter> Writer;
+		protected BinaryWriter Writer { get; private set; }
 
-		protected NetPacket(Action<BinaryWriter> writer)
+		private MemoryStream stream;
+
+		protected NetPacket()
 		{
 			Id = MultiplayerSystem.GetPacket(GetType()).Id;
-			Writer = writer ?? throw new ArgumentNullException(nameof(writer));
+			Writer = new BinaryWriter(stream = new MemoryStream());
 		}
 
 		public abstract void Read(BinaryReader reader, int sender);
 
-		public void Write(BinaryWriter writer) => Writer(writer);
+		public void WriteAndDispose(BinaryWriter writer)
+		{
+			writer.Write(stream.ToArray());
+
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			Writer?.Dispose();
+			stream?.Dispose();
+
+			Writer = null;
+			stream = null;
+		}
 	}
 }
