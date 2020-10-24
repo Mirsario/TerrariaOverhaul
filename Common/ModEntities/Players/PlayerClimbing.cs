@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Common.Tags;
+using TerrariaOverhaul.Core.DataStructures;
 using TerrariaOverhaul.Core.Systems.Networking;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Enums;
@@ -17,7 +18,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	public class PlayerClimbing : ModPlayer
 	{
 		public bool forceClimb;
-		public bool noClimbing;
+		public Timer climbCooldown;
 
 		private Vector2 climbStartPos;
 		private Vector2 climbEndPos;
@@ -45,8 +46,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			climbStartPos = player.position = posFrom;
 			climbEndPos = posTo;
 
-			player.GetModPlayer<PlayerDirectioning>().forcedDirection = climbEndPos.X >= climbStartPos.X ? 1 : -1;
-
 			if(Main.netMode == NetmodeID.MultiplayerClient && player.IsLocal()) {
 				MultiplayerSystem.SendPacket(new PlayerClimbStartMessage(player, posFrom, posTo));
 			}
@@ -54,10 +53,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private void TryStartClimbing()
 		{
-			//isDodging || forceDodgeroll || isSleeping || 
-			if(noClimbing) {
-				noClimbing = false;
-
+			//isSleeping ||
+			if(climbCooldown.Active) {
 				return;
 			}
 
@@ -110,6 +107,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 
 				StartClimbing(player.position, new Vector2(pos.X * 16f + (player.direction == 1 ? -4f : 0f), (pos.Y - 3) * 16f + 6));
+				UpdateClimbing();
 				break;
 			}
 		}
@@ -153,6 +151,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			player.runAcceleration = 0f;
 			player.runSlowdown = 0f;
 			player.maxRunSpeed = 0f;
+
+			//Prevent other actions
+			player.GetModPlayer<PlayerDodgerolls>().dodgeCooldown.Set(1);
 		}
 	}
 }
