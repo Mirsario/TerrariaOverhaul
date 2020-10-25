@@ -10,6 +10,9 @@ So far, only the most basic features have been reimplemented. Including, but not
 - Jump key buffering & auto-jump.
 - Players facing the mouse cursor.
 - Velocity-based rotation for players.
+- Walljumps and wallrolls.
+- Climbing.
+- NPC Bleeding (partial)
 
 They still, however, make a big impact on the game's feel.
 
