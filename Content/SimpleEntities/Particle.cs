@@ -51,11 +51,6 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			}
 
 			position += velocity * TimeSystem.LogicDeltaTime;
-			scale = Vector2Utils.StepTowards(scale, Vector2.Zero, 0.1f * TimeSystem.LogicDeltaTime);
-
-			if(scale.X < 0f || scale.Y < 0f || alpha <= 0f) {
-				Destroy(true);
-			}
 		}
 
 		protected virtual void OnLiquidContact(Tile tile, out bool destroy) => destroy = false;

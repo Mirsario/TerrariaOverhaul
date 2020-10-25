@@ -1,22 +1,47 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.TextureColors;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Content.SimpleEntities;
 using TerrariaOverhaul.Core.Systems.SimpleEntities;
-using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
 	public class NPCBleeding : GlobalNPC
 	{
+		private static int disableGoreSubscriptions;
+
+		public override void Load()
+		{
+			On.Terraria.Gore.NewGore += (orig, position, velocity, type, scale) => {
+				return disableGoreSubscriptions > 0 ? Main.maxGore : orig(position, velocity, type, scale);
+			};
+
+			On.Terraria.Dust.NewDust += (orig, position, width, height, type, speedX, speedY, alpha, color, scale) => {
+				Vector2 GetPosition() => position + new Vector2(Main.rand.NextFloat(width), Main.rand.NextFloat(height));
+				Vector2 GetVelocity() => new Vector2(speedX, speedY) * TimeSystem.LogicFramerate;
+
+				switch(type) {
+					default:
+						return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
+					case DustID.Blood:
+						SpawnNewBlood(GetPosition(), GetVelocity(), Color.DarkRed);
+						break;
+					case DustID.t_Slime:
+						SpawnNewBlood(GetPosition(), GetVelocity(), color);
+						break;
+				}
+
+				return Main.maxDust;
+			};
+		}
+
 		public override bool PreAI(NPC npc)
 		{
-			if(!Main.dedServ && npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % 10 == 0) {
-				Bleed(npc, 5);
+			if(!Main.dedServ && npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % 2 == 0) {
+				Bleed(npc, 1);
 			}
 
 			return true;
@@ -24,7 +49,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		public override void NPCLoot(NPC npc)
 		{
 			if(!Main.dedServ) {
-				Bleed(npc, (int)Math.Sqrt(npc.width * npc.height));
+				Bleed(npc, (int)Math.Sqrt(npc.width * npc.height) / 10);
 			}
 		}
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit) => OnHit(npc);
@@ -38,21 +63,48 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		}
 		private void Bleed(NPC npc, int amount, float randomVelocityMultiplier = 1f)
 		{
-			Main.instance.LoadNPC(npc.type);
-
-			var color = npc.color == Color.Black.WithAlpha(0) ? TextureColorSystem.GetAverageColor(TextureAssets.Npc[npc.type]) : npc.color;
-
 			for(int i = 0; i < amount; i++) {
-				SimpleEntity.Instantiate<BloodParticle>(p => {
-					p.position = npc.getRect().GetRandomPoint();
-					p.color = color;
-
-					Vector2 velocityOffset = Main.rand.NextVector2Circular(2f * randomVelocityMultiplier, 3f * randomVelocityMultiplier);
-					velocityOffset.Y = Math.Abs(velocityOffset.Y);
-
-					p.velocity = ((npc.velocity * 0.5f * Main.rand.NextFloat()) + velocityOffset) * TimeSystem.LogicFramerate;
-				});
+				HitEffectWithoutGore(npc, npc.direction, 1);
 			}
+		}
+
+		public static void HitEffectWithoutGore(NPC npc, int direction, int damage)
+		{
+			disableGoreSubscriptions++;
+
+			try {
+				NPCLoader.HitEffect(npc, direction, damage);
+			}
+			catch { }
+
+			disableGoreSubscriptions--;
+		}
+		private static void SpawnNewBlood(Vector2 position, Vector2 velocity, Color color)
+		{
+			SimpleEntity.Instantiate<BloodParticle>(p => {
+				p.position = position;
+				p.velocity = velocity * (Main.rand.NextVector2Circular(1f, 1f) + Vector2.One) * 0.5f;
+
+				float intensity;
+
+				switch(Main.rand.Next(3)) {
+					case 2:
+						intensity = 0.7f;
+						break;
+					case 1:
+						intensity = 0.85f;
+						break;
+					default:
+						intensity = 1f;
+						break;
+				}
+
+				color.R = (byte)(color.R * intensity);
+				color.G = (byte)(color.G * intensity);
+				color.B = (byte)(color.B * intensity);
+
+				p.color = color;
+			});
 		}
 	}
 }
