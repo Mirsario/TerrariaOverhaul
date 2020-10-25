@@ -3,12 +3,12 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Camera;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Content.SimpleEntities
 {
+	[Autoload(Side = ModSide.Client)]
 	public class BloodParticle : Particle
 	{
 		private static Asset<Texture2D> texture;
