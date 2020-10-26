@@ -11,12 +11,12 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
 	public class NPCBleeding : GlobalNPC
 	{
-		private static int disableGoreSubscriptions;
+		private static int disableNonBloodEffectSubscriptions;
 
 		public override void Load()
 		{
 			On.Terraria.Gore.NewGore += (orig, position, velocity, type, scale) => {
-				return disableGoreSubscriptions > 0 ? Main.maxGore : orig(position, velocity, type, scale);
+				return disableNonBloodEffectSubscriptions > 0 ? Main.maxGore : orig(position, velocity, type, scale);
 			};
 
 			On.Terraria.Dust.NewDust += (orig, position, width, height, type, speedX, speedY, alpha, color, scale) => {
@@ -25,6 +25,10 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 				switch(type) {
 					default:
+						if(disableNonBloodEffectSubscriptions > 0) {
+							break;
+						}
+
 						return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
 					case DustID.Blood:
 						SpawnNewBlood(GetPosition(), GetVelocity(), Color.DarkRed);
@@ -64,20 +68,20 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		private void Bleed(NPC npc, int amount, float randomVelocityMultiplier = 1f)
 		{
 			for(int i = 0; i < amount; i++) {
-				HitEffectWithoutGore(npc, npc.direction, 1);
+				SpawnBloodWithHitEffect(npc, npc.direction, 1);
 			}
 		}
 
-		public static void HitEffectWithoutGore(NPC npc, int direction, int damage)
+		public static void SpawnBloodWithHitEffect(NPC npc, int direction, int damage)
 		{
-			disableGoreSubscriptions++;
+			disableNonBloodEffectSubscriptions++;
 
 			try {
 				NPCLoader.HitEffect(npc, direction, damage);
 			}
 			catch { }
 
-			disableGoreSubscriptions--;
+			disableNonBloodEffectSubscriptions--;
 		}
 		private static void SpawnNewBlood(Vector2 position, Vector2 velocity, Color color)
 		{
