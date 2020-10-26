@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
@@ -11,6 +12,8 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 	[Autoload(Side = ModSide.Client)]
 	public class BloodParticle : Particle
 	{
+		public static readonly SoundStyle BloodDripSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/BloodDrip", 14, volume: 0.3f, pitchVariance: 0.2f);
+
 		private static Asset<Texture2D> texture;
 
 		private Rectangle frame;
@@ -39,6 +42,15 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			var usedColor = Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f), color.WithAlpha((byte)(color.A * alpha)));
 
 			sb.Draw(texture.Value, dest, source, usedColor, rotation, origin, SpriteEffects.None, 0f);
+		}
+
+		protected override void OnTileContact(Tile tile, out bool destroy)
+		{
+			destroy = true;
+
+			if(Main.rand.Next(50) == 0) {
+				SoundEngine.PlaySound(BloodDripSound, position);
+			}
 		}
 	}
 }

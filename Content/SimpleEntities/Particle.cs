@@ -35,12 +35,14 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 			if(CollidesWithTiles && Main.tile.TryGet((int)(position.X / 16), (int)(position.Y / 16), out var tile)) {
 				if(tile.active() && Main.tileSolid[tile.type]) {
-					Destroy();
+					OnTileContact(tile, out bool destroy);
 
-					return;
-				}
+					if(destroy) {
+						Destroy();
 
-				if(tile.liquid > 0) {
+						return;
+					}
+				} else if(tile.liquid > 0) {
 					OnLiquidContact(tile, out bool destroy);
 
 					if(destroy) {
@@ -54,5 +56,6 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 		}
 
 		protected virtual void OnLiquidContact(Tile tile, out bool destroy) => destroy = false;
+		protected virtual void OnTileContact(Tile tile, out bool destroy) => destroy = true;
 	}
 }
