@@ -3,7 +3,6 @@ using Terraria;
 using TerrariaOverhaul.Common.Systems.Camera;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Core.Systems.SimpleEntities;
-using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Content.SimpleEntities
@@ -17,6 +16,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 		public float rotation;
 		public Vector2 position;
 		public Vector2 velocity;
+		public Vector2 velocityScale = Vector2.One;
 		public Vector2 scale = Vector2.One;
 		public Vector2 gravity = new Vector2(0f, 10f);
 		public Color color;
@@ -50,7 +50,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 				}
 			}
 
-			position += velocity * TimeSystem.LogicDeltaTime;
+			position += velocity * velocityScale * TimeSystem.LogicDeltaTime;
 		}
 
 		protected virtual void OnLiquidContact(Tile tile, out bool destroy) => destroy = false;

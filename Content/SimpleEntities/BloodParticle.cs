@@ -23,6 +23,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 		{
 			frame = new Rectangle(0, 8 * Main.rand.Next(3), 8, 8);
 			gravity = new Vector2(0f, 300f);
+			velocityScale = Vector2.One * Main.rand.NextFloat(0.5f, 1f);
 		}
 		public override void Draw(SpriteBatch sb)
 		{
