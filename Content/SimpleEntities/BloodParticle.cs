@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
@@ -15,18 +17,36 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 		public static readonly SoundStyle BloodDripSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/BloodDrip", 14, volume: 0.3f, pitchVariance: 0.2f);
 
 		private static Asset<Texture2D> texture;
+		private static List<List<Color>> bloodColorRecordingLists;
 
 		private Rectangle frame;
 
 		//Load-time
-		public override void Load(Mod mod) => texture = ModContent.GetTexture(ModUtils.GetTypePath(GetType()));
-		public override void Unload() => texture = null;
+		public override void Load(Mod mod)
+		{
+			texture = ModContent.GetTexture(ModUtils.GetTypePath(GetType()));
+			bloodColorRecordingLists = new List<List<Color>>();
+		}
+		public override void Unload()
+		{
+			texture = null;
+
+			if(bloodColorRecordingLists != null) {
+				bloodColorRecordingLists.Clear();
+
+				bloodColorRecordingLists = null;
+			}
+		}
 		//In-game
 		public override void Init()
 		{
 			frame = new Rectangle(0, 8 * Main.rand.Next(3), 8, 8);
 			gravity = new Vector2(0f, 300f);
 			velocityScale = Vector2.One * Main.rand.NextFloat(0.5f, 1f);
+
+			for(int i = 0; i < bloodColorRecordingLists.Count; i++) {
+				bloodColorRecordingLists[i].Add(color);
+			}
 		}
 		public override void Draw(SpriteBatch sb)
 		{
@@ -51,6 +71,23 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			if(Main.rand.Next(50) == 0) {
 				SoundEngine.PlaySound(BloodDripSound, position);
 			}
+		}
+
+		/// <summary> Returns a list of colors of blood that has been created during execution of the provided delegate. </summary>
+		public static List<Color> RecordBloodColors(Action innerAction)
+		{
+			var list = new List<Color>();
+
+			bloodColorRecordingLists.Add(list);
+
+			try {
+				innerAction();
+			}
+			finally {
+				bloodColorRecordingLists.Remove(list);
+			}
+
+			return list;
 		}
 	}
 }

@@ -27,6 +27,8 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		//public float health;
 		public Vector2 prevVelocity;
 		public Vector2 prevPosition;
+		public Color? bleedColor;
+
 		//public GorePreset preset;
 
 		//Load-time
@@ -53,11 +55,11 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			);
 
 			//Bleeding
-			if(Main.GameUpdateCount % 6 == 0) { // && velocity.Length() >= 0.5f && prevVelocity.Length() >= 0.5f) {
+			if(bleedColor.HasValue && Main.GameUpdateCount % 6 == 0) { // && velocity.Length() >= 0.5f && prevVelocity.Length() >= 0.5f) {
 				SimpleEntity.Instantiate<BloodParticle>(p => {
 					p.position = goreCenter + Main.rand.NextVector2Square(-4f, 4f);
 					p.velocity = Vector2.Transform(Vector2.UnitX * 3f, Matrix.CreateRotationZ(rotation + MathHelper.ToRadians(Main.rand.NextFloat(-10f, 10f))));
-					p.color = Color.DarkRed;
+					p.color = bleedColor.Value;
 				});
 			}
 
