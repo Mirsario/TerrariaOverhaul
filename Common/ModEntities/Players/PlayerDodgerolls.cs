@@ -6,10 +6,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Common.Systems.Time;
-using TerrariaOverhaul.Core.DataStructures;
 using TerrariaOverhaul.Core.Systems.Input;
 using TerrariaOverhaul.Core.Systems.Networking;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 

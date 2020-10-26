@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using TerrariaOverhaul.Core.DataStructures;
+using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 {
