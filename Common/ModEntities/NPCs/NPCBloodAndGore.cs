@@ -9,7 +9,7 @@ using TerrariaOverhaul.Core.Systems.SimpleEntities;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
-	public class NPCBleeding : GlobalNPC
+	public class NPCBloodAndGore : GlobalNPC
 	{
 		private static int disableNonBloodEffectSubscriptions;
 
