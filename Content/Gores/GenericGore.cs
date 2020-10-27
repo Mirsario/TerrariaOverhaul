@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Systems.Gores;
 
 namespace TerrariaOverhaul.Content.Gores
 {
@@ -9,11 +10,13 @@ namespace TerrariaOverhaul.Content.Gores
 	{
 		public override void OnSpawn(Gore gore)
 		{
-			gore.Frame = new SpriteFrame(0, 3);
+			gore.Frame = new SpriteFrame(1, 3, 0, (byte)Main.rand.Next(3));
 			gore.sticky = false;
 			gore.light = 0f;
-			gore.drawOffset = new Vector2(0f, 4f);
 			gore.rotation = Main.rand.NextFloat(0f, MathHelper.TwoPi);
+			gore.drawOffset = new Vector2(0f, 4f);
 		}
+
+		public override Color? GetAlpha(Gore gore, Color lightColor) => (gore as OverhaulGore)?.bleedColor?.MultiplyRGB(lightColor);
 	}
 }

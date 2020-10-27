@@ -82,6 +82,10 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		}
 		public void CopyFrom(Gore gore)
 		{
+			typeof(Gore)
+				.GetProperty(nameof(ModGore), System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+				.SetValue(this, gore.ModGore);
+
 			type = gore.type;
 			light = gore.light;
 			Frame = gore.Frame;
@@ -128,18 +132,15 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			//Split into small pieces
 			
-			//TODO: Fix gores in TML.
-			/*if(bleedColor.HasValue) {
+			if(bleedColor.HasValue && type != ModContent.GoreType<GenericGore>()) {
 				int numGore = maxSizeDimension / 6;
 
 				for(int i = 0; i < numGore; i++) {
-					int goreType = OverhaulMod.Instance.GetGoreSlot<GenericGore>();
-
-					if(goreType > 0) {
-						NewGorePerfect(GetRandomPoint(), hitDirection * 0.5f - Vector2.UnitY + Main.rand.NextVector2Circular(1f, 1f), goreType);
+					if(NewGorePerfect(position, velocity + (hitDirection * 0.5f - Vector2.UnitY + Main.rand.NextVector2Circular(1f, 1f)), ModContent.GoreType<GenericGore>()) is OverhaulGore goreExt) {
+						goreExt.bleedColor = bleedColor;
 					}
 				}
-			}*/
+			}
 
 			//Blood
 			SpawnBlood(maxSizeDimension / 3);
