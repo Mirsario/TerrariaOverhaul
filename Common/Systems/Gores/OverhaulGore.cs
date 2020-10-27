@@ -67,7 +67,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			}
 
 			if(Main.tileSolid[tile.type] && tile.active()) {
-				MoveGoreUpwards(point);
+				//MoveGoreUpwards(point);
 			} else if(tile.liquid > 0) {
 				OnLiquidCollision(tile);
 			}
