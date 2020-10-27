@@ -139,6 +139,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				for(int i = 0; i < numGore; i++) {
 					if(NewGorePerfect(position, velocity + (hitDirection * 0.5f - Vector2.UnitY + Main.rand.NextVector2Circular(1f, 1f)), ModContent.GoreType<GenericGore>()) is OverhaulGore goreExt) {
 						goreExt.bleedColor = bleedColor;
+						goreExt.onFire = onFire;
 					}
 				}
 			}
