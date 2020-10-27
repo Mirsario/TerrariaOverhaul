@@ -50,7 +50,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			var texture = TextureAssets.Gore[type].Value;
 
-			originalSize = new Vector2(texture.Width, texture.Height / Frame.ColumnCount);
+			originalSize = new Vector2(texture.Width / Frame.ColumnCount, texture.Height / Frame.RowCount);
 			size = originalSize * scale;
 			minDimension = Math.Min(size.X, size.Y);
 			health = 1f;
