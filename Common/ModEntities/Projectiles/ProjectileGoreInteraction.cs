@@ -52,6 +52,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 				if(incendiary) {
 					goreExt.onFire = true;
+
+					continue;
 				} else if(extinguisher) {
 					goreExt.onFire = false;
 
