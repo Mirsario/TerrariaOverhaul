@@ -22,7 +22,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 	[Autoload(Side = ModSide.Client)]
 	public class OverhaulGore : Gore, ILoadable
 	{
-		public static readonly SoundStyle GoreGroundHitSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreGroundHit", 8, volume: 0.65f, pitchVariance: 0.2f);
+		public static readonly SoundStyle GoreGroundHitSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreGroundHit", 8, volume: 0.35f, pitchVariance: 0.2f);
 
 		public bool onFire;
 		//public bool noBlood;
@@ -114,18 +114,18 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			health -= Main.rand.NextFloat(0.4f, 1.1f) * powerScale;
 
 			if(health <= 0f) {
-				Destroy(true);
-			} else {
+				Destroy(silent:silent);
+			} else if(!silent) {
 				SoundEngine.PlaySound(GoreGroundHitSound, position);
 			}
 
 			return true;
 		}
-		public void Destroy(bool allowEffects, Vector2 hitDirection = default)
+		public void Destroy(bool immediate = false, bool silent = false, Vector2 hitDirection = default)
 		{
 			active = false;
 
-			if(!allowEffects) {
+			if(immediate) {
 				return;
 			}
 
@@ -148,7 +148,9 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			SpawnBlood(maxSizeDimension / 3);
 
 			//Hit sounds
-			SoundEngine.PlaySound(GoreGroundHitSound, position);
+			if(!silent) {
+				SoundEngine.PlaySound(GoreGroundHitSound, position);
+			}
 
 			/*if(bleedColor.HasValue) {
 				SoundInstance.Create<OggSoundInstance, OggSoundInfo>("Gore", position, MathHelper.Lerp(0.2f, 1f, Math.Min(1f, maxSizeDimension * 0.015625f)), Main.rand.Range(0.925f, 1.2f), maxAmount: 2);
@@ -212,11 +214,13 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				return;
 			}
 
-			if(Main.GameUpdateCount % 5 == 0) {
+			uint offsettedUpdateCount = (uint)(position.X + Main.GameUpdateCount);
+
+			if(offsettedUpdateCount % 5 == 0) {
 				Dust.NewDustPerfect(GetRandomPoint(), DustID.Torch, Scale: 2f).noGravity = true;
 			}
 
-			if(Main.GameUpdateCount % 45 == 0) {
+			if(offsettedUpdateCount % 30 == 0 && Main.rand.Next(3) == 0) {
 				HitGore(Vector2.Zero, silent: true);
 
 				if(!active) {
