@@ -65,10 +65,12 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 				//Enumerate the spawned gores, and register blood information to them.
 				var bloodColor = bloodColors[0]; //TODO: Do something smarter?
+				bool onFire = npc.onFire;
 
 				foreach(var (gore, _) in spawnedGores) {
 					if(gore is OverhaulGore goreExt) {
 						goreExt.bleedColor = bloodColor;
+						goreExt.onFire = onFire;
 					}
 				}
 			};
