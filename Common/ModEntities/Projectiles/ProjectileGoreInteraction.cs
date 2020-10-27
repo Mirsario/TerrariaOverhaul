@@ -1,8 +1,8 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Gores;
 using TerrariaOverhaul.Common.Tags;
-using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
@@ -36,16 +36,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				}
 
 				//Intersection check
-				if(!projectile.getRect().Intersects(new Microsoft.Xna.Framework.Rectangle((int)gore.position.X, (int)gore.position.Y, (int)goreExt.Width, (int)goreExt.health))) {
+				if(!projectile.getRect().Intersects(new Rectangle((int)gore.position.X, (int)gore.position.Y, (int)goreExt.Width, (int)goreExt.Height))) {
 					continue;
 				}
-
-				/*if(goreExt.position.X >= projectile.position.X + projectile.width
-				|| projectile.position.X >= goreExt.position.X + goreExt.Width
-				|| goreExt.position.Y >= projectile.position.Y + projectile.height
-				|| projectile.position.Y >= goreExt.position.Y + goreExt.Height) {
-					continue;
-				}*/
 
 				//Interact
 				float hitPower = 1f;
