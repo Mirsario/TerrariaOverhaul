@@ -35,6 +35,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					case DustID.Blood:
 						SpawnParticles(Color.DarkRed);
 						break;
+					case DustID.GreenBlood:
+						SpawnParticles(Color.Green);
+						break;
 					case DustID.t_Slime:
 						SpawnParticles(color);
 						break;
