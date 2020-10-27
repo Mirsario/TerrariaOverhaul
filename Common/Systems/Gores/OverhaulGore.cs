@@ -73,6 +73,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			}
 
 			Bleeding();
+			Burning();
 			Bouncing();
 
 			prevVelocity = velocity;
