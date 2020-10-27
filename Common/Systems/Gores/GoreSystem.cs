@@ -25,12 +25,14 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				
 				int result = orig(position, velocity, type, scale);
 
-				//Convert gores to a new class.
-				var goreExt = ConvertGore(Main.gore[result], () => result);
+				if(result < Main.maxGore) {
+					//Convert gores to a new class.
+					var goreExt = ConvertGore(Main.gore[result], () => result);
 
-				//Record gores, if requested.
-				for(int i = 0; i < goreRecordingLists.Count; i++) {
-					goreRecordingLists[i].Add((goreExt, result));
+					//Record gores, if requested.
+					for(int i = 0; i < goreRecordingLists.Count; i++) {
+						goreRecordingLists[i].Add((goreExt, result));
+					}
 				}
 
 				return result;
