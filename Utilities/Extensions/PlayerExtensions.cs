@@ -29,7 +29,8 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 		public static IEnumerable<(Item item, int index)> EnumerateAccessories(this Player player)
 		{
-			for(int i = 3; i < 8 + player.extraAccessorySlots; i++) {
+			//TODO: Might need to update this in the future.
+			for(int i = 3; i < 10; i++) {
 				var item = player.armor[i];
 
 				if(item != null && item.active) {
