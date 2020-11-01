@@ -3,16 +3,17 @@ Terraria Overhaul is a huuuge game mechanics changing mod for Terraria. You can 
 
 # What's the state of the rebuild?
 So far, only the most basic features have been reimplemented. Including, but not limited to:
-- Camera improvements
-- Footstep sounds
-- Movement changes
-- Bunnyhopping
+- Camera improvements.
+- Footstep sounds.
+- Movement changes.
+- Bunnyhopping.
 - Jump key buffering & auto-jump.
 - Players facing the mouse cursor.
 - Velocity-based rotation for players.
 - Walljumps and wallrolls.
 - Climbing.
-- NPC Bleeding (partial)
+- NPC Bleeding.
+- Grappling hook swinging physics.
 
 They still, however, make a big impact on the game's feel.
 
