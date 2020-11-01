@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using System.Linq;
 using Terraria;
 
 namespace TerrariaOverhaul.Utilities.Extensions

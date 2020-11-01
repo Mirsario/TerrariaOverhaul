@@ -12,10 +12,7 @@ using TerrariaOverhaul.Content.SimpleEntities;
 using TerrariaOverhaul.Core.Systems.SimpleEntities;
 using TerrariaOverhaul.Utilities.Extensions;
 using Terraria.DataStructures;
-using TerrariaOverhaul.Core.Systems.Input;
-using Microsoft.Xna.Framework.Input;
 using TerrariaOverhaul.Content.Gores;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Systems.Gores
 {
