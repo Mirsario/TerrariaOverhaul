@@ -5,6 +5,7 @@ using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
@@ -233,7 +234,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				return false;
 			}
 
-			if(proj?.active != true || proj.aiStyle != GrapplingHookAIStyle || !GetHooked(proj)) {
+			if(proj?.active != true || proj.aiStyle != GrapplingHookAIStyle || !GetHooked(proj) || OverhaulProjectileTags.NoGrapplingHookSwinging.Has(proj.type)) {
 				return false;
 			}
 

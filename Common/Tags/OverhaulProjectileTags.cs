@@ -14,6 +14,9 @@ namespace TerrariaOverhaul.Common.Tags
 		/// <summary> Projectiles with this tag extinguish fires and interact with incendiary projectiles. </summary>
 		public static readonly TagData Extinguisher = ContentTags.Get<Group>(nameof(Extinguisher));
 
+		/// <summary> Grappling hooks with this tag won't have Overhaul's physics improvements. </summary>
+		public static readonly TagData NoGrapplingHookSwinging = ContentTags.Get<Group>(nameof(NoGrapplingHookSwinging));
+
 		void ILoadable.Load(Mod mod)
 		{
 			Incendiary.SetMultiple(
@@ -83,6 +86,12 @@ namespace TerrariaOverhaul.Common.Tags
 				ProjectileID.RainCloudRaining,
 				ProjectileID.RainFriendly,
 				ProjectileID.RainNimbus
+			);
+
+			NoGrapplingHookSwinging.SetMultiple(
+				ProjectileID.QueenSlimeHook,
+				ProjectileID.AntiGravityHook,
+				ProjectileID.StaticHook
 			);
 		}
 		void ILoadable.Unload() { }
