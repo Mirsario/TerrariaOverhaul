@@ -35,6 +35,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 					continue;
 				}
 
+				//For now, only bleeding gores are considered hittable.
+				if(!goreExt.bleedColor.HasValue) {
+					continue;
+				}
+
 				//Intersection check
 				if(!projectile.getRect().Intersects(new Rectangle((int)gore.position.X, (int)gore.position.Y, (int)goreExt.Width, (int)goreExt.Height))) {
 					continue;
