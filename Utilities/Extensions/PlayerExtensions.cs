@@ -54,17 +54,13 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 		public static IEnumerable<(Projectile projectile, int hookIndex)> EnumerateGrapplingHooks(this Player player)
 		{
-			for(int i = 0; i < player.grappling.Length; i++) {
-				int grapplingHookId = player.grappling[i];
+			//The player.grappling array is some really useless crap.
 
-				if(grapplingHookId < 0) {
-					break;
-				}
+			for(int i = 0; i < Main.projectile.Length; i++) {
+				var proj = Main.projectile[i];
 
-				var grapplingHook = Main.projectile[grapplingHookId];
-
-				if(grapplingHook != null && grapplingHook.active) {
-					yield return (grapplingHook, i);
+				if(proj != null && proj.active && proj.aiStyle == 7 && proj.owner == player.whoAmI) {
+					yield return (proj, i);
 				}
 			}
 		}
