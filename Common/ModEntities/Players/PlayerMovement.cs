@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
@@ -12,7 +13,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public static readonly float DefaultJumpSpeedScale = 1.52375f;
 		public static readonly float UnderwaterJumpSpeedScale = 0.775f;
 
-		public bool noMovement;
+		//public Timer noJumpTime;
+		public Timer noMovementTime;
 		public int vanillaAccelerationTime;
 		public Vector2? forcedPosition;
 		//public Vector2 prevVelocity;
@@ -62,8 +64,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				//Stops vanilla running sounds from playing. //TODO: Move to PlayerFootsteps.
 				player.runSoundDelay = 5;
 
-				if(noMovement) {
-					noMovement = false;
+				if(noMovementTime.Active) {
 					player.maxRunSpeed = 0f;
 					player.runAcceleration = 0f;
 				} else if(player.chilled) {
