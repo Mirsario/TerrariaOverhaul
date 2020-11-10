@@ -230,7 +230,9 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			if(velocity.Y == 0f) {
 				//Vertical bouncing
 				if(Math.Abs(prevVelocity.Y) >= 1f) {
-					SoundEngine.PlaySound(GoreGroundHitSound, position);
+					if(bleedColor.HasValue) {
+						SoundEngine.PlaySound(GoreGroundHitSound, position);
+					}
 
 					velocity.Y = -prevVelocity.Y * 0.66f;
 				}
@@ -245,7 +247,9 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			//Horizontal bouncing
 			if(velocity.X == 0f && Math.Abs(prevVelocity.X) >= 1f) {
-				SoundEngine.PlaySound(GoreGroundHitSound, position);
+				if(bleedColor.HasValue) {
+					SoundEngine.PlaySound(GoreGroundHitSound, position);
+				}
 
 				velocity.X = -prevVelocity.X * 0.66f;
 			}
