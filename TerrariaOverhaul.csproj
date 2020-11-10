@@ -37,7 +37,4 @@
     <None Remove="description.txt" />
     <None Remove=".gitignore" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Common\ModEntities\Items\" />
-  </ItemGroup>
 </Project>
