@@ -5,7 +5,7 @@ using Terraria.DataStructures;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public class PlayerHeadRotation : OverhaulPlayer
+	public class PlayerHeadRotation : PlayerBase
 	{
 		private float headRotation;
 		private float targetHeadRotation;

@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
 	//Could use more comments.
-	public class ProjectileGrapplingHookPhysics : GlobalProjectile
+	public class ProjectileGrapplingHookPhysics : GlobalProjectileBase
 	{
 		public const int GrapplingHookAIStyle = 7;
 

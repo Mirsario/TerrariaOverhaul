@@ -7,7 +7,7 @@ using TerrariaOverhaul.Content.Items.Materials;
 
 namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 {
-	public abstract class AshMonster : OverhaulNPC
+	public abstract class AshMonster : NPCBase
 	{
 		protected abstract int BaseNPC { get; }
 

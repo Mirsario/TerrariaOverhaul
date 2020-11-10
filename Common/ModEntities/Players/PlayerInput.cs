@@ -1,6 +1,6 @@
 ﻿namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public sealed class PlayerInput : OverhaulPlayer
+	public sealed class PlayerInput : PlayerBase
 	{
 		public bool controlHookPrev;
 		public bool controlJumpPrev;

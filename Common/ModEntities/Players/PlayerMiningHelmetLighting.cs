@@ -6,7 +6,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public sealed class PlayerMiningHelmetLighting : OverhaulPlayer
+	public sealed class PlayerMiningHelmetLighting : PlayerBase
 	{
 		public override void Load()
 		{

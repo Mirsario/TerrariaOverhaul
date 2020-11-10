@@ -3,7 +3,7 @@ using TerrariaOverhaul.Utilities.Enums;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public sealed class PlayerAnimations : OverhaulPlayer
+	public sealed class PlayerAnimations : PlayerBase
 	{
 		private const int PlayerSheetWidth = 40;
 		private const int PlayerSheetHeight = 56;

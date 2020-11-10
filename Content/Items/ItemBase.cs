@@ -2,8 +2,8 @@
 
 namespace TerrariaOverhaul.Content.Items
 {
-	public abstract class OverhaulItem : ModItem
+	public abstract class ItemBase : ModItem
 	{
-		//Just in case.
+		//May be used in the future.
 	}
 }

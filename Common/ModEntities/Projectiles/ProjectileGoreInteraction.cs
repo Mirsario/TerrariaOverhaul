@@ -7,7 +7,7 @@ using TerrariaOverhaul.Common.Tags;
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
 	[Autoload(Side = ModSide.Client)]
-	public class ProjectileGoreInteraction : GlobalProjectile
+	public class ProjectileGoreInteraction : GlobalProjectileBase
 	{
 		public bool dontHitGore;
 

@@ -4,7 +4,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Content.Items.Accessories
 {
-	public class BunnyPaw : OverhaulItem
+	public class BunnyPaw : ItemBase
 	{
 		public override void SetDefaults()
 		{

@@ -3,7 +3,7 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Content.Items.Materials
 {
-	public class Charcoal : OverhaulItem
+	public class Charcoal : ItemBase
 	{
 		public override void SetDefaults()
 		{

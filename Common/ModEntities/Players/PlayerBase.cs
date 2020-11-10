@@ -2,7 +2,7 @@
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public abstract class OverhaulPlayer : ModPlayer
+	public abstract class PlayerBase : ModPlayer
 	{
 		//May be used in the future.
 	}

@@ -2,8 +2,8 @@
 
 namespace TerrariaOverhaul.Content.NPCs
 {
-	public abstract class OverhaulNPC : ModNPC
+	public abstract class NPCBase : ModNPC
 	{
-		//Just in case.
+		//May be used in the future.
 	}
 }

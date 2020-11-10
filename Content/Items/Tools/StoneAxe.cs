@@ -4,7 +4,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Content.Items.Tools
 {
-	public class StoneAxe : OverhaulItem
+	public class StoneAxe : ItemBase
 	{
 		public override void SetDefaults()
 		{
