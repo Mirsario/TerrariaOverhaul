@@ -4,7 +4,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 {
 	public class CameraConfig : Config
 	{
-		public bool fixedCamera = false;
+		public bool fixedCamera = true;
 		public bool smoothCamera = true;
 		public bool dialogueZoomIn = true;
 		public bool dialogueFixCamera = true;
