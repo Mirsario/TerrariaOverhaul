@@ -50,7 +50,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 			}
 
-			if(!player.pulley && (!player.mount.Active || player.mount.AllowDirectionChange)) {
+			if(!player.pulley && (!player.mount.Active || player.mount.AllowDirectionChange) && (player.itemAnimation <= 0 || player.HeldItem.useTurn)) {
 				if(forcedDirection != 0) {
 					player.direction = forcedDirection;
 
