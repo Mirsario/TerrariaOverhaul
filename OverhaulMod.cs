@@ -15,18 +15,14 @@ namespace TerrariaOverhaul
 		public static readonly uint BetaNumber = 1;
 		public static readonly bool SecretBeta = BetaNumber > 0;
 		public static readonly string VersionSuffix = "(BETA)";
-		public static readonly Version MinimumTMLVersion = new Version("0.12");
+		public static readonly Version MinimalTMLVersion = new Version("0.12");
 		public static readonly string PersonalDirectory = Path.Combine(Main.SavePath, "TerrariaOverhaul");
 		public static readonly Assembly Assembly;
 		public static readonly Type[] AssemblyTypes;
 		public static readonly Assembly EngineAssembly;
 		public static readonly Assembly TMLAssembly;
 
-		internal static readonly ResourceManager ResourceManager = new ResourceManager("TerrariaOverhaul.Properties.Resources", Assembly.GetExecutingAssembly());
-
-		public static Exception mainThreadException;
-		public static string originalDisplayName;
-		public static bool mainThreadExceptionThrown;
+		//internal static readonly ResourceManager ResourceManager = new ResourceManager("TerrariaOverhaul.Properties.Resources", Assembly.GetExecutingAssembly());
 
 		public static OverhaulMod Instance { get; private set; }
 
@@ -48,8 +44,8 @@ namespace TerrariaOverhaul
 
 			Directory.CreateDirectory(PersonalDirectory);
 
-			if(ModLoader.version < MinimumTMLVersion) {
-				throw new OutdatedTModLoaderException(MinimumTMLVersion);
+			if(ModLoader.version < MinimalTMLVersion) {
+				throw new OutdatedTModLoaderException(MinimalTMLVersion);
 			}
 
 			Properties = new ModProperties {
@@ -61,29 +57,5 @@ namespace TerrariaOverhaul
 		}
 
 		public override void HandlePacket(BinaryReader reader, int sender) => MultiplayerSystem.HandlePacket(reader, sender);
-
-		/*private void SubscribeToEvents()
-		{
-			if(!Main.dedServ) {
-				Main.OnPreDraw += PreDraw;
-				Main.OnPostDraw += PostDraw;
-				Main.graphics.DeviceReset += GraphicsDeviceReset;
-			}
-
-			Main.OnTick += OnUpdateNotPaused;
-		}
-		private void UnsubscribeFromEvents()
-		{
-			if(!Main.dedServ) {
-				Main.OnPreDraw -= PreDraw;
-				Main.OnPostDraw -= PostDraw;
-				Main.graphics.DeviceReset -= GraphicsDeviceReset;
-			}
-
-			Main.OnTick -= OnUpdateNotPaused;
-		}
-
-		private static void PreDraw(GameTime gameTime) => SystemHooks.PreDraw(Main.spriteBatch);
-		private static void PostDraw(GameTime gameTime) => SystemHooks.PostDraw(Main.spriteBatch);*/
 	}
 }
