@@ -24,5 +24,24 @@
 
 			return value;
 		}
+
+		public static float DistancePower(float distance, float maxDistance)
+		{
+			if(distance > maxDistance) {
+				return 0f;
+			}
+
+			if(distance <= 0f) {
+				return 1f;
+			}
+
+			float result = 1f - distance / maxDistance;
+
+			if(float.IsNaN(result)) {
+				result = 0f;
+			}
+
+			return result;
+		}
 	}
 }

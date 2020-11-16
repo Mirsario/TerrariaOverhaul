@@ -30,5 +30,18 @@ namespace TerrariaOverhaul.Utilities.Extensions
 				rect.Y + Main.rand.NextFloat(rect.Height)
 			);
 		}
+
+		//Etc
+		public static Vector2 GetCorner(this Rectangle rect, Vector2 point)
+		{
+			var topLeft = rect.TopLeft();
+			var bottomRight = rect.BottomRight();
+			var result = point;
+
+			result.X = MathHelper.Clamp(point.X, topLeft.X, bottomRight.X);
+			result.Y = MathHelper.Clamp(point.Y, topLeft.Y, bottomRight.Y);
+
+			return result;
+		}
 	}
 }

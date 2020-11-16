@@ -17,6 +17,9 @@ namespace TerrariaOverhaul.Common.Tags
 		/// <summary> Grappling hooks with this tag won't have Overhaul's physics improvements. </summary>
 		public static readonly TagData NoGrapplingHookSwinging = ContentTags.Get<Group>(nameof(NoGrapplingHookSwinging));
 
+		/// <summary> Adds screenshake and extra knockback when this projectile is killed. </summary>
+		public static readonly TagData Explosive = ContentTags.Get<Group>(nameof(Explosive));
+
 		void ILoadable.Load(Mod mod)
 		{
 			Incendiary.SetMultiple(
@@ -92,6 +95,35 @@ namespace TerrariaOverhaul.Common.Tags
 				ProjectileID.QueenSlimeHook,
 				ProjectileID.AntiGravityHook,
 				ProjectileID.StaticHook
+			);
+
+			Explosive.SetMultiple(
+				ProjectileID.BlackBolt,
+				ProjectileID.Bomb,
+				ProjectileID.BouncyBomb,
+				ProjectileID.StickyBomb,
+				ProjectileID.Grenade,
+				ProjectileID.BouncyGrenade,
+				ProjectileID.StickyGrenade,
+				ProjectileID.RocketI,
+				ProjectileID.RocketII,
+				ProjectileID.RocketIII,
+				ProjectileID.RocketIV,
+				ProjectileID.GrenadeI,
+				ProjectileID.GrenadeII,
+				ProjectileID.GrenadeIII,
+				ProjectileID.GrenadeIV,
+				ProjectileID.NailFriendly,
+				ProjectileID.HellfireArrow,
+				ProjectileID.Dynamite,
+				ProjectileID.BouncyDynamite,
+				ProjectileID.StickyDynamite,
+				ProjectileID.BombFish,
+				ProjectileID.Meteor1,
+				ProjectileID.Meteor2,
+				ProjectileID.Meteor3,
+				ProjectileID.ExplosiveBullet,
+				ProjectileID.FallingStar
 			);
 		}
 		void ILoadable.Unload() { }
