@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Gores;
@@ -13,6 +14,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
 	public class NPCBloodAndGore : GlobalNPC
 	{
+		public static readonly ModSoundStyle GoreSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/Gore", volume: 0.1f, pitchVariance: 0.5f);
+		public static readonly ModSoundStyle FleshHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/FleshHit", 4, volume: 0.25f, pitchVariance: 0.25f);
+
 		private static int disableNonBloodEffectSubscriptions;
 
 		public override void Load()
@@ -64,6 +68,14 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 						orig(npc, hitDirection, dmg);
 					});
 				});
+
+				if(!Main.dedServ && bloodColors.Count > 0) {
+					if(npc.life <= 0) {
+						SoundEngine.PlaySound(GoreSound, npc.Center);
+					} else {
+						SoundEngine.PlaySound(FleshHitSound, npc.Center);
+					}
+				}
 
 				if(spawnedGores.Count == 0 || bloodColors.Count == 0) {
 					return;
