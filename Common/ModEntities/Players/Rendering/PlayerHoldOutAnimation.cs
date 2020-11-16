@@ -69,6 +69,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 
 			itemRotation = MathHelper.Lerp(itemRotation, targetItemRotation, 16f * Systems.Time.TimeSystem.LogicDeltaTime);
 
+			//This could go somewhere else?
 			if(player.HeldItem?.IsAir == false && ForceUseAnim(player.HeldItem)) {
 				player.HeldItem.useTurn = true;
 			}
