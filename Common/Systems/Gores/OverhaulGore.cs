@@ -162,7 +162,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			for(int i = 0; i < amount; i++) {
 				SimpleEntity.Instantiate<BloodParticle>(p => {
 					p.position = GetRandomPoint();
-					p.velocity = Vector2.Transform(Vector2.UnitX * 3f, Matrix.CreateRotationZ(rotation + MathHelper.ToRadians(Main.rand.NextFloat(-10f, 10f))));
+					p.velocity = velocity * 30f + Main.rand.NextVector2Circular(20f, 20f);
 					p.color = bleedColor.Value;
 				});
 			}
