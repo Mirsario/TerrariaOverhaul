@@ -81,11 +81,17 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				}
 			};
 		}
+		public override void SetDefaults(NPC npc)
+		{
+			/*if(npc.DeathSound == SoundID.NPCDeath1 || npc.DeathSound == SoundID.NPCDeath2) {
+				npc.DeathSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/Gore", volume: 0.25f, pitchVariance: 0.25f);
+			}*/
+		}
 
 		public override bool PreAI(NPC npc)
 		{
 			//Bleed on low health.
-			if(!Main.dedServ && npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % 2 == 0) {
+			if(!Main.dedServ && npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % 5 == 0) {
 				Bleed(npc, 1);
 			}
 
@@ -95,7 +101,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		{
 			//Add extra blood on death.
 			if(!Main.dedServ) {
-				Bleed(npc, (int)Math.Sqrt(npc.width * npc.height) / 5);
+				int count = (int)Math.Sqrt(npc.width * npc.height) / 12;
+
+				Bleed(npc, count);
 			}
 		}
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit) => OnHit(npc);
@@ -105,7 +113,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		{
 			//Add extra blood when hit.
 			if(!Main.dedServ) {
-				Bleed(npc, (int)Math.Sqrt(npc.width * npc.height) / 10);
+				//Bleed(npc, (int)Math.Sqrt(npc.width * npc.height) / 10);
 			}
 		}
 		private void Bleed(NPC npc, int amount)
