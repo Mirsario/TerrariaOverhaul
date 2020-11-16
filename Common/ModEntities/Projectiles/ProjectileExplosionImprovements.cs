@@ -15,14 +15,31 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 	//TODO: Use conditional instancing when it's implemented for projectiles.
 	public class ProjectileExplosionImprovements : GlobalProjectileBase
 	{
+		private Vector2 maxSize;
+
+		public override bool InstancePerEntity => true;
+
+		public override bool PreAI(Projectile projectile)
+		{
+			maxSize = Vector2.Max(maxSize, projectile.Size);
+
+			return true;
+		}
+
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
 			if(!OverhaulProjectileTags.Explosive.Has(projectile.type)) {
 				return;
 			}
 
-			float maxPower = projectile.width * projectile.height;
-			float knockbackRange = maxPower / 5f;
+			maxSize = Vector2.Max(maxSize, projectile.Size);
+
+			if(maxSize.X <= 0f || maxSize.Y <= 0f) {
+				return;
+			}
+
+			float maxPower = (float)Math.Sqrt(maxSize.X * maxSize.Y);
+			float knockbackRange = maxPower;
 			float knockbackRangeSquared = knockbackRange * knockbackRange;
 			var center = projectile.Center;
 
@@ -73,7 +90,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 					continue;
 				}
 
-				velocity += direction * MathUtils.DistancePower(distance, knockbackRange) * maxPower / 50f;
+				velocity += direction * MathUtils.DistancePower(distance, knockbackRange) * maxPower / 13f;
 
 				if(velocity.HasNaNs()) {
 					velocity = Vector2.Zero;
@@ -83,7 +100,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			//Screenshake
 			if(!Main.dedServ && Main.LocalPlayer != null) {
 				float distance = Vector2.Distance(Main.LocalPlayer.Center, center);
-				float screenshakeRange = maxPower;
+				float screenshakeRange = maxPower * 10f;
 				float power = MathUtils.DistancePower(distance, screenshakeRange) * 15f;
 
 				if(power > 0f) {
