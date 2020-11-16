@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 	[Autoload(Side = ModSide.Client)]
 	public class OverhaulGore : Gore, ILoadable
 	{
-		public static readonly SoundStyle GoreGroundHitSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreGroundHit", 8, volume: 0.35f, pitchVariance: 0.2f);
+		public static readonly SoundStyle GoreGroundHitSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreGroundHit", 8, volume: 0.15f, pitchVariance: 0.2f);
 
 		public bool onFire;
 		//public bool noBlood;
