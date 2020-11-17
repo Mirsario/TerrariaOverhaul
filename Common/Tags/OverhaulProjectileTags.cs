@@ -20,6 +20,9 @@ namespace TerrariaOverhaul.Common.Tags
 		/// <summary> Adds screenshake and extra knockback when this projectile is killed. </summary>
 		public static readonly TagData Explosive = ContentTags.Get<Group>(nameof(Explosive));
 
+		/// <summary> Changes audio on tile collision. </summary>
+		public static readonly TagData Bullet = ContentTags.Get<Group>(nameof(Bullet));
+
 		void ILoadable.Load(Mod mod)
 		{
 			Incendiary.SetMultiple(
@@ -124,6 +127,25 @@ namespace TerrariaOverhaul.Common.Tags
 				ProjectileID.Meteor3,
 				ProjectileID.ExplosiveBullet,
 				ProjectileID.FallingStar
+			);
+
+			Bullet.SetMultiple(
+				ProjectileID.Bullet,
+				ProjectileID.BulletHighVelocity,
+				ProjectileID.BulletSnowman,
+				ProjectileID.BulletDeadeye,
+				ProjectileID.ChlorophyteBullet,
+				ProjectileID.CrystalBullet,
+				ProjectileID.CursedBullet,
+				ProjectileID.ExplosiveBullet,
+				ProjectileID.GoldenBullet,
+				ProjectileID.IchorBullet,
+				ProjectileID.MoonlordBullet,
+				ProjectileID.NanoBullet,
+				ProjectileID.PartyBullet,
+				ProjectileID.SniperBullet,
+				ProjectileID.VenomBullet,
+				ProjectileID.MeteorShot
 			);
 		}
 		void ILoadable.Unload() { }
