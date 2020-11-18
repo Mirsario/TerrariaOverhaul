@@ -3,11 +3,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
+using TerrariaOverhaul.Common.Systems.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 {
 	public sealed class PlayerHoldOutAnimation : PlayerBase
 	{
+		public float visualRecoil;
+
 		private float itemRotation;
 		private float targetItemRotation;
 
@@ -29,7 +32,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 				orig(player, mountOffset, sItem, heldItemFrame);
 
 				if(sItem.useStyle == ItemUseStyleID.Shoot) {
-					player.itemRotation = player.GetModPlayer<PlayerHoldOutAnimation>().itemRotation;
+					var modPlayer = player.GetModPlayer<PlayerHoldOutAnimation>();
+
+					player.itemRotation = modPlayer.itemRotation - MathHelper.ToRadians(modPlayer.visualRecoil * player.direction);
 				}
 			};
 
@@ -67,7 +72,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 				targetItemRotation = (offset * player.direction).ToRotation();
 			}
 
-			itemRotation = MathHelper.Lerp(itemRotation, targetItemRotation, 16f * Systems.Time.TimeSystem.LogicDeltaTime);
+			itemRotation = MathHelper.Lerp(itemRotation, targetItemRotation, 16f * TimeSystem.LogicDeltaTime);
+			visualRecoil = MathHelper.Lerp(visualRecoil, 0f, 10f * TimeSystem.LogicDeltaTime);
 
 			//This could go somewhere else?
 			if(player.HeldItem?.IsAir == false && ForceUseAnim(player.HeldItem)) {
