@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
-	public class BroadswordOverhaul : ItemOverhaul
+	public class Broadsword : ItemOverhaul
 	{
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
