@@ -71,7 +71,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 				if(!Main.dedServ && bloodColors.Count > 0) {
 					if(npc.life <= 0) {
-						SoundEngine.PlaySound(GoreSound, npc.Center);
+						if(npc.realLife < 0 || npc.realLife == npc.whoAmI) {
+							SoundEngine.PlaySound(GoreSound, npc.Center);
+						}
 					} else {
 						SoundEngine.PlaySound(FleshHitSound, npc.Center);
 					}
