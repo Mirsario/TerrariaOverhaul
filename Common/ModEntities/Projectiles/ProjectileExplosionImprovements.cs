@@ -47,6 +47,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			for(int i = 0; i < Main.maxPlayers + Main.maxItems + Main.maxGore; i++) {
 				ref Vector2 velocity = ref projectile.velocity; //Unused assignment.
 				Rectangle rectangle;
+				object entity;
 
 				if(i < Main.maxPlayers) {
 					var player = Main.player[i];
@@ -55,6 +56,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 						continue;
 					}
 
+					entity = player;
 					velocity = ref player.velocity;
 					rectangle = player.getRect();
 				} else if(i < Main.maxPlayers + Main.maxItems) {
@@ -64,6 +66,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 						continue;
 					}
 
+					entity = item;
 					velocity = ref item.velocity;
 					rectangle = item.getRect();
 				} else {
@@ -73,6 +76,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 						continue;
 					}
 
+					entity = gore;
 					velocity = ref gore.velocity;
 					rectangle = gore.AABBRectangle;
 				}
@@ -88,6 +92,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 				if(float.IsNaN(distance) || direction == default) {
 					continue;
+				}
+
+				//Explosions have a chance to set gore on fire.
+				if(entity is Systems.Gores.OverhaulGore goreExt && Main.rand.Next(5) == 0) {
+					goreExt.onFire = true;
 				}
 
 				velocity += direction * MathUtils.DistancePower(distance, knockbackRange) * maxPower / 13f;
