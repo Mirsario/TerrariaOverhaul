@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Common.Tags;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
@@ -20,8 +21,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 				return false;
 			}
 
-			//Prefer things that shoot projectiles with gravity, i.e. grenades.
-			if(proj.aiStyle != ProjAIStyleID.GroundProjectile && proj.aiStyle != ProjAIStyleID.Explosive) {
+			if(proj.aiStyle != ProjAIStyleID.Explosive || OverhaulProjectileTags.Rocket.Has(proj.type)) {
 				return false;
 			}
 

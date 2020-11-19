@@ -2,6 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Common.Tags;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
@@ -16,8 +17,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 				return false;
 			}
 
-			//Avoid things that shoot projectiles with gravity, i.e. grenades.
-			if(ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out var proj) && proj.aiStyle == ProjAIStyleID.GroundProjectile) {
+			if(!ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out var proj)) {
+				return false;
+			}
+
+			if(proj.aiStyle != ProjAIStyleID.Explosive || OverhaulProjectileTags.Grenade.Has(proj.type)) {
 				return false;
 			}
 

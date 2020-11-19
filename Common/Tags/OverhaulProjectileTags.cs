@@ -23,6 +23,12 @@ namespace TerrariaOverhaul.Common.Tags
 		/// <summary> Changes audio on tile collision. </summary>
 		public static readonly TagData Bullet = ContentTags.Get<Group>(nameof(Bullet));
 
+		/// <summary> Used in determining whether something's a rocket launcher or a grenade launcher. </summary>
+		public static readonly TagData Rocket = ContentTags.Get<Group>(nameof(Rocket));
+
+		/// <summary> Used in determining whether something's a rocket launcher or a grenade launcher. </summary>
+		public static readonly TagData Grenade = ContentTags.Get<Group>(nameof(Grenade));
+
 		void ILoadable.Load(Mod mod)
 		{
 			Incendiary.SetMultiple(
@@ -146,6 +152,23 @@ namespace TerrariaOverhaul.Common.Tags
 				ProjectileID.SniperBullet,
 				ProjectileID.VenomBullet,
 				ProjectileID.MeteorShot
+			);
+
+			Rocket.SetMultiple(
+				ProjectileID.RocketI,
+				ProjectileID.RocketII,
+				ProjectileID.RocketIII,
+				ProjectileID.RocketIV
+			);
+
+			Grenade.SetMultiple(
+				ProjectileID.Grenade,
+				ProjectileID.BouncyGrenade,
+				ProjectileID.StickyGrenade,
+				ProjectileID.GrenadeI,
+				ProjectileID.GrenadeII,
+				ProjectileID.GrenadeIII,
+				ProjectileID.GrenadeIV
 			);
 		}
 		void ILoadable.Unload() { }
