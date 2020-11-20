@@ -17,18 +17,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		}*/
 		public override bool UseItem(Item item, Player player)
 		{
-			var screenShake = OnUseScreenShake;
+			if(!Main.dedServ) {
+				var screenShake = OnUseScreenShake;
 
-			if(screenShake.power > 0f && screenShake.time > 0f) {
-				screenShake.position = player.Center;
+				if(screenShake.power > 0f && screenShake.time > 0f) {
+					screenShake.position = player.Center;
 
-				ScreenShakeSystem.New(screenShake);
-			}
+					ScreenShakeSystem.New(screenShake);
+				}
 
-			float visualRecoil = OnUseVisualRecoil;
+				float visualRecoil = OnUseVisualRecoil;
 
-			if(visualRecoil != 0f) {
-				player.GetModPlayer<PlayerHoldOutAnimation>().visualRecoil += visualRecoil;
+				if(visualRecoil != 0f) {
+					player.GetModPlayer<PlayerHoldOutAnimation>().visualRecoil += visualRecoil;
+				}
 			}
 
 			return true;
