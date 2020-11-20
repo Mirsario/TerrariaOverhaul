@@ -1,34 +1,23 @@
 ﻿using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
 using TerrariaOverhaul.Common.ModEntities.Players.Rendering;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
-	public abstract partial class AdvancedItem : ItemOverhaul
+	public abstract class AdvancedItem : ItemOverhaul
 	{
+		private bool playSoundOnEveryUse;
+
 		public virtual float OnUseVisualRecoil => 0f;
 		public virtual ScreenShake OnUseScreenShake => default;
-		public virtual bool PlaySoundOnEveryUse => false;
-
-		public override void Load()
-		{
-			On.Terraria.Player.ItemCheck_StartActualUse += (orig, player, item) => {
-				if(!PlaySoundOnEveryUse) {
-					orig(player, item);
-
-					return;
-				}
-
-				var useSound = item.UseSound;
-
-				item.UseSound = null;
-
-				orig(player, item);
-
-				item.UseSound = useSound;
-			};
+		public bool PlaySoundOnEveryUse {
+			get => playSoundOnEveryUse;
+			set => ItemID.Sets.SkipsInitialUseSound[item.type] = playSoundOnEveryUse = value;
 		}
+
+		//
 		public override bool UseItem(Item item, Player player)
 		{
 			if(!Main.dedServ) {

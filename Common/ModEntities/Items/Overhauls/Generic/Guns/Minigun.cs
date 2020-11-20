@@ -18,7 +18,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 
 		public override float OnUseVisualRecoil => 5f;
 		public override ScreenShake OnUseScreenShake => new ScreenShake(5f, 0.25f);
-		public override bool PlaySoundOnEveryUse => true;
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -37,6 +36,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		{
 			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/Minigun/MinigunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 			speedFactor = MinSpeedFactor;
+			PlaySoundOnEveryUse = true;
 		}
 		public override float UseTimeMultiplier(Item item, Player player) => speedFactor; //Fire rate shenanigans.
 		public override void ModifyWeaponDamage(Item item, Player player, ref Modifier damage, ref float flat) => damage *= 1.05f; //A compensation for fire rate shenanigans.
