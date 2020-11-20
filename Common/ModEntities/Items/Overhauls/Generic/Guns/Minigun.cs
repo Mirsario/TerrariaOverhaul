@@ -1,14 +1,24 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
 	public class Minigun : AdvancedItem
 	{
+		private float speedFactor;
+
+		public virtual float MinSpeedFactor => 0.33f;
+		public virtual float AccelerationSpeed => 0.5f;
+		public virtual float DecelerationSpeed => 2f;
+
 		public override float OnUseVisualRecoil => 5f;
 		public override ScreenShake OnUseScreenShake => new ScreenShake(5f, 0.25f);
+		public override bool PlaySoundOnEveryUse => true;
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -23,10 +33,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 
 			return true;
 		}
-
 		public override void SetDefaults(Item item)
 		{
 			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/Minigun/MinigunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
+			speedFactor = MinSpeedFactor;
+		}
+		public override float UseTimeMultiplier(Item item, Player player) => speedFactor; //Fire rate shenanigans.
+		public override void ModifyWeaponDamage(Item item, Player player, ref Modifier damage, ref float flat) => damage *= 1.05f; //A compensation for fire rate shenanigans.
+		public override void HoldItem(Item item, Player player)
+		{
+			if(player.controlUseItem) {
+				speedFactor = MathUtils.StepTowards(speedFactor, 1f, AccelerationSpeed * TimeSystem.LogicDeltaTime);
+			} else {
+				speedFactor = MathUtils.StepTowards(speedFactor, MinSpeedFactor, DecelerationSpeed * TimeSystem.LogicDeltaTime);
+			}
 		}
 	}
 }
