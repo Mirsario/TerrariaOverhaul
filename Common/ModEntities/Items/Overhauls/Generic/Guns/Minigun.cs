@@ -12,18 +12,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
-			if(item.useAmmo == AmmoID.Bullet) {
-				if(item.UseSound != SoundID.Item11 && item.UseSound != SoundID.Item40 && item.UseSound != SoundID.Item41) {
-					return false;
-				}
-
-				//Exclude slow firing guns.
-				if(item.useTime >= 10) {
-					return false;
-				}
-			} else if(item.useAmmo == AmmoID.FallenStar && item.UseSound != SoundID.Item9) {
+			if(item.UseSound != SoundID.Item11 && item.UseSound != SoundID.Item40 && item.UseSound != SoundID.Item41) {
 				return false;
-			} 
+			}
+
+			//Exclude slow firing guns.
+			if(item.useTime >= 10) {
+				return false;
+			}
 
 			return true;
 		}
