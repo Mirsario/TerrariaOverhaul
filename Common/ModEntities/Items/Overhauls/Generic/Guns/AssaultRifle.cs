@@ -9,20 +9,25 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 	{
 		public override float OnUseVisualRecoil => 10f;
 		public override ScreenShake OnUseScreenShake => new ScreenShake(4f, 0.2f);
+		public override bool PlaySoundOnEveryUse => true;
 
-		public override bool ShouldApplyItemOverhaul(Item item) => item.useAmmo == AmmoID.Bullet && item.UseSound == SoundID.Item31;
+		public override bool ShouldApplyItemOverhaul(Item item)
+		{
+			//Rifles always use bullets.
+			if(item.useAmmo != AmmoID.Bullet) {
+				return false;
+			}
 
+			//Require ClockworkAssaultRifle's sound. TODO: This should also somehow accept other sounds, and also avoid conflicting with handgun/minigun overhauls. Width/height ratios can help with the former.
+			if(item.UseSound != SoundID.Item31) {
+				return false;
+			}
+
+			return true;
+		}
 		public override void SetDefaults(Item item)
 		{
 			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3, volume: 0.07f, pitchVariance: 0.2f);
-		}
-		public override bool UseItem(Item item, Player player)
-		{
-			if(item.UseSound != null && player.itemAnimation < player.itemAnimationMax - 1) {
-				Terraria.Audio.SoundEngine.PlaySound(item.UseSound);
-			}
-
-			return base.UseItem(item, player);
 		}
 	}
 }
