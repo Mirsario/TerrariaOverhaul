@@ -26,7 +26,7 @@ root = true
 
 # Organize usings
 	dotnet_separate_import_directive_groups = false
-	dotnet_sort_system_directives_first = false
+	dotnet_sort_system_directives_first = true
 
 # this. and Me. preferences
 	dotnet_style_qualification_for_event = false:suggestion
@@ -82,7 +82,7 @@ root = true
 	csharp_style_expression_bodied_local_functions = when_on_single_line:suggestion
 	csharp_style_expression_bodied_operators = when_on_single_line:suggestion
 	csharp_style_expression_bodied_constructors = when_on_single_line:silent
-	csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+	csharp_style_expression_bodied_methods = when_on_single_line:silent
 	csharp_style_expression_bodied_properties = when_on_single_line:suggestion
 	csharp_style_expression_bodied_indexers = when_on_single_line:suggestion
 	csharp_style_expression_bodied_accessors = when_on_single_line:suggestion
@@ -116,7 +116,7 @@ root = true
 	csharp_style_inlined_variable_declaration = true:suggestion
 
 # 'using' directive preferences
-	csharp_using_directive_placement = outside_namespace:silent
+	csharp_using_directive_placement = outside_namespace:suggestion
 
 #### C# Formatting Rules ####
 
