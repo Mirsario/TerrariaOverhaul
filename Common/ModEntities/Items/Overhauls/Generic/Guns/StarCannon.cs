@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 				return false;
 			}
 
-			if(item.UseSound != SoundID.Item9) {
+			if(item.UseSound != null && item.UseSound != SoundID.Item9) {
 				return false;
 			}
 
@@ -30,7 +30,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 			var lookDirection = (player.GetModPlayer<PlayerDirectioning>().mouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
 
 			if(lookDirection.Y > 0f) {
-				float bonusYSpeed = -(lookDirection.Y * lookDirection.Y) * 5.5f;
+				float bonusYSpeed = -(lookDirection.Y * lookDirection.Y) * item.useTime * 0.4f;
 
 				player.velocity.Y += bonusYSpeed;
 			}
