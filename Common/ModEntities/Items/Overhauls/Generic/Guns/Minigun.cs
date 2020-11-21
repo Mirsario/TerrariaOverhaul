@@ -4,17 +4,19 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
-	public class Minigun : AdvancedItem
+	public class Minigun : Gun
 	{
 		private float speedFactor;
 
 		public virtual float MinSpeedFactor => 0.33f;
 		public virtual float AccelerationSpeed => 0.5f;
 		public virtual float DecelerationSpeed => 2f;
+		public virtual bool DoSpawnCasings => true;
 
 		public override float OnUseVisualRecoil => 5f;
 		public override ScreenShake OnUseScreenShake => new ScreenShake(5f, 0.25f);
@@ -47,6 +49,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 			} else {
 				speedFactor = MathUtils.StepTowards(speedFactor, MinSpeedFactor, DecelerationSpeed * TimeSystem.LogicDeltaTime);
 			}
+		}
+		public override bool UseItem(Item item, Player player)
+		{
+			if(!Main.dedServ && DoSpawnCasings) {
+				SpawnCasings<BulletCasing>(player);
+			}
+
+			return base.UseItem(item, player);
 		}
 	}
 }

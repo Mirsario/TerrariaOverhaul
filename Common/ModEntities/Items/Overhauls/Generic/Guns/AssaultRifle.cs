@@ -2,10 +2,11 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Content.Gores;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
-	public class AssaultRifle : AdvancedItem
+	public class AssaultRifle : Gun
 	{
 		public override float OnUseVisualRecoil => 10f;
 		public override ScreenShake OnUseScreenShake => new ScreenShake(4f, 0.2f);
@@ -28,6 +29,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		{
 			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3, volume: 0.125f, pitchVariance: 0.2f);
 			PlaySoundOnEveryUse = true;
+		}
+		public override bool UseItem(Item item, Player player)
+		{
+			if(!Main.dedServ) {
+				SpawnCasings<BulletCasing>(player);
+			}
+
+			return base.UseItem(item, player);
 		}
 	}
 }

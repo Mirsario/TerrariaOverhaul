@@ -8,6 +8,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
 	public class StarCannon : Minigun
 	{
+		public override bool DoSpawnCasings => false;
+
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			if(item.useAmmo != AmmoID.FallenStar) {
@@ -30,7 +32,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 			var lookDirection = (player.GetModPlayer<PlayerDirectioning>().mouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
 
 			if(lookDirection.Y > 0f) {
-				float bonusYSpeed = -(lookDirection.Y * lookDirection.Y) * item.useTime * 0.4f;
+				float bonusYSpeed = -(lookDirection.Y * lookDirection.Y) * item.useTime * 0.425f;
 
 				player.velocity.Y += bonusYSpeed;
 			}

@@ -6,7 +6,7 @@ using TerrariaOverhaul.Common.Tags;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
-	public class GrenadeLauncher : AdvancedItem
+	public class GrenadeLauncher : Gun
 	{
 		public override float OnUseVisualRecoil => 18f;
 		public override ScreenShake OnUseScreenShake => new ScreenShake(8f, 0.4f);

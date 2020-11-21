@@ -7,7 +7,7 @@ using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
-	public class Flamethrower : AdvancedItem
+	public class Flamethrower : Gun
 	{
 		private SoundStyle fireSound;
 		private SlotId soundId;

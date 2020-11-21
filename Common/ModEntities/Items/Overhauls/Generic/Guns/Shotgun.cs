@@ -1,14 +1,17 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Content.Gores;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
-	public class Shotgun : AdvancedItem
+	public class Shotgun : Gun
 	{
 		public ModSoundStyle pumpSound;
+		public int shellCount = 1;
 
 		private uint pumpTime;
 
@@ -21,6 +24,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		{
 			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/Shotgun/ShotgunFire", 4, volume: 0.2f, pitchVariance: 0.2f);
 			pumpSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/Shotgun/ShotgunPump", 0, volume: 0.25f, pitchVariance: 0.1f);
+
+			switch(item.type) {
+				default:
+					shellCount = 1;
+					break;
+				case ItemID.Boomstick:
+					shellCount = 2;
+					break;
+				case ItemID.QuadBarrelShotgun:
+					shellCount = 4;
+					break;
+			}
 		}
 		public override bool UseItem(Item item, Player player)
 		{
@@ -36,6 +51,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		{
 			if(!Main.dedServ && pumpSound != null && pumpTime != 0 && Main.GameUpdateCount == pumpTime) {
 				SoundEngine.PlaySound(pumpSound, player.Center);
+				SpawnCasings<ShellCasing>(player, shellCount);
 			}
 		}
 	}

@@ -34,6 +34,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		public Vector2 prevVelocity;
 		public Vector2 prevPosition;
 		public Color? bleedColor;
+		public SoundStyle customBounceSound;
 
 		public Vector2 Center => position + size * 0.5f;
 
@@ -227,11 +228,13 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		}
 		private void Bouncing()
 		{
+			var bounceSound = customBounceSound ?? (bleedColor.HasValue ? GoreGroundHitSound : null);
+
 			if(velocity.Y == 0f) {
 				//Vertical bouncing
 				if(Math.Abs(prevVelocity.Y) >= 1f) {
-					if(bleedColor.HasValue) {
-						SoundEngine.PlaySound(GoreGroundHitSound, position);
+					if(bounceSound != null) {
+						SoundEngine.PlaySound(bounceSound, position);
 					}
 
 					velocity.Y = -prevVelocity.Y * 0.66f;
@@ -247,8 +250,8 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			//Horizontal bouncing
 			if(velocity.X == 0f && Math.Abs(prevVelocity.X) >= 1f) {
-				if(bleedColor.HasValue) {
-					SoundEngine.PlaySound(GoreGroundHitSound, position);
+				if(bounceSound != null) {
+					SoundEngine.PlaySound(bounceSound, position);
 				}
 
 				velocity.X = -prevVelocity.X * 0.66f;
