@@ -18,4 +18,24 @@ So far, only the most basic features have been reimplemented. Including, but not
 They still, however, make a big impact on the game's feel.
 
 # How do I build this?
-With '[1.4_mergedtesting](https://github.com/tModLoader/tModLoader/tree/1.4_mergedtesting)' branch of tModLoader.
+
+### For people who know what they're doing:
+With the '[1.4_mergedtesting](https://github.com/tModLoader/tModLoader/tree/1.4_mergedtesting)' branch of tModLoader.
+
+### For people who don't know what they're doing:
+Below is a step by step instruction for that. It only assumes that you know at least how to use cmd. You should.
+
+**Getting the right tModLoader:**
+- You need Windows to build it.
+- Install Git if you don't have it - [Git For Windows](https://git-scm.com/download/win).
+- [Install .NET Core 3.1 developer pack](https://dotnet.microsoft.com/download/visual-studio-sdks).
+- Clone the 1.4_mergedtesting branch - `git clone https://github.com/tModLoader/tModLoader -b 1.4_mergedtesting`.
+- Run setup.bat and click Setup, pointing the tool to your latest vanilla terraria .exe.
+- Run `solutions/buildDebugAndMac.bat`. This will build 1.4 tML as 'tModLoaderDebug.exe' in your tML directory.
+
+**Compiling the mod:**
+- Clone the mod's 1.4 branch into `%userprofile%/Documents/My games/Terraria/ModLoader/Beta/Mod Sources`. Note the Beta directory.
+The git command for that would be `git clone https://github.com/Mirsario/TerrariaOverhaul -b 1.4`.
+- Head over to Mod Sources in-game and `Build & Reload` TerrariaOverhaul.
+
+That's all. Use `git fetch` and `git pull` to keep up with updates. Note that you'll need to rerun patching in the tML setup tool when updating tML.
