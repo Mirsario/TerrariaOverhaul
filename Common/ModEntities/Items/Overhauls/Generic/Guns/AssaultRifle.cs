@@ -30,7 +30,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3, volume: 0.125f, pitchVariance: 0.2f);
 			PlaySoundOnEveryUse = true;
 		}
-		public override bool UseItem(Item item, Player player)
+		public override bool? UseItem(Item item, Player player)
 		{
 			if(!Main.dedServ) {
 				SpawnCasings<BulletCasing>(player);

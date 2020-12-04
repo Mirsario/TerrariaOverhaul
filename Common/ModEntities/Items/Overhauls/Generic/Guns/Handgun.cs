@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		{
 			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/Handgun/HandgunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 		}
-		public override bool UseItem(Item item, Player player)
+		public override bool? UseItem(Item item, Player player)
 		{
 			if(!Main.dedServ) {
 				SpawnCasings<BulletCasing>(player);

@@ -37,15 +37,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 					break;
 			}
 		}
-		public override bool UseItem(Item item, Player player)
+		public override bool? UseItem(Item item, Player player)
 		{
-			if(!base.UseItem(item, player)) {
+			bool? baseResult = base.UseItem(item, player);
+
+			if(baseResult == false) {
 				return false;
 			}
 
 			pumpTime = (uint)(Main.GameUpdateCount + player.itemAnimationMax / 2);
 
-			return true;
+			return baseResult;
 		}
 		public override void HoldItem(Item item, Player player)
 		{

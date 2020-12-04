@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -25,11 +26,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			return true;
 		}
 
-		public override bool UseItem(Item item, Player player)
+		public override bool? UseItem(Item item, Player player)
 		{
 			//Main.NewText("Swinging a broadsword.");
 
-			return true;
+			return base.UseItem(item, player);
 		}
 	}
 }

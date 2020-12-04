@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		}
 
 		//
-		public override bool UseItem(Item item, Player player)
+		public override bool? UseItem(Item item, Player player)
 		{
 			if(!Main.dedServ) {
 				//Screenshake
@@ -43,7 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				}
 			}
 
-			return true;
+			return base.UseItem(item, player);
 		}
 	}
 }

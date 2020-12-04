@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 
 			fireSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/Flamethrower/FlamethrowerFireLoop", 0, volume: 0.15f, pitchVariance: 0.2f);
 		}
-		public override bool UseItem(Item item, Player player)
+		public override bool? UseItem(Item item, Player player)
 		{
 			if(!soundId.IsValid || SoundEngine.GetActiveSound(soundId) == null) {
 				soundId = SoundEngine.PlayTrackedSound(fireSound, player.Center);

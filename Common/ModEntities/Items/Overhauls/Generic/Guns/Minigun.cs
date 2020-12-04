@@ -50,7 +50,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 				speedFactor = MathUtils.StepTowards(speedFactor, MinSpeedFactor, DecelerationSpeed * TimeSystem.LogicDeltaTime);
 			}
 		}
-		public override bool UseItem(Item item, Player player)
+		public override bool? UseItem(Item item, Player player)
 		{
 			if(!Main.dedServ && DoSpawnCasings) {
 				SpawnCasings<BulletCasing>(player);
