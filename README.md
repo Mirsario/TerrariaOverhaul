@@ -27,6 +27,8 @@ Below is a step by step instruction for that. It only assumes that you know at l
 
 **Getting the right tModLoader:**
 - You need Windows to build it.
+- Install [Visual Studio 2019 Community](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&rel=16) (It's free.)
+During installation, check the `.NET desktop development` workload
 - Install Git if you don't have it - [Git For Windows](https://git-scm.com/download/win).
 - [Install .NET Core 3.1 developer pack](https://dotnet.microsoft.com/download/visual-studio-sdks).
 - Clone the 1.4_mergedtesting branch - `git clone https://github.com/tModLoader/tModLoader -b 1.4_mergedtesting`.
