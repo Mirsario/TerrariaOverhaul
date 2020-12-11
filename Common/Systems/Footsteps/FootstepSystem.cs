@@ -21,8 +21,8 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 			DefaultFoostepSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Stone/Step", 11);
 			FootstepSoundsByTag = new Dictionary<TagData, SoundStyle> {
 				{ OverhaulTileTags.Stone, DefaultFoostepSound },
-				{ OverhaulTileTags.Dirt, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Dirt/Step",11) },
-				{ OverhaulTileTags.Grass, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Grass/Step",10) },
+				{ OverhaulTileTags.Dirt, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Dirt/Step", 11) },
+				{ OverhaulTileTags.Grass, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Grass/Step", 10) },
 				{ OverhaulTileTags.Sand, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Sand/Step", 11) },
 				{ OverhaulTileTags.Snow, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Snow/Step", 11) },
 				{ OverhaulTileTags.Wood, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Wood/Step", 11) },
