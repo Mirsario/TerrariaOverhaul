@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Content.Items.Materials;
@@ -52,10 +53,10 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 				Dust.NewDust(npc.position, npc.width, npc.height, 54, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));
 			}
 		}
-		public override void NPCLoot() //TODO: Use loot tables when tML implements their use.
+		public override void ModifyNPCLoot(ItemDropDatabase database)
 		{
-			Item.NewItem(npc.getRect(), ItemID.AshBlock, Main.rand.Next(5, 10));
-			Item.NewItem(npc.getRect(), ModContent.ItemType<Charcoal>(), Main.rand.Next(1, 3));
+			database.RegisterToNPC(npc.type, ItemDropRule.Common(ItemID.AshBlock, minimumDropped: 5, maximumDropped: 10));
+			database.RegisterToNPC(npc.type, ItemDropRule.Common(ModContent.ItemType<Charcoal>(), minimumDropped: 1, maximumDropped: 3));
 		}
 		public override void PostDraw(SpriteBatch sb, Color drawColor) //TODO: Reimplement this when tML simplifies glowmasks
 		{

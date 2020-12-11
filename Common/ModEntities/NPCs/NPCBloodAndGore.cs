@@ -111,7 +111,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return true;
 		}
-		public override void NPCLoot(NPC npc)
+		public override void OnKill(NPC npc)
 		{
 			//Add extra blood on death.
 			if(!Main.dedServ) {
