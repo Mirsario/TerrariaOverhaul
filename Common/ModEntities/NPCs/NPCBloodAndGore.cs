@@ -18,11 +18,28 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		public static readonly ModSoundStyle FleshHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/FleshHit", 4, volume: 0.25f, pitchVariance: 0.25f);
 
 		private static int disableNonBloodEffectSubscriptions;
+		private static int disableReplacementsSubscriptions;
 
 		public override void Load()
 		{
+			//Disable blood dust replacement during projectile AI.
+			On.Terraria.Projectile.AI += (orig, proj) => {
+				disableReplacementsSubscriptions++;
+
+				try {
+					orig(proj);
+				}
+				finally {
+					disableReplacementsSubscriptions--;
+				}
+			};
+
 			//Replace specific dusts with new blood particles.
 			On.Terraria.Dust.NewDust += (orig, position, width, height, type, speedX, speedY, alpha, color, scale) => {
+				if(disableReplacementsSubscriptions > 0) {
+					return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
+				}
+
 				void SpawnParticles(Color usedColor) => SpawnNewBlood(
 					position + new Vector2(Main.rand.NextFloat(width), Main.rand.NextFloat(height)),
 					new Vector2(speedX, speedY) * TimeSystem.LogicFramerate,
