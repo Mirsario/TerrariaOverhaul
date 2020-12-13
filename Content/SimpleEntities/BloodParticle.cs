@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera;
+using TerrariaOverhaul.Common.Systems.Decals;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -86,6 +87,8 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			if(Main.rand.Next(50) == 0) {
 				SoundEngine.PlaySound(BloodDripSound, position);
 			}
+
+			DecalSystem.AddDecals(position + velocity.SafeNormalize(default) * Main.rand.NextFloat(5f), color);
 		}
 		protected override void OnDestroyed(bool allowEffects)
 		{
