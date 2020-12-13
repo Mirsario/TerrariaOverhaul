@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Utilities
@@ -37,5 +38,30 @@ namespace TerrariaOverhaul.Utilities
 
 			return true;
 		}
+
+		public static bool CheckDiamondAll(int x, int y, Func<Tile, Point16, bool> func)
+		{
+			for(int yy = -1; yy <= 1; yy++) {
+				for(int xx = -1; xx <= 1; xx++) {
+					if(Math.Abs(xx) == Math.Abs(yy)) {
+						continue;
+					}
+
+					var point = new Point16(x + xx, y + yy);
+
+					if(!Main.tile.TryGet(point, out var tile) || !func(tile, point)) {
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
+
+		public static bool CheckSurrounded(int x, int y)
+			=> CheckDiamondAll(x, y, (tile, point) => tile.active() && Main.tileSolid[tile.type]);
+
+		public static bool CheckTotallySurrounded(int x, int y)
+			=> CheckDiamondAll(x, y, (tile, point) => tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type]);
 	}
 }
