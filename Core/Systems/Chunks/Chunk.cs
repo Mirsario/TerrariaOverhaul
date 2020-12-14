@@ -6,17 +6,20 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Core.Systems.Chunks
 {
 	public sealed class Chunk : IDisposable
 	{
 		public const int MaxChunkSize = 64;
+		public const float MaxChunkSizeInPixels = MaxChunkSize * TileUtils.TileSizeInPixels;
 
 		public readonly Point Position;
 		public readonly long EncodedPosition;
+		public readonly RectFloat Rectangle;
 		public readonly Rectangle TileRectangle;
-		public readonly Rectangle WorldRectangle;
+		public readonly RectFloat WorldRectangle;
 
 		private ChunkComponent[] components;
 
@@ -37,7 +40,14 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 				Math.Min(Main.maxTilesY, yTilePos + MaxChunkSize) - yTilePos
 			);
 
-			WorldRectangle = new Rectangle(
+			Rectangle = new RectFloat(
+				TileRectangle.X / (float)MaxChunkSize,
+				TileRectangle.Y / (float)MaxChunkSize,
+				TileRectangle.Width / (float)MaxChunkSize,
+				TileRectangle.Height / (float)MaxChunkSize
+			);
+
+			WorldRectangle = new RectFloat(
 				TileRectangle.X * TileUtils.TileSizeInPixels,
 				TileRectangle.Y * TileUtils.TileSizeInPixels,
 				TileRectangle.Width * TileUtils.TileSizeInPixels,

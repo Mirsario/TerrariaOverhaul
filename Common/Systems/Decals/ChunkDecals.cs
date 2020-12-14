@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.DataStructures;
 using TerrariaOverhaul.Core.Systems.Chunks;
+using TerrariaOverhaul.Core.Systems.Debugging;
 
 namespace TerrariaOverhaul.Common.Systems.Decals
 {
@@ -15,7 +16,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 		private static readonly short[] QuadTriangles = { 0, 2, 3, 0, 1, 2 };
 
 		private RenderTarget2D texture;
-		private Dictionary<Rectangle, Color> decalsToAdd;
+		private List<(Texture2D texture, Rectangle destRect, Rectangle? srcRect, Color color)> decalsToAdd;
 
 		public override void OnInit()
 		{
@@ -23,7 +24,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			int textureHeight = Chunk.TileRectangle.Height * 8;
 
 			texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
-			decalsToAdd = new Dictionary<Rectangle, Color>();
+			decalsToAdd = new List<(Texture2D, Rectangle, Rectangle?, Color)>();
 		}
 		public override void OnDispose()
 		{
@@ -45,14 +46,10 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			var sb = Main.spriteBatch;
 
-			sb.Begin(SpriteSortMode.Deferred, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+			sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
-			foreach(var pair in decalsToAdd) {
-				var color = pair.Value;
-
-				color.A = 255;
-
-				sb.Draw(TextureAssets.BlackTile.Value, pair.Key, color);
+			foreach(var tuple in decalsToAdd) {
+				sb.Draw(tuple.texture, tuple.destRect, tuple.srcRect, tuple.color);
 			}
 
 			sb.End();
@@ -67,12 +64,34 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			var destination = Chunk.WorldRectangle;
 
-			destination.X -= (int)Main.screenPosition.X;
-			destination.Y -= (int)Main.screenPosition.Y;
+			destination.x -= Main.screenPosition.X;
+			destination.y -= Main.screenPosition.Y;
 
 			//sb.Draw(texture, destination, Color.White);
 
+			bool CheckResources(params (GraphicsResource, string)[] resources)
+			{
+				foreach(var (resource, name) in resources) {
+					if(resource.IsDisposed != false) {
+						DebugSystem.Log($"{nameof(ChunkDecals)}.{nameof(PostDrawTiles)}: {name} is null or disposed.");
+
+						return false;
+					}
+				}
+
+				return true;
+			}
+
 			var shader = DecalSystem.BloodShader.Value;
+
+			if(!CheckResources(
+				(shader, nameof(DecalSystem.BloodShader)),
+				(texture, "RT texture"),
+				(Main.instance.tileTarget, nameof(Main.instance.tileTarget)),
+				(TextureAssets.MagicPixel.Value, nameof(TextureAssets.MagicPixel))
+			)) {
+				return;
+			}
 
 			shader.Parameters["texture0"].SetValue(texture);
 			shader.Parameters["texture1"].SetValue(Main.instance.tileTarget);
@@ -88,21 +107,21 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				//TODO: Comment the following.
 				var tOffset = Main.sceneTilePos - Main.screenPosition;
 				var vec = new Vector2(
-					Chunk.WorldRectangle.Width / (float)Main.instance.tileTarget.Width / Chunk.WorldRectangle.Width,
-					Chunk.WorldRectangle.Height / (float)Main.instance.tileTarget.Height / Chunk.WorldRectangle.Height
+					Chunk.WorldRectangle.width / Main.instance.tileTarget.Width / Chunk.WorldRectangle.width,
+					Chunk.WorldRectangle.height / Main.instance.tileTarget.Height / Chunk.WorldRectangle.height
 				);
 				var vertices = new[] {
-					new VertexPositionUv2(new Vector3(destination.Left, destination.Top, 0f), new Vector2(0f, 0f), (destination.TopLeft() - tOffset) * vec),
-					new VertexPositionUv2(new Vector3(destination.Right, destination.Top, 0f), new Vector2(1f, 0f), (destination.TopRight() - tOffset) * vec),
-					new VertexPositionUv2(new Vector3(destination.Right, destination.Bottom, 0f), new Vector2(1f, 1f), (destination.BottomRight() - tOffset) * vec),
-					new VertexPositionUv2(new Vector3(destination.Left, destination.Bottom, 0f), new Vector2(0f, 1f), (destination.BottomLeft() - tOffset) * vec)
+					new VertexPositionUv2(new Vector3(destination.Left, destination.Top, 0f), new Vector2(0f, 0f), (destination.TopLeft - tOffset) * vec),
+					new VertexPositionUv2(new Vector3(destination.Right, destination.Top, 0f), new Vector2(1f, 0f), (destination.TopRight - tOffset) * vec),
+					new VertexPositionUv2(new Vector3(destination.Right, destination.Bottom, 0f), new Vector2(1f, 1f), (destination.BottomRight - tOffset) * vec),
+					new VertexPositionUv2(new Vector3(destination.Left, destination.Bottom, 0f), new Vector2(0f, 1f), (destination.BottomLeft - tOffset) * vec)
 				};
 
 				Main.instance.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, QuadTriangles, 0, QuadTriangles.Length / 3);
 			}
 		}
 
-		public void AddDecals(Rectangle localRect, Color color) => decalsToAdd[localRect] = color;
+		public void AddDecals(Texture2D texture, Rectangle localDestRect, Rectangle? srcRect, Color color) => decalsToAdd.Add((texture, localDestRect, srcRect, color));
 
 		private static Matrix GetDefaultMatrix()
 		{

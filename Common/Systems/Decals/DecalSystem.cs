@@ -3,9 +3,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Systems.Chunks;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.Systems.Decals
@@ -23,7 +24,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			BloodShader = null;
 		}
 
-		public static void AddDecals(Vector2 point, Color color, bool ifChunkExists = false, bool doSurroundedChecks = true)
+		public static void AddDecals(Vector2 point, Color color, bool ifChunkExists = false)
 		{
 			var tilePos = point.ToTileCoordinates();
 
@@ -31,32 +32,34 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				return;
 			}
 
-			/*if(!ifChunkExists && doSurroundedChecks && TileCheckUtils.CheckTotallySurrounded(tilePos.X, tilePos.Y)) {
-				return;
-			}*/
-
 			AddDecals(new Rectangle((int)(point.X / 2) * 2, (int)(point.Y / 2) * 2, 2, 2), color, ifChunkExists);
 		}
-		public static void AddDecals(Rectangle rect, Color color, bool ifChunkExists = false)
+		public static void AddDecals(Rectangle dest, Color color, bool ifChunkExists = false)
+		{
+			AddDecals(TextureAssets.BlackTile.Value, dest, null, color, ifChunkExists);
+		}
+		public static void AddDecals(Texture2D texture, Rectangle dest, Rectangle? srcRect, Color color, bool ifChunkExists = false)
 		{
 			if(Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
 				return;
 			}
 
-			//color = color.WithAlpha(255);
+			if(texture == null) {
+				throw new ArgumentNullException(nameof(texture));
+			}
 
 			var chunkStart = new Point(
-				(int)Math.Floor(rect.X / 16f / Chunk.MaxChunkSize),
-				(int)Math.Floor(rect.Y / 16f / Chunk.MaxChunkSize)
+				(int)(dest.X / 16f / Chunk.MaxChunkSize),
+				(int)(dest.Y / 16f / Chunk.MaxChunkSize)
 			);
 			var chunkEnd = new Point(
-				(int)Math.Ceiling(rect.Right / 16f / Chunk.MaxChunkSize),
-				(int)Math.Ceiling(rect.Bottom / 16f / Chunk.MaxChunkSize)
+				(int)(dest.Right / 16f / Chunk.MaxChunkSize),
+				(int)(dest.Bottom / 16f / Chunk.MaxChunkSize)
 			);
 
 			//The provided rectangle will be split between chunks, possibly into multiple draws.
-			for(int chunkY = chunkStart.Y; chunkY < chunkEnd.Y; chunkY++) {
-				for(int chunkX = chunkStart.X; chunkX < chunkEnd.X; chunkX++) {
+			for(int chunkY = chunkStart.Y; chunkY <= chunkEnd.Y; chunkY++) {
+				for(int chunkX = chunkStart.X; chunkX <= chunkEnd.X; chunkX++) {
 					var chunkPoint = new Point(chunkX, chunkY);
 
 					Chunk chunk;
@@ -67,26 +70,43 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 						continue;
 					}
 
-					var localRectangle = rect;
+					var localDestRect = (RectFloat)dest;
 
-					//Clip the rectangle to the chunk's bounds
-					localRectangle = RectangleUtils.FromPoints(
-						Math.Max(localRectangle.X, chunk.WorldRectangle.X),
-						Math.Max(localRectangle.Y, chunk.WorldRectangle.Y),
-						Math.Min(localRectangle.Right, chunk.WorldRectangle.Right),
-						Math.Min(localRectangle.Bottom, chunk.WorldRectangle.Bottom)
+					//Clip the destination rectangle to the chunk's bounds.
+					localDestRect = RectFloat.FromPoints(
+						Math.Max(localDestRect.x, chunk.WorldRectangle.x),
+						Math.Max(localDestRect.y, chunk.WorldRectangle.y),
+						Math.Min(localDestRect.Right, chunk.WorldRectangle.Right),
+						Math.Min(localDestRect.Bottom, chunk.WorldRectangle.Bottom)
 					);
 
-					//Move the rectangle to local space
-					localRectangle.X -= chunk.WorldRectangle.X;
-					localRectangle.Y -= chunk.WorldRectangle.Y;
-					localRectangle.X /= 2;
-					localRectangle.Y /= 2;
-					localRectangle.Width /= 2;
-					localRectangle.Height /= 2;
+					//Move the destination rectangle to local space.
+					localDestRect.x -= chunk.WorldRectangle.x;
+					localDestRect.y -= chunk.WorldRectangle.y;
+					//Divide the destination rectangle, since decal RTs have halved resolution.
+					localDestRect.x /= 2;
+					localDestRect.y /= 2;
+					localDestRect.width /= 2;
+					localDestRect.height /= 2;
+
+					//Clip the source rectangle.
+					var destinationRectInChunkSpace = RectFloat.FromPoints(((RectFloat)dest).Points / Chunk.MaxChunkSizeInPixels);
+					var clippedRectInChunkSpace = RectFloat.FromPoints(
+						Math.Max(destinationRectInChunkSpace.Left, chunk.Rectangle.Left),
+						Math.Max(destinationRectInChunkSpace.Top, chunk.Rectangle.Top),
+						Math.Min(destinationRectInChunkSpace.Right, chunk.Rectangle.Right),
+						Math.Min(destinationRectInChunkSpace.Bottom, chunk.Rectangle.Bottom)
+					);
+
+					srcRect = (Rectangle)new RectFloat(
+						(clippedRectInChunkSpace.x - destinationRectInChunkSpace.x) * (chunk.WorldRectangle.width / dest.Width) * texture.Width,
+						(clippedRectInChunkSpace.y - destinationRectInChunkSpace.y) * (chunk.WorldRectangle.height / dest.Height) * texture.Height,
+						(clippedRectInChunkSpace.width / destinationRectInChunkSpace.width) * texture.Width,
+						(clippedRectInChunkSpace.height / destinationRectInChunkSpace.height) * texture.Height
+					);
 
 					//Enqueue a draw for the chunk component to do on its own.
-					chunk.GetComponent<ChunkDecals>().AddDecals(localRectangle, color);
+					chunk.GetComponent<ChunkDecals>().AddDecals(texture, (Rectangle)localDestRect, srcRect, color);
 				}
 			}
 		}
