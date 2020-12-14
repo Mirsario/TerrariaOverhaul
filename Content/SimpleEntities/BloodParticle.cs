@@ -70,7 +70,9 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 				return;
 			}
 
-			var usedColor = Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f), color.WithAlpha((byte)(color.A * alpha)));
+			var usedColor = Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f), color);
+
+			usedColor.A = (byte)(color.A * alpha);
 
 			if(usedColor != default) {
 				var lineStart = position;
