@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Common.Systems.Decals;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
@@ -106,15 +107,24 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				}
 			}
 
-			//Screenshake
-			if(!Main.dedServ && Main.LocalPlayer != null) {
-				float distance = Vector2.Distance(Main.LocalPlayer.Center, center);
-				float screenshakeRange = maxPower * 10f;
-				float power = MathUtils.DistancePower(distance, screenshakeRange) * 15f;
+			if(!Main.dedServ) {
+				//Screenshake
+				if(Main.LocalPlayer != null) {
+					float distance = Vector2.Distance(Main.LocalPlayer.Center, center);
+					float screenshakeRange = maxPower * 10f;
+					float power = MathUtils.DistancePower(distance, screenshakeRange) * 15f;
 
-				if(power > 0f) {
-					ScreenShakeSystem.New(power, 0.5f);
+					if(power > 0f) {
+						ScreenShakeSystem.New(power, 0.5f);
+					}
 				}
+
+				//Decal
+				var rect = new Rectangle((int)projectile.Center.X, (int)projectile.Center.Y, 0, 0);
+
+				rect.Inflate(64, 64);
+
+				DecalSystem.AddDecals(Mod.GetTexture("Assets/Sprites/ExplosionDecal").Value, rect, null, Color.White);
 			}
 		}
 	}
