@@ -124,7 +124,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 				rect.Inflate(64, 64);
 
-				DecalSystem.AddDecals(Mod.GetTexture("Assets/Sprites/ExplosionDecal").Value, rect, null, Color.White);
+				DecalSystem.AddDecals(Mod.GetTexture("Assets/Sprites/ExplosionDecal").Value, rect, null, new Color(255, 255, 255, 128));
 			}
 		}
 	}
