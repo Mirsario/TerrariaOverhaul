@@ -1,7 +1,18 @@
-﻿namespace TerrariaOverhaul.Utilities
+﻿using System;
+
+namespace TerrariaOverhaul.Utilities
 {
 	public static class MathUtils
 	{
+		public static int Modulo(int value, int length)
+		{
+			int r = value % length;
+
+			return r < 0 ? r + length : r;
+		}
+		public static float Modulo(float value, float length) => value - (float)Math.Floor(value / length) * length;
+		public static double Modulo(double value, double length) => value - (float)Math.Floor(value / length) * length;
+
 		public static int Clamp(int value, int min, int max) => value <= min ? min : (value >= max ? max : value);
 		public static float Clamp(float value, float min, float max) => value <= min ? min : (value >= max ? max : value);
 		public static float Clamp01(float value) => value <= 0f ? 0f : (value >= 1f ? 1f : value);
