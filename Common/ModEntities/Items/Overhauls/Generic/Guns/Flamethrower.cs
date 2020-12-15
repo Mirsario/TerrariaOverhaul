@@ -39,6 +39,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 				activeSound?.Stop();
 
 				soundId = SlotId.Invalid;
+			} else if(soundId.IsValid) {
+				var activeSound = SoundEngine.GetActiveSound(soundId);
+
+				if(activeSound != null) {
+					activeSound.Position = player.Center;
+				}
 			}
 		}
 	}
