@@ -53,10 +53,10 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 				Dust.NewDust(npc.position, npc.width, npc.height, 54, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));
 			}
 		}
-		public override void ModifyNPCLoot(ItemDropDatabase database)
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			database.RegisterToNPC(npc.type, ItemDropRule.Common(ItemID.AshBlock, minimumDropped: 5, maximumDropped: 10));
-			database.RegisterToNPC(npc.type, ItemDropRule.Common(ModContent.ItemType<Charcoal>(), minimumDropped: 1, maximumDropped: 3));
+			npcLoot.Add(ItemDropRule.Common(ItemID.AshBlock, minimumDropped: 5, maximumDropped: 10));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Charcoal>(), minimumDropped: 1, maximumDropped: 3));
 		}
 		public override void PostDraw(SpriteBatch sb, Color drawColor) //TODO: Reimplement this when tML simplifies glowmasks
 		{
