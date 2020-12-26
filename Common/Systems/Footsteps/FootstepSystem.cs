@@ -31,11 +31,6 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 			};
 		}
 
-		public override void Load()
-		{
-
-		}
-
 		public static SoundStyle GetTileFootstepSound(Tile tile)
 		{
 			foreach(var pair in FootstepSoundsByTag) {
