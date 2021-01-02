@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Reflection;
-using System.Resources;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;

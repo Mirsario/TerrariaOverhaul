@@ -1,5 +1,4 @@
 ﻿using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;

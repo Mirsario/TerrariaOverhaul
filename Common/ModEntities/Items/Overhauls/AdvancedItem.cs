@@ -12,6 +12,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public virtual float OnUseVisualRecoil => 0f;
 		public virtual ScreenShake OnUseScreenShake => default;
+
 		public bool PlaySoundOnEveryUse {
 			get => playSoundOnEveryUse;
 			set => ItemID.Sets.SkipsInitialUseSound[item.type] = playSoundOnEveryUse = value;

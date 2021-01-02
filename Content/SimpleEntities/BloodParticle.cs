@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera;
-using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Content.SimpleEntities
