@@ -74,14 +74,20 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			cameraUpdateSW = null;
 		}
 
-		internal void ModifyScreenPosition(Player player)
+		public override void ModifyScreenPosition()
 		{
 			if(Main.gameMenu) {
 				return;
 			}
 
+			var player = Main.LocalPlayer;
+
+			if(player?.active != true) {
+				return;
+			}
+
 			var config = Config;
-			var currentFocus = focus ?? GetFocusFor(Main.LocalPlayer);
+			var currentFocus = focus ?? GetFocusFor(player);
 
 			//NaNCheck
 			if(Main.screenPosition.HasNaNs()) {
