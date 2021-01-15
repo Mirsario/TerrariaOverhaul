@@ -1,10 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using TerrariaOverhaul.Common.SoundStyles;
-using TerrariaOverhaul.Utilities;
+﻿using Terraria;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {

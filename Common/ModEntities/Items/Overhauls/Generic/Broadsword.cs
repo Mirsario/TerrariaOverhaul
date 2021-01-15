@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.SoundStyles;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
