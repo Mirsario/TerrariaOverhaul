@@ -22,61 +22,61 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PreUpdate()
 		{
-			bool onGround = player.OnGround();
-			bool wasOnGround = player.WasOnGround();
+			bool onGround = Player.OnGround();
+			bool wasOnGround = Player.WasOnGround();
 
-			player.fullRotationOrigin = new Vector2(11, 22);
+			Player.fullRotationOrigin = new Vector2(11, 22);
 
-			if(onGround || player.wet) {
+			if(onGround || Player.wet) {
 				Player.jumpHeight = 0;
 
-				if(!player.chilled && !player.slowFall) {
+				if(!Player.chilled && !Player.slowFall) {
 					Player.jumpSpeed *= DefaultJumpSpeedScale;
 				}
 
-				if(player.wet) {
+				if(Player.wet) {
 					Player.jumpSpeed *= UnderwaterJumpSpeedScale;
 				}
 			}
 
-			if(!player.wet) {
-				bool wings = player.wingsLogic > 0 && player.controlJump && !onGround && !wasOnGround;
-				bool wingFall = wings && player.wingTime == 0;
+			if(!Player.wet) {
+				bool wings = Player.wingsLogic > 0 && Player.controlJump && !onGround && !wasOnGround;
+				bool wingFall = wings && Player.wingTime == 0;
 
 				if(vanillaAccelerationTime > 0) {
 					vanillaAccelerationTime--;
-				} else if(!player.slippy && !player.slippy2) {
+				} else if(!Player.slippy && !Player.slippy2) {
 					//Run acceleration
 					if(onGround) {
-						player.runAcceleration *= 2f;
+						Player.runAcceleration *= 2f;
 					}
 
 					//Wind acceleration
-					if(player.FindBuffIndex(BuffID.WindPushed) >= 0) {
-						if(Main.windSpeedCurrent >= 0f ? player.velocity.X < Main.windSpeedCurrent : player.velocity.X > Main.windSpeedCurrent) {
-							player.velocity.X += Main.windSpeedCurrent / (player.KeyDirection() == -Math.Sign(Main.windSpeedCurrent) ? 180f : 70f);
+					if(Player.FindBuffIndex(BuffID.WindPushed) >= 0) {
+						if(Main.windSpeedCurrent >= 0f ? Player.velocity.X < Main.windSpeedCurrent : Player.velocity.X > Main.windSpeedCurrent) {
+							Player.velocity.X += Main.windSpeedCurrent / (Player.KeyDirection() == -Math.Sign(Main.windSpeedCurrent) ? 180f : 70f);
 						}
 					}
 
-					player.runSlowdown = onGround ? 0.3f : /* TODO: isDodging true ? 0.125f : */ 0.02f;
+					Player.runSlowdown = onGround ? 0.3f : /* TODO: isDodging true ? 0.125f : */ 0.02f;
 				}
 
 				//Stops vanilla running sounds from playing. //TODO: Move to PlayerFootsteps.
-				player.runSoundDelay = 5;
+				Player.runSoundDelay = 5;
 
 				if(noMovementTime.Active) {
-					player.maxRunSpeed = 0f;
-					player.runAcceleration = 0f;
-				} else if(player.chilled) {
-					player.maxRunSpeed *= 0.6f;
+					Player.maxRunSpeed = 0f;
+					Player.runAcceleration = 0f;
+				} else if(Player.chilled) {
+					Player.maxRunSpeed *= 0.6f;
 				}
 
-				player.maxFallSpeed = wingFall ? 10f : 1000f;
+				Player.maxFallSpeed = wingFall ? 10f : 1000f;
 
-				if(player.velocity.Y > player.maxFallSpeed) {
-					player.velocity.Y = player.maxFallSpeed;
-				} else if(player.velocity.Y > 0f) {
-					player.velocity.Y *= 0.995f;
+				if(Player.velocity.Y > Player.maxFallSpeed) {
+					Player.velocity.Y = Player.maxFallSpeed;
+				} else if(Player.velocity.Y > 0f) {
+					Player.velocity.Y *= 0.995f;
 				}
 			}
 		}
@@ -84,14 +84,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			Array.Copy(velocityRecord, 0, velocityRecord, 1, velocityRecord.Length - 1); //Shift
 
-			velocityRecord[0] = player.velocity;
+			velocityRecord[0] = Player.velocity;
 
 			if(forcedPosition != null) {
-				player.position = forcedPosition.Value;
+				Player.position = forcedPosition.Value;
 				forcedPosition = null;
 			}
 
-			player.oldVelocity = player.velocity;
+			Player.oldVelocity = Player.velocity;
 		}
 
 		/*public override bool PreItemCheck()

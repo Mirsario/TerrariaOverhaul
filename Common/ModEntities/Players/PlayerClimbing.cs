@@ -26,7 +26,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public float ClimbTime { get; private set; }
 		public bool IsClimbing { get; private set; }
 
-		public bool HasClimbingGear => player.EnumerateAccessories().Any(tuple => OverhaulItemTags.ClimbingClaws.Has(tuple.item.type));
+		public bool HasClimbingGear => Player.EnumerateAccessories().Any(tuple => OverhaulItemTags.ClimbingClaws.Has(tuple.item.type));
 
 		public override bool PreItemCheck()
 		{
@@ -43,11 +43,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			IsClimbing = true;
 			ClimbTime = 0f;
-			climbStartPos = player.position = posFrom;
+			climbStartPos = Player.position = posFrom;
 			climbEndPos = posTo;
 
-			if(Main.netMode == NetmodeID.MultiplayerClient && player.IsLocal()) {
-				MultiplayerSystem.SendPacket(new PlayerClimbStartMessage(player, posFrom, posTo));
+			if(Main.netMode == NetmodeID.MultiplayerClient && Player.IsLocal()) {
+				MultiplayerSystem.SendPacket(new PlayerClimbStartMessage(Player, posFrom, posTo));
 			}
 		}
 
@@ -59,32 +59,32 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			//Can only be started on local client
-			if(!player.IsLocal()) {
+			if(!Player.IsLocal()) {
 				return;
 			}
 
 			//Check for keypress.
-			if(!player.controlUp && !forceClimb) {
+			if(!Player.controlUp && !forceClimb) {
 				return;
 			}
 
 			forceClimb = false;
 
 			//Disable climbing if flying upwards or flying with wings
-			if(player.velocity.Y < -6f || (player.wingsLogic > 0 && player.wingTime > 0f)) {
+			if(Player.velocity.Y < -6f || (Player.wingsLogic > 0 && Player.wingTime > 0f)) {
 				return;
 			}
 
-			if(player.pulley || player.EnumerateGrapplingHooks().Any() || (player.mount != null && player.mount.Active)) {
+			if(Player.pulley || Player.EnumerateGrapplingHooks().Any() || (Player.mount != null && Player.mount.Active)) {
 				return;
 			}
 
-			player.GetModPlayer<PlayerDirectioning>().SetDirection();
+			Player.GetModPlayer<PlayerDirectioning>().SetDirection();
 
-			var tilePos = player.position.ToTileCoordinates();
+			var tilePos = Player.position.ToTileCoordinates();
 
 			for(int i = 1; i >= 0; i--) {
-				var pos = new Point16(tilePos.X + (player.direction == 1 ? 2 : -1), tilePos.Y + i);
+				var pos = new Point16(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + i);
 
 				//The base tile has to be solid
 				if(!Main.tile.TryGet(pos, out var tempTile) || !tempTile.active() || tempTile.inActive() || (!Main.tileSolid[tempTile.type] && !Main.tileSolidTop[tempTile.type]) || (i != 0 && tempTile.slope() != 0)) {
@@ -100,28 +100,28 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 				if(!(
 					TileCheckUtils.CheckAreaAll(pos.X, pos.Y - 3, 1, 3, Check)
-					& TileCheckUtils.CheckAreaAll(pos.X + (player.direction == 1 ? -1 : 1), pos.Y - 3, 1, 4, Check)
-					& TileCheckUtils.CheckAreaAll(pos.X + (player.direction == 1 ? -2 : 2), pos.Y - 2, 1, 3, Check)
+					& TileCheckUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -1 : 1), pos.Y - 3, 1, 4, Check)
+					& TileCheckUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -2 : 2), pos.Y - 2, 1, 3, Check)
 				)) {
 					continue;
 				}
 
-				StartClimbing(player.position, new Vector2(pos.X * 16f + (player.direction == 1 ? -4f : 0f), (pos.Y - 3) * 16f + 6));
+				StartClimbing(Player.position, new Vector2(pos.X * 16f + (Player.direction == 1 ? -4f : 0f), (pos.Y - 3) * 16f + 6));
 				UpdateClimbing();
 				break;
 			}
 		}
 		private void UpdateClimbing()
 		{
-			var playerMovement = player.GetModPlayer<PlayerMovement>();
-			var playerRotation = player.GetModPlayer<PlayerRotation>();
-			var playerAnimations = player.GetModPlayer<PlayerAnimations>();
-			var playerDirectioning = player.GetModPlayer<PlayerDirectioning>();
+			var playerMovement = Player.GetModPlayer<PlayerMovement>();
+			var playerRotation = Player.GetModPlayer<PlayerRotation>();
+			var playerAnimations = Player.GetModPlayer<PlayerAnimations>();
+			var playerDirectioning = Player.GetModPlayer<PlayerDirectioning>();
 
-			player.gfxOffY = 0f; //Disable autostep vertical sprite offsets.
+			Player.gfxOffY = 0f; //Disable autostep vertical sprite offsets.
 
 			//If we don't reset fall time, the player may explode from fall damage once they stop climbing.
-			player.fallStart = (int)(player.position.Y / 16f);
+			Player.fallStart = (int)(Player.position.Y / 16f);
 
 			//Force direction.
 			playerDirectioning.forcedDirection = climbStartPos.X <= climbEndPos.X ? 1 : -1;
@@ -133,27 +133,27 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				IsClimbing = false;
 			} else {
 				playerAnimations.forcedBodyFrame = ClimbTime > 0.75f ? PlayerFrames.Use4 : ClimbTime > 0.5f ? PlayerFrames.Use3 : ClimbTime > 0.25f ? PlayerFrames.Use2 : PlayerFrames.Use1;
-				playerRotation.rotation = ClimbTime * 0.7f * player.direction;
+				playerRotation.rotation = ClimbTime * 0.7f * Player.direction;
 				playerRotation.rotationOffsetScale = 0f;
 			}
 
-			player.position.X = MathHelper.Lerp(climbStartPos.X, climbEndPos.X, ClimbTime);
-			player.position.Y = ClimbTime < 0.75f ? MathHelper.Lerp(climbStartPos.Y, climbEndPos.Y, ClimbTime / 0.75f) : climbEndPos.Y;
-			playerMovement.forcedPosition = player.position;
+			Player.position.X = MathHelper.Lerp(climbStartPos.X, climbEndPos.X, ClimbTime);
+			Player.position.Y = ClimbTime < 0.75f ? MathHelper.Lerp(climbStartPos.Y, climbEndPos.Y, ClimbTime / 0.75f) : climbEndPos.Y;
+			playerMovement.forcedPosition = Player.position;
 
 			//Fix suffocating when climbing sand
-			player.suffocating = false;
-			player.suffocateDelay = 0;
+			Player.suffocating = false;
+			Player.suffocateDelay = 0;
 
 			//Make sure we're not moving
-			player.jump = 0;
-			player.velocity = new Vector2(0f, 0.0001f);
-			player.runAcceleration = 0f;
-			player.runSlowdown = 0f;
-			player.maxRunSpeed = 0f;
+			Player.jump = 0;
+			Player.velocity = new Vector2(0f, 0.0001f);
+			Player.runAcceleration = 0f;
+			Player.runSlowdown = 0f;
+			Player.maxRunSpeed = 0f;
 
 			//Prevent other actions
-			player.GetModPlayer<PlayerDodgerolls>().dodgeCooldown.Set(1);
+			Player.GetModPlayer<PlayerDodgerolls>().dodgeCooldown.Set(1);
 		}
 	}
 }

@@ -26,15 +26,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
-			if(player.armor[0] == null || player.armor[0].headSlot != ArmorIDs.Head.MiningHelmet) {
+			if(Player.armor[0] == null || Player.armor[0].headSlot != ArmorIDs.Head.MiningHelmet) {
 				return;
 			}
 
 			const int NumSteps = 24;
 
-			var mouseWorld = player.GetModPlayer<PlayerDirectioning>().mouseWorld;
-			var startPos = player.Center - Vector2.UnitY * 8;
-			var endPos = player.position + Vector2.Transform(new Vector2(NumSteps * 16f, 0f), Matrix.CreateRotationZ((mouseWorld - startPos).ToRotation()));
+			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
+			var startPos = Player.Center - Vector2.UnitY * 8;
+			var endPos = Player.position + Vector2.Transform(new Vector2(NumSteps * 16f, 0f), Matrix.CreateRotationZ((mouseWorld - startPos).ToRotation()));
 			float maxBrightness = 1f;
 			var lightColor = new Vector3(1f, 0.86f, 0.70f);
 

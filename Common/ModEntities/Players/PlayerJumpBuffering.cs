@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		}
 		public override void SetControls()
 		{
-			if(player.controlJump && player.releaseJump && player.velocity.Y != 0f) {
+			if(Player.controlJump && Player.releaseJump && Player.velocity.Y != 0f) {
 				JumpKeyBuffer = 0.25f;
 			}
 		}

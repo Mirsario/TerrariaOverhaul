@@ -39,7 +39,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			UpdateDodging();
 
 			//Stop umbrella and other things from working
-			if(isDodging && player.HeldItem.type == ItemID.Umbrella) {
+			if(isDodging && Player.HeldItem.type == ItemID.Umbrella) {
 				return false;
 			}
 
@@ -62,10 +62,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private bool TryStartDodgeroll()
 		{
-			bool isLocal = player.IsLocal();
+			bool isLocal = Player.IsLocal();
 
 			if(isLocal && wantsDodgerollTimer <= 0f && InputSystem.KeyDodgeroll.JustPressed) {
-				QueueDodgeroll(0.25f, (sbyte)player.KeyDirection());
+				QueueDodgeroll(0.25f, (sbyte)Player.KeyDirection());
 			}
 
 			if(!forceDodgeroll) {
@@ -80,7 +80,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 
 				//Don't allow dodging on mounts and during item use.
-				if((player.mount != null && player.mount.Active) || player.itemAnimation > 0) {
+				if((Player.mount != null && Player.mount.Active) || Player.itemAnimation > 0) {
 					return false;
 				}
 			}
@@ -102,25 +102,25 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}*/
 
 			if(!Main.dedServ) {
-				SoundEngine.PlaySound(DodgerollSound, player.Center);
+				SoundEngine.PlaySound(DodgerollSound, Player.Center);
 			}
 
-			player.StopGrappling();
+			Player.StopGrappling();
 
-			player.eocHit = 1;
+			Player.eocHit = 1;
 
 			isDodging = true;
-			dodgeStartRot = player.GetModPlayer<PlayerRotation>().rotation;
-			dodgeItemRotation = player.itemRotation;
+			dodgeStartRot = Player.GetModPlayer<PlayerRotation>().rotation;
+			dodgeItemRotation = Player.itemRotation;
 			dodgeTime = 0f;
-			dodgeDirectionVisual = (sbyte)player.direction;
-			dodgeDirection = wantedDodgerollDir != 0 ? wantedDodgerollDir : (sbyte)player.direction;
+			dodgeDirectionVisual = (sbyte)Player.direction;
+			dodgeDirection = wantedDodgerollDir != 0 ? wantedDodgerollDir : (sbyte)Player.direction;
 			dodgeCooldown = DodgeDefaultCooldown;
 
 			if(!isLocal) {
 				forceDodgeroll = false;
 			} else if(Main.netMode != NetmodeID.SinglePlayer) {
-				MultiplayerSystem.SendPacket(new PlayerDodgerollPacket(player));
+				MultiplayerSystem.SendPacket(new PlayerDodgerollPacket(Player));
 			}
 
 			return true;
@@ -129,7 +129,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			wantsDodgerollTimer = MathUtils.StepTowards(wantsDodgerollTimer, 0f, TimeSystem.LogicDeltaTime);
 
-			noDodge |= player.mount.Active;
+			noDodge |= Player.mount.Active;
 
 			if(noDodge) {
 				isDodging = false;
@@ -138,10 +138,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				return;
 			}
 
-			bool onGround = player.OnGround();
-			bool wasOnGround = player.WasOnGround();
+			bool onGround = Player.OnGround();
+			bool wasOnGround = Player.WasOnGround();
 
-			ref float rotation = ref player.GetModPlayer<PlayerRotation>().rotation;
+			ref float rotation = ref Player.GetModPlayer<PlayerRotation>().rotation;
 
 			//Attempt to initiate a dodgeroll if the player isn't doing one already.
 			if(!isDodging && !TryStartDodgeroll()) {
@@ -150,11 +150,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			//Lower fall damage
 			if(dodgeTime < DodgeTimeMax / 1.5f && onGround && !wasOnGround) {
-				player.fallStart = (int)MathHelper.Lerp(player.fallStart, (int)(player.position.Y / 16f), 0.35f);
+				Player.fallStart = (int)MathHelper.Lerp(Player.fallStart, (int)(Player.position.Y / 16f), 0.35f);
 			}
 
 			//Open doors
-			var tilePos = player.position.ToTileCoordinates16();
+			var tilePos = Player.position.ToTileCoordinates16();
 			int x = dodgeDirection > 0 ? tilePos.X + 2 : tilePos.X - 1;
 
 			for(int y = tilePos.Y; y < tilePos.Y + 3; y++) {
@@ -171,22 +171,22 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			if(dodgeTime < DodgeTimeMax * 0.5f) {
 				float newVelX = (onGround ? 6f : 4f) * dodgeDirection;
 
-				if(Math.Abs(player.velocity.X) < Math.Abs(newVelX) || Math.Sign(newVelX) != Math.Sign(player.velocity.X)) {
-					player.velocity.X = newVelX;
+				if(Math.Abs(Player.velocity.X) < Math.Abs(newVelX) || Math.Sign(newVelX) != Math.Sign(Player.velocity.X)) {
+					Player.velocity.X = newVelX;
 				}
 			}
 
 			if(!Main.dedServ) {
 				//Trail
-				player.GetModPlayer<PlayerEffects>().ForceTrailEffect(2);
+				Player.GetModPlayer<PlayerEffects>().ForceTrailEffect(2);
 			}
 
-			player.pulley = false;
+			Player.pulley = false;
 
 			//Apply rotations & direction
-			player.GetModPlayer<PlayerItemRotation>().forcedItemRotation = dodgeItemRotation;
-			player.GetModPlayer<PlayerAnimations>().forcedLegFrame = PlayerFrames.Jump;
-			player.GetModPlayer<PlayerDirectioning>().forcedDirection = dodgeDirectionVisual;
+			Player.GetModPlayer<PlayerItemRotation>().forcedItemRotation = dodgeItemRotation;
+			Player.GetModPlayer<PlayerAnimations>().forcedLegFrame = PlayerFrames.Jump;
+			Player.GetModPlayer<PlayerDirectioning>().forcedDirection = dodgeDirectionVisual;
 
 			rotation = dodgeDirection == 1
 				? Math.Min(MathHelper.Pi * 2f, MathHelper.Lerp(dodgeStartRot, MathHelper.TwoPi, dodgeTime / (DodgeTimeMax * 1f)))
@@ -196,15 +196,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			dodgeTime += 1f / 60f;
 
 			//Prevent other actions
-			player.GetModPlayer<PlayerClimbing>().climbCooldown.Set(1);
+			Player.GetModPlayer<PlayerClimbing>().climbCooldown.Set(1);
 
 			if(dodgeTime >= DodgeTimeMax) {
 				isDodging = false;
-				player.eocDash = 0;
+				Player.eocDash = 0;
 
 				//forceSyncControls = true;
 			} else {
-				player.runAcceleration = 0f;
+				Player.runAcceleration = 0f;
 			}
 		}
 	}

@@ -9,13 +9,13 @@ namespace TerrariaOverhaul.Content.Items.Accessories
 		public override void SetDefaults()
 		{
 			//Accessory properties.
-			item.accessory = true;
+			Item.accessory = true;
 			//Universal properties.
-			item.width = 32;
-			item.height = 32;
-			item.rare = ItemRarityID.Green;
-			item.scale = 0.25f;
-			item.value = Item.sellPrice(0, 0, 1);
+			Item.width = 32;
+			Item.height = 32;
+			Item.rare = ItemRarityID.Green;
+			Item.scale = 0.25f;
+			Item.value = Item.sellPrice(0, 0, 1);
 		}
 		public override void AddRecipes() => this.CreateRecipe(r => {
 			r.AddIngredient(ItemID.Bunny, 5);

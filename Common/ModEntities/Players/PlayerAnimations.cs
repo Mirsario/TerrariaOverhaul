@@ -23,9 +23,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 			}
 
-			TryForceFrame(ref player.headFrame, ref forcedHeadFrame);
-			TryForceFrame(ref player.bodyFrame, ref forcedBodyFrame);
-			TryForceFrame(ref player.legFrame, ref forcedLegFrame);
+			TryForceFrame(ref Player.headFrame, ref forcedHeadFrame);
+			TryForceFrame(ref Player.bodyFrame, ref forcedBodyFrame);
+			TryForceFrame(ref Player.legFrame, ref forcedLegFrame);
 		}
 	}
 }

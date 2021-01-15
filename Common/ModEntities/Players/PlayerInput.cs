@@ -14,8 +14,8 @@
 		}
 		public override void PreUpdate()
 		{
-			controlJumpPrev = player.controlJump;
-			controlHookPrev = player.controlHook;
+			controlJumpPrev = Player.controlJump;
+			controlHookPrev = Player.controlHook;
 		}
 	}
 }

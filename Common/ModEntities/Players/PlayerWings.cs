@@ -8,7 +8,7 @@
 		{
 			//No Wings Time
 			if(noWingsTime > 0) {
-				player.wingsLogic = 0;
+				Player.wingsLogic = 0;
 				noWingsTime--;
 			}
 		}

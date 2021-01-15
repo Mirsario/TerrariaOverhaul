@@ -7,11 +7,11 @@ namespace TerrariaOverhaul.Content.Items.Materials
 	{
 		public override void SetDefaults()
 		{
-			item.CloneDefaults(ItemID.Gel);
+			Item.CloneDefaults(ItemID.Gel);
 
-			item.color = Color.White;
-			item.maxStack = 999;
-			item.ammo = 0;
+			Item.color = Color.White;
+			Item.maxStack = 999;
+			Item.ammo = 0;
 		}
 
 		/*protected void OverhaulInit() //TODO: Reimplement

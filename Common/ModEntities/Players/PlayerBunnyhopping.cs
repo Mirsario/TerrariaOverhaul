@@ -12,16 +12,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			boost = DefaultBoost;
 
-			player.autoJump = true;
+			Player.autoJump = true;
 		}
 
 		public override void PostItemCheck()
 		{
-			bool onGround = player.OnGround();
-			bool wasOnGround = player.WasOnGround();
+			bool onGround = Player.OnGround();
+			bool wasOnGround = Player.WasOnGround();
 
-			if(!onGround && wasOnGround && player.velocity.Y < 0f) {
-				player.velocity.X += player.controlLeft ? -boost : player.controlRight ? boost : 0f;
+			if(!onGround && wasOnGround && Player.velocity.Y < 0f) {
+				Player.velocity.X += Player.controlLeft ? -boost : Player.controlRight ? boost : 0f;
 			}
 		}
 	}

@@ -101,7 +101,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 		{
 			var playerCenter = player.Center;
 			var projCenter = proj.Center;
-			float hookRange = proj.modProjectile?.GrappleRange() ?? (vanillaHookRangesInTiles.TryGetValue(proj.type, out float vanillaRangeInTiles) ? vanillaRangeInTiles * 16f : 512f);
+			float hookRange = proj.ModProjectile?.GrappleRange() ?? (vanillaHookRangesInTiles.TryGetValue(proj.type, out float vanillaRangeInTiles) ? vanillaRangeInTiles * 16f : 512f);
 
 			if(player.dead) {
 				proj.Kill();
