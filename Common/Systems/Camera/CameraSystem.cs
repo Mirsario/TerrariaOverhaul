@@ -44,7 +44,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			set => Main.screenPosition = new Vector2(value.X - Main.screenWidth * 0.5f, value.Y - Main.screenHeight * 0.5f);
 		}
 
-		private int followNPC = -1;
+		//private int followNPC = -1;
 		private bool noOffsetUpdating;
 		/*private int screenWidthTileSpace;
 		private int screenHeightTileSpace;
