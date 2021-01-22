@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Content.Items.Placeables
 			Item.height = 80;
 			Item.value = Item.buyPrice(0, 1);
 			Item.maxStack = 99;
-			Item.rare = 6;
+			Item.rare = ItemRarityID.LightPurple;
 		}
 	}
 }
