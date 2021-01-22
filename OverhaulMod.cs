@@ -12,14 +12,14 @@ namespace TerrariaOverhaul
 	public partial class OverhaulMod : Mod
 	{
 		public static readonly uint BetaNumber = 1;
-		public static readonly bool SecretBeta = BetaNumber > 0;
-		public static readonly string VersionSuffix = "(BETA)";
-		public static readonly Version MinimalTMLVersion = new Version("0.12");
+		public static readonly bool IsBeta = BetaNumber > 0;
+		public static readonly string VersionSuffix = $"(ALPHA {BetaNumber})";
 		public static readonly string PersonalDirectory = Path.Combine(Main.SavePath, "TerrariaOverhaul");
+		public static readonly Version MinimalTMLVersion = new Version("0.12");
 		public static readonly Assembly Assembly;
-		public static readonly Type[] AssemblyTypes;
 		public static readonly Assembly EngineAssembly;
 		public static readonly Assembly TMLAssembly;
+		public static readonly Type[] AssemblyTypes;
 
 		//internal static readonly ResourceManager ResourceManager = new ResourceManager("TerrariaOverhaul.Properties.Resources", Assembly.GetExecutingAssembly());
 
