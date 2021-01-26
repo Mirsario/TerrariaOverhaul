@@ -71,7 +71,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			forceClimb = false;
 
 			//Disable climbing if flying upwards or flying with wings
-			if(Player.velocity.Y < -6f || (Player.wingsLogic > 0 && Player.wingTime > 0f)) {
+			if(Player.velocity.Y < -6f /* || (Player.wingsLogic > 0 && Player.wingTime > 0f)*/) {
 				return;
 			}
 
@@ -87,7 +87,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				var pos = new Point16(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + i);
 
 				//The base tile has to be solid
-				if(!Main.tile.TryGet(pos, out var tempTile) || !tempTile.active() || tempTile.inActive() || (!Main.tileSolid[tempTile.type] && !Main.tileSolidTop[tempTile.type]) || (i != 0 && tempTile.slope() != 0)) {
+				if(!Main.tile.TryGet(pos, out var tempTile) || !tempTile.IsActive || tempTile.IsActuated || (!Main.tileSolid[tempTile.type] && !Main.tileSolidTop[tempTile.type]) || (i != 0 && tempTile.Slope != SlopeID.Solid)) {
 					continue;
 				}
 
@@ -96,12 +96,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					continue;
 				}
 
-				bool Check(int x, int y, Tile t) => !t.nactive() || !Main.tileSolid[t.type] || OverhaulTileTags.AllowClimbing.Has(t.type);
+				bool CheckFree(int x, int y, Tile t) => !(t.IsActive && !t.IsActuated) || !Main.tileSolid[t.type] || OverhaulTileTags.AllowClimbing.Has(t.type);
 
 				if(!(
-					TileCheckUtils.CheckAreaAll(pos.X, pos.Y - 3, 1, 3, Check)
-					& TileCheckUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -1 : 1), pos.Y - 3, 1, 4, Check)
-					& TileCheckUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -2 : 2), pos.Y - 2, 1, 3, Check)
+					TileCheckUtils.CheckAreaAll(pos.X, pos.Y - 3, 1, 3, CheckFree)
+					& TileCheckUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -1 : 1), pos.Y - 3, 1, 4, CheckFree)
+					& TileCheckUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -2 : 2), pos.Y - 2, 1, 3, CheckFree)
 				)) {
 					continue;
 				}

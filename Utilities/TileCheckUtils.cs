@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Utilities
 		{
 			for(int yy = 0; yy < height; yy++) {
 				for(int xx = 0; xx < width; xx++) {
-					if(!Main.tile.TryGet(x + xx, y + yy, out Tile tile) || !Main.tileSolid[tile.type] || !tile.active()) {
+					if(!Main.tile.TryGet(x + xx, y + yy, out Tile tile) || !Main.tileSolid[tile.type] || !tile.IsActive) {
 						return false;
 					}
 				}

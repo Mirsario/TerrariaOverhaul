@@ -43,9 +43,9 @@ namespace TerrariaOverhaul
 
 			Directory.CreateDirectory(PersonalDirectory);
 
-			if(ModLoader.version < MinimalTMLVersion) {
+			/*if(ModLoader.version < MinimalTMLVersion) {
 				throw new OutdatedTModLoaderException(MinimalTMLVersion);
-			}
+			}*/
 
 			Properties = new ModProperties {
 				Autoload = true,
