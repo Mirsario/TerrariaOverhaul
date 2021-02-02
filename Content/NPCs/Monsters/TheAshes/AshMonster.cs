@@ -33,8 +33,8 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 			NPC.buffImmune[BuffID.Ichor] = true;
 			NPC.buffImmune[BuffID.CursedInferno] = true;
 			//Animation.
+			AnimationType = BaseNPC;
 			Main.npcFrameCount[Type] = Main.npcFrameCount[BaseNPC];
-			animationType = BaseNPC;
 
 			//OverhaulNPC.goreInfos.AddIfNeedTo(npc.type,() => new NPCGoreInfo(npc,bloodColor:Color.Transparent,goreType:""));
 		}
