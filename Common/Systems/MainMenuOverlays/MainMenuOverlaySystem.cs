@@ -11,9 +11,12 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 {
+	[Autoload(Side = ModSide.Client)]
 	public sealed class MainMenuOverlaySystem : ModSystem
 	{
 		private static DynamicSpriteFont Font => FontAssets.MouseText.Value;
+
+		private static List<MenuLine> menuLines;
 
 		public override void Load()
 		{
@@ -39,6 +42,19 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 
 				cursor.EmitDelegate<Action>(() => DrawOverlay(Main.spriteBatch));
 			};
+
+			menuLines = new List<MenuLine> {
+				new MenuLine($"Terraria Overhaul v{OverhaulMod.Instance.Version} {OverhaulMod.VersionSuffix}"),
+				new PatreonMenuLink("patreon.com/Mirsario", @"https://patreon.com/Mirsario", forcedColor: _ => Main.DiscoColor),
+				new MenuLink("Discord Server", @"https://discord.gg/RNGq9n8"),
+				new MenuLink("Forum Page", @"https://forums.terraria.org/index.php?threads/60369"),
+				new MenuLink("Wiki Page", @"https://terrariamods.gamepedia.com/Terraria_Overhaul"),
+				new MenuLink("Github", @"https://github.com/Mirsario/TerrariaOverhaul/tree/1.4"),
+			};
+		}
+		public override void Unload()
+		{
+			menuLines = null;
 		}
 
 		private static void DrawOverlay(SpriteBatch sb)
@@ -49,21 +65,13 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 
 			sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.UIScaleMatrix);
 
-			var entries = new List<MenuLine> {
-				new MenuLine($"Terraria Overhaul v{OverhaulMod.Instance.Version} {OverhaulMod.VersionSuffix}"),
-				new MenuLink("patreon.com/Mirsario", @"https://patreon.com/Mirsario"),
-				new MenuLink("Discord Server", @"https://discord.gg/RNGq9n8"),
-				new MenuLink("Forum Page", @"https://forums.terraria.org/index.php?threads/60369"),
-				new MenuLink("Wiki Page", @"https://terrariamods.gamepedia.com/Terraria_Overhaul"),
-				new MenuLink("Github", @"https://github.com/Mirsario/TerrariaOverhaul/tree/1.4"),
-			};
-
 			var textPos = new Vector2(16, 16);
 
-			foreach(var entry in entries) {
-				var size = entry.Draw(sb, Font, textPos);
+			foreach(var entry in menuLines) {
+				entry.Update(textPos);
+				entry.Draw(sb, textPos);
 
-				textPos.Y += size.Y;
+				textPos.Y += entry.Size.Y;
 			}
 
 			sb.End();

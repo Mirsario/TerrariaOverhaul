@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
+using ReLogic.Graphics;
 
 namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 {
@@ -8,7 +10,8 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 	{
 		private readonly string Url;
 
-		public MenuLink(string text, string url, float scale = 1f, Func<bool, Color> forcedColor = null) : base(text, scale, forcedColor)
+		public MenuLink(string text, string url, Asset<DynamicSpriteFont> font = null, float scale = 1f, Func<bool, Color> forcedColor = null)
+			: base(text, font, scale, forcedColor)
 		{
 			Url = url;
 		}

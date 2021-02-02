@@ -1,9 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using ReLogic.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Systems.Input;
 using TerrariaOverhaul.Utilities.Extensions;
@@ -12,39 +14,43 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 {
 	public class MenuLine
 	{
-		private readonly string Text;
-		private readonly float Scale;
-		private readonly Func<bool, Color> ForcedColor;
+		public readonly string Text;
+		public readonly float Scale;
+		public readonly Asset<DynamicSpriteFont> Font;
+		public readonly Vector2 Size;
 
-		public MenuLine(string text, float scale = 1f, Func<bool, Color> forcedColor = null)
+		protected readonly Func<bool, Color> ForcedColor;
+
+		protected bool IsHovered { get; private set; }
+
+		public MenuLine(string text, Asset<DynamicSpriteFont> font = null, float scale = 1f, Func<bool, Color> forcedColor = null)
 		{
 			Text = text;
+			Font = font ?? FontAssets.MouseText;
 			Scale = scale;
 			ForcedColor = forcedColor;
+
+			Size = Font.Value.MeasureString(Text) * Scale;
 		}
 
 		protected virtual void OnClicked() { }
 
-		public virtual Vector2 Draw(SpriteBatch sb, DynamicSpriteFont font, Vector2 position)
+		public virtual void Update(Vector2 position)
 		{
-			var size = font.MeasureString(Text) * Scale;
-			var rect = new Rectangle((int)position.X, (int)position.Y, (int)size.X, (int)size.Y);
-			bool isHovering = false;
+			var rect = new Rectangle((int)position.X, (int)position.Y, (int)Size.X, (int)Size.Y);
 
-			if(rect.Contains(new Point(Main.mouseX, Main.mouseY))) {
-				isHovering = true;
+			IsHovered = rect.Contains(new Point(Main.mouseX, Main.mouseY));
 
-				if(InputSystem.GetMouseButtonDown(0)) {
-					SoundEngine.PlaySound(SoundID.MenuOpen);
-					OnClicked();
-				}
+			if(IsHovered && InputSystem.GetMouseButtonDown(0)) {
+				SoundEngine.PlaySound(SoundID.MenuOpen);
+				OnClicked();
 			}
+		}
+		public virtual void Draw(SpriteBatch sb, Vector2 position)
+		{
+			var color = ForcedColor?.Invoke(IsHovered) ?? Color.White;
 
-			var color = ForcedColor?.Invoke(isHovering) ?? Color.White;
-
-			sb.DrawStringOutlined(font, Text, position, color);
-
-			return size;
+			sb.DrawStringOutlined(Font.Value, Text, position, color);
 		}
 	}
 }

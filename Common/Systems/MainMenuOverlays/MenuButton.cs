@@ -1,11 +1,14 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using ReLogic.Content;
+using ReLogic.Graphics;
 
 namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 {
 	public abstract class MenuButton : MenuLine
 	{
-		public MenuButton(string text, float scale = 1f, Func<bool, Color> forcedColor = null) : base(text, scale, forcedColor ?? GetColor) { }
+		public MenuButton(string text, Asset<DynamicSpriteFont> font = null, float scale = 1f, Func<bool, Color> forcedColor = null)
+			: base(text, font, scale, forcedColor ?? GetColor) { }
 
 		protected abstract override void OnClicked();
 
