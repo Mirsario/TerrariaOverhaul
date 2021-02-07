@@ -66,12 +66,15 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 			sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.UIScaleMatrix);
 
 			var textPos = new Vector2(16, 16);
+			var lines = menuLines; //Copy for thread safety.
 
-			foreach(var entry in menuLines) {
-				entry.Update(textPos);
-				entry.Draw(sb, textPos);
+			if(lines != null) {
+				foreach(var entry in lines) {
+					entry.Update(textPos);
+					entry.Draw(sb, textPos);
 
-				textPos.Y += entry.Size.Y;
+					textPos.Y += entry.Size.Y;
+				}
 			}
 
 			sb.End();
