@@ -10,12 +10,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		protected Item item;
 
-		public override bool LateInstantiation => true;
 		public override bool InstancePerEntity => true;
 
 		public abstract bool ShouldApplyItemOverhaul(Item item);
 
-		public override bool InstanceForEntity(Item item) => ChooseItemOverhaul(item) == this;
+		public override bool InstanceForEntity(Item item, bool lateInstantiation) => lateInstantiation && ChooseItemOverhaul(item) == this;
 		//
 		public override void Load()
 		{

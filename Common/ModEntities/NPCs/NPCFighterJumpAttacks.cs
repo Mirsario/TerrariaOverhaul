@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		private float prevDistance;
 
 		public override bool InstancePerEntity => true;
-		public override bool InstanceForEntity(NPC npc) => npc.aiStyle == NPCAIStyleID.Fighter;
+		public override bool InstanceForEntity(NPC npc, bool lateInstantiation) => lateInstantiation && npc.aiStyle == NPCAIStyleID.Fighter;
 
 		public override void AI(NPC npc)
 		{
