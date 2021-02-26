@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Systems.Lighting;
 using TerrariaOverhaul.Core.DataStructures;
 using TerrariaOverhaul.Core.Systems.Chunks;
 using TerrariaOverhaul.Core.Systems.Debugging;
@@ -83,10 +84,12 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			}
 
 			var shader = DecalSystem.BloodShader.Value;
+			var lightingBuffer = Chunk.GetComponent<ChunkLighting>().Texture;
 
 			if(!CheckResources(
-				(shader, nameof(DecalSystem.BloodShader)),
-				(texture, "RT texture"),
+				(texture, nameof(texture)),
+				(shader, nameof(shader)),
+				(lightingBuffer, nameof(lightingBuffer)),
 				(Main.instance.tileTarget, nameof(Main.instance.tileTarget)),
 				(TextureAssets.MagicPixel.Value, nameof(TextureAssets.MagicPixel))
 			)) {
@@ -95,7 +98,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			shader.Parameters["texture0"].SetValue(texture);
 			shader.Parameters["texture1"].SetValue(Main.instance.tileTarget);
-			shader.Parameters["lightingBuffer"].SetValue(TextureAssets.MagicPixel.Value); //(lightingBuffer);
+			shader.Parameters["lightingBuffer"].SetValue(lightingBuffer);
 			//shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.TransformationMatrix);
 			shader.Parameters["transformMatrix"].SetValue(GetDefaultMatrix() * Matrix.CreateScale(Main.ForcedMinimumZoom));
 
