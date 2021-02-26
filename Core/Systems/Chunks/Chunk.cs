@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 		public const int MaxChunkSize = 64;
 		public const float MaxChunkSizeInPixels = MaxChunkSize * TileUtils.TileSizeInPixels;
 
-		public readonly Point Position;
+		public readonly Vector2Int Position;
 		public readonly long EncodedPosition;
 		public readonly RectFloat Rectangle;
 		public readonly Rectangle TileRectangle;
@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 		{
 			//Positions
 
-			Position = new Point(x, y);
+			Position = new Vector2Int(x, y);
 			EncodedPosition = PackPosition(x, y);
 
 			int xTilePos = Position.X * MaxChunkSize;

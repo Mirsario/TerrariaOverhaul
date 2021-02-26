@@ -48,11 +48,11 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				throw new ArgumentNullException(nameof(texture));
 			}
 
-			var chunkStart = new Point(
+			var chunkStart = new Vector2Int(
 				(int)(dest.X / 16f / Chunk.MaxChunkSize),
 				(int)(dest.Y / 16f / Chunk.MaxChunkSize)
 			);
-			var chunkEnd = new Point(
+			var chunkEnd = new Vector2Int(
 				(int)(dest.Right / 16f / Chunk.MaxChunkSize),
 				(int)(dest.Bottom / 16f / Chunk.MaxChunkSize)
 			);
@@ -60,7 +60,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			//The provided rectangle will be split between chunks, possibly into multiple draws.
 			for(int chunkY = chunkStart.Y; chunkY <= chunkEnd.Y; chunkY++) {
 				for(int chunkX = chunkStart.X; chunkX <= chunkEnd.X; chunkX++) {
-					var chunkPoint = new Point(chunkX, chunkY);
+					var chunkPoint = new Vector2Int(chunkX, chunkY);
 
 					Chunk chunk;
 

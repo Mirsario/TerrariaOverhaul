@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Tags;
 using TerrariaOverhaul.Common.Tags;
+using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.Systems.Footsteps
@@ -48,7 +49,7 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 			}
 
 			var vec = entity.BottomLeft / 16f;
-			var point = new Point((int)Math.Floor(vec.X), (int)Math.Ceiling(vec.Y));
+			var point = new Vector2Int((int)Math.Floor(vec.X), (int)Math.Ceiling(vec.Y));
 			Tile tile = null;
 
 			if(forcedPoint.HasValue && forcedPoint.Value.IsInWorld() && Main.tile.TryGet(forcedPoint.Value, out var tempTile) && tempTile.IsActive) {

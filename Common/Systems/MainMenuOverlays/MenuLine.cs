@@ -8,6 +8,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Systems.Input;
+using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
@@ -39,7 +40,7 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 		{
 			var rect = new Rectangle((int)position.X, (int)position.Y, (int)Size.X, (int)Size.Y);
 
-			IsHovered = rect.Contains(new Point(Main.mouseX, Main.mouseY));
+			IsHovered = rect.Contains(new Vector2Int(Main.mouseX, Main.mouseY));
 
 			if(IsHovered && InputSystem.GetMouseButtonDown(0)) {
 				SoundEngine.PlaySound(SoundID.MenuOpen);

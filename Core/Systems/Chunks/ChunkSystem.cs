@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Core.Systems.Chunks
 {
@@ -79,9 +80,9 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 			return EnumerateChunksInArea(player.position.ToTileCoordinates(), areaSize, instantiate);
 		}
-		public static IEnumerable<Chunk> EnumerateChunksInArea(Point tileCenter, int areaSize, bool instantiate)
+		public static IEnumerable<Chunk> EnumerateChunksInArea(Vector2Int tileCenter, int areaSize, bool instantiate)
 		{
-			Point chunkCenter = TileToChunkCoordinates(tileCenter);
+			Vector2Int chunkCenter = TileToChunkCoordinates(tileCenter);
 
 			int xStart = chunkCenter.X - areaSize;
 			int yStart = chunkCenter.Y - areaSize;
@@ -106,12 +107,12 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 		}
 		//TryGet
 		public static bool TryGetChunkAtWorldPosition(Vector2 worldPosition, out Chunk chunk) => TryGetChunkAtTilePosition(worldPosition.ToTileCoordinates(), out chunk);
-		public static bool TryGetChunkAtTilePosition(Point tilePosition, out Chunk chunk) => TryGetChunk(TileToChunkCoordinates(tilePosition), out chunk);
-		public static bool TryGetChunk(Point chunkPosition, out Chunk chunk) => chunks.TryGetValue(Chunk.PackPosition(chunkPosition.X, chunkPosition.Y), out chunk);
+		public static bool TryGetChunkAtTilePosition(Vector2Int tilePosition, out Chunk chunk) => TryGetChunk(TileToChunkCoordinates(tilePosition), out chunk);
+		public static bool TryGetChunk(Vector2Int chunkPosition, out Chunk chunk) => chunks.TryGetValue(Chunk.PackPosition(chunkPosition.X, chunkPosition.Y), out chunk);
 		//GetOrCreate
 		public static Chunk GetOrCreateChunkAtWorldPosition(Vector2 worldPosition) => GetOrCreateChunkAtTilePosition(TileToChunkCoordinates(worldPosition.ToTileCoordinates()));
-		public static Chunk GetOrCreateChunkAtTilePosition(Point tilePosition) => GetOrCreateChunk(TileToChunkCoordinates(tilePosition));
-		public static Chunk GetOrCreateChunk(Point chunkPosition)
+		public static Chunk GetOrCreateChunkAtTilePosition(Vector2Int tilePosition) => GetOrCreateChunk(TileToChunkCoordinates(tilePosition));
+		public static Chunk GetOrCreateChunk(Vector2Int chunkPosition)
 		{
 			long encodedPosition = Chunk.PackPosition(chunkPosition.X, chunkPosition.Y);
 
@@ -129,6 +130,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 			return ChunkComponents.Count - 1;
 		}
 
-		public static Point TileToChunkCoordinates(Point tilePosition) => new Point(tilePosition.X / Chunk.MaxChunkSize, tilePosition.Y / Chunk.MaxChunkSize);
+		public static int TileToChunkCoordinates(int coordinate) => coordinate / Chunk.MaxChunkSize;
+		public static Vector2Int TileToChunkCoordinates(Vector2Int tilePosition) => new Vector2Int(tilePosition.X / Chunk.MaxChunkSize, tilePosition.Y / Chunk.MaxChunkSize);
 	}
 }
