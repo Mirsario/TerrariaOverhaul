@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -20,8 +19,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 		private float maxDist;
 		private bool noPulling;
 
-		//TODO: When conditional instancing is implemented, instantiate this only for grappling hooks.
 		public override bool InstancePerEntity => true;
+
+		public override bool InstanceForEntity(Projectile projectile, bool lateInstantiation)
+			=> lateInstantiation && projectile.aiStyle == GrapplingHookAIStyle;
 
 		public override void Load()
 		{
@@ -102,7 +103,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 		{
 			var playerCenter = player.Center;
 			var projCenter = proj.Center;
-			float hookRange = proj.modProjectile?.GrappleRange() ?? (vanillaHookRangesInTiles.TryGetValue(proj.type, out float vanillaRangeInTiles) ? vanillaRangeInTiles * 16f : 512f);
+			float hookRange = proj.ModProjectile?.GrappleRange() ?? (vanillaHookRangesInTiles.TryGetValue(proj.type, out float vanillaRangeInTiles) ? vanillaRangeInTiles * 16f : 512f);
 
 			if(player.dead) {
 				proj.Kill();
@@ -119,7 +120,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 			//Check if the tile that this is latched to has disappeared.
 
-			if(!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) || !tile.nactive() || (!Main.tileSolid[tile.type] && tile.type != TileID.MinecartTrack)) {
+			if(!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) || !tile.IsActive || tile.IsActuated || (!Main.tileSolid[tile.type] && tile.type != TileID.MinecartTrack)) {
 				SetHooked(proj, false);
 				proj.Kill();
 

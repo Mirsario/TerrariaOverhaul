@@ -14,11 +14,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			const float LookStrength = 0.55f;
 
-			var mouseWorld = player.GetModPlayer<PlayerDirectioning>().mouseWorld;
-			Vector2 offset = mouseWorld - player.Center;
+			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
+			Vector2 offset = mouseWorld - Player.Center;
 
-			if(Math.Sign(offset.X) == player.direction) {
-				targetHeadRotation = (offset * player.direction).ToRotation() * LookStrength;
+			if(Math.Sign(offset.X) == Player.direction) {
+				targetHeadRotation = (offset * Player.direction).ToRotation() * LookStrength;
 			}
 
 			headRotation = MathHelper.Lerp(headRotation, targetHeadRotation, 16f * Systems.Time.TimeSystem.LogicDeltaTime);
@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
 		{
 			if(!Main.gameMenu) {
-				player.headRotation = headRotation;
+				Player.headRotation = headRotation;
 			}
 		}
 	}

@@ -18,23 +18,23 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 		}
 		public override void SetDefaults()
 		{
-			npc.CloneDefaults(BaseNPC);
+			NPC.CloneDefaults(BaseNPC);
 
 			//Sound.
-			npc.HitSound = SoundID.NPCHit18;
-			npc.DeathSound = SoundID.NPCDeath21;
+			NPC.HitSound = SoundID.NPCHit18;
+			NPC.DeathSound = SoundID.NPCDeath21;
 			//Buffs.
-			npc.buffImmune[BuffID.Bleeding] = true;
-			npc.buffImmune[BuffID.Poisoned] = true;
-			npc.buffImmune[BuffID.OnFire] = true;
-			npc.buffImmune[BuffID.Venom] = true;
-			npc.buffImmune[BuffID.Confused] = true;
-			npc.buffImmune[BuffID.BrokenArmor] = true;
-			npc.buffImmune[BuffID.Ichor] = true;
-			npc.buffImmune[BuffID.CursedInferno] = true;
+			NPC.buffImmune[BuffID.Bleeding] = true;
+			NPC.buffImmune[BuffID.Poisoned] = true;
+			NPC.buffImmune[BuffID.OnFire] = true;
+			NPC.buffImmune[BuffID.Venom] = true;
+			NPC.buffImmune[BuffID.Confused] = true;
+			NPC.buffImmune[BuffID.BrokenArmor] = true;
+			NPC.buffImmune[BuffID.Ichor] = true;
+			NPC.buffImmune[BuffID.CursedInferno] = true;
 			//Animation.
-			Main.npcFrameCount[npc.type] = Main.npcFrameCount[BaseNPC];
-			animationType = BaseNPC;
+			AnimationType = BaseNPC;
+			Main.npcFrameCount[Type] = Main.npcFrameCount[BaseNPC];
 
 			//OverhaulNPC.goreInfos.AddIfNeedTo(npc.type,() => new NPCGoreInfo(npc,bloodColor:Color.Transparent,goreType:""));
 		}
@@ -42,21 +42,21 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 		{
 			if(!Main.dedServ) {
 				//Slight glow in the dark, due to the eye.
-				Lighting.AddLight(npc.Top, new Vector3(1f, 0.75f, 0f) * 0.15f);
+				Lighting.AddLight(NPC.Top, new Vector3(1f, 0.75f, 0f) * 0.15f);
 			}
 		}
 		public override void HitEffect(int hitDirection, double damage)
 		{
-			int amount = npc.life <= 0 ? 50 : (int)damage;
+			int amount = NPC.life <= 0 ? 50 : (int)damage;
 
 			for(int i = 0; i < amount; i++) {
-				Dust.NewDust(npc.position, npc.width, npc.height, 54, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, 54, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));
 			}
 		}
-		public override void ModifyNPCLoot(ItemDropDatabase database)
+		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
-			database.RegisterToNPC(npc.type, ItemDropRule.Common(ItemID.AshBlock, minimumDropped: 5, maximumDropped: 10));
-			database.RegisterToNPC(npc.type, ItemDropRule.Common(ModContent.ItemType<Charcoal>(), minimumDropped: 1, maximumDropped: 3));
+			npcLoot.Add(ItemDropRule.Common(ItemID.AshBlock, minimumDropped: 5, maximumDropped: 10));
+			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Charcoal>(), minimumDropped: 1, maximumDropped: 3));
 		}
 		public override void PostDraw(SpriteBatch sb, Color drawColor) //TODO: Reimplement this when tML simplifies glowmasks
 		{

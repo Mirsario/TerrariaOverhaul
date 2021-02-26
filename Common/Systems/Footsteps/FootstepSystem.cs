@@ -31,11 +31,6 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 			};
 		}
 
-		public override void Load()
-		{
-
-		}
-
 		public static SoundStyle GetTileFootstepSound(Tile tile)
 		{
 			foreach(var pair in FootstepSoundsByTag) {
@@ -56,11 +51,11 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 			var point = new Point((int)Math.Floor(vec.X), (int)Math.Ceiling(vec.Y));
 			Tile tile = null;
 
-			if(forcedPoint.HasValue && forcedPoint.Value.IsInWorld() && Main.tile.TryGet(forcedPoint.Value, out var tempTile) && tempTile.active()) {
+			if(forcedPoint.HasValue && forcedPoint.Value.IsInWorld() && Main.tile.TryGet(forcedPoint.Value, out var tempTile) && tempTile.IsActive) {
 				tile = tempTile;
 			} else {
 				for(int x = 0; x < 2; x++) {
-					if(Main.tile.TryGet(point.X + x, point.Y, out tempTile) && tempTile.active()) {
+					if(Main.tile.TryGet(point.X + x, point.Y, out tempTile) && tempTile.IsActive) {
 						tile = tempTile;
 
 						break;

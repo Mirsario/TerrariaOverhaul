@@ -64,9 +64,9 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				return;
 			}
 
-			if(Main.tileSolid[tile.type] && tile.active()) {
+			if(Main.tileSolid[tile.type] && tile.IsActive) {
 				//MoveGoreUpwards(point);
-			} else if(tile.liquid > 0) {
+			} else if(tile.LiquidAmount > 0) {
 				OnLiquidCollision(tile);
 			}
 
@@ -172,7 +172,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		private void OnLiquidCollision(Tile tile)
 		{
 			//Evaporate in lava
-			if(tile.lava()) {
+			if(tile.LiquidAmount > 0 && tile.LiquidType == LiquidID.Lava) {
 				SoundEngine.PlaySound(FireSystem.ExtinguishSound, position);
 				
 				for(int i = 0; i < 5; i++) {
@@ -188,7 +188,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			var center = Center;
 			float yPosRelative = center.Y - (float)(Math.Floor(center.Y / 16f) * 16f);
 
-			if(yPosRelative > 16f - tile.liquid / 255f * 16f) {
+			if(yPosRelative > 16f - (tile.LiquidAmount / 255f * 16f)) {
 				velocity.X = MathHelper.Lerp(velocity.X, 0f, 0.5f / 60f);
 				velocity.Y = MathHelper.Lerp(velocity.Y, -3f, 5f / 60f);
 
@@ -261,7 +261,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		{
 			int upY = point.Y - 2;
 
-			if(upY >= 0 && Main.tile.TryGet(point.X, upY, out var upTile) && (!Main.tileSolid[upTile.type] || !upTile.active())) {
+			if(upY >= 0 && Main.tile.TryGet(point.X, upY, out var upTile) && (!Main.tileSolid[upTile.type] || !upTile.IsActive)) {
 				position.Y -= 1;
 				velocity.Y = 0.000001f;
 			}

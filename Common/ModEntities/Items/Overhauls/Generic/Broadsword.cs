@@ -1,11 +1,10 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
-	public class Broadsword : ItemOverhaul
+	public class Broadsword : MeleeWeapon
 	{
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -15,7 +14,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			}
 
 			//Avoid tools and blocks
-			if(item.pick != 0 || item.axe != 0 || item.hammer != 0 || item.createTile >= 0 || item.createWall >= 0) {
+			if(item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
 				return false;
 			}
 
@@ -24,13 +23,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			}
 
 			return true;
-		}
-
-		public override bool? UseItem(Item item, Player player)
-		{
-			//Main.NewText("Swinging a broadsword.");
-
-			return base.UseItem(item, player);
 		}
 	}
 }

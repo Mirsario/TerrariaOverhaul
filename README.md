@@ -41,3 +41,8 @@ The git command for that would be `git clone https://github.com/Mirsario/Terrari
 - Head over to Mod Sources in-game and `Build & Reload` TerrariaOverhaul.
 
 That's all. Use `git fetch` and `git pull` to keep up with updates. Note that you'll need to rerun patching in the tML setup tool when updating tML.
+
+## License
+All code of this repository is provided under [the MIT License](https://github.com/Mirsario/TerrariaOverhaul/blob/1.4/LICENSE.md).
+
+All of the art, audio, and other non-code assets belong to their respective owners and should not be copied and distributed without getting a permission or a license from them.

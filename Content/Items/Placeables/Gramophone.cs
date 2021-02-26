@@ -9,19 +9,19 @@ namespace TerrariaOverhaul.Content.Items.Placeables
 		public override void SetDefaults()
 		{
 			//Placeable properties
-			item.createTile = ModContent.TileType<Tiles.Furniture.Gramophone>();
+			Item.createTile = ModContent.TileType<Tiles.Furniture.Gramophone>();
 			//Use properties.
-			item.useStyle = ItemUseStyleID.Swing;
-			item.useTime = item.useAnimation = 25;
-			item.autoReuse = true;
-			item.consumable = true;
+			Item.useStyle = ItemUseStyleID.Swing;
+			Item.useTime = Item.useAnimation = 25;
+			Item.autoReuse = true;
+			Item.consumable = true;
 			//Universal properties.
-			item.width = 32;
-			item.height = 80;
-			item.rare = ItemRarityID.LightPurple;
-			item.value = Item.buyPrice(0, 5);
-			item.maxStack = 99;
-			item.noUseGraphic = true;
+			Item.width = 32;
+			Item.height = 80;
+			Item.rare = ItemRarityID.LightPurple;
+			Item.value = Item.buyPrice(0, 5);
+			Item.maxStack = 99;
+			Item.noUseGraphic = true;
 		}
 	}
 }

@@ -1,9 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Systems.Decals;
@@ -13,12 +9,14 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
-	//TODO: Use conditional instancing when it's implemented for projectiles.
 	public class ProjectileExplosionImprovements : GlobalProjectileBase
 	{
 		private Vector2 maxSize;
 
 		public override bool InstancePerEntity => true;
+
+		public override bool InstanceForEntity(Projectile projectile, bool lateInstantiation)
+			=> OverhaulProjectileTags.Explosive.Has(projectile.type);
 
 		public override bool PreAI(Projectile projectile)
 		{
@@ -29,10 +27,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
-			if(!OverhaulProjectileTags.Explosive.Has(projectile.type)) {
-				return;
-			}
-
 			maxSize = Vector2.Max(maxSize, projectile.Size);
 
 			if(maxSize.X <= 0f || maxSize.Y <= 0f) {

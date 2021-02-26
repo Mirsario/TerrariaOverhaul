@@ -1,5 +1,4 @@
 ﻿using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
@@ -40,8 +39,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 			speedFactor = MinSpeedFactor;
 			PlaySoundOnEveryUse = true;
 		}
-		public override float UseTimeMultiplier(Item item, Player player) => speedFactor; //Fire rate shenanigans.
-		public override void ModifyWeaponDamage(Item item, Player player, ref Modifier damage, ref float flat) => damage *= 1.05f; //A compensation for fire rate shenanigans.
+		public override float UseTimeMultiplier(Item item, Player player)
+		{
+			return speedFactor; //Fire rate shenanigans.
+		}
+		public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage, ref float flat)
+		{
+			damage *= 1.05f; //A compensation for fire rate shenanigans.
+		}
 		public override void HoldItem(Item item, Player player)
 		{
 			if(player.controlUseItem) {

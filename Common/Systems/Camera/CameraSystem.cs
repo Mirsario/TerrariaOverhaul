@@ -44,7 +44,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			set => Main.screenPosition = new Vector2(value.X - Main.screenWidth * 0.5f, value.Y - Main.screenHeight * 0.5f);
 		}
 
-		private int followNPC = -1;
+		//private int followNPC = -1;
 		private bool noOffsetUpdating;
 		/*private int screenWidthTileSpace;
 		private int screenHeightTileSpace;
@@ -74,14 +74,20 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			cameraUpdateSW = null;
 		}
 
-		internal void ModifyScreenPosition(Player player)
+		public override void ModifyScreenPosition()
 		{
 			if(Main.gameMenu) {
 				return;
 			}
 
+			var player = Main.LocalPlayer;
+
+			if(player?.active != true) {
+				return;
+			}
+
 			var config = Config;
-			var currentFocus = focus ?? GetFocusFor(Main.LocalPlayer);
+			var currentFocus = focus ?? GetFocusFor(player);
 
 			//NaNCheck
 			if(Main.screenPosition.HasNaNs()) {

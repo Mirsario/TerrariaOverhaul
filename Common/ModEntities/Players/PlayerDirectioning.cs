@@ -30,35 +30,35 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private void SetDirection(bool resetForcedDirection)
 		{
-			if(player.altFunctionUse != 0) {
+			if(Player.altFunctionUse != 0) {
 				return;
 			}
 
 			if(!Main.dedServ && Main.gameMenu) {
-				player.direction = 1;
+				Player.direction = 1;
 
 				return;
 			}
 
-			if(player.IsLocal() && Main.hasFocus) {
+			if(Player.IsLocal() && Main.hasFocus) {
 				mouseWorld = Main.MouseWorld;
 
 				if(Main.netMode == NetmodeID.MultiplayerClient && Main.GameUpdateCount % MouseWorldSyncFrequency == 0 && lastSyncedMouseWorld != mouseWorld) {
-					MultiplayerSystem.SendPacket(new PlayerMousePositionPacket(player));
+					MultiplayerSystem.SendPacket(new PlayerMousePositionPacket(Player));
 
 					lastSyncedMouseWorld = mouseWorld;
 				}
 			}
 
-			if(!player.pulley && (!player.mount.Active || player.mount.AllowDirectionChange) && (player.itemAnimation <= 1 || player.HeldItem.useTurn)) {
+			if(!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || Player.HeldItem.useTurn)) {
 				if(forcedDirection != 0) {
-					player.direction = forcedDirection;
+					Player.direction = forcedDirection;
 
 					if(resetForcedDirection) {
 						forcedDirection = 0;
 					}
 				} else {
-					player.direction = mouseWorld.X >= player.Center.X ? 1 : -1;
+					Player.direction = mouseWorld.X >= Player.Center.X ? 1 : -1;
 				}
 			}
 		}

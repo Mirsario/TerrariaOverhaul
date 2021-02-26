@@ -65,19 +65,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 		}
 		public override void PreUpdate()
 		{
-			var mouseWorld = player.GetModPlayer<PlayerDirectioning>().mouseWorld;
-			Vector2 offset = mouseWorld - player.Center;
+			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
+			Vector2 offset = mouseWorld - Player.Center;
 
-			if(Math.Sign(offset.X) == player.direction) {
-				targetItemRotation = (offset * player.direction).ToRotation();
+			if(Math.Sign(offset.X) == Player.direction) {
+				targetItemRotation = (offset * Player.direction).ToRotation();
 			}
 
 			itemRotation = MathHelper.Lerp(itemRotation, targetItemRotation, 16f * TimeSystem.LogicDeltaTime);
 			visualRecoil = MathHelper.Lerp(visualRecoil, 0f, 10f * TimeSystem.LogicDeltaTime);
 
 			//This could go somewhere else?
-			if(player.HeldItem?.IsAir == false && ForceUseAnim(player.HeldItem)) {
-				player.HeldItem.useTurn = true;
+			if(Player.HeldItem?.IsAir == false && ForceUseAnim(Player.HeldItem)) {
+				Player.HeldItem.useTurn = true;
 			}
 		}
 
