@@ -19,8 +19,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 		private float maxDist;
 		private bool noPulling;
 
-		//TODO: When conditional instancing is implemented, instantiate this only for grappling hooks.
 		public override bool InstancePerEntity => true;
+
+		public override bool InstanceForEntity(Projectile projectile, bool lateInstantiation)
+			=> lateInstantiation && projectile.aiStyle == GrapplingHookAIStyle;
 
 		public override void Load()
 		{
