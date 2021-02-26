@@ -38,7 +38,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 			Main.OnPreDraw -= OnPreDraw;
 		}
 
-		public void PostDrawTiles()
+		public override void PostDrawTiles()
 		{
 			var sb = Main.spriteBatch;
 

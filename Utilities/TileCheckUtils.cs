@@ -59,9 +59,9 @@ namespace TerrariaOverhaul.Utilities
 		}
 
 		public static bool CheckSurrounded(int x, int y)
-			=> CheckDiamondAll(x, y, (tile, point) => tile.active() && Main.tileSolid[tile.type]);
+			=> CheckDiamondAll(x, y, (tile, point) => tile.IsActive && Main.tileSolid[tile.type]);
 
 		public static bool CheckTotallySurrounded(int x, int y)
-			=> CheckDiamondAll(x, y, (tile, point) => tile.active() && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type]);
+			=> CheckDiamondAll(x, y, (tile, point) => tile.IsActive && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type]);
 	}
 }
