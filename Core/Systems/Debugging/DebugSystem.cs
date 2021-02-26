@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Systems.Debugging
 {
-	public sealed class DebugSystem : ModSystem
+	public sealed partial class DebugSystem : ModSystem
 	{
 		private static ILog logger;
 
