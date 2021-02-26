@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 	[Autoload(Side = ModSide.Client)]
 	public sealed class ChunkLighting : ChunkComponent
 	{
-		public const int LightingUpdateFrequency = 30;
+		public static int LightingUpdateFrequency => 10;
 
 		public RenderTarget2D Texture { get; private set; }
 		public Surface<Color> Colors { get; private set; }
