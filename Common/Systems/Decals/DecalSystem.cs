@@ -13,6 +13,8 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 {
 	public sealed class DecalSystem : ModSystem
 	{
+		public static readonly BlendState DefaultBlendState = BlendState.AlphaBlend;
+
 		public static Asset<Effect> BloodShader { get; private set; }
 
 		public override void Load()
@@ -24,7 +26,12 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			BloodShader = null;
 		}
 
-		public static void AddDecals(Vector2 point, Color color, bool ifChunkExists = false)
+		public static void ClearDecals(Rectangle dest)
+			=> AddDecals(dest, Color.Transparent, true, BlendState.Opaque);
+		public static void AddDecals(Rectangle dest, Color color, bool ifChunkExists = false, BlendState blendState = null)
+			=> AddDecals(TextureAssets.BlackTile.Value, dest, color, ifChunkExists, blendState);
+
+		public static void AddDecals(Vector2 point, Color color, bool ifChunkExists = false, BlendState blendState = null)
 		{
 			var tilePos = point.ToTileCoordinates();
 
@@ -32,13 +39,9 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				return;
 			}
 
-			AddDecals(new Rectangle((int)(point.X / 2) * 2, (int)(point.Y / 2) * 2, 2, 2), color, ifChunkExists);
+			AddDecals(new Rectangle((int)(point.X / 2) * 2, (int)(point.Y / 2) * 2, 2, 2), color, ifChunkExists, blendState);
 		}
-		public static void AddDecals(Rectangle dest, Color color, bool ifChunkExists = false)
-		{
-			AddDecals(TextureAssets.BlackTile.Value, dest, null, color, ifChunkExists);
-		}
-		public static void AddDecals(Texture2D texture, Rectangle dest, Rectangle? srcRect, Color color, bool ifChunkExists = false)
+		public static void AddDecals(Texture2D texture, Rectangle dest, Color color, bool ifChunkExists = false, BlendState blendState = null)
 		{
 			if(Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
 				return;
@@ -46,6 +49,10 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			if(texture == null) {
 				throw new ArgumentNullException(nameof(texture));
+			}
+
+			if(blendState == null) {
+				blendState = DefaultBlendState;
 			}
 
 			var chunkStart = new Vector2Int(
@@ -98,7 +105,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 						Math.Min(destinationRectInChunkSpace.Bottom, chunk.Rectangle.Bottom)
 					);
 
-					srcRect = (Rectangle)new RectFloat(
+					var srcRect = (Rectangle)new RectFloat(
 						(clippedRectInChunkSpace.x - destinationRectInChunkSpace.x) * (chunk.WorldRectangle.width / dest.Width) * texture.Width,
 						(clippedRectInChunkSpace.y - destinationRectInChunkSpace.y) * (chunk.WorldRectangle.height / dest.Height) * texture.Height,
 						(clippedRectInChunkSpace.width / destinationRectInChunkSpace.width) * texture.Width,
@@ -106,7 +113,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 					);
 
 					//Enqueue a draw for the chunk component to do on its own.
-					chunk.GetComponent<ChunkDecals>().AddDecals(texture, (Rectangle)localDestRect, srcRect, color);
+					chunk.GetComponent<ChunkDecals>().AddDecals(texture, (Rectangle)localDestRect, srcRect, color, blendState);
 				}
 			}
 		}

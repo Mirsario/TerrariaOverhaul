@@ -14,10 +14,26 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 	[Autoload(Side = ModSide.Client)]
 	public sealed class ChunkDecals : ChunkComponent
 	{
+		private struct DecalInfo
+		{
+			public Texture2D texture;
+			public Rectangle destRect;
+			public Rectangle? srcRect;
+			public Color color;
+
+			public DecalInfo(Texture2D texture, Rectangle destRect, Rectangle? srcRect, Color color)
+			{
+				this.texture = texture;
+				this.destRect = destRect;
+				this.srcRect = srcRect;
+				this.color = color;
+			}
+		}
+
 		private static readonly short[] QuadTriangles = { 0, 2, 3, 0, 1, 2 };
 
 		private RenderTarget2D texture;
-		private List<(Texture2D texture, Rectangle destRect, Rectangle? srcRect, Color color)> decalsToAdd;
+		private Dictionary<BlendState, List<DecalInfo>> decalsToAdd;
 
 		public override void OnInit()
 		{
@@ -25,7 +41,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			int textureHeight = Chunk.TileRectangle.Height * 8;
 
 			texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
-			decalsToAdd = new List<(Texture2D, Rectangle, Rectangle?, Color)>();
+			decalsToAdd = new Dictionary<BlendState, List<DecalInfo>>();
 		}
 		public override void OnDispose()
 		{
@@ -47,13 +63,18 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			var sb = Main.spriteBatch;
 
-			sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+			foreach(var pair in decalsToAdd) {
+				var blendState = pair.Key;
+				var drawList = pair.Value;
 
-			foreach(var tuple in decalsToAdd) {
-				sb.Draw(tuple.texture, tuple.destRect, tuple.srcRect, tuple.color);
+				sb.Begin(SpriteSortMode.Deferred, blendState, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+
+				foreach(var info in drawList) {
+					sb.Draw(info.texture, info.destRect, info.srcRect, info.color);
+				}
+
+				sb.End();
 			}
-
-			sb.End();
 
 			Main.instance.GraphicsDevice.SetRenderTarget(null);
 
@@ -124,7 +145,14 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			}
 		}
 
-		public void AddDecals(Texture2D texture, Rectangle localDestRect, Rectangle? srcRect, Color color) => decalsToAdd.Add((texture, localDestRect, srcRect, color));
+		public void AddDecals(Texture2D texture, Rectangle localDestRect, Rectangle? srcRect, Color color, BlendState blendState)
+		{
+			if(!decalsToAdd.TryGetValue(blendState, out var list)) {
+				decalsToAdd[blendState] = list = new List<DecalInfo>();
+			}
+
+			list.Add(new DecalInfo(texture, localDestRect, srcRect, color));
+		}
 
 		private static Matrix GetDefaultMatrix()
 		{
