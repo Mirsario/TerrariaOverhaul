@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Content.Projectiles
 		protected abstract float HoldoutRangeMin { get; }
 		protected abstract float HoldoutRangeMax { get; }
 
-		public sealed override void SetDefaults()
+		public override void SetDefaults()
 		{
 			Projectile.penetrate = -1;
 			Projectile.aiStyle = ProjAIStyleID.Spear;
@@ -19,7 +19,6 @@ namespace TerrariaOverhaul.Content.Projectiles
 			Projectile.timeLeft = UseDuration;
 			Projectile.tileCollide = false;
 		}
-
 		public override bool PreAI()
 		{
 			Player player = Main.player[Projectile.owner];

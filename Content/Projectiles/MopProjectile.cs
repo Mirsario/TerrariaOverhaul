@@ -11,6 +11,13 @@ namespace TerrariaOverhaul.Content.Projectiles
 		protected override float HoldoutRangeMin => 40f;
 		protected override float HoldoutRangeMax => 80f;
 
+		public override void SetDefaults()
+		{
+			base.SetDefaults();
+
+			Projectile.width = 16;
+			Projectile.height = 16;
+		}
 		public override void PostAI()
 		{
 			base.PostAI();
