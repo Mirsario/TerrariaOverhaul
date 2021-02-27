@@ -9,6 +9,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
 	public abstract class MeleeWeapon : ItemOverhaul
 	{
+		public Vector2 AttackDirection { get; private set; }
+		public float AttackAngle { get; private set; }
+
+		public virtual float GetAttackRange(Item item)
+		{
+			return (item.Size * item.scale * 1.25f).Length();
+		}
 		public virtual float GetHeavyness(Item item)
 		{
 			float averageDimension = (item.width + item.height) * 0.5f;
@@ -33,6 +40,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				GetHeavyness(item),
 				0.3f
 			);
+		}
+		public override void UseAnimation(Item item, Player player)
+		{
+			AttackDirection = (Main.MouseWorld - player.Center).SafeNormalize(Vector2.UnitX);
+			AttackAngle = AttackDirection.ToRotation();
+		}
+		public override bool? CanHitNPC(Item item, Player player, NPC target)
+		{
+			float range = GetAttackRange(item);
+
+			return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
 		}
 	}
 }
