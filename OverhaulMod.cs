@@ -4,7 +4,6 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Exceptions;
 using TerrariaOverhaul.Core.Systems.Networking;
 
 namespace TerrariaOverhaul
