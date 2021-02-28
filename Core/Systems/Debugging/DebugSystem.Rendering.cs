@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace TerrariaOverhaul.Core.Systems.Debugging
 {
@@ -30,23 +31,31 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 		
 		private readonly List<Line> LinesToDraw = new List<Line>();
 
+		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+		{
+			layers.Add(new LegacyGameInterfaceLayer($"{nameof(TerrariaOverhaul)}/Debug", () => {
+				if(EnableDebugRendering) {
+					foreach(var line in LinesToDraw) {
+						Vector2 edge = line.end - line.start;
+						Rectangle rect = new Rectangle(
+							(int)Math.Round(line.start.X - Main.screenPosition.X),
+							(int)Math.Round(line.start.Y - Main.screenPosition.Y),
+							(int)edge.Length(),
+							line.width
+						);
+
+						Main.spriteBatch.Draw(TextureAssets.BlackTile.Value, rect, null, line.color, (float)Math.Atan2(edge.Y, edge.X), Vector2.Zero, SpriteEffects.None, 0f);
+					}
+				}
+
+				LinesToDraw.Clear();
+
+				return true;
+			}, InterfaceScaleType.Game));
+		}
 		public override void PostDrawInterface(SpriteBatch sb)
 		{
-			if(EnableDebugRendering) {
-				foreach(var line in LinesToDraw) {
-					Vector2 edge = line.end - line.start;
-					Rectangle rect = new Rectangle(
-						(int)Math.Round(line.start.X - Main.screenPosition.X),
-						(int)Math.Round(line.start.Y - Main.screenPosition.Y),
-						(int)edge.Length(),
-						line.width
-					);
-
-					sb.Draw(TextureAssets.BlackTile.Value, rect, null, line.color, (float)Math.Atan2(edge.Y, edge.X), Vector2.Zero, SpriteEffects.None, 0f);
-				}
-			}
-
-			LinesToDraw.Clear();
+			
 		}
 
 		public static void DrawLine(Vector2 start, Vector2 end, Color color, int width = 2)
