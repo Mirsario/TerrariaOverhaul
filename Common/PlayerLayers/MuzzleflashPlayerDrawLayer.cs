@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns;
+using TerrariaOverhaul.Core.Systems.Debugging;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.PlayerLayers
@@ -53,7 +54,9 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 					var gunPosition = data.position;
 					var gunFixedOrigin = player.direction > 0 ? data.origin : (Vector2.UnitX * data.texture.Width - data.origin);
 
-					Core.Systems.Debugging.DebugSystem.DrawCircle(gunPosition + Main.screenPosition, 4f, Color.White);
+					if(DebugSystem.EnableDebugRendering) {
+						DebugSystem.DrawCircle(gunPosition + Main.screenPosition, 4f, Color.White);
+					}
 
 					var originOffset = new Vector2(
 						(gunBarrelEnd.X - gunFixedOrigin.X) * player.direction,
