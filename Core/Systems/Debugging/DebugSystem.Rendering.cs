@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using log4net;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace TerrariaOverhaul.Core.Systems.Debugging
 {
@@ -31,23 +31,71 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 		
 		private readonly List<Line> LinesToDraw = new List<Line>();
 
+		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+		{
+			layers.Add(new LegacyGameInterfaceLayer($"{nameof(TerrariaOverhaul)}/Debug", () => {
+				if(EnableDebugRendering) {
+					for(int i = 0; i < Main.maxPlayers; i++) {
+						var player = Main.player[i];
+
+						if(player.active) {
+							DrawRectangle(player.getRect(), Color.SpringGreen, 1);
+						}
+					}
+
+					for(int i = 0; i < Main.maxNPCs; i++) {
+						var npc = Main.npc[i];
+
+						if(npc.active) {
+							DrawRectangle(npc.getRect(), Color.IndianRed, 1);
+						}
+					}
+
+					for(int i = 0; i < Main.maxProjectiles; i++) {
+						var projectile = Main.projectile[i];
+
+						if(projectile.active) {
+							DrawRectangle(projectile.getRect(), Color.Orange, 1);
+						}
+					}
+
+					for(int i = 0; i < Main.maxItems; i++) {
+						var item = Main.item[i];
+
+						if(item.active) {
+							DrawRectangle(item.getRect(), Color.DodgerBlue, 1);
+						}
+					}
+
+					for(int i = 0; i < Main.maxGore; i++) {
+						var gore = Main.gore[i];
+
+						if(gore.active) {
+							DrawRectangle(gore.AABBRectangle, Color.Purple, 1);
+						}
+					}
+
+					foreach(var line in LinesToDraw) {
+						Vector2 edge = line.end - line.start;
+						Rectangle rect = new Rectangle(
+							(int)Math.Round(line.start.X - Main.screenPosition.X),
+							(int)Math.Round(line.start.Y - Main.screenPosition.Y),
+							(int)edge.Length(),
+							line.width
+						);
+
+						Main.spriteBatch.Draw(TextureAssets.BlackTile.Value, rect, null, line.color, (float)Math.Atan2(edge.Y, edge.X), Vector2.Zero, SpriteEffects.None, 0f);
+					}
+				}
+
+				LinesToDraw.Clear();
+
+				return true;
+			}, InterfaceScaleType.Game));
+		}
 		public override void PostDrawInterface(SpriteBatch sb)
 		{
-			if(EnableDebugRendering) {
-				foreach(var line in LinesToDraw) {
-					Vector2 edge = line.end - line.start;
-					Rectangle rect = new Rectangle(
-						(int)Math.Round(line.start.X - Main.screenPosition.X),
-						(int)Math.Round(line.start.Y - Main.screenPosition.Y),
-						(int)edge.Length(),
-						line.width
-					);
-
-					sb.Draw(TextureAssets.BlackTile.Value, rect, null, line.color, (float)Math.Atan2(edge.Y, edge.X), Vector2.Zero, SpriteEffects.None, 0f);
-				}
-			}
-
-			LinesToDraw.Clear();
+			
 		}
 
 		public static void DrawLine(Vector2 start, Vector2 end, Color color, int width = 2)

@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace TerrariaOverhaul.Common.Systems.Lighting
+namespace TerrariaOverhaul.Utilities
 {
 	public class Surface<T> : IDisposable where T : unmanaged
 	{

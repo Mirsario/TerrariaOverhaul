@@ -33,6 +33,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		}
 		public override void HoldItem(Item item, Player player)
 		{
+			base.HoldItem(item, player);
+
 			if(player.itemAnimation <= 0 && player.itemTime <= 0 && soundId.IsValid) {
 				var activeSound = SoundEngine.GetActiveSound(soundId);
 

@@ -24,5 +24,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			return true;
 		}
+
+		public override void SetDefaults(Item item) => base.SetDefaults(item);
 	}
 }

@@ -4,7 +4,6 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Exceptions;
 using TerrariaOverhaul.Core.Systems.Networking;
 
 namespace TerrariaOverhaul
@@ -13,7 +12,7 @@ namespace TerrariaOverhaul
 	{
 		public static readonly uint BetaNumber = 1;
 		public static readonly bool IsBeta = BetaNumber > 0;
-		public static readonly string VersionSuffix = $"(ALPHA {BetaNumber})";
+		public static readonly string VersionSuffix = $"(BETA {BetaNumber})";
 		public static readonly string PersonalDirectory = Path.Combine(Main.SavePath, "TerrariaOverhaul");
 		public static readonly Version MinimalTMLVersion = new Version("0.12");
 		public static readonly Assembly Assembly;

@@ -34,7 +34,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 				if(sItem.useStyle == ItemUseStyleID.Shoot) {
 					var modPlayer = player.GetModPlayer<PlayerHoldOutAnimation>();
 
-					player.itemRotation = modPlayer.itemRotation - MathHelper.ToRadians(modPlayer.visualRecoil * player.direction);
+					player.itemRotation = modPlayer.itemRotation - MathHelper.ToRadians(modPlayer.visualRecoil * player.direction * (int)player.gravDir);
 				}
 			};
 

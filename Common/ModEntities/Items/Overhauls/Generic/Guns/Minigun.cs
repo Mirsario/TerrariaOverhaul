@@ -49,6 +49,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		}
 		public override void HoldItem(Item item, Player player)
 		{
+			base.HoldItem(item, player);
+
 			if(player.controlUseItem) {
 				speedFactor = MathUtils.StepTowards(speedFactor, 1f, AccelerationSpeed * TimeSystem.LogicDeltaTime);
 			} else {

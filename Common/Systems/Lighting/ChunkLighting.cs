@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Systems.Chunks;
+using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.Systems.Lighting

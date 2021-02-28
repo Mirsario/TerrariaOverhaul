@@ -1,7 +1,5 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Decals;
-using TerrariaOverhaul.Content.Items.Tools;
 
 namespace TerrariaOverhaul.Content.Projectiles
 {

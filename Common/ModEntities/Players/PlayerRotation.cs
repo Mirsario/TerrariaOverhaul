@@ -44,7 +44,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				rotation += MathHelper.TwoPi;
 			}*/
 
-			Player.fullRotation = rotation;
+			Player.fullRotation = rotation * Player.gravDir;
 
 			rotation = 0f;
 			rotationOffsetScale = 1f;
