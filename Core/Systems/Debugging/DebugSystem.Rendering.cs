@@ -35,6 +35,46 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 		{
 			layers.Add(new LegacyGameInterfaceLayer($"{nameof(TerrariaOverhaul)}/Debug", () => {
 				if(EnableDebugRendering) {
+					for(int i = 0; i < Main.maxPlayers; i++) {
+						var player = Main.player[i];
+
+						if(player.active) {
+							DrawRectangle(player.getRect(), Color.SpringGreen, 1);
+						}
+					}
+
+					for(int i = 0; i < Main.maxNPCs; i++) {
+						var npc = Main.npc[i];
+
+						if(npc.active) {
+							DrawRectangle(npc.getRect(), Color.IndianRed, 1);
+						}
+					}
+
+					for(int i = 0; i < Main.maxProjectiles; i++) {
+						var projectile = Main.projectile[i];
+
+						if(projectile.active) {
+							DrawRectangle(projectile.getRect(), Color.Orange, 1);
+						}
+					}
+
+					for(int i = 0; i < Main.maxItems; i++) {
+						var item = Main.item[i];
+
+						if(item.active) {
+							DrawRectangle(item.getRect(), Color.DodgerBlue, 1);
+						}
+					}
+
+					for(int i = 0; i < Main.maxGore; i++) {
+						var gore = Main.gore[i];
+
+						if(gore.active) {
+							DrawRectangle(gore.AABBRectangle, Color.Purple, 1);
+						}
+					}
+
 					foreach(var line in LinesToDraw) {
 						Vector2 edge = line.end - line.start;
 						Rectangle rect = new Rectangle(
