@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TerrariaOverhaul.Common.Systems.Lighting
+namespace TerrariaOverhaul.Utilities
 {
 	public class Surface<T> : IDisposable where T : unmanaged
 	{
