@@ -50,6 +50,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		}
 		public override void HoldItem(Item item, Player player)
 		{
+			base.HoldItem(item, player);
+
 			if(!Main.dedServ && pumpSound != null && pumpTime != 0 && Main.GameUpdateCount == pumpTime) {
 				SoundEngine.PlaySound(pumpSound, player.Center);
 				SpawnCasings<ShellCasing>(player, shellCount);
