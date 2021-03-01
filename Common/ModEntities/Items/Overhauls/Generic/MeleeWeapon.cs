@@ -82,6 +82,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			return animation.GetValue(step);
 		}
 
+		public override bool ShouldApplyItemOverhaul(Item item) => false;
 		public override void Load()
 		{
 			base.Load();
