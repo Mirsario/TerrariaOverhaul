@@ -48,12 +48,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 		public override void SetDefaults(Item item)
 		{
-			item.UseSound = new BlendedSoundStyle(
-				new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Melee/SwingLight", 4),
-				new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Melee/SwingHeavy", 4),
-				GetHeavyness(item),
-				0.3f
-			);
+			if(item.UseSound != Terraria.ID.SoundID.Item15) {
+				item.UseSound = new BlendedSoundStyle(
+					new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Melee/SwingLight", 4),
+					new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Melee/SwingHeavy", 4),
+					GetHeavyness(item),
+					0.3f
+				);
+			}
 		}
 		public override void UseAnimation(Item item, Player player)
 		{
