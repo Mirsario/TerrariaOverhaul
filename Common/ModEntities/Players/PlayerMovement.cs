@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -9,6 +11,23 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerMovement : PlayerBase
 	{
+		public struct MovementModifier
+		{
+			public static MovementModifier Default = new MovementModifier {
+				gravityScale = 1f,
+				runAccelerationScale = 1f
+			};
+
+			public float gravityScale;
+			public float runAccelerationScale;
+
+			public void Apply(Player player)
+			{
+				player.gravity *= gravityScale;
+				player.runAcceleration *= runAccelerationScale;
+			}
+		}
+
 		public static readonly int VelocityRecordSize = 5;
 		public static readonly float DefaultJumpSpeedScale = 1.52375f;
 		public static readonly float UnderwaterJumpSpeedScale = 0.775f;
@@ -19,6 +38,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public Vector2? forcedPosition;
 		//public Vector2 prevVelocity;
 		public Vector2[] velocityRecord = new Vector2[VelocityRecordSize];
+
+		private Dictionary<string, (ulong endTime, MovementModifier modifier)> movementModifiers = new Dictionary<string, (ulong endTime, MovementModifier modifier)>();
 
 		public override void PreUpdate()
 		{
@@ -79,6 +100,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					Player.velocity.Y *= 0.995f;
 				}
 			}
+
+			HandleMovementModifiers();
 		}
 		public override void PostUpdate()
 		{
@@ -94,11 +117,37 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			Player.oldVelocity = Player.velocity;
 		}
 
-		/*public override bool PreItemCheck()
+		public void SetMovementModifier(string id, int time, MovementModifier modifier)
 		{
-			SetDirection();
+			movementModifiers.TryGetValue(id, out var tuple);
 
-			return true;
-		}*/
+			tuple.endTime = Math.Max(tuple.endTime, TimeSystem.UpdateCount + (ulong)time);
+			tuple.modifier = modifier;
+
+			movementModifiers[id] = tuple;
+		}
+
+		private void HandleMovementModifiers()
+		{
+			List<string> keysToRemove = null;
+
+			foreach(var pair in movementModifiers) {
+				string id = pair.Key;
+				var (endTime, modifier) = pair.Value;
+
+				if(endTime <= TimeSystem.UpdateCount) {
+					(keysToRemove ?? (keysToRemove = new List<string>())).Add(id);
+					continue;
+				}
+
+				modifier.Apply(Player);
+			}
+
+			if(keysToRemove != null) {
+				foreach(var key in keysToRemove) {
+					movementModifiers.Remove(key);
+				}
+			}
+		}
 	}
 }
