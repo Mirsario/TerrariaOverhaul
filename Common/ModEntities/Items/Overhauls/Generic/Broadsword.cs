@@ -40,6 +40,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			base.UseAnimation(item, player);
 
 			FlippedAttack = AttackNumber % 2 != 0;
+
+			if(!Main.dedServ) {
+				ScreenShakeSystem.New(3f, item.useAnimation / 120f);
+			}
 		}
 		public override bool ShouldBeAttacking(Item item, Player player)
 		{
