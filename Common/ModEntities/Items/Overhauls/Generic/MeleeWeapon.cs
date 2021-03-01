@@ -3,9 +3,16 @@ using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.SoundStyles;
+using TerrariaOverhaul.Common.Systems.CombatTexts;
+using TerrariaOverhaul.Common.Systems.Gores;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Utilities.Enums;
+using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
@@ -19,8 +26,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			(2.5f, Color.Red)
 		);
 
+		public bool FlippedAttack { get; protected set; }
 		public Vector2 AttackDirection { get; private set; }
 		public float AttackAngle { get; private set; }
+		public int AttackNumber { get; private set; }
 
 		public virtual bool VelocityBasedDamage => true;
 
@@ -46,6 +55,31 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		public virtual bool ShouldBeAttacking(Item item, Player player)
 		{
 			return player.itemAnimation > 0;
+		}
+		public virtual float GetWeaponRotation(Item item, Player player)
+		{
+			float baseAngle = AttackAngle;
+			float step = 1f - MathHelper.Clamp(player.itemAnimation / (float)player.itemAnimationMax, 0f, 1f);
+			int dir = player.direction * (FlippedAttack ? -1 : 1);
+
+			float minValue = baseAngle - (MathHelper.PiOver2 * 1.25f);
+			float maxValue = baseAngle + (MathHelper.PiOver2 * 1.0f);
+
+			if(dir < 0) {
+				Utils.Swap(ref minValue, ref maxValue);
+			}
+
+			var animation = new Gradient<float>(
+				(0.0f,		minValue),
+				(0.1f,		minValue),
+				(0.15f,		MathHelper.Lerp(minValue, maxValue, 0.125f)),
+				(0.151f,	MathHelper.Lerp(minValue, maxValue, 0.8f)),
+				(0.5f,		maxValue),
+				(0.8f,		MathHelper.Lerp(minValue, maxValue, 0.8f)),
+				(1.0f,		MathHelper.Lerp(minValue, maxValue, 0.8f))
+			);
+
+			return animation.GetValue(step);
 		}
 
 		public override void Load()
@@ -91,9 +125,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			AttackDirection = (Main.MouseWorld - player.Center).SafeNormalize(Vector2.UnitX);
 			AttackAngle = AttackDirection.ToRotation();
+			AttackNumber++;
 		}
 		public override bool? CanHitNPC(Item item, Player player, NPC target)
 		{
+			if(!ShouldBeAttacking(item, player)) {
+				return false;
+			}
+
 			float range = GetAttackRange(item);
 
 			return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
@@ -124,6 +163,65 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 						}
 					}
 				}
+			}
+		}
+		public override void UseItemFrame(Item item, Player player)
+		{
+			base.UseItemFrame(item, player);
+
+			float weaponRotation = MathUtils.Modulo(GetWeaponRotation(item, player), MathHelper.TwoPi);
+			float pitch = MathUtils.RadiansToPitch(weaponRotation);
+			var weaponDirection = weaponRotation.ToRotationVector2();
+
+			if(Math.Sign(weaponDirection.X) != player.direction) {
+				pitch = weaponDirection.Y < 0f ? 1f : 0f;
+			}
+
+			player.bodyFrame = PlayerFrames.Use3.ToRectangle();
+
+			//Main.NewText($"{degrees:0.00} -> {i}");
+
+			Vector2 locationOffset;
+
+			if(pitch > 0.95f) {
+				player.bodyFrame = PlayerFrames.Use1.ToRectangle();
+				locationOffset = new Vector2(-8f, -9f);
+			} else if(pitch > 0.7f) {
+				player.bodyFrame = PlayerFrames.Use2.ToRectangle();
+				locationOffset = new Vector2(4f, -8f);
+			} else if(pitch > 0.3f) {
+				player.bodyFrame = PlayerFrames.Use3.ToRectangle();
+				locationOffset = new Vector2(4f, 2f);
+			} else if(pitch > 0.05f) {
+				player.bodyFrame = PlayerFrames.Use4.ToRectangle();
+				locationOffset = new Vector2(4f, 7f);
+			} else {
+				//player.bodyFrame = PlayerFrames.Walk4.ToRectangle();
+				//locationOffset = new Vector2(-8f, 2f);
+				player.bodyFrame = PlayerFrames.Walk5.ToRectangle();
+				locationOffset = new Vector2(-8f, 2f);
+				//player.bodyFrame = PlayerFrames.Use4.ToRectangle();
+				//locationOffset = new Vector2(-8f, 2f);
+			}
+
+			player.itemRotation = weaponRotation + MathHelper.PiOver4;
+
+			if(player.direction < 0) {
+				player.itemRotation += MathHelper.PiOver2;
+			}
+
+			player.itemLocation = player.Center + new Vector2(locationOffset.X * player.direction, locationOffset.Y);
+
+			if(player.velocity.Y == 0f && player.KeyDirection() == 0) {
+				if(Math.Abs(AttackDirection.X) > 0.5f) {
+					player.legFrame = (FlippedAttack ? PlayerFrames.Walk8 : PlayerFrames.Jump).ToRectangle();
+				} else {
+					player.legFrame = PlayerFrames.Walk13.ToRectangle();
+				}
+			}
+
+			if(TerrariaOverhaul.Core.Systems.Debugging.DebugSystem.EnableDebugRendering) {
+				TerrariaOverhaul.Core.Systems.Debugging.DebugSystem.DrawCircle(player.itemLocation, 3f, Color.White);
 			}
 		}
 		//Hitting

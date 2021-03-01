@@ -1,6 +1,9 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
@@ -24,7 +27,23 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			return true;
 		}
+		public override void SetDefaults(Item item)
+		{
+			base.SetDefaults(item);
 
-		public override void SetDefaults(Item item) => base.SetDefaults(item);
+			//item.useAnimation /= 2;
+			//item.useTime /= 2;
+			//item.reuseDelay += item.useAnimation;
+		}
+		public override void UseAnimation(Item item, Player player)
+		{
+			base.UseAnimation(item, player);
+
+			FlippedAttack = AttackNumber % 2 != 0;
+		}
+		public override bool ShouldBeAttacking(Item item, Player player)
+		{
+			return base.ShouldBeAttacking(item, player) && player.itemAnimation >= player.itemAnimationMax / 2;
+		}
 	}
 }

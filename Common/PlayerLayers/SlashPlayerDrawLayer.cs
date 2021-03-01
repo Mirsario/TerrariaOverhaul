@@ -4,8 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic;
+using TerrariaOverhaul.Common.Systems.TextureColors;
+using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.PlayerLayers
 {
@@ -16,7 +19,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 		public override void Load()
 		{
-			texture = Mod.GetTexture("Common/PlayerLayers/Slash");
+			texture = Mod.GetTexture($"{Utilities.ModPathUtils.GetDirectory(GetType())}/Slash");
 		}
 		public override void Unload()
 		{
@@ -30,7 +33,15 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 		{
 			var player = drawInfo.drawPlayer;
 
-			if(player.itemAnimation <= 0) {
+			if(player.itemAnimation <= 0 || player.itemAnimationMax <= 0) {
+				return;
+			}
+
+			float useProgress = player.itemAnimation / (float)player.itemAnimationMax;
+
+			useProgress = (useProgress * 2f) - 1f;
+
+			if(useProgress < 0) {
 				return;
 			}
 
@@ -40,49 +51,42 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 				return;
 			}
 
+			//Framing
 			var frame = TextureFrame;
 
-			frame.CurrentRow = (byte)((player.itemAnimation / (float)player.itemAnimationMax) * frame.RowCount);
+			frame.CurrentRow = (byte)(useProgress * frame.RowCount);
 
+			//Attack info
 			var attackDirection = meleeWeapon.AttackDirection;
 			float attackAngle = meleeWeapon.AttackAngle;
 			float attackRange = meleeWeapon.GetAttackRange(item);
 
+			//Drawing info
 			var tex = texture.Value;
-			var position = player.Center + attackDirection * (attackRange / 2.2f);
+			var position = player.Center + attackDirection * 2f;
 			var sourceRectangle = frame.GetSourceRectangle(tex);
 			float rotation = attackAngle;
 			Vector2 origin = sourceRectangle.Size() * 0.5f;
-			float scale = attackRange / 50f;
-			var effect = player.direction > 0 ? SpriteEffects.FlipVertically : SpriteEffects.None;
+			float scale = attackRange / 30f;
+			var effect = ((player.direction > 0) ^ meleeWeapon.FlippedAttack) ? SpriteEffects.FlipVertically : SpriteEffects.None;
 
-			drawInfo.DrawDataCache.Add(new DrawData(tex, position - Main.screenPosition, sourceRectangle, Color.White, rotation, origin, scale, effect, 0));
+			//Color calculation
+			Main.instance.LoadItem(item.type);
 
-			/*var player = drawInfo.drawPlayer;
+			const float MaxAlpha = 0.33f;
 
-			var tex = texture.Value;
-			Vector2 vectorA = new Vector2(tex.Width / 2, tex.Height / 2);
-			Vector2 vectorB = Main.DrawPlayerItemPos(drawInfo.drawPlayer.gravDir, player.HeldItem.type);
-			vectorA.Y = vectorB.Y;
+			var alphaGradient = new Gradient<float>(
+				(0.00f, 0f),
+				(0.25f, MaxAlpha),
+				(0.75f, MaxAlpha),
+				(1.00f, 0f)
+			);
 
-			Vector2 position = drawInfo.ItemLocation + vectorA - Main.screenPosition;
-			Vector2 origin = new Vector2(0f, tex.Height / 2);
+			var itemTextureAsset = TextureAssets.Item[item.type];
+			var color = Lighting.GetColor(position.ToTileCoordinates()).MultiplyRGB(TextureColorSystem.GetAverageColor(itemTextureAsset)) * alphaGradient.GetValue(useProgress);
 
-			if(drawInfo.itemEffect != SpriteEffects.FlipHorizontally) {
-				origin.X = -tex.Width * 0.4f;
-			}
-
-			drawInfo.DrawDataCache.Add(new DrawData(
-				tex,
-				position,
-				null,
-				Color.White,
-				player.itemRotation,
-				origin,
-				1f,
-				drawInfo.itemEffect,
-				0
-			));*/
+			//Drawing
+			drawInfo.DrawDataCache.Add(new DrawData(tex, position - Main.screenPosition, sourceRectangle, color, rotation, origin, scale, effect, 0));
 		}
 	}
 }
