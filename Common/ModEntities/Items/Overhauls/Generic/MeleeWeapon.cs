@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
-	public abstract class MeleeWeapon : ItemOverhaul
+	public class MeleeWeapon : ItemOverhaul
 	{
 		private static readonly Gradient<Color> DamageScaleColor = new Gradient<Color>(
 			(0f, Color.Black),
@@ -86,29 +86,31 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			base.Load();
 
-			//Disable attackCD for melee.
-			IL.Terraria.Player.ItemCheck_MeleeHitNPCs += context => {
-				var cursor = new ILCursor(context);
+			if(GetType() == typeof(MeleeWeapon)) {
+				//Disable attackCD for melee.
+				IL.Terraria.Player.ItemCheck_MeleeHitNPCs += context => {
+					var cursor = new ILCursor(context);
 
-				if(!cursor.TryGotoNext(
-					MoveType.Before,
-					i => i.Match(OpCodes.Ldarg_0),
-					i => i.Match(OpCodes.Ldc_I4_1),
-					i => i.Match(OpCodes.Ldarg_0),
-					i => i.MatchLdfld(typeof(Player), nameof(Player.itemAnimationMax)),
-					i => i.Match(OpCodes.Conv_R8),
-					i => i.MatchLdcR8(0.33d),
-					i => i.Match(OpCodes.Mul),
-					i => i.Match(OpCodes.Conv_I4),
-					i => i.MatchCall(typeof(Math), nameof(Math.Max)),
-					i => i.MatchStfld(typeof(Player), nameof(Player.attackCD))
-				)) {
-					throw new Exception($"{nameof(Broadsword)}: IL Failure.");
-				}
+					if(!cursor.TryGotoNext(
+						MoveType.Before,
+						i => i.Match(OpCodes.Ldarg_0),
+						i => i.Match(OpCodes.Ldc_I4_1),
+						i => i.Match(OpCodes.Ldarg_0),
+						i => i.MatchLdfld(typeof(Player), nameof(Player.itemAnimationMax)),
+						i => i.Match(OpCodes.Conv_R8),
+						i => i.MatchLdcR8(0.33d),
+						i => i.Match(OpCodes.Mul),
+						i => i.Match(OpCodes.Conv_I4),
+						i => i.MatchCall(typeof(Math), nameof(Math.Max)),
+						i => i.MatchStfld(typeof(Player), nameof(Player.attackCD))
+					)) {
+						throw new Exception($"{nameof(Broadsword)}: IL Failure.");
+					}
 
-				//TODO: Instead of removing the code, skip over it if the item has a MeleeWeapon overhaul
-				cursor.RemoveRange(10);
-			};
+					//TODO: Instead of removing the code, skip over it if the item has a MeleeWeapon overhaul
+					cursor.RemoveRange(10);
+				};
+			}
 		}
 		public override void SetDefaults(Item item)
 		{
