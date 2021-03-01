@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.SoundStyles;
@@ -46,6 +48,34 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			return player.itemAnimation > 0;
 		}
 
+		public override void Load()
+		{
+			base.Load();
+
+			//Disable attackCD for melee.
+			IL.Terraria.Player.ItemCheck_MeleeHitNPCs += context => {
+				var cursor = new ILCursor(context);
+
+				if(!cursor.TryGotoNext(
+					MoveType.Before,
+					i => i.Match(OpCodes.Ldarg_0),
+					i => i.Match(OpCodes.Ldc_I4_1),
+					i => i.Match(OpCodes.Ldarg_0),
+					i => i.MatchLdfld(typeof(Player), nameof(Player.itemAnimationMax)),
+					i => i.Match(OpCodes.Conv_R8),
+					i => i.MatchLdcR8(0.33d),
+					i => i.Match(OpCodes.Mul),
+					i => i.Match(OpCodes.Conv_I4),
+					i => i.MatchCall(typeof(Math), nameof(Math.Max)),
+					i => i.MatchStfld(typeof(Player), nameof(Player.attackCD))
+				)) {
+					throw new Exception($"{nameof(Broadsword)}: IL Failure.");
+				}
+
+				//TODO: Instead of removing the code, skip over it if the item has a MeleeWeapon overhaul
+				cursor.RemoveRange(10);
+			};
+		}
 		public override void SetDefaults(Item item)
 		{
 			if(item.UseSound != Terraria.ID.SoundID.Item15) {
