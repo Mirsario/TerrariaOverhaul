@@ -31,6 +31,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			return MathHelper.Clamp(result, 0f, 1f);
 		}
+		public virtual bool ShouldBeAttacking(Item item, Player player)
+		{
+			return player.itemAnimation > 0;
+		}
 
 		public override void SetDefaults(Item item)
 		{
@@ -51,6 +55,34 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			float range = GetAttackRange(item);
 
 			return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
+		}
+		public override void HoldItem(Item item, Player player)
+		{
+			base.HoldItem(item, player);
+
+			//Hit gore.
+			if(player.itemAnimation >= player.itemAnimationMax - 1 && ShouldBeAttacking(item, player)) {
+				float range = GetAttackRange(item);
+				float arcRadius = MathHelper.Pi * 0.5f;
+
+				const int MaxHits = 5;
+
+				int numHit = 0;
+
+				for(int i = 0; i < Main.maxGore; i++) {
+					if(!(Main.gore[i] is OverhaulGore gore) || !gore.active || gore.time < 30) {
+						continue;
+					}
+
+					if(CollisionUtils.CheckRectangleVsArcCollision(gore.AABBRectangle, player.Center, AttackAngle, arcRadius, range)) {
+						gore.HitGore(AttackDirection);
+
+						if(++numHit >= MaxHits) {
+							break;
+						}
+					}
+				}
+			}
 		}
 		public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
 		{
