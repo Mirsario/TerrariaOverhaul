@@ -1,13 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using TerrariaOverhaul.Utilities.Enums;
+using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerAnimations : PlayerBase
 	{
-		private const int PlayerSheetWidth = 40;
-		private const int PlayerSheetHeight = 56;
-
 		public PlayerFrames? forcedHeadFrame;
 		public PlayerFrames? forcedBodyFrame;
 		public PlayerFrames? forcedLegFrame;
@@ -17,7 +15,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			void TryForceFrame(ref Rectangle frame, ref PlayerFrames? newFrame)
 			{
 				if(newFrame.HasValue) {
-					frame = new Rectangle(0, PlayerSheetHeight * (int)newFrame.Value, PlayerSheetWidth, PlayerSheetHeight);
+					frame = newFrame.Value.ToRectangle();
 
 					newFrame = null;
 				}
