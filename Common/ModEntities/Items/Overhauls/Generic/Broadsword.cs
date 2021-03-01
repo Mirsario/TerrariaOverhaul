@@ -41,6 +41,21 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			FlippedAttack = AttackNumber % 2 != 0;
 
+			var verticalVelocityScaleGradient = new Gradient<float>(
+				(-1.0f, 3.0f),
+				(-0.5f, 3.0f),
+				( 0.0f, 3.0f),
+				( 0.5f, 3.0f),
+				( 0.8f, 9.0f),
+				( 1.0f, 9.0f)
+			);
+			var dashVelocity = new Vector2(
+				3f * (player.velocity.Y == 0f ? 1f : 0.5f),
+				verticalVelocityScaleGradient.GetValue(AttackDirection.Y)
+			);
+
+			BasicVelocityDash(player, AttackDirection, dashVelocity, false);
+
 			if(!Main.dedServ) {
 				ScreenShakeSystem.New(3f, item.useAnimation / 120f);
 			}

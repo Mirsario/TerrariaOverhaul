@@ -273,6 +273,39 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			base.OnHitNPC(item, player, target, damage, knockBack, crit);
 
 			target.GetGlobalNPC<NPCAttackCooldowns>().SetAttackCooldown(target, 20, true);
+
+			var movement = player.GetModPlayer<Players.PlayerMovement>();
+			var modifier = Players.PlayerMovement.MovementModifier.Default;
+
+			if(player.velocity.Y != 0f) {
+				if(AttackDirection.Y < 0f) {
+					modifier.gravityScale *= 0.0f;
+				}
+
+				if(AttackDirection.Y < -0.33f) {
+					player.velocity.Y = Math.Min(0f, player.velocity.Y);
+				}
+			}
+
+			movement.SetMovementModifier($"{nameof(MeleeWeapon)}/{nameof(OnHitNPC)}", 10, modifier);
+		}
+
+		protected void BasicVelocityDash(Player player, Vector2 direction, Vector2 maxVelocity, bool powerAttack)
+		{
+			if(player.pulley) { // || oPlayer.OnIce) {
+				return;
+			}
+
+			bool isPlayerOnGround = player.OnGround();
+			float xSpeed = direction.X * maxVelocity.X;
+
+			if(player.KeyDirection() == 0) {
+				player.velocity.X = direction.X < 0f ? Math.Min(player.velocity.X, xSpeed) : Math.Max(player.velocity.X, xSpeed);
+			}
+
+			if(player.velocity.Y != 0f || powerAttack) {
+				player.velocity.Y += direction.Y * maxVelocity.Y * (isPlayerOnGround ? 1f : 0.35f);
+			}
 		}
 	}
 }
