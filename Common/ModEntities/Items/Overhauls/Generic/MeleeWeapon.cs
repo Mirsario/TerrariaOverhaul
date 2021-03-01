@@ -52,5 +52,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
 		}
+		public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
+		{
+			base.OnHitNPC(item, player, target, damage, knockBack, crit);
+
+			target.GetGlobalNPC<NPCAttackCooldowns>().SetAttackCooldown(target, 20, true);
+		}
 	}
 }
