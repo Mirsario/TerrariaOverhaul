@@ -9,8 +9,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
 	public abstract class MeleeWeapon : ItemOverhaul
 	{
+		private static readonly Gradient<Color> DamageScaleColor = new Gradient<Color>(
+			(0f, Color.Black),
+			(1f, Color.LightGray),
+			(1.25f, Color.Green),
+			(1.75f, Color.Yellow),
+			(2.5f, Color.Red)
+		);
+
 		public Vector2 AttackDirection { get; private set; }
 		public float AttackAngle { get; private set; }
+
+		public virtual bool VelocityBasedDamage => true;
 
 		public virtual float GetAttackRange(Item item)
 		{
@@ -81,6 +91,50 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 							break;
 						}
 					}
+				}
+			}
+		}
+		//Hitting
+		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
+		{
+			base.ModifyHitNPC(item, player, target, ref damage, ref knockback, ref crit);
+
+			if(VelocityBasedDamage) {
+				float velocityDamageScale = Math.Max(1f, 0.78f + player.velocity.Length() / 8f);
+
+				knockback *= velocityDamageScale;
+				damage = (int)Math.Round(damage * velocityDamageScale);
+
+				if(!Main.dedServ) {
+					bool critBackup = crit;
+
+					CombatTextSystem.AddFilter(1, text => {
+						bool isCharged = false;
+						string additionalInfo = $"({(critBackup ? "CRITx" : null)}{(isCharged ? "POWERx" : critBackup ? null : "x")}{velocityDamageScale:0.00})";
+						float gradientScale = velocityDamageScale;
+
+						if(critBackup) {
+							gradientScale *= 2;
+						}
+
+						if(isCharged) {
+							gradientScale *= 1.3f;
+						}
+
+						var font = FontAssets.CombatText[critBackup ? 1 : 0].Value;
+						var size = font.MeasureString(text.text);
+
+						text.color = DamageScaleColor.GetValue(gradientScale);
+						text.position.Y -= 16f;
+
+						/*if(headshot) {
+							text.text += "!";
+						}*/
+
+						//text.text += $"\r\n{additionalInfo}";
+
+						CombatText.NewText(new Rectangle((int)(text.position.X + size.X * 0.5f), (int)(text.position.Y + size.Y + 4), 1, 1), text.color, additionalInfo, critBackup);
+					});
 				}
 			}
 		}
