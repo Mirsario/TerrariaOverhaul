@@ -45,8 +45,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				(-1.0f, 3.0f),
 				(-0.5f, 3.0f),
 				( 0.0f, 3.0f),
-				( 0.5f, 3.0f),
-				( 0.8f, 9.0f),
+				( 0.5f, 9.0f),
 				( 1.0f, 9.0f)
 			);
 			var dashVelocity = new Vector2(
