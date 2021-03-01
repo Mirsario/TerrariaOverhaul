@@ -16,12 +16,20 @@ namespace TerrariaOverhaul.Common.Systems.Time
 
 		public static readonly DateTime FirstLoadDate = DateTime.Now;
 		public static readonly Gradient<float> DayGradient = new Gradient<float>(
-			new[] { 0f, 14000f, 39000f, 49000f, 80000f, FullDayLength },
-			new[] { 0.125f, 1f, 1f, 0f, 0f, 0.125f }
+			(0f, 0.125f),
+			(14000f, 1f),
+			(39000f, 1f),
+			(49000f, 0f),
+			(80000f, 0f),
+			(FullDayLength, 0.125f)
 		);
 		public static readonly Gradient<float> NightGradient = new Gradient<float>(
-			new[] { 0f, 14000f, 39000f, 49000f, 80000f, FullDayLength },
-			new[] { 0.875f, 0f, 0f, 1f, 1f, 0.875f }
+			(0f, 0.875f),
+			(14000f, 0f),
+			(39000f, 0f),
+			(49000f, 1f),
+			(80000f, 1f),
+			(FullDayLength, 0.875f)
 		);
 
 		public static DateTime lastLoadDate;

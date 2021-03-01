@@ -45,20 +45,22 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 			Gradient<Vector4>.LerpFunc = Vector4.Lerp;
 		}
 
-		public Gradient(float[] positions, T[] values)
+		public Gradient(params (float position, T value)[] values)
 		{
 			if(LerpFunc == null) {
 				throw new NotSupportedException($"Gradient<{typeof(T).Name}>.{nameof(Gradient<float>.LerpFunc)} is not defined.");
 			}
 
-			if(positions.Length != values.Length || positions.Length == 0) {
-				throw new ArgumentException("Array lengths must be equal and not be zero.");
+			if(values.Length == 0) {
+				throw new ArgumentException("Array length must not be zero.");
 			}
 
-			keys = new GradientKey[positions.Length];
+			keys = new GradientKey[values.Length];
 
 			for(int i = 0; i < keys.Length; i++) {
-				keys[i] = new GradientKey(positions[i], values[i]);
+				var (position, value) = values[i];
+
+				keys[i] = new GradientKey(position, value);
 			}
 		}
 
