@@ -1,9 +1,35 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities
 {
 	public static class MathUtils
 	{
+		public static float RadiansToPitch(float radians)
+		{
+			radians = Modulo(radians, MathHelper.TwoPi);
+
+			if(radians < MathHelper.PiOver2) {
+				return 0.5f - radians / MathHelper.Pi; // [0.5 - 1.0]
+			} else if(radians < MathHelper.Pi * 1.5f) {
+				return (radians - MathHelper.PiOver2) / MathHelper.Pi; // [0.0 - 1.0]
+			} else {
+				return 1f - ((radians - MathHelper.Pi * 1.5f) / MathHelper.Pi); // [0.0 - 0.5]
+			}
+		}
+		public static float DegreesToPitch(float degrees)
+		{
+			degrees = Modulo(degrees, 360f);
+
+			if(degrees < 90f) {
+				return 0.5f - (degrees / 180f); // [0.5 - 1.0]
+			} else if(degrees < 270f) {
+				return (degrees - 90f) / 180f; // [0.0 - 1.0]
+			} else {
+				return 1f - ((degrees - 270f) / 180f); // [0.0 - 0.5]
+			}
+		}
+
 		public static int Modulo(int value, int length)
 		{
 			int r = value % length;
