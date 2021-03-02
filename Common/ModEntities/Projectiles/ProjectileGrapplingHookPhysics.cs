@@ -239,6 +239,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				return false;
 			}
 
+			//Ignore fake minecart hooks.
+			if(proj.type == ProjectileID.TrackHook) {
+				return false;
+			}
+
 			if(player.EnumerateGrapplingHooks().Any(tuple => GetHooked(tuple.projectile) && tuple.projectile != proj)) {
 				return false;
 			}
