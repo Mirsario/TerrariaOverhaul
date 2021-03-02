@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ItemAnimations;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Utilities.DataStructures;
 
@@ -9,6 +10,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
 	public class Broadsword : MeleeWeapon
 	{
+		public override MeleeAnimation Animation => ModContent.GetInstance<QuickSlashMeleeAnimation>();
+
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			//Broadswords always swing, deal melee damage, don't have channeling, and are visible

@@ -5,10 +5,12 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ItemAnimations;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.SoundStyles;
 using TerrariaOverhaul.Common.Systems.CombatTexts;
 using TerrariaOverhaul.Common.Systems.Gores;
+using TerrariaOverhaul.Core.Systems.Debugging;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
@@ -32,6 +34,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		public int AttackNumber { get; private set; }
 
 		public virtual bool VelocityBasedDamage => true;
+		public virtual MeleeAnimation Animation => ModContent.GetInstance<GenericMeleeAnimation>();
 
 		public virtual float GetAttackRange(Item item)
 		{
@@ -55,31 +58,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		public virtual bool ShouldBeAttacking(Item item, Player player)
 		{
 			return player.itemAnimation > 0;
-		}
-		public virtual float GetWeaponRotation(Item item, Player player)
-		{
-			float baseAngle = AttackAngle;
-			float step = 1f - MathHelper.Clamp(player.itemAnimation / (float)player.itemAnimationMax, 0f, 1f);
-			int dir = player.direction * (FlippedAttack ? -1 : 1);
-
-			float minValue = baseAngle - (MathHelper.PiOver2 * 1.25f);
-			float maxValue = baseAngle + (MathHelper.PiOver2 * 1.0f);
-
-			if(dir < 0) {
-				Utils.Swap(ref minValue, ref maxValue);
-			}
-
-			var animation = new Gradient<float>(
-				(0.0f,		minValue),
-				(0.1f,		minValue),
-				(0.15f,		MathHelper.Lerp(minValue, maxValue, 0.125f)),
-				(0.151f,	MathHelper.Lerp(minValue, maxValue, 0.8f)),
-				(0.5f,		maxValue),
-				(0.8f,		MathHelper.Lerp(minValue, maxValue, 0.8f)),
-				(1.0f,		MathHelper.Lerp(minValue, maxValue, 0.8f))
-			);
-
-			return animation.GetValue(step);
 		}
 
 		public override bool ShouldApplyItemOverhaul(Item item) => false;
@@ -172,7 +150,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			base.UseItemFrame(item, player);
 
-			float weaponRotation = MathUtils.Modulo(GetWeaponRotation(item, player), MathHelper.TwoPi);
+			float weaponRotation = MathUtils.Modulo(Animation.GetItemRotation(item, player), MathHelper.TwoPi);
 			float pitch = MathUtils.RadiansToPitch(weaponRotation);
 			var weaponDirection = weaponRotation.ToRotationVector2();
 
@@ -223,8 +201,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				}
 			}
 
-			if(TerrariaOverhaul.Core.Systems.Debugging.DebugSystem.EnableDebugRendering) {
-				TerrariaOverhaul.Core.Systems.Debugging.DebugSystem.DrawCircle(player.itemLocation, 3f, Color.White);
+			if(DebugSystem.EnableDebugRendering) {
+				DebugSystem.DrawCircle(player.itemLocation, 3f, Color.White);
 			}
 		}
 		//Hitting
