@@ -77,7 +77,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 				power += maxPower * (shake.time / shake.TimeMax);
 			}
 
-			return power * CameraSystem.Config.screenShakeStrength;
+			return power * CameraSystem.LocalConfig.screenShakeStrength;
 		}
 
 		public static void New(float power, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string uniqueId = null)
