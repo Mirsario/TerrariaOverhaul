@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public override bool InstancePerEntity => true;
 
-		public override bool InstanceForEntity(Projectile projectile, bool lateInstantiation)
+		public override bool AppliesToEntity(Projectile projectile, bool lateInstantiation)
 			=> OverhaulProjectileTags.Explosive.Has(projectile.type);
 
 		public override bool PreAI(Projectile projectile)

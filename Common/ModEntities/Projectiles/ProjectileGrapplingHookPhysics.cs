@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public override bool InstancePerEntity => true;
 
-		public override bool InstanceForEntity(Projectile projectile, bool lateInstantiation)
+		public override bool AppliesToEntity(Projectile projectile, bool lateInstantiation)
 			=> lateInstantiation && projectile.aiStyle == GrapplingHookAIStyle;
 
 		public override void Load()

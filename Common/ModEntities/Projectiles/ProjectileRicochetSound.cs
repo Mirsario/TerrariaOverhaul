@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 	{
 		public static readonly ModSoundStyle RicochetSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/HitEffects/Ricochet", 2, volume: 0.1f); 
 
-		public override bool InstanceForEntity(Projectile projectile, bool lateInstantiation)
+		public override bool AppliesToEntity(Projectile projectile, bool lateInstantiation)
 			=> OverhaulProjectileTags.Bullet.Has(projectile.type);
 
 		public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
