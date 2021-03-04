@@ -13,33 +13,40 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 {
 	public class FootstepSystem : ModSystem
 	{
-		private static readonly SoundStyle DefaultFoostepSound;
-		private static readonly Dictionary<TagData, SoundStyle> FootstepSoundsByTag;
+		private static SoundStyle defaultFoostepSound;
+		private static Dictionary<TagData, SoundStyle> footstepSoundsByTag;
 
-		static FootstepSystem()
+		public override void Load()
 		{
-			DefaultFoostepSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Stone/Step", 11);
-			FootstepSoundsByTag = new Dictionary<TagData, SoundStyle> {
-				{ OverhaulTileTags.Stone, DefaultFoostepSound },
-				{ OverhaulTileTags.Dirt, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Dirt/Step", 11) },
-				{ OverhaulTileTags.Grass, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Grass/Step", 10) },
-				{ OverhaulTileTags.Sand, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Sand/Step", 11) },
-				{ OverhaulTileTags.Snow, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Snow/Step", 11) },
-				{ OverhaulTileTags.Wood, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Wood/Step", 11) },
-				{ OverhaulTileTags.Mud, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Gross/Step", 3) } //TODO: Update with better audio.
+			const float Volume = 0.5f;
+
+			defaultFoostepSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Stone/Step", 11, volume: Volume);
+			footstepSoundsByTag = new Dictionary<TagData, SoundStyle> {
+				{ OverhaulTileTags.Stone, defaultFoostepSound },
+				{ OverhaulTileTags.Dirt, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Dirt/Step", 11, volume: Volume) },
+				{ OverhaulTileTags.Grass, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Grass/Step", 10, volume: Volume) },
+				{ OverhaulTileTags.Sand, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Sand/Step", 11, volume: Volume) },
+				{ OverhaulTileTags.Snow, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Snow/Step", 11, volume: Volume) },
+				{ OverhaulTileTags.Wood, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Wood/Step", 11, volume: Volume) },
+				{ OverhaulTileTags.Mud, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Gross/Step", 3, volume: Volume) } //TODO: Update with better audio.
 				//TODO: Add leaves
 			};
+		}
+		public override void Unload()
+		{
+			defaultFoostepSound = null;
+			footstepSoundsByTag = null;
 		}
 
 		public static SoundStyle GetTileFootstepSound(Tile tile)
 		{
-			foreach(var pair in FootstepSoundsByTag) {
+			foreach(var pair in footstepSoundsByTag) {
 				if(pair.Key.Has(tile.type)) {
 					return pair.Value;
 				}
 			}
 
-			return DefaultFoostepSound;
+			return defaultFoostepSound;
 		}
 		public static bool Foostep(Entity entity, Point16? forcedPoint = null)
 		{
