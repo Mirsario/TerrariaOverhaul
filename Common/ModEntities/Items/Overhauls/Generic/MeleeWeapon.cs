@@ -210,6 +210,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			base.ModifyHitNPC(item, player, target, ref damage, ref knockback, ref crit);
 
+			//Make directional knockback work with melee.
+			if(target.TryGetGlobalNPC(out NPCDirectionalKnockback npcKnockback)) {
+				npcKnockback.SetNextKnockbackDirection(AttackDirection);
+			}
+
 			if(VelocityBasedDamage) {
 				float velocityDamageScale = Math.Max(1f, 0.78f + player.velocity.Length() / 8f);
 
