@@ -253,7 +253,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			base.OnHitNPC(item, player, target, damage, knockBack, crit);
 
-			target.GetGlobalNPC<NPCAttackCooldowns>().SetAttackCooldown(target, 20, true);
+			target.GetGlobalNPC<NPCAttackCooldowns>().SetAttackCooldown(target, player.itemAnimationMax, true);
 
 			if(player.velocity.Y != 0f || Math.Abs(target.oldVelocity.Y) > 0.3f) {
 				target.GetGlobalNPC<NPCFreezeFrames>().SetFreezeFrames(target, Math.Min(5, player.itemAnimationMax / 3));
@@ -263,8 +263,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			var modifier = Players.PlayerMovement.MovementModifier.Default;
 
 			if(player.velocity.Y != 0f) {
-				if(AttackDirection.Y < 0f) {
-					modifier.gravityScale *= 0.0f;
+				if(AttackDirection.Y < 0.1f) {
+					modifier.gravityScale *= 0.1f;
 				}
 
 				if(AttackDirection.Y < -0.33f) {
@@ -272,7 +272,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				}
 			}
 
-			movement.SetMovementModifier($"{nameof(MeleeWeapon)}/{nameof(OnHitNPC)}", 10, modifier);
+			movement.SetMovementModifier($"{nameof(MeleeWeapon)}/{nameof(OnHitNPC)}", player.itemAnimationMax / 2, modifier);
 		}
 
 		protected void BasicVelocityDash(Player player, Vector2 direction, Vector2 maxVelocity, bool powerAttack)
