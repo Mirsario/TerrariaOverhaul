@@ -289,9 +289,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			target.GetGlobalNPC<NPCAttackCooldowns>().SetAttackCooldown(target, player.itemAnimationMax, true);
 
-			if(player.velocity.Y != 0f || Math.Abs(target.oldVelocity.Y) > 0.3f) {
+			/*if(player.velocity.Y != 0f || Math.Abs(target.oldVelocity.Y) > 0.3f) {
 				target.GetGlobalNPC<NPCFreezeFrames>().SetFreezeFrames(target, Math.Min(5, player.itemAnimationMax / 3));
-			}
+			}*/
 
 			var movement = player.GetModPlayer<Players.PlayerMovement>();
 			var modifier = Players.PlayerMovement.MovementModifier.Default;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿//Commented out, as I'm not sure about this feature --Mirsario.
+/*using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -28,4 +29,4 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			FreezeFrames = Math.Max(ticks, FreezeFrames);
 		}
 	}
-}
+}*/
