@@ -10,6 +10,7 @@ using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.SoundStyles;
 using TerrariaOverhaul.Common.Systems.CombatTexts;
 using TerrariaOverhaul.Common.Systems.Gores;
+using TerrariaOverhaul.Core.Exceptions;
 using TerrariaOverhaul.Core.Systems.Debugging;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
@@ -83,11 +84,57 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 						i => i.MatchCall(typeof(Math), nameof(Math.Max)),
 						i => i.MatchStfld(typeof(Player), nameof(Player.attackCD))
 					)) {
-						throw new Exception($"{nameof(Broadsword)}: IL Failure.");
+						throw new ILMatchException(context, "Disabling attackCD: Match 1", this);
 					}
 
 					//TODO: Instead of removing the code, skip over it if the item has a MeleeWeapon overhaul
 					cursor.RemoveRange(10);
+				};
+
+				//Prevent any hit checks from running if the weapon shouldn't be attacking.
+				On.Terraria.Player.ItemCheck_MeleeHitNPCs += (orig, player, item, itemRectangle, originalDamage, knockback) => {
+					if(item.TryGetGlobalItem(out MeleeWeapon meleeWeapon, false) && !meleeWeapon.ShouldBeAttacking(item, player)) {
+						return;
+					}
+
+					orig(player, item, itemRectangle, originalDamage, knockback);
+				};
+
+				//Less intrusive collision check upgrades
+				IL.Terraria.Player.ItemCheck_MeleeHitNPCs += context => {
+					var cursor = new ILCursor(context);
+
+					//This is a pretty bad expression
+					int itemRectangleArgId = 0;
+					int npcRectangleLocalId = 0;
+
+					if(!cursor.TryGotoNext(
+						MoveType.Before,
+						i => i.MatchLdarga(out itemRectangleArgId),
+						i => i.MatchLdloc(out npcRectangleLocalId),
+						i => i.MatchCall(typeof(Rectangle), nameof(Rectangle.Intersects)),
+						i => i.Match(OpCodes.Brfalse_S)
+					)) {
+						throw new ILMatchException(context, "Collision check upgrade: Match 2", this);
+					}
+
+					cursor.RemoveRange(3);
+
+					cursor.Emit(OpCodes.Ldarg_1); //Load 'item' argument.
+					cursor.Emit(OpCodes.Ldarg_0); //Load 'this' (player) argument.
+					cursor.Emit(OpCodes.Ldloc_0); //Load the id of the npc. (!) We're assuming that it's local 0. This sucks.
+					cursor.Emit(OpCodes.Ldarg, itemRectangleArgId); //Load 'itemRectangle' for the fallback.
+					cursor.Emit(OpCodes.Ldloc, npcRectangleLocalId); //Load 'value' (npc rectangle) for the fallback.
+					cursor.EmitDelegate<Func<Item, Player, int, Rectangle, Rectangle, bool>>((item, player, npcId, itemRectangle, npcRectangle) => {
+						var npc = Main.npc[npcId];
+
+						if(item.TryGetGlobalItem(out MeleeWeapon meleeWeapon, false)) {
+							return meleeWeapon.CollidesWithNPC(item, player, npc);
+						}
+
+						//Fallback
+						return itemRectangle.Intersects(npcRectangle);
+					});
 				};
 			}
 		}
@@ -107,16 +154,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			AttackDirection = (Main.MouseWorld - player.Center).SafeNormalize(Vector2.UnitX);
 			AttackAngle = AttackDirection.ToRotation();
 			AttackNumber++;
-		}
-		public override bool? CanHitNPC(Item item, Player player, NPC target)
-		{
-			if(!ShouldBeAttacking(item, player)) {
-				return false;
-			}
-
-			float range = GetAttackRange(item);
-
-			return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
 		}
 		public override void HoldItem(Item item, Player player)
 		{
@@ -270,6 +307,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			}
 
 			movement.SetMovementModifier($"{nameof(MeleeWeapon)}/{nameof(OnHitNPC)}", player.itemAnimationMax / 2, modifier);
+		}
+
+		public virtual bool CollidesWithNPC(Item item, Player player, NPC target)
+		{
+			float range = GetAttackRange(item);
+
+			//Check arc collision
+			return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
 		}
 
 		protected void BasicVelocityDash(Player player, Vector2 direction, Vector2 maxVelocity, bool powerAttack)
