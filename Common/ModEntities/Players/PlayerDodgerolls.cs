@@ -19,6 +19,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	{
 		public static readonly SoundStyle DodgerollSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Player/Armor", 3, volume: 0.65f, pitchVariance: 0.2f);
 
+		public static ModHotKey DodgerollKey { get; private set; }
+
 		public static float DodgeTimeMax => 0.37f;
 		public static uint DodgeDefaultCooldown => 90;
 
@@ -34,6 +36,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public bool forceDodgeroll;
 		public bool noDodge;
 
+		public override void Load()
+		{
+			DodgerollKey = Mod.RegisterHotKey("Dodgeroll", "LeftControl");
+		}
 		public override bool PreItemCheck()
 		{
 			UpdateDodging();
@@ -64,7 +70,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			bool isLocal = Player.IsLocal();
 
-			if(isLocal && wantsDodgerollTimer <= 0f && InputSystem.KeyDodgeroll.JustPressed) {
+			if(isLocal && wantsDodgerollTimer <= 0f && DodgerollKey.JustPressed) {
 				QueueDodgeroll(0.25f, (sbyte)Player.KeyDirection());
 			}
 
