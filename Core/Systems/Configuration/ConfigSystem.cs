@@ -82,7 +82,7 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 					continue;
 				}
 
-				var result = jObject.ToObject<Config>();
+				var result = (Config)jObject.ToObject(config.GetType());
 
 				if(result != null) {
 					config.Local = result;

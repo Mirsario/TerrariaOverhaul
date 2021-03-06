@@ -20,6 +20,7 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 			Local = this;
 
 			ConfigSystem.Configs.Add(this);
+			ConfigSystem.ConfigsByName.Add(Name, this);
 		}
 		void ILoadable.Unload()
 		{
