@@ -193,15 +193,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			player.itemLocation = player.Center + new Vector2(locationOffset.X * player.direction, locationOffset.Y);
 
-			if(player.velocity.Y == 0f && player.KeyDirection() == 0) {
-				if(Math.Abs(AttackDirection.X) > 0.5f) {
-					player.legFrame = (FlippedAttack ? PlayerFrames.Walk8 : PlayerFrames.Jump).ToRectangle();
-				} else {
-					player.legFrame = PlayerFrames.Walk13.ToRectangle();
-				}
-			}
-
-			if(DebugSystem.EnableDebugRendering) {
+			if(!Main.dedServ && DebugSystem.EnableDebugRendering) {
 				DebugSystem.DrawCircle(player.itemLocation, 3f, Color.White);
 			}
 		}

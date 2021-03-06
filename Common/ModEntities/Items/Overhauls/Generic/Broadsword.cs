@@ -1,10 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ItemAnimations;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Utilities.Enums;
+using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
@@ -60,6 +63,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			if(!Main.dedServ) {
 				ScreenShakeSystem.New(3f, item.useAnimation / 120f);
+			}
+		}
+		public override void UseItemFrame(Item item, Player player)
+		{
+			base.UseItemFrame(item, player);
+
+			//Leg frame
+			if(player.velocity.Y == 0f && player.KeyDirection() == 0) {
+				if(Math.Abs(AttackDirection.X) > 0.5f) {
+					player.legFrame = (FlippedAttack ? PlayerFrames.Walk8 : PlayerFrames.Jump).ToRectangle();
+				} else {
+					player.legFrame = PlayerFrames.Walk13.ToRectangle();
+				}
 			}
 		}
 		public override bool ShouldBeAttacking(Item item, Player player)
