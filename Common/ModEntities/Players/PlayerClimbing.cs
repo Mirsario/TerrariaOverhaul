@@ -87,7 +87,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				var pos = new Point16(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + i);
 
 				//The base tile has to be solid
-				if(!Main.tile.TryGet(pos, out var tempTile) || !tempTile.IsActive || tempTile.IsActuated || (!Main.tileSolid[tempTile.type] && !Main.tileSolidTop[tempTile.type]) || (i != 0 && tempTile.Slope != SlopeID.Solid)) {
+				if(!Main.tile.TryGet(pos, out var tempTile) || !tempTile.IsActive || tempTile.IsActuated || (!Main.tileSolid[tempTile.type] && !Main.tileSolidTop[tempTile.type]) || (i != 0 && tempTile.Slope != SlopeType.Solid)) {
 					continue;
 				}
 
