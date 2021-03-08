@@ -5,7 +5,6 @@ namespace TerrariaOverhaul.Content.Projectiles
 {
 	public class MopProjectile : SpearProjectileBase
 	{
-		protected override int UseDuration => 13;
 		protected override float HoldoutRangeMin => 40f;
 		protected override float HoldoutRangeMax => 80f;
 

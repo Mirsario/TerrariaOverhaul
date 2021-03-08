@@ -7,18 +7,19 @@ namespace TerrariaOverhaul.Content.Projectiles
 {
 	public abstract class SpearProjectileBase : ModProjectile
     {
-        protected abstract int UseDuration { get; }
 		protected abstract float HoldoutRangeMin { get; }
 		protected abstract float HoldoutRangeMax { get; }
+
+		protected virtual int UseDuration(Player player) => player.itemAnimationMax;
 
 		public override void SetDefaults()
 		{
 			Projectile.penetrate = -1;
 			Projectile.aiStyle = ProjAIStyleID.Spear;
 			Projectile.friendly = true;
-			Projectile.timeLeft = UseDuration;
 			Projectile.tileCollide = false;
 			Projectile.ownerHitCheck = true;
+			Projectile.timeLeft = int.MaxValue;
 		}
 		public override bool PreAI()
 		{
@@ -27,9 +28,9 @@ namespace TerrariaOverhaul.Content.Projectiles
 			player.heldProj = Projectile.whoAmI;
 			player.itemTime = player.itemAnimation;
 
-			int realDuration = (int)(UseDuration * player.meleeSpeed);
+			int realDuration = (int)(UseDuration(player) * player.meleeSpeed);
 
-			if(Projectile.timeLeft == UseDuration) {
+			if(Projectile.timeLeft == int.MaxValue) {
 				Projectile.timeLeft = realDuration;
 			}
 
