@@ -197,8 +197,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			player.bodyFrame = PlayerFrames.Use3.ToRectangle();
 
-			//Main.NewText($"{degrees:0.00} -> {i}");
-
 			Vector2 locationOffset;
 
 			if(pitch > 0.95f) {
@@ -214,12 +212,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				player.bodyFrame = PlayerFrames.Use4.ToRectangle();
 				locationOffset = new Vector2(4f, 7f);
 			} else {
-				//player.bodyFrame = PlayerFrames.Walk4.ToRectangle();
-				//locationOffset = new Vector2(-8f, 2f);
 				player.bodyFrame = PlayerFrames.Walk5.ToRectangle();
 				locationOffset = new Vector2(-8f, 2f);
-				//player.bodyFrame = PlayerFrames.Use4.ToRectangle();
-				//locationOffset = new Vector2(-8f, 2f);
 			}
 
 			player.itemRotation = weaponRotation + MathHelper.PiOver4;

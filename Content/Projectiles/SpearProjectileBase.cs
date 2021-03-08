@@ -18,6 +18,7 @@ namespace TerrariaOverhaul.Content.Projectiles
 			Projectile.friendly = true;
 			Projectile.timeLeft = UseDuration;
 			Projectile.tileCollide = false;
+			Projectile.ownerHitCheck = true;
 		}
 		public override bool PreAI()
 		{
@@ -33,11 +34,11 @@ namespace TerrariaOverhaul.Content.Projectiles
 			}
 
 			Projectile.velocity = Vector2.Normalize(Projectile.velocity);
-			//Projectile.rotation = Projectile.velocity.ToRotation() + MathHelper.PiOver4;
 
-			float progress = Projectile.timeLeft > realDuration / 2f
-				? (realDuration - Projectile.timeLeft) / (realDuration / 2f)
-				: Projectile.timeLeft / (realDuration / 2f);
+			float halfDuration = realDuration * 0.5f;
+			float progress = Projectile.timeLeft > halfDuration
+				? (realDuration - Projectile.timeLeft) / halfDuration
+				: Projectile.timeLeft / halfDuration;
 
 			Projectile.Center = player.MountedCenter + Vector2.SmoothStep(Projectile.velocity * HoldoutRangeMin, Projectile.velocity * HoldoutRangeMax, progress);
 
