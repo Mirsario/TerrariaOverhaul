@@ -73,10 +73,10 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				return true;
 			}
 
-			if(npc.HitSound == SoundID.NPCHit1 && npcBloodAndGore.LastHitBloodAmount > 0) {
+			if(npcBloodAndGore.LastHitBloodAmount > 0) {
 				SoundEngine.PlaySound(FleshHitSound, npc.Center);
 
-				return false;
+				return npc.HitSound != SoundID.NPCHit1;
 			}
 
 			return true;
@@ -87,10 +87,10 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				return true;
 			}
 
-			if((npc.DeathSound == SoundID.NPCDeath1 || npc.DeathSound == SoundID.NPCDeath2) && npcBloodAndGore.LastHitBloodAmount > 0) {
+			if(npcBloodAndGore.LastHitBloodAmount > 0) {
 				SoundEngine.PlaySound(GoreSound, npc.Center);
 
-				return false;
+				return npc.DeathSound != SoundID.NPCDeath1;
 			}
 
 			return true;
