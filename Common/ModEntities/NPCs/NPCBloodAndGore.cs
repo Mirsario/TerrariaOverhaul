@@ -14,11 +14,12 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
 	public class NPCBloodAndGore : GlobalNPC
 	{
-		public static readonly ModSoundStyle GoreSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/Gore", volume: 0.1f, pitchVariance: 0.5f);
-		public static readonly ModSoundStyle FleshHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/FleshHit", 4, volume: 0.25f, pitchVariance: 0.25f);
-
 		private static int disableNonBloodEffectSubscriptions;
 		private static int disableReplacementsSubscriptions;
+
+		public int LastHitBloodAmount { get; private set; }
+
+		public override bool InstancePerEntity => true;
 
 		public override void Load()
 		{
@@ -73,7 +74,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			//Record and save blood information onto gores spawned during HitEffect.
 			On.Terraria.NPC.HitEffect += (orig, npc, hitDirection, dmg) => {
 				//Ignore contexts where we only want blood to spawn.
-				if(disableNonBloodEffectSubscriptions > 0) {
+				if(disableNonBloodEffectSubscriptions > 0 || !npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
 					orig(npc, hitDirection, dmg);
 
 					return;
@@ -86,15 +87,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					});
 				});
 
-				if(!Main.dedServ && bloodColors.Count > 0) {
-					if(npc.life <= 0) {
-						if(npc.realLife < 0 || npc.realLife == npc.whoAmI) {
-							SoundEngine.PlaySound(GoreSound, npc.Center);
-						}
-					} else {
-						SoundEngine.PlaySound(FleshHitSound, npc.Center);
-					}
-				}
+				npcBloodAndGore.LastHitBloodAmount = bloodColors.Count;
 
 				if(spawnedGores.Count == 0 || bloodColors.Count == 0) {
 					return;
@@ -111,12 +104,6 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					}
 				}
 			};
-		}
-		public override void SetDefaults(NPC npc)
-		{
-			/*if(npc.DeathSound == SoundID.NPCDeath1 || npc.DeathSound == SoundID.NPCDeath2) {
-				npc.DeathSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/Gore", volume: 0.25f, pitchVariance: 0.25f);
-			}*/
 		}
 
 		public override bool PreAI(NPC npc)
