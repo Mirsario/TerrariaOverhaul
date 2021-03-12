@@ -161,7 +161,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			}
 
 			//Blood
-			SpawnBlood(maxSizeDimension / 3);
+			SpawnBlood(maxSizeDimension, 2f);
 
 			//Hit sounds
 			if(!silent) {
@@ -172,16 +172,22 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				SoundInstance.Create<OggSoundInstance, OggSoundInfo>("Gore", position, MathHelper.Lerp(0.2f, 1f, Math.Min(1f, maxSizeDimension * 0.015625f)), Main.rand.Range(0.925f, 1.2f), maxAmount: 2);
 			}*/
 		}
-		public void SpawnBlood(int amount)
+		public void SpawnBlood(int amount, float sprayScale = 1f)
 		{
 			if(stopBleeding || !bleedColor.HasValue) {
 				return;
 			}
 
+			float maxHorizontalSpeed = 30f * sprayScale;
+			float maxVerticalSpeed = 100f * sprayScale;
+
 			for(int i = 0; i < amount; i++) {
 				SimpleEntity.Instantiate<BloodParticle>(p => {
 					p.position = GetRandomPoint();
-					p.velocity = velocity * 30f + Main.rand.NextVector2Circular(20f, 20f);
+					p.velocity = velocity * 30f + new Vector2(
+						Main.rand.NextFloat(-maxHorizontalSpeed, maxHorizontalSpeed),
+						Main.rand.NextFloat(-maxVerticalSpeed, 0f)
+					);
 					p.color = bleedColor.Value;
 				});
 			}

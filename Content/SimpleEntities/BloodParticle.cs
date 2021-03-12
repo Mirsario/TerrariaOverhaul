@@ -23,6 +23,8 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 		private Rectangle frame;
 		private Vector2[] positions;
 
+		public override bool CollidesWithTiles => LifeTime >= 3;
+
 		//Load-time
 		public override void Load(Mod mod)
 		{

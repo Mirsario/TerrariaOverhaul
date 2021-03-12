@@ -21,6 +21,8 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 		public Vector2 gravity = new Vector2(0f, 10f);
 		public Color color = Color.White;
 
+		public int LifeTime { get; private set; }
+
 		public virtual bool CollidesWithTiles => true;
 
 		public override void Update()
@@ -53,6 +55,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			}
 
 			position += velocity * velocityScale * TimeSystem.LogicDeltaTime;
+			LifeTime++;
 		}
 
 		protected virtual void OnLiquidContact(Tile tile, out bool destroy) => destroy = false;
