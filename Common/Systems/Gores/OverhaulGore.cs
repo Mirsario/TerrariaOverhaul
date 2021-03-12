@@ -13,13 +13,21 @@ using TerrariaOverhaul.Core.Systems.SimpleEntities;
 using TerrariaOverhaul.Utilities.Extensions;
 using Terraria.DataStructures;
 using TerrariaOverhaul.Content.Gores;
+using System.Collections.Generic;
 
 namespace TerrariaOverhaul.Common.Systems.Gores
 {
 	[Autoload(Side = ModSide.Client)]
 	public class OverhaulGore : Gore, ILoadable
 	{
-		public static readonly SoundStyle GoreGroundHitSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreGroundHit", 8, volume: 0.1f, pitchVariance: 0.2f);
+		private const int GoreSoundMinCooldown = 10;
+		private const int GoreSoundMaxCooldown = 25;
+
+		public static readonly SoundStyle GoreHitSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreHit", 3, volume: 0.4f, pitchVariance: 0.2f);
+		public static readonly SoundStyle GoreBreakSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreSplatter", 2, volume: 0.15f, pitchVariance: 0.2f);
+		public static readonly SoundStyle GoreGroundHitSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreSmallSplatter", 2, volume: 0.4f, pitchVariance: 0.2f);
+
+		private static Dictionary<SoundStyle, ulong> goreSoundCooldowns;
 
 		public bool onFire;
 		//public bool noBlood;
@@ -39,8 +47,18 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		public Vector2 Center => position + size * 0.5f;
 
 		//Load-time
-		public void Load(Mod mod) { }
-		public void Unload() { }
+		public void Load(Mod mod)
+		{
+			goreSoundCooldowns = new Dictionary<SoundStyle, ulong>();
+		}
+		public void Unload()
+		{
+			if(goreSoundCooldowns != null) {
+				goreSoundCooldowns.Clear();
+
+				goreSoundCooldowns = null;
+			}
+		}
 		//In-game
 		public void Init()
 		{
@@ -114,7 +132,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			if(health <= 0f) {
 				Destroy(silent:silent);
 			} else if(!silent) {
-				SoundEngine.PlaySound(GoreGroundHitSound, position);
+				TryPlaySound(GoreHitSound, position);
 			}
 
 			return true;
@@ -147,7 +165,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			//Hit sounds
 			if(!silent) {
-				SoundEngine.PlaySound(GoreGroundHitSound, position);
+				TryPlaySound(GoreBreakSound, position);
 			}
 
 			/*if(bleedColor.HasValue) {
@@ -173,7 +191,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		{
 			//Evaporate in lava
 			if(tile.LiquidAmount > 0 && tile.LiquidType == LiquidID.Lava) {
-				SoundEngine.PlaySound(FireSystem.ExtinguishSound, position);
+				TryPlaySound(FireSystem.ExtinguishSound, position);
 				
 				for(int i = 0; i < 5; i++) {
 					Dust.NewDustPerfect(GetRandomPoint(), DustID.Smoke, Main.rand.NextVector2(-1f, -1f, 1f, 0f), 128, Color.White);
@@ -234,7 +252,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				//Vertical bouncing
 				if(Math.Abs(prevVelocity.Y) >= 1f) {
 					if(bounceSound != null) {
-						SoundEngine.PlaySound(bounceSound, position);
+						TryPlaySound(bounceSound, position);
 					}
 
 					velocity.Y = -prevVelocity.Y * 0.66f;
@@ -251,7 +269,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			//Horizontal bouncing
 			if(velocity.X == 0f && Math.Abs(prevVelocity.X) >= 1f) {
 				if(bounceSound != null) {
-					SoundEngine.PlaySound(bounceSound, position);
+					TryPlaySound(bounceSound, position);
 				}
 
 				velocity.X = -prevVelocity.X * 0.66f;
@@ -265,6 +283,22 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				position.Y -= 1;
 				velocity.Y = 0.000001f;
 			}
+		}
+
+		//Makeshift optimization to not spam PlaySound and not enumerate any lists to check if there's anything playing.
+		private static bool TryPlaySound(SoundStyle style, Vector2 position)
+		{
+			ulong tick = Main.GameUpdateCount;
+
+			if(!goreSoundCooldowns.TryGetValue(style, out ulong cooldownEnd) || tick >= cooldownEnd) {
+				goreSoundCooldowns[style] = tick + (ulong)Main.rand.Next(GoreSoundMinCooldown, GoreSoundMaxCooldown);
+
+				SoundEngine.PlaySound(style, position);
+
+				return true;
+			}
+
+			return false;
 		}
 	}
 }
