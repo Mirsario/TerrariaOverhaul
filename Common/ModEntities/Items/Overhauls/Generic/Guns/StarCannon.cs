@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Players;
+using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
@@ -29,7 +30,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		}
 		public override bool? UseItem(Item item, Player player)
 		{
-			var lookDirection = (player.GetModPlayer<PlayerDirectioning>().mouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
+			var lookDirection = player.LookDirection();
 
 			if(lookDirection.Y > 0f) {
 				float bonusYSpeed = -(lookDirection.Y * lookDirection.Y) * item.useTime * 0.425f;

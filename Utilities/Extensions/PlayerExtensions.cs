@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
 using Terraria;
+using TerrariaOverhaul.Common.ModEntities.Players;
 
 namespace TerrariaOverhaul.Utilities.Extensions
 {
@@ -14,6 +16,8 @@ namespace TerrariaOverhaul.Utilities.Extensions
 		public static bool WasOnGround(this Player player) => player.oldVelocity.Y == 0f; //player.GetModPlayer<PlayerMovement>().WasOnGround;
 
 		public static int KeyDirection(this Player player) => player.controlLeft ? -1 : player.controlRight ? 1 : 0;
+
+		public static Vector2 LookDirection(this Player player) => (player.GetModPlayer<PlayerDirectioning>().mouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
 
 		//Inventory
 
