@@ -131,7 +131,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			if(health <= 0f) {
 				Destroy(silent:silent);
-			} else if(!silent) {
+			} else if(!silent && bleedColor.HasValue) {
 				TryPlaySound(GoreHitSound, position);
 			}
 
@@ -164,7 +164,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			SpawnBlood(maxSizeDimension, 2f);
 
 			//Hit sounds
-			if(!silent) {
+			if(!silent && bleedColor.HasValue) {
 				TryPlaySound(GoreBreakSound, position);
 			}
 
