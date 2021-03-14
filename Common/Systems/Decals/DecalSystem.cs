@@ -11,6 +11,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.Systems.Decals
 {
+	[Autoload(Side = ModSide.Client)]
 	public sealed class DecalSystem : ModSystem
 	{
 		public static readonly BlendState DefaultBlendState = BlendState.AlphaBlend;

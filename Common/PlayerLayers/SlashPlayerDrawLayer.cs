@@ -12,6 +12,7 @@ using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.PlayerLayers
 {
+	[Autoload(Side = ModSide.Client)]
 	public class SlashPlayerDrawLayer : PlayerDrawLayer
 	{
 		private static readonly SpriteFrame TextureFrame = new SpriteFrame(1, 3);

@@ -12,6 +12,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.PlayerLayers
 {
+	[Autoload(Side = ModSide.Client)]
 	public class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
 	{
 		private static Asset<Texture2D> texture;
