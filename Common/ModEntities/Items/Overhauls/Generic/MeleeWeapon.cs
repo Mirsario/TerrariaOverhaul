@@ -262,6 +262,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 					bool critBackup = crit;
 
 					CombatTextSystem.AddFilter(1, text => {
+						if(!uint.TryParse(text.text, out _)) {
+							return;
+						}
+
 						bool isCharged = false;
 						string additionalInfo = $"({(critBackup ? "CRITx" : null)}{(isCharged ? "POWERx" : critBackup ? null : "x")}{velocityDamageScale:0.00})";
 						float gradientScale = velocityDamageScale;
