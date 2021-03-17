@@ -29,10 +29,25 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			(2.5f, Color.Red)
 		);
 
+		private Vector2 attackDirection;
+		private float attackAngle;
+
 		public bool FlippedAttack { get; protected set; }
-		public Vector2 AttackDirection { get; private set; }
-		public float AttackAngle { get; private set; }
 		public int AttackNumber { get; private set; }
+		public Vector2 AttackDirection {
+			get => attackDirection;
+			set {
+				attackDirection = value;
+				attackAngle = value.ToRotation();
+			}
+		}
+		public float AttackAngle {
+			get => attackAngle;
+			set {
+				attackAngle = value;
+				attackDirection = value.ToRotationVector2();
+			}
+		}
 
 		public virtual bool VelocityBasedDamage => true;
 		public virtual MeleeAnimation Animation => ModContent.GetInstance<GenericMeleeAnimation>();
@@ -151,8 +166,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		}
 		public override void UseAnimation(Item item, Player player)
 		{
-			AttackDirection = (Main.MouseWorld - player.Center).SafeNormalize(Vector2.UnitX);
-			AttackAngle = AttackDirection.ToRotation();
+			AttackDirection = player.LookDirection();
 			AttackNumber++;
 		}
 		public override void HoldItem(Item item, Player player)
