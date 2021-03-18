@@ -12,6 +12,7 @@ using TerrariaOverhaul.Core.Systems.SimpleEntities;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
+	[Autoload(Side = ModSide.Client)]
 	public class NPCBloodAndGore : GlobalNPC
 	{
 		private static int disableNonBloodEffectSubscriptions;
