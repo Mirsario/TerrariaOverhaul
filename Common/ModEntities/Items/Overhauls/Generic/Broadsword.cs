@@ -87,7 +87,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		}
 		public override void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle customHitSound, ref bool playNPCHitSound)
 		{
-			customHitSound = SwordFleshHitSound;
+			//This checks for whether or not the target has bled.
+			if(target.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore) && npcBloodAndGore.LastHitBloodAmount > 0) {
+				customHitSound = SwordFleshHitSound;
+			}
 
 			base.ModifyItemNPCHitSound(item, player, target, ref customHitSound, ref playNPCHitSound);
 		}
