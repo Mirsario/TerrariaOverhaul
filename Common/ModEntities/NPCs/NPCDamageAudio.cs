@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Hooks;
+using TerrariaOverhaul.Common.Systems.DamageSources;
 using TerrariaOverhaul.Core.Exceptions;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
@@ -73,13 +75,26 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				return true;
 			}
 
-			if(npcBloodAndGore.LastHitBloodAmount > 0) {
-				SoundEngine.PlaySound(FleshHitSound, npc.Center);
+			bool playOriginalSound = true;
+			SoundStyle customSoundStyle = null;
 
-				return npc.HitSound != SoundID.NPCHit1;
+			if(npcBloodAndGore.LastHitBloodAmount > 0) {
+				customSoundStyle = FleshHitSound;
+				playOriginalSound = npc.HitSound != SoundID.NPCHit1;
 			}
 
-			return true;
+			var damageSource = DamageSourceSystem.CurrentDamageSource;
+
+			//Call item hit sound modification hooks.
+			if(damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
+				CustomItemHooks.ModifyItemNPCHitSound.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
+			}
+
+			if(customSoundStyle != null) {
+				SoundEngine.PlaySound(customSoundStyle, npc.Center);
+			}
+
+			return playOriginalSound;
 		}
 		public bool PlayDeathSound(NPC npc)
 		{
@@ -87,13 +102,26 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				return true;
 			}
 
-			if(npcBloodAndGore.LastHitBloodAmount > 0) {
-				SoundEngine.PlaySound(GoreSound, npc.Center);
+			bool playOriginalSound = true;
+			SoundStyle customSoundStyle = null;
 
-				return npc.DeathSound != SoundID.NPCDeath1;
+			if(npcBloodAndGore.LastHitBloodAmount > 0) {
+				customSoundStyle = GoreSound;
+				playOriginalSound = npc.DeathSound != SoundID.NPCDeath1;
 			}
 
-			return true;
+			var damageSource = DamageSourceSystem.CurrentDamageSource;
+
+			//Call item death sound modification hooks.
+			if(damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
+				CustomItemHooks.ModifyItemNPCDeathSound.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
+			}
+
+			if(customSoundStyle != null) {
+				SoundEngine.PlaySound(customSoundStyle, npc.Center);
+			}
+
+			return playOriginalSound;
 		}
 	}
 }
