@@ -17,6 +17,9 @@ namespace TerrariaOverhaul.Common.Tags
 		/// <summary> Enables walljumping. </summary>
 		public static readonly TagData NinjaGear = ContentTags.Get<Group>(nameof(NinjaGear));
 
+		/// <summary> Affects hit sounds. </summary>
+		public static readonly TagData Wooden = ContentTags.Get<Group>(nameof(Wooden));
+
 		void ILoadable.Load(Mod mod)
 		{
 			ClimbingClaws.SetMultiple(
@@ -36,6 +39,10 @@ namespace TerrariaOverhaul.Common.Tags
 				ItemID.ShoeSpikes,
 				ItemID.TigerClimbingGear,
 				ItemID.MasterNinjaGear
+			);
+
+			Wooden.SetMultiple(
+				ItemID.WoodenSword
 			);
 		}
 		void ILoadable.Unload()

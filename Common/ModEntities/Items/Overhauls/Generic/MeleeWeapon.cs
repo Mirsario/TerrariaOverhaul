@@ -3,13 +3,16 @@ using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ItemAnimations;
+using TerrariaOverhaul.Common.ModEntities.Items.Hooks;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.SoundStyles;
 using TerrariaOverhaul.Common.Systems.CombatTexts;
 using TerrariaOverhaul.Common.Systems.Gores;
+using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Exceptions;
 using TerrariaOverhaul.Core.Systems.Debugging;
 using TerrariaOverhaul.Utilities;
@@ -19,8 +22,10 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
-	public class MeleeWeapon : ItemOverhaul
+	public class MeleeWeapon : ItemOverhaul, IModifyItemNPCHitSound
 	{
+		public static readonly ModSoundStyle WoodenHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/WoodenHit", 3, volume: 0.3f, pitchVariance: 0.1f);
+
 		private static readonly Gradient<Color> DamageScaleColor = new Gradient<Color>(
 			(0f, Color.Black),
 			(1f, Color.LightGray),
@@ -327,6 +332,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			//Check arc collision
 			return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
+		}
+		public virtual void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle customHitSound, ref bool playNPCHitSound)
+		{
+			if(OverhaulItemTags.Wooden.Has(item.netID)) {
+				customHitSound = WoodenHitSound;
+			}
 		}
 
 		protected void BasicVelocityDash(Player player, Vector2 direction, Vector2 maxVelocity, bool powerAttack)

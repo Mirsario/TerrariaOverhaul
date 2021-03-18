@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ItemAnimations;
@@ -13,6 +14,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
 	public class Broadsword : MeleeWeapon
 	{
+		public static readonly ModSoundStyle SwordFleshHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2, volume: 0.65f, pitchVariance: 0.1f);
+
 		public override MeleeAnimation Animation => ModContent.GetInstance<QuickSlashMeleeAnimation>();
 
 		public override bool ShouldApplyItemOverhaul(Item item)
@@ -81,6 +84,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		public override bool ShouldBeAttacking(Item item, Player player)
 		{
 			return base.ShouldBeAttacking(item, player) && player.itemAnimation >= player.itemAnimationMax / 2;
+		}
+		public override void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle customHitSound, ref bool playNPCHitSound)
+		{
+			customHitSound = SwordFleshHitSound;
+
+			base.ModifyItemNPCHitSound(item, player, target, ref customHitSound, ref playNPCHitSound);
 		}
 	}
 }
