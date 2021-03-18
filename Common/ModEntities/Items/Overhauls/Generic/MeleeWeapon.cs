@@ -340,21 +340,22 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			}
 		}
 
-		protected void BasicVelocityDash(Player player, Vector2 direction, Vector2 maxVelocity, bool powerAttack)
+		protected void BasicVelocityDash(Player player, Vector2 velocity, Vector2 maxVelocity)
 		{
+			if(maxVelocity.X < 0f || maxVelocity.Y < 0f) {
+				throw new ArgumentException($"'{nameof(maxVelocity)}' cannot have negative values.");
+			}
+
 			if(player.pulley) { // || oPlayer.OnIce) {
 				return;
 			}
 
-			bool isPlayerOnGround = player.OnGround();
-			float xSpeed = direction.X * maxVelocity.X;
-
-			if(player.KeyDirection() == 0) {
-				player.velocity.X = direction.X < 0f ? Math.Min(player.velocity.X, xSpeed) : Math.Max(player.velocity.X, xSpeed);
+			if(Math.Sign(player.velocity.X) != Math.Sign(velocity.X) || Math.Abs(player.velocity.X) < maxVelocity.X) {
+				player.velocity.X = MathUtils.StepTowards(player.velocity.X, maxVelocity.X, velocity.X);
 			}
 
-			if(player.velocity.Y != 0f || powerAttack) {
-				player.velocity.Y += direction.Y * maxVelocity.Y * (isPlayerOnGround ? 1f : 0.35f);
+			if(Math.Sign(player.velocity.Y) != Math.Sign(velocity.Y) || Math.Abs(player.velocity.Y) < maxVelocity.Y) {
+				player.velocity.Y = MathUtils.StepTowards(player.velocity.Y, maxVelocity.Y, velocity.Y);
 			}
 		}
 	}

@@ -50,19 +50,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			FlippedAttack = AttackNumber % 2 != 0;
 
-			var verticalVelocityScaleGradient = new Gradient<float>(
-				(-1.0f, 3.0f),
-				(-0.5f, 3.0f),
-				( 0.0f, 3.0f),
-				( 0.5f, 9.0f),
-				( 1.0f, 9.0f)
-			);
-			var dashVelocity = new Vector2(
-				3f * (player.velocity.Y == 0f ? 1f : 0.5f),
-				verticalVelocityScaleGradient.GetValue(AttackDirection.Y)
-			);
+			Vector2 dashSpeed = Vector2.One * (PlayerHooks.TotalMeleeTime(item.useAnimation, player, item) / 7f);
 
-			BasicVelocityDash(player, AttackDirection, dashVelocity, false);
+			//Disable vertical dashes for non-charged attacks whenever the player is on ground.
+			if(player.OnGround()) {
+				dashSpeed.Y = 0f;
+			}
+
+			//Disable horizontal dashes whenever the player is holding a directional key opposite to the direction of the dash.
+			if(player.KeyDirection() == -Math.Sign(AttackDirection.X)) {
+				dashSpeed.X = 0f;
+			}
+
+			BasicVelocityDash(player, dashSpeed * AttackDirection, new Vector2(dashSpeed.X, float.PositiveInfinity));
 
 			if(!Main.dedServ) {
 				ScreenShakeSystem.New(3f, item.useAnimation / 120f);
