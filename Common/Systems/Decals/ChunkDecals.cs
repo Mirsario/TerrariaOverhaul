@@ -117,31 +117,33 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				return;
 			}
 
-			shader.Parameters["texture0"].SetValue(texture);
-			shader.Parameters["texture1"].SetValue(Main.instance.tileTarget);
-			shader.Parameters["lightingBuffer"].SetValue(lightingBuffer);
-			//shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.TransformationMatrix);
-			shader.Parameters["transformMatrix"].SetValue(GetDefaultMatrix() * Matrix.CreateScale(Main.ForcedMinimumZoom));
+			lock(lightingBuffer) {
+				shader.Parameters["texture0"].SetValue(texture);
+				shader.Parameters["texture1"].SetValue(Main.instance.tileTarget);
+				shader.Parameters["lightingBuffer"].SetValue(lightingBuffer);
+				//shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.TransformationMatrix);
+				shader.Parameters["transformMatrix"].SetValue(GetDefaultMatrix() * Matrix.CreateScale(Main.ForcedMinimumZoom));
 
-			Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+				Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
 
-			foreach(var pass in shader.CurrentTechnique.Passes) {
-				pass.Apply();
+				foreach(var pass in shader.CurrentTechnique.Passes) {
+					pass.Apply();
 
-				//TODO: Comment the following.
-				var tOffset = Main.sceneTilePos - Main.screenPosition;
-				var vec = new Vector2(
-					Chunk.WorldRectangle.width / Main.instance.tileTarget.Width / Chunk.WorldRectangle.width,
-					Chunk.WorldRectangle.height / Main.instance.tileTarget.Height / Chunk.WorldRectangle.height
-				);
-				var vertices = new[] {
-					new VertexPositionUv2(new Vector3(destination.Left, destination.Top, 0f), new Vector2(0f, 0f), (destination.TopLeft - tOffset) * vec),
-					new VertexPositionUv2(new Vector3(destination.Right, destination.Top, 0f), new Vector2(1f, 0f), (destination.TopRight - tOffset) * vec),
-					new VertexPositionUv2(new Vector3(destination.Right, destination.Bottom, 0f), new Vector2(1f, 1f), (destination.BottomRight - tOffset) * vec),
-					new VertexPositionUv2(new Vector3(destination.Left, destination.Bottom, 0f), new Vector2(0f, 1f), (destination.BottomLeft - tOffset) * vec)
-				};
+					//TODO: Comment the following.
+					var tOffset = Main.sceneTilePos - Main.screenPosition;
+					var vec = new Vector2(
+						Chunk.WorldRectangle.width / Main.instance.tileTarget.Width / Chunk.WorldRectangle.width,
+						Chunk.WorldRectangle.height / Main.instance.tileTarget.Height / Chunk.WorldRectangle.height
+					);
+					var vertices = new[] {
+						new VertexPositionUv2(new Vector3(destination.Left, destination.Top, 0f), new Vector2(0f, 0f), (destination.TopLeft - tOffset) * vec),
+						new VertexPositionUv2(new Vector3(destination.Right, destination.Top, 0f), new Vector2(1f, 0f), (destination.TopRight - tOffset) * vec),
+						new VertexPositionUv2(new Vector3(destination.Right, destination.Bottom, 0f), new Vector2(1f, 1f), (destination.BottomRight - tOffset) * vec),
+						new VertexPositionUv2(new Vector3(destination.Left, destination.Bottom, 0f), new Vector2(0f, 1f), (destination.BottomLeft - tOffset) * vec)
+					};
 
-				Main.instance.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, QuadTriangles, 0, QuadTriangles.Length / 3);
+					Main.instance.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, QuadTriangles, 0, QuadTriangles.Length / 3);
+				}
 			}
 		}
 
