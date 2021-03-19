@@ -6,9 +6,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 	//TODO: Somehow make this have conditional instancing?
 	public class ItemCharging : GlobalItem
 	{
-		public delegate void ChargeEndAction(Item item, Player player, float chargeProgress);
+		public delegate void ChargeAction(Item item, Player player, float chargeProgress);
 
-		private ChargeEndAction action;
+		private ChargeAction updateAction;
+		private ChargeAction endAction;
 
 		public bool IsCharging { get; private set; }
 		public int ChargeTime { get; private set; }
@@ -22,6 +23,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 		public override void HoldItem(Item item, Player player)
 		{
 			if(IsCharging) {
+				updateAction?.Invoke(item, player, ChargeProgress);
+
 				ChargeTime++;
 
 				if(ChargeTime >= ChargeTimeMax) {
@@ -30,23 +33,25 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 			}
 		}
 
-		public void StartCharge(int chargeTime, ChargeEndAction action)
+		public void StartCharge(int chargeTime, ChargeAction updateAction, ChargeAction endAction)
 		{
 			IsCharging = true;
 			ChargeTime = 0;
 			ChargeTimeMax = chargeTime;
 
-			this.action = action;
+			this.updateAction = updateAction;
+			this.endAction = endAction;
 		}
 		public void StopCharge(Item item, Player player, bool skipAction = false)
 		{
 			if(!skipAction) {
-				action?.Invoke(item, player, ChargeProgress);
+				endAction?.Invoke(item, player, ChargeProgress);
 			}
 
 			IsCharging = false;
 			ChargeTime = ChargeTimeMax = 0;
-			action = null;
+			updateAction = null;
+			endAction = null;
 		}
 	}
 }
