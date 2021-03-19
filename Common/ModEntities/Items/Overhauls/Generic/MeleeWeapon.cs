@@ -257,6 +257,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				npcKnockback.SetNextKnockbackDirection(AttackDirection);
 			}
 
+			//Reduce knockback when the player is in air, and the enemy is somewhat above them.
+			if(!player.OnGround() && AttackDirection.Y < 0.25f) {
+				knockback *= 0.75f;
+			}
+
 			if(VelocityBasedDamage) {
 				float velocityDamageScale = Math.Max(1f, 0.78f + player.velocity.Length() / 8f);
 
@@ -300,9 +305,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				}
 			}
 		}
-		public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockBack, bool crit)
+		public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockback, bool crit)
 		{
-			base.OnHitNPC(item, player, target, damage, knockBack, crit);
+			base.OnHitNPC(item, player, target, damage, knockback, crit);
 
 			target.GetGlobalNPC<NPCAttackCooldowns>().SetAttackCooldown(target, player.itemAnimationMax, true);
 
@@ -318,9 +323,27 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 					modifier.gravityScale *= 0.1f;
 				}
 
-				if(AttackDirection.Y < -0.33f) {
-					player.velocity.Y = Math.Min(0f, player.velocity.Y);
-				}
+				var positionDifference = target.Center - player.Center;
+				float distance = positionDifference.SafeLength();
+				var dashDirection = target.velocity.SafeNormalize(default);
+				var dashVelocity = dashDirection;
+
+				//Boost velocity is based on item knockback.
+				float targetSpeed = target.velocity.SafeLength();
+
+				dashVelocity *= Math.Min(Math.Max(2f, targetSpeed), distance / 3f);
+
+				//Reduce intensity when the player is not directly aiming at the enemy.
+				float directionsDotProduct = Vector2.Dot(dashDirection, AttackDirection);
+
+				dashVelocity *= Math.Max(0f, directionsDotProduct * directionsDotProduct);
+
+				//Slight upwards movement bonus.
+				dashVelocity.Y -= 1f;
+
+				var maxVelocity = Vector2.Min(Vector2.One * 11f, new Vector2(Math.Abs(dashVelocity.X), Math.Abs(dashVelocity.Y)));
+
+				BasicVelocityDash(player, dashVelocity, maxVelocity);
 			}
 
 			movement.SetMovementModifier($"{nameof(MeleeWeapon)}/{nameof(OnHitNPC)}", player.itemAnimationMax / 2, modifier);
