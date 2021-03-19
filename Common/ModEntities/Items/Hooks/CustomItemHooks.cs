@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
@@ -16,7 +17,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Hooks
 			typeof(IModifyItemNPCHitSound).GetMethod(nameof(IModifyItemNPCHitSound.ModifyItemNPCHitSound)),
 			//Invocation
 			e => (Item item, Player player, NPC target, ref SoundStyle customHitSound, ref bool playNPCHitSound) => {
-				foreach(IModifyItemNPCHitSound g in ModifyItemNPCHitSound.Enumerate(item)) {
+				foreach(IModifyItemNPCHitSound g in e.Enumerate(item)) {
 					g.ModifyItemNPCHitSound(item, player, target, ref customHitSound, ref playNPCHitSound);
 				}
 			}
@@ -26,9 +27,31 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Hooks
 			typeof(IModifyItemNPCDeathSound).GetMethod(nameof(IModifyItemNPCDeathSound.ModifyItemNPCDeathSound)),
 			//Invocation
 			e => (Item item, Player player, NPC target, ref SoundStyle customDeathSound, ref bool playNPCDeathSound) => {
-				foreach(IModifyItemNPCDeathSound g in ModifyItemNPCDeathSound.Enumerate(item)) {
+				foreach(IModifyItemNPCDeathSound g in e.Enumerate(item)) {
 					g.ModifyItemNPCDeathSound(item, player, target, ref customDeathSound, ref playNPCDeathSound);
 				}
+			}
+		);
+		public static HookList<GlobalItem, Func<Item, Player, bool>> CanTurnDuringItemUse { get; private set; } = new HookList<GlobalItem, Func<Item, Player, bool>>(
+			//Method reference
+			typeof(ICanTurnDuringItemUse).GetMethod(nameof(ICanTurnDuringItemUse.CanTurnDuringItemUse)),
+			//Invocation
+			e => (Item item, Player player) => {
+				bool? globalResult = null;
+
+				foreach(ICanTurnDuringItemUse g in e.Enumerate(item)) {
+					bool? result = g.CanTurnDuringItemUse(item, player);
+
+					if(result.HasValue) {
+						if(result.Value) {
+							globalResult = true;
+						} else {
+							return false;
+						}
+					}
+				}
+
+				return globalResult ?? item.useTurn;
 			}
 		);
 
@@ -37,6 +60,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Hooks
 		{
 			ItemLoader.AddModHook(ModifyItemNPCHitSound);
 			ItemLoader.AddModHook(ModifyItemNPCDeathSound);
+			ItemLoader.AddModHook(CanTurnDuringItemUse);
 		}
 		public void Unload() { }
 	}

@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Hooks;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Core.Systems.Networking;
 using TerrariaOverhaul.Utilities.Extensions;
@@ -50,7 +51,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 			}
 
-			if(!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || Player.HeldItem.useTurn)) {
+			if(!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || CustomItemHooks.CanTurnDuringItemUse.Invoke(Player.HeldItem, Player))) {
 				if(forcedDirection != 0) {
 					Player.direction = forcedDirection;
 
