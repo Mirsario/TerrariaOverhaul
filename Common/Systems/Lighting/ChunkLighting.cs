@@ -15,13 +15,18 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 	{
 		public static int LightingUpdateFrequency => 10;
 
+		private static volatile object lightingUpdateLock;
+
 		public RenderTarget2D Texture { get; private set; }
 		public Surface<Color> Colors { get; private set; }
 
 		public override void Load()
 		{
+			lightingUpdateLock = new object();
+
 			On.Terraria.Lighting.LightTiles += (On.Terraria.Lighting.orig_LightTiles orig, int firstX, int lastX, int firstY, int lastY) => {
-				if(Main.GameUpdateCount % LightingUpdateFrequency == 0) {
+				void UpdateLighting()
+				{ 
 					const int Offset = 4;
 
 					Vector4Int loopArea;
@@ -56,8 +61,18 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 					}
 				}
 
+				if(Main.GameUpdateCount % LightingUpdateFrequency == 0) {
+					lock(lightingUpdateLock) {
+						UpdateLighting();
+					}
+				}
+
 				orig(firstX, lastX, firstY, lastY);
 			};
+		}
+		public override void Unload()
+		{
+			lightingUpdateLock = null;
 		}
 
 		public override void OnInit()
@@ -71,9 +86,11 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 		public override void OnDispose()
 		{
 			if(Texture != null) {
-				Texture.Dispose();
+				lock(Texture) {
+					Texture.Dispose();
 
-				Texture = null;
+					Texture = null;
+				}
 			}
 		}
 
