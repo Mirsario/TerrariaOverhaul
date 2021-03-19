@@ -7,20 +7,24 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ItemAnimations;
 using TerrariaOverhaul.Common.ModEntities.Items.Utilities;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
-using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
-using TerrariaOverhaul.Common.Systems.Time;
-using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
-	public class Broadsword : MeleeWeapon
+	public partial class Broadsword : MeleeWeapon
 	{
 		public static readonly ModSoundStyle SwordFleshHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2, volume: 0.65f, pitchVariance: 0.1f);
 
 		public override MeleeAnimation Animation => ModContent.GetInstance<QuickSlashMeleeAnimation>();
+
+		public override void Load()
+		{
+			base.Load();
+
+			LoadKillingBlows();
+		}
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -40,34 +44,45 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			return true;
 		}
-		public override void SetDefaults(Item item)
+		public override void HoldItem(Item item, Player player)
 		{
-			base.SetDefaults(item);
-
-			//item.useAnimation /= 2;
-			//item.useTime /= 2;
-			//item.reuseDelay += item.useAnimation;
+			HoldItemCharging(item, player);
+			
+			base.HoldItem(item, player);
 		}
 		public override void UseAnimation(Item item, Player player)
 		{
 			base.UseAnimation(item, player);
 
-			FlippedAttack = AttackNumber % 2 != 0;
+			if(!ChargedAttack) {
+				FlippedAttack = AttackNumber % 2 != 0;
+			}
+
+			//Swing velocity
 
 			Vector2 dashSpeed = Vector2.One * (PlayerHooks.TotalMeleeTime(item.useAnimation, player, item) / 7f);
 
-			//Disable vertical dashes for non-charged attacks whenever the player is on ground.
-			if(player.OnGround()) {
-				dashSpeed.Y = 0f;
-			}
+			if(ChargedAttack) {
+				dashSpeed *= 1.5f;
 
-			//Disable horizontal dashes whenever the player is holding a directional key opposite to the direction of the dash.
-			if(player.KeyDirection() == -Math.Sign(AttackDirection.X)) {
-				dashSpeed.X = 0f;
+				if(player.OnGround()) {
+					dashSpeed.Y *= 1.5f;
+				}
+			} else {
+				//Disable vertical dashes for non-charged attacks whenever the player is on ground.
+				if(player.OnGround()) {
+					dashSpeed.Y = 0f;
+				}
+
+				//Disable horizontal dashes whenever the player is holding a directional key opposite to the direction of the dash.
+				if(player.KeyDirection() == -Math.Sign(AttackDirection.X)) {
+					dashSpeed.X = 0f;
+				}
 			}
 
 			BasicVelocityDash(player, dashSpeed * AttackDirection, new Vector2(dashSpeed.X, float.PositiveInfinity));
 
+			//Slight screenshake for the swing.
 			if(!Main.dedServ) {
 				ScreenShakeSystem.New(3f, item.useAnimation / 120f);
 			}
@@ -87,7 +102,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		}
 		public override bool ShouldBeAttacking(Item item, Player player)
 		{
-			return base.ShouldBeAttacking(item, player) && player.itemAnimation >= player.itemAnimationMax / 2;
+			//Damage will only be applied during the first half of the use. The second half is a cooldown, and the animations reflect that.
+			return base.ShouldBeAttacking(item, player) && player.itemAnimation >= player.itemAnimationMax / 2 && !item.GetGlobalItem<ItemCharging>().IsCharging;
+		}
+		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
+		{
+			base.ModifyHitNPC(item, player, target, ref damage, ref knockback, ref crit);
+
+			ModifyHitNPCCharging(item, player, target, ref damage, ref knockback, ref crit);
+			ModifyHitNPCKillingBlows(item, player, target, ref damage, ref knockback, ref crit);
 		}
 		public override void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle customHitSound, ref bool playNPCHitSound)
 		{

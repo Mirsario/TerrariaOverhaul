@@ -1,0 +1,74 @@
+﻿using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ModLoader;
+
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
+{
+	partial class Broadsword
+	{
+		private delegate void NPCDamageModifier(NPC npc, ref double damage);
+
+		public static readonly SoundStyle KillingBlowSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Melee/KillingBlow", 2, volume: 0.6f, pitchVariance: 0.1f);
+
+		private static bool tryApplyingKillingBlow;
+
+		private void LoadKillingBlows()
+		{
+			if(GetType() != typeof(Broadsword)) {
+				return;
+			}
+
+			//This IL edit implements killing blows. They have to run after all damage modifications, as it needs to check the final damage.
+			IL.Terraria.NPC.StrikeNPC += context => {
+				var cursor = new ILCursor(context);
+
+				int damageLocalId = 0;
+
+				cursor.GotoNext(
+					MoveType.After,
+					//	num *= (double)takenDamageMultiplier;
+					i => i.MatchLdloc(out damageLocalId),
+					i => i.Match(OpCodes.Ldarg_0),
+					i => i.MatchLdfld(typeof(NPC), nameof(NPC.takenDamageMultiplier)),
+					i => i.Match(OpCodes.Conv_R8),
+					i => i.Match(OpCodes.Mul),
+					//	{
+					i => i.MatchStloc(out _),
+					//
+					i => i.Match(OpCodes.Nop)
+				);
+
+				cursor.Emit(OpCodes.Ldarg_0);
+				cursor.Emit(OpCodes.Ldloca, damageLocalId);
+				cursor.EmitDelegate<NPCDamageModifier>(CheckForKillingBlow);
+			};
+		}
+		private void ModifyHitNPCKillingBlows(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
+		{
+			if(ChargedAttack) {
+				tryApplyingKillingBlow = true;
+			}
+		}
+
+		private static void CheckForKillingBlow(NPC npc, ref double damage)
+		{
+			if(!tryApplyingKillingBlow) {
+				return;
+			}
+
+			if(damage >= 1.0d && npc.life < npc.lifeMax && npc.life - damage <= 0.0d) {
+				damage *= 2.0;
+
+				if(!Main.dedServ) {
+					SoundEngine.PlaySound(KillingBlowSound, npc.Center);
+					CombatText.NewText(npc.getRect(), Color.MediumVioletRed, "Killing Blow!", true);
+				}
+			}
+
+			tryApplyingKillingBlow = false;
+		}
+	}
+}
