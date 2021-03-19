@@ -1,15 +1,17 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Hooks;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 {
 	//TODO: Somehow make this have conditional instancing?
-	public class ItemCharging : GlobalItem
+	public class ItemCharging : GlobalItem, ICanTurnDuringItemUse
 	{
 		public delegate void ChargeAction(Item item, Player player, float chargeProgress);
 
 		private ChargeAction updateAction;
 		private ChargeAction endAction;
+		private bool? allowTurning;
 
 		public bool IsCharging { get; private set; }
 		public int ChargeTime { get; private set; }
@@ -33,7 +35,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 			}
 		}
 
-		public void StartCharge(int chargeTime, ChargeAction updateAction, ChargeAction endAction)
+		public void StartCharge(int chargeTime, ChargeAction updateAction, ChargeAction endAction, bool? allowTurning = null)
 		{
 			IsCharging = true;
 			ChargeTime = 0;
@@ -41,6 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 
 			this.updateAction = updateAction;
 			this.endAction = endAction;
+			this.allowTurning = allowTurning;
 		}
 		public void StopCharge(Item item, Player player, bool skipAction = false)
 		{
@@ -53,5 +56,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 			updateAction = null;
 			endAction = null;
 		}
+
+		public bool? CanTurnDuringItemUse(Item item, Player player) => allowTurning;
 	}
 }

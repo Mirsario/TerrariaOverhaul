@@ -63,7 +63,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 						(i, p, progress) => {
 							p.GetModPlayer<PlayerItemUse>().ForceItemUse();
 							i.GetGlobalItem<Broadsword>().ChargedAttack = true;
-						}
+						},
+						//Allow turning
+						true
 					);
 				}
 			}
