@@ -117,14 +117,18 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				return;
 			}
 
+			var graphicsDevice = Main.instance.GraphicsDevice;
+
 			lock(lightingBuffer) {
+				const int NumTextures = 3;
+
 				shader.Parameters["texture0"].SetValue(texture);
 				shader.Parameters["texture1"].SetValue(Main.instance.tileTarget);
 				shader.Parameters["lightingBuffer"].SetValue(lightingBuffer);
 				//shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.TransformationMatrix);
 				shader.Parameters["transformMatrix"].SetValue(GetDefaultMatrix() * Matrix.CreateScale(Main.ForcedMinimumZoom));
 
-				Main.instance.GraphicsDevice.BlendState = BlendState.AlphaBlend;
+				graphicsDevice.BlendState = BlendState.AlphaBlend;
 
 				foreach(var pass in shader.CurrentTechnique.Passes) {
 					pass.Apply();
@@ -142,7 +146,12 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 						new VertexPositionUv2(new Vector3(destination.Left, destination.Bottom, 0f), new Vector2(0f, 1f), (destination.BottomLeft - tOffset) * vec)
 					};
 
-					Main.instance.GraphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, QuadTriangles, 0, QuadTriangles.Length / 3);
+					graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, QuadTriangles, 0, QuadTriangles.Length / 3);
+				}
+
+				//Very important to unbind the textures.
+				for(int i = 0; i < NumTextures; i++) {
+					graphicsDevice.Textures[i] = null;
 				}
 			}
 		}
