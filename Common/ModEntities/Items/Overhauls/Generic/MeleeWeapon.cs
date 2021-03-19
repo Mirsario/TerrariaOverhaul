@@ -351,11 +351,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			}
 
 			if(Math.Sign(player.velocity.X) != Math.Sign(velocity.X) || Math.Abs(player.velocity.X) < maxVelocity.X) {
-				player.velocity.X = MathUtils.StepTowards(player.velocity.X, maxVelocity.X, velocity.X);
+				player.velocity.X = MathUtils.StepTowards(player.velocity.X, maxVelocity.X * Math.Sign(velocity.X), Math.Abs(velocity.X));
 			}
 
 			if(Math.Sign(player.velocity.Y) != Math.Sign(velocity.Y) || Math.Abs(player.velocity.Y) < maxVelocity.Y) {
-				player.velocity.Y = MathUtils.StepTowards(player.velocity.Y, maxVelocity.Y, velocity.Y);
+				player.velocity.Y = MathUtils.StepTowards(player.velocity.Y, maxVelocity.Y * Math.Sign(velocity.Y), Math.Abs(velocity.Y));
 			}
 		}
 	}
