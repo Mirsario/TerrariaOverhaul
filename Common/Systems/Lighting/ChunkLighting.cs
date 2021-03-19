@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using MonoMod.RuntimeDetour.HookGen;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Systems.Chunks;
@@ -23,6 +24,12 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 		public override void Load()
 		{
 			lightingUpdateLock = new object();
+
+			//This fixes tileTarget not being available in many cases. And other dumb issues.
+			HookEndpointManager.Add<Func<Func<bool>, bool>>(
+				typeof(Main).GetProperty(nameof(Main.RenderTargetsRequired)).GetMethod,
+				new Func<Func<bool>, bool>(orig => true)
+			);
 
 			On.Terraria.Lighting.LightTiles += (On.Terraria.Lighting.orig_LightTiles orig, int firstX, int lastX, int firstY, int lastY) => {
 				void UpdateLighting()
