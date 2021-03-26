@@ -55,12 +55,28 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Hooks
 			}
 		);
 
+		public static HookList<GlobalItem, Func<Item, Player, bool>> ShowItemCrosshair { get; private set; } = new HookList<GlobalItem, Func<Item, Player, bool>>(
+			//Method reference
+			typeof(IShowItemCrosshair).GetMethod(nameof(IShowItemCrosshair.ShowItemCrosshair)),
+			//Invocation
+			e => (Item item, Player player) => {
+				foreach(IShowItemCrosshair g in e.Enumerate(item)) {
+					if(g.ShowItemCrosshair(item, player)) {
+						return true;
+					}
+				}
+
+				return false;
+			}
+		);
+
 		//TODO: AddModHook will be able to be used in a static constructor when the .NET Core tML branch is merged, and assembly unloading is implemented.
 		public void Load(Mod mod)
 		{
 			ItemLoader.AddModHook(ModifyItemNPCHitSound);
 			ItemLoader.AddModHook(ModifyItemNPCDeathSound);
 			ItemLoader.AddModHook(CanTurnDuringItemUse);
+			ItemLoader.AddModHook(ShowItemCrosshair);
 		}
 		public void Unload() { }
 	}

@@ -1,11 +1,12 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Hooks;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
-	public class MagicWeapon : AdvancedItem
+	public class MagicWeapon : AdvancedItem, IShowItemCrosshair
 	{
 		public override ScreenShake OnUseScreenShake => new ScreenShake(4f, 0.2f);
 
@@ -28,5 +29,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			return true;
 		}
+
+		public bool ShowItemCrosshair(Item item, Player player) => true;
 	}
 }

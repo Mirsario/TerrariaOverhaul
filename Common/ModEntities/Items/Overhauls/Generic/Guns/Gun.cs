@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Hooks;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {
-	public abstract class Gun : AdvancedItem
+	public abstract class Gun : AdvancedItem, IShowItemCrosshair
 	{
 		public int MuzzleflashTime { get; protected set; }
 
@@ -33,5 +34,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 				Gore.NewGore(position, velocity, ModContent.GoreType<T>());
 			}
 		}
+
+		public bool ShowItemCrosshair(Item item, Player player) => true;
 	}
 }
