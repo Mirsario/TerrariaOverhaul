@@ -15,6 +15,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		public const int PickupGrabDelay = 30;
 		public const int PickupHealAmount = 3;
 		public const int PickupManaAmount = 5;
+		public const float DefaultPickupRange = 160f;
 
 		public static readonly int[] LifeTypes = {
 			ItemID.Heart,
@@ -56,7 +57,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			float GetSquaredGrabRange(Player p)
 			{
-				float range = 100f * 100f;
+				float range = DefaultPickupRange * DefaultPickupRange;
 
 				if(isHeart ? p.lifeMagnet : p.manaMagnet) {
 					range *= 2f;
