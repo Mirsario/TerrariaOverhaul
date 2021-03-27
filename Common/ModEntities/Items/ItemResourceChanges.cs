@@ -11,7 +11,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 {
 	public class ItemResourceChanges : GlobalItem
 	{
-		public const int PickupLifeTime = 300;
+		public const int HealthPickupLifetime = 300;
+		public const int ManaPickupLifetime = 180;
 		public const int PickupGrabDelay = 30;
 		public const int PickupHealAmount = 5;
 		public const int PickupManaAmount = 5;
@@ -30,6 +31,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 		private bool isHeart;
 
+		private int MaxLifetime => isHeart ? HealthPickupLifetime : ManaPickupLifetime;
+
 		public override bool InstancePerEntity => true;
 
 		public override bool AppliesToEntity(Item item, bool lateInstantiation)
@@ -46,7 +49,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		{
 			int lifeTime = item.timeSinceItemSpawned / 5;
 
-			if(lifeTime >= PickupLifeTime) {
+			if(lifeTime >= MaxLifetime) {
 				item.active = false;
 				return;
 			}
@@ -147,7 +150,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		{
 			int lifeTime = item.timeSinceItemSpawned / 5;
 
-			return 1f - (float)Math.Pow(MathHelper.Clamp(lifeTime / (float)PickupLifeTime, 0f, 1f), 3f);
+			return 1f - (float)Math.Pow(MathHelper.Clamp(lifeTime / (float)MaxLifetime, 0f, 1f), 3f);
 		}
 
 		private bool IsNeededByPlayer(Player p)

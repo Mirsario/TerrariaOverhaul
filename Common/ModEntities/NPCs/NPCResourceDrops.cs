@@ -5,14 +5,14 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items;
-using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Content.Dusts;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
 	public class NPCResourceDrops : GlobalNPC
 	{
-		public const int ManaDropCooldownTime = 45;
+		public const int ManaDropCooldownTime = 32;
 		public const float DefaultResourceDropRange = 1280f;
 
 		//private int manaPickupsDropped;
@@ -59,22 +59,25 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				if(!Main.dedServ) {
 					Lighting.AddLight(npc.Center, Color.BlueViolet.ToVector3() * ((float)Math.Sin(Main.GameUpdateCount / 60f * 4f) * 0.5f + 0.5f));
 
-					//if(Main.GameUpdateCount % 2 == 0) {
-					//	Dust.NewDustPerfect(npc.getRect().GetRandomPoint(), DustID.WitherLightning, Vector2.Zero);
-					//}
+					if(Main.GameUpdateCount % 2 == 0) {
+						Vector2 point = npc.getRect().GetRandomPoint();
+						//Vector2 directionTowardsCenter = point.DirectionTo(npc.Center);
+
+						Dust.NewDustPerfect(point, ModContent.DustType<ManaDust>(), Vector2.Zero);
+					}
 				}
 			}
 		}
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
 		{
 			if(player.IsLocal() && item.CountsAsClass(DamageClass.Magic)) {
-				manaPickupsToDrop = 5;
+				manaPickupsToDrop = 10;
 			}
 		}
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
 		{
 			if(projectile.GetOwner()?.IsLocal() == true && projectile.CountsAsClass(DamageClass.Magic)) {
-				manaPickupsToDrop = 5;
+				manaPickupsToDrop = 10;
 			}
 		}
 
