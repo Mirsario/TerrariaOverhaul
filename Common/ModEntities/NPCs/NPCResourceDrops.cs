@@ -12,12 +12,12 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
 	public class NPCResourceDrops : GlobalNPC
 	{
-		public const int ManaDropCooldownTime = 32;
+		public const int ManaDropCooldownTime = 15;
 		public const float DefaultResourceDropRange = 1280f;
 
-		//private int manaPickupsDropped;
 		private int manaDropCooldown = ManaDropCooldownTime;
 		private int manaPickupsToDrop;
+		private float magicDamageCounter;
 
 		public override bool InstancePerEntity => true;
 
@@ -49,10 +49,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					var player = Main.LocalPlayer;
 
 					if(player.WithinRange(npc.Center, DefaultResourceDropRange)) {
-						npc.GetGlobalNPC<NPCResourceDrops>().DropMana(npc, player, 1);
+						DropMana(npc, player, 1);
 
 						manaPickupsToDrop--;
-						//manaPickupsDropped++;
 					}
 				}
 
@@ -71,13 +70,15 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
 		{
 			if(player.IsLocal() && item.CountsAsClass(DamageClass.Magic)) {
-				manaPickupsToDrop = 10;
+				OnDamagedByMagic(npc, player, damage);
 			}
 		}
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
 		{
-			if(projectile.GetOwner()?.IsLocal() == true && projectile.CountsAsClass(DamageClass.Magic)) {
-				manaPickupsToDrop = 10;
+			var ownerPlayer = projectile.GetOwner();
+
+			if(ownerPlayer?.IsLocal() == true && projectile.CountsAsClass(DamageClass.Magic)) {
+				OnDamagedByMagic(npc, ownerPlayer, damage);
 			}
 		}
 
@@ -102,11 +103,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			if(amount.HasValue) {
 				dropsCount = amount.Value;
 			} else {
-				//int maxDrops = (int)Math.Ceiling((manaToDrop - manaDropped) / ItemResourceChanges.PickupManaAmount);
-
 				dropsCount = GetDefaultDropCount(player, player.statMana, player.statManaMax2, ManaPickupChanges.ManaPerPickup, 3);
 			}
-
+			
 			for(int i = 0; i < dropsCount; i++) {
 				Item.NewItem(npc.getRect(), ItemID.Star, noBroadcast: true);
 			}
@@ -131,6 +130,25 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			}
 
 			return dropsCount;
+		}
+		private void OnDamagedByMagic(NPC npc, Player player, float damage)
+		{
+			magicDamageCounter += damage;
+
+			const float DamageToManaFactor = 9.5f;
+			const float DamageToManaPickupFactor = DamageToManaFactor * ManaPickupChanges.ManaPerPickup;
+
+			while(magicDamageCounter > DamageToManaPickupFactor) {
+				manaPickupsToDrop++;
+				magicDamageCounter -= DamageToManaPickupFactor;
+			}
+
+			//Drop everything instantly if dead.
+			if(!npc.active) {
+				DropMana(npc, player, manaPickupsToDrop);
+
+				manaPickupsToDrop = 0;
+			}
 		}
 	}
 }
