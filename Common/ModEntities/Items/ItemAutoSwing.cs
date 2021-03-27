@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 	{
 		public override void SetDefaults(Item item)
 		{
-			if(!item.autoReuse) {
+			if(!item.autoReuse && !item.channel) {
 				item.autoReuse = true;
 				item.useTime += 2;
 				item.useAnimation += 2;
