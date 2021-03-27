@@ -12,11 +12,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
 	public class NPCResourceDrops : GlobalNPC
 	{
-		public const int ManaDropCooldownTime = 30;
+		public const int ManaDropCooldownTime = 45;
 		public const float DefaultResourceDropRange = 1280f;
 
 		//private int manaPickupsDropped;
-		private int manaDropCooldown;
+		private int manaDropCooldown = ManaDropCooldownTime;
 		private int manaPickupsToDrop;
 
 		public override bool InstancePerEntity => true;
@@ -42,8 +42,8 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		}
 		public override void PostAI(NPC npc)
 		{
-			if(manaPickupsToDrop > 0) {
-				if(Main.netMode != NetmodeID.Server && --manaDropCooldown <= 0) {
+			if(Main.netMode != NetmodeID.Server && manaPickupsToDrop > 0) {
+				if(--manaDropCooldown <= 0) {
 					manaDropCooldown = ManaDropCooldownTime;
 
 					var player = Main.LocalPlayer;
@@ -68,13 +68,13 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
 		{
 			if(player.IsLocal() && item.CountsAsClass(DamageClass.Magic)) {
-				manaPickupsToDrop = 3;
+				manaPickupsToDrop = 5;
 			}
 		}
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
 		{
 			if(projectile.GetOwner()?.IsLocal() == true && projectile.CountsAsClass(DamageClass.Magic)) {
-				manaPickupsToDrop = 3;
+				manaPickupsToDrop = 5;
 			}
 		}
 

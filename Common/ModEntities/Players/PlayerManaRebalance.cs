@@ -46,7 +46,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		}
 		public override void ModifyManaCost(Item item, ref float reduce, ref float mult)
 		{
-			mult *= 1.25f;
+			mult *= 1.3f;
 		}
 	}
 }

@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		public const int PickupLifeTime = 300;
 		public const int PickupGrabDelay = 30;
 		public const int PickupHealAmount = 5;
-		public const int PickupManaAmount = 7;
+		public const int PickupManaAmount = 5;
 		public const float DefaultPickupRange = 160f;
 
 		public static readonly int[] LifeTypes = {
@@ -154,7 +154,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		{
 			return isHeart
 				? p.statLife < p.statLifeMax2
-				: p.statMana < p.statManaMax2;
+				: true; //p.statMana < p.statManaMax2;
 		}
 	}
 }
