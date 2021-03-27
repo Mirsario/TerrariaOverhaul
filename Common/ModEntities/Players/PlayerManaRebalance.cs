@@ -44,9 +44,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				il.Emit(OpCodes.Ldarg_0);
 			};
 		}
-		public override void ModifyManaCost(Item item, ref float reduce, ref float mult)
+		/*public override void ModifyManaCost(Item item, ref float reduce, ref float mult)
 		{
 			mult *= 1.3f;
-		}
+		}*/
 	}
 }
