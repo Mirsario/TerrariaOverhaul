@@ -13,8 +13,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 	{
 		public const int PickupLifeTime = 300;
 		public const int PickupGrabDelay = 30;
-		public const int PickupHealAmount = 3;
-		public const int PickupManaAmount = 5;
+		public const int PickupHealAmount = 5;
+		public const int PickupManaAmount = 7;
 		public const float DefaultPickupRange = 160f;
 
 		public static readonly int[] LifeTypes = {
