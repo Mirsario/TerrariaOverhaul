@@ -105,7 +105,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 			} else {
 				bonus *= PickupManaAmount;
 
-				player.statMana = Math.Min(player.statMana + bonus, player.statManaMax);
+				player.statMana = Math.Min(player.statMana + bonus, player.statManaMax2);
 
 				player.ManaEffect(bonus);
 			}
@@ -154,7 +154,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		{
 			return isHeart
 				? p.statLife < p.statLifeMax2
-				: p.statMana < p.statManaMax;
+				: p.statMana < p.statManaMax2;
 		}
 	}
 }
