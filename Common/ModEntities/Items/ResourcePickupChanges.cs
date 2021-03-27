@@ -18,10 +18,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		public override bool InstancePerEntity => true;
 
 		public abstract void OnPickupReal(Item item, Player player);
+		public abstract float GetPickupRange(Item item, Player player);
 		public abstract bool IsNeededByPlayer(Item item, Player player);
 		public abstract override bool AppliesToEntity(Item item, bool lateInstantiation);
-
-		public virtual float GetPickupRange(Item item, Player player) => 160f;
 
 		public override GlobalItem Clone(Item item, Item itemClone)
 		{

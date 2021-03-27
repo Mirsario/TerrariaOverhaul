@@ -40,7 +40,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		}
 		public override float GetPickupRange(Item item, Player player)
 		{
-			float range = base.GetPickupRange(item, player);
+			float range = 192f;
 
 			if(player.lifeMagnet) {
 				range *= 2f;
