@@ -23,10 +23,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		private Vector2 climbStartPos;
 		private Vector2 climbEndPos;
 
-		public float ClimbTime { get; private set; }
+		public float ClimbProgress { get; private set; }
 		public bool IsClimbing { get; private set; }
 
 		public bool HasClimbingGear => Player.EnumerateAccessories().Any(tuple => OverhaulItemTags.ClimbingClaws.Has(tuple.item.type));
+		public float ClimbTime => HasClimbingGear ? 0.125f : 0.25f;
 
 		public override bool PreItemCheck()
 		{
@@ -42,7 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public void StartClimbing(Vector2 posFrom, Vector2 posTo)
 		{
 			IsClimbing = true;
-			ClimbTime = 0f;
+			ClimbProgress = 0f;
 			climbStartPos = Player.position = posFrom;
 			climbEndPos = posTo;
 
@@ -127,18 +128,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			playerDirectioning.forcedDirection = climbStartPos.X <= climbEndPos.X ? 1 : -1;
 
 			//Progress climbing.
-			ClimbTime = MathUtils.StepTowards(ClimbTime, 1f, (HasClimbingGear ? 3.5f : 2f) * TimeSystem.LogicDeltaTime);
+			ClimbProgress = MathUtils.StepTowards(ClimbProgress, 1f, (1f / ClimbTime) * TimeSystem.LogicDeltaTime);
 
-			if(ClimbTime >= 1f) {
+			if(ClimbProgress >= 1f) {
 				IsClimbing = false;
 			} else {
-				playerAnimations.forcedBodyFrame = ClimbTime > 0.75f ? PlayerFrames.Use4 : ClimbTime > 0.5f ? PlayerFrames.Use3 : ClimbTime > 0.25f ? PlayerFrames.Use2 : PlayerFrames.Use1;
-				playerRotation.rotation = ClimbTime * 0.7f * Player.direction;
+				playerAnimations.forcedBodyFrame = ClimbProgress > 0.75f ? PlayerFrames.Use4 : ClimbProgress > 0.5f ? PlayerFrames.Use3 : ClimbProgress > 0.25f ? PlayerFrames.Use2 : PlayerFrames.Use1;
+				playerRotation.rotation = ClimbProgress * 0.7f * Player.direction;
 				playerRotation.rotationOffsetScale = 0f;
 			}
 
-			Player.position.X = MathHelper.Lerp(climbStartPos.X, climbEndPos.X, ClimbTime);
-			Player.position.Y = ClimbTime < 0.75f ? MathHelper.Lerp(climbStartPos.Y, climbEndPos.Y, ClimbTime / 0.75f) : climbEndPos.Y;
+			Player.position.X = MathHelper.Lerp(climbStartPos.X, climbEndPos.X, ClimbProgress);
+			Player.position.Y = ClimbProgress < 0.75f ? MathHelper.Lerp(climbStartPos.Y, climbEndPos.Y, ClimbProgress / 0.75f) : climbEndPos.Y;
 			playerMovement.forcedPosition = Player.position;
 
 			//Fix suffocating when climbing sand
