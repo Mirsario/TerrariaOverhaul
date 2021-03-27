@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items
 {
-	public sealed class ManaPickupChanges : ItemResourceChanges
+	public sealed class ManaPickupChanges : ResourcePickupChanges
 	{
 		public const int ManaPerPickup = 5;
 

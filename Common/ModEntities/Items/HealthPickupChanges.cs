@@ -6,7 +6,7 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items
 {
-	public sealed class HealthPickupChanges : ItemResourceChanges
+	public sealed class HealthPickupChanges : ResourcePickupChanges
 	{
 		public const int HealthPerPickup = 5;
 

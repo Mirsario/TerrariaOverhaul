@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items
 {
-	public abstract class ItemResourceChanges : GlobalItem
+	public abstract class ResourcePickupChanges : GlobalItem
 	{
 		public abstract int MaxLifetime { get; }
 
