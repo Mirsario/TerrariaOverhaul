@@ -88,7 +88,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			if(amount.HasValue) {
 				dropsCount = amount.Value;
 			} else {
-				dropsCount = GetDefaultDropCount(player, player.statLife, player.statLifeMax2, ItemResourceChanges.PickupHealAmount, 3, ItemID.Heart);
+				dropsCount = GetDefaultDropCount(player, player.statLife, player.statLifeMax2, ManaPickupChanges.ManaPerPickup, 3, ItemID.Heart);
 			}
 
 			for(int i = 0; i < dropsCount; i++) {
@@ -104,7 +104,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			} else {
 				//int maxDrops = (int)Math.Ceiling((manaToDrop - manaDropped) / ItemResourceChanges.PickupManaAmount);
 
-				dropsCount = GetDefaultDropCount(player, player.statMana, player.statManaMax2, ItemResourceChanges.PickupManaAmount, 3);
+				dropsCount = GetDefaultDropCount(player, player.statMana, player.statManaMax2, ManaPickupChanges.ManaPerPickup, 3);
 			}
 
 			for(int i = 0; i < dropsCount; i++) {
