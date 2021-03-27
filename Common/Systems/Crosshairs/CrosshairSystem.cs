@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Common.ModEntities.Items.Hooks;
@@ -14,7 +15,7 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 	public sealed class CrosshairSystem : ModSystem
 	{
 		private static Asset<Texture2D> crosshairTexture;
-
+		private static SpriteFrame crosshairBaseFrame = new SpriteFrame(4, 2);
 		private static float crosshairOffset;
 		private static float crosshairRotation;
 		private static Color crosshairColor;
@@ -95,22 +96,26 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 			layers[cursorOrEndIndex] = new LegacyGameInterfaceLayer(
 				layers[cursorOrEndIndex].Name,
 				() => {
-					const int Size = 32;
-					const int Half = Size / 2;
-
 					int offset = (int)Math.Ceiling(crosshairOffset);
 
-					for(int y = 0; y < 2; y++) {
-						for(int x = 0; x < 2; x++) {
-							int xDir = x == 0 ? -1 : 1;
-							int yDir = y == 0 ? -1 : 1;
+					for(int i = 0; i < 2; i++) {
+						bool outline = i == 1;
 
-							Vector2 vecOffset = new Vector2(offset * xDir, offset * yDir).RotatedBy(crosshairRotation);
-							var dstRect = new Rectangle(Main.mouseX + (int)vecOffset.X, Main.mouseY + (int)vecOffset.Y, Half, Half);
-							var srcRect = new Rectangle(x * Half, y * Half, Half, Half);
-							var origin = new Vector2((1 - x) * Half, (1 - y) * Half);
+						for(byte y = 0; y < 2; y++) {
+							for(byte x = 0; x < 2; x++) {
+								int xDir = x == 0 ? -1 : 1;
+								int yDir = y == 0 ? -1 : 1;
 
-							Main.spriteBatch.Draw(crosshairTexture.Value, dstRect, srcRect, crosshairColor, crosshairRotation, origin, SpriteEffects.None, 0f);
+								var texture = crosshairTexture.Value;
+								Vector2 vecOffset = new Vector2(offset * xDir, offset * yDir).RotatedBy(crosshairRotation);
+								var frame = crosshairBaseFrame.With((byte)(x + (outline ? 2 : 0)), y);
+								var srcRect = frame.GetSourceRectangle(texture);
+								var dstRect = new Rectangle(Main.mouseX + (int)vecOffset.X, Main.mouseY + (int)vecOffset.Y, srcRect.Width, srcRect.Height);
+								var origin = new Vector2((1 - x) * srcRect.Width, (1 - y) * srcRect.Height);
+								var color = outline ? Main.MouseBorderColor : crosshairColor;
+
+								Main.spriteBatch.Draw(texture, dstRect, srcRect, color, crosshairRotation, origin, SpriteEffects.None, 0f);
+							}
 						}
 					}
 
@@ -122,7 +127,9 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 
 		public static void AddImpulse(float strength, float timeInSeconds, float rotation = 0f, Color? color = null, bool reversed = false, bool autoRotation = false)
 			=> AddImpulse(new CrosshairImpulse(strength, timeInSeconds, rotation, color, reversed, autoRotation));
+
 		public static void AddImpulse(CrosshairImpulse impulse) => impulses.Add(impulse);
+
 		public static void ClearImpulses() => impulses.Clear();
 	}
 }
