@@ -1,4 +1,4 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Hooks;
 
@@ -25,6 +25,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 		public override void HoldItem(Item item, Player player)
 		{
 			if(IsCharging) {
+
+				if (player.dead){
+          			StopCharge(item, player, true);
+        		}
+
 				updateAction?.Invoke(item, player, ChargeProgress);
 
 				ChargeTime++;
