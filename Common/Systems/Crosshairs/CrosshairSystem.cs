@@ -34,7 +34,7 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 					return false;
 				}
 
-				return CustomItemHooks.ShowItemCrosshair.Invoke(item, player);
+				return HookShowItemCrosshair.Hook.Invoke(item, player);
 			}
 		}
 

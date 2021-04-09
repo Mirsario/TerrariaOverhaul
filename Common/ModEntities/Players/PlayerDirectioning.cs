@@ -51,7 +51,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 			}
 
-			if(!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || CustomItemHooks.CanTurnDuringItemUse.Invoke(Player.HeldItem, Player))) {
+			if(!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || HookCanTurnDuringItemUse.Hook.Invoke(Player.HeldItem, Player))) {
 				if(forcedDirection != 0) {
 					Player.direction = forcedDirection;
 
