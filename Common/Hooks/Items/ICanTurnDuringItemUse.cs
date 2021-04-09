@@ -1,6 +1,6 @@
 ﻿using Terraria;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Hooks
+namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface ICanTurnDuringItemUse
 	{

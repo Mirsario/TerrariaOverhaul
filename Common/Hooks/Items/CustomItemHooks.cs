@@ -4,7 +4,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Hooks
+namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	//TODO: This class will not be needed with C# 8.0 default interface implementations.
 	public sealed class CustomItemHooks : ILoadable

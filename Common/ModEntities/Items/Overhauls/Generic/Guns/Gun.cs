@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.ModEntities.Items.Hooks;
+using TerrariaOverhaul.Common.Hooks.Items;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 {

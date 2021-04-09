@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.Audio;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Hooks
+namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface IModifyItemNPCHitSound
 	{
