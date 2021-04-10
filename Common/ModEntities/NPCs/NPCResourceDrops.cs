@@ -18,8 +18,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		public const float DefaultResourceDropRange = 1280f;
 
 		private int manaDropCooldown = ManaDropCooldownTime;
-		private int manaPickupsToDrop;
-		private float manaPickupsToDropCounter;
+		private float manaPickupsToDrop;
 
 		public override bool InstancePerEntity => true;
 
@@ -44,7 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		}
 		public override void PostAI(NPC npc)
 		{
-			if(Main.netMode != NetmodeID.Server && manaPickupsToDrop > 0) {
+			if(Main.netMode != NetmodeID.Server && manaPickupsToDrop >= 1f) {
 				if(--manaDropCooldown <= 0) {
 					manaDropCooldown = ManaDropCooldownTime;
 
@@ -139,16 +138,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			const float TickToManaFactor = TimeSystem.LogicDeltaTime / 3.5f; //Drop 1 mana per X seconds at average
 			const float TickToManaPickupFactor = TickToManaFactor * ManaPickupChanges.ManaPerPickup;
 
-			manaPickupsToDropCounter += itemUseTime * TickToManaPickupFactor;
-
-			while(manaPickupsToDropCounter >= 1f) {
-				manaPickupsToDrop++;
-				manaPickupsToDropCounter--;
-			}
+			manaPickupsToDrop += itemUseTime * TickToManaPickupFactor;
 
 			//Drop everything instantly if dead.
 			if(!npc.active) {
-				DropMana(npc, player, manaPickupsToDrop);
+				DropMana(npc, player, (int)Math.Ceiling(manaPickupsToDrop));
 
 				manaPickupsToDrop = 0;
 			}
