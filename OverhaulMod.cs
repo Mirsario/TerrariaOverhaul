@@ -41,13 +41,6 @@ namespace TerrariaOverhaul
 			/*if(ModLoader.version < MinimalTMLVersion) {
 				throw new OutdatedTModLoaderException(MinimalTMLVersion);
 			}*/
-
-			Properties = new ModProperties {
-				Autoload = true,
-				AutoloadGores = false,
-				AutoloadSounds = true,
-				AutoloadBackgrounds = false
-			};
 		}
 
 		public override void HandlePacket(BinaryReader reader, int sender) => MultiplayerSystem.HandlePacket(reader, sender);
