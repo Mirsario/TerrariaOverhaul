@@ -71,7 +71,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
 		{
 			if(player.IsLocal() && item.CountsAsClass(DamageClass.Magic)) {
-				OnDamagedByMagic(npc, player, damage, item.useTime, item.useAnimation);
+				OnDamagedByMagic(npc, player, damage, item.useTime, item.useAnimation, item.mana);
 			}
 		}
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
@@ -80,7 +80,10 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			if(ownerPlayer?.IsLocal() == true && projectile.CountsAsClass(DamageClass.Magic)
 			&& projectile.TryGetGlobalProjectile<ProjectileSourceItemInfo>(out var projInfo) && projInfo.Available) {
-				OnDamagedByMagic(npc, ownerPlayer, damage, projInfo.UseTime, projInfo.UseAnimation);
+				//Forbid projectiles to start mana drops if they've already hit something before.
+				if(ContentSamples.ProjectilesByType.TryGetValue(projectile.type, out var baseProj) && projectile.penetrate == baseProj.penetrate) {
+					OnDamagedByMagic(npc, ownerPlayer, damage, projInfo.UseTime, projInfo.UseAnimation, projInfo.ManaUse);
+				}
 			}
 		}
 
@@ -133,12 +136,15 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return dropsCount;
 		}
-		private void OnDamagedByMagic(NPC npc, Player player, float damage, int itemUseTime, int itemUseAnimation)
+		private void OnDamagedByMagic(NPC npc, Player player, float damage, int useTime, int useAnimation, int manaUse)
 		{
-			const float TickToManaFactor = TimeSystem.LogicDeltaTime / 3f; //Drop 1 mana per X seconds at average
-			const float TickToManaPickupFactor = TickToManaFactor * ManaPickupChanges.ManaPerPickup;
+			const float ManaUsePerSecondToManaFactor = 1f / 25f;
+			const float ManaUsePerSecondToManaPickupFactor = ManaUsePerSecondToManaFactor / ManaPickupChanges.ManaPerPickup;
 
-			manaPickupsToDrop += itemUseTime * TickToManaPickupFactor;
+			float manaUsePerSecond = manaUse / (useAnimation * TimeSystem.LogicDeltaTime);
+			int shotsPerUse = Math.Max(1, useAnimation / useTime);
+
+			manaPickupsToDrop += manaUsePerSecond * ManaUsePerSecondToManaPickupFactor / shotsPerUse;
 
 			//Drop everything instantly if dead.
 			if(!npc.active) {

@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public class PlayerManaRebalance : ModPlayer
 	{
-		public const int BaseManaRegen = 8;
+		public const int BaseManaRegen = 10;
 
 		private static bool IsEnabled => true;
 
@@ -35,6 +35,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				il.EmitDelegate<Action<Player>>(p => {
 					if(IsEnabled) {
 						p.manaRegen = BaseManaRegen + p.manaRegenBonus;
+
+						/*if(p.velocity.Y == 0f && p.controlLeft == p.controlRight) {
+							p.manaRegen *= 3;
+						}*/
 
 						if(p.manaRegenBuff) {
 							p.manaRegen *= 2;
