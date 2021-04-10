@@ -5,6 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items;
+using TerrariaOverhaul.Common.ModEntities.Projectiles;
+using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Content.Dusts;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -17,7 +19,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		private int manaDropCooldown = ManaDropCooldownTime;
 		private int manaPickupsToDrop;
-		private float magicDamageCounter;
+		private float manaPickupsToDropCounter;
 
 		public override bool InstancePerEntity => true;
 
@@ -70,15 +72,16 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
 		{
 			if(player.IsLocal() && item.CountsAsClass(DamageClass.Magic)) {
-				OnDamagedByMagic(npc, player, damage);
+				OnDamagedByMagic(npc, player, damage, item.useTime, item.useAnimation);
 			}
 		}
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
 		{
 			var ownerPlayer = projectile.GetOwner();
 
-			if(ownerPlayer?.IsLocal() == true && projectile.CountsAsClass(DamageClass.Magic)) {
-				OnDamagedByMagic(npc, ownerPlayer, damage);
+			if(ownerPlayer?.IsLocal() == true && projectile.CountsAsClass(DamageClass.Magic)
+			&& projectile.TryGetGlobalProjectile<ProjectileSourceItemInfo>(out var projInfo) && projInfo.Available) {
+				OnDamagedByMagic(npc, ownerPlayer, damage, projInfo.UseTime, projInfo.UseAnimation);
 			}
 		}
 
@@ -131,16 +134,16 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return dropsCount;
 		}
-		private void OnDamagedByMagic(NPC npc, Player player, float damage)
+		private void OnDamagedByMagic(NPC npc, Player player, float damage, int itemUseTime, int itemUseAnimation)
 		{
-			magicDamageCounter += damage;
+			const float TickToManaFactor = TimeSystem.LogicDeltaTime / 3.5f; //Drop 1 mana per X seconds at average
+			const float TickToManaPickupFactor = TickToManaFactor * ManaPickupChanges.ManaPerPickup;
 
-			const float DamageToManaFactor = 9.5f;
-			const float DamageToManaPickupFactor = DamageToManaFactor * ManaPickupChanges.ManaPerPickup;
+			manaPickupsToDropCounter += itemUseTime * TickToManaPickupFactor;
 
-			while(magicDamageCounter > DamageToManaPickupFactor) {
+			while(manaPickupsToDropCounter >= 1f) {
 				manaPickupsToDrop++;
-				magicDamageCounter -= DamageToManaPickupFactor;
+				manaPickupsToDropCounter--;
 			}
 
 			//Drop everything instantly if dead.
