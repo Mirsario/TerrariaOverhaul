@@ -24,10 +24,6 @@ namespace TerrariaOverhaul
 
 		public static OverhaulMod Instance { get; private set; }
 
-		//These 2 properties are read by ModHelpers.
-		public static string GithubUserName => "Mirsario";
-		public static string GithubProjectName => "TerrariaOverhaul";
-
 		static OverhaulMod()
 		{
 			Assembly = Assembly.GetExecutingAssembly();
