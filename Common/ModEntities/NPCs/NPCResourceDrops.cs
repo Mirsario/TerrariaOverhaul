@@ -38,7 +38,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 				if(player.WithinRange(npc.Center, DefaultResourceDropRange)) {
 					DropHealth(npc, player);
-					DropMana(npc, player);
+					//DropMana(npc, player);
 				}
 			};
 		}
