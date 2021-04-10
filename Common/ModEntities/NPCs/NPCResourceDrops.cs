@@ -80,10 +80,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			if(ownerPlayer?.IsLocal() == true && projectile.CountsAsClass(DamageClass.Magic)
 			&& projectile.TryGetGlobalProjectile<ProjectileSourceItemInfo>(out var projInfo) && projInfo.Available) {
-				//Forbid projectiles to start mana drops if they've already hit something before.
-				if(ContentSamples.ProjectilesByType.TryGetValue(projectile.type, out var baseProj) && projectile.penetrate == baseProj.penetrate) {
-					OnDamagedByMagic(npc, ownerPlayer, damage, projInfo.UseTime, projInfo.UseAnimation, projInfo.ManaUse);
-				}
+				OnDamagedByMagic(npc, ownerPlayer, damage, projInfo.UseTime, projInfo.UseAnimation, projInfo.ManaUse);
 			}
 		}
 
