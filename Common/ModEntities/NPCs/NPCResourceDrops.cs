@@ -135,7 +135,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		}
 		private void OnDamagedByMagic(NPC npc, Player player, float damage, int itemUseTime, int itemUseAnimation)
 		{
-			const float TickToManaFactor = TimeSystem.LogicDeltaTime / 3.5f; //Drop 1 mana per X seconds at average
+			const float TickToManaFactor = TimeSystem.LogicDeltaTime / 3f; //Drop 1 mana per X seconds at average
 			const float TickToManaPickupFactor = TickToManaFactor * ManaPickupChanges.ManaPerPickup;
 
 			manaPickupsToDrop += itemUseTime * TickToManaPickupFactor;
