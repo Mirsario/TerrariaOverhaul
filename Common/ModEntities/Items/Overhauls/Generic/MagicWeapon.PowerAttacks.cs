@@ -21,6 +21,44 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 		public bool ChargedAttack { get; private set; }
 
+		public override bool AltFunctionUse(Item item, Player player)
+		{
+			var itemCharging = item.GetGlobalItem<ItemCharging>();
+
+			if(itemCharging.IsCharging) {
+				return false;
+			}
+
+			int chargeLength = PlayerHooks.TotalMeleeTime(item.useAnimation * ChargeLengthScale, player, item);
+
+			if(!Main.dedServ) {
+				chargeSoundInstance = SoundEngine.PlayTrackedSound(ChargeSound, player.Center);
+			}
+
+			itemCharging.StartCharge(
+				chargeLength,
+				//Update
+				(i, p, progress) => {
+					p.itemTime = 1;
+					p.itemAnimation = p.itemAnimationMax;
+				},
+				//End
+				(i, p, progress) => {
+					p.GetModPlayer<PlayerItemUse>().ForceItemUse();
+
+					var magicWeapon = i.GetGlobalItem<MagicWeapon>();
+
+					magicWeapon.ChargedAttack = true;
+
+					magicWeapon.StopChargeSound();
+				},
+				//Allow turning
+				true
+			);
+
+			return false;
+		}
+
 		private void HoldItemCharging(Item item, Player player)
 		{
 			var itemCharging = item.GetGlobalItem<ItemCharging>();
@@ -33,39 +71,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				} else {
 					chargeSoundInstance = default;
 				}
-			} 
+			}
 
 			if(player.itemAnimation <= 0 && !itemCharging.IsCharging) {
 				ChargedAttack = false;
-
-				if(player.controlUseTile && !ItemLoader.AltFunctionUse(item, player)) {
-					int chargeLength = PlayerHooks.TotalMeleeTime(item.useAnimation * ChargeLengthScale, player, item);
-
-					if(!Main.dedServ) {
-						chargeSoundInstance = SoundEngine.PlayTrackedSound(ChargeSound, player.Center);
-					}
-
-					itemCharging.StartCharge(
-						chargeLength,
-						//Update
-						(i, p, progress) => {
-							p.itemTime = 1;
-							p.itemAnimation = p.itemAnimationMax;
-						},
-						//End
-						(i, p, progress) => {
-							p.GetModPlayer<PlayerItemUse>().ForceItemUse();
-
-							var magicWeapon = i.GetGlobalItem<MagicWeapon>();
-
-							magicWeapon.ChargedAttack = true;
-
-							magicWeapon.StopChargeSound();
-						},
-						//Allow turning
-						true
-					);
-				}
 			}
 
 			base.HoldItem(item, player);
