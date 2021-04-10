@@ -36,9 +36,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					if(IsEnabled) {
 						p.manaRegen = BaseManaRegen + p.manaRegenBonus;
 
-						/*if(p.velocity.Y == 0f && p.controlLeft == p.controlRight) {
-							p.manaRegen *= 3;
-						}*/
+						if(p.velocity.Y == 0f && Math.Abs(p.velocity.X) < 2f && p.itemAnimation <= 0 && p.controlLeft == p.controlRight) {
+							p.manaRegen *= 2;
+						}
 
 						if(p.manaRegenBuff) {
 							p.manaRegen *= 2;
