@@ -139,6 +139,10 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		private void OnDamagedByMagic(NPC npc, Player player, float damage, int useTime, int useAnimation, int manaUse)
 		{
 			const float ManaUsePerSecondToManaFactor = 1f / 25f;
+			if(npc.damage <= 0) {
+				return;
+			}
+
 			const float ManaUsePerSecondToManaPickupFactor = ManaUsePerSecondToManaFactor / ManaPickupChanges.ManaPerPickup;
 
 			float manaUsePerSecond = manaUse / (useAnimation * TimeSystem.LogicDeltaTime);
