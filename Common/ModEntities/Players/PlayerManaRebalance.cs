@@ -3,6 +3,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Content.Buffs;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
@@ -36,8 +37,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					if(IsEnabled) {
 						p.manaRegen = BaseManaRegen + p.manaRegenBonus;
 
-						if(p.velocity.Y == 0f && Math.Abs(p.velocity.X) < 2f && p.itemAnimation <= 0 && p.controlLeft == p.controlRight) {
+						if(p.velocity.Y == 0f && Math.Abs(p.velocity.X) < 2f && p.itemAnimation <= 0 && !p.controlUseItem && p.controlLeft == p.controlRight) {
 							p.manaRegen *= 2;
+
+							if(p.statMana < p.statManaMax2) {
+								p.AddBuff(ModContent.BuffType<ManaChannelling>(), 2);
+							}
 						}
 
 						if(p.manaRegenBuff) {
