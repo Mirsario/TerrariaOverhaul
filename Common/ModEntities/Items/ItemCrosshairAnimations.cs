@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Crosshairs;
 using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items
 {
@@ -10,16 +11,24 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 	{
 		public override bool? UseItem(Item item, Player player)
 		{
+			if(!player.IsLocal()) {
+				return null;
+			}
+
 			int useTime = PlayerHooks.TotalUseTime(item.useTime, player, item);
 			float useTimeInSeconds = useTime * TimeSystem.LogicDeltaTime;
 
 			CrosshairSystem.AddImpulse(7f, useTimeInSeconds);
 			CrosshairSystem.AddImpulse(0f, useTimeInSeconds * 0.5f, color: Color.White);
 
-			return base.UseItem(item, player);
+			return null;
 		}
 		public override void UseAnimation(Item item, Player player)
 		{
+			if(!player.IsLocal()) {
+				return;
+			}
+
 			const int MinTime = 25;
 
 			if(item.useAnimation > MinTime) {
