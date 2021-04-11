@@ -7,6 +7,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items
 {
+	[Autoload(Side = ModSide.Client)]
 	public sealed class ItemCrosshairAnimations : GlobalItem
 	{
 		public override bool? UseItem(Item item, Player player)

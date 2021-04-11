@@ -12,6 +12,7 @@ using TerrariaOverhaul.Common.Systems.Time;
 
 namespace TerrariaOverhaul.Common.Systems.Crosshairs
 {
+	[Autoload(Side = ModSide.Client)]
 	public sealed class CrosshairSystem : ModSystem
 	{
 		private static Asset<Texture2D> crosshairTexture;
