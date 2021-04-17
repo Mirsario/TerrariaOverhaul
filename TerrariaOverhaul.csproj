@@ -1,27 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  <Import Project="..\..\references\tModLoader.targets" />
+  <Import Project="..\tModLoader.targets" />
   <PropertyGroup>
 	<AssemblyName>TerrariaOverhaul</AssemblyName>
-	<TargetFramework>net45</TargetFramework>
-	<PlatformTarget>x86</PlatformTarget>
-	<LangVersion>7.3</LangVersion>
+	<TargetFramework>net5.0</TargetFramework>
+	<PlatformTarget>AnyCPU</PlatformTarget>
+	<LangVersion>latest</LangVersion>
   </PropertyGroup>
-  <Target Name="BuildMod" AfterTargets="Build">
-	<Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
-  </Target>
-  <ItemGroup>
-    <Reference Include="DiscordRichPresence">
-      <HintPath>lib\DiscordRichPresence.dll</HintPath>
-    </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
-      <HintPath>lib\ICSharpCode.SharpZipLib.dll</HintPath>
-    </Reference>
-    <Reference Include="Ionic.Zip.Reduced">
-      <HintPath>..\..\references\Ionic.Zip.Reduced.dll</HintPath>
-    </Reference>
-    <!--<Reference Remove="TerrariaHooks" />-->
-  </ItemGroup>
   <ItemGroup>
 	<PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
   </ItemGroup>
