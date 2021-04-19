@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 	{
 		public override bool? UseItem(Item item, Player player)
 		{
-			if(!player.IsLocal()) {
+			if(!player.IsLocal() || !CrosshairSystem.ShowCrosshair) {
 				return null;
 			}
 
@@ -26,7 +26,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		}
 		public override void UseAnimation(Item item, Player player)
 		{
-			if(!player.IsLocal()) {
+			if(!player.IsLocal() || !CrosshairSystem.ShowCrosshair) {
 				return;
 			}
 
