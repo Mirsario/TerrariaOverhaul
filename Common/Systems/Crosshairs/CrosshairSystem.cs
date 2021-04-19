@@ -129,7 +129,12 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 		public static void AddImpulse(float strength, float timeInSeconds, float rotation = 0f, Color? color = null, bool reversed = false, bool autoRotation = false)
 			=> AddImpulse(new CrosshairImpulse(strength, timeInSeconds, rotation, color, reversed, autoRotation));
 
-		public static void AddImpulse(CrosshairImpulse impulse) => impulses.Add(impulse);
+		public static void AddImpulse(CrosshairImpulse impulse)
+		{
+			if(ShowCrosshair) {
+				impulses.Add(impulse);
+			}
+		}
 
 		public static void ClearImpulses() => impulses.Clear();
 	}
