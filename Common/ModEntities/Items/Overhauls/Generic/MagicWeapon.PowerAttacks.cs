@@ -79,13 +79,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			base.HoldItem(item, player);
 		}
-		private void ShootCharging(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockback)
+		private void ShootCharging(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
 			if(ChargedAttack) {
 				damage = (int)(damage * ChargeDamageScale);
 				knockback *= ChargeKnockbackScale;
-				speedX *= ChargeShootSpeedScale;
-				speedY *= ChargeShootSpeedScale;
+				velocity *= ChargeShootSpeedScale;
 			}
 		}
 		private void StopChargeSound()

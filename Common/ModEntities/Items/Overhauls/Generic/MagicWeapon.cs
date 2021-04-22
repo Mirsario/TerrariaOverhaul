@@ -34,11 +34,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			HoldItemCharging(item, player);
 		}
-		public override bool Shoot(Item item, Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockback)
+		public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
 		{
-			ShootCharging(item, player, ref position, ref speedX, ref speedY, ref type, ref damage, ref knockback);
-
-			return true;
+			ShootCharging(item, player, ref position, ref velocity, ref type, ref damage, ref knockback);
 		}
 
 		public bool ShowItemCrosshair(Item item, Player player) => true;
