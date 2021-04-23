@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using TerrariaOverhaul.Common.Systems.AudioEffects;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Systems.Decals;
+using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
@@ -102,14 +104,25 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			}
 
 			if(!Main.dedServ) {
-				//Screenshake
 				if(Main.LocalPlayer != null) {
 					float distance = Vector2.Distance(Main.LocalPlayer.Center, center);
-					float screenshakeRange = maxPower * 10f;
-					float power = MathUtils.DistancePower(distance, screenshakeRange) * 15f;
 
-					if(power > 0f) {
-						ScreenShakeSystem.New(power, 0.5f);
+					//Screenshake
+					float screenshakePower = MathUtils.DistancePower(distance, maxPower * 10f) * 15f;
+
+					if(screenshakePower > 0f) {
+						ScreenShakeSystem.New(screenshakePower, 0.5f);
+					}
+
+					//Low-pass filtering
+					int lowPassFilteringTime = (int)(TimeSystem.LogicFramerate * 5f * MathUtils.DistancePower(distance, maxPower * 3f));
+
+					if(lowPassFilteringTime > 0) {
+						AudioEffectsSystem.AddAudioEffectModifier(
+							lowPassFilteringTime,
+							$"{nameof(TerrariaOverhaul)}/{nameof(ProjectileExplosionImprovements)}",
+							(float intensity, ref float _, ref float lowPassFilteringIntensity) => lowPassFilteringIntensity += intensity * 0.5f
+						);
 					}
 				}
 
