@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
@@ -33,6 +34,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PreUpdate()
 		{
+			if(!Player.IsLocal()) {
+				return;
+			}
+
 			UpdateLowManaEffects();
 			UpdateManaRegenEffects();
 		}
@@ -45,7 +50,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			lowManaEffectIntensity = MathUtils.StepTowards(lowManaEffectIntensity, goalLowManaEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
 			//Sound
-			UpdateSound(ref lowManaSoundSlot, lowManaEffectIntensity, LowManaSound);
+			SoundUtils.UpdateLoopingSound(ref lowManaSoundSlot, LowManaSound, lowManaEffectIntensity, Player.Center);
 
 			//Dust
 			lowManaDustCounter += lowManaEffectIntensity / 4f;
@@ -69,7 +74,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			manaRegenEffectIntensity = MathUtils.StepTowards(manaRegenEffectIntensity, goalManaRegenEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
 			//Sound
-			UpdateSound(ref manaRegenSoundSlot, manaRegenEffectIntensity, ManaRegenSound);
+			SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, ManaRegenSound, manaRegenEffectIntensity, Player.Center);
 
 			//Dust
 			manaRegenDustCounter += manaRegenEffectIntensity / 4f;
@@ -82,36 +87,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				dust.velocity *= 0.5f;
 
 				manaRegenDustCounter--;
-			}
-		}
-		private void UpdateSound(ref SlotId slot, float volume, SoundStyle style)
-		{
-			var sound = slot.IsValid ? SoundEngine.GetActiveSound(slot) : null;
-
-			if(volume > 0f) {
-				float styleVolume = style.Volume;
-
-				try {
-					if(sound == null) {
-						style.Volume = 0f;
-						slot = SoundEngine.PlayTrackedSound(style, Player.Center);
-						sound = SoundEngine.GetActiveSound(slot);
-
-						if(sound == null) {
-							return;
-						}
-					}
-
-					sound.Position = Player.Center;
-					sound.Volume = volume;
-				}
-				finally {
-					style.Volume = styleVolume;
-				}
-			} else if(sound != null) {
-				sound.Stop();
-
-				slot = SlotId.Invalid;
 			}
 		}
 	}
