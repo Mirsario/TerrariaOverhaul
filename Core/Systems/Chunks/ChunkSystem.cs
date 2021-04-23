@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 	{
 		public const int ChunkUpdateArea = 3;
 
-		internal static readonly List<ChunkComponent> ChunkComponents = new List<ChunkComponent>();
+		internal static readonly List<ChunkComponent> ChunkComponents = new();
 
 		private static Dictionary<long, Chunk> chunks;
 
@@ -130,6 +130,6 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 		}
 
 		public static int TileToChunkCoordinates(int coordinate) => coordinate / Chunk.MaxChunkSize;
-		public static Vector2Int TileToChunkCoordinates(Vector2Int tilePosition) => new Vector2Int(tilePosition.X / Chunk.MaxChunkSize, tilePosition.Y / Chunk.MaxChunkSize);
+		public static Vector2Int TileToChunkCoordinates(Vector2Int tilePosition) => new(tilePosition.X / Chunk.MaxChunkSize, tilePosition.Y / Chunk.MaxChunkSize);
 	}
 }

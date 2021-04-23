@@ -4,8 +4,8 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 {
 	public struct RectFloat
 	{
-		public static readonly RectFloat Default = new RectFloat(0f, 0f, 1f, 1f);
-		public static readonly RectFloat Empty = new RectFloat(0f, 0f, 0f, 0f);
+		public static readonly RectFloat Default = new(0f, 0f, 1f, 1f);
+		public static readonly RectFloat Empty = new(0f, 0f, 0f, 0f);
 
 		public float x;
 		public float y;
@@ -29,28 +29,28 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 			set => y = value - height;
 		}
 		public Vector2 TopLeft {
-			get => new Vector2(Left, Top);
+			get => new(Left, Top);
 			set {
 				Left = value.X;
 				Top = value.Y;
 			}
 		}
 		public Vector2 TopRight {
-			get => new Vector2(Right, Top);
+			get => new(Right, Top);
 			set {
 				Right = value.X;
 				Top = value.Y;
 			}
 		}
 		public Vector2 BottomLeft {
-			get => new Vector2(Left, Bottom);
+			get => new(Left, Bottom);
 			set {
 				Left = value.X;
 				Bottom = value.Y;
 			}
 		}
 		public Vector2 BottomRight {
-			get => new Vector2(Right, Bottom);
+			get => new(Right, Bottom);
 			set {
 				Right = value.X;
 				Bottom = value.Y;
@@ -61,14 +61,14 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 			set => TopLeft = value;
 		}
 		public Vector2 Size {
-			get => new Vector2(width, height);
+			get => new(width, height);
 			set {
 				width = value.X;
 				height = value.Y;
 			}
 		}
 		public Vector4 Points {
-			get => new Vector4(x, y, x + width, y + height);
+			get => new(x, y, x + width, y + height);
 			set {
 				x = value.X;
 				y = value.Y;
@@ -109,7 +109,7 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 			return rect;
 		}
 
-		public static explicit operator RectFloat(Rectangle rectI) => new RectFloat(rectI.X, rectI.Y, rectI.Width, rectI.Height);
-		public static explicit operator Rectangle(RectFloat rectF) => new Rectangle((int)rectF.x, (int)rectF.y, (int)rectF.width, (int)rectF.height);
+		public static explicit operator RectFloat(Rectangle rectI) => new(rectI.X, rectI.Y, rectI.Width, rectI.Height);
+		public static explicit operator Rectangle(RectFloat rectF) => new((int)rectF.x, (int)rectF.y, (int)rectF.width, (int)rectF.height);
 	}
 }

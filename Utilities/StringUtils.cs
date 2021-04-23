@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Utilities
 {
 	internal static class StringUtils
 	{
-		private static readonly Dictionary<string, string> regexCache = new Dictionary<string, string>();
+		private static readonly Dictionary<string, string> regexCache = new();
 
 		public static string SafeFormat(string str, object arg0) => str?.Replace("{0}", arg0?.ToString() ?? "");
 		public static string SafeFormat(string str, object arg0, object arg1) => str?.Replace("{0}", arg0?.ToString() ?? "").Replace("{1}", arg1?.ToString() ?? "");

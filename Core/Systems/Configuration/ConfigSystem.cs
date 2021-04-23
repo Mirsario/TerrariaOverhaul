@@ -23,8 +23,8 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 
 		public static readonly string ConfigPath = Path.Combine(OverhaulMod.PersonalDirectory, "Config.json");
 
-		internal static readonly List<Config> Configs = new List<Config>();
-		internal static readonly Dictionary<string, Config> ConfigsByName = new Dictionary<string, Config>();
+		internal static readonly List<Config> Configs = new();
+		internal static readonly Dictionary<string, Config> ConfigsByName = new();
 
 		private static event Action OnUnload;
 

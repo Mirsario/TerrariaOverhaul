@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 	public class Handgun : Gun
 	{
 		public override float OnUseVisualRecoil => 13f;
-		public override ScreenShake OnUseScreenShake => new ScreenShake(4f, 0.2f);
+		public override ScreenShake OnUseScreenShake => new(4f, 0.2f);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{

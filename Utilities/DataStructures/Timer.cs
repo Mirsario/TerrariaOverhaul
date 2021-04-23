@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 
 		public void Set(uint minValue) => Value = Math.Max(minValue, Value);
 
-		public static implicit operator Timer(uint value) => new Timer { Value = value };
-		public static implicit operator Timer(int value) => new Timer { Value = (uint)value };
+		public static implicit operator Timer(uint value) => new() { Value = value };
+		public static implicit operator Timer(int value) => new() { Value = (uint)value };
 	}
 }

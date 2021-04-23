@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 		public Vector2 velocity;
 		public Vector2 velocityScale = Vector2.One;
 		public Vector2 scale = Vector2.One;
-		public Vector2 gravity = new Vector2(0f, 10f);
+		public Vector2 gravity = new(0f, 10f);
 		public Color color = Color.White;
 
 		public int LifeTime { get; private set; }

@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 	[Autoload(Side = ModSide.Client)]
 	public class SlashPlayerDrawLayer : PlayerDrawLayer
 	{
-		private static readonly SpriteFrame TextureFrame = new SpriteFrame(1, 3);
+		private static readonly SpriteFrame TextureFrame = new(1, 3);
 		private static Asset<Texture2D> texture;
 
 		public override void Load()

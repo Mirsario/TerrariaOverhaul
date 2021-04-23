@@ -7,13 +7,13 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 	{
 		public static readonly int SizeInBytes = Marshal.SizeOf(typeof(Vector2Int));
 		public static readonly Vector2Int Zero = default;
-		public static readonly Vector2Int One = new Vector2Int(1, 1);
-		public static readonly Vector2Int UnitX = new Vector2Int(1, 0);
-		public static readonly Vector2Int UnitY = new Vector2Int(0, 1);
-		public static readonly Vector2Int Up = new Vector2Int(0, 1);
-		public static readonly Vector2Int Down = new Vector2Int(0, -1);
-		public static readonly Vector2Int Left = new Vector2Int(-1, 0);
-		public static readonly Vector2Int Right = new Vector2Int(1, 0);
+		public static readonly Vector2Int One = new(1, 1);
+		public static readonly Vector2Int UnitX = new(1, 0);
+		public static readonly Vector2Int UnitY = new(0, 1);
+		public static readonly Vector2Int Up = new(0, 1);
+		public static readonly Vector2Int Down = new(0, -1);
+		public static readonly Vector2Int Left = new(-1, 0);
+		public static readonly Vector2Int Right = new(1, 0);
 
 		public int X;
 		public int Y;
@@ -31,19 +31,19 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 		//Operations
 
 		//int
-		public static Vector2Int operator *(Vector2Int a, int d) => new Vector2Int(a.X * d, a.Y * d);
-		public static Vector2Int operator *(int d, Vector2Int a) => new Vector2Int(a.X * d, a.Y * d);
-		public static Vector2Int operator /(Vector2Int a, int d) => new Vector2Int(a.X / d, a.Y / d);
+		public static Vector2Int operator *(Vector2Int a, int d) => new(a.X * d, a.Y * d);
+		public static Vector2Int operator *(int d, Vector2Int a) => new(a.X * d, a.Y * d);
+		public static Vector2Int operator /(Vector2Int a, int d) => new(a.X / d, a.Y / d);
 		//float
-		public static Vector2 operator *(Vector2Int a, float d) => new Vector2(a.X * d, a.Y * d);
-		public static Vector2 operator *(float d, Vector2Int a) => new Vector2(d * a.X, d * a.Y);
-		public static Vector2 operator /(Vector2Int a, float d) => new Vector2(a.X / d, a.Y / d);
+		public static Vector2 operator *(Vector2Int a, float d) => new(a.X * d, a.Y * d);
+		public static Vector2 operator *(float d, Vector2Int a) => new(d * a.X, d * a.Y);
+		public static Vector2 operator /(Vector2Int a, float d) => new(a.X / d, a.Y / d);
 		//Vector2Int
-		public static Vector2Int operator +(Vector2Int a, Vector2Int b) => new Vector2Int(a.X + b.X, a.Y + b.Y);
-		public static Vector2Int operator -(Vector2Int a, Vector2Int b) => new Vector2Int(a.X - b.X, a.Y - b.Y);
-		public static Vector2Int operator *(Vector2Int a, Vector2Int b) => new Vector2Int(a.X * b.X, a.Y * b.Y);
-		public static Vector2Int operator /(Vector2Int a, Vector2Int b) => new Vector2Int(a.X / b.X, a.Y / b.Y);
-		public static Vector2Int operator -(Vector2Int a) => new Vector2Int(-a.X, -a.Y);
+		public static Vector2Int operator +(Vector2Int a, Vector2Int b) => new(a.X + b.X, a.Y + b.Y);
+		public static Vector2Int operator -(Vector2Int a, Vector2Int b) => new(a.X - b.X, a.Y - b.Y);
+		public static Vector2Int operator *(Vector2Int a, Vector2Int b) => new(a.X * b.X, a.Y * b.Y);
+		public static Vector2Int operator /(Vector2Int a, Vector2Int b) => new(a.X / b.X, a.Y / b.Y);
+		public static Vector2Int operator -(Vector2Int a) => new(-a.X, -a.Y);
 		public static bool operator ==(Vector2Int a, Vector2Int b) => a.X == b.X && a.Y == b.Y;
 		public static bool operator !=(Vector2Int a, Vector2Int b) => a.X != b.X || a.Y != b.Y;
 		//Vector2
@@ -55,9 +55,9 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 		//Casts
 
 		//Point
-		public static implicit operator Point(Vector2Int value) => new Point(value.X, value.Y);
-		public static implicit operator Vector2Int(Point value) => new Vector2Int(value.X, value.Y);
+		public static implicit operator Point(Vector2Int value) => new(value.X, value.Y);
+		public static implicit operator Vector2Int(Point value) => new(value.X, value.Y);
 		//Vector2Int
-		public static explicit operator Vector2Int(Vector2 value) => new Vector2Int((int)value.X, (int)value.Y);
+		public static explicit operator Vector2Int(Vector2 value) => new((int)value.X, (int)value.Y);
 	}
 }

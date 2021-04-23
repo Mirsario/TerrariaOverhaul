@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.Systems.Time
 		public const float LogicDeltaTime = 1f / LogicFramerate;
 
 		public static readonly DateTime FirstLoadDate = DateTime.Now;
-		public static readonly Gradient<float> DayGradient = new Gradient<float>(
+		public static readonly Gradient<float> DayGradient = new(
 			(0f, 0.125f),
 			(14000f, 1f),
 			(39000f, 1f),
@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.Systems.Time
 			(80000f, 0f),
 			(FullDayLength, 0.125f)
 		);
-		public static readonly Gradient<float> NightGradient = new Gradient<float>(
+		public static readonly Gradient<float> NightGradient = new(
 			(0f, 0.875f),
 			(14000f, 0f),
 			(39000f, 0f),

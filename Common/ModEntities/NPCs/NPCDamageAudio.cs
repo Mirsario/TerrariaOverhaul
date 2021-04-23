@@ -13,8 +13,8 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
 	public class NPCDamageAudio : GlobalNPC
 	{
-		public static readonly ModSoundStyle GoreSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2, volume: 0.475f, pitchVariance: 0.25f);
-		public static readonly ModSoundStyle FleshHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/FleshHit", 4, volume: 0.5f, pitchVariance: 0.25f);
+		public static readonly ModSoundStyle GoreSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2, volume: 0.475f, pitchVariance: 0.25f);
+		public static readonly ModSoundStyle FleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/FleshHit", 4, volume: 0.5f, pitchVariance: 0.25f);
 
 		public override void Load()
 		{

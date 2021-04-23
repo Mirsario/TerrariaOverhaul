@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 	public class RocketLauncher : Gun
 	{
 		public override float OnUseVisualRecoil => 6f;
-		public override ScreenShake OnUseScreenShake => new ScreenShake(8f, 0.4f);
+		public override ScreenShake OnUseScreenShake => new(8f, 0.4f);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{

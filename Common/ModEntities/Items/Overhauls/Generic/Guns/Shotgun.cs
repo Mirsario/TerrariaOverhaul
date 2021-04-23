@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		private uint pumpTime;
 
 		public override float OnUseVisualRecoil => 25f;
-		public override ScreenShake OnUseScreenShake => new ScreenShake(10f, 0.25f);
+		public override ScreenShake OnUseScreenShake => new(10f, 0.25f);
 
 		public override bool ShouldApplyItemOverhaul(Item item) => item.useAmmo == AmmoID.Bullet && (item.UseSound == SoundID.Item36 || item.UseSound == SoundID.Item38);
 

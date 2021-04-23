@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		public virtual bool DoSpawnCasings => true;
 
 		public override float OnUseVisualRecoil => 5f;
-		public override ScreenShake OnUseScreenShake => new ScreenShake(5f, 0.25f);
+		public override ScreenShake OnUseScreenShake => new(5f, 0.25f);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{

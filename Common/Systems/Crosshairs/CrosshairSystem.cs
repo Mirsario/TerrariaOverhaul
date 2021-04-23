@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 	public sealed class CrosshairSystem : ModSystem
 	{
 		private static Asset<Texture2D> crosshairTexture;
-		private static SpriteFrame crosshairBaseFrame = new SpriteFrame(4, 2);
+		private static SpriteFrame crosshairBaseFrame = new(4, 2);
 		private static float crosshairOffset;
 		private static float crosshairRotation;
 		private static Color crosshairColor;

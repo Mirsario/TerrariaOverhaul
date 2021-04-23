@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
 	public partial class Broadsword : MeleeWeapon
 	{
-		public static readonly ModSoundStyle SwordFleshHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2, volume: 0.65f, pitchVariance: 0.1f);
+		public static readonly ModSoundStyle SwordFleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2, volume: 0.65f, pitchVariance: 0.1f);
 
 		public override MeleeAnimation Animation => ModContent.GetInstance<QuickSlashMeleeAnimation>();
 

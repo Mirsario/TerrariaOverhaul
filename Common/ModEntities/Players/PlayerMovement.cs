@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	{
 		public struct MovementModifier
 		{
-			public static MovementModifier Default = new MovementModifier {
+			public static MovementModifier Default = new() {
 				gravityScale = 1f,
 				runAccelerationScale = 1f
 			};
@@ -39,7 +39,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		//public Vector2 prevVelocity;
 		public Vector2[] velocityRecord = new Vector2[VelocityRecordSize];
 
-		private Dictionary<string, (ulong endTime, MovementModifier modifier)> movementModifiers = new Dictionary<string, (ulong endTime, MovementModifier modifier)>();
+		private Dictionary<string, (ulong endTime, MovementModifier modifier)> movementModifiers = new();
 
 		public override void PreUpdate()
 		{

@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		private SlotId soundId;
 
 		public override float OnUseVisualRecoil => 4f;
-		public override ScreenShake OnUseScreenShake => new ScreenShake(3f, 0.2f);
+		public override ScreenShake OnUseScreenShake => new(3f, 0.2f);
 
 		public override bool ShouldApplyItemOverhaul(Item item) => item.useAmmo == AmmoID.Gel;
 

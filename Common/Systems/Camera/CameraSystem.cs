@@ -34,14 +34,14 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 
 		public static CameraConfig LocalConfig => ConfigSystem.GetConfig<CameraConfig>(ConfigType.Local);
 		public static CameraConfig CurrentConfig => ConfigSystem.GetConfig<CameraConfig>(ConfigType.Current);
-		public static Vector2 ScreenSize => new Vector2(Main.screenWidth, Main.screenHeight);
-		public static Vector2 ScreenHalf => new Vector2(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f);
-		public static Rectangle ScreenRect => new Rectangle((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
-		public static Rectangle ScreenRectExtra => new Rectangle((int)Main.screenPosition.X - Main.offScreenRange, (int)Main.screenPosition.Y - Main.offScreenRange, Main.screenWidth + Main.offScreenRange * 2, Main.screenHeight + Main.offScreenRange * 2);
-		public static Rectangle ScreenRectExtraHalf => new Rectangle((int)Main.screenPosition.X - Main.offScreenRange / 2, (int)Main.screenPosition.Y - Main.offScreenRange / 2, Main.screenWidth + Main.offScreenRange, Main.screenHeight + Main.offScreenRange);
+		public static Vector2 ScreenSize => new(Main.screenWidth, Main.screenHeight);
+		public static Vector2 ScreenHalf => new(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f);
+		public static Rectangle ScreenRect => new((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
+		public static Rectangle ScreenRectExtra => new((int)Main.screenPosition.X - Main.offScreenRange, (int)Main.screenPosition.Y - Main.offScreenRange, Main.screenWidth + Main.offScreenRange * 2, Main.screenHeight + Main.offScreenRange * 2);
+		public static Rectangle ScreenRectExtraHalf => new((int)Main.screenPosition.X - Main.offScreenRange / 2, (int)Main.screenPosition.Y - Main.offScreenRange / 2, Main.screenWidth + Main.offScreenRange, Main.screenHeight + Main.offScreenRange);
 		public static Vector2 MouseWorld => Main.MouseWorld - cameraShakeOffset;
 		public static Vector2 ScreenCenter {
-			get => new Vector2(Main.screenPosition.X + Main.screenWidth * 0.5f, Main.screenPosition.Y + Main.screenHeight * 0.5f);
+			get => new(Main.screenPosition.X + Main.screenWidth * 0.5f, Main.screenPosition.Y + Main.screenHeight * 0.5f);
 			set => Main.screenPosition = new Vector2(value.X - Main.screenWidth * 0.5f, value.Y - Main.screenHeight * 0.5f);
 		}
 
@@ -269,7 +269,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 		}
 		public static void SetFocus(Entity entity) => focus = GetFocusFor(entity);
 
-		private static FocusInfo GetFocusFor(Entity entity) => new FocusInfo {
+		private static FocusInfo GetFocusFor(Entity entity) => new() {
 			position = entity.position,
 			velocity = entity.velocity
 		};

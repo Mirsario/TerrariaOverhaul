@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 
 		public static bool EnableDebugRendering { get; set; }
 		
-		private readonly List<Line> LinesToDraw = new List<Line>();
+		private readonly List<Line> LinesToDraw = new();
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{

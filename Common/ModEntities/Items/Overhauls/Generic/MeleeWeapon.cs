@@ -24,9 +24,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
 	public class MeleeWeapon : ItemOverhaul, IModifyItemNPCHitSound
 	{
-		public static readonly ModSoundStyle WoodenHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/WoodenHit", 3, volume: 0.3f, pitchVariance: 0.1f);
+		public static readonly ModSoundStyle WoodenHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/WoodenHit", 3, volume: 0.3f, pitchVariance: 0.1f);
 
-		private static readonly Gradient<Color> DamageScaleColor = new Gradient<Color>(
+		private static readonly Gradient<Color> DamageScaleColor = new(
 			(0f, Color.Black),
 			(1f, Color.LightGray),
 			(1.25f, Color.Green),
