@@ -7,7 +7,9 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface IShowItemCrosshair
 	{
-		public static readonly HookList<GlobalItem, Func<Item, Player, bool>> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Func<Item, Player, bool>>(
+		public delegate bool Delegate(Item item, Player player);
+
+		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
 			//Method reference
 			typeof(IShowItemCrosshair).GetMethod(nameof(IShowItemCrosshair.ShowItemCrosshair)),
 			//Invocation
