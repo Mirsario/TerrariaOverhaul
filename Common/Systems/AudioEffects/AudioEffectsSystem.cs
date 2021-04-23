@@ -68,8 +68,6 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			reverbIntensity = MathHelper.Clamp(newReverbIntensity, 0f, 1f);
 			lowPassFilteringIntensity = MathHelper.Clamp(newLowPassIntensity, 0f, 1f);
 
-			Console.WriteLine($"Reverb: {reverbIntensity:0.00} | Low-pass: {lowPassFilteringIntensity:0.00}");
-
 			UpdateAllSounds();
 		}
 
