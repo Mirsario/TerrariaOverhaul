@@ -7,13 +7,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface IHoldItemWhileDead
 	{
-		void HoldItemWhileDead(Item item, Player player);
-	}
-
-	//TODO: This class will not be needed with C# 8.0 default interface implementations.
-	public sealed class HookHoldItemWhileDead : ILoadable
-	{
-		public static HookList<GlobalItem, Action<Item, Player>> Hook { get; private set; } = new HookList<GlobalItem, Action<Item, Player>>(
+		public static readonly HookList<GlobalItem, Action<Item, Player>> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Action<Item, Player>>(
 			//Method reference
 			typeof(IHoldItemWhileDead).GetMethod(nameof(IHoldItemWhileDead.HoldItemWhileDead)),
 			//Invocation
@@ -22,10 +16,9 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 					g.HoldItemWhileDead(item, player);
 				}
 			}
-		);
+		));
 
-		public void Load(Mod mod) => ItemLoader.AddModHook(Hook);
-		public void Unload() { }
+		void HoldItemWhileDead(Item item, Player player);
 	}
 
 	public sealed class PlayerHoldItemWhileDeadHookImplementation : ModPlayer
@@ -35,7 +28,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			var heldItem = Player.HeldItem;
 
 			if(heldItem?.IsAir == false) {
-				HookHoldItemWhileDead.Hook.Invoke(heldItem, Player);
+				IHoldItemWhileDead.Hook.Invoke(heldItem, Player);
 			}
 		}
 	}

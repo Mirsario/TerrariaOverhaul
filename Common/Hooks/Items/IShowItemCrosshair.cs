@@ -7,13 +7,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface IShowItemCrosshair
 	{
-		bool ShowItemCrosshair(Item item, Player player);
-	}
-
-	//TODO: This class will not be needed with C# 8.0 default interface implementations.
-	public sealed class HookShowItemCrosshair : ILoadable
-	{
-		public static HookList<GlobalItem, Func<Item, Player, bool>> Hook { get; private set; } = new HookList<GlobalItem, Func<Item, Player, bool>>(
+		public static readonly HookList<GlobalItem, Func<Item, Player, bool>> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Func<Item, Player, bool>>(
 			//Method reference
 			typeof(IShowItemCrosshair).GetMethod(nameof(IShowItemCrosshair.ShowItemCrosshair)),
 			//Invocation
@@ -26,9 +20,8 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 
 				return false;
 			}
-		);
+		));
 
-		public void Load(Mod mod) => ItemLoader.AddModHook(Hook);
-		public void Unload() { }
+		bool ShowItemCrosshair(Item item, Player player);
 	}
 }

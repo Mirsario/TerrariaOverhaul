@@ -7,13 +7,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface ICanTurnDuringItemUse
 	{
-		bool? CanTurnDuringItemUse(Item item, Player player);
-	}
-
-	//TODO: This class will not be needed with C# 8.0 default interface implementations.
-	public sealed class HookCanTurnDuringItemUse : ILoadable
-	{
-		public static HookList<GlobalItem, Func<Item, Player, bool>> Hook { get; private set; } = new HookList<GlobalItem, Func<Item, Player, bool>>(
+		public static readonly HookList<GlobalItem, Func<Item, Player, bool>> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Func<Item, Player, bool>>(
 			//Method reference
 			typeof(ICanTurnDuringItemUse).GetMethod(nameof(ICanTurnDuringItemUse.CanTurnDuringItemUse)),
 			//Invocation
@@ -34,9 +28,8 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 
 				return globalResult ?? item.useTurn;
 			}
-		);
+		));
 
-		public void Load(Mod mod) => ItemLoader.AddModHook(Hook);
-		public void Unload() { }
+		bool? CanTurnDuringItemUse(Item item, Player player);
 	}
 }
