@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Systems.Camera;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
@@ -50,7 +51,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			lowManaEffectIntensity = MathUtils.StepTowards(lowManaEffectIntensity, goalLowManaEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
 			//Sound
-			SoundUtils.UpdateLoopingSound(ref lowManaSoundSlot, LowManaSound, lowManaEffectIntensity, Player.Center);
+			SoundUtils.UpdateLoopingSound(ref lowManaSoundSlot, LowManaSound, lowManaEffectIntensity, CameraSystem.ScreenCenter);
 
 			//Dust
 			lowManaDustCounter += lowManaEffectIntensity / 4f;
@@ -74,7 +75,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			manaRegenEffectIntensity = MathUtils.StepTowards(manaRegenEffectIntensity, goalManaRegenEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
 			//Sound
-			SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, ManaRegenSound, manaRegenEffectIntensity, Player.Center);
+			SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, ManaRegenSound, manaRegenEffectIntensity, CameraSystem.ScreenCenter);
 
 			//Dust
 			manaRegenDustCounter += manaRegenEffectIntensity / 4f;

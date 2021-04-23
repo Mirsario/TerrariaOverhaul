@@ -4,6 +4,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.AudioEffects;
+using TerrariaOverhaul.Common.Systems.Camera;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
@@ -41,8 +42,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			lowHealthEffectIntensity = MathUtils.StepTowards(lowHealthEffectIntensity, goalLowHealthEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
+			//Audio filtering
 			if(lowHealthEffectIntensity > 0) {
-				float addedLowPassFiltering = lowHealthEffectIntensity * 0.8f;
+				float addedLowPassFiltering = lowHealthEffectIntensity * 0.65f;
 
 				AudioEffectsSystem.AddAudioEffectModifier(
 					30,
@@ -52,7 +54,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			//Sound
-			SoundUtils.UpdateLoopingSound(ref lowHealthSoundSlot, LowHealthSound, lowHealthEffectIntensity, Player.Center);
+			SoundUtils.UpdateLoopingSound(ref lowHealthSoundSlot, LowHealthSound, lowHealthEffectIntensity, CameraSystem.ScreenCenter);
 
 			//Bleeding
 			lowHealthBleedingCounter += lowHealthEffectIntensity / 4f;
