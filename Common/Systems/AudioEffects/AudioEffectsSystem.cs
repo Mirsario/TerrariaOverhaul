@@ -83,7 +83,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			}
 
 			if(LowPassFilteringEnabled) {
-				argArray[0] = 1f - lowPassFilteringIntensity;
+				argArray[0] = 1f - (lowPassFilteringIntensity * 0.9f);
 				applyLowPassMethod.Invoke(soundInstance, argArray);
 			}
 		}
