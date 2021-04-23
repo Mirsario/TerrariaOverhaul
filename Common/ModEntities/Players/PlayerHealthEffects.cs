@@ -37,9 +37,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private void UpdateLowHealthEffects()
 		{
-			float goalLowManaEffectIntensity = LowHealthEffectGradient.GetValue(Player.statLife);
+			float goalLowHealthEffectIntensity = LowHealthEffectGradient.GetValue(Player.statLife);
 
-			lowHealthEffectIntensity = MathUtils.StepTowards(lowHealthEffectIntensity, goalLowManaEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
+			lowHealthEffectIntensity = MathUtils.StepTowards(lowHealthEffectIntensity, goalLowHealthEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
 			if(lowHealthEffectIntensity > 0) {
 				float addedLowPassFiltering = lowHealthEffectIntensity * 0.8f;
