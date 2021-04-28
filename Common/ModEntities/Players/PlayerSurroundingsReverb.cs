@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	[Autoload(Side = ModSide.Client)]
-	public sealed class PlayerUndergroundReverb : ModPlayer
+	public sealed class PlayerSurroundingsReverb : ModPlayer
 	{
 		public static float MaxReverbIntensity => 0.725f;
 		public static float MaxReverbTileRatio => 0.08f;
@@ -81,7 +81,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			if(calculatedReverb > 0f) {
 				AudioEffectsSystem.AddAudioEffectModifier(
 					60,
-					$"{nameof(TerrariaOverhaul)}/{nameof(PlayerUndergroundReverb)}",
+					$"{nameof(TerrariaOverhaul)}/{nameof(PlayerSurroundingsReverb)}",
 					(float intensity, ref float reverbIntensity, ref float _) => reverbIntensity += calculatedReverb * intensity
 				);
 			}
