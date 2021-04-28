@@ -2,7 +2,7 @@
 {
 	public struct AudioEffectsModifier
 	{
-		public delegate void ModifierDelegate(float intensity, ref float reverbIntensity, ref float lowPassIntensity);
+		public delegate void ModifierDelegate(float intensity, ref AudioEffectParameters soundParameters, ref AudioEffectParameters musicParameters);
 
 		public readonly string Id;
 

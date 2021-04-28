@@ -14,6 +14,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.Systems.AudioEffects
 {
+	//TODO: Add configuration.
 	[Autoload(Side = ModSide.Client)]
 	public class AudioEffectsSystem : ModSystem
 	{
@@ -39,12 +40,12 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 		private static readonly List<AudioEffectsModifier> Modifiers = new();
 
-		private static float reverbIntensity;
-		private static float lowPassFilteringIntensity;
-		private static MethodInfo applyReverbMethod;
-		private static MethodInfo applyLowPassMethod;
+		private static AudioEffectParameters soundParameters;
+		private static AudioEffectParameters musicParameters;
+		private static Action<SoundEffectInstance, float> applyReverbFunc;
+		private static Action<SoundEffectInstance, float> applyLowPassFilteringFunc;
+		private static FieldInfo soundEffectBasedAudioTrackInstanceField;
 		private static List<SoundInstanceData> trackedSoundInstances;
-		private static object[] argArray;
 
 		public static bool IsEnabled { get; private set; }
 		public static bool ReverbEnabled { get; private set; }
@@ -54,11 +55,19 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 		{
 			IsEnabled = false;
 
-			applyReverbMethod = typeof(SoundEffectInstance).GetMethod("INTERNAL_applyReverb", BindingFlags.Instance | BindingFlags.NonPublic);
-			applyLowPassMethod = typeof(SoundEffectInstance).GetMethod("INTERNAL_applyLowPassFilter", BindingFlags.Instance | BindingFlags.NonPublic);
-			argArray = new object[1];
+			applyReverbFunc = typeof(SoundEffectInstance)
+				.GetMethod("INTERNAL_applyReverb", BindingFlags.Instance | BindingFlags.NonPublic)
+				?.CreateDelegate<Action<SoundEffectInstance, float>>();
+
+			applyLowPassFilteringFunc = typeof(SoundEffectInstance)
+				.GetMethod("INTERNAL_applyLowPassFilter", BindingFlags.Instance | BindingFlags.NonPublic)
+				?.CreateDelegate<Action<SoundEffectInstance, float>>();
+
+			soundEffectBasedAudioTrackInstanceField = typeof(ASoundEffectBasedAudioTrack)
+				.GetField("_soundEffectInstance", BindingFlags.Instance | BindingFlags.NonPublic);
+
 			trackedSoundInstances = new List<SoundInstanceData>();
-			IsEnabled = applyReverbMethod != null && applyLowPassMethod != null;
+			IsEnabled = applyReverbFunc != null && applyLowPassFilteringFunc != null;
 
 			On.Terraria.Audio.ActiveSound.Play += (orig, activeSound) => {
 				orig(activeSound);
@@ -89,13 +98,13 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			ReverbEnabled = true;
 			LowPassFilteringEnabled = true;
 
-			float newReverbIntensity = 0f;
-			float newLowPassIntensity = 0f;
+			AudioEffectParameters newSoundParameters = default;
+			AudioEffectParameters newMusicParameters = default;
 
 			for(int i = 0; i < Modifiers.Count; i++) {
 				var modifier = Modifiers[i];
 
-				modifier.Modifier(modifier.TimeLeft / (float)modifier.TimeMax, ref newReverbIntensity, ref newLowPassIntensity);
+				modifier.Modifier(modifier.TimeLeft / (float)modifier.TimeMax, ref newSoundParameters, ref newMusicParameters);
 
 				if(--modifier.TimeLeft <= 0) {
 					Modifiers.RemoveAt(i--);
@@ -104,14 +113,13 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				}
 			}
 
-			//TODO: Add configuration.
-			reverbIntensity = MathHelper.Clamp(newReverbIntensity, 0f, 1f);
-			lowPassFilteringIntensity = MathHelper.Clamp(newLowPassIntensity, 0f, 1f);
+			soundParameters = newSoundParameters;
+			musicParameters = newMusicParameters;
 
-			//Update sound instances
 			if(IsEnabled) {
 				bool fullUpdate = Main.GameUpdateCount % 4 == 0;
 
+				//Update sound instances
 				for(int i = 0; i < trackedSoundInstances.Count; i++) {
 					var data = trackedSoundInstances[i];
 
@@ -121,6 +129,18 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 					}
 
 					trackedSoundInstances[i] = data;
+				}
+
+				if(Main.audioSystem is LegacyAudioSystem legacyAudioSystem) {
+					for(int i = 0; i < legacyAudioSystem.AudioTracks.Length; i++) {
+						if(legacyAudioSystem.AudioTracks[i] is ASoundEffectBasedAudioTrack soundEffectTrack) {
+							var instance = (DynamicSoundEffectInstance)soundEffectBasedAudioTrackInstanceField.GetValue(soundEffectTrack);
+
+							if(instance?.IsDisposed == false) {
+								ApplyEffects(instance, musicParameters);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -143,6 +163,16 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			Modifiers[existingIndex] = modifier;
 		}
 
+		private static void ApplyEffects(SoundEffectInstance instance, AudioEffectParameters parameters)
+		{
+			if(ReverbEnabled) {
+				applyReverbFunc(instance, parameters.Reverb);
+			}
+
+			if(LowPassFilteringEnabled) {
+				applyLowPassFilteringFunc(instance, 1f - (parameters.LowPassFiltering * 0.9f));
+			}
+		}
 		private static bool UpdateSoundData(ref SoundInstanceData data, bool fullUpdate)
 		{
 			if(!data.Instance.TryGetTarget(out var instance) || instance.IsDisposed || instance.State != SoundState.Playing) {
@@ -153,15 +183,11 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				UpdateSoundOcclusion(ref data);
 			}
 
-			if(ReverbEnabled) {
-				argArray[0] = reverbIntensity;
-				applyReverbMethod.Invoke(instance, argArray);
-			}
+			var localParameters = soundParameters;
 
-			if(LowPassFilteringEnabled) {
-				argArray[0] = 1f - (Math.Clamp(lowPassFilteringIntensity + data.localLowPassFiltering, 0f, 1f) * 0.9f);
-				applyLowPassMethod.Invoke(instance, argArray);
-			}
+			localParameters.LowPassFiltering += data.localLowPassFiltering;
+
+			ApplyEffects(instance, localParameters);
 
 			data.firstUpdate = false;
 

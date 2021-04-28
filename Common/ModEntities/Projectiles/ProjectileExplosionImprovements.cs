@@ -121,7 +121,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 						AudioEffectsSystem.AddAudioEffectModifier(
 							lowPassFilteringTime,
 							$"{nameof(TerrariaOverhaul)}/{nameof(ProjectileExplosionImprovements)}",
-							(float intensity, ref float _, ref float lowPassFilteringIntensity) => lowPassFilteringIntensity += intensity * 0.5f
+							(float intensity, ref AudioEffectParameters soundParameters, ref AudioEffectParameters musicParameters) => {
+								float total = intensity * 0.5f;
+
+								soundParameters.LowPassFiltering += total;
+								musicParameters.LowPassFiltering += total;
+							}
 						);
 					}
 				}

@@ -88,7 +88,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				AudioEffectsSystem.AddAudioEffectModifier(
 					60,
 					$"{nameof(TerrariaOverhaul)}/{nameof(PlayerSurroundingsReverb)}",
-					(float intensity, ref float reverbIntensity, ref float _) => reverbIntensity += calculatedReverb * intensity
+					(float intensity, ref AudioEffectParameters soundParameters, ref AudioEffectParameters _) => {
+						soundParameters.Reverb += calculatedReverb * intensity;
+					}
 				);
 			}
 		}

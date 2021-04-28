@@ -44,12 +44,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			//Audio filtering
 			if(lowHealthEffectIntensity > 0) {
-				float addedLowPassFiltering = lowHealthEffectIntensity * 0.65f;
+				float addedLowPassFiltering = lowHealthEffectIntensity;
 
 				AudioEffectsSystem.AddAudioEffectModifier(
 					30,
 					$"{nameof(TerrariaOverhaul)}/{nameof(PlayerHealthEffects)}",
-					(float intensity, ref float _, ref float lowPassFilteringIntensity) => lowPassFilteringIntensity += addedLowPassFiltering * intensity
+					(float intensity, ref AudioEffectParameters soundParameters, ref AudioEffectParameters musicParameters) => {
+						float result = addedLowPassFiltering * intensity;
+
+						soundParameters.LowPassFiltering += addedLowPassFiltering * intensity * 0.75f;
+						musicParameters.LowPassFiltering += addedLowPassFiltering * intensity;
+					}
 				);
 			}
 

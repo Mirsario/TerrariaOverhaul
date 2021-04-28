@@ -35,7 +35,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				AudioEffectsSystem.AddAudioEffectModifier(
 					60,
 					$"{nameof(TerrariaOverhaul)}/{nameof(PlayerWaterEffects)}",
-					(float intensity, ref float _, ref float lowPassFilteringIntensity) => lowPassFilteringIntensity += addedLowPassFiltering * intensity
+					(float intensity, ref AudioEffectParameters soundParameters, ref AudioEffectParameters _) => {
+						soundParameters.LowPassFiltering += addedLowPassFiltering * intensity;
+					}
 				);
 			}
 
