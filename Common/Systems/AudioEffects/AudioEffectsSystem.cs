@@ -4,6 +4,8 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -50,8 +52,8 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			new LegacySoundStyle(SoundID.Chat, -1),
 		};
 
-		private static AudioEffectParameters soundParameters;
-		private static AudioEffectParameters musicParameters;
+		private static AudioEffectParameters soundParameters = AudioEffectParameters.Default;
+		private static AudioEffectParameters musicParameters = AudioEffectParameters.Default;
 		//Reflection
 		private static Action<SoundEffectInstance, float> applyReverbFunc;
 		private static Action<SoundEffectInstance, float> applyLowPassFilteringFunc;
@@ -106,6 +108,40 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				return result;
 			};
 
+			//Update volume of music.
+			IL.Terraria.Main.UpdateAudio += context => {
+				var il = new ILCursor(context);
+
+				int volumeLocalId = 0;
+				int iLocalId = 0;
+
+				//Match 'float num2 = musicFade[i] * musicVolume * num;'
+				il.GotoNext(
+					MoveType.After,
+					i => i.MatchLdsfld(typeof(Main), nameof(Main.musicFade)),
+					i => i.MatchLdloc(out iLocalId),
+					i => i.Match(OpCodes.Ldelem_R4),
+					i => i.MatchLdsfld(typeof(Main), nameof(Main.musicVolume)),
+					i => i.Match(OpCodes.Mul),
+					i => i.Match(OpCodes.Ldloc_S),
+					i => i.Match(OpCodes.Mul),
+					i => i.MatchStloc(out volumeLocalId)
+				);
+
+				//Go into the start of the switch case. *Into* is to avoid dealing with jumps.
+				il.GotoNext(
+					MoveType.After,
+					i => i.MatchLdloc(iLocalId)
+				);
+
+				//Emit code that pops 'i', modifies the local, and loads 'i' again.
+				il.Emit(OpCodes.Pop);
+				il.Emit(OpCodes.Ldloc, volumeLocalId);
+				il.EmitDelegate<Func<float, float>>(volume => volume * musicParameters.Volume);
+				il.Emit(OpCodes.Stloc, volumeLocalId);
+				il.Emit(OpCodes.Ldloc, iLocalId);
+			};
+
 			DebugSystem.Log(IsEnabled ? "Audio effects enabled." : "Audio effects disabled: Internal FNA methods are missing.");
 		}
 
@@ -115,8 +151,8 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			ReverbEnabled = true;
 			LowPassFilteringEnabled = true;
 
-			AudioEffectParameters newSoundParameters = default;
-			AudioEffectParameters newMusicParameters = default;
+			AudioEffectParameters newSoundParameters = AudioEffectParameters.Default;
+			AudioEffectParameters newMusicParameters = AudioEffectParameters.Default;
 
 			for(int i = 0; i < Modifiers.Count; i++) {
 				var modifier = Modifiers[i];
