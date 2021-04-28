@@ -41,8 +41,8 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 		}
 
 		private static readonly List<AudioEffectsModifier> Modifiers = new();
-		private static readonly List<SoundInstanceData> TrackedSoundInstances = new List<SoundInstanceData>();
-		private static readonly List<SoundStyle> SoundStylesToIgnore = new List<SoundStyle> {
+		private static readonly List<SoundInstanceData> TrackedSoundInstances = new();
+		private static readonly List<SoundStyle> SoundStylesToIgnore = new() {
 			new LegacySoundStyle(SoundID.Grab, -1),
 			new LegacySoundStyle(SoundID.MenuOpen, -1),
 			new LegacySoundStyle(SoundID.MenuClose, -1),
