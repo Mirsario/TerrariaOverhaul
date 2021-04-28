@@ -8,6 +8,9 @@ namespace TerrariaOverhaul.Common.Tags
 {
 	public sealed class OverhaulTileTags : ILoadable
 	{
+		/// <summary> Makes the tile count as something that would cause reverberation. </summary>
+		public static readonly TagData Reverb = ContentTags.Get<Group>(nameof(Reverb));
+
 		/// <summary> Affects footstep sounds. </summary>
 		public static readonly TagData Dirt = ContentTags.Get<Group>(nameof(Dirt));
 
@@ -89,6 +92,24 @@ namespace TerrariaOverhaul.Common.Tags
 				//TileID.Mud,
 			});
 
+			Stone.SetMultiple(new int[] {
+				TileID.Stone,
+				TileID.StoneSlab,
+				TileID.ActiveStoneBlock,
+				TileID.SandStoneSlab,
+				TileID.GrayBrick,
+				//Moss
+				TileID.ArgonMoss,
+				TileID.BlueMoss,
+				TileID.BrownMoss,
+				TileID.GreenMoss,
+				TileID.KryptonMoss,
+				TileID.LavaMoss,
+				TileID.RedMoss,
+				TileID.PurpleMoss,
+				TileID.XenonMoss,
+			});
+
 			Mud.SetMultiple(new int[] {
 				TileID.Mud,
 			});
@@ -126,6 +147,8 @@ namespace TerrariaOverhaul.Common.Tags
 				TileID.Dressers,
 				TileID.Platforms
 			});
+
+			Reverb.SetMultiple(Stone.GetEntries());
 
 			/*TagSystem.SetTagByte(TagGroup.Tile,TileTags.FootstepType,(byte)FootstepType.Gross,new int[] {
 				TileID.FleshBlock,TileID.FleshGrass,TileID.FleshIce,TileID.FleshWeeds,TileID.CorruptGrass,
