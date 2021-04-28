@@ -91,7 +91,16 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			if(amount.HasValue) {
 				dropsCount = amount.Value;
 			} else {
-				dropsCount = GetDefaultDropCount(player, player.statLife, player.statLifeMax2, ManaPickupChanges.ManaPerPickup, 3, ItemID.Heart);
+				float healthFactor = player.statLife / (float)player.statLifeMax2;
+				int maxDrops;
+
+				if(healthFactor <= 0.25f) {
+					maxDrops = 3;
+				} else {
+					maxDrops = 1;
+				}
+
+				dropsCount = GetDefaultDropCount(player, player.statLife, player.statLifeMax2, HealthPickupChanges.HealthPerPickup, maxDrops, ItemID.Heart);
 			}
 
 			for(int i = 0; i < dropsCount; i++) {
