@@ -80,18 +80,34 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 			IsEnabled = applyReverbFunc != null && applyLowPassFilteringFunc != null;
 
-			On.Terraria.Audio.ActiveSound.Play += (orig, activeSound) => {
-				orig(activeSound);
+			//Track 'active' sounds, and apply effects before they get played.
+			IL.Terraria.Audio.ActiveSound.Play += context => {
+				var il = new ILCursor(context);
 
-				if(activeSound.Sound?.IsDisposed == false) {
-					if(SoundStylesToIgnore.Contains(activeSound.Style)) {
-						return;
+				int soundEffectInstanceLocalId = 0;
+
+				il.GotoNext(
+					MoveType.Before,
+					i => i.MatchLdloc(out soundEffectInstanceLocalId),
+					i => i.MatchCallvirt(typeof(SoundEffectInstance), nameof(SoundEffectInstance.Play))
+				);
+
+				il.Emit(OpCodes.Ldarg_0);
+				il.Emit(OpCodes.Ldloc, soundEffectInstanceLocalId);
+				il.EmitDelegate<Action<ActiveSound, SoundEffectInstance>>((activeSound, soundEffectInstance) => {
+					if(soundEffectInstance?.IsDisposed == false) {
+						if(SoundStylesToIgnore.Contains(activeSound.Style)) {
+							return;
+						}
+
+						TrackedSoundInstances.Add(new SoundInstanceData(soundEffectInstance, activeSound.Position, activeSound));
+
+						ApplyEffects(soundEffectInstance, soundParameters);
 					}
-
-					TrackedSoundInstances.Add(new SoundInstanceData(activeSound.Sound, activeSound.Position, activeSound));
-				}
+				});
 			};
 
+			//Track legacy sounds
 			On.Terraria.Audio.LegacySoundPlayer.PlaySound += (orig, soundPlayer, type, x, y, style, volumeScale, pitchOffset) => {
 				var result = orig(soundPlayer, type, x, y, style, volumeScale, pitchOffset);
 
