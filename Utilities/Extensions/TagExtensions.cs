@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Terraria.ModLoader.Tags;
 
 namespace TerrariaOverhaul.Utilities.Extensions
@@ -21,9 +22,10 @@ namespace TerrariaOverhaul.Utilities.Extensions
 				}
 			}
 		}
-		public static void SetMultiple(this TagData tag, params int[] ids)
+		public static void SetMultiple(this TagData tag, params int[] ids) => tag.SetMultiple((IReadOnlyList<int>)ids);
+		public static void SetMultiple(this TagData tag, IReadOnlyList<int> ids)
 		{
-			for(int i = 0; i < ids.Length; i++) {
+			for(int i = 0; i < ids.Count; i++) {
 				tag.Set(ids[i], true);
 			}
 		}
