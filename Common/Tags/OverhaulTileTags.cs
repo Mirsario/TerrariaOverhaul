@@ -108,6 +108,10 @@ namespace TerrariaOverhaul.Common.Tags
 				TileID.RedMoss,
 				TileID.PurpleMoss,
 				TileID.XenonMoss,
+				//Evil
+				TileID.Ebonstone,
+				TileID.Crimstone,
+				TileID.Pearlstone,
 			});
 
 			Mud.SetMultiple(new int[] {

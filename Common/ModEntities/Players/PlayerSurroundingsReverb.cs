@@ -5,6 +5,7 @@ using TerrariaOverhaul.Common.Systems.AudioEffects;
 using TerrariaOverhaul.Common.Systems.Camera;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Systems.Debugging;
+using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -14,11 +15,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	public sealed class PlayerSurroundingsReverb : ModPlayer
 	{
 		public static float MaxReverbIntensity => 0.725f;
-		public static float MaxReverbTileRatio => 0.08f;
+		public static float MaxReverbTileRatio => 0.1f;
 
 		public static Gradient<float> ReverbFactorToReverbIntensity => new(
 			(0.0f, 0.00f),
-			(0.1f, 0.01f),
+			(0.2f, 0.00f),
+			(0.3f, 0.30f),
 			(1.0f, 1.00f)
 		);
 
@@ -29,7 +31,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			Vector2Int areaCenter = CameraSystem.ScreenCenter.ToTileCoordinates();
-			Vector2Int halfSize = new Vector2Int(20, 20);
+			Vector2Int halfSize = new Vector2Int(22, 22);
 			Vector2Int size = halfSize * 2;
 			Vector2Int start = areaCenter - halfSize;
 			Vector2Int end = areaCenter + halfSize;
@@ -37,36 +39,40 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			int numReverbTiles = 0;
 			int maxTiles = size.X * size.Y;
 			int maxReverbTiles = (int)(maxTiles * MaxReverbTileRatio) + 1;
+			
+			GeometryUtils.FloodFill(
+				areaCenter - start,
+				size,
+				(Vector2Int p, out bool occupied, ref bool stop) => {
+					int x = p.X + start.X;
+					int y = p.Y + start.Y;
+					Tile tile = Main.tile[x, y];
 
-			static bool CheckForAir(int x, int y)
-			{
-				if(!Main.tile.TryGet(x, y, out var tile)) {
-					return false;
-				}
+					occupied = tile.IsActive && Main.tileSolid[tile.type];
 
-				return !tile.IsActive || !Main.tileSolid[tile.type];
-			}
+					if(!occupied) {
+						/*if(DebugSystem.EnableDebugRendering) {
+							DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.White, 1);
+						}*/
 
-			for(int y = start.Y; y >= start.Y && y <= end.Y; y++) {
-				for(int x = start.X; x >= start.X && x <= end.X; x++) {
-					if(!Main.tile.TryGet(x, y, out var tile)) {
-						continue;
+						return;
 					}
 
-					if(tile.IsActive && tile.type < TileLoader.TileCount && OverhaulTileTags.Reverb.Has(tile.type) && (CheckForAir(x - 1, y) || CheckForAir(x + 1, y) || CheckForAir(x, y - 1) || CheckForAir(x, y + 1))) {
-						numReverbTiles++;
+					if(tile.type >= TileLoader.TileCount || !OverhaulTileTags.Reverb.Has(tile.type)) {
+						return;
+					}
 
-						if(DebugSystem.EnableDebugRendering) {
-							DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.SteelBlue, 1);
-						}
+					if(DebugSystem.EnableDebugRendering) {
+						DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.Red, 1);
+					}
 
-						if(numReverbTiles >= maxReverbTiles) {
-							y = int.MaxValue;
-							break;
-						}
+					numReverbTiles++;
+
+					if(numReverbTiles >= maxReverbTiles) {
+						stop = true;
 					}
 				}
-			}
+			);
 
 			float reverbTileFactor = numReverbTiles / (float)maxReverbTiles;
 			float adjustedReverbTileFactor = ReverbFactorToReverbIntensity.GetValue(reverbTileFactor);
