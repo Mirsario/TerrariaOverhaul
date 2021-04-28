@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera;
 using TerrariaOverhaul.Core.Systems.Debugging;
@@ -39,13 +41,21 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 		}
 
 		private static readonly List<AudioEffectsModifier> Modifiers = new();
+		private static readonly List<SoundInstanceData> TrackedSoundInstances = new List<SoundInstanceData>();
+		private static readonly List<SoundStyle> SoundStylesToIgnore = new List<SoundStyle> {
+			new LegacySoundStyle(SoundID.Grab, -1),
+			new LegacySoundStyle(SoundID.MenuOpen, -1),
+			new LegacySoundStyle(SoundID.MenuClose, -1),
+			new LegacySoundStyle(SoundID.MenuTick, -1),
+			new LegacySoundStyle(SoundID.Chat, -1),
+		};
 
 		private static AudioEffectParameters soundParameters;
 		private static AudioEffectParameters musicParameters;
+		//Reflection
 		private static Action<SoundEffectInstance, float> applyReverbFunc;
 		private static Action<SoundEffectInstance, float> applyLowPassFilteringFunc;
 		private static FieldInfo soundEffectBasedAudioTrackInstanceField;
-		private static List<SoundInstanceData> trackedSoundInstances;
 
 		public static bool IsEnabled { get; private set; }
 		public static bool ReverbEnabled { get; private set; }
@@ -66,24 +76,31 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			soundEffectBasedAudioTrackInstanceField = typeof(ASoundEffectBasedAudioTrack)
 				.GetField("_soundEffectInstance", BindingFlags.Instance | BindingFlags.NonPublic);
 
-			trackedSoundInstances = new List<SoundInstanceData>();
 			IsEnabled = applyReverbFunc != null && applyLowPassFilteringFunc != null;
 
 			On.Terraria.Audio.ActiveSound.Play += (orig, activeSound) => {
 				orig(activeSound);
 
 				if(activeSound.Sound?.IsDisposed == false) {
-					trackedSoundInstances.Add(new SoundInstanceData(activeSound.Sound, activeSound.Position, activeSound));
+					if(SoundStylesToIgnore.Contains(activeSound.Style)) {
+						return;
+					}
+
+					TrackedSoundInstances.Add(new SoundInstanceData(activeSound.Sound, activeSound.Position, activeSound));
 				}
 			};
 
 			On.Terraria.Audio.LegacySoundPlayer.PlaySound += (orig, soundPlayer, type, x, y, style, volumeScale, pitchOffset) => {
 				var result = orig(soundPlayer, type, x, y, style, volumeScale, pitchOffset);
 
-				if(result != null && trackedSoundInstances != null) {
+				if(result != null && TrackedSoundInstances != null) {
+					if(SoundStylesToIgnore.Any(s => s is LegacySoundStyle ls && ls.SoundId == type && (ls.Style == style || ls.Style <= 0))) {
+						return result;
+					}
+
 					Vector2? position = x >= 0 && y >= 0 ? new Vector2(x, y) : null;
 
-					trackedSoundInstances.Add(new SoundInstanceData(result, position));
+					TrackedSoundInstances.Add(new SoundInstanceData(result, position));
 				}
 
 				return result;
@@ -120,15 +137,15 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				bool fullUpdate = Main.GameUpdateCount % 4 == 0;
 
 				//Update sound instances
-				for(int i = 0; i < trackedSoundInstances.Count; i++) {
-					var data = trackedSoundInstances[i];
+				for(int i = 0; i < TrackedSoundInstances.Count; i++) {
+					var data = TrackedSoundInstances[i];
 
 					if(!UpdateSoundData(ref data, fullUpdate)) {
-						trackedSoundInstances.RemoveAt(i--);
+						TrackedSoundInstances.RemoveAt(i--);
 						continue;
 					}
 
-					trackedSoundInstances[i] = data;
+					TrackedSoundInstances[i] = data;
 				}
 
 				if(Main.audioSystem is LegacyAudioSystem legacyAudioSystem) {
@@ -161,6 +178,11 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			modifier.Modifier = func;
 
 			Modifiers[existingIndex] = modifier;
+		}
+
+		public static void IgnoreSoundStyle(SoundStyle soundStyle)
+		{
+			SoundStylesToIgnore.Add(soundStyle);
 		}
 
 		private static void ApplyEffects(SoundEffectInstance instance, AudioEffectParameters parameters)
