@@ -18,9 +18,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public static readonly SoundStyle LowHealthSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Player/LowHealthLoop", volume: 0.95f);
 		public static readonly Gradient<float> LowHealthEffectGradient = new(
 			(0f, 1f),
-			(20f, 1f),
-			(50f, 0f),
-			(100f, 0f)
+			(30f, 1f),
+			(50f, 0f)
 		);
 
 		private SlotId lowHealthSoundSlot;
@@ -67,15 +66,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			//Sound
-			SoundUtils.UpdateLoopingSound(ref lowHealthSoundSlot, LowHealthSound, lowHealthEffectIntensity, CameraSystem.ScreenCenter);
+			float soundVolume = Player.dead ? 0f : lowHealthEffectIntensity;
+
+			SoundUtils.UpdateLoopingSound(ref lowHealthSoundSlot, LowHealthSound, soundVolume, CameraSystem.ScreenCenter);
 
 			//Bleeding
-			lowHealthBleedingCounter += lowHealthEffectIntensity / 4f;
+			if(!Player.dead) {
+				lowHealthBleedingCounter += lowHealthEffectIntensity / 4f;
 
-			while(lowHealthBleedingCounter >= 1f) {
-				var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Blood);
+				while(lowHealthBleedingCounter >= 1f) {
+					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Blood);
 
-				lowHealthBleedingCounter--;
+					lowHealthBleedingCounter--;
+				}
 			}
 		}
 	}
