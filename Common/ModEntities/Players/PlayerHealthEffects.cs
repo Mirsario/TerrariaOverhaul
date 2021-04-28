@@ -15,10 +15,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	[Autoload(Side = ModSide.Client)]
 	public sealed class PlayerHealthEffects : ModPlayer
 	{
-		public static readonly SoundStyle LowHealthSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Player/LowHealthLoop", volume: 0.75f);
+		public static readonly SoundStyle LowHealthSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Player/LowHealthLoop", volume: 0.95f);
 		public static readonly Gradient<float> LowHealthEffectGradient = new(
 			(0f, 1f),
-			(40f, 1f),
+			(20f, 1f),
 			(50f, 0f),
 			(100f, 0f)
 		);
@@ -27,7 +27,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		private float lowHealthEffectIntensity;
 		private float lowHealthBleedingCounter;
 
-		public override void PostUpdate()
+		public override void Load()
+		{
+			AudioEffectsSystem.IgnoreSoundStyle(LowHealthSound);
+		}
+
+		public override void PostUpdate() => Update();
+		public override void UpdateDead() => PostUpdate();
+
+		private void Update()
 		{
 			if(!Player.IsLocal()) {
 				return;
@@ -35,7 +43,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			UpdateLowHealthEffects();
 		}
-
 		private void UpdateLowHealthEffects()
 		{
 			float goalLowHealthEffectIntensity = LowHealthEffectGradient.GetValue(Player.statLife);
