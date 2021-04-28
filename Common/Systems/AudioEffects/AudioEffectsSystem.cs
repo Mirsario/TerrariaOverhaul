@@ -3,22 +3,47 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Configuration;
+using TerrariaOverhaul.Common.Systems.Camera;
 using TerrariaOverhaul.Core.Systems.Debugging;
+using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.Systems.AudioEffects
 {
 	[Autoload(Side = ModSide.Client)]
 	public class AudioEffectsSystem : ModSystem
 	{
+		private struct SoundInstanceData
+		{
+			public readonly WeakReference<SoundEffectInstance> Instance;
+			public readonly WeakReference<ActiveSound> TrackedSound;
+			public readonly Vector2? StartPosition;
+
+			public bool firstUpdate;
+			public float localLowPassFiltering;
+
+			public SoundInstanceData(SoundEffectInstance instance, Vector2? initialPosition = null, ActiveSound trackedSound = null)
+			{
+				Instance = new WeakReference<SoundEffectInstance>(instance);
+				TrackedSound = trackedSound != null ? new WeakReference<ActiveSound>(trackedSound) : null;
+				StartPosition = initialPosition;
+
+				firstUpdate = true;
+				localLowPassFiltering = 0f;
+			}
+		}
+
 		private static readonly List<AudioEffectsModifier> Modifiers = new();
 
 		private static float reverbIntensity;
 		private static float lowPassFilteringIntensity;
 		private static MethodInfo applyReverbMethod;
 		private static MethodInfo applyLowPassMethod;
+		private static List<SoundInstanceData> trackedSoundInstances;
 		private static object[] argArray;
 
 		public static bool IsEnabled { get; private set; }
@@ -32,20 +57,35 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			applyReverbMethod = typeof(SoundEffectInstance).GetMethod("INTERNAL_applyReverb", BindingFlags.Instance | BindingFlags.NonPublic);
 			applyLowPassMethod = typeof(SoundEffectInstance).GetMethod("INTERNAL_applyLowPassFilter", BindingFlags.Instance | BindingFlags.NonPublic);
 			argArray = new object[1];
+			trackedSoundInstances = new List<SoundInstanceData>();
 			IsEnabled = applyReverbMethod != null && applyLowPassMethod != null;
 
-			On.Terraria.Audio.ActiveSound.Update += (orig, activeSound) => {
+			On.Terraria.Audio.ActiveSound.Play += (orig, activeSound) => {
 				orig(activeSound);
 
 				if(activeSound.Sound?.IsDisposed == false) {
-					UpdateSound(activeSound.Sound);
+					trackedSoundInstances.Add(new SoundInstanceData(activeSound.Sound, activeSound.Position, activeSound));
 				}
+			};
+
+			On.Terraria.Audio.LegacySoundPlayer.PlaySound += (orig, soundPlayer, type, x, y, style, volumeScale, pitchOffset) => {
+				var result = orig(soundPlayer, type, x, y, style, volumeScale, pitchOffset);
+
+				if(result != null && trackedSoundInstances != null) {
+					Vector2? position = x >= 0 && y >= 0 ? new Vector2(x, y) : null;
+
+					trackedSoundInstances.Add(new SoundInstanceData(result, position));
+				}
+
+				return result;
 			};
 
 			DebugSystem.Log(IsEnabled ? "Audio effects enabled." : "Audio effects disabled: Internal FNA methods are missing.");
 		}
+
 		public override void PostUpdateEverything()
 		{
+			//Update global values
 			ReverbEnabled = true;
 			LowPassFilteringEnabled = true;
 
@@ -68,42 +108,23 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			reverbIntensity = MathHelper.Clamp(newReverbIntensity, 0f, 1f);
 			lowPassFilteringIntensity = MathHelper.Clamp(newLowPassIntensity, 0f, 1f);
 
-			UpdateAllSounds();
-		}
+			//Update sound instances
+			if(IsEnabled) {
+				bool fullUpdate = Main.GameUpdateCount % 4 == 0;
 
-		public static void UpdateSound(SoundEffectInstance soundInstance)
-		{
-			if(!IsEnabled || soundInstance == null) {
-				return;
-			}
+				for(int i = 0; i < trackedSoundInstances.Count; i++) {
+					var data = trackedSoundInstances[i];
 
-			if(ReverbEnabled) {
-				argArray[0] = reverbIntensity;
-				applyReverbMethod.Invoke(soundInstance, argArray);
-			}
-
-			if(LowPassFilteringEnabled) {
-				argArray[0] = 1f - (lowPassFilteringIntensity * 0.9f);
-				applyLowPassMethod.Invoke(soundInstance, argArray);
-			}
-		}
-		public static void UpdateSoundArray(SoundEffectInstance[] soundInstances)
-		{
-			if(!IsEnabled || soundInstances == null) {
-				return;
-			}
-
-			try {
-				for(int i = 0; i < soundInstances.Length; i++) {
-					var soundInstance = soundInstances[i];
-
-					if(soundInstance != null && !soundInstance.IsDisposed && soundInstance.State == SoundState.Playing) {
-						UpdateSound(soundInstance);
+					if(!UpdateSoundData(ref data, fullUpdate)) {
+						trackedSoundInstances.RemoveAt(i--);
+						continue;
 					}
+
+					trackedSoundInstances[i] = data;
 				}
 			}
-			catch { }
 		}
+
 		public static void AddAudioEffectModifier(int time, string identifier, AudioEffectsModifier.ModifierDelegate func)
 		{
 			int existingIndex = Modifiers.FindIndex(m => m.Id == identifier);
@@ -122,42 +143,68 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			Modifiers[existingIndex] = modifier;
 		}
 
-		private static void UpdateAllSounds()
+		private static bool UpdateSoundData(ref SoundInstanceData data, bool fullUpdate)
 		{
-			if(!IsEnabled) {
+			if(!data.Instance.TryGetTarget(out var instance) || instance.IsDisposed || instance.State != SoundState.Playing) {
+				return false;
+			}
+
+			if(fullUpdate || data.firstUpdate) {
+				UpdateSoundOcclusion(ref data);
+			}
+
+			if(ReverbEnabled) {
+				argArray[0] = reverbIntensity;
+				applyReverbMethod.Invoke(instance, argArray);
+			}
+
+			if(LowPassFilteringEnabled) {
+				argArray[0] = 1f - (Math.Clamp(lowPassFilteringIntensity + data.localLowPassFiltering, 0f, 1f) * 0.9f);
+				applyLowPassMethod.Invoke(instance, argArray);
+			}
+
+			data.firstUpdate = false;
+
+			return true;
+		}
+		private static void UpdateSoundOcclusion(ref SoundInstanceData data)
+		{
+			Vector2? soundPosition;
+
+			if(data.TrackedSound != null && data.TrackedSound.TryGetTarget(out var trackedSound)) {
+				soundPosition = trackedSound.Position;
+			} else {
+				soundPosition = data.StartPosition;
+			}
+
+			if(!soundPosition.HasValue) {
 				return;
 			}
 
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceShatter);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceCamera);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceDoorClosed);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceDoorOpen);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceMaxMana);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceUnlock);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceRun);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceDoubleJump);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceCoins);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceDrown);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceMoonlordCry);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstancePixie);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstanceGrass);
-			UpdateSound(SoundEngine.LegacySoundPlayer.SoundInstancePlayerKilled);
+			int occludingTiles = 0;
 
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceZombie);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceRoar);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceSplash);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceLiquid);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceNpcKilled);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceTink);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceDig);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceMech);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceCoin);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceDrip);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceNpcHit);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceItem);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstancePlayerHit);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.SoundInstanceFemaleHit);
-			UpdateSoundArray(SoundEngine.LegacySoundPlayer.TrackableSoundInstances);
+			const int MaxOccludingTiles = 15;
+
+			GeometryUtils.BresenhamLine(
+				CameraSystem.ScreenCenter.ToTileCoordinates(),
+				soundPosition.Value.ToTileCoordinates(),
+				(Vector2Int point, ref bool stop) => {
+					if(!Main.tile.TryGet(point, out var tile)) {
+						stop = true;
+						return;
+					}
+
+					if(tile.IsActive && Main.tileSolid[tile.type]) {
+						occludingTiles++;
+
+						if(occludingTiles >= MaxOccludingTiles) {
+							stop = true;
+						}
+					}
+				}
+			);
+
+			data.localLowPassFiltering = occludingTiles / (float)MaxOccludingTiles;
 		}
 	}
 }
