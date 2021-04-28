@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
 using Terraria;
+using Terraria.ID;
 using TerrariaOverhaul.Common.Systems.AudioEffects;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Systems.Decals;
@@ -36,6 +37,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			}
 
 			float maxPower = (float)Math.Sqrt(maxSize.X * maxSize.Y);
+
+			//TODO: Hardcoded cuz tired.
+			if(projectile.type == ProjectileID.ExplosiveBullet) {
+				maxPower = 10f;
+			}
+
 			float knockbackRange = maxPower;
 			float knockbackRangeSquared = knockbackRange * knockbackRange;
 			var center = projectile.Center;
