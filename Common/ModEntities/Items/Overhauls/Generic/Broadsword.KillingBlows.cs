@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Linq;
+using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -36,12 +37,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 					i => i.Match(OpCodes.Conv_R8),
 					i => i.Match(OpCodes.Mul),
 					//	{
-					i => i.MatchStloc(out _),
-					//
-					i => i.Match(OpCodes.Nop)
+					i => i.MatchStloc(out _)
 				);
 
+				var incomingLabels = cursor.IncomingLabels.ToArray();
+
 				cursor.Emit(OpCodes.Ldarg_0);
+
+				foreach(var incomingLabel in incomingLabels) {
+					incomingLabel.Target = cursor.Prev;
+				}
+
 				cursor.Emit(OpCodes.Ldloca, damageLocalId);
 				cursor.EmitDelegate<NPCDamageModifier>(CheckForKillingBlow);
 			};

@@ -133,7 +133,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 						i => i.MatchLdarga(out itemRectangleArgId),
 						i => i.MatchLdloc(out npcRectangleLocalId),
 						i => i.MatchCall(typeof(Rectangle), nameof(Rectangle.Intersects)),
-						i => i.Match(OpCodes.Brfalse_S)
+						i => i.MatchBrfalse(out _)
 					)) {
 						throw new ILMatchException(context, "Collision check upgrade: Match 2", this);
 					}

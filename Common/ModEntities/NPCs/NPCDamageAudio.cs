@@ -25,18 +25,15 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				//Match 'if (HitSound != null)'
 				ILLabel onCheckFailureLabel = null;
 
-				if(!cursor.TryGotoNext(
+				cursor.GotoNext(
 					MoveType.After,
 					i => i.Match(OpCodes.Ldarg_0),
-					i => i.MatchLdfld(typeof(NPC), nameof(NPC.HitSound)),
-					i => i.Match(OpCodes.Ldnull),
-					i => i.Match(OpCodes.Cgt_Un),
-					i => i.Match(OpCodes.Stloc_S),
-					i => i.Match(OpCodes.Ldloc_S),
+					i => i.MatchLdfld(typeof(NPC), nameof(NPC.HitSound))
+				);
+				cursor.GotoNext(
+					MoveType.After,
 					i => i.MatchBrfalse(out onCheckFailureLabel)
-				)) {
-					throw new ILMatchException(context, initiator: this);
-				}
+				);
 
 				cursor.Emit(OpCodes.Ldarg_0);
 				cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || npcDamageAudio.PlayHitSound(npc));
@@ -50,18 +47,15 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				//Match 'if (DeathSound != null)'
 				ILLabel onCheckFailureLabel = null;
 
-				if(!cursor.TryGotoNext(
+				cursor.GotoNext(
 					MoveType.After,
 					i => i.Match(OpCodes.Ldarg_0),
-					i => i.MatchLdfld(typeof(NPC), nameof(NPC.DeathSound)),
-					i => i.Match(OpCodes.Ldnull),
-					i => i.Match(OpCodes.Cgt_Un),
-					i => i.Match(OpCodes.Stloc_S),
-					i => i.Match(OpCodes.Ldloc_S),
+					i => i.MatchLdfld(typeof(NPC), nameof(NPC.DeathSound))
+				);
+				cursor.GotoNext(
+					MoveType.After,
 					i => i.MatchBrfalse(out onCheckFailureLabel)
-				)) {
-					throw new ILMatchException(context, initiator: this);
-				}
+				);
 
 				cursor.Emit(OpCodes.Ldarg_0);
 				cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || npcDamageAudio.PlayDeathSound(npc));

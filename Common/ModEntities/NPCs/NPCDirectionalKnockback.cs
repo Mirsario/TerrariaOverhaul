@@ -23,17 +23,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 				if(!cursor.TryGotoNext(
 					MoveType.After,
-					i => i.Match(OpCodes.Ldarg_0),
-					i => i.MatchLdfld(typeof(NPC), nameof(NPC.knockBackResist)),
+					i => i.Match(OpCodes.Ldarg_2), // 'knockBack' parameter.
 					i => i.MatchLdcR4(0f),
-					i => i.Match(OpCodes.Cgt),
-					i => i.Match(OpCodes.Br_S),
-					i => i.Match(OpCodes.Ldc_I4_0),
-					i => i.Match(OpCodes.Stloc_S),
-					i => i.Match(OpCodes.Ldloc_S),
-					i => i.MatchBrfalse(out skipKnockbackLabel)
+					i => i.MatchBleUn(out skipKnockbackLabel)
 				)) {
-					throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL Failure.");
+					throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL.Terraria.NPC.StrikeNPC Failure at match 1.");
 				}
 
 				//Match 'float num4 = knockBack * knockBackResist' to get the number of the 'num4' local.
@@ -47,7 +41,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					i => i.Match(OpCodes.Mul),
 					i => i.MatchStloc(out totalKnockbackLocalId)
 				)) {
-					throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL Failure.");
+					throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL.Terraria.NPC.StrikeNPC Failure at match 2.");
 				}
 
 				//Match 'int num9 = (int)num * 10;' to place code after it.
@@ -59,7 +53,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					i => i.Match(OpCodes.Mul),
 					i => i.Match(OpCodes.Stloc_S)
 				)) {
-					throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL Failure.");
+					throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL.Terraria.NPC.StrikeNPC Failure at match 3.");
 				}
 
 				cursor.Emit(OpCodes.Ldarg_0); //Load 'this'.

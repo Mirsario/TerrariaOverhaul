@@ -139,7 +139,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 					i => i.Match(OpCodes.Ldelem_R4),
 					i => i.MatchLdsfld(typeof(Main), nameof(Main.musicVolume)),
 					i => i.Match(OpCodes.Mul),
-					i => i.Match(OpCodes.Ldloc_S),
+					i => i.MatchLdloc(out _),
 					i => i.Match(OpCodes.Mul),
 					i => i.MatchStloc(out volumeLocalId)
 				);
