@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				DecalSystem.ClearDecals(new Rectangle(x * 16, y * 16, 16, 16));
 			}
 		}
-		public override void PlaceInWorld(int x, int y, Item item)
+		public override void PlaceInWorld(int x, int y, int type, Item item)
 		{
 			if(!WorldGen.gen) {
 				DecalSystem.ClearDecals(new Rectangle(x * 16, y * 16, 16, 16));
