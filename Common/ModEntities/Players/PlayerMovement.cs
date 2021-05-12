@@ -29,8 +29,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		}
 
 		public static readonly int VelocityRecordSize = 5;
-		public static readonly float DefaultJumpSpeedScale = 1.52375f;
-		public static readonly float UnderwaterJumpSpeedScale = 0.775f;
 
 		//public Timer noJumpTime;
 		public Timer noMovementTime;
@@ -48,16 +46,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			Player.fullRotationOrigin = new Vector2(11, 22);
 
-			if(onGround || Player.wet) {
-				Player.jumpHeight = 0;
+			//Scale jump stats
+			Player.jumpHeight = 0;
+			Player.jumpSpeed *= 1.23f;
 
-				if(!Player.chilled && !Player.slowFall) {
-					Player.jumpSpeed *= DefaultJumpSpeedScale;
-				}
-
-				if(Player.wet) {
-					Player.jumpSpeed *= UnderwaterJumpSpeedScale;
-				}
+			//Jump hold logic is replaced by gravity scaling
+			if(Player.controlJump && Player.velocity.Y < 0f) {
+				Player.gravity *= MathHelper.Lerp(1f, 0.19f, -Player.velocity.Y / Player.jumpSpeed);
 			}
 
 			if(!Player.wet) {
@@ -67,9 +62,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				if(vanillaAccelerationTime > 0) {
 					vanillaAccelerationTime--;
 				} else if(!Player.slippy && !Player.slippy2) {
-					//Run acceleration
+					//Horizontal acceleration
 					if(onGround) {
 						Player.runAcceleration *= 2f;
+					} else {
+						Player.runAcceleration *= 1.65f;
 					}
 
 					//Wind acceleration
@@ -79,7 +76,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 						}
 					}
 
-					Player.runSlowdown = onGround ? 0.3f : /* TODO: isDodging true ? 0.125f : */ 0.02f;
+					Player.runSlowdown = onGround ? 0.275f : 0.02f;
 				}
 
 				//Stops vanilla running sounds from playing. //TODO: Move to PlayerFootsteps.
@@ -94,6 +91,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 				Player.maxFallSpeed = wingFall ? 10f : 1000f;
 
+				//Falling friction & speed limit
 				if(Player.velocity.Y > Player.maxFallSpeed) {
 					Player.velocity.Y = Player.maxFallSpeed;
 				} else if(Player.velocity.Y > 0f) {
@@ -136,7 +134,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				var (endTime, modifier) = pair.Value;
 
 				if(endTime <= TimeSystem.UpdateCount) {
-					(keysToRemove ?? (keysToRemove = new List<string>())).Add(id);
+					(keysToRemove ??= new List<string>()).Add(id);
 					continue;
 				}
 
@@ -144,7 +142,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			if(keysToRemove != null) {
-				foreach(var key in keysToRemove) {
+				foreach(string key in keysToRemove) {
 					movementModifiers.Remove(key);
 				}
 			}

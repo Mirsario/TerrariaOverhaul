@@ -4,7 +4,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerBunnyhopping : PlayerBase
 	{
-		public static float DefaultBoost => 0.75f;
+		public static float DefaultBoost => 0.8f;
 
 		public float boost;
 
@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			bool wasOnGround = Player.WasOnGround();
 
 			if(!onGround && wasOnGround && Player.velocity.Y < 0f) {
-				Player.velocity.X += Player.controlLeft ? -boost : Player.controlRight ? boost : 0f;
+				Player.velocity.X += boost * Player.KeyDirection();
 			}
 		}
 	}
