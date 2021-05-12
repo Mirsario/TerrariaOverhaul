@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Systems.AudioEffects;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
 
@@ -11,6 +12,8 @@ namespace TerrariaOverhaul.Common.Systems.Ambience.Sounds
 		public override void Initialize()
 		{
 			Sound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Atmosphere/Forest/ForestBirds", volume: 0.5f, type: SoundType.Ambient);
+
+			AudioEffectsSystem.EnableSoundStyleWallOcclusion(Sound);
 		}
 		public override float GetTargetVolume(Player localPlayer)
 		{
