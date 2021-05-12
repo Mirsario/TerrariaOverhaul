@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Systems.Time;
@@ -37,8 +40,57 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		//public Vector2 prevVelocity;
 		public Vector2[] velocityRecord = new Vector2[VelocityRecordSize];
 
+		private int maxPlayerJump;
+		private int prevPlayerJump;
+
 		private Dictionary<string, (ulong endTime, MovementModifier modifier)> movementModifiers = new();
 
+		public override void Load()
+		{
+			//Replace jump hold down logic with gravity scaling
+			IL.Terraria.Player.JumpMovement += (context) => {
+				var cursor = new ILCursor(context);
+
+				//Match 'if (jump > 0)'
+				cursor.GotoNext(
+					MoveType.After,
+					i => i.Match(OpCodes.Ldarg_0),
+					i => i.MatchLdfld(typeof(Player), nameof(Player.jump)),
+					i => i.MatchLdcI4(0),
+					i => i.MatchCgt()
+				);
+
+				//Match 'velocity.Y = (0f - jumpSpeed) * gravDir;'
+				cursor.GotoNext(
+					MoveType.Before,
+					i => i.Match(OpCodes.Ldarg_0),
+					i => i.MatchLdflda(typeof(Entity), nameof(Entity.velocity)),
+					i => i.MatchLdcR4(0f),
+					i => i.MatchLdsfld(typeof(Player), nameof(Player.jumpSpeed)),
+					i => i.MatchSub(),
+					i => i.Match(OpCodes.Ldarg_0),
+					i => i.MatchLdfld(typeof(Player), nameof(Player.gravDir)),
+					i => i.MatchMul(),
+					i => i.MatchStfld(typeof(Vector2), nameof(Vector2.Y))
+				);
+
+				var incomingLabels = cursor.IncomingLabels.ToArray();
+
+				cursor.RemoveRange(9);
+				cursor.Emit(OpCodes.Nop);
+
+				foreach(var incomingLabel in incomingLabels) {
+					incomingLabel.Target = cursor.Prev;
+				}
+
+				cursor.Emit(OpCodes.Ldarg_0);
+				cursor.EmitDelegate<Action<Player>>(static player => {
+					var playerMovement = player.GetModPlayer<PlayerMovement>();
+
+					player.gravity *= MathHelper.Lerp(1f, 0.1f, MathHelper.Clamp(player.jump / (float)Math.Max(playerMovement.maxPlayerJump, 1), 0f, 1f));
+				});
+			};
+		}
 		public override void PreUpdate()
 		{
 			bool onGround = Player.OnGround();
@@ -46,14 +98,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			Player.fullRotationOrigin = new Vector2(11, 22);
 
-			//Scale jump stats
-			Player.jumpHeight = 0;
-			Player.jumpSpeed *= 1.23f;
+			//Update the data necessary for jump key holding logic
+			if(Player.jump != prevPlayerJump) {
+				if(Player.jump > prevPlayerJump) {
+					maxPlayerJump = Player.jump;
+				}
 
-			//Jump hold logic is replaced by gravity scaling
-			if(Player.controlJump && Player.velocity.Y < 0f) {
-				Player.gravity *= MathHelper.Lerp(1f, 0.19f, -Player.velocity.Y / Player.jumpSpeed);
+				prevPlayerJump = Player.jump;
 			}
+
+			//Scale jump stats
+			Player.jumpSpeed *= 1.21f;
+			Player.jumpHeight = (int)(Player.jumpHeight * 1.75f);
 
 			if(!Player.wet) {
 				bool wings = Player.wingsLogic > 0 && Player.controlJump && !onGround && !wasOnGround;
