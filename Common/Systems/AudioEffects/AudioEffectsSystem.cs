@@ -10,7 +10,9 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Common.Systems.Camera;
+using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Core.Systems.Debugging;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
@@ -30,6 +32,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 			public bool firstUpdate;
 			public float localLowPassFiltering;
+			public float targetLocalLowPassFiltering;
 
 			public SoundInstanceData(SoundEffectInstance instance, Vector2? initialPosition = null, ActiveSound trackedSound = null)
 			{
@@ -38,9 +41,11 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				StartPosition = initialPosition;
 
 				firstUpdate = true;
-				localLowPassFiltering = 0f;
+				targetLocalLowPassFiltering = localLowPassFiltering = 0f;
 			}
 		}
+
+		private const int FullAudioUpdateThreshold = 4;
 
 		private static readonly List<AudioEffectsModifier> Modifiers = new();
 		private static readonly List<SoundInstanceData> TrackedSoundInstances = new();
@@ -51,7 +56,11 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			new LegacySoundStyle(SoundID.MenuTick, -1),
 			new LegacySoundStyle(SoundID.Chat, -1),
 		};
+		private static readonly List<SoundStyle> SoundStylesWithWallOcclusion = new() {
+			new LegacySoundStyle(SoundID.Bird, -1),
+		};
 
+		private static float playerWallOcclusionCache;
 		private static AudioEffectParameters soundParameters = AudioEffectParameters.Default;
 		private static AudioEffectParameters musicParameters = AudioEffectParameters.Default;
 		//Reflection
@@ -185,8 +194,10 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			soundParameters = newSoundParameters;
 			musicParameters = newMusicParameters;
 
+			playerWallOcclusionCache = Main.LocalPlayer.GetModPlayer<PlayerWallOcclusion>().OcclusionFactor;
+
 			if(IsEnabled) {
-				bool fullUpdate = Main.GameUpdateCount % 4 == 0;
+				bool fullUpdate = Main.GameUpdateCount % FullAudioUpdateThreshold == 0;
 
 				//Update sound instances
 				for(int i = 0; i < TrackedSoundInstances.Count; i++) {
@@ -232,10 +243,8 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			Modifiers[existingIndex] = modifier;
 		}
 
-		public static void IgnoreSoundStyle(SoundStyle soundStyle)
-		{
-			SoundStylesToIgnore.Add(soundStyle);
-		}
+		public static void IgnoreSoundStyle(SoundStyle soundStyle) => SoundStylesToIgnore.Add(soundStyle);
+		public static void EnableSoundStyleWallOcclusion(SoundStyle soundStyle) => SoundStylesWithWallOcclusion.Add(soundStyle);
 
 		private static void ApplyEffects(SoundEffectInstance instance, AudioEffectParameters parameters)
 		{
@@ -257,6 +266,12 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				UpdateSoundOcclusion(ref data);
 			}
 
+			if(data.firstUpdate) {
+				data.localLowPassFiltering = data.targetLocalLowPassFiltering;
+			} else {
+				data.localLowPassFiltering = MathHelper.Lerp(data.localLowPassFiltering, data.targetLocalLowPassFiltering, 3f * TimeSystem.LogicDeltaTime);
+			}
+
 			var localParameters = soundParameters;
 
 			localParameters.LowPassFiltering += data.localLowPassFiltering;
@@ -270,24 +285,35 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 		private static void UpdateSoundOcclusion(ref SoundInstanceData data)
 		{
 			Vector2? soundPosition;
+			ActiveSound trackedSound = null;
 
-			if(data.TrackedSound != null && data.TrackedSound.TryGetTarget(out var trackedSound)) {
+			if(data.TrackedSound != null && data.TrackedSound.TryGetTarget(out trackedSound)) {
 				soundPosition = trackedSound.Position;
 			} else {
 				soundPosition = data.StartPosition;
 			}
 
-			if(!soundPosition.HasValue) {
-				return;
+			float occlusion = 0f;
+
+			if(soundPosition.HasValue) {
+				occlusion = MathHelper.Clamp(occlusion + CalculateSoundOcclusion(soundPosition.Value.ToTileCoordinates()), 0f, 1f);
 			}
 
+			if(trackedSound != null && SoundStylesWithWallOcclusion.Contains(trackedSound.Style)) {
+				occlusion = MathHelper.Clamp(occlusion + playerWallOcclusionCache, 0f, 1f);
+			}
+
+			data.targetLocalLowPassFiltering = occlusion;
+		}
+		private static float CalculateSoundOcclusion(Vector2Int position)
+		{
 			int occludingTiles = 0;
 
 			const int MaxOccludingTiles = 15;
 
 			GeometryUtils.BresenhamLine(
 				CameraSystem.ScreenCenter.ToTileCoordinates(),
-				soundPosition.Value.ToTileCoordinates(),
+				position,
 				(Vector2Int point, ref bool stop) => {
 					if(!Main.tile.TryGet(point, out var tile)) {
 						stop = true;
@@ -304,7 +330,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				}
 			);
 
-			data.localLowPassFiltering = occludingTiles / (float)MaxOccludingTiles;
+			return occludingTiles / (float)MaxOccludingTiles;
 		}
 	}
 }
