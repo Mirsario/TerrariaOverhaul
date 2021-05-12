@@ -47,6 +47,14 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 		public static bool operator ==(Vector2Int a, Vector2Int b) => a.X == b.X && a.Y == b.Y;
 		public static bool operator !=(Vector2Int a, Vector2Int b) => a.X != b.X || a.Y != b.Y;
 		//Vector2
+		public static Vector2 operator +(Vector2 a, Vector2Int b) => new(a.X + b.X, a.Y + b.Y);
+		public static Vector2 operator -(Vector2 a, Vector2Int b) => new(a.X - b.X, a.Y - b.Y);
+		public static Vector2 operator *(Vector2 a, Vector2Int b) => new(a.X * b.X, a.Y * b.Y);
+		public static Vector2 operator /(Vector2 a, Vector2Int b) => new(a.X / b.X, a.Y / b.Y);
+		public static Vector2 operator +(Vector2Int a, Vector2 b) => new(a.X + b.X, a.Y + b.Y);
+		public static Vector2 operator -(Vector2Int a, Vector2 b) => new(a.X - b.X, a.Y - b.Y);
+		public static Vector2 operator *(Vector2Int a, Vector2 b) => new(a.X * b.X, a.Y * b.Y);
+		public static Vector2 operator /(Vector2Int a, Vector2 b) => new(a.X / b.X, a.Y / b.Y);
 		public static bool operator ==(Vector2Int a, Vector2 b) => a.X == b.X && a.Y == b.Y;
 		public static bool operator ==(Vector2 a, Vector2Int b) => a.X == b.X && a.Y == b.Y;
 		public static bool operator !=(Vector2Int a, Vector2 b) => a.X != b.X || a.Y != b.Y;
@@ -57,7 +65,8 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 		//Point
 		public static implicit operator Point(Vector2Int value) => new(value.X, value.Y);
 		public static implicit operator Vector2Int(Point value) => new(value.X, value.Y);
-		//Vector2Int
+		//Vector2
+		public static implicit operator Vector2(Vector2Int value) => new(value.X, value.Y);
 		public static explicit operator Vector2Int(Vector2 value) => new((int)value.X, (int)value.Y);
 	}
 }
