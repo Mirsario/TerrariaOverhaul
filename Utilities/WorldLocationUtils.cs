@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Utilities
 
 		public static Gradient<float> UnderSurfaceGradient => new Gradient<float>(
 			((float)Main.worldSurface, 0f),
-			((float)Main.worldSurface * 1.1f, 1f)
+			((float)Main.worldSurface * 1.25f, 1f)
 		);
 
 		public static Gradient<float> SpaceGradient => new Gradient<float>(
