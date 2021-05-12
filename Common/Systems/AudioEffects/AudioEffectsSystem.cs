@@ -49,14 +49,14 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 		private static readonly List<AudioEffectsModifier> Modifiers = new();
 		private static readonly List<SoundInstanceData> TrackedSoundInstances = new();
-		private static readonly List<SoundStyle> SoundStylesToIgnore = new() {
+		private static readonly HashSet<SoundStyle> SoundStylesToIgnore = new() {
 			new LegacySoundStyle(SoundID.Grab, -1),
 			new LegacySoundStyle(SoundID.MenuOpen, -1),
 			new LegacySoundStyle(SoundID.MenuClose, -1),
 			new LegacySoundStyle(SoundID.MenuTick, -1),
 			new LegacySoundStyle(SoundID.Chat, -1),
 		};
-		private static readonly List<SoundStyle> SoundStylesWithWallOcclusion = new() {
+		private static readonly HashSet<SoundStyle> SoundStylesWithWallOcclusion = new() {
 			new LegacySoundStyle(SoundID.Bird, -1),
 		};
 
