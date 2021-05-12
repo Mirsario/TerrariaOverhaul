@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Common.Systems.Ambience.Sounds
 	{
 		public override void Initialize()
 		{
-			Sound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Atmosphere/Forest/ForestCrickets", type: SoundType.Ambient);
+			Sound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Ambience/Forest/ForestCrickets", type: SoundType.Ambient);
 
 			AudioEffectsSystem.EnableSoundStyleWallOcclusion(Sound);
 		}
@@ -23,7 +23,9 @@ namespace TerrariaOverhaul.Common.Systems.Ambience.Sounds
 
 			float result = 1f;
 
+			//During night
 			result *= TimeSystem.NightGradient.GetValue(TimeSystem.RealTime);
+			//On the surface
 			result *= WorldLocationUtils.SurfaceGradient.GetValue(localPlayer.Center.ToTileCoordinates().Y);
 
 			return result;
