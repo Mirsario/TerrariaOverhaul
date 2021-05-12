@@ -40,6 +40,10 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 		public override void PostDrawTiles()
 		{
+			if(Main.gameMenu) {
+				return;
+			}
+
 			var sb = Main.spriteBatch;
 
 			//sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
@@ -64,6 +68,10 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 		private void OnPreDraw(GameTime gameTime)
 		{
+			if(Main.gameMenu) {
+				return;
+			}
+
 			foreach(var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea, false)) {
 				foreach(var component in chunk.EnumerateComponents()) {
 					component.PreGameDraw();
