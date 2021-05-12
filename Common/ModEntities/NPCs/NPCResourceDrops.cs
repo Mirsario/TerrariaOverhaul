@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					return;
 				}
 
-				if(npc.damage <= 0) {
+				if(npc.damage <= 0 || NPCID.Sets.ProjectileNPC[npc.type]) {
 					return;
 				}
 
@@ -144,7 +144,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		}
 		private void OnDamagedByMagic(NPC npc, Player player, float damage, int useTime, int useAnimation, int manaUse)
 		{
-			if(npc.damage <= 0) {
+			if(npc.damage <= 0 || NPCID.Sets.ProjectileNPC[npc.type]) {
 				return;
 			}
 
