@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	[Autoload(Side = ModSide.Client)]
 	public sealed class PlayerHealthEffects : ModPlayer
 	{
-		public static readonly SoundStyle LowHealthSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Player/LowHealthLoop", volume: 0.95f);
+		public static readonly SoundStyle LowHealthSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Player/LowHealthLoop", volume: 1f);
 		public static readonly Gradient<float> LowHealthEffectGradient = new(
 			(0f, 1f),
 			(30f, 1f),
@@ -60,7 +60,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 						soundParameters.LowPassFiltering += usedIntensity * 0.75f;
 						musicParameters.LowPassFiltering += usedIntensity;
-						musicParameters.Volume *= 1f - usedIntensity * 0.5f;
+						musicParameters.Volume *= 1f - usedIntensity;
 					}
 				);
 			}
