@@ -20,11 +20,11 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 		{
 			const float Volume = 0.5f;
 
-			defaultFoostepSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Stone/Step", 11, volume: Volume);
+			defaultFoostepSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Stone/Step", 8, volume: Volume);
 			footstepSoundsByTag = new Dictionary<TagData, SoundStyle> {
 				{ OverhaulTileTags.Stone, defaultFoostepSound },
-				{ OverhaulTileTags.Dirt, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Dirt/Step", 11, volume: Volume) },
-				{ OverhaulTileTags.Grass, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Grass/Step", 10, volume: Volume) },
+				{ OverhaulTileTags.Dirt, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Dirt/Step", 8, volume: Volume) },
+				{ OverhaulTileTags.Grass, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Grass/Step", 8, volume: Volume) },
 				{ OverhaulTileTags.Sand, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Sand/Step", 11, volume: Volume) },
 				{ OverhaulTileTags.Snow, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Snow/Step", 11, volume: Volume) },
 				{ OverhaulTileTags.Wood, new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Footsteps/Wood/Step", 11, volume: Volume) },
