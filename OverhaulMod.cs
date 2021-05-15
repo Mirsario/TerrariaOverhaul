@@ -18,7 +18,6 @@ namespace TerrariaOverhaul
 		public static readonly Assembly Assembly;
 		public static readonly Assembly EngineAssembly;
 		public static readonly Assembly TMLAssembly;
-		public static readonly Type[] AssemblyTypes;
 
 		//internal static readonly ResourceManager ResourceManager = new ResourceManager("TerrariaOverhaul.Properties.Resources", Assembly.GetExecutingAssembly());
 
@@ -27,7 +26,6 @@ namespace TerrariaOverhaul
 		static OverhaulMod()
 		{
 			Assembly = Assembly.GetExecutingAssembly();
-			AssemblyTypes = Assembly.GetTypes();
 			EngineAssembly = typeof(Game).Assembly;
 			TMLAssembly = typeof(ModLoader).Assembly;
 		}
