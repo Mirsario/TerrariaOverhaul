@@ -47,6 +47,17 @@ namespace TerrariaOverhaul.Core.Components
 			return component;
 		}
 
+		public bool Has<T>() where T : TComponent
+		{
+			foreach(var component in Components) {
+				if(component is T) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
 		public T Get<T>() where T : TComponent
 		{
 			foreach(var component in Components) {
