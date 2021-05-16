@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Components;
 
 namespace TerrariaOverhaul.Core.Systems.Chunks
 {
+	[GlobalComponent]
 	public abstract class ChunkComponent : ModComponent<Chunk>
 	{
 		protected override void Register()
@@ -12,7 +12,6 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 			base.Register();
 
 			ModTypeLookup<ChunkComponent>.Register(this);
-			ChunkSystem.RegisterComponent(this);
 		}
 
 		public virtual void PreGameDraw(Chunk chunk) { }

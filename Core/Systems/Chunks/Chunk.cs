@@ -56,10 +56,6 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 			//Components
 
 			Components = new(this);
-
-			foreach(var chunkComponent in ChunkSystem.ChunkComponents) {
-				Components.Add(chunkComponent);
-			}
 		}
 
 		public void Dispose()

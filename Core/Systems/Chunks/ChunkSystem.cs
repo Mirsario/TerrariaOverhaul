@@ -11,8 +11,6 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 	{
 		public const int ChunkUpdateArea = 3;
 
-		internal static readonly List<ChunkComponent> ChunkComponents = new();
-
 		private static Dictionary<long, Chunk> chunks;
 
 		public override void Load()
@@ -23,8 +21,6 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 		}
 		public override void Unload()
 		{
-			ChunkComponents.Clear();
-
 			if(chunks != null) {
 				foreach(var chunk in chunks.Values) {
 					chunk.Dispose();
@@ -128,13 +124,6 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 			}
 
 			return chunk;
-		}
-
-		internal static int RegisterComponent(ChunkComponent component)
-		{
-			ChunkComponents.Add(component);
-
-			return ChunkComponents.Count - 1;
 		}
 
 		public static int TileToChunkCoordinates(int coordinate) => coordinate / Chunk.MaxChunkSize;

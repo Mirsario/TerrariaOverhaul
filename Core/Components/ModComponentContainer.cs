@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Components
@@ -19,19 +20,26 @@ namespace TerrariaOverhaul.Core.Components
 
 		public TComponent this[int index] => Components[index];
 
-		public ModComponentContainer(TEntity entity)
+		public ModComponentContainer(TEntity entity, bool autoloadGlobalComponents = true)
 		{
 			Entity = entity;
 			ComponentsReadOnly = (Components = new()).AsReadOnly();
+
+			if(!autoloadGlobalComponents) {
+				return;
+			}
+
+			foreach(var mod in ModLoader.Mods) {
+				foreach(var component in mod.GetContent<TComponent>()) {
+					if(component.GetType().GetCustomAttribute<GlobalComponentAttribute>() != null) {
+						Add((TComponent)component.Clone());
+					}
+				}
+			}
 		}
 
-		public T Add<T>() where T : TComponent
-			=> (T)Add(ModContent.GetInstance<T>());
-
-		public TComponent Add(TComponent baseComponent)
+		public TComponent Add(TComponent component)
 		{
-			var component = (TComponent)baseComponent.Clone();
-
 			component.OnInit(Entity);
 
 			Components.Add(component);
