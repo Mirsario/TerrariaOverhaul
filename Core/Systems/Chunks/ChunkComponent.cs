@@ -1,40 +1,21 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Components;
 
 namespace TerrariaOverhaul.Core.Systems.Chunks
 {
-	public abstract class ChunkComponent : ModType, IDisposable
+	public abstract class ChunkComponent : ModComponent<Chunk>
 	{
-		public int Id { get; private set; }
-		public Chunk Chunk { get; private set; }
-
 		protected override void Register()
 		{
+			base.Register();
+
 			ModTypeLookup<ChunkComponent>.Register(this);
-
-			Id = ChunkSystem.RegisterComponent(this);
+			ChunkSystem.RegisterComponent(this);
 		}
 
-		public virtual ChunkComponent Clone(Chunk chunk)
-		{
-			var result = (ChunkComponent)MemberwiseClone();
-
-			result.Chunk = chunk;
-
-			return result;
-		}
-		public virtual void OnInit() { }
-		public virtual void OnDispose() { }
-		//public virtual void OnUpdate() { }
-		public virtual void PreGameDraw() { }
-		public virtual void PostDrawTiles(SpriteBatch sb) { }
-
-		public void Dispose()
-		{
-			OnDispose();
-
-			Chunk = null;
-		}
+		public virtual void PreGameDraw(Chunk chunk) { }
+		public virtual void PostDrawTiles(Chunk chunk, SpriteBatch sb) { }
 	}
 }

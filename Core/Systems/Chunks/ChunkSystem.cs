@@ -49,8 +49,8 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 			//sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
 			foreach(var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea, false)) {
-				foreach(var component in chunk.EnumerateComponents()) {
-					component.PostDrawTiles(sb);
+				foreach(var component in chunk.Components) {
+					component.PostDrawTiles(chunk, sb);
 				}
 			}
 
@@ -73,8 +73,8 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 			}
 
 			foreach(var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea, false)) {
-				foreach(var component in chunk.EnumerateComponents()) {
-					component.PreGameDraw();
+				foreach(var component in chunk.Components) {
+					component.PreGameDraw(chunk);
 				}
 			}
 		}

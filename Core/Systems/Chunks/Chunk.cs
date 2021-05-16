@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Components;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
 
@@ -19,8 +20,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 		public readonly RectFloat Rectangle;
 		public readonly Rectangle TileRectangle;
 		public readonly RectFloat WorldRectangle;
-
-		private ChunkComponent[] components;
+		public readonly ModComponentContainer<Chunk, ChunkComponent> Components;
 
 		internal Chunk(int x, int y)
 		{
@@ -55,34 +55,16 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 			//Components
 
-			components = ChunkSystem.ChunkComponents
-				.Select(c => c.Clone(this))
-				.ToArray();
-			
-			for(int i = 0; i < components.Length; i++) {
-				components[i].OnInit();
+			Components = new(this);
+
+			foreach(var chunkComponent in ChunkSystem.ChunkComponents) {
+				Components.Add(chunkComponent);
 			}
 		}
 
 		public void Dispose()
 		{
-			if(components != null) {
-				for(int i = 0; i < components.Length; i++) {
-					components[i].Dispose();
-				}
-
-				components = null;
-			}
-		}
-		public IEnumerable<ChunkComponent> EnumerateComponents()
-		{
-			for(int i = 0; i < components.Length; i++) {
-				yield return components[i];
-			}
-		}
-		public T GetComponent<T>() where T : ChunkComponent
-		{
-			return components[ModContent.GetInstance<T>().Id] as T ?? throw new Exception($"{nameof(ChunkComponent)} of type '{typeof(T).Name}' does not exist on the current chunk.");
+			Components.Dispose();
 		}
 
 		public static long PackPosition(int x, int y) => (long)y << 32 | (uint)x;

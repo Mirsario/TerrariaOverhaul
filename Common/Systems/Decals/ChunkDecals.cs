@@ -35,15 +35,15 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 		private RenderTarget2D texture;
 		private Dictionary<BlendState, List<DecalInfo>> decalsToAdd;
 
-		public override void OnInit()
+		public override void OnInit(Chunk chunk)
 		{
-			int textureWidth = Chunk.TileRectangle.Width * 8;
-			int textureHeight = Chunk.TileRectangle.Height * 8;
+			int textureWidth = chunk.TileRectangle.Width * 8;
+			int textureHeight = chunk.TileRectangle.Height * 8;
 
 			texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 			decalsToAdd = new Dictionary<BlendState, List<DecalInfo>>();
 		}
-		public override void OnDispose()
+		public override void OnDispose(Chunk chunk)
 		{
 			if(texture != null) {
 				texture.Dispose();
@@ -51,7 +51,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				texture = null;
 			}
 		}
-		public override void PreGameDraw()
+		public override void PreGameDraw(Chunk chunk)
 		{
 			//Add pending decals
 
@@ -80,11 +80,11 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			decalsToAdd.Clear();
 		}
-		public override void PostDrawTiles(SpriteBatch sb)
+		public override void PostDrawTiles(Chunk chunk, SpriteBatch sb)
 		{
 			//Render the RT in the world
 
-			var destination = Chunk.WorldRectangle;
+			var destination = chunk.WorldRectangle;
 
 			destination.x -= Main.screenPosition.X;
 			destination.y -= Main.screenPosition.Y;
@@ -105,7 +105,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			}
 
 			var shader = DecalSystem.BloodShader.Value;
-			var lightingBuffer = Chunk.GetComponent<ChunkLighting>().Texture;
+			var lightingBuffer = chunk.Components.Get<ChunkLighting>().Texture;
 
 			if(!CheckResources(
 				(texture, nameof(texture)),
@@ -136,8 +136,8 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 					//TODO: Comment the following.
 					var tOffset = Main.sceneTilePos - Main.screenPosition;
 					var vec = new Vector2(
-						Chunk.WorldRectangle.width / Main.instance.tileTarget.Width / Chunk.WorldRectangle.width,
-						Chunk.WorldRectangle.height / Main.instance.tileTarget.Height / Chunk.WorldRectangle.height
+						chunk.WorldRectangle.width / Main.instance.tileTarget.Width / chunk.WorldRectangle.width,
+						chunk.WorldRectangle.height / Main.instance.tileTarget.Height / chunk.WorldRectangle.height
 					);
 					var vertices = new[] {
 						new VertexPositionUv2(new Vector3(destination.Left, destination.Top, 0f), new Vector2(0f, 0f), (destination.TopLeft - tOffset) * vec),

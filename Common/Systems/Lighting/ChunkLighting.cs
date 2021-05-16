@@ -54,14 +54,17 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 						for(int chunkX = chunkLoopArea.X; chunkX <= chunkLoopArea.Z; chunkX++) {
 							var chunk = ChunkSystem.GetOrCreateChunk(new Vector2Int(chunkX, chunkY));
 
-							var lighting = chunk.GetComponent<ChunkLighting>();
+							var lighting = chunk.Components.Get<ChunkLighting>();
 
-							lighting.UpdateArea(new Vector4Int(
-								Math.Max(loopArea.X, chunk.TileRectangle.X),
-								Math.Max(loopArea.Y, chunk.TileRectangle.Y),
-								Math.Min(loopArea.Z, chunk.TileRectangle.Right - 1),
-								Math.Min(loopArea.W, chunk.TileRectangle.Bottom - 1)
-							));
+							lighting.UpdateArea(
+								chunk,
+								new Vector4Int(
+									Math.Max(loopArea.X, chunk.TileRectangle.X),
+									Math.Max(loopArea.Y, chunk.TileRectangle.Y),
+									Math.Min(loopArea.Z, chunk.TileRectangle.Right - 1),
+									Math.Min(loopArea.W, chunk.TileRectangle.Bottom - 1)
+								)
+							);
 
 							lighting.ApplyColors();
 						}
@@ -82,15 +85,15 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 			lightingUpdateLock = null;
 		}
 
-		public override void OnInit()
+		public override void OnInit(Chunk chunk)
 		{
-			int textureWidth = Chunk.TileRectangle.Width;
-			int textureHeight = Chunk.TileRectangle.Height;
+			int textureWidth = chunk.TileRectangle.Width;
+			int textureHeight = chunk.TileRectangle.Height;
 
 			Colors = new Surface<Color>(textureWidth, textureHeight);
 			Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 		}
-		public override void OnDispose()
+		public override void OnDispose(Chunk chunk)
 		{
 			if(Texture != null) {
 				lock(Texture) {
@@ -101,11 +104,11 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 			}
 		}
 
-		public void UpdateArea(Vector4Int area)
+		public void UpdateArea(Chunk chunk, Vector4Int area)
 		{
 			for(int y = area.Y; y <= area.W; y++) {
 				for(int x = area.X; x <= area.Z; x++) {
-					Colors[x - Chunk.TileRectangle.X, y - Chunk.TileRectangle.Y] = Terraria.Lighting.GetColor(x, y);
+					Colors[x - chunk.TileRectangle.X, y - chunk.TileRectangle.Y] = Terraria.Lighting.GetColor(x, y);
 				}
 			}
 		}

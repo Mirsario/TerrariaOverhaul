@@ -114,7 +114,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 					);
 
 					//Enqueue a draw for the chunk component to do on its own.
-					chunk.GetComponent<ChunkDecals>().AddDecals(texture, (Rectangle)localDestRect, srcRect, color, blendState);
+					chunk.Components.Get<ChunkDecals>().AddDecals(texture, (Rectangle)localDestRect, srcRect, color, blendState);
 				}
 			}
 		}
