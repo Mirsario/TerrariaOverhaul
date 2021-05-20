@@ -60,7 +60,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			//Swing velocity
 
-			Vector2 dashSpeed = Vector2.One * (PlayerHooks.TotalMeleeTime(item.useAnimation, player, item) / 7f);
+			Vector2 dashSpeed = Vector2.One * (CombinedHooks.TotalAnimationTime(item.useAnimation, player, item) / 7f);
 
 			if(ChargedAttack) {
 				dashSpeed *= 1.5f;

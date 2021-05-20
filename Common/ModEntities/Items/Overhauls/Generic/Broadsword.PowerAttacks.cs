@@ -35,7 +35,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				return false;
 			}
 
-			int chargeLength = PlayerHooks.TotalMeleeTime(item.useAnimation * ChargeLengthScale, player, item);
+			int chargeLength = CombinedHooks.TotalAnimationTime(item.useAnimation * ChargeLengthScale, player, item);
 
 			//These 2 lines only affect animations.
 			FlippedAttack = false;

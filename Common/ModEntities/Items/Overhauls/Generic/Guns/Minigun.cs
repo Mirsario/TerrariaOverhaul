@@ -39,7 +39,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 			speedFactor = MinSpeedFactor;
 			PlaySoundOnEveryUse = true;
 		}
-		public override float UseTimeMultiplier(Item item, Player player)
+		public override float UseSpeedMultiplier(Item item, Player player)
 		{
 			return speedFactor; //Fire rate shenanigans.
 		}

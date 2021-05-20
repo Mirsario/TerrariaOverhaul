@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 				return null;
 			}
 
-			int useTime = PlayerHooks.TotalUseTime(item.useTime, player, item);
+			int useTime = CombinedHooks.TotalUseTime(item.useTime, player, item);
 			float useTimeInSeconds = useTime * TimeSystem.LogicDeltaTime;
 
 			CrosshairSystem.AddImpulse(7f, useTimeInSeconds);
@@ -33,7 +33,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 			const int MinTime = 25;
 
 			if(item.useAnimation > MinTime) {
-				int useAnimation = PlayerHooks.TotalMeleeTime(item.useAnimation, player, item);
+				int useAnimation = CombinedHooks.TotalAnimationTime(item.useAnimation, player, item);
 
 				if(useAnimation > MinTime) {
 					CrosshairSystem.AddImpulse(10f, useAnimation * TimeSystem.LogicDeltaTime, autoRotation: true);
