@@ -5,6 +5,35 @@ namespace TerrariaOverhaul.Utilities
 {
 	public static class MathUtils
 	{
+		public static float LerpRadians(float a, float b, float factor)
+		{
+			float result;
+			float diff = b - a;
+
+			if(diff < -MathHelper.Pi) {
+				//Lerp upwards past TwoPi
+				b += MathHelper.TwoPi;
+				result = MathHelper.Lerp(a, b, factor);
+
+				if(result >= MathHelper.TwoPi) {
+					result -= MathHelper.TwoPi;
+				}
+			} else if(diff > MathHelper.Pi) {
+				//Lerp downwards past 0
+				b -= MathHelper.TwoPi;
+				result = MathHelper.Lerp(a, b, factor);
+
+				if(result < 0f) {
+					result += MathHelper.TwoPi;
+				}
+			} else {
+				//Straight lerp
+				result = MathHelper.Lerp(a, b, factor);
+			}
+
+			return result;
+		}
+
 		public static float RadiansToPitch(float radians)
 		{
 			radians = Modulo(radians, MathHelper.TwoPi);

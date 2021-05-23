@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 {
@@ -11,15 +12,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 	{
 		public float visualRecoil;
 
-		private float itemRotation;
-		private float targetItemRotation;
-
-		private bool ForceUseAnim(Item item) => item.useStyle == ItemUseStyleID.Shoot && !item.noUseGraphic;
+		private float directItemRotation;
+		private float directTargetItemRotation;
 
 		public override void Load()
 		{
 			On.Terraria.Player.ItemCheck_ApplyHoldStyle += (orig, player, mountOffset, sItem, heldItemFrame) => {
-				if(ForceUseAnim(sItem)) {
+				if(ShouldForceUseAnim(sItem)) {
 					player.ItemCheck_ApplyUseStyle(mountOffset, sItem, heldItemFrame);
 
 					return;
@@ -34,12 +33,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 				if(sItem.useStyle == ItemUseStyleID.Shoot) {
 					var modPlayer = player.GetModPlayer<PlayerHoldOutAnimation>();
 
-					player.itemRotation = modPlayer.itemRotation - MathHelper.ToRadians(modPlayer.visualRecoil * player.direction * (int)player.gravDir);
+					player.itemRotation = ConvertRotation(modPlayer.directItemRotation, player) - MathHelper.ToRadians(modPlayer.visualRecoil * player.direction * (int)player.gravDir);
 				}
 			};
 
 			On.Terraria.Player.PlayerFrame += (orig, player) => {
-				if(ForceUseAnim(player.HeldItem) && player.itemAnimation <= 0) {
+				if(ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0) {
 					InvokeWithForcedAnimation(player, () => orig(player));
 					return;
 				}
@@ -50,7 +49,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			On.Terraria.DataStructures.PlayerDrawLayers.DrawPlayer_27_HeldItem += (On.Terraria.DataStructures.PlayerDrawLayers.orig_DrawPlayer_27_HeldItem orig, ref PlayerDrawSet drawInfo) => {
 				var player = drawInfo.drawPlayer;
 
-				if(ForceUseAnim(player.HeldItem) && player.itemAnimation <= 0) {
+				if(ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0) {
 					ForceAnim(player, out int itemAnim, out int itemAnimMax);
 
 					orig(ref drawInfo);
@@ -68,17 +67,29 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
 			Vector2 offset = mouseWorld - Player.Center;
 
-			if(Math.Sign(offset.X) == Player.direction) {
-				targetItemRotation = (offset * Player.direction).ToRotation();
+			if(offset != Vector2.Zero && Math.Sign(offset.X) == Player.direction) {
+				directTargetItemRotation = offset.ToRotation();
 			}
 
-			itemRotation = MathHelper.Lerp(itemRotation, targetItemRotation, 16f * TimeSystem.LogicDeltaTime);
+			directItemRotation = MathUtils.LerpRadians(directItemRotation, directTargetItemRotation, 16f * TimeSystem.LogicDeltaTime);
 			visualRecoil = MathHelper.Lerp(visualRecoil, 0f, 10f * TimeSystem.LogicDeltaTime);
 
 			//This could go somewhere else?
-			if(Player.HeldItem?.IsAir == false && ForceUseAnim(Player.HeldItem)) {
+			if(Player.HeldItem?.IsAir == false && ShouldForceUseAnim(Player.HeldItem)) {
 				Player.HeldItem.useTurn = true;
 			}
+		}
+
+
+		private static bool ShouldForceUseAnim(Item item) => item.useStyle == ItemUseStyleID.Shoot && !item.noUseGraphic;
+
+		private static float ConvertRotation(float rotation, Player player)
+		{
+			if(player.direction < 0) {
+				return rotation - MathHelper.Pi;
+			}
+
+			return rotation;
 		}
 
 		private static void ForceAnim(Player player, out int itemAnim, out int itemAnimMax)
