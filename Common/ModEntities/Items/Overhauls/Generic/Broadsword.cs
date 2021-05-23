@@ -80,7 +80,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				}
 			}
 
-			BasicVelocityDash(player, dashSpeed * AttackDirection, new Vector2(dashSpeed.X, float.PositiveInfinity));
+			player.AddLimitedVelocity(dashSpeed * AttackDirection, new Vector2(dashSpeed.X, float.PositiveInfinity));
 
 			//Slight screenshake for the swing.
 			if(!Main.dedServ) {

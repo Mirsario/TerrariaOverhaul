@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -20,6 +21,27 @@ namespace TerrariaOverhaul.Utilities.Extensions
 		public static int KeyDirection(this Player player) => player.controlLeft ? -1 : player.controlRight ? 1 : 0;
 
 		public static Vector2 LookDirection(this Player player) => (player.GetModPlayer<PlayerDirectioning>().mouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
+
+		//Velocity
+
+		public static void AddLimitedVelocity(this Player player, Vector2 velocity, Vector2 maxVelocity)
+		{
+			if(maxVelocity.X < 0f || maxVelocity.Y < 0f) {
+				throw new ArgumentException($"'{nameof(maxVelocity)}' cannot have negative values.");
+			}
+
+			if(player.pulley) { // || oPlayer.OnIce) {
+				return;
+			}
+
+			if(Math.Sign(player.velocity.X) != Math.Sign(velocity.X) || Math.Abs(player.velocity.X) < maxVelocity.X) {
+				player.velocity.X = MathUtils.StepTowards(player.velocity.X, maxVelocity.X * Math.Sign(velocity.X), Math.Abs(velocity.X));
+			}
+
+			if(Math.Sign(player.velocity.Y) != Math.Sign(velocity.Y) || Math.Abs(player.velocity.Y) < maxVelocity.Y) {
+				player.velocity.Y = MathUtils.StepTowards(player.velocity.Y, maxVelocity.Y * Math.Sign(velocity.Y), Math.Abs(velocity.Y));
+			}
+		}
 
 		//Inventory
 

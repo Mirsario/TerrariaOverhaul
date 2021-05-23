@@ -343,7 +343,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 				var maxVelocity = Vector2.Min(Vector2.One * 11f, new Vector2(Math.Abs(dashVelocity.X), Math.Abs(dashVelocity.Y)));
 
-				BasicVelocityDash(player, dashVelocity, maxVelocity);
+				player.AddLimitedVelocity(dashVelocity, maxVelocity);
 			}
 
 			movement.SetMovementModifier($"{nameof(MeleeWeapon)}/{nameof(OnHitNPC)}", player.itemAnimationMax / 2, modifier);
@@ -360,25 +360,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			if(OverhaulItemTags.Wooden.Has(item.netID)) {
 				customHitSound = WoodenHitSound;
-			}
-		}
-
-		protected void BasicVelocityDash(Player player, Vector2 velocity, Vector2 maxVelocity)
-		{
-			if(maxVelocity.X < 0f || maxVelocity.Y < 0f) {
-				throw new ArgumentException($"'{nameof(maxVelocity)}' cannot have negative values.");
-			}
-
-			if(player.pulley) { // || oPlayer.OnIce) {
-				return;
-			}
-
-			if(Math.Sign(player.velocity.X) != Math.Sign(velocity.X) || Math.Abs(player.velocity.X) < maxVelocity.X) {
-				player.velocity.X = MathUtils.StepTowards(player.velocity.X, maxVelocity.X * Math.Sign(velocity.X), Math.Abs(velocity.X));
-			}
-
-			if(Math.Sign(player.velocity.Y) != Math.Sign(velocity.Y) || Math.Abs(player.velocity.Y) < maxVelocity.Y) {
-				player.velocity.Y = MathUtils.StepTowards(player.velocity.Y, maxVelocity.Y * Math.Sign(velocity.Y), Math.Abs(velocity.Y));
 			}
 		}
 	}
