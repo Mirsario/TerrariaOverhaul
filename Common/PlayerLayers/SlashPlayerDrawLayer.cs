@@ -7,6 +7,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic;
+using TerrariaOverhaul.Common.ModEntities.Items.Utilities;
 using TerrariaOverhaul.Common.Systems.TextureColors;
 using TerrariaOverhaul.Utilities.DataStructures;
 
@@ -49,6 +50,10 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			var item = player.HeldItem;
 
 			if(!item.TryGetGlobalItem<MeleeWeapon>(out var meleeWeapon, false)) {
+				return;
+			}
+
+			if(item.TryGetGlobalItem<ItemCharging>(out var itemCharging) && itemCharging.IsCharging) {
 				return;
 			}
 
