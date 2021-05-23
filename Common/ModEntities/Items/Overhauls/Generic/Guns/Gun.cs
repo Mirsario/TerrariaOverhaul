@@ -14,8 +14,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 
 		public virtual float GetRecoilStrength(Item item, Player player)
 		{
-			float baseRecoil = Math.Min(item.useTime * 0.175f, 3f);
-			float randomizedRecoil = baseRecoil * Main.rand.NextFloat(0.75f, 1.333f);
+			float baseRecoil = Math.Min(item.useTime * 0.1f, 2.3f);
+			float randomizedRecoil = baseRecoil;// * Main.rand.NextFloat(0.75f, 1.333f);
 
 			return randomizedRecoil;
 		}
