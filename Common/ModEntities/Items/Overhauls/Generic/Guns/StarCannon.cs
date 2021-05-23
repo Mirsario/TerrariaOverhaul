@@ -28,17 +28,5 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/StarCannon/StarCannonFire", 0, volume: 0.2f, pitchVariance: 0.2f);
 			PlaySoundOnEveryUse = true;
 		}
-		public override bool? UseItem(Item item, Player player)
-		{
-			var lookDirection = player.LookDirection();
-
-			if(lookDirection.Y > 0f) {
-				float bonusYSpeed = -(lookDirection.Y * lookDirection.Y) * item.useTime * 0.425f;
-
-				player.velocity.Y += bonusYSpeed;
-			}
-
-			return base.UseItem(item, player);
-		}
 	}
 }
