@@ -19,6 +19,9 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			public Vector2 velocity;
 		}
 
+		public static readonly ConfigEntry<bool> FixedCamera = new ConfigEntry<bool>(nameof(FixedCamera), true, () => true);
+		public static readonly ConfigEntry<bool> SmoothCamera = new ConfigEntry<bool>(nameof(SmoothCamera), true, () => true);
+
 		private static FocusInfo? focus;
 		private static uint cameraUpdatePrevUpdateCount;
 		private static float originalZoom;
@@ -32,8 +35,8 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 		private static Vector2 oldCameraPos;
 		private static Vector2 oldCameraOffset;
 
-		public static CameraConfig LocalConfig => ConfigSystem.GetConfig<CameraConfig>(ConfigType.Local);
-		public static CameraConfig CurrentConfig => ConfigSystem.GetConfig<CameraConfig>(ConfigType.Current);
+		//public static CameraConfig LocalConfig => ConfigSystem.GetConfig<CameraConfig>(ConfigType.Local);
+		//public static CameraConfig CurrentConfig => ConfigSystem.GetConfig<CameraConfig>(ConfigType.Current);
 		public static Vector2 ScreenSize => new(Main.screenWidth, Main.screenHeight);
 		public static Vector2 ScreenHalf => new(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f);
 		public static Rectangle ScreenRect => new((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
@@ -123,7 +126,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			Main.SetCameraLerp(1f, 0);
 
 			float zoomScaleGoal = 1f;
-			float mouseMovementScale = LocalConfig.fixedCamera ? 0f : 1f;
+			float mouseMovementScale = FixedCamera.Value ? 0f : 1f;
 
 			const float ReducedOffsetTime = 1f;
 
@@ -239,7 +242,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 				oldCameraPos = Vector2.Lerp(oldCameraPos, screenPosNoShakes, TimeSystem.LogicDeltaTime * 8f);
 			}
 
-			if(LocalConfig.smoothCamera) {
+			if(SmoothCamera.Value) {
 				screenPosNoShakes += oldCameraPos - screenPosNoShakes;
 			}
 

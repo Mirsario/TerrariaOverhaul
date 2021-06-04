@@ -5,12 +5,15 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 {
 	public sealed class ScreenShakeSystem : ModSystem
 	{
+		public static readonly ConfigEntry<float> ScreenShakeStrength = new ConfigEntry<float>(nameof(ScreenShakeStrength), true, () => 1f);
+
 		private static List<ScreenShake> screenShakes;
 
 		private Stopwatch sw;
@@ -77,7 +80,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 				power += maxPower * (shake.time / shake.TimeMax);
 			}
 
-			return power * CameraSystem.LocalConfig.screenShakeStrength;
+			return power * ScreenShakeStrength.Value;
 		}
 
 		public static void New(float power, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string uniqueId = null)
