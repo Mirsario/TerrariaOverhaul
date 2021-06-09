@@ -29,6 +29,9 @@ namespace TerrariaOverhaul.Common.Tags
 		/// <summary> Used in determining whether something's a rocket launcher or a grenade launcher. </summary>
 		public static readonly TagData Grenade = ContentTags.Get<Group>(nameof(Grenade));
 
+		/// <summary> Mostly used for extra visuals, like 'gore' pieces. </summary>
+		public static readonly TagData WoodenArrow = ContentTags.Get<Group>(nameof(WoodenArrow));
+
 		void ILoadable.Load(Mod mod)
 		{
 			Incendiary.SetMultiple(
@@ -169,6 +172,12 @@ namespace TerrariaOverhaul.Common.Tags
 				ProjectileID.GrenadeII,
 				ProjectileID.GrenadeIII,
 				ProjectileID.GrenadeIV
+			);
+
+			WoodenArrow.SetMultiple(
+				ProjectileID.WoodenArrowFriendly,
+				ProjectileID.WoodenArrowHostile,
+				ProjectileID.FireArrow
 			);
 		}
 		void ILoadable.Unload() { }

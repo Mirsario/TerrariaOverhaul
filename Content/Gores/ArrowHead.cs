@@ -1,0 +1,18 @@
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ModLoader;
+
+namespace TerrariaOverhaul.Content.Gores
+{
+	public class ArrowHead : ModGore
+	{
+		public override void OnSpawn(Gore gore)
+		{
+			gore.Frame = new SpriteFrame(2, 1, (byte)Main.rand.Next(2), 0);
+			gore.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
+			gore.scale = Main.rand.NextFloat(0.9f, 1f);
+			gore.drawOffset = new Vector2(0f, 4f);
+		}
+	}
+}
