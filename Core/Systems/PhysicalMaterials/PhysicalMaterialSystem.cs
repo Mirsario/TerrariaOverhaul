@@ -21,11 +21,6 @@ namespace TerrariaOverhaul.Core.Systems.PhysicalMaterials
 			PhysicalMaterialsInternal.Clear();
 		}
 
-		public static ReadOnlySpan<PhysicalMaterial> GetPhysicalMaterials()
-		{
-			return CollectionsMarshal.AsSpan(PhysicalMaterialsInternal);
-		}
-
 		public static bool TryGetTilePhysicalMaterial(int type, out PhysicalMaterial result)
 		{
 			foreach(var material in PhysicalMaterialsInternal) {

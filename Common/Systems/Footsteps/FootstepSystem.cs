@@ -12,16 +12,16 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 {
 	public class FootstepSystem : ModSystem
 	{
-		public static PhysicalMaterial DefaultPhysicalMaterial { get; private set; }
+		public static IFootstepSoundProvider DefaultFootstepSoundProvider { get; private set; }
 
 		public override void Load()
 		{
-			DefaultPhysicalMaterial = ModContent.GetInstance<StonePhysicalMaterial>();
+			DefaultFootstepSoundProvider = ModContent.GetInstance<StonePhysicalMaterial>();
 		}
 
 		public override void Unload()
 		{
-			DefaultPhysicalMaterial = null;
+			DefaultFootstepSoundProvider = null;
 		}
 
 		public static bool Foostep(Entity entity, Point16? forcedPoint = null)
@@ -50,53 +50,41 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 				return false;
 			}
 
-			if(!PhysicalMaterialSystem.TryGetTilePhysicalMaterial(tile.type, out var material) || material is not IFootstepSoundProvider footstepProvider) {
-				footstepProvider = (IFootstepSoundProvider)DefaultPhysicalMaterial;
-			}
+			IFootstepSoundProvider soundProvider = null;
 
-			SoundEngine.PlaySound(footstepProvider.FootstepSound, entity.Bottom);
+			// Check for nearby gore
+			var entityRect = entity.GetRectangle();
 
-			return true;
-
-			/*if(data!=0) {
-				int o = data.Overlay;
-
-				if(o==TileOverlayID.Snow) {
-					footstepInstancer = OverhaulTiles.footstepSounds[(byte)FootstepType.Snow];
-				} else if(o==TileOverlayID.LeavesGreen || o==TileOverlayID.LeavesRed || o==TileOverlayID.LeavesYellow) {
-					footstepInstancer = OverhaulTiles.footstepSounds[(byte)FootstepType.Grass];
-				}
-			}
-
-			int goreTouched = 0;
-
-			for(int i = 0;i<Main.maxGore;i++) {
+			for(int i = 0; i < Main.maxGore; i++) {
 				var gore = Main.gore[i];
 
-				if(gore!=null && gore.active && entityRect.Intersects(gore.GetRect())) {
-					var gorePreset = GoreSystem.GetGorePreset(gore.type);
+				if(gore == null || !gore.active || !entityRect.Intersects(gore.AABBRectangle)) {
+					continue;
+				}
 
-					if(gorePreset.bleeds && gorePreset.playHitSounds) {
-						goreTouched++;
+				if(gore is not IPhysicalMaterialProvider materialProvider) {
+					continue;
+				}
 
-						if(goreTouched>=2) {
-							break;
-						}
-					}
+				if(materialProvider.PhysicalMaterial is IFootstepSoundProvider goreFootstepProvider) {
+					soundProvider ??= goreFootstepProvider;
+					break;
 				}
 			}
 
-			if(goreTouched>=2) {
-				footstepInstancer = OverhaulTiles.footstepSounds[(byte)FootstepType.Gross];
-			}*/
+			// Try to get a footstep provider from the tile
+			if(soundProvider == null && PhysicalMaterialSystem.TryGetTilePhysicalMaterial(tile.type, out var material)) {
+				soundProvider = material as IFootstepSoundProvider;
+			}
 
-			//Footsteps
-			/*var instance = footstepInstancer(entity.Bottom);
+			//TODO: Implement leaves footsteps when those are added.
 
-			if(instance!=null) {
-				instance.volume *= volume;
-				instance.maxDistance *= 0.33f;
-			}*/
+			// Use default footstep provider in case of failure
+			soundProvider ??= DefaultFootstepSoundProvider;
+
+			SoundEngine.PlaySound(soundProvider.FootstepSound, entity.Bottom);
+
+			return true;
 		}
 	}
 }

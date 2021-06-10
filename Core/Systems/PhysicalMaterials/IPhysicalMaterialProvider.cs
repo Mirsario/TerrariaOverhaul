@@ -2,6 +2,6 @@
 {
 	public interface IPhysicalMaterialProvider
 	{
-		PhysicalMaterial GetPhysicalMaterial();
+		PhysicalMaterial PhysicalMaterial { get; }
 	}
 }
