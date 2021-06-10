@@ -24,7 +24,7 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 			DefaultFootstepSoundProvider = null;
 		}
 
-		public static bool Foostep(Entity entity, Point16? forcedPoint = null)
+		public static bool Footstep(Entity entity, FootstepType type, Point16? forcedPoint = null)
 		{
 			if(Main.dedServ) {
 				return false;
@@ -82,7 +82,13 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 			// Use default footstep provider in case of failure
 			soundProvider ??= DefaultFootstepSoundProvider;
 
-			SoundEngine.PlaySound(soundProvider.FootstepSound, entity.Bottom);
+			var sound = type switch {
+				FootstepType.Jump => soundProvider.JumpFootstepSound,
+				FootstepType.Land => soundProvider.LandFootstepSound,
+				_ => soundProvider.FootstepSound
+			};
+
+			SoundEngine.PlaySound(sound, entity.Bottom);
 
 			return true;
 		}

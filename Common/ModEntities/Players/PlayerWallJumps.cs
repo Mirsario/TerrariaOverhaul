@@ -91,7 +91,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 				//DebugSystem.DrawTileRect(footPoint, Color.ForestGreen);
 
-				FootstepSystem.Foostep(Player, footPoint);
+				FootstepSystem.Footstep(Player, FootstepType.Jump, footPoint);
 			}
 
 			if(!ninjaJump) {
