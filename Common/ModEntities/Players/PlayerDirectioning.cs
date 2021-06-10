@@ -18,6 +18,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private Vector2 lastSyncedMouseWorld;
 
+		public override void Load()
+		{
+			On.Terraria.Player.HorizontalMovement += (orig, player) => {
+				orig(player);
+
+				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
+			};
+			On.Terraria.Player.ChangeDir += (orig, player, dir) => {
+				orig(player, dir);
+
+				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
+			};
+		}
 		public override void PreUpdate() => SetDirection(true);
 		public override void PostUpdate() => SetDirection();
 		public override bool PreItemCheck()
@@ -31,10 +44,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private void SetDirection(bool resetForcedDirection)
 		{
-			if(Player.altFunctionUse != 0) {
-				return;
-			}
-
 			if(!Main.dedServ && Main.gameMenu) {
 				Player.direction = 1;
 
@@ -51,7 +60,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 			}
 
-			if(!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || ICanTurnDuringItemUse.Hook.Invoke(Player.HeldItem, Player))) {
+			if(!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (!Player.InItemAnimation || ICanTurnDuringItemUse.Hook.Invoke(Player.HeldItem, Player))) {
 				if(forcedDirection != 0) {
 					Player.direction = forcedDirection;
 

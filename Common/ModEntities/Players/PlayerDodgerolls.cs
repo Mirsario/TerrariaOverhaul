@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -19,7 +21,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	{
 		public static readonly SoundStyle DodgerollSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Player/Armor", 3, volume: 0.65f, pitchVariance: 0.2f);
 
-		public static ModHotKey DodgerollKey { get; private set; }
+		public static ModKeybind DodgerollKey { get; private set; }
 
 		public static float DodgeTimeMax => 0.37f;
 		public static uint DodgeDefaultCooldown => 90;
@@ -38,7 +40,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void Load()
 		{
-			DodgerollKey = Mod.RegisterHotKey("Dodgeroll", "LeftControl");
+			DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
 		}
 		public override bool PreItemCheck()
 		{
@@ -51,6 +53,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			return true;
 		}
+
 		//CanX
 		public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot) => !isDodging;
 		public override bool CanBeHitByProjectile(Projectile proj) => !isDodging;

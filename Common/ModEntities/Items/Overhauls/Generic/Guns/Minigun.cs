@@ -88,7 +88,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		{
 			var mouseWorld = player.GetModPlayer<Players.PlayerDirectioning>().mouseWorld;
 			var direction = (player.Center - mouseWorld).SafeNormalize(default);
-			var velocity = direction * new Vector2(item.useTime / 15f, item.useTime / 3f);
+			var modifiedDirection = new Vector2(direction.X, direction.Y * Math.Abs(direction.Y));
+			var velocity = modifiedDirection * new Vector2(item.useTime / 15f, item.useTime / 3f);
 
 			//Disable horizontal velocity recoil whenever the player is holding a directional key opposite to the direction of the dash.
 			if(player.KeyDirection() == -Math.Sign(velocity.X)) {

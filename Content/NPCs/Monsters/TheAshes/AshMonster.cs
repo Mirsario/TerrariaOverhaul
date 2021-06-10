@@ -58,15 +58,15 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 			npcLoot.Add(ItemDropRule.Common(ItemID.AshBlock, minimumDropped: 5, maximumDropped: 10));
 			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Charcoal>(), minimumDropped: 1, maximumDropped: 3));
 		}
-		public override void PostDraw(SpriteBatch sb, Color drawColor) //TODO: Reimplement this when tML simplifies glowmasks
+		/*public override void PostDraw(SpriteBatch sb, Color drawColor) //TODO: Reimplement this when tML simplifies glowmasks
 		{
-			/*var tex = TextureSystem.GetTexture2D("NPCs/AshSlime_Glow");
+			var tex = TextureSystem.GetTexture2D("NPCs/AshSlime_Glow");
 			var effects = npc.spriteDirection==1 ? SpriteEffects.FlipHorizontally : SpriteEffects.None;
 			var origin = new Vector2(tex.Width/2,tex.Height/Main.npcFrameCount[npc.type]/2);
 			//origin.Y -= 4;
 			var position = npc.Center-Main.screenPosition;
-			sb.Draw(tex,position,npc.frame,OverhaulUtils.colorWhite,npc.rotation,origin,npc.scale,effects,0f);*/
-		}
+			sb.Draw(tex,position,npc.frame,OverhaulUtils.colorWhite,npc.rotation,origin,npc.scale,effects,0f);
+		}*/
 
 		/*protected void OverhaulInit()
 		{

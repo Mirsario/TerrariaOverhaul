@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit) => ResetHitTime();
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit) => ResetHitTime();
 		//Drawing
-		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
+		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			ulong delta = TimeSystem.UpdateCount - lastHitTime;
 
@@ -43,7 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return true;
 		}
-		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Color drawColor)
+		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if(usedDrawScaleMultiplier.HasValue) {
 				if(usedDrawScaleMultiplier.Value != 0f) {

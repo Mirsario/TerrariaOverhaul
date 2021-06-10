@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -50,18 +51,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 			base.ModifyShootStats(item, player, ref position, ref velocity, ref type, ref damage, ref knockback);
 
 			if(player.altFunctionUse == 2) {
-				velocity = velocity.RotatedByRandom(MathHelper.ToRadians(6f));
+				velocity = velocity.RotatedByRandom(MathHelper.ToRadians(12f));
 				damage = (int)(damage * 0.75f);
 			}
 		}
 
-		public override void UseAnimation(Item item, Player player)
+		public override bool? UseItem(Item item, Player player)
 		{
-			/*if(player.altFunctionUse == 2) {
-				player.reuseDelay = System.Math.Max(player.reuseDelay, item.useAnimation * 150);
-			}*/
+			if(player.altFunctionUse == 2) {
+				player.reuseDelay = Math.Max(player.reuseDelay, item.useAnimation * 2);
+			}
 
-			base.UseAnimation(item, player);
+			return base.UseItem(item, player);
 		}
 	}
 }

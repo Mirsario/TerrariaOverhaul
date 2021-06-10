@@ -14,11 +14,13 @@ using TerrariaOverhaul.Utilities.Extensions;
 using Terraria.DataStructures;
 using TerrariaOverhaul.Content.Gores;
 using System.Collections.Generic;
+using TerrariaOverhaul.Core.Systems.PhysicalMaterials;
+using TerrariaOverhaul.Common.PhysicalMaterials;
 
 namespace TerrariaOverhaul.Common.Systems.Gores
 {
 	[Autoload(Side = ModSide.Client)]
-	public class OverhaulGore : Gore, ILoadable
+	public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
 	{
 		private const int GoreSoundMinCooldown = 10;
 		private const int GoreSoundMaxCooldown = 25;
@@ -45,6 +47,22 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		public SoundStyle customBounceSound;
 
 		public Vector2 Center => position + size * 0.5f;
+
+		public PhysicalMaterial PhysicalMaterial {
+			get {
+				PhysicalMaterial result = null;
+
+				if(ModGore is IPhysicalMaterialProvider provider) {
+					result ??= provider.PhysicalMaterial;
+				}
+
+				if(bleedColor.HasValue) {
+					result ??= ModContent.GetInstance<GorePhysicalMaterial>();
+				}
+
+				return result;
+			}
+		}
 
 		//Load-time
 		public void Load(Mod mod)
