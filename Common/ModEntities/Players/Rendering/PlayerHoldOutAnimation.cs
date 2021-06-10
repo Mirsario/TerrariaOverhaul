@@ -5,6 +5,8 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities.Enums;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 {
@@ -18,7 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 		public override void Load()
 		{
 			On.Terraria.Player.ItemCheck_ApplyHoldStyle += (orig, player, mountOffset, sItem, heldItemFrame) => {
-				if(ShouldForceUseAnim(sItem)) {
+				if(ShouldForceUseAnim(player, sItem)) {
 					player.ItemCheck_ApplyUseStyle(mountOffset, sItem, heldItemFrame);
 
 					return;
@@ -38,7 +40,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			};
 
 			On.Terraria.Player.PlayerFrame += (orig, player) => {
-				if(ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0) {
+				if(ShouldForceUseAnim(player, player.HeldItem) && player.itemAnimation <= 0) {
 					InvokeWithForcedAnimation(player, () => orig(player));
 					return;
 				}
@@ -49,7 +51,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			On.Terraria.DataStructures.PlayerDrawLayers.DrawPlayer_27_HeldItem += (On.Terraria.DataStructures.PlayerDrawLayers.orig_DrawPlayer_27_HeldItem orig, ref PlayerDrawSet drawInfo) => {
 				var player = drawInfo.drawPlayer;
 
-				if(ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0) {
+				if(ShouldForceUseAnim(player, player.HeldItem) && player.itemAnimation <= 0) {
 					ForceAnim(player, out int itemAnim, out int itemAnimMax);
 
 					orig(ref drawInfo);
@@ -62,6 +64,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 				orig(ref drawInfo);
 			};
 		}
+
 		public override void PreUpdate()
 		{
 			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
@@ -75,13 +78,36 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			visualRecoil = MathHelper.Lerp(visualRecoil, 0f, 10f * TimeSystem.LogicDeltaTime);
 
 			//This could go somewhere else?
-			if(Player.HeldItem?.IsAir == false && ShouldForceUseAnim(Player.HeldItem)) {
+			if(Player.HeldItem?.IsAir == false && ShouldForceUseAnim(Player, Player.HeldItem)) {
 				Player.HeldItem.useTurn = true;
 			}
 		}
 
+		public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
+		{
+			var player = drawInfo.drawPlayer;
 
-		private static bool ShouldForceUseAnim(Item item) => item.useStyle == ItemUseStyleID.Shoot && !item.noUseGraphic;
+			if(ShouldForceUseAnim(player, player.HeldItem)) {
+				float itemRotation = ConvertRotation(directItemRotation, player) - MathHelper.ToRadians(visualRecoil * 0.65f * player.direction * (int)player.gravDir);
+
+				drawInfo.usesCompositeTorso = true;
+				drawInfo.usesCompositeFrontHandAcc = true;
+				drawInfo.usesCompositeBackHandAcc = true;
+				drawInfo.compFrontArmFrame = new Rectangle(280, 0, 40, 56);
+				drawInfo.compBackArmFrame = new Rectangle(320, 0, 40, 56);
+				drawInfo.compositeFrontArmRotation = itemRotation - MathHelper.ToRadians(65f) * Player.direction;
+				drawInfo.compositeBackArmRotation = itemRotation - MathHelper.ToRadians(90f) * Player.direction;
+			}
+		}
+
+		private static bool ShouldForceUseAnim(Player player, Item item)
+		{
+			if(item.type == ItemID.VortexBeater && player.InItemAnimation) {
+				return true;
+			}
+
+			return item.useStyle == ItemUseStyleID.Shoot && !item.noUseGraphic;
+		}
 
 		private static float ConvertRotation(float rotation, Player player)
 		{
