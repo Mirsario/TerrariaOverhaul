@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 {
 	public sealed class ConfigSystem : ModSystem
 	{
-		internal class CategoryData
+		private class CategoryData
 		{
 			public readonly Dictionary<string, IConfigEntry> EntriesByName = new();
 		}
