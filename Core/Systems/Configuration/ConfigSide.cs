@@ -1,8 +1,9 @@
 ﻿namespace TerrariaOverhaul.Core.Systems.Configuration
 {
-	public enum ConfigType
+	public enum ConfigSide
 	{
-		Local,
-		Current
+		Both,
+		ClientOnly,
+		ServerOnly
 	}
 }

@@ -5,44 +5,45 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Systems.Configuration
 {
-	public interface IConfigEntry
-	{
-		public string Id { get; }
-		public object Value { get; set; }
-		public object LocalValue { get; set; }
-
-		void Initialize(Mod mod);
-	}
-
-	public sealed class ConfigEntry<T> : IConfigEntry
+	public class ConfigEntry<T> : IConfigEntry
 	{
 		private readonly Func<T> DefaultValueGetter;
 
-		private T remoteValue;
 		private T localValue;
+		private T remoteValue;
 
-		public string Id { get; }
-		public bool IsClientside { get; }
-		public T LocalValue { get; set; }
+		public string Name { get; }
+		public string Category { get; }
+		public ConfigSide Side { get; }
 		public ModTranslation DisplayName { get; internal set; }
 		public ModTranslation Description { get; internal set; }
 		public Mod Mod { get; private set; }
 
+		public Type ValueType => typeof(T);
 		public T DefaultValue => DefaultValueGetter();
+
+		public T LocalValue {
+			get => ModifyGetValue(localValue);
+			set => localValue = ModifySetValue(value);
+		}
+		public T RemoteValue {
+			get => ModifyGetValue(remoteValue);
+			set => remoteValue = ModifySetValue(value);
+		}
 
 		public T Value {
 			get {
-				if(!IsClientside && Main.netMode == NetmodeID.MultiplayerClient) {
-					return remoteValue;
+				if(Side == ConfigSide.Both && Main.netMode == NetmodeID.MultiplayerClient) {
+					return RemoteValue;
 				}
 
-				return localValue;
+				return LocalValue;
 			}
 			set {
-				if(!IsClientside && Main.netMode == NetmodeID.MultiplayerClient) {
-					remoteValue = value;
+				if(Side == ConfigSide.Both && Main.netMode == NetmodeID.MultiplayerClient) {
+					RemoteValue = value;
 				} else {
-					localValue = value;
+					LocalValue = value;
 				}
 			}
 		}
@@ -56,20 +57,27 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 			set => LocalValue = (T)value;
 		}
 
-		public ConfigEntry(string id, bool isClientside, Func<T> defaultValueGetter)
+		public ConfigEntry(ConfigSide side, string category, string name, Func<T> defaultValueGetter)
 		{
-			Id = id;
-			IsClientside = isClientside;
+			Name = name;
+			Category = category;
+			Side = side;
 			DefaultValueGetter = defaultValueGetter;
-			Value = DefaultValue;
+			RemoteValue = DefaultValue;
+			LocalValue = DefaultValue;
 
-			ConfigSystem.ConfigEntries.Add(id, this);
+			ConfigSystem.RegisterEntry(this);
 		}
+
+		protected virtual T ModifyGetValue(T value) => value;
+
+		protected virtual T ModifySetValue(T value) => value;
 
 		public void Initialize(Mod mod)
 		{
-			DisplayName = mod.CreateTranslation($"Mods.{mod.Name}.Configuration.{Id}.Name");
-			Description = mod.CreateTranslation($"Mods.{mod.Name}.Configuration.{Id}.Description");
+			Mod = mod;
+			DisplayName = mod.CreateTranslation($"Mods.{mod.Name}.Configuration.{Name}.Name");
+			Description = mod.CreateTranslation($"Mods.{mod.Name}.Configuration.{Name}.Description");
 		}
 	}
 }

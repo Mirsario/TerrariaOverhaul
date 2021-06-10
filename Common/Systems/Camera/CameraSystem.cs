@@ -11,6 +11,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Systems.Camera
 {
+	//TODO: Split into multiple systems tbh.
 	public sealed class CameraSystem : ModSystem
 	{
 		private struct FocusInfo
@@ -19,8 +20,8 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			public Vector2 velocity;
 		}
 
-		public static readonly ConfigEntry<bool> FixedCamera = new ConfigEntry<bool>(nameof(FixedCamera), true, () => true);
-		public static readonly ConfigEntry<bool> SmoothCamera = new ConfigEntry<bool>(nameof(SmoothCamera), true, () => true);
+		public static ConfigEntry<bool> FixedCamera { get; private set; }
+		public static ConfigEntry<bool> SmoothCamera { get; private set; }
 
 		private static FocusInfo? focus;
 		private static uint cameraUpdatePrevUpdateCount;
@@ -35,8 +36,6 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 		private static Vector2 oldCameraPos;
 		private static Vector2 oldCameraOffset;
 
-		//public static CameraConfig LocalConfig => ConfigSystem.GetConfig<CameraConfig>(ConfigType.Local);
-		//public static CameraConfig CurrentConfig => ConfigSystem.GetConfig<CameraConfig>(ConfigType.Current);
 		public static Vector2 ScreenSize => new(Main.screenWidth, Main.screenHeight);
 		public static Vector2 ScreenHalf => new(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f);
 		public static Rectangle ScreenRect => new((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
@@ -48,34 +47,12 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			set => Main.screenPosition = new Vector2(value.X - Main.screenWidth * 0.5f, value.Y - Main.screenHeight * 0.5f);
 		}
 
-		//private int followNPC = -1;
 		private bool noOffsetUpdating;
-		/*private int screenWidthTileSpace;
-		private int screenHeightTileSpace;
-		private Point screenPosTilePostDraw; //some cache
-		private Vector2 screenPosPlusOffscreen;
-		private Rectangle screenRect;
-		private Rectangle screenRectExtra;
 
-		public override void Unload()
+		public override void Load()
 		{
-			screenPosPlusOffscreen = new Vector2(Main.screenPosition.X+Main.offScreenRange,Main.screenPosition.Y+Main.offScreenRange);
-			screenPosTilePostDraw = new Point((int)Main.screenPosition.X-Main.offScreenRange,(int)(Main.screenPosition.Y-Main.offScreenRange+2f));
-			screenRect = ScreenRect;
-			screenRectExtra = ScreenRectExtra;
-			screenWidthTileSpace = Main.screenWidth/16;
-			screenHeightTileSpace = Main.screenHeight/16;
-		}*/
-
-		public void OnEnterWorld()
-		{
-			cameraUpdateSW = null;
-
-			smoothZoomScale = 3f;
-		}
-		public void OnLeaveWorld()
-		{
-			cameraUpdateSW = null;
+			FixedCamera = new(ConfigSide.ClientOnly, "Camera", nameof(FixedCamera), () => true);
+			SmoothCamera = new(ConfigSide.ClientOnly, "Camera", nameof(SmoothCamera), () => true);
 		}
 
 		public override void ModifyScreenPosition()
@@ -135,45 +112,6 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			if(worldTime < ReducedOffsetTime) {
 				mouseMovementScale *= worldTime / ReducedOffsetTime;
 			}
-
-			/*if(player.dead && (followNPC>0 && (entity = Main.npc[followNPC])!=null && entity.active && ((NPC)entity).HasTag(NPCTags.Zombie))) {
-				if(!skip) {
-					cameraFocusPoint = entity.Center;
-					cameraFocusVelocity = entity.velocity;
-				}
-
-				mouseMovementScale = 0f;
-			} else if(oPlayer.isSleeping) {
-				mouseMovementScale = 0f;
-				zoomScaleGoal = 2f/originalZoom;
-				cameraFocusPoint = player.Top;
-				cameraFocusVelocity = default;
-			} else {
-				followNPC = -1;
-
-				bool posAtPlayer = true;
-
-				if(player.talkNPC>=0 && (npc = Main.npc[player.talkNPC])!=null && npc.active) {
-					mouseMovementScale = 0f;
-
-					if(ConfigSystem.local.Clientside.Camera.dialogueZoomIn) {
-						zoomScaleGoal = 2f/originalZoom;
-					}
-
-					if(ConfigSystem.local.Clientside.Camera.dialogueFixCamera) {
-						posAtPlayer = false;
-						if(!skip) {
-							cameraFocusPoint = Vector2.Lerp(npc.Center,player.Center,0.5f);
-							cameraFocusVelocity = player.velocity;
-						}
-					}
-				}
-
-				if(!skip && posAtPlayer) {
-					cameraFocusPoint = player.Center;
-					cameraFocusVelocity = player.velocity;
-				}
-			}*/
 
 			if(!skip) {
 				cameraSubFrameOffset = default;
@@ -261,6 +199,17 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			focus = null;
 		}
 
+		public void OnEnterWorld()
+		{
+			cameraUpdateSW = null;
+
+			smoothZoomScale = 3f;
+		}
+		public void OnLeaveWorld()
+		{
+			cameraUpdateSW = null;
+		}
+
 		public static void ResetCamera()
 		{
 			var newFocus = new FocusInfo();
@@ -270,7 +219,11 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 
 			focus = newFocus;
 		}
-		public static void SetFocus(Entity entity) => focus = GetFocusFor(entity);
+
+		public static void SetFocus(Entity entity)
+		{
+			focus = GetFocusFor(entity);
+		}
 
 		private static FocusInfo GetFocusFor(Entity entity) => new() {
 			position = entity.position,

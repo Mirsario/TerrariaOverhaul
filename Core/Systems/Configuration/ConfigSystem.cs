@@ -1,28 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Systems.Debugging;
 
 namespace TerrariaOverhaul.Core.Systems.Configuration
 {
 	public sealed class ConfigSystem : ModSystem
 	{
+		internal class CategoryData
+		{
+			public readonly Dictionary<string, IConfigEntry> EntriesByName = new();
+		}
+
 		public static readonly string ConfigPath = Path.Combine(OverhaulMod.PersonalDirectory, "Config.json");
 
-		internal static readonly Dictionary<string, IConfigEntry> ConfigEntries = new();
+		private static readonly Dictionary<string, IConfigEntry> EntriesByName = new();
+		private static readonly Dictionary<string, CategoryData> CategoriesByName = new();
 
 		public override void OnModLoad()
 		{
-			foreach(var entry in ConfigEntries.Values) {
+			foreach(var entry in EntriesByName.Values) {
 				entry.Initialize(Mod);
 			}
 
 			if(!LoadConfig()) {
-				SaveConfig();
+				DebugSystem.Logger.Warn("Config file contained incorrect values.");
+
 			}
+			
+			SaveConfig();
 		}
 
 		public override void Unload()
@@ -48,25 +55,31 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 				return false;
 			}
 
-			bool hadErrors = true;
+			bool hadErrors = false;
 
-			/*foreach(var token in jsonObject) {
-				if(!(token.Value is JObject jObject)) {
+			foreach(var categoryPair in jsonObject) {
+				if(categoryPair.Value is not JObject categoryJson) {
 					continue;
 				}
 
-				if(!ConfigsByName.TryGetValue(token.Key, out var config)) {
+				if(!CategoriesByName.TryGetValue(categoryPair.Key, out var category)) {
 					continue;
 				}
 
-				var result = (Config)jObject.ToObject(config.GetType());
+				foreach(var entryPair in categoryJson) {
+					if(!category.EntriesByName.TryGetValue(entryPair.Key, out var entry)) {
+						continue;
+					}
 
-				if(result != null) {
-					config.Local = result;
-				} else {
-					hadErrors = true;
+					object value = entryPair.Value.ToObject(entry.ValueType);
+
+					if(value != null) {
+						entry.LocalValue = value;
+					} else {
+						hadErrors = true;
+					}
 				}
-			}*/
+			}
 
 			return !hadErrors;
 		}
@@ -75,15 +88,26 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 		{
 			var jObject = new JObject();
 
-			/*foreach(var config in Configs) {
-				jObject[config.Name] = JObject.FromObject(config);
-			}*/
+			foreach(var entry in EntriesByName.Values) {
+				if(!jObject.TryGetValue(entry.Category, out var categoryToken)) {
+					jObject[entry.Category] = categoryToken = new JObject();
+				}
 
-			foreach(var entry in ConfigEntries.Values) {
-				jObject[entry.Id] = JToken.FromObject(entry.LocalValue);
+				categoryToken[entry.Name] = JToken.FromObject(entry.LocalValue);
 			}
 
 			File.WriteAllText(ConfigPath, jObject.ToString());
+		}
+
+		internal static void RegisterEntry(IConfigEntry entry)
+		{
+			EntriesByName.Add(entry.Name, entry);
+
+			if(!CategoriesByName.TryGetValue(entry.Category, out var category)) {
+				CategoriesByName[entry.Category] = category = new();
+			}
+
+			category.EntriesByName.Add(entry.Name, entry);
 		}
 	}
 }
