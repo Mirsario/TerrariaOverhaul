@@ -20,8 +20,8 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			public Vector2 velocity;
 		}
 
-		public static ConfigEntry<bool> FixedCamera { get; private set; }
-		public static ConfigEntry<bool> SmoothCamera { get; private set; }
+		public static readonly ConfigEntry<bool> FixedCamera = new(ConfigSide.ClientOnly, "Camera", nameof(FixedCamera), () => true);
+		public static readonly ConfigEntry<bool> SmoothCamera = new(ConfigSide.ClientOnly, "Camera", nameof(SmoothCamera), () => true);
 
 		private static FocusInfo? focus;
 		private static uint cameraUpdatePrevUpdateCount;
@@ -48,12 +48,6 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 		}
 
 		private bool noOffsetUpdating;
-
-		public override void Load()
-		{
-			FixedCamera = new(ConfigSide.ClientOnly, "Camera", nameof(FixedCamera), () => true);
-			SmoothCamera = new(ConfigSide.ClientOnly, "Camera", nameof(SmoothCamera), () => true);
-		}
 
 		public override void ModifyScreenPosition()
 		{

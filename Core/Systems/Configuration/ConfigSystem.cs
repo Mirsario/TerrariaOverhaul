@@ -1,8 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Systems.Debugging;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Core.Systems.Configuration
 {
@@ -20,6 +24,10 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 
 		public override void OnModLoad()
 		{
+			ForceInitializeStaticConstructors();
+
+			DebugSystem.Log("Initializing configuration...");
+
 			foreach(var entry in EntriesByName.Values) {
 				entry.Initialize(Mod);
 			}
@@ -40,6 +48,34 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 		public override void SetupContent()
 		{
 			
+		}
+
+		private void ForceInitializeStaticConstructors()
+		{
+			DebugSystem.Log($"Running static constructors that contain {nameof(IConfigEntry)}...");
+
+			var assembly = Assembly.GetExecutingAssembly();
+			string assemblyName = assembly.GetName().Name;
+
+			foreach(var mod in ModLoader.Mods) {
+				var modAssembly = mod.GetType().Assembly;
+
+				if(mod != Mod && !modAssembly.GetReferencedAssemblies().Any(n => n.Name == assemblyName)) {
+					continue;
+				}
+
+				foreach(var type in modAssembly.GetTypes()) {
+					if(type.IsEnum) {
+						continue;
+					}
+
+					var fields = type.GetFields(ReflectionUtils.AnyBindingFlags); //This will include backing fields of properties.
+
+					if(fields.Any(f => f.FieldType.GetInterfaces().Contains(typeof(IConfigEntry)))) {
+						RuntimeHelpers.RunClassConstructor(type.TypeHandle);
+					}
+				}
+			}
 		}
 
 		public static bool LoadConfig()

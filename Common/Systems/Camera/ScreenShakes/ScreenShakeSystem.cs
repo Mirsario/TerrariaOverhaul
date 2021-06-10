@@ -12,15 +12,10 @@ namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 {
 	public sealed class ScreenShakeSystem : ModSystem
 	{
+		public static readonly RangeConfigEntry<float> ScreenShakeStrength = new(ConfigSide.ClientOnly, "Camera", nameof(ScreenShakeStrength), 0f, 1f, () => 1f);
+
 		private static readonly Stopwatch Stopwatch = new();
 		private static readonly List<ScreenShake> ScreenShakes = new();
-
-		public static RangeConfigEntry<float> ScreenShakeStrength { get; private set; }
-
-		public override void Load()
-		{
-			ScreenShakeStrength = new(ConfigSide.ClientOnly, "Camera", nameof(ScreenShakeStrength), 0f, 1f, () => 1f);
-		}
 
 		public override void PostUpdateEverything()
 		{
