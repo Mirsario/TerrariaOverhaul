@@ -7,6 +7,7 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -18,11 +19,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			public static readonly MovementModifier Default = new() {
 				gravityScale = 1f,
-				runAccelerationScale = 1f
+				runAccelerationScale = 1f,
+				maxRunSpeedScale = 1f
 			};
 
 			public float gravityScale;
 			public float runAccelerationScale;
+			public float maxRunSpeedScale;
 
 			public void Apply(Player player)
 			{
@@ -32,6 +35,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		}
 
 		public static readonly int VelocityRecordSize = 5;
+		// The way to disable this has been removed due to vanilla jump velocity logic resetting velocity and clashing with many different features
+		//public static readonly ConfigEntry<bool> EnableJumpPhysicsImprovements = new(ConfigSide.Both, "PlayerMovement", nameof(EnableJumpPhysicsImprovements), () => true);
+		public static readonly ConfigEntry<bool> EnableVerticalAccelerationChanges = new(ConfigSide.Both, "PlayerMovement", nameof(EnableVerticalAccelerationChanges), () => true);
+		public static readonly ConfigEntry<bool> EnableHorizontalAccelerationChanges = new(ConfigSide.Both, "PlayerMovement", nameof(EnableHorizontalAccelerationChanges), () => true);
 
 		//public Timer noJumpTime;
 		public Timer noMovementTime;
@@ -97,8 +104,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			bool onGround = Player.OnGround();
 			bool wasOnGround = Player.WasOnGround();
 
-			Player.fullRotationOrigin = new Vector2(11, 22);
-
 			//Update the data necessary for jump key holding logic
 			if(Player.jump != prevPlayerJump) {
 				if(Player.jump > prevPlayerJump) {
@@ -118,7 +123,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 				if(vanillaAccelerationTime > 0) {
 					vanillaAccelerationTime--;
-				} else if(!Player.slippy && !Player.slippy2) {
+				} else if(!Player.slippy && !Player.slippy2 && EnableHorizontalAccelerationChanges) {
 					//Horizontal acceleration
 					if(onGround) {
 						Player.runAcceleration *= 2f;
@@ -136,9 +141,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					Player.runSlowdown = onGround ? 0.275f : 0.02f;
 				}
 
-				//Stops vanilla running sounds from playing. //TODO: Move to PlayerFootsteps.
-				Player.runSoundDelay = 5;
-
 				if(noMovementTime.Active) {
 					Player.maxRunSpeed = 0f;
 					Player.runAcceleration = 0f;
@@ -146,13 +148,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					Player.maxRunSpeed *= 0.6f;
 				}
 
-				Player.maxFallSpeed = wingFall ? 10f : 1000f;
+				if(EnableVerticalAccelerationChanges) {
+					Player.maxFallSpeed = wingFall ? 10f : 1000f;
 
-				//Falling friction & speed limit
-				if(Player.velocity.Y > Player.maxFallSpeed) {
-					Player.velocity.Y = Player.maxFallSpeed;
-				} else if(Player.velocity.Y > 0f) {
-					Player.velocity.Y *= 0.995f;
+					//Falling friction & speed limit
+					if(Player.velocity.Y > Player.maxFallSpeed) {
+						Player.velocity.Y = Player.maxFallSpeed;
+					} else if(Player.velocity.Y > 0f) {
+						Player.velocity.Y *= 0.995f;
+					}
 				}
 			}
 

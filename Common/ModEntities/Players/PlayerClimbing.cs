@@ -7,6 +7,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Common.Tags;
+using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Core.Systems.Networking;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
@@ -17,6 +18,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public class PlayerClimbing : ModPlayer
 	{
+		public static readonly ConfigEntry<bool> EnableClimbing = new(ConfigSide.Both, "PlayerMovement", nameof(EnableClimbing), () => true);
+
 		public bool forceClimb;
 		public Timer climbCooldown;
 
@@ -54,6 +57,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private void TryStartClimbing()
 		{
+			if(!EnableClimbing) {
+				return;
+			}
+
 			//isSleeping ||
 			if(climbCooldown.Active) {
 				return;
