@@ -12,10 +12,6 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 	{
 		protected abstract int BaseNPC { get; }
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Ash Clot");
-		}
 		public override void SetDefaults()
 		{
 			NPC.CloneDefaults(BaseNPC);

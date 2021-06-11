@@ -9,9 +9,6 @@ namespace TerrariaOverhaul.Content.Buffs
 		{
 			Main.buffNoTimeDisplay[Type] = true;
 			CanBeCleared = false;
-
-			DisplayName.SetDefault("Mana Channelling");
-			Description.SetDefault("Your patience is increasing your mana regeneration");
 		}
 	}
 }

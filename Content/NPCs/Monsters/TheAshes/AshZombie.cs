@@ -7,10 +7,6 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 	{
 		protected override int BaseNPC => NPCID.BloodZombie;
 
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Walking Ashes");
-		}
 		public override void SetDefaults()
 		{
 			base.SetDefaults();
