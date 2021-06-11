@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ItemAnimations;
 using TerrariaOverhaul.Common.ModEntities.Items.Utilities;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -44,12 +47,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			return true;
 		}
+		
 		public override void HoldItem(Item item, Player player)
 		{
 			HoldItemCharging(item, player);
 			
 			base.HoldItem(item, player);
 		}
+		
 		public override void UseAnimation(Item item, Player player)
 		{
 			base.UseAnimation(item, player);
@@ -87,6 +92,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				ScreenShakeSystem.New(3f, item.useAnimation / 120f);
 			}
 		}
+		
 		public override void UseItemFrame(Item item, Player player)
 		{
 			base.UseItemFrame(item, player);
@@ -100,11 +106,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				}
 			}
 		}
+		
 		public override bool ShouldBeAttacking(Item item, Player player)
 		{
 			//Damage will only be applied during the first half of the use. The second half is a cooldown, and the animations reflect that.
 			return base.ShouldBeAttacking(item, player) && player.itemAnimation >= player.itemAnimationMax / 2 && !item.GetGlobalItem<ItemCharging>().IsCharging;
 		}
+		
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
 			base.ModifyHitNPC(item, player, target, ref damage, ref knockback, ref crit);
@@ -112,6 +120,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			ModifyHitNPCCharging(item, player, target, ref damage, ref knockback, ref crit);
 			ModifyHitNPCKillingBlows(item, player, target, ref damage, ref knockback, ref crit);
 		}
+
 		public override void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle customHitSound, ref bool playNPCHitSound)
 		{
 			//This checks for whether or not the target has bled.
@@ -120,6 +129,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			}
 
 			base.ModifyItemNPCHitSound(item, player, target, ref customHitSound, ref playNPCHitSound);
+		}
+
+		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+		{
+			base.ModifyTooltips(item, tooltips);
+
+			IEnumerable<string> GetCombatInfo()
+			{
+				yield return Mod.GetTextValue("ItemOverhauls.Melee.Broadsword.KillingBlowInfo");
+				yield return Mod.GetTextValue("ItemOverhauls.Melee.AirCombatInfo");
+				yield return Mod.GetTextValue("ItemOverhauls.Melee.VelocityBasedDamageInfo");
+			}
+
+			TooltipUtils.ShowCombatInformation(Mod, tooltips, GetCombatInfo);
 		}
 	}
 }

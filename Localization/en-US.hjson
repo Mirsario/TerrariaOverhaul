@@ -38,10 +38,24 @@ Mods: {
 		}
 		
 		ItemOverhauls: {
-			Broadsword: {
-				KillingBlow: "Killing Blow!"
-				BroadswordInfo: "Charged strikes can deal Killing Blows"
+			Melee: {
+				Broadsword: {
+					KillingBlow: "Killing Blow!"
+					KillingBlowInfo: 
+						'''
+						Charged strikes can deal Killing Blows to damaged enemies
+						Killing Blows double damage whenever that would finish the enemy
+						'''
+				}
+				
+				AirCombatInfo: "Attacking enemies mid-air launches you towards them"
+				VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
 			}
+		}
+		
+		CommonTooltips: {
+			ShowCombatInfo: "[Hold {Key} to show combat information]"
+			CombatInfo: "[Combat Information]"
 		}
 		
 		DeathText: {
