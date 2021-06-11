@@ -5,7 +5,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerBunnyhopping : PlayerBase
 	{
-		public static readonly ConfigEntry<bool> EnableBunnyhopping = new(ConfigSide.ClientOnly, "PlayerMovement", nameof(EnableBunnyhopping), () => true);
+		public static readonly ConfigEntry<bool> EnableBunnyhopping = new(ConfigSide.Both, "PlayerMovement", nameof(EnableBunnyhopping), () => true);
 
 		public static float DefaultBoost => 0.8f;
 
