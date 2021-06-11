@@ -34,7 +34,6 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 
 			if(!LoadConfig()) {
 				DebugSystem.Logger.Warn("Config file contained incorrect values.");
-
 			}
 			
 			SaveConfig();
@@ -52,7 +51,7 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 
 		private void ForceInitializeStaticConstructors()
 		{
-			DebugSystem.Log($"Running static constructors that contain {nameof(IConfigEntry)}...");
+			DebugSystem.Log($"Running static constructors of types that contain config entries...");
 
 			var assembly = Assembly.GetExecutingAssembly();
 			string assemblyName = assembly.GetName().Name;

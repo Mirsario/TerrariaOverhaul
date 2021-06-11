@@ -76,8 +76,8 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 		public void Initialize(Mod mod)
 		{
 			Mod = mod;
-			DisplayName = mod.CreateTranslation($"Mods.{mod.Name}.Configuration.{Name}.Name");
-			Description = mod.CreateTranslation($"Mods.{mod.Name}.Configuration.{Name}.Description");
+			DisplayName = LocalizationLoader.CreateTranslation(mod, $"Configuration.{Category}.{Name}.DisplayName");
+			Description = LocalizationLoader.CreateTranslation(mod, $"Configuration.{Category}.{Name}.Description");
 		}
 	}
 }
