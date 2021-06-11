@@ -1,6 +1,25 @@
 Mods: {
 	TerrariaOverhaul: {
 		Configuration: {
+			Ambience: {
+				EnableAmbientSounds: {
+					DisplayName: "Enable Ambient Sounds"
+					Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
+				}
+				
+				EnablePlayerFootsteps: {
+					DisplayName: "Enable Player Footsteps"
+					Description: "Toggles player character footstep audio"
+				}
+			}
+			
+			BloodAndGore: {
+				EnableDecals: {
+					DisplayName: "Enable Decals"
+					Description: "Toggles decals, also known as 'blood on tiles'."
+				}
+			}
+			
 			Camera: {
 				SmoothCamera: {
 					DisplayName: "Smooth Camera"
@@ -10,6 +29,55 @@ Mods: {
 				ScreenShakeStrength: {
 					DisplayName: "Screen Shake Strength"
 					Description: "Controls the strength of screen shaking effects. Set this to zero to disable screen shakes completely."
+				}
+			}
+			
+			PlayerMovement: {
+				EnableVerticalAccelerationChanges: {
+					DisplayName: "Enable Vertical Acceleration Changes"
+					Description: "Toggle air friction and (almost) unlimited maximum fall speed."
+				}
+				
+				EnableHorizontalAccelerationChanges: {
+					DisplayName: "Enable Horizontal Acceleration Changes"
+					Description: "Toggle changes to horizontal friction, run max speed and acceleration."
+				}
+				
+				EnableBunnyhopping: {
+					DisplayName: "Enable Bunnyhopping"
+					Description: "Bunnyhopping gives you a slight horizontal boost every time you jump. Turning this off will disable certain accessories."
+				}
+				
+				EnableClimbing: {
+					DisplayName: "Enable Climbing"
+					Description: "Climbing lets you reach new heights by holding the up button."
+				}
+				
+				EnableWallJumping: {
+					DisplayName: "Enable Wall Jumping"
+					Description: "Wall jumping is a new movement mechanic that requires climbing gear or spike shoes. It is done by hitting a wall with your back while holding the up button with horizontal movement buttons released."
+				}
+				
+				EnableWallFlips: {
+					DisplayName: "Enable Wall Flips"
+					Description: "A wall flip is a new movement mechanic that does not require any accessories. It is done by hitting a wall with your front with enough velocity while holding the horizontal movement opposite of the player's direction."
+				}
+			}
+			
+			PlayerVisuals: {
+				AlwaysShowAimableWeapons: {
+					DisplayName: "Always Show Aimable Weapons"
+					Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
+				}
+				
+				EnablePlayerHeadRotation: {
+					DisplayName: "Enable Player Head Rotation"
+					Description: "Toggles player characters looking at their cursors."
+				}
+				
+				EnablePlayerTilting: {
+					DisplayName: "Enable Player Tilting"
+					Description: "Toggles player characters being slightly tilted based on their velocity. This makes them look a lot more alive."
 				}
 			}
 		}
