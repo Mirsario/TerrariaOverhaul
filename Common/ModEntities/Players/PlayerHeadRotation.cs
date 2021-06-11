@@ -2,11 +2,14 @@
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using TerrariaOverhaul.Core.Systems.Configuration;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public class PlayerHeadRotation : PlayerBase
 	{
+		public static readonly ConfigEntry<bool> EnablePlayerHeadRotation = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnablePlayerHeadRotation), () => true);
+
 		private float headRotation;
 		private float targetHeadRotation;
 
@@ -26,7 +29,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
 		{
-			if(!Main.gameMenu) {
+			if(!Main.gameMenu && EnablePlayerHeadRotation.Value) {
 				Player.headRotation = headRotation;
 			}
 		}
