@@ -48,7 +48,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 		
 		public static void AddDecals(Texture2D texture, Rectangle dest, Color color, bool ifChunkExists = false, BlendState blendState = null)
 		{
-			if(Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode || !EnableDecals.Value) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
+			if(Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode || !EnableDecals) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
 				return;
 			}
 

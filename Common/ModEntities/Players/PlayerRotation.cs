@@ -24,7 +24,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		
 		public override void PostUpdate()
 		{
-			if(rotationOffsetScale != 0f && EnablePlayerTilting.Value) {
+			if(rotationOffsetScale != 0f && EnablePlayerTilting) {
 				float movementRotation;
 
 				if(Player.OnGround()) {

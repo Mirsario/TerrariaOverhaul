@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostItemCheck()
 		{
-			if(!EnableBunnyhopping.Value) {
+			if(!EnableBunnyhopping) {
 				return;
 			}
 

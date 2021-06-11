@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
 		{
-			if(!Main.gameMenu && EnablePlayerHeadRotation.Value) {
+			if(!Main.gameMenu && EnablePlayerHeadRotation) {
 				Player.headRotation = headRotation;
 			}
 		}

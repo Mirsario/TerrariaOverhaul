@@ -79,5 +79,7 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 			DisplayName = LocalizationLoader.CreateTranslation(mod, $"Configuration.{Category}.{Name}.DisplayName");
 			Description = LocalizationLoader.CreateTranslation(mod, $"Configuration.{Category}.{Name}.Description");
 		}
+
+		public static implicit operator T(ConfigEntry<T> configEntry) => configEntry.Value;
 	}
 }
