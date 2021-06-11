@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	{
 		public struct MovementModifier
 		{
-			public static MovementModifier Default = new() {
+			public static readonly MovementModifier Default = new() {
 				gravityScale = 1f,
 				runAccelerationScale = 1f
 			};
@@ -43,7 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		private int maxPlayerJump;
 		private int prevPlayerJump;
 
-		private Dictionary<string, (ulong endTime, MovementModifier modifier)> movementModifiers = new();
+		private readonly Dictionary<string, (ulong endTime, MovementModifier modifier)> MovementModifiers = new();
 
 		public override void Load()
 		{
@@ -175,19 +175,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public void SetMovementModifier(string id, int time, MovementModifier modifier)
 		{
-			movementModifiers.TryGetValue(id, out var tuple);
+			MovementModifiers.TryGetValue(id, out var tuple);
 
 			tuple.endTime = Math.Max(tuple.endTime, TimeSystem.UpdateCount + (ulong)time);
 			tuple.modifier = modifier;
 
-			movementModifiers[id] = tuple;
+			MovementModifiers[id] = tuple;
 		}
 
 		private void HandleMovementModifiers()
 		{
 			List<string> keysToRemove = null;
 
-			foreach(var pair in movementModifiers) {
+			foreach(var pair in MovementModifiers) {
 				string id = pair.Key;
 				var (endTime, modifier) = pair.Value;
 
@@ -201,7 +201,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			if(keysToRemove != null) {
 				foreach(string key in keysToRemove) {
-					movementModifiers.Remove(key);
+					MovementModifiers.Remove(key);
 				}
 			}
 		}
