@@ -20,7 +20,6 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			public Vector2 velocity;
 		}
 
-		public static readonly ConfigEntry<bool> FixedCamera = new(ConfigSide.ClientOnly, "Camera", nameof(FixedCamera), () => true);
 		public static readonly ConfigEntry<bool> SmoothCamera = new(ConfigSide.ClientOnly, "Camera", nameof(SmoothCamera), () => true);
 
 		private static FocusInfo? focus;
@@ -97,7 +96,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			Main.SetCameraLerp(1f, 0);
 
 			float zoomScaleGoal = 1f;
-			float mouseMovementScale = FixedCamera.Value ? 0f : 1f;
+			float mouseMovementScale = 0f;
 
 			const float ReducedOffsetTime = 1f;
 
