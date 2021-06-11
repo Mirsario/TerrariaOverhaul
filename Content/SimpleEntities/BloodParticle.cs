@@ -39,6 +39,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 				bloodColorRecordingLists = null;
 			}
 		}
+
 		//In-game
 		public override void Init()
 		{

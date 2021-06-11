@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 {
 	public class SimpleEntitySystem : ModSystem
 	{
-		private IDictionary<Type, LinkedList<SimpleEntity>> entitiesByType;
+		private static IDictionary<Type, LinkedList<SimpleEntity>> entitiesByType;
 
 		public override void Load()
 		{
@@ -17,36 +17,18 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 			On.Terraria.Main.DrawPlayers_AfterProjectiles += (orig, self) => {
 				orig(self);
 
-				ModContent.GetInstance<SimpleEntitySystem>().DrawEntities();
+				DrawEntities();
 			};
 		}
-		
-		public override void Unload() => entitiesByType = null;
+
+		public override void Unload()
+		{
+			entitiesByType = null;
+		}
+
 		public override void PreUpdateEntities() => UpdateEntities();
 
-		public void UpdateEntities()
-		{
-			if(!Main.dedServ && Main.gamePaused) {
-				return;
-			}
-
-			foreach(var entity in EnumerateEntities()) {
-				entity.Update();
-			}
-		}
-		public void DrawEntities()
-		{
-			var sb = Main.spriteBatch;
-
-			sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-			foreach(var entity in EnumerateEntities()) {
-				entity.Draw(sb);
-			}
-
-			sb.End();
-		}
-		public IEnumerable<SimpleEntity> EnumerateEntities()
+		public static IEnumerable<SimpleEntity> EnumerateEntities()
 		{
 			foreach(var entities in entitiesByType.Values) {
 				var node = entities.First;
@@ -69,7 +51,7 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 			}
 		}
 
-		public T InstantiateEntity<T>(Action<T> preinitializer = null) where T : SimpleEntity
+		internal static T InstantiateEntity<T>(Action<T> preinitializer = null) where T : SimpleEntity
 		{
 			T instance = Activator.CreateInstance<T>();
 
@@ -84,6 +66,30 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 			list.AddLast(instance);
 
 			return instance;
+		}
+
+		private static void UpdateEntities()
+		{
+			if(!Main.dedServ && Main.gamePaused) {
+				return;
+			}
+
+			foreach(var entity in EnumerateEntities()) {
+				entity.Update();
+			}
+		}
+
+		private static void DrawEntities()
+		{
+			var sb = Main.spriteBatch;
+
+			sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+			foreach(var entity in EnumerateEntities()) {
+				entity.Draw(sb);
+			}
+
+			sb.End();
 		}
 	}
 }

@@ -31,6 +31,6 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 		protected virtual void OnDestroyed(bool allowEffects) { }
 
 		public static T Instantiate<T>(Action<T> preinitializer = null) where T : SimpleEntity
-			=> ModContent.GetInstance<SimpleEntitySystem>().InstantiateEntity(preinitializer);
+			=> SimpleEntitySystem.InstantiateEntity(preinitializer);
 	}
 }
