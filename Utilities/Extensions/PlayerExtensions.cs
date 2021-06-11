@@ -40,6 +40,10 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 			if(Math.Sign(player.velocity.Y) != Math.Sign(velocity.Y) || Math.Abs(player.velocity.Y) < maxVelocity.Y) {
 				player.velocity.Y = MathUtils.StepTowards(player.velocity.Y, maxVelocity.Y * Math.Sign(velocity.Y), Math.Abs(velocity.Y));
+
+				if(player.velocity.Y < Math.Min(7f, player.maxFallSpeed)) {
+					player.fallStart = player.fallStart2 = (int)(player.position.Y / 16f);
+				}
 			}
 		}
 
