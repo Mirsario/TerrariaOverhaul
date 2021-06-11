@@ -18,6 +18,7 @@ namespace TerrariaOverhaul.Content.Gores
 			gore.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 			gore.scale = 0.7f;
 		}
+		
 		public override bool Update(Gore gore)
 		{
 			if(gore is OverhaulGore goreExt) {

@@ -36,6 +36,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 					break;
 			}
 		}
+		
 		public override bool? UseItem(Item item, Player player)
 		{
 			bool? baseResult = base.UseItem(item, player);
@@ -48,6 +49,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 
 			return baseResult;
 		}
+		
 		public override void HoldItem(Item item, Player player)
 		{
 			base.HoldItem(item, player);

@@ -37,6 +37,7 @@ namespace TerrariaOverhaul.Common.Systems.Seasons
 				season.Init();
 			}
 		}
+		
 		public override void Unload()
 		{
 			if(seasons != null) {
@@ -47,6 +48,7 @@ namespace TerrariaOverhaul.Common.Systems.Seasons
 				seasons = null;
 			}
 		}
+		
 		public override void PreUpdateWorld()
 		{
 			if(seasons == null) {

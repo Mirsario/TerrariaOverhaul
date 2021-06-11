@@ -33,11 +33,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			itemOverhauls.Add(this);
 		}
+		
 		public override void Unload()
 		{
 			itemOverhauls.Clear();
 			itemIdMapping.Clear();
 		}
+		
 		public override GlobalItem Clone(Item item, Item itemClone)
 		{
 			var clone = base.Clone(item, itemClone);

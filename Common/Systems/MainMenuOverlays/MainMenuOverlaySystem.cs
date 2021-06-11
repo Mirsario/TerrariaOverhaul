@@ -52,6 +52,7 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 				new MenuLink("Github", @"https://github.com/Mirsario/TerrariaOverhaul/tree/1.4"),
 			};
 		}
+		
 		public override void Unload()
 		{
 			menuLines = null;

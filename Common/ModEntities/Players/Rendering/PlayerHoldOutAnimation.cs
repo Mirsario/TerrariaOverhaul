@@ -62,6 +62,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 				orig(ref drawInfo);
 			};
 		}
+		
 		public override void PreUpdate()
 		{
 			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
@@ -100,11 +101,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			player.itemAnimation = 1;
 			player.itemAnimationMax = 2;
 		}
+		
 		private static void RestoreAnim(Player player, int itemAnim, int itemAnimMax)
 		{
 			player.itemAnimation = itemAnim;
 			player.itemAnimationMax = itemAnimMax;
 		}
+		
 		private static void InvokeWithForcedAnimation(Player player, Action action)
 		{
 			ForceAnim(player, out int itemAnim, out int itemAnimMax);

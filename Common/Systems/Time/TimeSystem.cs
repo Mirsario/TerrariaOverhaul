@@ -61,11 +61,13 @@ namespace TerrariaOverhaul.Common.Systems.Time
 			globalStopwatch = new Stopwatch();
 			globalStopwatch.Start();
 		}
+		
 		public override void Unload()
 		{
 			globalStopwatch.Stop();
 			globalStopwatch = null;
 		}
+		
 		public override void PostUpdateEverything()
 		{
 			UpdateCount++;

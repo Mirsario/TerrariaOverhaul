@@ -38,6 +38,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				return result;
 			};
 		}
+		
 		public override void Unload()
 		{
 			//Reset gores so that they don't remain of GoreExt type.
@@ -86,6 +87,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			return result;
 		}
+		
 		private static void GoreUpdate(On.Terraria.Gore.orig_Update orig, Gore gore)
 		{
 			orig(gore);

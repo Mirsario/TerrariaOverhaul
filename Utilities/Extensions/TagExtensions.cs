@@ -14,6 +14,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 				}
 			}
 		}
+		
 		public static void PopulateFromSets(this TagData tag, bool[] sets)
 		{
 			for(int i = 0; i < sets.Length; i++) {
@@ -22,6 +23,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 				}
 			}
 		}
+		
 		public static void SetMultiple(this TagData tag, params int[] ids) => tag.SetMultiple((IReadOnlyList<int>)ids);
 		public static void SetMultiple(this TagData tag, IReadOnlyList<int> ids)
 		{

@@ -27,6 +27,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			return range;
 		}
+		
 		public override bool AltFunctionUse(Item item, Player player)
 		{
 			var itemCharging = item.GetGlobalItem<ItemCharging>();

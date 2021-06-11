@@ -21,6 +21,7 @@ namespace TerrariaOverhaul.Content.Projectiles
 			Projectile.ownerHitCheck = true;
 			Projectile.timeLeft = int.MaxValue;
 		}
+		
 		public override bool PreAI()
 		{
 			Player player = Main.player[Projectile.owner];

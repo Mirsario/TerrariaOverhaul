@@ -42,6 +42,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
 		}
+		
 		public override bool PreItemCheck()
 		{
 			UpdateDodging();

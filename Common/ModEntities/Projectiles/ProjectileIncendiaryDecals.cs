@@ -20,6 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 			AddDecals(projectile, 32, 0.2f);
 		}
+		
 		public override void PostAI(Projectile projectile)
 		{
 			if(!OverhaulProjectileTags.Incendiary.Has(projectile.type) || Main.GameUpdateCount % 2 != 0) {

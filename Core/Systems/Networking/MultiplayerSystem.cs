@@ -33,6 +33,7 @@ namespace TerrariaOverhaul.Core.Systems.Networking
 				ContentInstance.Register(instance);
 			}
 		}
+		
 		public override void Unload()
 		{
 			if(packets != null) {

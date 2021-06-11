@@ -20,6 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			Player.fullRotationOrigin = new Vector2(11, 22);
 		}
+		
 		public override void PostUpdate()
 		{
 			if(rotationOffsetScale != 0f) {

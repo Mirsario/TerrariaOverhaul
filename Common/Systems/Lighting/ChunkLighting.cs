@@ -80,6 +80,7 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 				orig(firstX, lastX, firstY, lastY);
 			};
 		}
+		
 		public override void Unload()
 		{
 			lightingUpdateLock = null;
@@ -93,6 +94,7 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 			Colors = new Surface<Color>(textureWidth, textureHeight);
 			Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 		}
+		
 		public override void OnDispose(Chunk chunk)
 		{
 			if(Texture != null) {

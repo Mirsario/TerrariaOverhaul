@@ -41,6 +41,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				}
 			};
 		}
+		
 		public override void PostAI(NPC npc)
 		{
 			if(Main.netMode != NetmodeID.Server && manaPickupsToDrop >= 1f) {
@@ -68,12 +69,14 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				}
 			}
 		}
+		
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
 		{
 			if(player.IsLocal() && item.CountsAsClass(DamageClass.Magic)) {
 				OnDamagedByMagic(npc, player, damage, item.useTime, item.useAnimation, item.mana);
 			}
 		}
+		
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
 		{
 			var ownerPlayer = projectile.GetOwner();

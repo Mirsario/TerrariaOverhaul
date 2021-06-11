@@ -23,6 +23,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 		{
 			texture = Mod.GetTexture($"{Utilities.ModPathUtils.GetDirectory(GetType())}/Slash");
 		}
+		
 		public override void Unload()
 		{
 			texture = null;

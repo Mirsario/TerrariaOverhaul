@@ -26,6 +26,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		{
 			return base.Clone(item, itemClone);
 		}
+		
 		public override void PostUpdate(Item item)
 		{
 			int lifeTime = item.timeSinceItemSpawned / 5;
@@ -52,6 +53,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 				item.velocity += (resultTuple.player.Center - center).SafeNormalize(default) * (resultTuple.sqrDistance / resultTuple.sqrDistance);
 			}
 		}
+		
 		public override bool CanPickup(Item item, Player player)
 		{
 			int lifeTime = item.timeSinceItemSpawned / 5;
@@ -71,6 +73,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			return false;
 		}
+		
 		public override Color? GetAlpha(Item item, Color lightColor)
 		{
 			float progress = GetIntensity(item);
@@ -78,6 +81,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			return new Color(255, 255, 255, alpha);
 		}
+		
 		public override bool PreDrawInWorld(Item item, SpriteBatch sb, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
 			float intensity = GetIntensity(item);

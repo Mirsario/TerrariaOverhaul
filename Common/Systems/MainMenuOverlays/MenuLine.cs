@@ -47,6 +47,7 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 				OnClicked();
 			}
 		}
+		
 		public virtual void Draw(SpriteBatch sb, Vector2 position)
 		{
 			var color = ForcedColor?.Invoke(IsHovered) ?? Color.White;

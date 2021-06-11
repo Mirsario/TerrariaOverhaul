@@ -20,6 +20,7 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 				ModContent.GetInstance<SimpleEntitySystem>().DrawEntities();
 			};
 		}
+		
 		public override void Unload() => entitiesByType = null;
 		public override void PreUpdateEntities() => UpdateEntities();
 

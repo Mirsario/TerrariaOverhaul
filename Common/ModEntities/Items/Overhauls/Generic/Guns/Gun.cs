@@ -28,6 +28,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 				MuzzleflashTime--;
 			}
 		}
+		
 		public override bool? UseItem(Item item, Player player)
 		{
 			MuzzleflashTime = Math.Max(MuzzleflashTime, 5);

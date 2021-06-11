@@ -46,6 +46,7 @@ namespace TerrariaOverhaul.Utilities
 				return 1f - ((radians - MathHelper.Pi * 1.5f) / MathHelper.Pi); // [0.0 - 0.5]
 			}
 		}
+		
 		public static float DegreesToPitch(float degrees)
 		{
 			degrees = Modulo(degrees, 360f);
@@ -65,6 +66,7 @@ namespace TerrariaOverhaul.Utilities
 
 			return r < 0 ? r + length : r;
 		}
+		
 		public static float Modulo(float value, float length) => value - (float)Math.Floor(value / length) * length;
 		public static double Modulo(double value, double length) => value - (float)Math.Floor(value / length) * length;
 

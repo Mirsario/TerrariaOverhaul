@@ -22,6 +22,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 		{
 			BloodShader = Mod.GetEffect("Assets/Shaders/Blood");
 		}
+		
 		public override void Unload()
 		{
 			BloodShader = null;
@@ -42,6 +43,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			AddDecals(new Rectangle((int)(point.X / 2) * 2, (int)(point.Y / 2) * 2, 2, 2), color, ifChunkExists, blendState);
 		}
+		
 		public static void AddDecals(Texture2D texture, Rectangle dest, Color color, bool ifChunkExists = false, BlendState blendState = null)
 		{
 			if(Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {

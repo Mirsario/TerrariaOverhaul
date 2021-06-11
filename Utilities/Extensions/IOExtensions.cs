@@ -12,6 +12,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 				writer.Write((byte)player.whoAmI);
 			}
 		}
+		
 		public static bool TryReadSenderPlayer(this BinaryReader reader, int sender, out Player player)
 		{
 			if(Main.netMode == NetmodeID.MultiplayerClient) {

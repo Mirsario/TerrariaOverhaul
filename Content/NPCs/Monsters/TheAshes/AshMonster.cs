@@ -34,6 +34,7 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 
 			//OverhaulNPC.goreInfos.AddIfNeedTo(npc.type,() => new NPCGoreInfo(npc,bloodColor:Color.Transparent,goreType:""));
 		}
+		
 		public override void AI()
 		{
 			if(!Main.dedServ) {
@@ -41,6 +42,7 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 				Lighting.AddLight(NPC.Top, new Vector3(1f, 0.75f, 0f) * 0.15f);
 			}
 		}
+		
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int amount = NPC.life <= 0 ? 50 : (int)damage;
@@ -49,6 +51,7 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 				Dust.NewDust(NPC.position, NPC.width, NPC.height, 54, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));
 			}
 		}
+		
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
 			npcLoot.Add(ItemDropRule.Common(ItemID.AshBlock, minimumDropped: 5, maximumDropped: 10));

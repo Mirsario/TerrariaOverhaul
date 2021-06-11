@@ -30,6 +30,7 @@ namespace TerrariaOverhaul.Common.Systems.Seasons.Components
 				return result;
 			};
 		}
+		
 		public override void Unload()
 		{
 			snowTileCountSetter = null;

@@ -93,6 +93,7 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 				return true;
 			}, InterfaceScaleType.Game));
 		}
+		
 		public override void PostDrawInterface(SpriteBatch sb)
 		{
 			
@@ -102,6 +103,7 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 		{
 			ModContent.GetInstance<DebugSystem>().LinesToDraw.Add(new Line(start, end, color, width));
 		}
+		
 		public static void DrawRectangle(Rectangle rectangle, Color color, int width = 2)
 		{
 			var lines = ModContent.GetInstance<DebugSystem>().LinesToDraw;
@@ -111,6 +113,7 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 			lines.Add(new Line(rectangle.BottomRight(), rectangle.BottomLeft(), color, width));
 			lines.Add(new Line(rectangle.BottomLeft(), rectangle.TopLeft(), color, width));
 		}
+		
 		public static void DrawCircle(Vector2 center, float radius, Color color, int resolution = 16, int width = 2)
 		{
 			var lines = ModContent.GetInstance<DebugSystem>().LinesToDraw;

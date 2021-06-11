@@ -11,6 +11,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 			return color;
 		}
+		
 		public static Color WithAlpha(this Color color, float alpha)
 		{
 			color.A = (byte)(MathHelper.Clamp(alpha, 0f, 1f) * 255f);

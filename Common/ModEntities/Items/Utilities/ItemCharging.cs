@@ -25,6 +25,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 		{
 			return base.Clone(item, itemClone);
 		}
+		
 		public override void HoldItem(Item item, Player player)
 		{
 			if(!player.dead) {

@@ -51,6 +51,7 @@ namespace TerrariaOverhaul.Common.Systems.CombatTexts
 				return result;
 			};
 		}
+		
 		public override void Unload()
 		{
 			if(filters != null) {

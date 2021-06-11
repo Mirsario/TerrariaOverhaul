@@ -24,6 +24,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			return null;
 		}
+		
 		public override void UseAnimation(Item item, Player player)
 		{
 			if(!player.IsLocal() || !CrosshairSystem.ShowCrosshair) {

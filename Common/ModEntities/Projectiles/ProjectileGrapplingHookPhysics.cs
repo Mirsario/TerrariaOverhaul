@@ -80,6 +80,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				{ ProjectileID.LunarHookVortex,		34.375f },
 			};
 		}
+		
 		public override void Unload()
 		{
 			if(vanillaHookRangesInTiles != null) {
@@ -88,6 +89,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				vanillaHookRangesInTiles = null;
 			}
 		}
+		
 		public override bool PreAI(Projectile projectile)
 		{
 			if(ShouldOverrideGrapplingHookPhysics(projectile, out var player)) {
@@ -223,12 +225,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 			return ShouldOverrideGrapplingHookPhysics(player, projectile);
 		}
+		
 		public static bool ShouldOverrideGrapplingHookPhysics(Projectile proj, out Player player)
 		{
 			player = proj?.GetOwner();
 
 			return ShouldOverrideGrapplingHookPhysics(player, proj);
 		}
+		
 		public static bool ShouldOverrideGrapplingHookPhysics(Player player, Projectile proj)
 		{
 			if(player?.active != true) {

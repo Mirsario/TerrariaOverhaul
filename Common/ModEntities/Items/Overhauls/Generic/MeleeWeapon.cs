@@ -61,6 +61,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			return (item.Size * item.scale * 1.25f).Length();
 		}
+		
 		public virtual float GetHeavyness(Item item)
 		{
 			float averageDimension = (item.width + item.height) * 0.5f;
@@ -76,6 +77,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			return MathHelper.Clamp(result, 0f, 1f);
 		}
+		
 		public virtual bool ShouldBeAttacking(Item item, Player player)
 		{
 			return player.itemAnimation > 0;
@@ -158,6 +160,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				};
 			}
 		}
+		
 		public override void SetDefaults(Item item)
 		{
 			if(item.UseSound != Terraria.ID.SoundID.Item15) {
@@ -169,11 +172,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				);
 			}
 		}
+		
 		public override void UseAnimation(Item item, Player player)
 		{
 			AttackDirection = player.LookDirection();
 			AttackNumber++;
 		}
+		
 		public override void HoldItem(Item item, Player player)
 		{
 			base.HoldItem(item, player);
@@ -202,6 +207,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				}
 			}
 		}
+		
 		public override void UseItemFrame(Item item, Player player)
 		{
 			base.UseItemFrame(item, player);
@@ -305,6 +311,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				}
 			}
 		}
+		
 		public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockback, bool crit)
 		{
 			base.OnHitNPC(item, player, target, damage, knockback, crit);
@@ -356,6 +363,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 			//Check arc collision
 			return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
 		}
+		
 		public virtual void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle customHitSound, ref bool playNPCHitSound)
 		{
 			if(OverhaulItemTags.Wooden.Has(item.netID)) {

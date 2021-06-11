@@ -19,9 +19,13 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 		}
 
 		public virtual void Load(Mod mod) { }
+		
 		public virtual void Unload() { }
+		
 		public virtual void Init() { }
+		
 		public virtual void Update() { }
+		
 		public virtual void Draw(SpriteBatch sb) { }
 
 		protected virtual void OnDestroyed(bool allowEffects) { }

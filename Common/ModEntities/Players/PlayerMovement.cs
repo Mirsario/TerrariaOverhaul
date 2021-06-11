@@ -91,6 +91,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				});
 			};
 		}
+		
 		public override void PreUpdate()
 		{
 			bool onGround = Player.OnGround();
@@ -157,6 +158,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			HandleMovementModifiers();
 		}
+
 		public override void PostUpdate()
 		{
 			Array.Copy(velocityRecord, 0, velocityRecord, 1, velocityRecord.Length - 1); //Shift

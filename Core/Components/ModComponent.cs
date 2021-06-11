@@ -23,6 +23,7 @@ namespace TerrariaOverhaul.Core.Components
 		}
 
 		public virtual void OnInit(TEntity entity) { }
+		
 		public virtual void OnDispose(TEntity entity) { }
 	}
 }

@@ -41,6 +41,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 
 			return true;
 		}
+		
 		public override void SetDefaults(Item item)
 		{
 			base.SetDefaults(item);

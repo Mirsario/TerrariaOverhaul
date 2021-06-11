@@ -34,6 +34,7 @@ namespace TerrariaOverhaul.Common.Systems.CursorOffsets
 
 			Main.OnPostDraw += PostDraw;
 		}
+		
 		public override void Unload()
 		{
 			offsets = null;

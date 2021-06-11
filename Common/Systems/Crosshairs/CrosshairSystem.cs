@@ -44,6 +44,7 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 			impulses = new List<CrosshairImpulse>();
 			crosshairTexture = Mod.GetTexture("Assets/Textures/UI/Crosshair");
 		}
+		
 		public override void PostUpdateEverything()
 		{
 			float totalOffset = 0f;

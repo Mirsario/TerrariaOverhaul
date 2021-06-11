@@ -116,6 +116,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return true;
 		}
+		
 		public override void OnKill(NPC npc)
 		{
 			//Add extra blood on death.
@@ -125,6 +126,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				Bleed(npc, count);
 			}
 		}
+		
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit) => OnHit(npc);
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit) => OnHit(npc);
 
@@ -153,6 +155,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				disableNonBloodEffectSubscriptions--;
 			}
 		}
+		
 		private static void SpawnNewBlood(Vector2 position, Vector2 velocity, Color color)
 		{
 			SimpleEntity.Instantiate<BloodParticle>(p => {

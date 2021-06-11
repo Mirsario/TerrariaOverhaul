@@ -30,6 +30,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return true;
 		}
+		
 		public override bool? CanHitNPC(NPC npc, NPC target)
 			=> AttackCooldown > 0 ? false : (bool?)null;
 		public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)

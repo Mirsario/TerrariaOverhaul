@@ -43,6 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return true;
 		}
+		
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
 			if(usedDrawScaleMultiplier.HasValue) {

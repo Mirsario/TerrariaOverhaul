@@ -13,10 +13,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			On.Terraria.Player.JumpMovement += JumpMovement;
 		}
+		
 		public override void PostUpdate()
 		{
 			JumpKeyBuffer = MathUtils.StepTowards(JumpKeyBuffer, 0f, TimeSystem.LogicDeltaTime);
 		}
+		
 		public override void SetControls()
 		{
 			if(Player.controlJump && Player.releaseJump && Player.velocity.Y != 0f) {

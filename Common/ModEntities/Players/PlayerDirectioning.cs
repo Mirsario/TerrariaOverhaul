@@ -31,6 +31,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
 			};
 		}
+		
 		public override void PreUpdate() => SetDirection(true);
 		public override void PostUpdate() => SetDirection();
 		public override bool PreItemCheck()

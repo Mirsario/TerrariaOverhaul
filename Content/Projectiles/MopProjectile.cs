@@ -15,6 +15,7 @@ namespace TerrariaOverhaul.Content.Projectiles
 			Projectile.width = 16;
 			Projectile.height = 16;
 		}
+		
 		public override void PostAI()
 		{
 			base.PostAI();

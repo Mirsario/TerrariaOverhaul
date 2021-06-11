@@ -40,6 +40,7 @@ namespace TerrariaOverhaul.Common.SoundStyles
 
 			return Factor <= 0.5f ? instanceA : instanceB;
 		}
+		
 		public override SoundEffect GetRandomSound() => throw new NotImplementedException();
 	}
 }

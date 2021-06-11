@@ -256,6 +256,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				applyLowPassFilteringFunc(instance, 1f - (parameters.LowPassFiltering * 0.9f));
 			}
 		}
+		
 		private static bool UpdateSoundData(ref SoundInstanceData data, bool fullUpdate)
 		{
 			if(!data.Instance.TryGetTarget(out var instance) || instance.IsDisposed || instance.State != SoundState.Playing) {
@@ -282,6 +283,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 			return true;
 		}
+		
 		private static void UpdateSoundOcclusion(ref SoundInstanceData data)
 		{
 			Vector2? soundPosition;
@@ -305,6 +307,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 			data.targetLocalLowPassFiltering = occlusion;
 		}
+		
 		private static float CalculateSoundOcclusion(Vector2Int position)
 		{
 			int occludingTiles = 0;

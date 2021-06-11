@@ -22,6 +22,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		{
 			return LifeTypes.Contains(item.type);
 		}
+		
 		public override float GetPickupRange(Item item, Player player)
 		{
 			float range = 160f;
@@ -32,6 +33,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			return range;
 		}
+		
 		public override bool IsNeededByPlayer(Item item, Player player)
 		{
 			return player.statLife < player.statLifeMax2;
@@ -45,6 +47,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			player.HealEffect(bonus);
 		}
+		
 		public override void PostUpdate(Item item)
 		{
 			base.PostUpdate(item);

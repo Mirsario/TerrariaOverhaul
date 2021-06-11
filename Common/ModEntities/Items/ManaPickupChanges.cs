@@ -22,6 +22,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		{
 			return ManaTypes.Contains(item.type);
 		}
+		
 		public override void PostUpdate(Item item)
 		{
 			base.PostUpdate(item);
@@ -30,6 +31,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 				Lighting.AddLight(item.Center, Vector3.UnitX * GetIntensity(item));
 			}
 		}
+		
 		public override void OnPickupReal(Item item, Player player)
 		{
 			int bonus = item.stack * ManaPerPickup;
@@ -38,6 +40,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			player.ManaEffect(bonus);
 		}
+		
 		public override float GetPickupRange(Item item, Player player)
 		{
 			float range = 192f;
@@ -48,6 +51,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			return range;
 		}
+		
 		public override bool IsNeededByPlayer(Item item, Player player)
 		{
 			return player.statMana < player.statManaMax2;

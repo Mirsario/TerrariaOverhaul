@@ -43,6 +43,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 			decalsToAdd = new Dictionary<BlendState, List<DecalInfo>>();
 		}
+		
 		public override void OnDispose(Chunk chunk)
 		{
 			if(texture != null) {
@@ -51,6 +52,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				texture = null;
 			}
 		}
+		
 		public override void PreGameDraw(Chunk chunk)
 		{
 			//Add pending decals
@@ -80,6 +82,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			decalsToAdd.Clear();
 		}
+		
 		public override void PostDrawTiles(Chunk chunk, SpriteBatch sb)
 		{
 			//Render the RT in the world

@@ -27,10 +27,12 @@ namespace TerrariaOverhaul.Content.Items.Tools
 			Item.height = 48;
 			Item.value = Item.sellPrice(0, 0, 0, 5);
 		}
+		
 		public override bool CanUseItem(Player player)
 		{
 			return player.ownedProjectileCounts[Item.shoot] < 1;
 		}
+		
 		public override void AddRecipes() => this.CreateRecipe(r => {
 			r.AddIngredient(ItemID.Wood, 5);
 			r.AddTile(TileID.WorkBenches);

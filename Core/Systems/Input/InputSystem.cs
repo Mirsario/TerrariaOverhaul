@@ -14,6 +14,7 @@ namespace TerrariaOverhaul.Core.Systems.Input
 		{
 			PostUpdateInput();
 		}
+		
 		public override void PostUpdateInput()
 		{
 			mouseStatePrev = mouseState;

@@ -30,6 +30,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 		{
 			bloodColorRecordingLists = new List<List<Color>>();
 		}
+		
 		public override void Unload()
 		{
 			if(bloodColorRecordingLists != null) {
@@ -54,6 +55,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 				bloodColorRecordingLists[i].Add(color);
 			}
 		}
+		
 		public override void Update()
 		{
 			//Track old positions.
@@ -63,6 +65,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 			base.Update();
 		}
+		
 		public override void Draw(SpriteBatch sb)
 		{
 			if(Vector2.DistanceSquared(position, CameraSystem.ScreenCenter) > Main.screenWidth * Main.screenWidth * 2 || position.HasNaNs()) {
@@ -92,6 +95,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 			DecalSystem.AddDecals(position + velocity.SafeNormalize(default) * Main.rand.NextFloat(5f), color);
 		}
+		
 		protected override void OnDestroyed(bool allowEffects)
 		{
 			base.OnDestroyed(allowEffects);

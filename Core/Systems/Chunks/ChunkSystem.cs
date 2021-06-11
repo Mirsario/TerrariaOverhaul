@@ -19,6 +19,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 			Main.OnPreDraw += OnPreDraw;
 		}
+		
 		public override void Unload()
 		{
 			if(chunks != null) {
@@ -83,6 +84,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 			return EnumerateChunksInArea(player.position.ToTileCoordinates(), areaSize, instantiate);
 		}
+		
 		public static IEnumerable<Chunk> EnumerateChunksInArea(Vector2Int tileCenter, int areaSize, bool instantiate)
 		{
 			Vector2Int chunkCenter = TileToChunkCoordinates(tileCenter);

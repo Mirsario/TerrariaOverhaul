@@ -38,10 +38,12 @@ namespace TerrariaOverhaul.Common.Systems.DamageSources
 				CurrentDamageSource = oldSource;
 			};
 		}
+		
 		public override void Unload()
 		{
 			CurrentDamageSource = null;
 		}
+		
 		public override void PostUpdateEverything()
 		{
 			CurrentDamageSource = null; //Reset just in case exceptions screw something over.
