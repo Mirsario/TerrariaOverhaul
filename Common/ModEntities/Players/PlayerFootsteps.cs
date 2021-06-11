@@ -1,12 +1,15 @@
 ﻿using Terraria;
 using TerrariaOverhaul.Common.Systems.Footsteps;
 using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerFootsteps : PlayerBase
 	{
+		public static readonly ConfigEntry<bool> EnablePlayerFootsteps = new(ConfigSide.ClientOnly, "Ambience", nameof(EnablePlayerFootsteps), () => true);
+
 		private const double FootstepCooldown = 0.1;
 
 		private byte stepState;
@@ -14,7 +17,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostItemCheck()
 		{
-			if(Main.dedServ) {
+			if(Main.dedServ || !EnablePlayerFootsteps.Value) {
 				return;
 			}
 

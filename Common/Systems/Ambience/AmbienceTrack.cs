@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Common.Systems.Ambience
 
 		public virtual float VolumeChangeSpeed => 0.5f;
 
-		private bool ShouldBeActive => Volume > 0f;
+		private bool ShouldBeActive => Volume > 0f && AmbienceSystem.EnableAmbientSounds.Value;
 
 		public abstract void Initialize();
 		public abstract float GetTargetVolume(Player localPlayer);

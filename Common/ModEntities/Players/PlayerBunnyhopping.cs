@@ -1,9 +1,12 @@
-﻿using TerrariaOverhaul.Utilities.Extensions;
+﻿using TerrariaOverhaul.Core.Systems.Configuration;
+using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerBunnyhopping : PlayerBase
 	{
+		public static readonly ConfigEntry<bool> EnableBunnyhopping = new(ConfigSide.ClientOnly, "PlayerMovement", nameof(EnableBunnyhopping), () => true);
+
 		public static float DefaultBoost => 0.8f;
 
 		public float boost;
@@ -17,6 +20,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostItemCheck()
 		{
+			if(!EnableBunnyhopping.Value) {
+				return;
+			}
+
 			bool onGround = Player.OnGround();
 			bool wasOnGround = Player.WasOnGround();
 

@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Systems.Chunks;
+using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -15,6 +16,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 	public sealed class DecalSystem : ModSystem
 	{
 		public static readonly BlendState DefaultBlendState = BlendState.AlphaBlend;
+		public static readonly ConfigEntry<bool> EnableDecals = new(ConfigSide.ClientOnly, "BloodAndGore", nameof(EnableDecals), () => true);
 
 		public static Asset<Effect> BloodShader { get; private set; }
 
@@ -46,7 +48,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 		
 		public static void AddDecals(Texture2D texture, Rectangle dest, Color color, bool ifChunkExists = false, BlendState blendState = null)
 		{
-			if(Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
+			if(Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode || !EnableDecals.Value) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
 				return;
 			}
 
