@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Footsteps;
 using TerrariaOverhaul.Common.Tags;
+using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -14,41 +15,51 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	//This class implements both wall jumps and wall rolls.
 	public class PlayerWallJumps : ModPlayer
 	{
+		public static readonly ConfigEntry<bool> EnableWallJumping = new(ConfigSide.Both, "PlayerMovement", nameof(EnableWallJumping), () => true);
+		public static readonly ConfigEntry<bool> EnableWallFlips = new(ConfigSide.Both, "PlayerMovement", nameof(EnableWallFlips), () => true);
+
 		public const float MinSpeedForWallRoll = 3f;
 
 		public override bool PreItemCheck()
 		{
+			TryDoingWallJumps();
+
+			return true;
+		}
+
+		private void TryDoingWallJumps()
+		{
 			if(!Player.IsLocal() || Player.mount.Active || Player.pulley || Player.EnumerateGrapplingHooks().Any()) {
-				return true;
+				return;
 			}
 
+			var playerDodgerolls = Player.GetModPlayer<PlayerDodgerolls>();
 			var playerMovement = Player.GetModPlayer<PlayerMovement>();
 
-			if(playerMovement.velocityRecord == null) {
-				return true;
+			if(playerDodgerolls.isDodging || playerMovement.velocityRecord == null) {
+				return;
 			}
-
-			var ordereredVelocityRecord = playerMovement.velocityRecord.OrderBy(q => q.X);
-			sbyte prevDirX = Player.oldVelocity.X > 0f ? (sbyte)1 : (sbyte)-1;
-			float fastestSpeed = prevDirX < 0 ? ordereredVelocityRecord.First().X : ordereredVelocityRecord.Last().X;
 
 			//Ninja jumps are executed by looking away from a wall while touching it and pressing movement towards it.
 			//They do not trigger dodgerolls.
 			bool ninjaJump = Player.controlUp && Player.EnumerateAccessories().Any(tuple => OverhaulItemTags.NinjaGear.Has(tuple.item.type));
 
-			//Return if the player didn't JUST hit a wall, or if they're standing on the ground.
-			if(Player.velocity.X != 0f || Player.oldVelocity.X == 0f || Player.OnGround()) {
-				return true;
+			if(!(ninjaJump ? EnableWallJumping : EnableWallFlips)) {
+				return;
 			}
 
-			var playerDodgerolls = Player.GetModPlayer<PlayerDodgerolls>();
+			var ordereredVelocityRecord = playerMovement.velocityRecord.OrderBy(q => q.X);
 
-			if(playerDodgerolls.isDodging) {
-				return true;
+			sbyte prevDirX = Player.oldVelocity.X > 0f ? 1 : -1;
+			float fastestSpeed = prevDirX < 0 ? ordereredVelocityRecord.First().X : ordereredVelocityRecord.Last().X;
+
+			//Return if the player didn't JUST hit a wall, or if they're standing on the ground.
+			if(Player.velocity.X != 0f || Player.oldVelocity.X == 0f || Player.OnGround()) {
+				return;
 			}
 
 			if((Math.Abs(fastestSpeed) < MinSpeedForWallRoll && !ninjaJump) || Player.direction != (ninjaJump ? -prevDirX : prevDirX) || Player.KeyDirection() != (ninjaJump ? 0 : -Player.direction)) {
-				return true;
+				return;
 			}
 
 			var tilePos = Player.position.ToTileCoordinates();
@@ -57,17 +68,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			if(ninjaJump) {
 				if(!TileCheckUtils.CheckIfAllBlocksAreSolid(tilePos.X + (Player.direction == 1 ? -1 : 2), tilePos.Y + 1, 1, 2)) {
-					return true;
+					return;
 				}
 			} else {
 				if(!TileCheckUtils.CheckIfAllBlocksAreSolid(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + 1, 1, 2)) {
-					return true;
+					return;
 				}
 			}
 
 			Player.velocity.X = ninjaJump ? 5f * -prevDirX : -(fastestSpeed * 0.75f);
 			Player.velocity.Y = Math.Min(Player.velocity.Y, ninjaJump ? -7.45f : -8f);
-			//lastRealJumpPress = Main.GlobalTime;
 
 			if(!Main.dedServ) {
 				//Play voicelines.
@@ -103,8 +113,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			/*if(Main.netMode != NetmodeID.SinglePlayer) {
 				MultiplayerSystem.SendPacket(new PlayerSetVelocityMessage(player, player.velocity));
 			}*/
-
-			return true;
 		}
 	}
 }
