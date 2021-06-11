@@ -34,6 +34,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 					var modPlayer = player.GetModPlayer<PlayerHoldOutAnimation>();
 
 					player.itemRotation = ConvertRotation(modPlayer.directItemRotation, player) - MathHelper.ToRadians(modPlayer.visualRecoil * player.direction * (int)player.gravDir);
+
+					//Fix rotation range.
+					if(player.itemRotation > MathHelper.Pi) {
+						player.itemRotation -= MathHelper.TwoPi;
+					}
+
+					if(player.itemRotation < -MathHelper.Pi) {
+						player.itemRotation += MathHelper.TwoPi;
+					}
 				}
 			};
 
