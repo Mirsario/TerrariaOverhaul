@@ -1,13 +1,14 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerRotation : PlayerBase
 	{
-		private const float GlobalRotationOffsetScale = 0.025f;
+		public static readonly ConfigEntry<bool> EnablePlayerTilting = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnablePlayerTilting), () => true);
 
 		public float rotation;
 		public float rotationOffsetScale;
@@ -23,11 +24,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		
 		public override void PostUpdate()
 		{
-			if(rotationOffsetScale != 0f) {
+			if(rotationOffsetScale != 0f && EnablePlayerTilting.Value) {
 				float movementRotation;
 
 				if(Player.OnGround()) {
-					movementRotation = Player.velocity.X * (Player.velocity.X < Main.MouseWorld.X ? 1f : -1f) * GlobalRotationOffsetScale;
+					movementRotation = Player.velocity.X * (Player.velocity.X < Main.MouseWorld.X ? 1f : -1f) * 0.025f;
 				} else {
 					movementRotation = MathHelper.Clamp(Player.velocity.Y * Math.Sign(Player.velocity.X) * -0.015f, -0.4f, 0.4f);
 				}
