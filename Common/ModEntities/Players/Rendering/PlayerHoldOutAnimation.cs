@@ -5,11 +5,14 @@ using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Core.Systems.Configuration;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 {
 	public sealed class PlayerHoldOutAnimation : PlayerBase
 	{
+		public static readonly ConfigEntry<bool> AlwaysShowAimableWeapons = new(ConfigSide.Both, "PlayerVisuals", nameof(AlwaysShowAimableWeapons), () => true);
+
 		public float visualRecoil;
 
 		private float directItemRotation;
@@ -47,7 +50,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			};
 
 			On.Terraria.Player.PlayerFrame += (orig, player) => {
-				if(ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0) {
+				if(ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
 					InvokeWithForcedAnimation(player, () => orig(player));
 					return;
 				}
@@ -58,7 +61,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			On.Terraria.DataStructures.PlayerDrawLayers.DrawPlayer_27_HeldItem += (On.Terraria.DataStructures.PlayerDrawLayers.orig_DrawPlayer_27_HeldItem orig, ref PlayerDrawSet drawInfo) => {
 				var player = drawInfo.drawPlayer;
 
-				if(ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0) {
+				if(ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
 					ForceAnim(player, out int itemAnim, out int itemAnimMax);
 
 					orig(ref drawInfo);
@@ -90,13 +93,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			}
 		}
 
-
 		private static bool ShouldForceUseAnim(Item item) => item.useStyle == ItemUseStyleID.Shoot && !item.noUseGraphic;
 
 		private static float ConvertRotation(float rotation, Player player)
 		{
 			if(player.direction < 0) {
-				return rotation - MathHelper.Pi;
+				rotation -= MathHelper.Pi;
 			}
 
 			return rotation;
