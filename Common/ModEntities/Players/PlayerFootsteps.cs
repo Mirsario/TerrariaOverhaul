@@ -41,7 +41,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				double time = TimeSystem.GlobalTime;
 
 				if(time - lastFootstepTime > FootstepCooldown && FootstepSystem.Footstep(Player, footstepType.Value)) {
-					stepState = (sbyte)(stepState == 0 ? 1 : 0);
+					stepState = (byte)(stepState == 0 ? 1 : 0);
 					lastFootstepTime = TimeSystem.GlobalTime;
 				}
 			}
