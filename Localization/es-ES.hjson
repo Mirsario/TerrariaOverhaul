@@ -3,154 +3,154 @@ Mods: {
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
-					//DisplayName: "Enable Ambient Sounds"
-					//Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
+					DisplayName: "Activar sonidos ambientales"
+					Description: "Activa bucles de audio ambiental, como pájaros, grillos, viento, sonidos de cuevas, etc."
 				}
 				
 				EnablePlayerFootsteps: {
-					//DisplayName: "Enable Player Footsteps"
-					//Description: "Toggles player character footstep audio"
+					DisplayName: "Activar sonido de pisadas"
+					Description: "Activa el audio de las pisadas del personaje del jugador."
 				}
 			}
 			
 			BloodAndGore: {
 				EnableDecals: {
-					//DisplayName: "Enable Decals"
-					//Description: "Toggles decals, also known as 'blood on tiles'."
+					DisplayName: "Activar sangre"
+					Description: "Activa la sangre sobre bloques."
 				}
 			}
 			
 			Camera: {
 				SmoothCamera: {
-					//DisplayName: "Smooth Camera"
-					//Description: "Interpolates the camera's movement to improve the feel of velocity."
+					DisplayName: "Cámara suave"
+					Description: "Interpola el movimiento de la cámara para mejorar la sensación de velocidad."
 				}
 				
 				ScreenShakeStrength: {
-					//DisplayName: "Screen Shake Strength"
-					//Description: "Controls the strength of screen shaking effects. Set this to zero to disable screen shakes completely."
+					DisplayName: "Fuerza de vibración de la pantalla"
+					Description: "Controla la intensidad de los efectos de vibración de la pantalla. Ajústalo a cero para desactivar por completo las sacudidas de pantalla causadas por terremotos."
 				}
 			}
 			
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
-					//DisplayName: "Enable Vertical Acceleration Changes"
-					//Description: "Toggle air friction and (almost) unlimited maximum fall speed."
+					DisplayName: "Activar cambios de aceleración vertical"
+					Description: "Cambia la fricción con el aire y la velocidad máxima de caída."
 				}
 				
 				EnableHorizontalAccelerationChanges: {
-					//DisplayName: "Enable Horizontal Acceleration Changes"
-					//Description: "Toggle changes to horizontal friction, run max speed and acceleration."
+					DisplayName: "Activar cambios de aceleración horizontal"
+					Description: "Cambia la fricción horizontal, la velocidad máxima de carrera y la aceleración."
 				}
 				
 				EnableBunnyhopping: {
-					//DisplayName: "Enable Bunnyhopping"
-					//Description: "Bunnyhopping gives you a slight horizontal boost every time you jump. Turning this off will disable certain accessories."
+					DisplayName: "Activar Salto de conejo"
+					Description: "El Salto de conejo otorga un ligero impulso horizontal cada vez que se salta. Si se desactiva, no funcionarán algunos accesorios."
 				}
 				
 				EnableClimbing: {
-					//DisplayName: "Enable Climbing"
-					//Description: "Climbing lets you reach new heights by holding the up button."
+					DisplayName: "Activar escalada"
+					Description: "Escalar permite alcanzar nuevas alturas manteniendo pulsado el botón de subir."
 				}
 				
 				EnableWallJumping: {
-					//DisplayName: "Enable Wall Jumping"
-					//Description: "Wall jumping is a new movement mechanic that requires climbing gear or spike shoes. It is done by hitting a wall with your back while holding the up button with horizontal movement buttons released."
+					DisplayName: "Activar Salto de pared"
+					Description: "El salto de pared es una nueva mecánica de movimiento que requiere equipo de escalada o zapatos de púa. Se realiza golpeando una pared con la espalda mientras se mantiene el botón de subida con los botones de movimiento horizontal sueltos."
 				}
 				
 				EnableWallFlips: {
-					//DisplayName: "Enable Wall Flips"
-					//Description: "A wall flip is a new movement mechanic that does not require any accessories. It is done by hitting a wall with your front with enough velocity while holding the horizontal movement opposite of the player's direction."
+					DisplayName: "Activar volteretas en paredes"
+					Description: "Las volteretas de pared son una nueva mecánica de movimiento que no requiere ningún accesorio. Se realizan golpeando una pared con la parte delantera con suficiente velocidad mientras se mantiene el movimiento horizontal en dirección contraria a la del jugador."
 				}
 			}
 			
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
-					//DisplayName: "Always Show Aimable Weapons"
-					//Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
+					DisplayName: "Mostrar siempre armas que puedan apuntar"
+					Description: "Cambia el estilo del uso de las armas con 'retención' para que sean visibles mientras no disparen."
 				}
 				
 				EnablePlayerHeadRotation: {
-					//DisplayName: "Enable Player Head Rotation"
-					//Description: "Toggles player characters looking at their cursors."
+					DisplayName: "Activar rotación de la cabeza del jugador"
+					Description: "Permite que el personaje del jugador mire al cursor."
 				}
 				
 				EnablePlayerTilting: {
-					//DisplayName: "Enable Player Tilting"
-					//Description: "Toggles player characters being slightly tilted based on their velocity. This makes them look a lot more alive."
+					DisplayName: "Activar inclinación del jugador"
+					Description: "Permite que el personaje del jugador esté ligeramente inclinado en función de su velocidad. Aumenta su realismo."
 				}
 			}
 		}
 		
 		Seasons: {
 			Spring: {
-				//Name: "Spring"
+				Name: "Primavera"
 			}
 
 			Summer: {
-				//Name: "Summer"
+				Name: "Verano"
 			}
 
 			Autumn: {
-				//Name: "Autumn"
+				Name: "Otoño"
 			}
 
 			Winter: {
-				//Name: "Winter"
+				Name: "Invierno"
 			}
 
-			//SelectSeason: "Select starting season:"
-			//CalendarCurrentSeason: "It's currently {SeasonName}."
-			//CalendarNextSeasonDays: "{SeasonName} will arrive in {NumDays} days."
-			//CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
+			SelectSeason: "Elige la estación de inicio:"
+			CalendarCurrentSeason: "Ahora es {SeasonName}."
+			CalendarNextSeasonDays: "La estación de {SeasonName} llegará en {NumDays} día/s."
+			CalendarNextSeasonTomorrow: "¡Mañana será {SeasonName}!"
 		}
 		
 		ItemOverhauls: {
 			Melee: {
 				Broadsword: {
-					//KillingBlow: "Killing Blow!"
-					/*KillingBlowInfo: 
+					KillingBlow: "¡Golpe crítico!"
+					KillingBlowInfo: 
 						'''
-						Charged strikes can deal Killing Blows to damaged enemies
-						Killing Blows double damage whenever that would finish the enemy
-						'''*/
+						Los golpes cargados pueden infligir golpes críticos a los enemigos dañados
+						Los golpes críticos duplican el daño siempre que acaben con el enemigo
+						'''
 				}
 				
-				//AirCombatInfo: "Attacking enemies mid-air launches you towards them"
-				//VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
+				AirCombatInfo: "Atacar a los enemigos en el aire te lanza hacia ellos"
+				VelocityBasedDamageInfo: "El daño puede aumentar con la velocidad del jugador, se recomienda correr"
 			}
 		}
 		
 		CommonTooltips: {
-			//ShowCombatInfo: "[Hold {Key} to show combat information]"
-			//CombatInfo: "[Combat Information]"
+			ShowCombatInfo: "[Mantén la tecla {Key} para mostrar información de combate]"
+			CombatInfo: "[Información de combate]"
 		}
 		
 		DeathText: {
-			//Zombified: "And then {PlayerName} was a zombie."
-			//ZombifiedScreenText: "You became a zombie..."
-			//ZombifiedName: "{PlayerName} the Zombie"
-			//Lightning: "{PlayerName} was struck by lightning. Ouch!"
+			Zombified: "Y entonces {PlayerName} se convirtió en un zombi."
+			ZombifiedScreenText: "Te has convertido en un zombi..."
+			ZombifiedName: "{PlayerName}, el Zombie"
+			Lightning: "{PlayerName} ha sido alcanzado por un rayo. ¡Au!"
 		}
 		
 		ItemName: {
 			//Accessories
-			//BunnyPaw: "Bunny Paw"
+			BunnyPaw: "Pata de conejo"
 			
 			//Materials
-			//Charcoal: "Charcoal"
+			Charcoal: "Carbón vegetal"
 			
 			//Placeables
-			//Calendar: "Calendar"
-			//Gramophone: "Gramophone"
+			Calendar: "Calendario"
+			Gramophone: "Gramófono"
 			
 			//Consumables
-			//MusicDisc: Music Disc
+			MusicDisc: "Disco de música"
 			
 			//Tools
-			//Mop: "Mop"
-			//StoneAxe: "Stone Axe"
-			//StonePickaxe: "Stone Pickaxe"
+			Mop: "Mopa"
+			StoneAxe: "Hacha de piedra"
+			StonePickaxe: "Pico de piedra"
 			
 			//Unused
 			/*
@@ -174,26 +174,26 @@ Mods: {
 
 		ItemTooltip: {
 			//Accessories
-			//BunnyPaw: "Increases bunnyhop speed boost"
+			BunnyPaw: "Incrementa la velocidad de salto"
 			
 			//Materials
-			//Charcoal: "It's still warm"
+			Charcoal: "Aún está caliente"
 			
 			//Placeables
-			/*Calendar:
+			Calendar:
 				'''
-				Counts amount of days left until the next season
-				Right click after placing to use it
-				'''*/
-			//Gramophone: "Plays music discs"
+				Cuenta los días restantes para la siguiente estación
+				Haz clic derecho sobre él tras colocarlo para leerlo
+				'''
+			Gramophone: "Toca discos de música"
 			
 			//Consumables
-			//MusicDisc: Can be played in a gramophone
+			MusicDisc: "Puede reproducirse en un gramófono"
 			
 			//Tools
-			//Mop: "Keeps your house clean of guts and shredded eyeballs"
-			//StoneAxe: "Wood is probably stronger than this"
-			//StonePickaxe: "Great against dirt!"
+			Mop: "Mantiene tu hogar limpio de tripas y ojos triturados"
+			StoneAxe: "Probablemente menos resistente que la madera"
+			StonePickaxe: "¡Excelente contra la tierra!"
 			
 			//Unused
 			/*
@@ -202,7 +202,7 @@ Mods: {
 				Deals no damage
 				Used by Rocket Jumper
 				'''
-			HaxxCostume: Overhaul contributor's item
+			HaxxCostume: "Overhaul contributor's item"
 			ImpactBomb:
 				'''
 				A small explosion that will destroy tiles
@@ -233,9 +233,9 @@ Mods: {
 				Can be used to make impact explosives
 				[c/ff0000:CAUSE RED GOEZ FASTA!!!]
 				'''
-			RepairKit1: Used for repair of some primitive weapons and tools
-			RepairKit2: Used for repair of advanced weapons and tools.
-			RepairTable: Right click after placing to repair your items
+			RepairKit1: "Used for repair of some primitive weapons and tools"
+			RepairKit2: "Used for repair of advanced weapons and tools."
+			RepairTable: "Right click after placing to repair your items"
 			RocketJumper:
 				'''
 				Fires training rockets that deal no damage
@@ -257,19 +257,19 @@ Mods: {
 		}
 		
 		NPCName: {
-			//AshSlime: "Ash Clot"
-			//AshZombie: "Walking Ashes"
-			//FlyingPiranha: "Flying Piranha"
-			//FlyingShark: "Flying Shark"
-			//FlyingTree: "Flying Tree"
+			AshSlime: "Coágulo de cenizas"
+			AshZombie: "Cenizas andantes"
+			FlyingPiranha: "Piraña voladora"
+			FlyingShark: "Tiburón volador"
+			FlyingTree: "Árbol volador"
 		}
 		
 		BuffName: {
-			//ManaChannelling: "Mana Channelling"
+			ManaChannelling: "Canalización de maná"
 		}
 		
 		BuffDescription: {
-			//ManaChannelling: "Your patience is increasing your mana regeneration"
+			ManaChannelling: "Tu paciencia está aumentando tu regeneración de maná"
 		}
 	}
 }
