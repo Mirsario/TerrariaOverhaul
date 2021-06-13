@@ -1,0 +1,275 @@
+Mods: {
+	TerrariaOverhaul: {
+		Configuration: {
+			Ambience: {
+				EnableAmbientSounds: {
+					DisplayName: "Включить атмосферные звуки"
+					Description: "Переключение зацикленных атмосферных звуков, например птиц, сверчков, ветра, пещер, и т.п."
+				}
+				
+				EnablePlayerFootsteps: {
+					DisplayName: "Включить звуки шагов игроков"
+					Description: "Переключение проигрывание звуков шагов у играбельных персонажей."
+				}
+			}
+			
+			BloodAndGore: {
+				EnableDecals: {
+					DisplayName: "Включить декали"
+					Description: "Переключение декалей, также известных как 'кровь на блоках'."
+				}
+			}
+			
+			Camera: {
+				SmoothCamera: {
+					DisplayName: "Включить плавную камеру"
+					Description: "Интерполирование движений камеры для кинематографичности и улучшения чувствования скорости."
+				}
+				
+				ScreenShakeStrength: {
+					DisplayName: "Сила тряски камеры"
+					Description: "Управление силой эффектов, трясущих камеру. Поставьте это на ноль, чтобы полностью отключить любую тряску."
+				}
+			}
+			
+			PlayerMovement: {
+				EnableVerticalAccelerationChanges: {
+					DisplayName: "Включить изменения вертикального ускорения"
+					Description: "Переключение трения в воздухе при падении, и (почти) полного удаления ограничения на скорость падения."
+				}
+				
+				EnableHorizontalAccelerationChanges: {
+					DisplayName: "Включить изменения горизонтального ускорения"
+					Description: "Переключение изменений в горизонтальном трении, максимальной скорости и разгона бега."
+				}
+				
+				EnableBunnyhopping: {
+					DisplayName: "Включить баннихоппинг"
+					Description: "Баннихоппинг - это маленький горизонтальный разгон, что вы получаете при каждом прыжке. Отключение этой опции отключит некоторые аксессуары."
+				}
+				
+				EnableClimbing: {
+					DisplayName: "Включить карабканье"
+					Description: "Карабканье позволяет вам взбираться на новые высоты, держа кнопку 'вверх'."
+				}
+				
+				EnableWallJumping: {
+					DisplayName: "Включить прыжки от стен"
+					Description: "Прыжки от стен - это новая механика движения, требующая альпинистские когти или шипы на ботинки. Они осуществляются путем касания стены задней стороной персонажа, пока вы держите кнопку 'вверх', при этом не держа кнопки горизонтального движения."
+				}
+				
+				EnableWallFlips: {
+					DisplayName: "Включить кувырки от стен"
+					Description: "Сальто от стен - это новая механика движения, которая не требует никаких аксессуаров. Они осуществляются путем касания стены передней стороной персонажа с достаточной горизонтальной скоростью, пока вы держите кнопку горизонтального движения, противоположную от направления персонажа."
+				}
+			}
+			
+			PlayerVisuals: {
+				AlwaysShowAimableWeapons: {
+					DisplayName: "Всегда показывать направляемое оружие"
+					Description: "Переключение постоянного отображения оружия с стилем использования как у огнестрельного, даже вне использования."
+				}
+				
+				EnablePlayerHeadRotation: {
+					DisplayName: "Включить поворот голов персонажей игроков"
+					Description: "Если включено, то головы персонажей игроков будут поворачиваться на их курсоры."
+				}
+				
+				EnablePlayerTilting: {
+					DisplayName: "Включить наклон персонажей игроков"
+					Description: "Если включено, персонажи игроков будут немного наклоняться в зависимости от их скорости. Это заставляет их выглядеть чучуть живее, и добавляет чувство скорости."
+				}
+			}
+		}
+		
+		Seasons: {
+			Spring: {
+				Name: "Весна"
+			}
+
+			Summer: {
+				Name: "Лето"
+			}
+
+			Autumn: {
+				Name: "Осень"
+			}
+
+			Winter: {
+				Name: "Зима"
+			}
+
+			SelectSeason: "Выберете стартовое время года:"
+			CalendarCurrentSeason: "В данный момент {SeasonName}."
+			//CalendarNextSeasonDays: "{SeasonName} наступит через {NumDays} дней."
+			//CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
+		}
+		
+		ItemOverhauls: {
+			Melee: {
+				Broadsword: {
+					//KillingBlow: "Killing Blow!"
+					/*KillingBlowInfo: 
+						'''
+						Charged strikes can deal Killing Blows to damaged enemies
+						Killing Blows double damage whenever that would finish the enemy
+						'''*/
+				}
+				
+				//AirCombatInfo: "Attacking enemies mid-air launches you towards them"
+				//VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
+			}
+		}
+		
+		CommonTooltips: {
+			//ShowCombatInfo: "[Hold {Key} to show combat information]"
+			//CombatInfo: "[Combat Information]"
+		}
+		
+		DeathText: {
+			//Zombified: "And then {PlayerName} was a zombie."
+			//ZombifiedScreenText: "You became a zombie..."
+			//ZombifiedName: "{PlayerName} the Zombie"
+			//Lightning: "{PlayerName} was struck by lightning. Ouch!"
+		}
+		
+		ItemName: {
+			//Accessories
+			//BunnyPaw: "Bunny Paw"
+			
+			//Materials
+			//Charcoal: "Charcoal"
+			
+			//Placeables
+			//Calendar: "Calendar"
+			//Gramophone: "Gramophone"
+			
+			//Consumables
+			//MusicDisc: Music Disc
+			
+			//Tools
+			//Mop: "Mop"
+			//StoneAxe: "Stone Axe"
+			//StonePickaxe: "Stone Pickaxe"
+			
+			//Unused
+			/*
+			HarmlessRocket: Harmless Rocket
+			HaxxCostume: Jade's Birb Disguise
+			ImpactBomb: Impact Bomb
+			ImpactDynamite: Impact Dynamite
+			ImpactGrenade: Impact Grenade
+			LightningRod: Lightning Rod
+			RedGel: Red Gel
+			RepairKit1: Primitive Repair Kit
+			RepairKit2: Goblin Repair Kit
+			RepairTable: Repair Table
+			RocketJumper: Rocket Jumper
+			SleepingPotion: Sleeping Potion
+			SmokeDetector: Smoke Detector
+			SuperShotgun: Super Shotgun
+			WaterArrow: Water Arrow
+			*/
+		}
+
+		ItemTooltip: {
+			//Accessories
+			//BunnyPaw: "Increases bunnyhop speed boost"
+			
+			//Materials
+			//Charcoal: "It's still warm"
+			
+			//Placeables
+			/*Calendar:
+				'''
+				Counts amount of days left until the next season
+				Right click after placing to use it
+				'''*/
+			//Gramophone: "Plays music discs"
+			
+			//Consumables
+			//MusicDisc: Can be played in a gramophone
+			
+			//Tools
+			//Mop: "Keeps your house clean of guts and shredded eyeballs"
+			//StoneAxe: "Wood is probably stronger than this"
+			//StonePickaxe: "Great against dirt!"
+			
+			//Unused
+			/*
+			HarmlessRocket:
+				'''
+				Deals no damage
+				Used by Rocket Jumper
+				'''
+			HaxxCostume: Overhaul contributor's item
+			ImpactBomb:
+				'''
+				A small explosion that will destroy tiles
+				[c/ff0000:Explodes on impact]
+				'''
+			ImpactDynamite:
+				'''
+				A large explosion that will destroy most tiles
+				[c/ff0000:Explodes on impact]
+				'''
+			ImpactGrenade:
+				'''
+				A small explosion that will not destroy tiles
+				Explodes on impact
+				'''
+			LightningRod:
+				'''
+				Attracts lightning, saves your life
+				[c/ff0000:Place on non-flammable blocks]
+				'''
+			OnyxCell:
+				'''
+				Used by Onyx Blaster 9000
+				Extremely illegal
+				'''
+			RedGel:
+				'''
+				Can be used to make impact explosives
+				[c/ff0000:CAUSE RED GOEZ FASTA!!!]
+				'''
+			RepairKit1: Used for repair of some primitive weapons and tools
+			RepairKit2: Used for repair of advanced weapons and tools.
+			RepairTable: Right click after placing to repair your items
+			RocketJumper:
+				'''
+				Fires training rockets that deal no damage
+				Great for rocket jump training!
+				'''
+			SleepingPotion:
+				'''
+				Lets you sleep during daytime
+				10 minute duration
+				'''
+			SmokeDetector:
+				'''
+				Sends a signal output whenever there's a fire near
+				Right click to toggle modes
+				'''
+			SuperShotgun: They're all doomed
+			WaterArrow: Creates a small water explosion which knocks enemies back
+			*/
+		}
+		
+		NPCName: {
+			//AshSlime: "Ash Clot"
+			//AshZombie: "Walking Ashes"
+			//FlyingPiranha: "Flying Piranha"
+			//FlyingShark: "Flying Shark"
+			//FlyingTree: "Flying Tree"
+		}
+		
+		BuffName: {
+			//ManaChannelling: "Mana Channelling"
+		}
+		
+		BuffDescription: {
+			//ManaChannelling: "Your patience is increasing your mana regeneration"
+		}
+	}
+}
