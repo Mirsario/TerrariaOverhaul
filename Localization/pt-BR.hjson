@@ -3,154 +3,154 @@ Mods: {
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
-					//DisplayName: "Enable Ambient Sounds"
-					//Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
+					//DisplayName: "Ativar Ambientação Sonora"
+					//Description: "Ativa repetição de audio de ambiência, como pássaros, gafanhotos, vento, sons de cavernas, etc."
 				}
 				
 				EnablePlayerFootsteps: {
-					//DisplayName: "Enable Player Footsteps"
-					//Description: "Toggles player character footstep audio"
+					//DisplayName: "Ativar sons de passos"
+					//Description: "Ativa audio de passos do personagem do jogador"
 				}
 			}
 			
 			BloodAndGore: {
 				EnableDecals: {
-					//DisplayName: "Enable Decals"
-					//Description: "Toggles decals, also known as 'blood on tiles'."
+					//DisplayName: "Ativar manchas"
+					//Description: "Ativa manchas, também conhecidas como 'sangue nos blocos'."
 				}
 			}
 			
 			Camera: {
 				SmoothCamera: {
-					//DisplayName: "Smooth Camera"
-					//Description: "Interpolates the camera's movement to improve the feel of velocity."
+					//DisplayName: "Câmera Suave"
+					//Description: "Interpola o movimento da câmera para melhorar a sensação de velocidade."
 				}
 				
 				ScreenShakeStrength: {
-					//DisplayName: "Screen Shake Strength"
-					//Description: "Controls the strength of screen shaking effects. Set this to zero to disable screen shakes completely."
+					//DisplayName: "Intensidade do Chacoalhar da Tela"
+					//Description: "Controla a intensidade dos efeitos de vibração da tela. Deixe em zero para desligar as vibrações por completo."
 				}
 			}
 			
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
-					//DisplayName: "Enable Vertical Acceleration Changes"
-					//Description: "Toggle air friction and (almost) unlimited maximum fall speed."
+					//DisplayName: "Ativar mudanças na Aceleração Vertical"
+					//Description: "Ativa fricção com ar e velocidade de queda (quase) infinita."
 				}
 				
 				EnableHorizontalAccelerationChanges: {
-					//DisplayName: "Enable Horizontal Acceleration Changes"
-					//Description: "Toggle changes to horizontal friction, run max speed and acceleration."
+					//DisplayName: "Ativar mudanças na Aceleração Horizontal"
+					//Description: "Ativa mudanças na fricção horizontal, velocidade de máxima e aceleração de corrida."
 				}
 				
 				EnableBunnyhopping: {
-					//DisplayName: "Enable Bunnyhopping"
-					//Description: "Bunnyhopping gives you a slight horizontal boost every time you jump. Turning this off will disable certain accessories."
+					//DisplayName: "Ativar Saltitar"
+					//Description: "Saltitar da a você um pequeno impulso horizontal quando pular. Desligar isso irá desabilitar alguns acessórios."
 				}
 				
 				EnableClimbing: {
-					//DisplayName: "Enable Climbing"
-					//Description: "Climbing lets you reach new heights by holding the up button."
+					//DisplayName: "Ativar Escalada"
+					//Description: "Escalar faz com que você consiga alcançar lugares mais altos pressionando o botão de subir."
 				}
 				
 				EnableWallJumping: {
-					//DisplayName: "Enable Wall Jumping"
-					//Description: "Wall jumping is a new movement mechanic that requires climbing gear or spike shoes. It is done by hitting a wall with your back while holding the up button with horizontal movement buttons released."
+					//DisplayName: "Ativar o Salto entre Paredes"
+					//Description: "Salto entre paredes é uma nova mecânica que requer equipamento de escalada ou espeto para sapatos. Feito atingindo uma parede com as costas segurando o botão 'para cima' com botões de movimento horizontal soltos."
 				}
 				
 				EnableWallFlips: {
-					//DisplayName: "Enable Wall Flips"
-					//Description: "A wall flip is a new movement mechanic that does not require any accessories. It is done by hitting a wall with your front with enough velocity while holding the horizontal movement opposite of the player's direction."
+					//DisplayName: "Ativar Cambalhotas em Paredes"
+					//Description: "Uma cambalhota na parede é uma nova mecânica de movimento que não requer qualquer acessório. Feita atingindo uma parede de frente com velocidade o suficiente enquanto mantendo o movimento horizontal oposto a direção do jogador."
 				}
 			}
 			
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
-					//DisplayName: "Always Show Aimable Weapons"
-					//Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
+					//DisplayName: "Sempre mostrar Armas com Mira"
+					//Description: "Permite armas com o estilo de uso 'empunhando' serem visíveis quando não atirando."
 				}
 				
 				EnablePlayerHeadRotation: {
-					//DisplayName: "Enable Player Head Rotation"
-					//Description: "Toggles player characters looking at their cursors."
+					//DisplayName: "Ativar Rotação da Cabeça do Jogador"
+					//Description: "Faz com que o personagem do jogador olhe para o cursor."
 				}
 				
 				EnablePlayerTilting: {
-					//DisplayName: "Enable Player Tilting"
-					//Description: "Toggles player characters being slightly tilted based on their velocity. This makes them look a lot more alive."
+					//DisplayName: "Ativar Inclinação do Jogador"
+					//Description: "Faz com que o personagem do jogador fique ligeiramente inclinado baseado em sua velocidade. Isso faz com que eles pareçam muito mais vivos."
 				}
 			}
 		}
 		
 		Seasons: {
 			Spring: {
-				//Name: "Spring"
+				//Name: "Primavera"
 			}
 
 			Summer: {
-				//Name: "Summer"
+				//Name: "Verão"
 			}
 
 			Autumn: {
-				//Name: "Autumn"
+				//Name: "Outono"
 			}
 
 			Winter: {
-				//Name: "Winter"
+				//Name: "Inverno"
 			}
 
-			//SelectSeason: "Select starting season:"
-			//CalendarCurrentSeason: "It's currently {SeasonName}."
-			//CalendarNextSeasonDays: "{SeasonName} will arrive in {NumDays} days."
-			//CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
+			//SelectSeason: "Escolhar a estação inicial:"
+			//CalendarCurrentSeason: "Atualmente é {SeasonName}."
+			//CalendarNextSeasonDays: "{SeasonName} chegará em {NumDays} dias."
+			//CalendarNextSeasonTomorrow: "{SeasonName} chegará amanhã!"
 		}
 		
 		ItemOverhauls: {
 			Melee: {
 				Broadsword: {
-					//KillingBlow: "Killing Blow!"
+					//KillingBlow: "Golpe Mortal!"
 					/*KillingBlowInfo: 
 						'''
-						Charged strikes can deal Killing Blows to damaged enemies
-						Killing Blows double damage whenever that would finish the enemy
+						Ataques carregados podem ser Golpes Mortais para inimigos machucados
+						Golpes mortais dobram seu dano sempre que acabam com o inimigo
 						'''*/
 				}
 				
-				//AirCombatInfo: "Attacking enemies mid-air launches you towards them"
-				//VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
+				//AirCombatInfo: "Atacar inimigos no ar te lançara neles"
+				//VelocityBasedDamageInfo: "Damage pode ser aumentado pela velocidade do jogador, é recomendado se impulsionar"
 			}
 		}
 		
 		CommonTooltips: {
-			//ShowCombatInfo: "[Hold {Key} to show combat information]"
-			//CombatInfo: "[Combat Information]"
+			//ShowCombatInfo: "[Mantenha {Key} pressionado para mostrar informações de combate]"
+			//CombatInfo: "[Informação de Combate]"
 		}
 		
 		DeathText: {
-			//Zombified: "And then {PlayerName} was a zombie."
-			//ZombifiedScreenText: "You became a zombie..."
-			//ZombifiedName: "{PlayerName} the Zombie"
-			//Lightning: "{PlayerName} was struck by lightning. Ouch!"
+			//Zombified: "E então, {PlayerName} se tornou um zumbi."
+			//ZombifiedScreenText: "Você virou um zumbi..."
+			//ZombifiedName: "{PlayerName}, o Zumbi"
+			//Lightning: "{PlayerName} foi atingido por um raio. Ai!"
 		}
 		
 		ItemName: {
 			//Accessories
-			//BunnyPaw: "Bunny Paw"
+			//BunnyPaw: "Pata de Coelho"
 			
 			//Materials
-			//Charcoal: "Charcoal"
+			//Charcoal: "Carvão Vegetal"
 			
 			//Placeables
-			//Calendar: "Calendar"
-			//Gramophone: "Gramophone"
+			//Calendar: "Calendário"
+			//Gramophone: "Gramofone"
 			
 			//Consumables
-			//MusicDisc: Music Disc
+			//MusicDisc: "Disco de Vinil"
 			
 			//Tools
-			//Mop: "Mop"
-			//StoneAxe: "Stone Axe"
-			//StonePickaxe: "Stone Pickaxe"
+			//Mop: "Esfregão"
+			//StoneAxe: "Machado de Pedra"
+			//StonePickaxe: "Picareta de Pedra"
 			
 			//Unused
 			/*
@@ -174,26 +174,26 @@ Mods: {
 
 		ItemTooltip: {
 			//Accessories
-			//BunnyPaw: "Increases bunnyhop speed boost"
+			//BunnyPaw: "Aumento o impulso do saltitar"
 			
 			//Materials
-			//Charcoal: "It's still warm"
+			//Charcoal: "Ainda está quente"
 			
 			//Placeables
 			/*Calendar:
 				'''
-				Counts amount of days left until the next season
-				Right click after placing to use it
+				Conta a quantidade de dias até a próxima estação
+				Clique com o botãoi direito após colocar para usar
 				'''*/
-			//Gramophone: "Plays music discs"
+			//Gramophone: "Toca Discos de Vinil"
 			
 			//Consumables
-			//MusicDisc: Can be played in a gramophone
+			//MusicDisc: "Pode ser tocado em um gramofone"
 			
 			//Tools
-			//Mop: "Keeps your house clean of guts and shredded eyeballs"
-			//StoneAxe: "Wood is probably stronger than this"
-			//StonePickaxe: "Great against dirt!"
+			//Mop: "Mantém sua casa sem entranhas e olhos dilacerados"
+			//StoneAxe: "Madeira provavelmente é mais forte que isso"
+			//StonePickaxe: "Bom contra terra!"
 			
 			//Unused
 			/*
@@ -257,19 +257,19 @@ Mods: {
 		}
 		
 		NPCName: {
-			//AshSlime: "Ash Clot"
-			//AshZombie: "Walking Ashes"
-			//FlyingPiranha: "Flying Piranha"
-			//FlyingShark: "Flying Shark"
-			//FlyingTree: "Flying Tree"
+			//AshSlime: "Amontoade de Cinzas"
+			//AshZombie: "Cinzas Ambulantes"
+			//FlyingPiranha: "Piranha Voadora"
+			//FlyingShark: "Shark Voadora"
+			//FlyingTree: "Tree Voadora"
 		}
 		
 		BuffName: {
-			//ManaChannelling: "Mana Channelling"
+			//ManaChannelling: "Canalização de Mana"
 		}
 		
 		BuffDescription: {
-			//ManaChannelling: "Your patience is increasing your mana regeneration"
+			//ManaChannelling: "Sua paciência está aumentando a regeneração de mana"
 		}
 	}
 }
