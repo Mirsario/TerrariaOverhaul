@@ -50,7 +50,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			var ordereredVelocityRecord = playerMovement.velocityRecord.OrderBy(q => q.X);
 
-			sbyte prevDirX = Player.oldVelocity.X > 0f ? 1 : -1;
+			sbyte prevDirX = (sbyte)(Player.oldVelocity.X > 0f ? 1 : -1);
 			float fastestSpeed = prevDirX < 0 ? ordereredVelocityRecord.First().X : ordereredVelocityRecord.Last().X;
 
 			//Return if the player didn't JUST hit a wall, or if they're standing on the ground.
