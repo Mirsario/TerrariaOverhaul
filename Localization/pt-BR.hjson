@@ -55,12 +55,20 @@ Mods: {
 				
 				EnableWallJumping: {
 					//DisplayName: "Ativar o Salto entre Paredes"
-					//Description: "Salto entre paredes é uma nova mecânica que requer equipamento de escalada ou espeto para sapatos. Feito atingindo uma parede com as costas segurando o botão 'para cima' com botões de movimento horizontal soltos."
+					//Description:
+					//	'''
+					//	Salto entre paredes é uma nova mecânica que requer equipamento de escalada ou espeto para sapatos.
+					//	Feito atingindo uma parede com as costas segurando o botão 'para cima' com botões de movimento horizontal soltos.
+					//	'''
 				}
 				
 				EnableWallFlips: {
 					//DisplayName: "Ativar Cambalhotas em Paredes"
-					//Description: "Uma cambalhota na parede é uma nova mecânica de movimento que não requer qualquer acessório. Feita atingindo uma parede de frente com velocidade o suficiente enquanto mantendo o movimento horizontal oposto a direção do jogador."
+					//Description:
+					//	'''
+					//	Uma cambalhota na parede é uma nova mecânica de movimento que não requer qualquer acessório.
+					//	Feita atingindo uma parede de frente com velocidade o suficiente enquanto mantendo o movimento horizontal oposto a direção do jogador.
+					//	'''
 				}
 			}
 			
@@ -109,11 +117,11 @@ Mods: {
 			Melee: {
 				Broadsword: {
 					//KillingBlow: "Golpe Mortal!"
-					/*KillingBlowInfo: 
-						'''
-						Ataques carregados podem ser Golpes Mortais para inimigos machucados
-						Golpes mortais dobram seu dano sempre que acabam com o inimigo
-						'''*/
+					//KillingBlowInfo: 
+					//	'''
+					//	Ataques carregados podem ser Golpes Mortais para inimigos machucados
+					//	Golpes mortais dobram seu dano sempre que acabam com o inimigo
+					//	'''
 				}
 				
 				//AirCombatInfo: "Atacar inimigos no ar te lançara neles"
@@ -153,23 +161,21 @@ Mods: {
 			//StonePickaxe: "Picareta de Pedra"
 			
 			//Unused
-			/*
-			HarmlessRocket: Harmless Rocket
-			HaxxCostume: Jade's Birb Disguise
-			ImpactBomb: Impact Bomb
-			ImpactDynamite: Impact Dynamite
-			ImpactGrenade: Impact Grenade
-			LightningRod: Lightning Rod
-			RedGel: Red Gel
-			RepairKit1: Primitive Repair Kit
-			RepairKit2: Goblin Repair Kit
-			RepairTable: Repair Table
-			RocketJumper: Rocket Jumper
-			SleepingPotion: Sleeping Potion
-			SmokeDetector: Smoke Detector
-			SuperShotgun: Super Shotgun
-			WaterArrow: Water Arrow
-			*/
+			//HarmlessRocket: "Harmless Rocket"
+			//HaxxCostume: "Jade's Birb Disguise"
+			//ImpactBomb: "Impact Bomb"
+			//ImpactDynamite: "Impact Dynamite"
+			//ImpactGrenade: "Impact Grenade"
+			//LightningRod: "Lightning Rod"
+			//RedGel: "Red Gel"
+			//RepairKit1: "Primitive Repair Kit"
+			//RepairKit2: "Goblin Repair Kit"
+			//RepairTable: "Repair Table"
+			//RocketJumper: "Rocket Jumper"
+			//SleepingPotion: "Sleeping Potion"
+			//SmokeDetector: "Smoke Detector"
+			//SuperShotgun: "Super Shotgun"
+			//WaterArrow: "Water Arrow"
 		}
 
 		ItemTooltip: {
@@ -180,11 +186,11 @@ Mods: {
 			//Charcoal: "Ainda está quente"
 			
 			//Placeables
-			/*Calendar:
-				'''
-				Conta a quantidade de dias até a próxima estação
-				Clique com o botãoi direito após colocar para usar
-				'''*/
+			//Calendar:
+			//	'''
+			//	Conta a quantidade de dias até a próxima estação
+			//	Clique com o botãoi direito após colocar para usar
+			//	'''
 			//Gramophone: "Toca Discos de Vinil"
 			
 			//Consumables
@@ -196,64 +202,62 @@ Mods: {
 			//StonePickaxe: "Bom contra terra!"
 			
 			//Unused
-			/*
-			HarmlessRocket:
-				'''
-				Deals no damage
-				Used by Rocket Jumper
-				'''
-			HaxxCostume: Overhaul contributor's item
-			ImpactBomb:
-				'''
-				A small explosion that will destroy tiles
-				[c/ff0000:Explodes on impact]
-				'''
-			ImpactDynamite:
-				'''
-				A large explosion that will destroy most tiles
-				[c/ff0000:Explodes on impact]
-				'''
-			ImpactGrenade:
-				'''
-				A small explosion that will not destroy tiles
-				Explodes on impact
-				'''
-			LightningRod:
-				'''
-				Attracts lightning, saves your life
-				[c/ff0000:Place on non-flammable blocks]
-				'''
-			OnyxCell:
-				'''
-				Used by Onyx Blaster 9000
-				Extremely illegal
-				'''
-			RedGel:
-				'''
-				Can be used to make impact explosives
-				[c/ff0000:CAUSE RED GOEZ FASTA!!!]
-				'''
-			RepairKit1: Used for repair of some primitive weapons and tools
-			RepairKit2: Used for repair of advanced weapons and tools.
-			RepairTable: Right click after placing to repair your items
-			RocketJumper:
-				'''
-				Fires training rockets that deal no damage
-				Great for rocket jump training!
-				'''
-			SleepingPotion:
-				'''
-				Lets you sleep during daytime
-				10 minute duration
-				'''
-			SmokeDetector:
-				'''
-				Sends a signal output whenever there's a fire near
-				Right click to toggle modes
-				'''
-			SuperShotgun: They're all doomed
-			WaterArrow: Creates a small water explosion which knocks enemies back
-			*/
+			//HarmlessRocket:
+			//	'''
+			//	Deals no damage
+			//	Used by Rocket Jumper
+			//	'''
+			//HaxxCostume: "Overhaul contributor's item"
+			//ImpactBomb:
+			//	'''
+			//	A small explosion that will destroy tiles
+			//	[c/ff0000:Explodes on impact]
+			//	'''
+			//ImpactDynamite:
+			//	'''
+			//	A large explosion that will destroy most tiles
+			//	[c/ff0000:Explodes on impact]
+			//	'''
+			//ImpactGrenade:
+			//	'''
+			//	A small explosion that will not destroy tiles
+			//	Explodes on impact
+			//	'''
+			//LightningRod:
+			//	'''
+			//	Attracts lightning, saves your life
+			//	[c/ff0000:Place on non-flammable blocks]
+			//	'''
+			//OnyxCell:
+			//	'''
+			//	Used by Onyx Blaster 9000
+			//	Extremely illegal
+			//	'''
+			//RedGel:
+			//	'''
+			//	Can be used to make impact explosives
+			//	[c/ff0000:CAUSE RED GOEZ FASTA!!!]
+			//	'''
+			//RepairKit1: "Used for repair of some primitive weapons and tools"
+			//RepairKit2: "Used for repair of advanced weapons and tools."
+			//RepairTable: "Right click after placing to repair your items"
+			//RocketJumper:
+			//	'''
+			//	Fires training rockets that deal no damage
+			//	Great for rocket jump training!
+			//	'''
+			//SleepingPotion:
+			//	'''
+			//	Lets you sleep during daytime
+			//	10 minute duration
+			//	'''
+			//SmokeDetector:
+			//	'''
+			//	Sends a signal output whenever there's a fire near
+			//	Right click to toggle modes
+			//	'''
+			//SuperShotgun: "They're all doomed"
+			//WaterArrow: "Creates a small water explosion which knocks enemies back"
 		}
 		
 		NPCName: {

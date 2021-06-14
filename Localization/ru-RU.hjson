@@ -45,7 +45,11 @@ Mods: {
 				
 				EnableBunnyhopping: {
 					DisplayName: "Включить баннихоппинг"
-					Description: "Баннихоппинг - это маленький горизонтальный разгон, что вы получаете при каждом прыжке. Отключение этой опции отключит некоторые аксессуары."
+					Description: 
+						'''
+						Баннихоппинг - это маленький горизонтальный разгон, что вы получаете при каждом прыжке.
+						Отключение этой опции отключит некоторые аксессуары.
+						'''
 				}
 				
 				EnableClimbing: {
@@ -55,12 +59,20 @@ Mods: {
 				
 				EnableWallJumping: {
 					DisplayName: "Включить прыжки от стен"
-					Description: "Прыжки от стен - это новая механика движения, требующая альпинистские когти или шипы на ботинки. Они осуществляются путем касания стены задней стороной персонажа, пока вы держите кнопку 'вверх', при этом не держа кнопки горизонтального движения."
+					Description: 
+						'''
+						Прыжки от стен - это новая механика движения, требующая альпинистские когти или шипы на ботинки.
+						Они осуществляются путем касания стены задней стороной персонажа, пока вы держите кнопку 'вверх', при этом не держа кнопки горизонтального движения.
+						'''
 				}
 				
 				EnableWallFlips: {
 					DisplayName: "Включить кувырки от стен"
-					Description: "Сальто от стен - это новая механика движения, которая не требует никаких аксессуаров. Они осуществляются путем касания стены передней стороной персонажа с достаточной горизонтальной скоростью, пока вы держите кнопку горизонтального движения, противоположную от направления персонажа."
+					Description:
+						'''
+						Сальто от стен - это новая механика движения, которая не требует никаких аксессуаров.
+						Они осуществляются путем касания стены передней стороной персонажа с достаточной горизонтальной скоростью, пока вы держите кнопку горизонтального движения, противоположную от направления персонажа.
+						'''
 				}
 			}
 			
@@ -109,11 +121,11 @@ Mods: {
 			Melee: {
 				Broadsword: {
 					//KillingBlow: "Killing Blow!"
-					/*KillingBlowInfo: 
-						'''
-						Charged strikes can deal Killing Blows to damaged enemies
-						Killing Blows double damage whenever that would finish the enemy
-						'''*/
+					//KillingBlowInfo: 
+					//	'''
+					//	Charged strikes can deal Killing Blows to damaged enemies
+					//	Killing Blows double damage whenever that would finish the enemy
+					//	'''
 				}
 				
 				//AirCombatInfo: "Attacking enemies mid-air launches you towards them"
@@ -145,7 +157,7 @@ Mods: {
 			//Gramophone: "Gramophone"
 			
 			//Consumables
-			//MusicDisc: Music Disc
+			//MusicDisc: "Music Disc"
 			
 			//Tools
 			//Mop: "Mop"
@@ -153,23 +165,21 @@ Mods: {
 			//StonePickaxe: "Stone Pickaxe"
 			
 			//Unused
-			/*
-			HarmlessRocket: Harmless Rocket
-			HaxxCostume: Jade's Birb Disguise
-			ImpactBomb: Impact Bomb
-			ImpactDynamite: Impact Dynamite
-			ImpactGrenade: Impact Grenade
-			LightningRod: Lightning Rod
-			RedGel: Red Gel
-			RepairKit1: Primitive Repair Kit
-			RepairKit2: Goblin Repair Kit
-			RepairTable: Repair Table
-			RocketJumper: Rocket Jumper
-			SleepingPotion: Sleeping Potion
-			SmokeDetector: Smoke Detector
-			SuperShotgun: Super Shotgun
-			WaterArrow: Water Arrow
-			*/
+			//HarmlessRocket: "Harmless Rocket"
+			//HaxxCostume: "Jade's Birb Disguise"
+			//ImpactBomb: "Impact Bomb"
+			//ImpactDynamite: "Impact Dynamite"
+			//ImpactGrenade: "Impact Grenade"
+			//LightningRod: "Lightning Rod"
+			//RedGel: "Red Gel"
+			//RepairKit1: "Primitive Repair Kit"
+			//RepairKit2: "Goblin Repair Kit"
+			//RepairTable: "Repair Table"
+			//RocketJumper: "Rocket Jumper"
+			//SleepingPotion: "Sleeping Potion"
+			//SmokeDetector: "Smoke Detector"
+			//SuperShotgun: "Super Shotgun"
+			//WaterArrow: "Water Arrow"
 		}
 
 		ItemTooltip: {
@@ -180,15 +190,15 @@ Mods: {
 			//Charcoal: "It's still warm"
 			
 			//Placeables
-			/*Calendar:
-				'''
-				Counts amount of days left until the next season
-				Right click after placing to use it
-				'''*/
+			//Calendar:
+			//	'''
+			//	Counts amount of days left until the next season
+			//	Right click after placing to use it
+			//	'''
 			//Gramophone: "Plays music discs"
 			
 			//Consumables
-			//MusicDisc: Can be played in a gramophone
+			//MusicDisc: "Can be played in a gramophone"
 			
 			//Tools
 			//Mop: "Keeps your house clean of guts and shredded eyeballs"
@@ -196,64 +206,62 @@ Mods: {
 			//StonePickaxe: "Great against dirt!"
 			
 			//Unused
-			/*
-			HarmlessRocket:
-				'''
-				Deals no damage
-				Used by Rocket Jumper
-				'''
-			HaxxCostume: Overhaul contributor's item
-			ImpactBomb:
-				'''
-				A small explosion that will destroy tiles
-				[c/ff0000:Explodes on impact]
-				'''
-			ImpactDynamite:
-				'''
-				A large explosion that will destroy most tiles
-				[c/ff0000:Explodes on impact]
-				'''
-			ImpactGrenade:
-				'''
-				A small explosion that will not destroy tiles
-				Explodes on impact
-				'''
-			LightningRod:
-				'''
-				Attracts lightning, saves your life
-				[c/ff0000:Place on non-flammable blocks]
-				'''
-			OnyxCell:
-				'''
-				Used by Onyx Blaster 9000
-				Extremely illegal
-				'''
-			RedGel:
-				'''
-				Can be used to make impact explosives
-				[c/ff0000:CAUSE RED GOEZ FASTA!!!]
-				'''
-			RepairKit1: Used for repair of some primitive weapons and tools
-			RepairKit2: Used for repair of advanced weapons and tools.
-			RepairTable: Right click after placing to repair your items
-			RocketJumper:
-				'''
-				Fires training rockets that deal no damage
-				Great for rocket jump training!
-				'''
-			SleepingPotion:
-				'''
-				Lets you sleep during daytime
-				10 minute duration
-				'''
-			SmokeDetector:
-				'''
-				Sends a signal output whenever there's a fire near
-				Right click to toggle modes
-				'''
-			SuperShotgun: They're all doomed
-			WaterArrow: Creates a small water explosion which knocks enemies back
-			*/
+			//HarmlessRocket:
+			//	'''
+			//	Deals no damage
+			//	Used by Rocket Jumper
+			//	'''
+			//HaxxCostume: "Overhaul contributor's item"
+			//ImpactBomb:
+			//	'''
+			//	A small explosion that will destroy tiles
+			//	[c/ff0000:Explodes on impact]
+			//	'''
+			//ImpactDynamite:
+			//	'''
+			//	A large explosion that will destroy most tiles
+			//	[c/ff0000:Explodes on impact]
+			//	'''
+			//ImpactGrenade:
+			//	'''
+			//	A small explosion that will not destroy tiles
+			//	Explodes on impact
+			//	'''
+			//LightningRod:
+			//	'''
+			//	Attracts lightning, saves your life
+			//	[c/ff0000:Place on non-flammable blocks]
+			//	'''
+			//OnyxCell:
+			//	'''
+			//	Used by Onyx Blaster 9000
+			//	Extremely illegal
+			//	'''
+			//RedGel:
+			//	'''
+			//	Can be used to make impact explosives
+			//	[c/ff0000:CAUSE RED GOEZ FASTA!!!]
+			//	'''
+			//RepairKit1: "Used for repair of some primitive weapons and tools"
+			//RepairKit2: "Used for repair of advanced weapons and tools."
+			//RepairTable: "Right click after placing to repair your items"
+			//RocketJumper:
+			//	'''
+			//	Fires training rockets that deal no damage
+			//	Great for rocket jump training!
+			//	'''
+			//SleepingPotion:
+			//	'''
+			//	Lets you sleep during daytime
+			//	10 minute duration
+			//	'''
+			//SmokeDetector:
+			//	'''
+			//	Sends a signal output whenever there's a fire near
+			//	Right click to toggle modes
+			//	'''
+			//SuperShotgun: "They're all doomed"
+			//WaterArrow: "Creates a small water explosion which knocks enemies back"
 		}
 		
 		NPCName: {

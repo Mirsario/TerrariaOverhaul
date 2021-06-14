@@ -1,0 +1,2 @@
+- Untranslated strings will usually appear as 'comments'. When translating, please uncomment them by removing the '//' prefix for the translated string's lines.
+- Quotemarks are completely optional in the HJSON format, but I put them on every line regardless.
