@@ -3,162 +3,162 @@ Mods: {
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
-					//DisplayName: "Ativar Ambientação Sonora"
-					//Description: "Ativa repetição de audio de ambiência, como pássaros, gafanhotos, vento, sons de cavernas, etc."
+					DisplayName: "Ativar Ambientação Sonora"
+					Description: "Ativa repetição de audio de ambiência, como pássaros, gafanhotos, vento, sons de cavernas, etc."
 				}
 				
 				EnablePlayerFootsteps: {
-					//DisplayName: "Ativar sons de passos"
-					//Description: "Ativa audio de passos do personagem do jogador"
+					DisplayName: "Ativar sons de passos"
+					Description: "Ativa audio de passos do personagem do jogador"
 				}
 			}
 			
 			BloodAndGore: {
 				EnableDecals: {
-					//DisplayName: "Ativar manchas"
-					//Description: "Ativa manchas, também conhecidas como 'sangue nos blocos'."
+					DisplayName: "Ativar manchas"
+					Description: "Ativa manchas, também conhecidas como 'sangue nos blocos'."
 				}
 			}
 			
 			Camera: {
 				SmoothCamera: {
-					//DisplayName: "Câmera Suave"
-					//Description: "Interpola o movimento da câmera para melhorar a sensação de velocidade."
+					DisplayName: "Câmera Suave"
+					Description: "Interpola o movimento da câmera para melhorar a sensação de velocidade."
 				}
 				
 				ScreenShakeStrength: {
-					//DisplayName: "Intensidade do Chacoalhar da Tela"
-					//Description: "Controla a intensidade dos efeitos de vibração da tela. Deixe em zero para desligar as vibrações por completo."
+					DisplayName: "Intensidade do Chacoalhar da Tela"
+					Description: "Controla a intensidade dos efeitos de vibração da tela. Deixe em zero para desligar as vibrações por completo."
 				}
 			}
 			
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
-					//DisplayName: "Ativar mudanças na Aceleração Vertical"
-					//Description: "Ativa fricção com ar e velocidade de queda (quase) infinita."
+					DisplayName: "Ativar mudanças na Aceleração Vertical"
+					Description: "Ativa fricção com ar e velocidade de queda (quase) infinita."
 				}
 				
 				EnableHorizontalAccelerationChanges: {
-					//DisplayName: "Ativar mudanças na Aceleração Horizontal"
-					//Description: "Ativa mudanças na fricção horizontal, velocidade de máxima e aceleração de corrida."
+					DisplayName: "Ativar mudanças na Aceleração Horizontal"
+					Description: "Ativa mudanças na fricção horizontal, velocidade de máxima e aceleração de corrida."
 				}
 				
 				EnableBunnyhopping: {
-					//DisplayName: "Ativar Saltitar"
-					//Description: "Saltitar da a você um pequeno impulso horizontal quando pular. Desligar isso irá desabilitar alguns acessórios."
+					DisplayName: "Ativar Saltitar"
+					Description: "Saltitar da a você um pequeno impulso horizontal quando pular. Desligar isso irá desabilitar alguns acessórios."
 				}
 				
 				EnableClimbing: {
-					//DisplayName: "Ativar Escalada"
-					//Description: "Escalar faz com que você consiga alcançar lugares mais altos pressionando o botão de subir."
+					DisplayName: "Ativar Escalada"
+					Description: "Escalar faz com que você consiga alcançar lugares mais altos pressionando o botão de subir."
 				}
 				
 				EnableWallJumping: {
-					//DisplayName: "Ativar o Salto entre Paredes"
-					//Description:
-					//	'''
-					//	Salto entre paredes é uma nova mecânica que requer equipamento de escalada ou espeto para sapatos.
-					//	Feito atingindo uma parede com as costas segurando o botão 'para cima' com botões de movimento horizontal soltos.
-					//	'''
+					DisplayName: "Ativar o Salto entre Paredes"
+					Description:
+						'''
+						Salto entre paredes é uma nova mecânica que requer equipamento de escalada ou espeto para sapatos.
+						Feito atingindo uma parede com as costas segurando o botão 'para cima' com botões de movimento horizontal soltos.
+						'''
 				}
 				
 				EnableWallFlips: {
-					//DisplayName: "Ativar Cambalhotas em Paredes"
-					//Description:
-					//	'''
-					//	Uma cambalhota na parede é uma nova mecânica de movimento que não requer qualquer acessório.
-					//	Feita atingindo uma parede de frente com velocidade o suficiente enquanto mantendo o movimento horizontal oposto a direção do jogador.
-					//	'''
+					DisplayName: "Ativar Cambalhotas em Paredes"
+					Description:
+						'''
+						Uma cambalhota na parede é uma nova mecânica de movimento que não requer qualquer acessório.
+						Feita atingindo uma parede de frente com velocidade o suficiente enquanto mantendo o movimento horizontal oposto a direção do jogador.
+						'''
 				}
 			}
 			
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
-					//DisplayName: "Sempre mostrar Armas com Mira"
-					//Description: "Permite armas com o estilo de uso 'empunhando' serem visíveis quando não atirando."
+					DisplayName: "Sempre mostrar Armas com Mira"
+					Description: "Permite armas com o estilo de uso 'empunhando' serem visíveis quando não atirando."
 				}
 				
 				EnablePlayerHeadRotation: {
-					//DisplayName: "Ativar Rotação da Cabeça do Jogador"
-					//Description: "Faz com que o personagem do jogador olhe para o cursor."
+					DisplayName: "Ativar Rotação da Cabeça do Jogador"
+					Description: "Faz com que o personagem do jogador olhe para o cursor."
 				}
 				
 				EnablePlayerTilting: {
-					//DisplayName: "Ativar Inclinação do Jogador"
-					//Description: "Faz com que o personagem do jogador fique ligeiramente inclinado baseado em sua velocidade. Isso faz com que eles pareçam muito mais vivos."
+					DisplayName: "Ativar Inclinação do Jogador"
+					Description: "Faz com que o personagem do jogador fique ligeiramente inclinado baseado em sua velocidade. Isso faz com que eles pareçam muito mais vivos."
 				}
 			}
 		}
 		
 		Seasons: {
 			Spring: {
-				//Name: "Primavera"
+				Name: "Primavera"
 			}
 
 			Summer: {
-				//Name: "Verão"
+				Name: "Verão"
 			}
 
 			Autumn: {
-				//Name: "Outono"
+				Name: "Outono"
 			}
 
 			Winter: {
-				//Name: "Inverno"
+				Name: "Inverno"
 			}
 
-			//SelectSeason: "Escolhar a estação inicial:"
-			//CalendarCurrentSeason: "Atualmente é {SeasonName}."
-			//CalendarNextSeasonDays: "{SeasonName} chegará em {NumDays} dias."
-			//CalendarNextSeasonTomorrow: "{SeasonName} chegará amanhã!"
+			SelectSeason: "Escolhar a estação inicial:"
+			CalendarCurrentSeason: "Atualmente é {SeasonName}."
+			CalendarNextSeasonDays: "{SeasonName} chegará em {NumDays} dias."
+			CalendarNextSeasonTomorrow: "{SeasonName} chegará amanhã!"
 		}
 		
 		ItemOverhauls: {
 			Melee: {
 				Broadsword: {
-					//KillingBlow: "Golpe Mortal!"
-					//KillingBlowInfo: 
-					//	'''
-					//	Ataques carregados podem ser Golpes Mortais para inimigos machucados
-					//	Golpes mortais dobram seu dano sempre que acabam com o inimigo
-					//	'''
+					KillingBlow: "Golpe Mortal!"
+					KillingBlowInfo: 
+						'''
+						Ataques carregados podem ser Golpes Mortais para inimigos machucados
+						Golpes mortais dobram seu dano sempre que acabam com o inimigo
+						'''
 				}
 				
-				//AirCombatInfo: "Atacar inimigos no ar te lançara neles"
-				//VelocityBasedDamageInfo: "Damage pode ser aumentado pela velocidade do jogador, é recomendado se impulsionar"
+				AirCombatInfo: "Atacar inimigos no ar te lançara neles"
+				VelocityBasedDamageInfo: "Damage pode ser aumentado pela velocidade do jogador, é recomendado se impulsionar"
 			}
 		}
 		
 		CommonTooltips: {
-			//ShowCombatInfo: "[Mantenha {Key} pressionado para mostrar informações de combate]"
-			//CombatInfo: "[Informação de Combate]"
+			ShowCombatInfo: "[Mantenha {Key} pressionado para mostrar informações de combate]"
+			CombatInfo: "[Informação de Combate]"
 		}
 		
 		DeathText: {
-			//Zombified: "E então, {PlayerName} se tornou um zumbi."
-			//ZombifiedScreenText: "Você virou um zumbi..."
-			//ZombifiedName: "{PlayerName}, o Zumbi"
-			//Lightning: "{PlayerName} foi atingido por um raio. Ai!"
+			Zombified: "E então, {PlayerName} se tornou um zumbi."
+			ZombifiedScreenText: "Você virou um zumbi..."
+			ZombifiedName: "{PlayerName}, o Zumbi"
+			Lightning: "{PlayerName} foi atingido por um raio. Ai!"
 		}
 		
 		ItemName: {
 			//Accessories
-			//BunnyPaw: "Pata de Coelho"
+			BunnyPaw: "Pata de Coelho"
 			
 			//Materials
-			//Charcoal: "Carvão Vegetal"
+			Charcoal: "Carvão Vegetal"
 			
 			//Placeables
-			//Calendar: "Calendário"
-			//Gramophone: "Gramofone"
+			Calendar: "Calendário"
+			Gramophone: "Gramofone"
 			
 			//Consumables
-			//MusicDisc: "Disco de Vinil"
+			MusicDisc: "Disco de Vinil"
 			
 			//Tools
-			//Mop: "Esfregão"
-			//StoneAxe: "Machado de Pedra"
-			//StonePickaxe: "Picareta de Pedra"
+			Mop: "Esfregão"
+			StoneAxe: "Machado de Pedra"
+			StonePickaxe: "Picareta de Pedra"
 			
 			//Unused
 			//HarmlessRocket: "Harmless Rocket"
@@ -180,26 +180,26 @@ Mods: {
 
 		ItemTooltip: {
 			//Accessories
-			//BunnyPaw: "Aumento o impulso do saltitar"
+			BunnyPaw: "Aumento o impulso do saltitar"
 			
 			//Materials
-			//Charcoal: "Ainda está quente"
+			Charcoal: "Ainda está quente"
 			
 			//Placeables
-			//Calendar:
-			//	'''
-			//	Conta a quantidade de dias até a próxima estação
-			//	Clique com o botãoi direito após colocar para usar
-			//	'''
-			//Gramophone: "Toca Discos de Vinil"
+			Calendar:
+				'''
+				Conta a quantidade de dias até a próxima estação
+				Clique com o botãoi direito após colocar para usar
+				'''
+			Gramophone: "Toca Discos de Vinil"
 			
 			//Consumables
-			//MusicDisc: "Pode ser tocado em um gramofone"
+			MusicDisc: "Pode ser tocado em um gramofone"
 			
 			//Tools
-			//Mop: "Mantém sua casa sem entranhas e olhos dilacerados"
-			//StoneAxe: "Madeira provavelmente é mais forte que isso"
-			//StonePickaxe: "Bom contra terra!"
+			Mop: "Mantém sua casa sem entranhas e olhos dilacerados"
+			StoneAxe: "Madeira provavelmente é mais forte que isso"
+			StonePickaxe: "Bom contra terra!"
 			
 			//Unused
 			//HarmlessRocket:
@@ -261,19 +261,19 @@ Mods: {
 		}
 		
 		NPCName: {
-			//AshSlime: "Amontoade de Cinzas"
-			//AshZombie: "Cinzas Ambulantes"
-			//FlyingPiranha: "Piranha Voadora"
-			//FlyingShark: "Shark Voadora"
-			//FlyingTree: "Tree Voadora"
+			AshSlime: "Amontoade de Cinzas"
+			AshZombie: "Cinzas Ambulantes"
+			FlyingPiranha: "Piranha Voadora"
+			FlyingShark: "Shark Voadora"
+			FlyingTree: "Tree Voadora"
 		}
 		
 		BuffName: {
-			//ManaChannelling: "Canalização de Mana"
+			ManaChannelling: "Canalização de Mana"
 		}
 		
 		BuffDescription: {
-			//ManaChannelling: "Sua paciência está aumentando a regeneração de mana"
+			ManaChannelling: "Sua paciência está aumentando a regeneração de mana"
 		}
 	}
 }
