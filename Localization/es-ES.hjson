@@ -153,23 +153,21 @@ Mods: {
 			StonePickaxe: "Pico de piedra"
 			
 			//Unused
-			/*
-			HarmlessRocket: Harmless Rocket
-			HaxxCostume: Jade's Birb Disguise
-			ImpactBomb: Impact Bomb
-			ImpactDynamite: Impact Dynamite
-			ImpactGrenade: Impact Grenade
-			LightningRod: Lightning Rod
-			RedGel: Red Gel
-			RepairKit1: Primitive Repair Kit
-			RepairKit2: Goblin Repair Kit
-			RepairTable: Repair Table
-			RocketJumper: Rocket Jumper
-			SleepingPotion: Sleeping Potion
-			SmokeDetector: Smoke Detector
-			SuperShotgun: Super Shotgun
-			WaterArrow: Water Arrow
-			*/
+			//HarmlessRocket: "Harmless Rocket"
+			//HaxxCostume: "Jade's Birb Disguise"
+			//ImpactBomb: "Impact Bomb"
+			//ImpactDynamite: "Impact Dynamite"
+			//ImpactGrenade: "Impact Grenade"
+			//LightningRod: "Lightning Rod"
+			//RedGel: "Red Gel"
+			//RepairKit1: "Primitive Repair Kit"
+			//RepairKit2: "Goblin Repair Kit"
+			//RepairTable: "Repair Table"
+			//RocketJumper: "Rocket Jumper"
+			//SleepingPotion: "Sleeping Potion"
+			//SmokeDetector: "Smoke Detector"
+			//SuperShotgun: "Super Shotgun"
+			//WaterArrow: "Water Arrow"
 		}
 
 		ItemTooltip: {
@@ -196,64 +194,62 @@ Mods: {
 			StonePickaxe: "¡Excelente contra la tierra!"
 			
 			//Unused
-			/*
-			HarmlessRocket:
-				'''
-				Deals no damage
-				Used by Rocket Jumper
-				'''
-			HaxxCostume: "Overhaul contributor's item"
-			ImpactBomb:
-				'''
-				A small explosion that will destroy tiles
-				[c/ff0000:Explodes on impact]
-				'''
-			ImpactDynamite:
-				'''
-				A large explosion that will destroy most tiles
-				[c/ff0000:Explodes on impact]
-				'''
-			ImpactGrenade:
-				'''
-				A small explosion that will not destroy tiles
-				Explodes on impact
-				'''
-			LightningRod:
-				'''
-				Attracts lightning, saves your life
-				[c/ff0000:Place on non-flammable blocks]
-				'''
-			OnyxCell:
-				'''
-				Used by Onyx Blaster 9000
-				Extremely illegal
-				'''
-			RedGel:
-				'''
-				Can be used to make impact explosives
-				[c/ff0000:CAUSE RED GOEZ FASTA!!!]
-				'''
-			RepairKit1: "Used for repair of some primitive weapons and tools"
-			RepairKit2: "Used for repair of advanced weapons and tools."
-			RepairTable: "Right click after placing to repair your items"
-			RocketJumper:
-				'''
-				Fires training rockets that deal no damage
-				Great for rocket jump training!
-				'''
-			SleepingPotion:
-				'''
-				Lets you sleep during daytime
-				10 minute duration
-				'''
-			SmokeDetector:
-				'''
-				Sends a signal output whenever there's a fire near
-				Right click to toggle modes
-				'''
-			SuperShotgun: They're all doomed
-			WaterArrow: Creates a small water explosion which knocks enemies back
-			*/
+			//HarmlessRocket:
+			//	'''
+			//	Deals no damage
+			//	Used by Rocket Jumper
+			//	'''
+			//HaxxCostume: "Overhaul contributor's item"
+			//ImpactBomb:
+			//	'''
+			//	A small explosion that will destroy tiles
+			//	[c/ff0000:Explodes on impact]
+			//	'''
+			//ImpactDynamite:
+			//	'''
+			//	A large explosion that will destroy most tiles
+			//	[c/ff0000:Explodes on impact]
+			//	'''
+			//ImpactGrenade:
+			//	'''
+			//	A small explosion that will not destroy tiles
+			//	Explodes on impact
+			//	'''
+			//LightningRod:
+			//	'''
+			//	Attracts lightning, saves your life
+			//	[c/ff0000:Place on non-flammable blocks]
+			//	'''
+			//OnyxCell:
+			//	'''
+			//	Used by Onyx Blaster 9000
+			//	Extremely illegal
+			//	'''
+			//RedGel:
+			//	'''
+			//	Can be used to make impact explosives
+			//	[c/ff0000:CAUSE RED GOEZ FASTA!!!]
+			//	'''
+			//RepairKit1: "Used for repair of some primitive weapons and tools"
+			//RepairKit2: "Used for repair of advanced weapons and tools."
+			//RepairTable: "Right click after placing to repair your items"
+			//RocketJumper:
+			//	'''
+			//	Fires training rockets that deal no damage
+			//	Great for rocket jump training!
+			//	'''
+			//SleepingPotion:
+			//	'''
+			//	Lets you sleep during daytime
+			//	10 minute duration
+			//	'''
+			//SmokeDetector:
+			//	'''
+			//	Sends a signal output whenever there's a fire near
+			//	Right click to toggle modes
+			//	'''
+			//SuperShotgun: "They're all doomed"
+			//WaterArrow: "Creates a small water explosion which knocks enemies back"
 		}
 		
 		NPCName: {
