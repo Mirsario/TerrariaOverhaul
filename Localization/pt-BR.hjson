@@ -107,7 +107,7 @@ Mods: {
 				Name: "Inverno"
 			}
 
-			SelectSeason: "Escolhar a estação inicial:"
+			SelectSeason: "Escolher a estação inicial:"
 			CalendarCurrentSeason: "Atualmente é {SeasonName}."
 			CalendarNextSeasonDays: "{SeasonName} chegará em {NumDays} dias."
 			CalendarNextSeasonTomorrow: "{SeasonName} chegará amanhã!"
@@ -125,7 +125,7 @@ Mods: {
 				}
 				
 				AirCombatInfo: "Atacar inimigos no ar te lançara neles"
-				VelocityBasedDamageInfo: "Damage pode ser aumentado pela velocidade do jogador, é recomendado se impulsionar"
+				VelocityBasedDamageInfo: "O dano pode ser aumentado pela velocidade do jogador, é recomendado se impulsionar"
 			}
 		}
 		
@@ -189,7 +189,7 @@ Mods: {
 			Calendar:
 				'''
 				Conta a quantidade de dias até a próxima estação
-				Clique com o botãoi direito após colocar para usar
+				Clique com o botão direito após colocar para usar
 				'''
 			Gramophone: "Toca Discos de Vinil"
 			
@@ -261,11 +261,11 @@ Mods: {
 		}
 		
 		NPCName: {
-			AshSlime: "Amontoade de Cinzas"
+			AshSlime: "Amontoado de Cinzas"
 			AshZombie: "Cinzas Ambulantes"
 			FlyingPiranha: "Piranha Voadora"
-			FlyingShark: "Shark Voadora"
-			FlyingTree: "Tree Voadora"
+			FlyingShark: "Tubarão Voador"
+			FlyingTree: "Árvore Voadora"
 		}
 		
 		BuffName: {
