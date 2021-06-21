@@ -8,9 +8,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
 	public partial class Bow : AdvancedItem, IShowItemCrosshair
 	{
-		public static readonly ModSoundStyle BowFireSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowFire", 4, volume: 0.5f, pitchVariance: 0.2f);
-		public static readonly ModSoundStyle BowChargeSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowCharge", 4, volume: 0.5f, pitchVariance: 0.2f);
-		public static readonly ModSoundStyle BowEmptySound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowEmpty", volume: 0.5f, pitchVariance: 0.2f);
+		public static readonly ModSoundStyle BowFireSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowFire", 4, volume: 0.375f, pitchVariance: 0.2f);
+		public static readonly ModSoundStyle BowChargeSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowCharge", 4, volume: 0.375f, pitchVariance: 0.2f);
+		public static readonly ModSoundStyle BowEmptySound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowEmpty", volume: 0.375f, pitchVariance: 0.2f);
 
 		public override ScreenShake OnUseScreenShake => new(2f, 0.2f);
 
