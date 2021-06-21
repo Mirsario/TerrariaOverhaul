@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 		//Assets
 		public override void Load()
 		{
-			texture = Mod.GetTexture($"{ModPathUtils.GetDirectory(GetType())}/Muzzleflash");
+			texture = Mod.Assets.Request<Texture2D>($"{ModPathUtils.GetDirectory(GetType())}/Muzzleflash");
 			gunBarrelEndPositions = new Dictionary<int, Vector2>();
 		}
 		

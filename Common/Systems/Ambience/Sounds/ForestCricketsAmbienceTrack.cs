@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Common.Systems.Ambience.Sounds
 	{
 		public override void Initialize()
 		{
-			Sound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Ambience/Forest/ForestCrickets", type: SoundType.Ambient);
+			Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/Forest/ForestCrickets", type: SoundType.Ambient);
 
 			AudioEffectsSystem.EnableSoundStyleWallOcclusion(Sound);
 		}

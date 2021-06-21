@@ -46,7 +46,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		{
 			base.SetDefaults(item);
 
-			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/Minigun/MinigunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
+			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Minigun/MinigunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 			speedFactor = MinSpeedFactor;
 			PlaySoundOnEveryUse = true;
 		}

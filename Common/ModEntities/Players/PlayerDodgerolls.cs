@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerDodgerolls : ModPlayer
 	{
-		public static readonly SoundStyle DodgerollSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Player/Armor", 3, volume: 0.65f, pitchVariance: 0.2f);
+		public static readonly SoundStyle DodgerollSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/Armor", 3, volume: 0.65f, pitchVariance: 0.2f);
 
 		public static ModKeybind DodgerollKey { get; private set; }
 

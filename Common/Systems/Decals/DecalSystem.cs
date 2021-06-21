@@ -22,7 +22,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 		public override void Load()
 		{
-			BloodShader = Mod.GetEffect("Assets/Shaders/Blood");
+			BloodShader = Mod.Assets.Request<Effect>("Assets/Shaders/Blood");
 		}
 		
 		public override void Unload()

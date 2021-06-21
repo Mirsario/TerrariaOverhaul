@@ -26,7 +26,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 		
 		public override void SetDefaults(Item item)
 		{
-			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/Handgun/HandgunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
+			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 		}
 		
 		public override bool? UseItem(Item item, Player player)

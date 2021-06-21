@@ -42,7 +42,7 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 		public override void Load()
 		{
 			impulses = new List<CrosshairImpulse>();
-			crosshairTexture = Mod.GetTexture("Assets/Textures/UI/Crosshair");
+			crosshairTexture = Mod.Assets.Request<Texture2D>("Assets/Textures/UI/Crosshair");
 		}
 		
 		public override void PostUpdateEverything()

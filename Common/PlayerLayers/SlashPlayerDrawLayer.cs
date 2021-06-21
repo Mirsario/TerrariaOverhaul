@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 		public override void Load()
 		{
-			texture = Mod.GetTexture($"{Utilities.ModPathUtils.GetDirectory(GetType())}/Slash");
+			texture = Mod.Assets.Request<Texture2D>($"{Utilities.ModPathUtils.GetDirectory(GetType())}/Slash");
 		}
 		
 		public override void Unload()

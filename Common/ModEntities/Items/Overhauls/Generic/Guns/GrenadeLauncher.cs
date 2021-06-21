@@ -30,7 +30,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
 
 		public override void SetDefaults(Item item)
 		{
-			item.UseSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Guns/GrenadeLauncher/GrenadeLauncherFire", 0, volume: 0.15f);
+			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/GrenadeLauncher/GrenadeLauncherFire", 0, volume: 0.15f);
 		}
 	}
 }

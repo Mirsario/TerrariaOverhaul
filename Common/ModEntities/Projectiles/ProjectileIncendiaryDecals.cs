@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Decals;
@@ -36,7 +37,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 			rect.Inflate(size, size);
 
-			DecalSystem.AddDecals(Mod.GetTexture("Assets/Textures/ExplosionDecal").Value, rect, new Color(255, 255, 255, (byte)(alpha * 255f)));
+			DecalSystem.AddDecals(Mod.Assets.Request<Texture2D>("Assets/Textures/ExplosionDecal").Value, rect, new Color(255, 255, 255, (byte)(alpha * 255f)));
 		}
 	}
 }

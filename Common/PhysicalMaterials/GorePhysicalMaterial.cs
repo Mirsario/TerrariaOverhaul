@@ -7,6 +7,6 @@ namespace TerrariaOverhaul.Common.PhysicalMaterials
 {
 	public sealed class GorePhysicalMaterial : PhysicalMaterial, IFootstepSoundProvider
 	{
-		public SoundStyle FootstepSound { get; } = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreSmallSplatter", 2, volume: 0.4f);
+		public SoundStyle FootstepSound { get; } = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSmallSplatter", 2, volume: 0.4f);
 	}
 }

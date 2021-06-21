@@ -25,9 +25,9 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		private const int GoreSoundMinCooldown = 10;
 		private const int GoreSoundMaxCooldown = 25;
 
-		public static readonly SoundStyle GoreHitSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreHit", 3, volume: 0.4f, pitchVariance: 0.2f);
-		public static readonly SoundStyle GoreBreakSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreSplatter", 2, volume: 0.15f, pitchVariance: 0.2f);
-		public static readonly SoundStyle GoreGroundHitSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/GoreSmallSplatter", 2, volume: 0.4f, pitchVariance: 0.2f);
+		public static readonly SoundStyle GoreHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreHit", 3, volume: 0.4f, pitchVariance: 0.2f);
+		public static readonly SoundStyle GoreBreakSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2, volume: 0.15f, pitchVariance: 0.2f);
+		public static readonly SoundStyle GoreGroundHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSmallSplatter", 2, volume: 0.4f, pitchVariance: 0.2f);
 
 		private static Dictionary<SoundStyle, ulong> goreSoundCooldowns;
 

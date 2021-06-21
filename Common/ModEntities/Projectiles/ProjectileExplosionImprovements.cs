@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -143,7 +144,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 				rect.Inflate(64, 64);
 
-				DecalSystem.AddDecals(Mod.GetTexture("Assets/Textures/ExplosionDecal").Value, rect, new Color(255, 255, 255, (int)Math.Min(maxPower, 128)));
+				DecalSystem.AddDecals(Mod.Assets.Request<Texture2D>("Assets/Textures/ExplosionDecal").Value, rect, new Color(255, 255, 255, (int)Math.Min(maxPower, 128)));
 			}
 		}
 	}

@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		public const float ChargeShootSpeedScale = 1.5f;
 		public const float ChargeLengthScale = 2.5f;
 
-		public static readonly SoundStyle ChargeSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Items/Magic/MagicCharge", volume: 0.5f, pitchVariance: 0.1f);
+		public static readonly SoundStyle ChargeSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicCharge", volume: 0.5f, pitchVariance: 0.1f);
 
 		private SlotId chargeSoundInstance;
 

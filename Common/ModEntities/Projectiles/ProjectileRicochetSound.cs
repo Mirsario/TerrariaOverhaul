@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 	[Autoload(Side = ModSide.Client)]
 	public class ProjectileRicochetSound : GlobalProjectileBase
 	{
-		public static readonly ModSoundStyle RicochetSound = new(nameof(TerrariaOverhaul), "Assets/Sounds/HitEffects/Ricochet", 2, volume: 0.1f); 
+		public static readonly ModSoundStyle RicochetSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/Ricochet", 2, volume: 0.1f); 
 
 		public override bool AppliesToEntity(Projectile projectile, bool lateInstantiation)
 			=> OverhaulProjectileTags.Bullet.Has(projectile.type);
