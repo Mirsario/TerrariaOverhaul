@@ -16,6 +16,11 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 			Url = url;
 		}
 
-		protected override void OnClicked() => Process.Start(Url);
+		protected override void OnClicked()
+		{
+			Process.Start(new ProcessStartInfo(Url) {
+				UseShellExecute = true
+			});
+		}
 	}
 }
