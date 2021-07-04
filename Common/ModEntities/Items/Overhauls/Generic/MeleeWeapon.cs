@@ -346,9 +346,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				dashVelocity *= Math.Max(0f, directionsDotProduct * directionsDotProduct);
 
 				//Slight upwards movement bonus.
-				dashVelocity.Y -= 1f;
+				dashVelocity.Y -= 1.5f;
 
-				var maxVelocity = Vector2.Min(Vector2.One * 11f, new Vector2(Math.Abs(dashVelocity.X), Math.Abs(dashVelocity.Y)));
+				var maxVelocity = Vector2.Min(Vector2.One * 9f, new Vector2(Math.Abs(dashVelocity.X), Math.Abs(dashVelocity.Y)));
 
 				player.AddLimitedVelocity(dashVelocity, maxVelocity);
 			}

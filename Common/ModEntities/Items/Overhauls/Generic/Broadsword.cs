@@ -65,17 +65,27 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			//Swing velocity
 
-			Vector2 dashSpeed = Vector2.One * (CombinedHooks.TotalAnimationTime(item.useAnimation, player, item) / 7f);
-
+			int totalAnimationTime = CombinedHooks.TotalAnimationTime(item.useAnimation, player, item);
+			Vector2 dashSpeed = new Vector2(
+				totalAnimationTime / 7f,
+				totalAnimationTime / 13f
+			);
+			 
 			if(ChargedAttack) {
-				dashSpeed *= 1.5f;
+				dashSpeed.X *= 1.5f;
+				dashSpeed.Y *= 2.2f;
 
 				if(player.OnGround()) {
-					dashSpeed.Y *= 1.5f;
+					dashSpeed.Y *= 1.65f;
 				}
 			} else {
-				//Disable vertical dashes for non-charged attacks whenever the player is on ground.
 				if(player.OnGround()) {
+					//Disable vertical dashes for non-charged attacks whenever the player is on ground.
+					//Also reduces horizontal movement.
+					dashSpeed.X *= 0.625f;
+					dashSpeed.Y = 0f;
+				} else if(AttackDirection.Y < 0f && player.velocity.Y > 0f) {
+					//Disable upwards dashes whenever the player is falling down.
 					dashSpeed.Y = 0f;
 				}
 
@@ -85,7 +95,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				}
 			}
 
-			player.AddLimitedVelocity(dashSpeed * AttackDirection, new Vector2(dashSpeed.X, float.PositiveInfinity));
+			player.AddLimitedVelocity(dashSpeed * AttackDirection, new Vector2(dashSpeed.X, 12f));
 
 			//Slight screenshake for the swing.
 			if(!Main.dedServ) {
