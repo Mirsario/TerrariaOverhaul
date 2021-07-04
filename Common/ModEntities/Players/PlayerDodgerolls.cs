@@ -74,7 +74,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			bool isLocal = Player.IsLocal();
 
-			if(isLocal && wantsDodgerollTimer <= 0f && DodgerollKey.JustPressed) {
+			if(isLocal && wantsDodgerollTimer <= 0f && DodgerollKey.JustPressed && !Player.mouseInterface) {
 				QueueDodgeroll(0.25f, (sbyte)Player.KeyDirection());
 			}
 
