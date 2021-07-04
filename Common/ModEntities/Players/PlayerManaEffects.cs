@@ -45,8 +45,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private void UpdateLowManaEffects()
 		{
-			float manaFactor = Player.statMana / (float)Player.statManaMax2;
-			float goalLowManaEffectIntensity = LowManaVolumeGradient.GetValue(manaFactor);
+			float goalLowManaEffectIntensity;
+
+			if(!Player.dead) {
+				float manaFactor = Player.statMana / (float)Player.statManaMax2;
+
+				goalLowManaEffectIntensity = LowManaVolumeGradient.GetValue(manaFactor);
+			} else {
+				goalLowManaEffectIntensity = 0f;
+			}
 
 			lowManaEffectIntensity = MathUtils.StepTowards(lowManaEffectIntensity, goalLowManaEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
@@ -54,23 +61,34 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			SoundUtils.UpdateLoopingSound(ref lowManaSoundSlot, LowManaSound, lowManaEffectIntensity, CameraSystem.ScreenCenter);
 
 			//Dust
-			lowManaDustCounter += lowManaEffectIntensity / 4f;
+			if(!Player.dead) {
+				lowManaDustCounter += lowManaEffectIntensity / 4f;
 
-			while(lowManaDustCounter >= 1f) {
-				var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.SomethingRed, Alpha: 255, Scale: Main.rand.NextFloat(1.5f, 2f));
+				while(lowManaDustCounter >= 1f) {
+					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.SomethingRed, Alpha: 255, Scale: Main.rand.NextFloat(1.5f, 2f));
 
-				dust.noLight = true;
-				dust.noGravity = true;
-				dust.velocity *= 0.25f;
+					dust.noLight = true;
+					dust.noGravity = true;
+					dust.velocity *= 0.25f;
 
-				lowManaDustCounter--;
+					lowManaDustCounter--;
+				}
+			} else {
+				lowManaDustCounter = 0f;
 			}
 		}
 		private void UpdateManaRegenEffects()
 		{
-			float manaFactor = Player.statMana / (float)Player.statManaMax2;
-			float regenSpeed = Player.manaRegen + Player.manaRegenBonus;
-			float goalManaRegenEffectIntensity = manaFactor < 1f ? MathHelper.Clamp(regenSpeed / 30f, 0f, 1f) : 0f;
+			float goalManaRegenEffectIntensity;
+
+			if(!Player.dead) {
+				float manaFactor = Player.statMana / (float)Player.statManaMax2;
+				float regenSpeed = Player.manaRegen + Player.manaRegenBonus;
+
+				goalManaRegenEffectIntensity = manaFactor < 1f ? MathHelper.Clamp(regenSpeed / 30f, 0f, 1f) : 0f;
+			} else {
+				goalManaRegenEffectIntensity = 0f;
+			}
 
 			manaRegenEffectIntensity = MathUtils.StepTowards(manaRegenEffectIntensity, goalManaRegenEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
@@ -78,16 +96,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, ManaRegenSound, manaRegenEffectIntensity, CameraSystem.ScreenCenter);
 
 			//Dust
-			manaRegenDustCounter += manaRegenEffectIntensity / 4f;
+			if(!Player.dead) {
+				manaRegenDustCounter += manaRegenEffectIntensity / 4f;
 
-			while(manaRegenDustCounter >= 1f) {
-				var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, 45, Alpha: 255, Scale: Main.rand.NextFloat(2f, 2.6f));
+				while(manaRegenDustCounter >= 1f) {
+					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, 45, Alpha: 255, Scale: Main.rand.NextFloat(2f, 2.6f));
 
-				dust.noLight = true;
-				dust.noGravity = true;
-				dust.velocity *= 0.5f;
+					dust.noLight = true;
+					dust.noGravity = true;
+					dust.velocity *= 0.5f;
 
-				manaRegenDustCounter--;
+					manaRegenDustCounter--;
+				}
+			} else {
+				manaRegenDustCounter = 0f;
 			}
 		}
 	}
