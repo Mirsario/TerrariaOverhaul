@@ -75,7 +75,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			var itemCharging = item.GetGlobalItem<ItemCharging>();
 
-			if(player.itemAnimation <= 0 && !itemCharging.IsCharging) {
+			if(player.itemAnimation <= 1 && !itemCharging.IsCharging) {
 				ChargedAttack = false;
 			}
 
