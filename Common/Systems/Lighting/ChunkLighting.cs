@@ -99,7 +99,11 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 		{
 			if(Texture != null) {
 				lock(Texture) {
-					Texture.Dispose();
+					var textureHandle = Texture;
+
+					Main.QueueMainThreadAction(() => {
+						textureHandle.Dispose();
+					});
 
 					Texture = null;
 				}
