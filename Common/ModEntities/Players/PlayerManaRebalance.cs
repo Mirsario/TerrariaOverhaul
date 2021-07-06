@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public class PlayerManaRebalance : ModPlayer
 	{
-		public const int BaseManaRegen = 10;
+		public static int BaseManaRegen => 13;
 
 		private static bool IsEnabled => true;
 
@@ -47,6 +47,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 						if(p.manaRegenBuff) {
 							p.manaRegen *= 2;
+						}
+
+						if(p.itemAnimation > 0 && p.HeldItem.mana > 0) {
+							p.manaRegen = 0;
 						}
 					}
 				});
