@@ -3,277 +3,277 @@ Mods: {
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
-					//DisplayName: "Enable Ambient Sounds"
-					//Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
+					DisplayName: "Włącz Dźwięki Otoczenia"
+					Description: "Włącza dżwięki otoczenia takie jak ptaki, świerszcze czy szumy jaskiń."
 				}
 				
 				EnablePlayerFootsteps: {
-					//DisplayName: "Enable Player Footsteps"
-					//Description: "Toggles player character footstep audio"
+					DisplayName: "Włącz Kroki Gracza"
+					Description: "Włącza dźwięki kroków gracza"
 				}
 			}
 			
 			BloodAndGore: {
 				EnableDecals: {
-					//DisplayName: "Enable Decals"
-					//Description: "Toggles decals, also known as 'blood on tiles'."
+					DisplayName: "Włącz Ślady Krwi"
+					Description: "Włącza ślady krwi na blokach i płytkach."
 				}
 			}
 			
 			Camera: {
 				SmoothCamera: {
-					//DisplayName: "Smooth Camera"
-					//Description: "Interpolates the camera's movement to improve the feel of velocity."
+					DisplayName: "Płynna Kamera"
+					Description: "Zmienia ruchy kamery dla lepszego poczucia prędkości."
 				}
 				
 				ScreenShakeStrength: {
-					//DisplayName: "Screen Shake Strength"
-					//Description: "Controls the strength of screen shaking effects. Set this to zero to disable screen shakes completely."
+					DisplayName: "Siła Wstrząsów Ekranu"
+					Description: "Kontroluje siłę efektów wstrząsów na ekranie. Ustaw na zero by je całkowicie wyłączyć."
 				}
 			}
 			
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
-					//DisplayName: "Enable Vertical Acceleration Changes"
-					//Description: "Toggle air friction and (almost) unlimited maximum fall speed."
+					DisplayName: "Włącz Zmiany Ruchu w Pionie"
+					Description: "Włącza opór powietrza i (prawie) nieograniczoną prędkość spadania."
 				}
 				
 				EnableHorizontalAccelerationChanges: {
-					//DisplayName: "Enable Horizontal Acceleration Changes"
-					//Description: "Toggle changes to horizontal friction, run max speed and acceleration."
+					DisplayName: "Włącz Zmiany Ruchu w Poziomie"
+					Description: "Włącza zmiany ruchu w poziomie, maksymanlnej prędkości biegu i przyśpieszenia."
 				}
 				
 				EnableBunnyhopping: {
-					//DisplayName: "Enable Bunnyhopping"
-					//Description: "Bunnyhopping gives you a slight horizontal boost every time you jump. Turning this off will disable certain accessories."
+					DisplayName: "Włącz Bunnyhopping"
+					Description: "Bunnyhopping daje niewielkie przyśpieszenie biegu za każdy wykonany skok. Wyłaczenie tego niweluje niektóre akcesoria."
 				}
 				
 				EnableClimbing: {
-					//DisplayName: "Enable Climbing"
-					//Description: "Climbing lets you reach new heights by holding the up button."
+					DisplayName: "Włącz Wspinaczkę"
+					Description: "Wspinaczka pozwala ci podciągnąć się krawędzi poprzez trzymanie przycisku w górę."
 				}
 				
 				EnableWallJumping: {
-					//DisplayName: "Enable Wall Jumping"
-					//Description:
-					//	'''
-					//	Wall jumping is a new movement mechanic that requires climbing gear or spike shoes.
-					//	It is done by hitting a wall with your back while holding the up button with horizontal movement buttons released.
-					//	'''
+					DisplayName: "Włącz skoki po ścianach"
+					Description:
+						'''
+						Skakanie po ścianach to nowy system poruszania się który wymaga zestawu do wspinaczki lub kolców do butów.
+						Wykonaj je poprzez uderzenie w ścianę tyłem, trzymając przycisk w górę, i z puszczonymi przyciskami ruchu w poziomie.
+						'''
 				}
 				
 				EnableWallFlips: {
-					//DisplayName: "Enable Wall Flips"
-					//Description:
-					//	'''
-					//	A wall flip is a new movement mechanic that does not require any accessories.
-					//	It is done by hitting a wall with your front with enough velocity while holding the horizontal movement opposite of the player's direction.
-					//	'''
+					DisplayName: "Włącz Piruety ze Ścian"
+					Description:
+						'''
+						Piruety ze ścian to nowy system poruszania się, nie wymaga akcesoriów.
+						Wykonaj je poprzez uderzenie w ścianę przodem z dość dużą prędkością, trzymając przycisk ruchu w przeciwną stronę.
+						'''
 				}
 			}
 			
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
-					//DisplayName: "Always Show Aimable Weapons"
-					//Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
+					DisplayName: "Zawsze Pokazuj Bronie Mierzone"
+					Description: "Włącz pokazywanie broni typu 'wyciąganego' gdy nie jest w użyciu."
 				}
 				
 				EnablePlayerHeadRotation: {
-					//DisplayName: "Enable Player Head Rotation"
-					//Description: "Toggles player characters looking at their cursors."
+					DisplayName: "Włącz Obrót Głowy Gracza"
+					Description: "Włącza podążanie głów graczy za kursorem."
 				}
 				
 				EnablePlayerTilting: {
-					//DisplayName: "Enable Player Tilting"
-					//Description: "Toggles player characters being slightly tilted based on their velocity. This makes them look a lot more alive."
+					DisplayName: "Włącz Pochylenie Gracza"
+					Description: "Włącza pochylanie się gracza wraz z jego prędkością. Sprawia że wygląda bardziej żywo."
 				}
 			}
 		}
 		
 		Seasons: {
 			Spring: {
-				//Name: "Spring"
+				Name: "Wiosna"
 			}
 
 			Summer: {
-				//Name: "Summer"
+				Name: "Lato"
 			}
 
 			Autumn: {
-				//Name: "Autumn"
+				Name: "Jesień"
 			}
 
 			Winter: {
-				//Name: "Winter"
+				Name: "Zima"
 			}
 
-			//SelectSeason: "Select starting season:"
-			//CalendarCurrentSeason: "It's currently {SeasonName}."
-			//CalendarNextSeasonDays: "{SeasonName} will arrive in {NumDays} days."
-			//CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
+			SelectSeason: "Wybierz początkową porę roku:"
+			CalendarCurrentSeason: "Jest teraz {SeasonName}."
+			CalendarNextSeasonDays: "{SeasonName} nadejdzie za {NumDays} dni."
+			CalendarNextSeasonTomorrow: "Jutro nadchodzi {SeasonName}!"
 		}
 		
 		ItemOverhauls: {
 			Melee: {
 				Broadsword: {
-					//KillingBlow: "Killing Blow!"
-					//KillingBlowInfo: 
-					//	'''
-					//	Charged strikes can deal Killing Blows to damaged enemies
-					//	Killing Blows double damage whenever that would finish the enemy
-					//	'''
+					KillingBlow: "Zabójczy Cios!"
+					KillingBlowInfo: 
+						'''
+						Naładowane ataki mogą zadać Zabójcze Ciosy zranionym przeciwnikom
+						Zabójcze Ciosy zadają podwójne obrażenia, jeśli wykończyłyby przeciwnika
+						'''
 				}
 				
-				//AirCombatInfo: "Attacking enemies mid-air launches you towards them"
-				//VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
+				AirCombatInfo: "Atakowanie przeciwników w powietrzu wyrzuca cię w ich stronę"
+				VelocityBasedDamageInfo: "Obrażenia mogą być zwiększone poprzez prędkość, więc zryw w ich stronę jest zalecany"
 			}
 		}
 		
 		CommonTooltips: {
-			//ShowCombatInfo: "[Hold {Key} to show combat information]"
-			//CombatInfo: "[Combat Information]"
+			ShowCombatInfo: "[Przytrzymaj {Key} by pokazać informacje bojowe]"
+			CombatInfo: "[Informacje Bojowe]"
 		}
 		
 		DeathText: {
-			//Zombified: "And then {PlayerName} was a zombie."
-			//ZombifiedScreenText: "You became a zombie..."
-			//ZombifiedName: "{PlayerName} the Zombie"
-			//Lightning: "{PlayerName} was struck by lightning. Ouch!"
+			Zombified: "I wtedy {PlayerName} stali się zombie."
+			ZombifiedScreenText: "Staliście się zombie..."
+			ZombifiedName: "Zombie {PlayerName}"
+			Lightning: "Gracza {PlayerName} uderzył piorun. Auć!"
 		}
 		
 		ItemName: {
 			//Accessories
-			//BunnyPaw: "Bunny Paw"
+			BunnyPaw: "Królicza Łapka"
 			
 			//Materials
-			//Charcoal: "Charcoal"
+			Charcoal: "Węgiel Drzewny"
 			
 			//Placeables
-			//Calendar: "Calendar"
-			//Gramophone: "Gramophone"
+			Calendar: "Kalendarz"
+			Gramophone: "Gramofon"
 			
 			//Consumables
-			//MusicDisc: "Music Disc"
+			MusicDisc: "Płyta Muzyczna"
 			
 			//Tools
-			//Mop: "Mop"
-			//StoneAxe: "Stone Axe"
-			//StonePickaxe: "Stone Pickaxe"
+			Mop: "Mop"
+			StoneAxe: "Kamienny Topór"
+			StonePickaxe: "Kamienny Kilof"
 			
 			//Unused
-			//HarmlessRocket: "Harmless Rocket"
-			//HaxxCostume: "Jade's Birb Disguise"
-			//ImpactBomb: "Impact Bomb"
-			//ImpactDynamite: "Impact Dynamite"
-			//ImpactGrenade: "Impact Grenade"
-			//LightningRod: "Lightning Rod"
-			//RedGel: "Red Gel"
-			//RepairKit1: "Primitive Repair Kit"
-			//RepairKit2: "Goblin Repair Kit"
-			//RepairTable: "Repair Table"
-			//RocketJumper: "Rocket Jumper"
-			//SleepingPotion: "Sleeping Potion"
-			//SmokeDetector: "Smoke Detector"
-			//SuperShotgun: "Super Shotgun"
-			//WaterArrow: "Water Arrow"
+			HarmlessRocket: "Nieszkodliwa Rakieta"
+			HaxxCostume: "Ptasie Przebranie Jade"
+			ImpactBomb: "Bomba Kontaktowa"
+			ImpactDynamite: "Dynamit Kontaktowy"
+			ImpactGrenade: "Granat Kontaktowy"
+			LightningRod: "Piorunochron"
+			RedGel: "Czerwony Żel"
+			RepairKit1: "Prymitywny Zestaw Naprawczy"
+			RepairKit2: "Zestaw Naprawczy Goblina"
+			RepairTable: "Stół do Napraw"
+			RocketJumper: "Rakietowy Skoczek"
+			SleepingPotion: "Mikstura Snu"
+			SmokeDetector: "Czujnik Dymu"
+			SuperShotgun: "Super Strzelba"
+			WaterArrow: "Wodna Strzała"
 		}
 
 		ItemTooltip: {
 			//Accessories
-			//BunnyPaw: "Increases bunnyhop speed boost"
+			BunnyPaw: "Zwiększa bonus do prędkości bunnyhopingu"
 			
 			//Materials
-			//Charcoal: "It's still warm"
+			Charcoal: "Ciągle ciepły"
 			
 			//Placeables
-			//Calendar:
-			//	'''
-			//	Counts amount of days left until the next season
-			//	Right click after placing to use it
-			//	'''
-			//Gramophone: "Plays music discs"
+			Calendar:
+				'''
+				Odlicza dni do następnej pory roku
+				Zawieś i kliknij prawym przyciskiem myszy aby użyć
+				'''
+			Gramophone: "Odtwarza płyty muzyczne"
 			
 			//Consumables
-			//MusicDisc: "Can be played in a gramophone"
+			MusicDisc: "Może być odtworzona na gramofonie"
 			
 			//Tools
-			//Mop: "Keeps your house clean of guts and shredded eyeballs"
-			//StoneAxe: "Wood is probably stronger than this"
-			//StonePickaxe: "Great against dirt!"
+			Mop: "Oczyszcza twój dom z krwi, flaków i rozszarpanych gałek ocznych"
+			StoneAxe: "Już drewno byłoby mocniejsze od tego"
+			StonePickaxe: "Świetne przeciwko ziemi!"
 			
 			//Unused
 			//HarmlessRocket:
 			//	'''
-			//	Deals no damage
-			//	Used by Rocket Jumper
+			//	Nie zadaje obrażeń
+			//	Używana przez Rakietowego Skoczka
 			//	'''
-			//HaxxCostume: "Overhaul contributor's item"
+			//HaxxCostume: "Przedmiot wspierającego Overhaul"
 			//ImpactBomb:
 			//	'''
-			//	A small explosion that will destroy tiles
-			//	[c/ff0000:Explodes on impact]
+			//	Mała eksplozja która niszczy niektóre płytki
+			//	[c/ff0000:Wybucha przy kontakcie]
 			//	'''
 			//ImpactDynamite:
 			//	'''
-			//	A large explosion that will destroy most tiles
-			//	[c/ff0000:Explodes on impact]
+			//	Duża eksplozja która niszczy większość płytek
+			//	[c/ff0000:Wybucha przy kontakcie]
 			//	'''
 			//ImpactGrenade:
 			//	'''
-			//	A small explosion that will not destroy tiles
-			//	Explodes on impact
+			//	Mała eksplozja która nie niszczy płytek
+			//	Wybucha przy kontakcie
 			//	'''
 			//LightningRod:
 			//	'''
-			//	Attracts lightning, saves your life
-			//	[c/ff0000:Place on non-flammable blocks]
+			//	Przyciąga pioruny, ratując ci życie
+			//	[c/ff0000:Nie stawiać na niczym łatwopalnym]
 			//	'''
 			//OnyxCell:
 			//	'''
-			//	Used by Onyx Blaster 9000
-			//	Extremely illegal
+			//	Używane przez Onyx Blaster 9000
+			//	Ekstremalnie Nielegalne
 			//	'''
 			//RedGel:
 			//	'''
-			//	Can be used to make impact explosives
-			//	[c/ff0000:CAUSE RED GOEZ FASTA!!!]
+			//	Używany do tworzenia kontaktowych materiałów wybuchowych
+			//	[c/ff0000:BO CZERWONY JEST SZYBSZY!!!]
 			//	'''
-			//RepairKit1: "Used for repair of some primitive weapons and tools"
-			//RepairKit2: "Used for repair of advanced weapons and tools."
-			//RepairTable: "Right click after placing to repair your items"
+			//RepairKit1: "Używany do naprawy prymitywnych narzędzi i broni"
+			//RepairKit2: "Używany do naprawy zaawansowanych narzędzi i broni."
+			//RepairTable: "Postaw i kliknij prawym przyciskiem myszy by naprawić swoje przedmioty"
 			//RocketJumper:
 			//	'''
-			//	Fires training rockets that deal no damage
-			//	Great for rocket jump training!
+			//	Strzela rakietami treningowymi, nie zadaje obrażeń
+			//	Idealne do trenowania rakietowych skoków!
 			//	'''
 			//SleepingPotion:
 			//	'''
-			//	Lets you sleep during daytime
-			//	10 minute duration
+			//	Pozwala ci spać podczas dnia
+			//	Czas trwania 10 minut
 			//	'''
 			//SmokeDetector:
 			//	'''
-			//	Sends a signal output whenever there's a fire near
-			//	Right click to toggle modes
+			//	Wysyła sygnał gdy wykryje w pobliżu ogień
+			//	Kliknij prawym przyciskiem myszy by przełączać tryby działania
 			//	'''
-			//SuperShotgun: "They're all doomed"
-			//WaterArrow: "Creates a small water explosion which knocks enemies back"
+			//SuperShotgun: "To dla nich koniec"
+			//WaterArrow: "Tworzy niewielki wybuch wodny, odrzucając wrogów"
 		}
 		
 		NPCName: {
-			//AshSlime: "Ash Clot"
-			//AshZombie: "Walking Ashes"
-			//FlyingPiranha: "Flying Piranha"
-			//FlyingShark: "Flying Shark"
-			//FlyingTree: "Flying Tree"
+			AshSlime: "Grudka Popiołu"
+			AshZombie: "Chodzące Prochy"
+			FlyingPiranha: "Latająca Pirania"
+			FlyingShark: "Latający Rekin"
+			FlyingTree: "Latające Drzewo"
 		}
 		
 		BuffName: {
-			//ManaChannelling: "Mana Channelling"
+			ManaChannelling: "Ładowanie Many"
 		}
 		
 		BuffDescription: {
-			//ManaChannelling: "Your patience is increasing your mana regeneration"
+			ManaChannelling: "Twoja cierpliwość zwiększa regenerację many"
 		}
 	}
 }
