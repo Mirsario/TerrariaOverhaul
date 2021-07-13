@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items
 {
-	public class ItemAutoSwing : GlobalItem
+	public class ItemAutoReuse : GlobalItem
 	{
 		public override void SetDefaults(Item item)
 		{

@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Utilities;
@@ -32,7 +33,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			var itemCharging = item.GetGlobalItem<ItemCharging>();
 
-			if(itemCharging.IsCharging) {
+			if(itemCharging.IsCharging || player.itemAnimation > (int)Math.Ceiling(player.itemAnimationMax * 0.15f)) {
 				return false;
 			}
 
@@ -75,7 +76,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 		{
 			var itemCharging = item.GetGlobalItem<ItemCharging>();
 
-			if(player.itemAnimation <= 0 && !itemCharging.IsCharging) {
+			if(player.itemAnimation <= 1 && !itemCharging.IsCharging) {
 				ChargedAttack = false;
 			}
 

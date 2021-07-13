@@ -60,7 +60,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					lastSyncedMouseWorld = mouseWorld;
 				}
 			}
-
 			if(!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation > 0 || ICanTurnDuringItemUse.Hook.Invoke(Player.HeldItem, Player))) {
 				if(forcedDirection != 0) {
 					Player.direction = forcedDirection;

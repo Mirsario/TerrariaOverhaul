@@ -47,7 +47,11 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 		public override void OnDispose(Chunk chunk)
 		{
 			if(texture != null) {
-				texture.Dispose();
+				var textureHandle = texture;
+
+				Main.QueueMainThreadAction(() => {
+					textureHandle.Dispose();
+				});
 
 				texture = null;
 			}
