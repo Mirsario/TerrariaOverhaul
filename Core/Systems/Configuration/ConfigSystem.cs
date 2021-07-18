@@ -44,11 +44,6 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 			
 		}
 
-		public override void SetupContent()
-		{
-			
-		}
-
 		private void ForceInitializeStaticConstructors()
 		{
 			DebugSystem.Log($"Running static constructors of types that contain config entries...");

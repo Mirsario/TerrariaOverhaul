@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Content.Tiles.Furniture
 {
 	public class Calendar : TileBase
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = false;
 			Main.tileNoAttach[Type] = false;

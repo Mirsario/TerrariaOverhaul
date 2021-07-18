@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Content.Tiles.Furniture
 {
 	public class Gramophone : TileBase
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileFrameImportant[Type] = true;
 			Main.tileSolid[Type] = false;
