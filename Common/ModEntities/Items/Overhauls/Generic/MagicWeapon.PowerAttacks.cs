@@ -32,6 +32,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				return false;
 			}
 
+			if(!player.CheckMana(item)) {
+				return false;
+			}
+
 			int chargeLength = CombinedHooks.TotalAnimationTime(item.useAnimation * ChargeLengthScale, player, item);
 
 			if(!Main.dedServ) {
