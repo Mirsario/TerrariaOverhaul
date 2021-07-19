@@ -72,8 +72,8 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
 		{
-			if(player.IsLocal() && item.CountsAsClass(DamageClass.Magic)) {
-				OnDamagedByMagic(npc, player, damage, item.useTime, item.useAnimation, item.mana);
+			if(player.IsLocal()) {
+				AccumulateManaOnHit(npc, player, damage, item.useTime, item.useAnimation, item.mana);
 			}
 		}
 		
@@ -81,9 +81,8 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		{
 			var ownerPlayer = projectile.GetOwner();
 
-			if(ownerPlayer?.IsLocal() == true && projectile.CountsAsClass(DamageClass.Magic)
-			&& projectile.TryGetGlobalProjectile<ProjectileSourceItemInfo>(out var projInfo) && projInfo.Available) {
-				OnDamagedByMagic(npc, ownerPlayer, damage, projInfo.UseTime, projInfo.UseAnimation, projInfo.ManaUse);
+			if(ownerPlayer?.IsLocal() == true && projectile.TryGetGlobalProjectile<ProjectileSourceItemInfo>(out var projInfo) && projInfo.Available) {
+				AccumulateManaOnHit(npc, ownerPlayer, damage, projInfo.UseTime, projInfo.UseAnimation, projInfo.ManaUse);
 			}
 		}
 
@@ -145,19 +144,26 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return dropsCount;
 		}
-		private void OnDamagedByMagic(NPC npc, Player player, float damage, int useTime, int useAnimation, int manaUse)
+		private void AccumulateManaOnHit(NPC npc, Player player, float damage, int useTime, int useAnimation, int manaUse)
 		{
-			if(npc.damage <= 0 || NPCID.Sets.ProjectileNPC[npc.type]) {
+			if(npc.damage <= 0 || NPCID.Sets.ProjectileNPC[npc.type] || player.statMana >= player.statManaMax2) {
 				return;
 			}
 
+			/*
 			const float ManaUsePerSecondToManaFactor = 1f / 15f;
 			const float ManaUsePerSecondToManaPickupFactor = ManaUsePerSecondToManaFactor / ManaPickupChanges.ManaPerPickup;
+
+			//manaUse = 10;
 
 			float manaUsePerSecond = manaUse / (useAnimation * TimeSystem.LogicDeltaTime);
 			int shotsPerUse = Math.Max(1, useAnimation / useTime);
 
 			manaPickupsToDrop += manaUsePerSecond * ManaUsePerSecondToManaPickupFactor / shotsPerUse;
+			*/
+
+			manaPickupsToDrop += useTime / ManaPickupChanges.ManaPerPickup / 6f;
+			//manaPickupsToDrop += dps / ManaPickupChanges.ManaPerPickup * 2f;
 
 			//Drop everything instantly if dead.
 			if(!npc.active) {
