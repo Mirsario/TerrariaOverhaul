@@ -39,7 +39,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				chargeLength,
 				//Update
 				(i, p, progress) => {
-					p.itemTime = 1;
+					p.itemTime = 2;
 					p.itemAnimation = p.itemAnimationMax;
 				},
 				//End
