@@ -5,6 +5,9 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Utilities;
 using TerrariaOverhaul.Common.ModEntities.Players;
+using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
@@ -33,6 +36,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			if(!Main.dedServ) {
 				chargeSoundInstance = SoundEngine.PlayTrackedSound(ChargeSound, player.Center);
+
+				ScreenShakeSystem.New(
+					new Gradient<float>(
+						(0.0f, 0.0f),
+						(0.5f, 0.1f),
+						(1.0f, 15.0f)
+					),
+					chargeLength / (float)TimeSystem.LogicFramerate
+				);
 			}
 
 			itemCharging.StartCharge(
