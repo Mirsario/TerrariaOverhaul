@@ -58,7 +58,13 @@ namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 				float maxPower;
 
 				if(shake.powerGradient != null) {
-					maxPower = shake.powerGradient.GetValue(shake.TimeMax - shake.time);
+					float progress = (shake.TimeMax - shake.time) / shake.TimeMax;
+
+					if(float.IsNaN(progress)) {
+						progress = 0f;
+					}
+
+					maxPower = shake.powerGradient.GetValue(progress);
 				} else {
 					maxPower = shake.power;
 				}
