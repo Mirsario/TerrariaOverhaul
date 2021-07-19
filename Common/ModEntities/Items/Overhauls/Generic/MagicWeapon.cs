@@ -9,6 +9,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
 	public partial class MagicWeapon : AdvancedItem, IShowItemCrosshair
 	{
+		public static readonly ModSoundStyle MagicBlastSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicBlast", 2, pitchVariance: 0.125f);
+
 		public override ScreenShake OnUseScreenShake => new(4f, 0.2f);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
@@ -30,7 +32,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 
 			return true;
 		}
-		
+
+		public override void SetDefaults(Item item)
+		{
+			base.SetDefaults(item);
+
+			if(item.UseSound == SoundID.Item43) {
+				item.UseSound = MagicBlastSound;
+			}
+		}
+
 		public override void HoldItem(Item item, Player player)
 		{
 			HoldItemCharging(item, player);
