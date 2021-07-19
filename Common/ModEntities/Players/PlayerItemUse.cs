@@ -13,6 +13,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				Player.controlUseItem = true;
 				Player.altFunctionUse = altFunctionUse;
 				Player.itemAnimation = 0;
+				Player.reuseDelay = 0;
 				Player.itemTime = 0;
 
 				forceItemUse = false;
