@@ -13,10 +13,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 {
 	partial class MagicWeapon
 	{
-		public const float ChargeDamageScale = 1.5f;
-		public const float ChargeKnockbackScale = 1.5f;
-		public const float ChargeShootSpeedScale = 1.5f;
-		public const float ChargeLengthScale = 2.5f;
+		public static float ChargeDamageScale => 2.5f;
+		public static float ChargeKnockbackScale => 1.5f;
+		public static float ChargeShootSpeedScale => 2f;
+		public static float ChargeLengthScale => 2f;
 
 		public static readonly SoundStyle ChargeSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicCharge", volume: 0.5f, pitchVariance: 0.1f);
 
