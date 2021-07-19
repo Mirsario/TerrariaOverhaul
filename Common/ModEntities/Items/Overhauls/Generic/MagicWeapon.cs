@@ -10,6 +10,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 	public partial class MagicWeapon : AdvancedItem, IShowItemCrosshair
 	{
 		public static readonly ModSoundStyle MagicBlastSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicBlast", 3, pitchVariance: 0.1f);
+		public static readonly ModSoundStyle MagicPowerfulBlastSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast", pitchVariance: 0.4f);
 
 		public override ScreenShake OnUseScreenShake => new(4f, 0.2f);
 

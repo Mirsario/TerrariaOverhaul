@@ -63,6 +63,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 					magicWeapon.ChargedAttack = true;
 
 					magicWeapon.StopChargeSound();
+
+					if(!Main.dedServ) {
+						SoundEngine.PlaySound(MagicPowerfulBlastSound, player.Center);
+					}
 				},
 				//Allow turning
 				true
