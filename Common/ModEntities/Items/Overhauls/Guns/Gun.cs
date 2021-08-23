@@ -6,7 +6,7 @@ using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.Systems.CursorOffsets;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
 	public abstract class Gun : AdvancedItem, IShowItemCrosshair
 	{

@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic;
+using TerrariaOverhaul.Common.ModEntities.Items.Overhauls;
 using TerrariaOverhaul.Common.ModEntities.Items.Utilities;
 using TerrariaOverhaul.Common.Systems.TextureColors;
 using TerrariaOverhaul.Utilities.DataStructures;

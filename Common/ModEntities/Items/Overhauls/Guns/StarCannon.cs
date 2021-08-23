@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
 	public class StarCannon : Minigun
 	{

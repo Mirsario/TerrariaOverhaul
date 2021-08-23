@@ -20,7 +20,7 @@ using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
 	public class MeleeWeapon : ItemOverhaul, IModifyItemNPCHitSound
 	{

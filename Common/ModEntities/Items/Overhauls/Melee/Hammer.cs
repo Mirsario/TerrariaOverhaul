@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
 	public class Hammer : MeleeWeapon
 	{

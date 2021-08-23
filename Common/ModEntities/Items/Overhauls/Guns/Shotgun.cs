@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Content.Gores;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
 	public class Shotgun : Gun
 	{

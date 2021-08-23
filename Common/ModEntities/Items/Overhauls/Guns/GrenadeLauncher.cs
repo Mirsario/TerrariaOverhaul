@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Tags;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
 	public class GrenadeLauncher : Gun
 	{

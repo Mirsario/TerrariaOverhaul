@@ -5,7 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic.Guns
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
 	public class Flamethrower : Gun
 	{

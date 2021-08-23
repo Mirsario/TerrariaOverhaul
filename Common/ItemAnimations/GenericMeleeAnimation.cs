@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic;
+using TerrariaOverhaul.Common.ModEntities.Items.Overhauls;
 
 namespace TerrariaOverhaul.Common.ItemAnimations
 {

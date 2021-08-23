@@ -9,7 +9,7 @@ using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities.DataStructures;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
 	partial class MagicWeapon
 	{

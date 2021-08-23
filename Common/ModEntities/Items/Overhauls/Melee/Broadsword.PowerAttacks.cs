@@ -2,12 +2,13 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee;
 using TerrariaOverhaul.Common.ModEntities.Items.Utilities;
 using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
 	partial class Broadsword
 	{
@@ -57,6 +58,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				(i, p, progress) => {
 					p.GetModPlayer<PlayerItemUse>().ForceItemUse();
 					i.GetGlobalItem<Broadsword>().ChargedAttack = true;
+					i.GetGlobalItem<KillingBlows>().Enabled = true;
 				},
 				//Allow turning
 				true
@@ -72,12 +74,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				knockback *= ChargeKnockbackScale;
 			}
 		}
+
 		private void HoldItemCharging(Item item, Player player)
 		{
 			var itemCharging = item.GetGlobalItem<ItemCharging>();
 
 			if(player.itemAnimation <= 1 && !itemCharging.IsCharging) {
 				ChargedAttack = false;
+				item.GetGlobalItem<KillingBlows>().Enabled = false;
 			}
 
 			base.HoldItem(item, player);

@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
+namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
 	public partial class Bow : AdvancedItem, IShowItemCrosshair
 	{
