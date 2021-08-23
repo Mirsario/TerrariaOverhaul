@@ -7,10 +7,13 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ItemAnimations;
-using TerrariaOverhaul.Common.ModEntities.Items.Utilities;
+using TerrariaOverhaul.Common.ModEntities.Items.Shared;
+using TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -19,6 +22,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 	public partial class Broadsword : MeleeWeapon
 	{
 		public static readonly ModSoundStyle SwordFleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2, volume: 0.65f, pitchVariance: 0.1f);
+
+		private PowerAttacks powerAttacks;
+		private KillingBlows killingBlows;
 
 		public override MeleeAnimation Animation => ModContent.GetInstance<QuickSlashMeleeAnimation>();
 
@@ -40,19 +46,43 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			return true;
 		}
-		
-		public override void HoldItem(Item item, Player player)
+
+		public override void SetDefaults(Item item)
 		{
-			HoldItemCharging(item, player);
-			
-			base.HoldItem(item, player);
+			base.SetDefaults(item);
+
+			// Power Attacks
+
+			powerAttacks = item.GetGlobalItem<PowerAttacks>();
+			powerAttacks.Enabled = true;
+			powerAttacks.ChargeLengthMultiplier = 1.5f;
+			powerAttacks.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
+			powerAttacks.CommonStatMultipliers.MeleeDamageMultiplier = powerAttacks.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
+			powerAttacks.CommonStatMultipliers.MeleeKnockbackMultiplier = powerAttacks.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
+
+			powerAttacks.OnChargeStart += (item, player, chargeLength) => {
+				//These 2 lines only affect animations.
+				FlippedAttack = false;
+				AttackDirection = Vector2.UnitX * player.direction;
+			};
+			powerAttacks.OnChargeUpdate += (item, player, chargeLength, progress) => {
+				var broadsword = item.GetGlobalItem<Broadsword>();
+
+				// Only visual
+				broadsword.AttackDirection = Vector2.Lerp(broadsword.AttackDirection, player.LookDirection(), 5f * TimeSystem.LogicDeltaTime);
+			};
+
+			// Killing Blows
+
+			killingBlows = item.GetGlobalItem<KillingBlows>();
+			killingBlows.Enabled = true;
 		}
 		
 		public override void UseAnimation(Item item, Player player)
 		{
 			base.UseAnimation(item, player);
 
-			if(!ChargedAttack) {
+			if(!powerAttacks.PowerAttack) {
 				FlippedAttack = AttackNumber % 2 != 0;
 			}
 
@@ -64,7 +94,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				totalAnimationTime / 13f
 			);
 			 
-			if(ChargedAttack) {
+			if(powerAttacks.PowerAttack) {
 				dashSpeed.X *= 1.5f;
 				dashSpeed.Y *= 2.2f;
 
@@ -114,13 +144,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		{
 			//Damage will only be applied during the first half of the use. The second half is a cooldown, and the animations reflect that.
 			return base.ShouldBeAttacking(item, player) && player.itemAnimation >= player.itemAnimationMax / 2 && !item.GetGlobalItem<ItemCharging>().IsCharging;
-		}
-		
-		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
-		{
-			base.ModifyHitNPC(item, player, target, ref damage, ref knockback, ref crit);
-
-			ModifyHitNPCCharging(item, player, target, ref damage, ref knockback, ref crit);
 		}
 
 		public override void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle customHitSound, ref bool playNPCHitSound)

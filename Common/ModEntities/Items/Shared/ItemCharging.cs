@@ -2,10 +2,10 @@
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
+namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 {
 	//TODO: Somehow make this have conditional instancing?
-	public class ItemCharging : GlobalItem, ICanTurnDuringItemUse, IHoldItemWhileDead
+	public sealed class ItemCharging : GlobalItem, ICanTurnDuringItemUse, IHoldItemWhileDead
 	{
 		public delegate void ChargeAction(Item item, Player player, float chargeProgress);
 
@@ -21,11 +21,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 
 		public override bool InstancePerEntity => true;
 
-		public override GlobalItem Clone(Item item, Item itemClone)
-		{
-			return base.Clone(item, itemClone);
-		}
-		
+		public override GlobalItem Clone(Item item, Item itemClone) => base.Clone(item, itemClone);
+
 		public override void HoldItem(Item item, Player player)
 		{
 			if(!player.dead) {
@@ -43,6 +40,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 			this.endAction = endAction;
 			this.allowTurning = allowTurning;
 		}
+
 		public void StopCharge(Item item, Player player, bool skipAction = false)
 		{
 			if(!skipAction) {
@@ -75,7 +73,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Utilities
 			}
 		}
 
-		bool? ICanTurnDuringItemUse.CanTurnDuringItemUse(Item item, Player player) => allowTurning;
-		void IHoldItemWhileDead.HoldItemWhileDead(Item item, Player player) => UpdateCharging(item, player);
+		bool? ICanTurnDuringItemUse.CanTurnDuringItemUse(Item item, Player player)
+			=> allowTurning;
+
+		void IHoldItemWhileDead.HoldItemWhileDead(Item item, Player player)
+			=> UpdateCharging(item, player);
 	}
 }

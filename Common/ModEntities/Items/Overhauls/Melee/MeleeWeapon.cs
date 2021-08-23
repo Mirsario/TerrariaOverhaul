@@ -56,11 +56,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public virtual bool VelocityBasedDamage => true;
 		public virtual MeleeAnimation Animation => ModContent.GetInstance<GenericMeleeAnimation>();
-
-		public virtual float GetAttackRange(Item item)
-		{
-			return (item.Size * item.scale * 1.25f).Length();
-		}
 		
 		public virtual float GetHeavyness(Item item)
 		{
@@ -185,7 +180,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			//Hit gore.
 			if(player.itemAnimation >= player.itemAnimationMax - 1 && ShouldBeAttacking(item, player)) {
-				float range = GetAttackRange(item);
+				float range = GetAttackRange(item, player);
 				float arcRadius = MathHelper.Pi * 0.5f;
 
 				const int MaxHits = 5;
@@ -358,7 +353,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public virtual bool CollidesWithNPC(Item item, Player player, NPC target)
 		{
-			float range = GetAttackRange(item);
+			float range = GetAttackRange(item, player);
 
 			//Check arc collision
 			return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
@@ -369,6 +364,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			if(OverhaulItemTags.Wooden.Has(item.netID)) {
 				customHitSound = WoodenHitSound;
 			}
+		}
+
+		public static float GetAttackRange(Item item, Player player)
+		{
+			float range = (item.Size * item.scale * 1.25f).Length();
+
+			IModifyItemMeleeRange.Hook.Invoke(item, player, ref range);
+
+			return range;
 		}
 	}
 }

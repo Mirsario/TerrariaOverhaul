@@ -55,20 +55,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 			};
 		}
 
-		public override GlobalItem Clone(Item item, Item itemClone)
-		{
-			var clone = (KillingBlows)base.Clone(item, itemClone);
-
-			clone.Enabled = Enabled;
-
-			return clone;
-		}
+		public override GlobalItem Clone(Item item, Item itemClone) => base.Clone(item, itemClone);
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
-			if(Enabled) {
-				tryApplyingKillingBlow = true;
+			if(!Enabled) {
+				return;
 			}
+
+			if(item.TryGetGlobalItem<PowerAttacks>(out var powerAttacks) && !powerAttacks.PowerAttack) {
+				return;
+			}
+
+			tryApplyingKillingBlow = true;
 		}
 
 		private static void CheckForKillingBlow(NPC npc, ref double damage)

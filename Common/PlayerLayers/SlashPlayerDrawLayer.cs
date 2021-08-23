@@ -7,7 +7,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Overhauls;
-using TerrariaOverhaul.Common.ModEntities.Items.Utilities;
+using TerrariaOverhaul.Common.ModEntities.Items.Shared;
 using TerrariaOverhaul.Common.Systems.TextureColors;
 using TerrariaOverhaul.Utilities.DataStructures;
 
@@ -67,7 +67,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			//Attack info
 			var attackDirection = meleeWeapon.AttackDirection;
 			float attackAngle = meleeWeapon.AttackAngle;
-			float attackRange = meleeWeapon.GetAttackRange(item);
+			float attackRange = MeleeWeapon.GetAttackRange(item, player);
 
 			//Drawing info
 			var tex = texture.Value;

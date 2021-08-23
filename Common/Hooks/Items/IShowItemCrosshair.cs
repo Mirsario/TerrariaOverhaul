@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 
 		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
 			//Method reference
-			typeof(IShowItemCrosshair).GetMethod(nameof(IShowItemCrosshair.ShowItemCrosshair)),
+			typeof(IShowItemCrosshair).GetMethod(nameof(ShowItemCrosshair)),
 			//Invocation
 			e => (Item item, Player player) => {
 				foreach(IShowItemCrosshair g in e.Enumerate(item)) {
