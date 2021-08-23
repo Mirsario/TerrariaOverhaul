@@ -18,7 +18,6 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 		private static Asset<Texture2D> texture;
 		private static Dictionary<int, Vector2> gunBarrelEndPositions;
 
-		//Assets
 		public override void Load()
 		{
 			texture = Mod.Assets.Request<Texture2D>($"{ModPathUtils.GetDirectory(GetType())}/Muzzleflash");
@@ -30,9 +29,10 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			texture = null;
 			gunBarrelEndPositions = null;
 		}
-		//Layer settings
+
 		public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.HeldItem);
-		public override bool GetDefaultVisiblity(PlayerDrawSet drawInfo) => true;
+
+		public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => true;
 
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{

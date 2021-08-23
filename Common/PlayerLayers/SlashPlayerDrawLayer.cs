@@ -28,9 +28,10 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 		{
 			texture = null;
 		}
-		//Layer settings
+
 		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.HeldItem);
-		public override bool GetDefaultVisiblity(PlayerDrawSet drawInfo) => true;
+
+		public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => true;
 
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
