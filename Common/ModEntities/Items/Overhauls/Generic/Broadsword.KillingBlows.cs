@@ -65,8 +65,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				return;
 			}
 
-			if(damage >= 1.0d && npc.life < npc.lifeMax && (npc.life - damage * 2.0) <= 0.0d) {
-				damage *= 2.0;
+			const double Multiplier = 1.5;
+
+			if(damage >= 0 && (npc.life - damage * Multiplier) <= 0.0d) {
+				damage *= Multiplier;
 
 				if(!Main.dedServ) {
 					SoundEngine.PlaySound(KillingBlowSound, npc.Center);
