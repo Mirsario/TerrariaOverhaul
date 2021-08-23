@@ -65,7 +65,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Generic
 				return;
 			}
 
-			if(damage >= 1.0d && npc.life < npc.lifeMax && npc.life - damage <= 0.0d) {
+			if(damage >= 1.0d && npc.life < npc.lifeMax && (npc.life - damage * 2.0) <= 0.0d) {
 				damage *= 2.0;
 
 				if(!Main.dedServ) {
