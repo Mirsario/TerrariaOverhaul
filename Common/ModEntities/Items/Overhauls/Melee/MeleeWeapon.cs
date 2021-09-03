@@ -4,19 +4,17 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ItemAnimations;
+using TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.SoundStyles;
-using TerrariaOverhaul.Common.Systems.CombatTexts;
 using TerrariaOverhaul.Common.Systems.Gores;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Exceptions;
 using TerrariaOverhaul.Core.Systems.Debugging;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -26,59 +24,28 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 	{
 		public static readonly ModSoundStyle WoodenHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/WoodenHit", 3, volume: 0.3f, pitchVariance: 0.1f);
 
-		private static readonly Gradient<Color> DamageScaleColor = new(
-			(0f, Color.Black),
-			(1f, Color.LightGray),
-			(1.25f, Color.Green),
-			(1.75f, Color.Yellow),
-			(2.5f, Color.Red)
-		);
+		protected ItemMeleeAttackAiming MeleeAttackAiming { get; private set; }
 
-		private Vector2 attackDirection;
-		private float attackAngle;
-
-		public bool FlippedAttack { get; protected set; }
-		public int AttackNumber { get; private set; }
-		public Vector2 AttackDirection {
-			get => attackDirection;
-			set {
-				attackDirection = value;
-				attackAngle = value.ToRotation();
-			}
-		}
-		public float AttackAngle {
-			get => attackAngle;
-			set {
-				attackAngle = value;
-				attackDirection = value.ToRotationVector2();
-			}
-		}
-
-		public virtual bool VelocityBasedDamage => true;
 		public virtual MeleeAnimation Animation => ModContent.GetInstance<GenericMeleeAnimation>();
 		
 		public virtual float GetHeavyness(Item item)
 		{
-			float averageDimension = (item.width + item.height) * 0.5f;
-
 			const float HeaviestSpeed = 0.5f;
 			const float LightestSpeed = 5f;
 
 			float speed = 1f / (Math.Max(1, item.useAnimation) / 60f);
 			float speedResult = MathHelper.Clamp(MathUtils.InverseLerp(speed, LightestSpeed, HeaviestSpeed), 0f, 1f);
+
+			float averageDimension = (item.width + item.height) * 0.5f;
 			float sizeResult = Math.Max(0f, (averageDimension) / 10f);
 
-			float result = speedResult;
+			float result = speedResult * sizeResult;
 
 			return MathHelper.Clamp(result, 0f, 1f);
 		}
-		
-		public virtual bool ShouldBeAttacking(Item item, Player player)
-		{
-			return player.itemAnimation > 0;
-		}
 
 		public override bool ShouldApplyItemOverhaul(Item item) => false;
+
 		public override void Load()
 		{
 			base.Load();
@@ -107,52 +74,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 					//TODO: Instead of removing the code, skip over it if the item has a MeleeWeapon overhaul
 					cursor.RemoveRange(10);
 				};
-
-				//Prevent any hit checks from running if the weapon shouldn't be attacking.
-				On.Terraria.Player.ItemCheck_MeleeHitNPCs += (orig, player, item, itemRectangle, originalDamage, knockback) => {
-					if(item.TryGetGlobalItem(out MeleeWeapon meleeWeapon, false) && !meleeWeapon.ShouldBeAttacking(item, player)) {
-						return;
-					}
-
-					orig(player, item, itemRectangle, originalDamage, knockback);
-				};
-
-				//Less intrusive collision check upgrades
-				IL.Terraria.Player.ItemCheck_MeleeHitNPCs += context => {
-					var cursor = new ILCursor(context);
-
-					//This is a pretty bad expression
-					int itemRectangleArgId = 0;
-					int npcRectangleLocalId = 0;
-
-					if(!cursor.TryGotoNext(
-						MoveType.Before,
-						i => i.MatchLdarga(out itemRectangleArgId),
-						i => i.MatchLdloc(out npcRectangleLocalId),
-						i => i.MatchCall(typeof(Rectangle), nameof(Rectangle.Intersects)),
-						i => i.MatchBrfalse(out _)
-					)) {
-						throw new ILMatchException(context, "Collision check upgrade: Match 2", this);
-					}
-
-					cursor.RemoveRange(3);
-
-					cursor.Emit(OpCodes.Ldarg_1); //Load 'item' argument.
-					cursor.Emit(OpCodes.Ldarg_0); //Load 'this' (player) argument.
-					cursor.Emit(OpCodes.Ldloc_0); //Load the id of the npc. (!) We're assuming that it's local 0. This sucks.
-					cursor.Emit(OpCodes.Ldarg, itemRectangleArgId); //Load 'itemRectangle' for the fallback.
-					cursor.Emit(OpCodes.Ldloc, npcRectangleLocalId); //Load 'value' (npc rectangle) for the fallback.
-					cursor.EmitDelegate<Func<Item, Player, int, Rectangle, Rectangle, bool>>((item, player, npcId, itemRectangle, npcRectangle) => {
-						var npc = Main.npc[npcId];
-
-						if(item.TryGetGlobalItem(out MeleeWeapon meleeWeapon, false)) {
-							return meleeWeapon.CollidesWithNPC(item, player, npc);
-						}
-
-						//Fallback
-						return itemRectangle.Intersects(npcRectangle);
-					});
-				};
 			}
 		}
 		
@@ -166,21 +87,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 					0.3f
 				);
 			}
-		}
-		
-		public override void UseAnimation(Item item, Player player)
-		{
-			AttackDirection = player.LookDirection();
-			AttackNumber++;
+
+			MeleeAttackAiming = item.GetGlobalItem<ItemMeleeAttackAiming>();
+
+			MeleeAttackAiming.Enabled = true;
 		}
 		
 		public override void HoldItem(Item item, Player player)
 		{
 			base.HoldItem(item, player);
 
-			//Hit gore.
-			if(player.itemAnimation >= player.itemAnimationMax - 1 && ShouldBeAttacking(item, player)) {
-				float range = GetAttackRange(item, player);
+			// Hit gore.
+			if(player.itemAnimation >= player.itemAnimationMax - 1 && ICanDoMeleeDamage.Hook.Invoke(item, player)) {
+				float range = ItemMeleeAttackAiming.GetAttackRange(item, player);
 				float arcRadius = MathHelper.Pi * 0.5f;
 
 				const int MaxHits = 5;
@@ -188,12 +107,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				int numHit = 0;
 
 				for(int i = 0; i < Main.maxGore; i++) {
-					if(!(Main.gore[i] is OverhaulGore gore) || !gore.active || gore.time < 30) {
+					if(Main.gore[i] is not OverhaulGore gore || !gore.active || gore.time < 30) {
 						continue;
 					}
 
-					if(CollisionUtils.CheckRectangleVsArcCollision(gore.AABBRectangle, player.Center, AttackAngle, arcRadius, range)) {
-						gore.HitGore(AttackDirection);
+					if(CollisionUtils.CheckRectangleVsArcCollision(gore.AABBRectangle, player.Center, MeleeAttackAiming.AttackAngle, arcRadius, range)) {
+						gore.HitGore(MeleeAttackAiming.AttackDirection);
 
 						if(++numHit >= MaxHits) {
 							break;
@@ -248,62 +167,21 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				DebugSystem.DrawCircle(player.itemLocation, 3f, Color.White);
 			}
 		}
+
 		//Hitting
+		
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
 			base.ModifyHitNPC(item, player, target, ref damage, ref knockback, ref crit);
 
-			//Make directional knockback work with melee.
+			// Make directional knockback work with melee.
 			if(target.TryGetGlobalNPC(out NPCDirectionalKnockback npcKnockback)) {
-				npcKnockback.SetNextKnockbackDirection(AttackDirection);
+				npcKnockback.SetNextKnockbackDirection(MeleeAttackAiming.AttackDirection);
 			}
 
-			//Reduce knockback when the player is in air, and the enemy is somewhat above them.
-			if(!player.OnGround() && AttackDirection.Y < 0.25f) {
+			// Reduce knockback when the player is in air, and the enemy is somewhat above them.
+			if(!player.OnGround() && MeleeAttackAiming.AttackDirection.Y < 0.25f) {
 				knockback *= 0.75f;
-			}
-
-			if(VelocityBasedDamage) {
-				float velocityDamageScale = Math.Max(1f, 0.78f + player.velocity.Length() / 8f);
-
-				knockback *= velocityDamageScale;
-				damage = (int)Math.Round(damage * velocityDamageScale);
-
-				if(!Main.dedServ) {
-					bool critBackup = crit;
-
-					CombatTextSystem.AddFilter(1, text => {
-						if(!uint.TryParse(text.text, out _)) {
-							return;
-						}
-
-						bool isCharged = false;
-						string additionalInfo = $"({(critBackup ? "CRITx" : null)}{(isCharged ? "POWERx" : critBackup ? null : "x")}{velocityDamageScale:0.00})";
-						float gradientScale = velocityDamageScale;
-
-						if(critBackup) {
-							gradientScale *= 2;
-						}
-
-						if(isCharged) {
-							gradientScale *= 1.3f;
-						}
-
-						var font = FontAssets.CombatText[critBackup ? 1 : 0].Value;
-						var size = font.MeasureString(text.text);
-
-						text.color = DamageScaleColor.GetValue(gradientScale);
-						text.position.Y -= 16f;
-
-						/*if(headshot) {
-							text.text += "!";
-						}*/
-
-						//text.text += $"\r\n{additionalInfo}";
-
-						CombatText.NewText(new Rectangle((int)(text.position.X + size.X * 0.5f), (int)(text.position.Y + size.Y + 4), 1, 1), text.color, additionalInfo, critBackup);
-					});
-				}
 			}
 		}
 		
@@ -321,7 +199,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			var modifier = Players.PlayerMovement.MovementModifier.Default;
 
 			if(player.velocity.Y != 0f) {
-				if(AttackDirection.Y < 0.1f) {
+				if(MeleeAttackAiming.AttackDirection.Y < 0.1f) {
 					modifier.gravityScale *= 0.1f;
 				}
 
@@ -336,7 +214,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				dashVelocity *= Math.Min(Math.Max(2f, targetSpeed), distance / 3f);
 
 				//Reduce intensity when the player is not directly aiming at the enemy.
-				float directionsDotProduct = Vector2.Dot(dashDirection, AttackDirection);
+				float directionsDotProduct = Vector2.Dot(dashDirection, MeleeAttackAiming.AttackDirection);
 
 				dashVelocity *= Math.Max(0f, directionsDotProduct * directionsDotProduct);
 
@@ -351,28 +229,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			movement.SetMovementModifier($"{nameof(MeleeWeapon)}/{nameof(OnHitNPC)}", player.itemAnimationMax / 2, modifier);
 		}
 
-		public virtual bool CollidesWithNPC(Item item, Player player, NPC target)
-		{
-			float range = GetAttackRange(item, player);
-
-			//Check arc collision
-			return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
-		}
-		
 		public virtual void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle customHitSound, ref bool playNPCHitSound)
 		{
 			if(OverhaulItemTags.Wooden.Has(item.netID)) {
 				customHitSound = WoodenHitSound;
 			}
-		}
-
-		public static float GetAttackRange(Item item, Player player)
-		{
-			float range = (item.Size * item.scale * 1.25f).Length();
-
-			IModifyItemMeleeRange.Hook.Invoke(item, player, ref range);
-
-			return range;
 		}
 	}
 }

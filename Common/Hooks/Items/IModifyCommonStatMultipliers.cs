@@ -36,7 +36,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 		}
 	}
 
-	public sealed class ItemModifyCommonStatMultipliersImplementation : GlobalItem
+	public sealed class ItemModifyCommonStatMultipliersImplementation : GlobalItem, IModifyItemMeleeRange
 	{
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
@@ -55,7 +55,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			velocity *= multipliers.ProjectileSpeedMultiplier;
 		}
 
-		public void ModifyMeleeRange(Item item, Player player, ref float range)
+		void IModifyItemMeleeRange.ModifyMeleeRange(Item item, Player player, ref float range)
 		{
 			var multipliers = Hook.GetMultipliers(item, player);
 

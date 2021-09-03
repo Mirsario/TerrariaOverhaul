@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 {
 	[Autoload(Side = ModSide.Client)]
-	public sealed class PowerAttackSounds : GlobalItem
+	public sealed class ItemPowerAttackSounds : GlobalItem
 	{
 		public SoundStyle Sound;
 
@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		public override void SetDefaults(Item item)
 		{
-			if(item.TryGetGlobalItem(out PowerAttacks powerAttacks)) {
+			if(item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks)) {
 				powerAttacks.OnChargeStart += OnChargeStart;
 				powerAttacks.OnChargeEnd += OnChargeEnd;
 			}
@@ -41,7 +41,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		private static void OnChargeStart(Item item, Player player, float chargeLength)
 		{
-			var instance = item.GetGlobalItem<PowerAttackSounds>();
+			var instance = item.GetGlobalItem<ItemPowerAttackSounds>();
 
 			if(instance.Enabled) {
 				instance.chargeSoundInstance = SoundEngine.PlayTrackedSound(instance.Sound, player.Center);
@@ -50,7 +50,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		private static void OnChargeEnd(Item item, Player player, float chargeLength, float progress)
 		{
-			var instance = item.GetGlobalItem<PowerAttackSounds>();
+			var instance = item.GetGlobalItem<ItemPowerAttackSounds>();
 
 			if(instance.Enabled && instance.chargeSoundInstance.IsValid) {
 				SoundEngine.GetActiveSound(instance.chargeSoundInstance)?.Stop();

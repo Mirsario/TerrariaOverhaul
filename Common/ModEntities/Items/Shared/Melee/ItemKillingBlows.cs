@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 {
-	public sealed class KillingBlows : GlobalItem
+	public sealed class ItemKillingBlows : GlobalItem
 	{
 		private delegate void NPCDamageModifier(NPC npc, ref double damage);
 
@@ -63,7 +63,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 				return;
 			}
 
-			if(item.TryGetGlobalItem<PowerAttacks>(out var powerAttacks) && !powerAttacks.PowerAttack) {
+			if(item.TryGetGlobalItem<ItemPowerAttacks>(out var powerAttacks) && !powerAttacks.PowerAttack) {
 				return;
 			}
 

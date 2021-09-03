@@ -8,7 +8,7 @@ using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 {
-	public sealed class PowerAttacks : GlobalItem, IModifyCommonStatMultipliers
+	public sealed class ItemPowerAttacks : GlobalItem, IModifyCommonStatMultipliers, ICanDoMeleeDamage
 	{
 		public delegate bool CanStartPowerAttackDelegate(Item item, Player player);
 
@@ -30,6 +30,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		public override bool AltFunctionUse(Item item, Player player)
 		{
+			if(!Enabled) {
+				return false;
+			}
+
 			var itemCharging = item.GetGlobalItem<ItemCharging>();
 
 			if(itemCharging.IsCharging || player.itemAnimation > 0) {
@@ -59,7 +63,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 				},
 				//End
 				(i, p, progress) => {
-					i.GetGlobalItem<PowerAttacks>().PowerAttack = true;
+					i.GetGlobalItem<ItemPowerAttacks>().PowerAttack = true;
 
 					p.GetModPlayer<PlayerItemUse>().ForceItemUse();
 
@@ -92,5 +96,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 				multipliers *= CommonStatMultipliers;
 			}
 		}
+
+		bool ICanDoMeleeDamage.CanDoMeleeDamage(Item item, Player player)
+			=> !item.TryGetGlobalItem<ItemCharging>(out var itemCharging) || !itemCharging.IsCharging;
 	}
 }

@@ -45,7 +45,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				item.UseSound = MagicBlastSound;
 			}
 
-			var powerAttacks = item.GetGlobalItem<PowerAttacks>();
+			var powerAttacks = item.GetGlobalItem<ItemPowerAttacks>();
 
 			powerAttacks.Enabled = true;
 			powerAttacks.ChargeLengthMultiplier = 2f;
@@ -69,7 +69,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			};
 
 			if(!Main.dedServ) {
-				var powerAttackSounds = item.GetGlobalItem<PowerAttackSounds>();
+				var powerAttackSounds = item.GetGlobalItem<ItemPowerAttackSounds>();
 
 				powerAttackSounds.Enabled = true;
 				powerAttackSounds.Sound = ChargeSound;

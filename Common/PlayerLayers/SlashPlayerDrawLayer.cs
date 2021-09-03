@@ -8,6 +8,7 @@ using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Overhauls;
 using TerrariaOverhaul.Common.ModEntities.Items.Shared;
+using TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee;
 using TerrariaOverhaul.Common.Systems.TextureColors;
 using TerrariaOverhaul.Utilities.DataStructures;
 
@@ -51,7 +52,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 			var item = player.HeldItem;
 
-			if(!item.TryGetGlobalItem<MeleeWeapon>(out var meleeWeapon, false)) {
+			if(!item.TryGetGlobalItem<ItemMeleeAttackAiming>(out var meleeAiming) || !meleeAiming.Enabled) {
 				return;
 			}
 
@@ -59,24 +60,24 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 				return;
 			}
 
-			//Framing
+			// Framing
 			var frame = TextureFrame;
 
 			frame.CurrentRow = (byte)(useProgress * frame.RowCount);
 
-			//Attack info
-			var attackDirection = meleeWeapon.AttackDirection;
-			float attackAngle = meleeWeapon.AttackAngle;
-			float attackRange = MeleeWeapon.GetAttackRange(item, player);
+			// Attack info
+			var attackDirection = meleeAiming.AttackDirection;
+			float attackAngle = meleeAiming.AttackAngle;
+			float attackRange = ItemMeleeAttackAiming.GetAttackRange(item, player);
 
-			//Drawing info
+			// Drawing info
 			var tex = texture.Value;
 			var position = player.Center + attackDirection * 2f;
 			var sourceRectangle = frame.GetSourceRectangle(tex);
 			float rotation = attackAngle;
 			Vector2 origin = sourceRectangle.Size() * 0.5f;
 			float scale = attackRange / 30f;
-			var effect = ((player.direction > 0) ^ meleeWeapon.FlippedAttack) ? SpriteEffects.FlipVertically : SpriteEffects.None;
+			var effect = ((player.direction > 0) ^ meleeAiming.FlippedAttack) ? SpriteEffects.FlipVertically : SpriteEffects.None;
 
 			//Color calculation
 			Main.instance.LoadItem(item.type);
