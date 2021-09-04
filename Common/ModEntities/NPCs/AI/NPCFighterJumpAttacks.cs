@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.NPCs
+namespace TerrariaOverhaul.Common.ModEntities.NPCs.AI
 {
 	//This makes fighter AIs jump at their targets when they get close enough.
 	public class NPCFighterJumpAttacks : GlobalNPC
