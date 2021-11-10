@@ -25,11 +25,11 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		private const int GoreSoundMinCooldown = 10;
 		private const int GoreSoundMaxCooldown = 25;
 
-		public static readonly SoundStyle GoreHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreHit", 3, volume: 0.4f, pitchVariance: 0.2f);
-		public static readonly SoundStyle GoreBreakSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2, volume: 0.15f, pitchVariance: 0.2f);
-		public static readonly SoundStyle GoreGroundHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSmallSplatter", 2, volume: 0.4f, pitchVariance: 0.2f);
+		public static readonly ISoundStyle GoreHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreHit", 3, volume: 0.4f, pitchVariance: 0.2f);
+		public static readonly ISoundStyle GoreBreakSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2, volume: 0.15f, pitchVariance: 0.2f);
+		public static readonly ISoundStyle GoreGroundHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSmallSplatter", 2, volume: 0.4f, pitchVariance: 0.2f);
 
-		private static Dictionary<SoundStyle, ulong> goreSoundCooldowns;
+		private static Dictionary<ISoundStyle, ulong> goreSoundCooldowns;
 
 		public bool onFire;
 		//public bool noBlood;
@@ -44,7 +44,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		public Vector2 prevVelocity;
 		public Vector2 prevPosition;
 		public Color? bleedColor;
-		public SoundStyle customBounceSound;
+		public ISoundStyle customBounceSound;
 
 		public Vector2 Center => position + size * 0.5f;
 
@@ -67,7 +67,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		//Load-time
 		public void Load(Mod mod)
 		{
-			goreSoundCooldowns = new Dictionary<SoundStyle, ulong>();
+			goreSoundCooldowns = new Dictionary<ISoundStyle, ulong>();
 		}
 		public void Unload()
 		{
@@ -310,7 +310,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		}
 
 		//Makeshift optimization to not spam PlaySound and not enumerate any lists to check if there's anything playing.
-		private static bool TryPlaySound(SoundStyle style, Vector2 position)
+		private static bool TryPlaySound(ISoundStyle style, Vector2 position)
 		{
 			ulong tick = Main.GameUpdateCount;
 

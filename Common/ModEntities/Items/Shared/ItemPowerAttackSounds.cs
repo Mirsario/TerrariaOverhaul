@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 	[Autoload(Side = ModSide.Client)]
 	public sealed class ItemPowerAttackSounds : GlobalItem
 	{
-		public SoundStyle Sound;
+		public ISoundStyle Sound;
 
 		private SlotId chargeSoundInstance;
 

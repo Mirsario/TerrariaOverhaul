@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
 	public class Flamethrower : Gun
 	{
-		private SoundStyle fireSound;
+		private ISoundStyle fireSound;
 		private SlotId soundId;
 
 		public override float OnUseVisualRecoil => 4f;

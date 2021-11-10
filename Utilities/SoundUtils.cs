@@ -6,7 +6,7 @@ namespace TerrariaOverhaul.Utilities
 {
 	public static class SoundUtils
 	{
-		public static void UpdateLoopingSound(ref SlotId slot, SoundStyle style, float volume, Vector2 position)
+		public static void UpdateLoopingSound(ref SlotId slot, ISoundStyle style, float volume, Vector2 position)
 		{
 			var sound = slot.IsValid ? SoundEngine.GetActiveSound(slot) : null;
 

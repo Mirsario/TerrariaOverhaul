@@ -5,7 +5,7 @@ namespace TerrariaOverhaul.Core.Systems.PhysicalMaterials
 {
 	public abstract class PhysicalMaterial : ModType
 	{
-		public virtual SoundStyle HitSound => null;
+		public virtual ISoundStyle HitSound => null;
 
 		protected sealed override void Register()
 		{

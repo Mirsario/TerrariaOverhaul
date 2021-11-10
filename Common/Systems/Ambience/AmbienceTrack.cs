@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Common.Systems.Ambience
 	public abstract class AmbienceTrack : ModType
 	{
 		public bool IsLooped { get; protected set; }
-		public SoundStyle Sound { get; protected set; }
+		public ISoundStyle Sound { get; protected set; }
 		public float Volume { get; private set; }
 		public SlotId InstanceReference { get; private set; }
 
@@ -63,11 +63,15 @@ namespace TerrariaOverhaul.Common.Systems.Ambience
 				float styleVolume = sound.Volume;
 
 				//The need to do this is horrible.
-				sound.Volume = Volume;
+				if(sound is ModSoundStyle modSound1) {
+					modSound1.Volume = Volume;
+				}
 
 				InstanceReference = SoundEngine.PlayTrackedSound(sound, CameraSystem.ScreenCenter);
 
-				sound.Volume = styleVolume;
+				if(sound is ModSoundStyle modSound2) {
+					modSound2.Volume = styleVolume;
+				}
 			} else {
 				soundInstance.Volume = Volume;
 				soundInstance.Position = CameraSystem.ScreenCenter;

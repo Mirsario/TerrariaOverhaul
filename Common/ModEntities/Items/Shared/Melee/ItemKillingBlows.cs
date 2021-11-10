@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 	{
 		private delegate void NPCDamageModifier(NPC npc, ref double damage);
 
-		public static readonly SoundStyle KillingBlowSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/KillingBlow", 2, volume: 0.6f, pitchVariance: 0.1f);
+		public static readonly ISoundStyle KillingBlowSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/KillingBlow", 2, volume: 0.6f, pitchVariance: 0.1f);
 
 		[ThreadStatic]
 		private static bool tryApplyingKillingBlow;

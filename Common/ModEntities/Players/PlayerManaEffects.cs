@@ -16,8 +16,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	[Autoload(Side = ModSide.Client)]
 	public class PlayerManaEffects : ModPlayer
 	{
-		public static readonly SoundStyle ManaRegenSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/ManaRegenLoop", volume: 0.03f);
-		public static readonly SoundStyle LowManaSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/LowManaLoop", volume: 0.33f);
+		public static readonly ISoundStyle ManaRegenSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/ManaRegenLoop", volume: 0.03f);
+		public static readonly ISoundStyle LowManaSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/LowManaLoop", volume: 0.33f);
 		public static readonly Gradient<float> LowManaVolumeGradient = new(
 			(0f, 1f),
 			(0.1f, 1f),

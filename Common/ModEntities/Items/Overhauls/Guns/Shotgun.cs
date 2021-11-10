@@ -9,10 +9,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
 	public class Shotgun : Gun
 	{
-		public ModSoundStyle pumpSound;
-		public int shellCount = 1;
-
 		private uint pumpTime;
+
+		public ISoundStyle PumpSound { get; set; }
+		public int ShellCount { get; set; } = 1;
 
 		public override float OnUseVisualRecoil => 25f;
 		public override ScreenShake OnUseScreenShake => new(10f, 0.25f);
@@ -22,17 +22,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		public override void SetDefaults(Item item)
 		{
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunFire", 4, volume: 0.2f, pitchVariance: 0.2f);
-			pumpSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunPump", 0, volume: 0.25f, pitchVariance: 0.1f);
+			PumpSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunPump", 0, volume: 0.25f, pitchVariance: 0.1f);
 
 			switch(item.type) {
 				default:
-					shellCount = 1;
+					ShellCount = 1;
 					break;
 				case ItemID.Boomstick:
-					shellCount = 2;
+					ShellCount = 2;
 					break;
 				case ItemID.QuadBarrelShotgun:
-					shellCount = 4;
+					ShellCount = 4;
 					break;
 			}
 		}
@@ -54,9 +54,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		{
 			base.HoldItem(item, player);
 
-			if(!Main.dedServ && pumpSound != null && pumpTime != 0 && Main.GameUpdateCount == pumpTime) {
-				SoundEngine.PlaySound(pumpSound, player.Center);
-				SpawnCasings<ShellCasing>(player, shellCount);
+			if(!Main.dedServ && PumpSound != null && pumpTime != 0 && Main.GameUpdateCount == pumpTime) {
+				SoundEngine.PlaySound(PumpSound, player.Center);
+				SpawnCasings<ShellCasing>(player, ShellCount);
 			}
 		}
 	}

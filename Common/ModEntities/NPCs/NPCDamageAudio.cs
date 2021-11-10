@@ -70,7 +70,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			}
 
 			bool playOriginalSound = true;
-			SoundStyle customSoundStyle = null;
+			ISoundStyle customSoundStyle = null;
 
 			if(npcBloodAndGore.LastHitBloodAmount > 0) {
 				customSoundStyle = FleshHitSound;
@@ -97,7 +97,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			}
 
 			bool playOriginalSound = true;
-			SoundStyle customSoundStyle = null;
+			ISoundStyle customSoundStyle = null;
 
 			if(npcBloodAndGore.LastHitBloodAmount > 0) {
 				customSoundStyle = GoreSound;

@@ -9,7 +9,6 @@ using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ItemAnimations;
 using TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
-using TerrariaOverhaul.Common.SoundStyles;
 using TerrariaOverhaul.Common.Systems.Gores;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Exceptions;
@@ -80,12 +79,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		public override void SetDefaults(Item item)
 		{
 			if(item.UseSound != Terraria.ID.SoundID.Item15) {
-				item.UseSound = new BlendedSoundStyle(
-					new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/SwingLight", 4),
-					new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/SwingHeavy", 4),
-					GetHeavyness(item),
-					0.3f
-				);
+				item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/SwingLight", 4);
+				//item.UseSound = new BlendedSoundStyle(
+				//	new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/SwingLight", 4),
+				//	new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/SwingHeavy", 4),
+				//	GetHeavyness(item),
+				//	0.3f
+				//);
 			}
 
 			MeleeAttackAiming = item.GetGlobalItem<ItemMeleeAttackAiming>();
@@ -229,7 +229,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			movement.SetMovementModifier($"{nameof(MeleeWeapon)}/{nameof(OnHitNPC)}", player.itemAnimationMax / 2, modifier);
 		}
 
-		public virtual void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle customHitSound, ref bool playNPCHitSound)
+		public virtual void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref ISoundStyle customHitSound, ref bool playNPCHitSound)
 		{
 			if(OverhaulItemTags.Wooden.Has(item.netID)) {
 				customHitSound = WoodenHitSound;

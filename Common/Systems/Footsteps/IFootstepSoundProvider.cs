@@ -4,8 +4,8 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 {
 	public interface IFootstepSoundProvider
 	{
-		SoundStyle FootstepSound { get; }
-		SoundStyle JumpFootstepSound => FootstepSound;
-		SoundStyle LandFootstepSound => FootstepSound;
+		ISoundStyle FootstepSound { get; }
+		ISoundStyle JumpFootstepSound => FootstepSound;
+		ISoundStyle LandFootstepSound => FootstepSound;
 	}
 }

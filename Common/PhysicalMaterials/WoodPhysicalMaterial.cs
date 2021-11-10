@@ -12,8 +12,8 @@ namespace TerrariaOverhaul.Common.PhysicalMaterials
 		public TagData TileTag { get; } = OverhaulTileTags.Wood;
 
 		//Footsteps
-		public SoundStyle FootstepSound { get; } = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Wood/Step", 11, volume: 0.5f);
+		public ISoundStyle FootstepSound { get; } = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Wood/Step", 11, volume: 0.5f);
 
-		public SoundStyle JumpFootstepSound => ModContent.GetInstance<StonePhysicalMaterial>().JumpFootstepSound;
+		public ISoundStyle JumpFootstepSound => ModContent.GetInstance<StonePhysicalMaterial>().JumpFootstepSound;
 	}
 }

@@ -11,6 +11,6 @@ namespace TerrariaOverhaul.Common.PhysicalMaterials
 	{
 		public TagData TileTag { get; } = OverhaulTileTags.Sand;
 
-		public SoundStyle FootstepSound { get; } = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Sand/Step", 11, volume: 0.5f);
+		public ISoundStyle FootstepSound { get; } = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Sand/Step", 11, volume: 0.5f);
 	}
 }

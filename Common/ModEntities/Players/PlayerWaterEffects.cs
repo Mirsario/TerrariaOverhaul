@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	[Autoload(Side = ModSide.Client)]
 	public class PlayerWaterEffects : ModPlayer
 	{
-		public static readonly SoundStyle UnderwaterLoopSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/UnderwaterLoop", volume: 0.75f);
+		public static readonly ISoundStyle UnderwaterLoopSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/UnderwaterLoop", volume: 0.75f);
 
 		private SlotId underwaterLoopSoundSlot;
 		private float underwaterEffectIntensity;

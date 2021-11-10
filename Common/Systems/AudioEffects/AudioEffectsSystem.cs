@@ -49,14 +49,14 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 		private static readonly List<AudioEffectsModifier> Modifiers = new();
 		private static readonly List<SoundInstanceData> TrackedSoundInstances = new();
-		private static readonly HashSet<SoundStyle> SoundStylesToIgnore = new() {
+		private static readonly HashSet<ISoundStyle> SoundStylesToIgnore = new() {
 			new LegacySoundStyle(SoundID.Grab, -1),
 			new LegacySoundStyle(SoundID.MenuOpen, -1),
 			new LegacySoundStyle(SoundID.MenuClose, -1),
 			new LegacySoundStyle(SoundID.MenuTick, -1),
 			new LegacySoundStyle(SoundID.Chat, -1),
 		};
-		private static readonly HashSet<SoundStyle> SoundStylesWithWallOcclusion = new() {
+		private static readonly HashSet<ISoundStyle> SoundStylesWithWallOcclusion = new() {
 			new LegacySoundStyle(SoundID.Bird, -1),
 		};
 
@@ -243,8 +243,8 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			Modifiers[existingIndex] = modifier;
 		}
 
-		public static void IgnoreSoundStyle(SoundStyle soundStyle) => SoundStylesToIgnore.Add(soundStyle);
-		public static void EnableSoundStyleWallOcclusion(SoundStyle soundStyle) => SoundStylesWithWallOcclusion.Add(soundStyle);
+		public static void IgnoreSoundStyle(ISoundStyle ISoundStyle) => SoundStylesToIgnore.Add(ISoundStyle);
+		public static void EnableSoundStyleWallOcclusion(ISoundStyle ISoundStyle) => SoundStylesWithWallOcclusion.Add(ISoundStyle);
 
 		private static void ApplyEffects(SoundEffectInstance instance, AudioEffectParameters parameters)
 		{
