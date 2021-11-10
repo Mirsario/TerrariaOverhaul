@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
@@ -24,7 +25,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		public override void SetDefaults(Item item)
 		{
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/StarCannon/StarCannonFire", 0, volume: 0.2f, pitchVariance: 0.2f);
-			PlaySoundOnEveryUse = true;
+
+			if (!Main.dedServ) {
+				item.AddComponent<ItemPlaySoundOnEveryUse>();
+			}
 		}
 	}
 }

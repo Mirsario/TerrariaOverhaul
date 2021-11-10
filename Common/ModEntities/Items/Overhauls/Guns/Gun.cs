@@ -8,7 +8,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
-	public abstract class Gun : AdvancedItem, IShowItemCrosshair
+	public abstract class Gun : ItemOverhaul, IShowItemCrosshair
 	{
 		public int MuzzleflashTime { get; protected set; }
 

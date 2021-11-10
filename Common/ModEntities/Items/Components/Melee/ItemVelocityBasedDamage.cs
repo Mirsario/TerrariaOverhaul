@@ -6,9 +6,9 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.CombatTexts;
 using TerrariaOverhaul.Utilities.DataStructures;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
+namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee
 {
-	public sealed class ItemVelocityBasedDamage : GlobalItem
+	public sealed class ItemVelocityBasedDamage : ItemComponent
 	{
 		private static readonly Gradient<Color> DamageScaleColor = new(
 			(0f, Color.Black),
@@ -17,12 +17,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 			(1.75f, Color.Yellow),
 			(2.5f, Color.Red)
 		);
-
-		public bool Enabled { get; set; }
-
-		public override bool InstancePerEntity => true;
-
-		public override GlobalItem Clone(Item item, Item itemClone) => base.Clone(item, itemClone);
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{

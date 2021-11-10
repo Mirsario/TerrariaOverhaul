@@ -7,7 +7,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ItemAnimations;
-using TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee;
+using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.Systems.Gores;
 using TerrariaOverhaul.Common.Tags;

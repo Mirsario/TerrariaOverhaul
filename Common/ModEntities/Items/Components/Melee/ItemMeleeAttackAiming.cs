@@ -5,14 +5,13 @@ using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
+namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee
 {
-	public sealed class ItemMeleeAttackAiming : GlobalItem, ICanMeleeCollideWithNPC
+	public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithNPC
 	{
 		private Vector2 attackDirection;
 		private float attackAngle;
 
-		public bool Enabled { get; set; }
 		public bool FlippedAttack { get; set; }
 		public int AttackId { get; private set; }
 
@@ -30,10 +29,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 				attackDirection = value.ToRotationVector2();
 			}
 		}
-
-		public override bool InstancePerEntity => true;
-
-		public override GlobalItem Clone(Item item, Item itemClone) => base.Clone(item, itemClone);
 
 		public override void UseAnimation(Item item, Player player)
 		{

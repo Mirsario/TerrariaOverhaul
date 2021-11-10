@@ -7,8 +7,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
 	public abstract class ItemOverhaul : GlobalItem
 	{
-		private static List<ItemOverhaul> itemOverhauls = new();
-		private static Dictionary<int, int> itemIdMapping = new();
+		private static readonly List<ItemOverhaul> ItemOverhauls = new();
+		private static readonly Dictionary<int, int> ItemIdMapping = new();
 
 		protected Item item;
 
@@ -16,26 +16,27 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public abstract bool ShouldApplyItemOverhaul(Item item);
 
-		public override bool AppliesToEntity(Item item, bool lateInstantiation) => lateInstantiation && ChooseItemOverhaul(item) == this;
-		//
+		public override bool AppliesToEntity(Item item, bool lateInstantiation)
+			=> lateInstantiation && ChooseItemOverhaul(item) == this;
+		
 		public override void Load()
 		{
-			int id = itemOverhauls.Count;
+			int id = ItemOverhauls.Count;
 			var attachments = GetType().GetCustomAttribute<ItemAttachmentAttribute>();
 
 			if (attachments != null) {
 				foreach (int itemId in attachments.ItemIds) {
-					itemIdMapping[itemId] = id;
+					ItemIdMapping[itemId] = id;
 				}
 			}
 
-			itemOverhauls.Add(this);
+			ItemOverhauls.Add(this);
 		}
 
 		public override void Unload()
 		{
-			itemOverhauls.Clear();
-			itemIdMapping.Clear();
+			ItemOverhauls.Clear();
+			ItemIdMapping.Clear();
 		}
 
 		public override GlobalItem Clone(Item item, Item itemClone)
@@ -49,13 +50,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public static ItemOverhaul ChooseItemOverhaul(Item item)
 		{
-			if (itemIdMapping.TryGetValue(item.type, out int overhaulId)) {
-				return itemOverhauls[overhaulId];
+			if (ItemIdMapping.TryGetValue(item.type, out int overhaulId)) {
+				return ItemOverhauls[overhaulId];
 			}
 
 			//May need some sort of priority system in the future. And cache?
-			for (int i = 0; i < itemOverhauls.Count; i++) {
-				var itemOverhaul = itemOverhauls[i];
+			for (int i = 0; i < ItemOverhauls.Count; i++) {
+				var itemOverhaul = ItemOverhauls[i];
 
 				if (itemOverhaul.ShouldApplyItemOverhaul(item)) {
 					return itemOverhaul;

@@ -2,10 +2,10 @@
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
+namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {
 	//TODO: Somehow make this have conditional instancing?
-	public sealed class ItemCharging : GlobalItem, ICanTurnDuringItemUse, IHoldItemWhileDead
+	public sealed class ItemCharging : ItemComponent, ICanTurnDuringItemUse, IHoldItemWhileDead
 	{
 		public delegate void ChargeAction(Item item, Player player, float chargeProgress);
 
@@ -18,10 +18,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 		public int ChargeTimeMax { get; private set; }
 
 		public float ChargeProgress => IsCharging ? ChargeTime / (float)ChargeTimeMax : 0f;
-
-		public override bool InstancePerEntity => true;
-
-		public override GlobalItem Clone(Item item, Item itemClone) => base.Clone(item, itemClone);
 
 		public override void HoldItem(Item item, Player player)
 		{

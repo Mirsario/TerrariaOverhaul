@@ -7,9 +7,9 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
+namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee
 {
-	public sealed class ItemKillingBlows : GlobalItem
+	public sealed class ItemKillingBlows : ItemComponent
 	{
 		private delegate void NPCDamageModifier(NPC npc, ref double damage);
 
@@ -17,10 +17,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 
 		[ThreadStatic]
 		private static bool tryApplyingKillingBlow;
-
-		public bool Enabled { get; set; }
-
-		public override bool InstancePerEntity => true;
 
 		public override void Load()
 		{
@@ -54,8 +50,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 				cursor.EmitDelegate<NPCDamageModifier>(CheckForKillingBlow);
 			};
 		}
-
-		public override GlobalItem Clone(Item item, Item itemClone) => base.Clone(item, itemClone);
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{

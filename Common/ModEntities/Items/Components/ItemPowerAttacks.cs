@@ -6,27 +6,22 @@ using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Utilities.DataStructures;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
+namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {
-	public sealed class ItemPowerAttacks : GlobalItem, IModifyCommonStatMultipliers, ICanDoMeleeDamage
+	public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultipliers, ICanDoMeleeDamage
 	{
 		public delegate bool CanStartPowerAttackDelegate(Item item, Player player);
 
 		public float ChargeLengthMultiplier = 2f;
 		public CommonStatMultipliers CommonStatMultipliers = CommonStatMultipliers.Default;
 
-		public bool Enabled { get; set; }
 		public bool PowerAttack { get; private set; }
-
-		public override bool InstancePerEntity => true;
 
 		public event Action<Item, Player> OnStart;
 		public event Action<Item, Player, float> OnChargeStart;
 		public event Action<Item, Player, float, float> OnChargeUpdate;
 		public event Action<Item, Player, float, float> OnChargeEnd;
 		public event CanStartPowerAttackDelegate CanStartPowerAttack;
-
-		public override GlobalItem Clone(Item item, Item itemClone) => base.Clone(item, itemClone);
 
 		public override bool AltFunctionUse(Item item, Player player)
 		{

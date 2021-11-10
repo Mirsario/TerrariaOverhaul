@@ -2,20 +2,18 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.ModEntities.Items.Shared;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
-	public partial class MagicWeapon : AdvancedItem, IShowItemCrosshair
+	public partial class MagicWeapon : ItemOverhaul, IShowItemCrosshair
 	{
-		public static readonly ModSoundStyle MagicBlastSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicBlast", 3, pitchVariance: 0.1f);
-		public static readonly ModSoundStyle MagicPowerfulBlastSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast", pitchVariance: 0.4f);
-		public static readonly ModSoundStyle ChargeSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicCharge", volume: 0.5f, pitchVariance: 0.1f);
-
-		public override ScreenShake OnUseScreenShake => new(4f, 0.2f);
+		public static readonly ModSoundStyle MagicBlastSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicBlast", 3, pitchVariance: 0.1f);
+		public static readonly ModSoundStyle MagicPowerfulBlastSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast", pitchVariance: 0.4f);
+		public static readonly ModSoundStyle ChargeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicCharge", volume: 0.5f, pitchVariance: 0.1f);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -45,34 +43,40 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				item.UseSound = MagicBlastSound;
 			}
 
-			var powerAttacks = item.GetGlobalItem<ItemPowerAttacks>();
+			item.AddComponent<ItemPowerAttacks>(c => {
+				c.ChargeLengthMultiplier = 2f;
+				c.CommonStatMultipliers.ProjectileDamageMultiplier = 2.5f;
+				c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
+				c.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
 
-			powerAttacks.Enabled = true;
-			powerAttacks.ChargeLengthMultiplier = 2f;
-			powerAttacks.CommonStatMultipliers.ProjectileDamageMultiplier = 2.5f;
-			powerAttacks.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
-			powerAttacks.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
+				c.OnChargeStart += (item, player, chargeLength) => {
+					if (Main.dedServ) {
+						return;
+					}
 
-			powerAttacks.OnChargeStart += (item, player, chargeLength) => {
-				if (Main.dedServ) {
-					return;
-				}
-
-				ScreenShakeSystem.New(
-					new Gradient<float>(
-						(0.0f, 0.0f),
-						(0.5f, 0.1f),
-						(1.0f, 15.0f)
-					),
-					chargeLength / TimeSystem.LogicFramerate
-				);
-			};
+					ScreenShakeSystem.New(
+						new Gradient<float>(
+							(0.0f, 0.0f),
+							(0.5f, 0.1f),
+							(1.0f, 15.0f)
+						),
+						chargeLength / TimeSystem.LogicFramerate
+					);
+				};
+			});
 
 			if (!Main.dedServ) {
-				var powerAttackSounds = item.GetGlobalItem<ItemPowerAttackSounds>();
+				item.AddComponent<ItemPowerAttackSounds>(c => {
+					c.Sound = ChargeSound;
+				});
 
-				powerAttackSounds.Enabled = true;
-				powerAttackSounds.Sound = ChargeSound;
+				item.AddComponent<ItemUseVisualRecoil>(c => {
+					c.Power = 10f;
+				});
+
+				item.AddComponent<ItemUseScreenShake>(c => {
+					c.ScreenShake = new ScreenShake(4f, 0.2f);
+				});
 			}
 		}
 

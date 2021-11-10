@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Content.Gores;
 
@@ -8,9 +9,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
 	public class Handgun : Gun
 	{
-		public override float OnUseVisualRecoil => 13f;
-		public override ScreenShake OnUseScreenShake => new(4f, 0.2f);
-
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			if (item.useAmmo != AmmoID.Bullet) {
@@ -27,6 +25,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		public override void SetDefaults(Item item)
 		{
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
+
+			if (!Main.dedServ) {
+				item.AddComponent<ItemUseVisualRecoil>(c => {
+					c.Power = 13f;
+				});
+
+				item.AddComponent<ItemUseScreenShake>(c => {
+					c.ScreenShake = new ScreenShake(4f, 0.2f);
+				});
+			}
 		}
 
 		public override bool? UseItem(Item item, Player player)

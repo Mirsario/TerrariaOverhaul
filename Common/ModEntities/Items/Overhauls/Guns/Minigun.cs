@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Content.Gores;
@@ -19,9 +20,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		public virtual float AccelerationTime => 1f;
 		public virtual float DecelerationTime => 1f;
 		public virtual bool DoSpawnCasings => true;
-
-		public override float OnUseVisualRecoil => 5f;
-		public override ScreenShake OnUseScreenShake => new(5f, 0.25f);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -48,7 +46,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Minigun/MinigunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 			speedFactor = MinSpeedFactor;
-			PlaySoundOnEveryUse = true;
+
+			if (!Main.dedServ) {
+				item.AddComponent<ItemPlaySoundOnEveryUse>();
+
+				item.AddComponent<ItemUseVisualRecoil>(c => {
+					c.Power = 5f;
+				});
+
+				item.AddComponent<ItemUseScreenShake>(c => {
+					c.ScreenShake = new ScreenShake(5f, 0.25f);
+				});
+			}
 		}
 
 		public override float UseSpeedMultiplier(Item item, Player player)

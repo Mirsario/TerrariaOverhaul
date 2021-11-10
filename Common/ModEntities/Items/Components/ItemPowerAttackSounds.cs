@@ -3,20 +3,14 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
+namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {
 	[Autoload(Side = ModSide.Client)]
-	public sealed class ItemPowerAttackSounds : GlobalItem
+	public sealed class ItemPowerAttackSounds : ItemComponent
 	{
 		public ISoundStyle Sound;
 
 		private SlotId chargeSoundInstance;
-
-		public bool Enabled { get; set; }
-
-		public override bool InstancePerEntity => true;
-
-		public override GlobalItem Clone(Item item, Item itemClone) => base.Clone(item, itemClone);
 
 		public override void SetDefaults(Item item)
 		{

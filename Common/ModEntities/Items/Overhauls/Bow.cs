@@ -2,17 +2,16 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
-	public partial class Bow : AdvancedItem, IShowItemCrosshair
+	public partial class Bow : ItemOverhaul, IShowItemCrosshair
 	{
-		public static readonly ModSoundStyle BowFireSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowFire", 4, volume: 0.375f, pitchVariance: 0.2f);
-		public static readonly ModSoundStyle BowChargeSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowCharge", 4, volume: 0.375f, pitchVariance: 0.2f);
-		public static readonly ModSoundStyle BowEmptySound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowEmpty", volume: 0.375f, pitchVariance: 0.2f);
-
-		public override ScreenShake OnUseScreenShake => new(2f, 0.2f);
+		public static readonly ModSoundStyle BowFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowFire", 4, volume: 0.375f, pitchVariance: 0.2f);
+		public static readonly ModSoundStyle BowChargeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowCharge", 4, volume: 0.375f, pitchVariance: 0.2f);
+		public static readonly ModSoundStyle BowEmptySound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowEmpty", volume: 0.375f, pitchVariance: 0.2f);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -40,6 +39,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			if (item.UseSound == SoundID.Item5) {
 				item.UseSound = BowFireSound;
+			}
+
+			if (!Main.dedServ) {
+				item.AddComponent<ItemUseScreenShake>(c => {
+					c.ScreenShake = new ScreenShake(2f, 0.2f);
+				});
 			}
 		}
 

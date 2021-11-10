@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
@@ -19,7 +20,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 			base.SetDefaults(item);
 
 			//item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Revolver/RevolverFire", 0, volume: 0.15f, pitchVariance: 0.2f);
-			PlaySoundOnEveryUse = true;
+
+			if (!Main.dedServ) {
+				item.AddComponent<ItemPlaySoundOnEveryUse>();
+			}
 		}
 
 		public override bool AltFunctionUse(Item item, Player player)

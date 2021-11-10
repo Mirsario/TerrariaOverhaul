@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Content.Gores;
 
@@ -8,9 +9,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
 	public class AssaultRifle : Gun
 	{
-		public override float OnUseVisualRecoil => 10f;
-		public override ScreenShake OnUseScreenShake => new(4f, 0.2f);
-
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			//Rifles always use bullets.
@@ -29,7 +27,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		public override void SetDefaults(Item item)
 		{
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3, volume: 0.125f, pitchVariance: 0.2f);
-			PlaySoundOnEveryUse = true;
+
+			if (!Main.dedServ) {
+				item.AddComponent<ItemPlaySoundOnEveryUse>();
+
+				item.AddComponent<ItemUseVisualRecoil>(c => {
+					c.Power = 10f;
+				});
+
+				item.AddComponent<ItemUseScreenShake>(c => {
+					c.ScreenShake = new ScreenShake(4f, 0.2f);
+				});
+			}
 		}
 
 		public override bool? UseItem(Item item, Player player)

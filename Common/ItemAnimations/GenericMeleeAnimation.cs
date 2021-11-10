@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee;
+using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 
 namespace TerrariaOverhaul.Common.ItemAnimations
 {

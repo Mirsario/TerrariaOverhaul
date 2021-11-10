@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
@@ -12,9 +13,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		private ISoundStyle fireSound;
 		private SlotId soundId;
 
-		public override float OnUseVisualRecoil => 4f;
-		public override ScreenShake OnUseScreenShake => new(3f, 0.2f);
-
 		public override bool ShouldApplyItemOverhaul(Item item) => item.useAmmo == AmmoID.Gel;
 
 		public override void SetDefaults(Item item)
@@ -22,6 +20,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 			item.UseSound = null;
 
 			fireSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Flamethrower/FlamethrowerFireLoop", 0, volume: 0.15f, pitchVariance: 0.2f);
+
+			if (!Main.dedServ) {
+				item.AddComponent<ItemUseVisualRecoil>(c => {
+					c.Power = 4f;
+				});
+
+				item.AddComponent<ItemUseScreenShake>(c => {
+					c.ScreenShake = new ScreenShake(3f, 0.2f);
+				});
+			}
 		}
 
 		public override bool? UseItem(Item item, Player player)
