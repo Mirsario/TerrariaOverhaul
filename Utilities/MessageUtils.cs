@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Utilities
 	{
 		public static void NewText(object text, Color? color = null)
 		{
-			if(Main.dedServ) {
+			if (Main.dedServ) {
 				Console.WriteLine(text);
 			} else {
 				Main.NewText(text, color);

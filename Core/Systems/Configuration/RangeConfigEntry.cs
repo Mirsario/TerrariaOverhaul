@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 		{
 			int comparison = minValue.CompareTo(maxValue);
 
-			if(comparison > 0) {
+			if (comparison > 0) {
 				throw new ArgumentException($"Minimal value must be less than or equal to maximum value.");
 			}
 
@@ -23,9 +23,9 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 		{
 			value = base.ModifySetValue(value);
 
-			if(MinValue.CompareTo(value) > 0) {
+			if (MinValue.CompareTo(value) > 0) {
 				value = MinValue;
-			} else if(MaxValue.CompareTo(value) < 0) {
+			} else if (MaxValue.CompareTo(value) < 0) {
 				value = MaxValue;
 			}
 

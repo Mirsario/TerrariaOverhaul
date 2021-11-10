@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 			entryName.SetDefault(name);
 			modTile.AddMapEntry(color, entryName);
 		}
-		
+
 		public static void AddTileObjectData(this ModTile modTile, TileObjectData copyFrom, Action<TileObjectData> action)
 		{
 			TileObjectData.newTile.CopyFrom(copyFrom);
@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 			TileObjectData.addTile(modTile.Type);
 		}
-		
+
 		public static void AddAlternate(this TileObjectData tileObjectData, int altStyleId, Action<TileObjectData> action)
 		{
 			TileObjectData.newAlternate.CopyFrom(tileObjectData);

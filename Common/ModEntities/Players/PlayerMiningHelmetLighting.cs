@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public override void Load()
 		{
 			On.Terraria.Player.UpdateArmorLights += (orig, player) => {
-				if(player.head == ArmorIDs.Head.MiningHelmet) {
+				if (player.head == ArmorIDs.Head.MiningHelmet) {
 					player.head = -1;
 
 					orig(player);
@@ -26,7 +26,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
-			if(Player.armor[0] == null || Player.armor[0].headSlot != ArmorIDs.Head.MiningHelmet) {
+			if (Player.armor[0] == null || Player.armor[0].headSlot != ArmorIDs.Head.MiningHelmet) {
 				return;
 			}
 
@@ -40,17 +40,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			Lighting.AddLight(startPos, lightColor * 0.25f);
 
-			for(int i = 0; i < NumSteps; i++) {
+			for (int i = 0; i < NumSteps; i++) {
 				var currentPos = Vector2.Lerp(startPos, endPos, i / (float)NumSteps);
 
-				if(!Main.tile.TryGet(currentPos.ToTileCoordinates16(), out var tile)) {
+				if (!Main.tile.TryGet(currentPos.ToTileCoordinates16(), out var tile)) {
 					continue;
 				}
 
-				if(tile.IsActive && Main.tileSolid[tile.type]) {
+				if (tile.IsActive && Main.tileSolid[tile.type]) {
 					maxBrightness -= 0.2f;
 
-					if(maxBrightness <= 0f) {
+					if (maxBrightness <= 0f) {
 						break;
 					}
 				}

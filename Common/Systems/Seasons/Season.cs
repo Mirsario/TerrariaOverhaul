@@ -28,7 +28,7 @@ namespace TerrariaOverhaul.Common.Systems.Seasons
 
 		protected sealed override void Register()
 		{
-			
+
 		}
 	}
 }

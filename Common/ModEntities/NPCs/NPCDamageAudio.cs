@@ -7,7 +7,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.Systems.DamageSources;
-using TerrariaOverhaul.Core.Exceptions;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
@@ -65,14 +64,14 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		public bool PlayHitSound(NPC npc)
 		{
-			if(!npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
+			if (!npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
 				return true;
 			}
 
 			bool playOriginalSound = true;
 			ISoundStyle customSoundStyle = null;
 
-			if(npcBloodAndGore.LastHitBloodAmount > 0) {
+			if (npcBloodAndGore.LastHitBloodAmount > 0) {
 				customSoundStyle = FleshHitSound;
 				playOriginalSound = npc.HitSound != SoundID.NPCHit1;
 			}
@@ -80,11 +79,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			var damageSource = DamageSourceSystem.CurrentDamageSource;
 
 			//Call item hit sound modification hooks.
-			if(damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
+			if (damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
 				IModifyItemNPCHitSound.Hook.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
 			}
 
-			if(customSoundStyle != null) {
+			if (customSoundStyle != null) {
 				SoundEngine.PlaySound(customSoundStyle, npc.Center);
 			}
 
@@ -92,14 +91,14 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		}
 		public bool PlayDeathSound(NPC npc)
 		{
-			if(!npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
+			if (!npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
 				return true;
 			}
 
 			bool playOriginalSound = true;
 			ISoundStyle customSoundStyle = null;
 
-			if(npcBloodAndGore.LastHitBloodAmount > 0) {
+			if (npcBloodAndGore.LastHitBloodAmount > 0) {
 				customSoundStyle = GoreSound;
 				playOriginalSound = npc.DeathSound != SoundID.NPCDeath1;
 			}
@@ -107,11 +106,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			var damageSource = DamageSourceSystem.CurrentDamageSource;
 
 			//Call item death sound modification hooks.
-			if(damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
+			if (damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
 				IModifyItemNPCDeathSound.Hook.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
 			}
 
-			if(customSoundStyle != null) {
+			if (customSoundStyle != null) {
 				SoundEngine.PlaySound(customSoundStyle, npc.Center);
 			}
 

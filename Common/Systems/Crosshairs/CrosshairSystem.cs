@@ -24,14 +24,14 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 
 		public static bool ShowCrosshair {
 			get {
-				if(Main.dedServ || Main.gameMenu) {
+				if (Main.dedServ || Main.gameMenu) {
 					return false;
 				}
 
 				var player = Main.LocalPlayer;
 				var item = player?.HeldItem;
 
-				if(item?.IsAir != false) {
+				if (item?.IsAir != false) {
 					return false;
 				}
 
@@ -44,7 +44,7 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 			impulses = new List<CrosshairImpulse>();
 			crosshairTexture = Mod.Assets.Request<Texture2D>("Assets/Textures/UI/Crosshair");
 		}
-		
+
 		public override void PostUpdateEverything()
 		{
 			float totalOffset = 0f;
@@ -52,18 +52,18 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 
 			Color color = Main.cursorColor;
 
-			for(int i = 0; i < impulses.Count; i++) {
+			for (int i = 0; i < impulses.Count; i++) {
 				var impulse = impulses[i];
 				float progress = impulse.time / impulse.timeMax;
 
-				if(impulse.reversed) {
+				if (impulse.reversed) {
 					progress = 1f - progress;
 				}
 
 				totalOffset += impulse.strength * progress;
 				totalRot += impulse.rotation * progress;
 
-				if(impulse.color.HasValue) {
+				if (impulse.color.HasValue) {
 					var impulseColor = impulse.color.Value;
 
 					color = Color.Lerp(color, impulseColor, impulseColor.A * progress / 255f);
@@ -71,7 +71,7 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 
 				impulse.time -= TimeSystem.LogicDeltaTime;
 
-				if(impulse.time <= 0f) {
+				if (impulse.time <= 0f) {
 					impulses.RemoveAt(i--);
 				} else {
 					impulses[i] = impulse;
@@ -85,13 +85,13 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
-			if(!ShowCrosshair || Main.LocalPlayer.mouseInterface || layers.Count == 0) {
+			if (!ShowCrosshair || Main.LocalPlayer.mouseInterface || layers.Count == 0) {
 				return;
 			}
 
 			int cursorOrEndIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Cursor");
 
-			if(cursorOrEndIndex < 0) {
+			if (cursorOrEndIndex < 0) {
 				cursorOrEndIndex = layers.Count - 1;
 			}
 
@@ -100,11 +100,11 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 				() => {
 					int offset = (int)Math.Ceiling(crosshairOffset);
 
-					for(int i = 0; i < 2; i++) {
+					for (int i = 0; i < 2; i++) {
 						bool outline = i == 1;
 
-						for(byte y = 0; y < 2; y++) {
-							for(byte x = 0; x < 2; x++) {
+						for (byte y = 0; y < 2; y++) {
+							for (byte x = 0; x < 2; x++) {
 								int xDir = x == 0 ? -1 : 1;
 								int yDir = y == 0 ? -1 : 1;
 
@@ -132,7 +132,7 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 
 		public static void AddImpulse(CrosshairImpulse impulse)
 		{
-			if(ShowCrosshair) {
+			if (ShowCrosshair) {
 				impulses.Add(impulse);
 			}
 		}

@@ -86,7 +86,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				cursor.RemoveRange(9);
 				cursor.Emit(OpCodes.Nop);
 
-				foreach(var incomingLabel in incomingLabels) {
+				foreach (var incomingLabel in incomingLabels) {
 					incomingLabel.Target = cursor.Prev;
 				}
 
@@ -98,15 +98,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				});
 			};
 		}
-		
+
 		public override void PreUpdate()
 		{
 			bool onGround = Player.OnGround();
 			bool wasOnGround = Player.WasOnGround();
 
 			//Update the data necessary for jump key holding logic
-			if(Player.jump != prevPlayerJump) {
-				if(Player.jump > prevPlayerJump) {
+			if (Player.jump != prevPlayerJump) {
+				if (Player.jump > prevPlayerJump) {
 					maxPlayerJump = Player.jump;
 				}
 
@@ -117,23 +117,23 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			Player.jumpSpeed *= 1.21f;
 			Player.jumpHeight = (int)(Player.jumpHeight * 1.75f);
 
-			if(!Player.wet) {
+			if (!Player.wet) {
 				bool wings = Player.wingsLogic > 0 && Player.controlJump && !onGround && !wasOnGround;
 				bool wingFall = wings && Player.wingTime == 0;
 
-				if(vanillaAccelerationTime > 0) {
+				if (vanillaAccelerationTime > 0) {
 					vanillaAccelerationTime--;
-				} else if(!Player.slippy && !Player.slippy2 && EnableHorizontalAccelerationChanges) {
+				} else if (!Player.slippy && !Player.slippy2 && EnableHorizontalAccelerationChanges) {
 					//Horizontal acceleration
-					if(onGround) {
+					if (onGround) {
 						Player.runAcceleration *= 2f;
 					} else {
 						Player.runAcceleration *= 1.65f;
 					}
 
 					//Wind acceleration
-					if(Player.FindBuffIndex(BuffID.WindPushed) >= 0) {
-						if(Main.windSpeedCurrent >= 0f ? Player.velocity.X < Main.windSpeedCurrent : Player.velocity.X > Main.windSpeedCurrent) {
+					if (Player.FindBuffIndex(BuffID.WindPushed) >= 0) {
+						if (Main.windSpeedCurrent >= 0f ? Player.velocity.X < Main.windSpeedCurrent : Player.velocity.X > Main.windSpeedCurrent) {
 							Player.velocity.X += Main.windSpeedCurrent / (Player.KeyDirection() == -Math.Sign(Main.windSpeedCurrent) ? 180f : 70f);
 						}
 					}
@@ -141,20 +141,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					Player.runSlowdown = onGround ? 0.275f : 0.02f;
 				}
 
-				if(noMovementTime.Active) {
+				if (noMovementTime.Active) {
 					Player.maxRunSpeed = 0f;
 					Player.runAcceleration = 0f;
-				} else if(Player.chilled) {
+				} else if (Player.chilled) {
 					Player.maxRunSpeed *= 0.6f;
 				}
 
-				if(EnableVerticalAccelerationChanges) {
+				if (EnableVerticalAccelerationChanges) {
 					Player.maxFallSpeed = wingFall ? 10f : 1000f;
 
 					//Falling friction & speed limit
-					if(Player.velocity.Y > Player.maxFallSpeed) {
+					if (Player.velocity.Y > Player.maxFallSpeed) {
 						Player.velocity.Y = Player.maxFallSpeed;
-					} else if(Player.velocity.Y > 0f) {
+					} else if (Player.velocity.Y > 0f) {
 						Player.velocity.Y *= 0.995f;
 					}
 				}
@@ -169,7 +169,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			velocityRecord[0] = Player.velocity;
 
-			if(forcedPosition != null) {
+			if (forcedPosition != null) {
 				Player.position = forcedPosition.Value;
 				forcedPosition = null;
 			}
@@ -191,11 +191,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			List<string> keysToRemove = null;
 
-			foreach(var pair in MovementModifiers) {
+			foreach (var pair in MovementModifiers) {
 				string id = pair.Key;
 				var (endTime, modifier) = pair.Value;
 
-				if(endTime <= TimeSystem.UpdateCount) {
+				if (endTime <= TimeSystem.UpdateCount) {
 					(keysToRemove ??= new List<string>()).Add(id);
 					continue;
 				}
@@ -203,8 +203,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				modifier.Apply(Player);
 			}
 
-			if(keysToRemove != null) {
-				foreach(string key in keysToRemove) {
+			if (keysToRemove != null) {
+				foreach (string key in keysToRemove) {
 					MovementModifiers.Remove(key);
 				}
 			}

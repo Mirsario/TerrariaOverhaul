@@ -1,9 +1,6 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.ModEntities.Players;
-using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
@@ -13,17 +10,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
-			if(item.useAmmo != AmmoID.FallenStar) {
+			if (item.useAmmo != AmmoID.FallenStar) {
 				return false;
 			}
 
-			if(item.UseSound != null && item.UseSound != SoundID.Item9) {
+			if (item.UseSound != null && item.UseSound != SoundID.Item9) {
 				return false;
 			}
 
 			return true;
 		}
-		
+
 		public override void SetDefaults(Item item)
 		{
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/StarCannon/StarCannonFire", 0, volume: 0.2f, pitchVariance: 0.2f);

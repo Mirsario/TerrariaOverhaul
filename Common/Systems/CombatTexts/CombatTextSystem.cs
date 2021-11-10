@@ -24,17 +24,17 @@ namespace TerrariaOverhaul.Common.Systems.CombatTexts
 			On.Terraria.CombatText.NewText_Rectangle_Color_string_bool_bool += (orig, location, color, text, dramatic, dot) => {
 				int result = orig(location, color, text, dramatic, dot);
 
-				if(!skip) {
+				if (!skip) {
 					var combatText = Main.combatText.IndexInRange(result) ? Main.combatText[result] : null;
 
-					if(combatText != null) {
+					if (combatText != null) {
 						try {
 							skip = true;
 
-							for(int i = 0; i < filters.Count; i++) {
+							for (int i = 0; i < filters.Count; i++) {
 								var action = filters[i];
 
-								if(action.removeAt <= TimeSystem.UpdateCount) {
+								if (action.removeAt <= TimeSystem.UpdateCount) {
 									filters.RemoveAt(i--);
 									continue;
 								}
@@ -51,10 +51,10 @@ namespace TerrariaOverhaul.Common.Systems.CombatTexts
 				return result;
 			};
 		}
-		
+
 		public override void Unload()
 		{
-			if(filters != null) {
+			if (filters != null) {
 				filters.Clear();
 
 				filters = null;

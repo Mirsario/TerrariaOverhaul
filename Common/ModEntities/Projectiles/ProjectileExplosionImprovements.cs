@@ -1,6 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using Terraria;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Systems.AudioEffects;
@@ -33,14 +33,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 		{
 			maxSize = Vector2.Max(maxSize, projectile.Size);
 
-			if(maxSize.X <= 0f || maxSize.Y <= 0f) {
+			if (maxSize.X <= 0f || maxSize.Y <= 0f) {
 				return;
 			}
 
 			float maxPower = (float)Math.Sqrt(maxSize.X * maxSize.Y);
 
 			//TODO: Hardcoded cuz tired.
-			if(projectile.type == ProjectileID.ExplosiveBullet) {
+			if (projectile.type == ProjectileID.ExplosiveBullet) {
 				maxPower = 10f;
 			}
 
@@ -49,25 +49,25 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			var center = projectile.Center;
 
 			//Knockback
-			for(int i = 0; i < Main.maxPlayers + Main.maxItems + Main.maxGore; i++) {
+			for (int i = 0; i < Main.maxPlayers + Main.maxItems + Main.maxGore; i++) {
 				ref Vector2 velocity = ref projectile.velocity; //Unused assignment.
 				Rectangle rectangle;
 				object entity;
 
-				if(i < Main.maxPlayers) {
+				if (i < Main.maxPlayers) {
 					var player = Main.player[i];
 
-					if(player?.active != true) {
+					if (player?.active != true) {
 						continue;
 					}
 
 					entity = player;
 					velocity = ref player.velocity;
 					rectangle = player.getRect();
-				} else if(i < Main.maxPlayers + Main.maxItems) {
+				} else if (i < Main.maxPlayers + Main.maxItems) {
 					var item = Main.item[i - Main.maxPlayers];
 
-					if(item?.active != true) {
+					if (item?.active != true) {
 						continue;
 					}
 
@@ -77,7 +77,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				} else {
 					var gore = Main.gore[i - Main.maxPlayers - Main.maxItems];
 
-					if(gore?.active != true) {
+					if (gore?.active != true) {
 						continue;
 					}
 
@@ -88,44 +88,44 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 				float sqrDistance = Vector2.DistanceSquared(rectangle.GetCorner(center), center);
 
-				if(sqrDistance >= knockbackRangeSquared) {
+				if (sqrDistance >= knockbackRangeSquared) {
 					continue;
 				}
 
 				var direction = (rectangle.Center() - center).SafeNormalize(default);
 				float distance = (float)Math.Sqrt(sqrDistance);
 
-				if(float.IsNaN(distance) || direction == default) {
+				if (float.IsNaN(distance) || direction == default) {
 					continue;
 				}
 
 				//Explosions have a chance to set gore on fire.
-				if(entity is Systems.Gores.OverhaulGore goreExt && Main.rand.Next(5) == 0) {
+				if (entity is Systems.Gores.OverhaulGore goreExt && Main.rand.Next(5) == 0) {
 					goreExt.onFire = true;
 				}
 
 				velocity += direction * MathUtils.DistancePower(distance, knockbackRange) * maxPower / 13f;
 
-				if(velocity.HasNaNs()) {
+				if (velocity.HasNaNs()) {
 					velocity = Vector2.Zero;
 				}
 			}
 
-			if(!Main.dedServ) {
-				if(Main.LocalPlayer != null) {
+			if (!Main.dedServ) {
+				if (Main.LocalPlayer != null) {
 					float distance = Vector2.Distance(Main.LocalPlayer.Center, center);
 
 					//Screenshake
 					float screenshakePower = MathUtils.DistancePower(distance, maxPower * 10f) * 15f;
 
-					if(screenshakePower > 0f) {
+					if (screenshakePower > 0f) {
 						ScreenShakeSystem.New(screenshakePower, 0.5f);
 					}
 
 					//Low-pass filtering
 					int lowPassFilteringTime = (int)(TimeSystem.LogicFramerate * 5f * MathUtils.DistancePower(distance, maxPower * 3f));
 
-					if(lowPassFilteringTime > 0) {
+					if (lowPassFilteringTime > 0) {
 						AudioEffectsSystem.AddAudioEffectModifier(
 							lowPassFilteringTime,
 							$"{nameof(TerrariaOverhaul)}/{nameof(ProjectileExplosionImprovements)}",

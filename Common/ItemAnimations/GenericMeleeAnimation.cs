@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Common.ModEntities.Items.Overhauls;
 using TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee;
 
 namespace TerrariaOverhaul.Common.ItemAnimations
@@ -9,7 +8,7 @@ namespace TerrariaOverhaul.Common.ItemAnimations
 	{
 		public override float GetItemRotation(Item item, Player player)
 		{
-			if(!item.TryGetGlobalItem(out ItemMeleeAttackAiming aimableAttacks, false)) {
+			if (!item.TryGetGlobalItem(out ItemMeleeAttackAiming aimableAttacks, false)) {
 				return 0f;
 			}
 
@@ -19,7 +18,7 @@ namespace TerrariaOverhaul.Common.ItemAnimations
 			float minValue = baseAngle - MathHelper.PiOver2;
 			float maxValue = baseAngle + MathHelper.PiOver2;
 
-			if(player.direction < 0) {
+			if (player.direction < 0) {
 				Utils.Swap(ref minValue, ref maxValue);
 			}
 

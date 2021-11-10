@@ -8,14 +8,14 @@ namespace TerrariaOverhaul.Utilities.Extensions
 	{
 		public static void TryWriteSenderPlayer(this BinaryWriter writer, Player player)
 		{
-			if(Main.netMode == NetmodeID.Server) {
+			if (Main.netMode == NetmodeID.Server) {
 				writer.Write((byte)player.whoAmI);
 			}
 		}
-		
+
 		public static bool TryReadSenderPlayer(this BinaryReader reader, int sender, out Player player)
 		{
-			if(Main.netMode == NetmodeID.MultiplayerClient) {
+			if (Main.netMode == NetmodeID.MultiplayerClient) {
 				sender = reader.ReadByte();
 			}
 

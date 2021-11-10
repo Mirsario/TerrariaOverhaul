@@ -1,6 +1,4 @@
-﻿using System;
-using Terraria;
-using Terraria.ModLoader;
+﻿using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities;
 
@@ -14,7 +12,7 @@ namespace TerrariaOverhaul.Common.Commands
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
-			if(ConfigSystem.LoadConfig()) {
+			if (ConfigSystem.LoadConfig()) {
 				MessageUtils.NewText($"Config successfully reloaded");
 			} else {
 				MessageUtils.NewText($"Config loading had errors.");

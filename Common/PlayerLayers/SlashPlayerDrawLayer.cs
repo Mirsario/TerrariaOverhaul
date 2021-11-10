@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.ModEntities.Items.Overhauls;
 using TerrariaOverhaul.Common.ModEntities.Items.Shared;
 using TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee;
 using TerrariaOverhaul.Common.Systems.TextureColors;
@@ -24,7 +22,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 		{
 			texture = Mod.Assets.Request<Texture2D>($"{Utilities.ModPathUtils.GetDirectory(GetType())}/Slash");
 		}
-		
+
 		public override void Unload()
 		{
 			texture = null;
@@ -38,7 +36,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 		{
 			var player = drawInfo.drawPlayer;
 
-			if(player.itemAnimation <= 0 || player.itemAnimationMax <= 0) {
+			if (player.itemAnimation <= 0 || player.itemAnimationMax <= 0) {
 				return;
 			}
 
@@ -46,17 +44,17 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 			useProgress = (useProgress * 2f) - 1f;
 
-			if(useProgress < 0) {
+			if (useProgress < 0) {
 				return;
 			}
 
 			var item = player.HeldItem;
 
-			if(!item.TryGetGlobalItem<ItemMeleeAttackAiming>(out var meleeAiming) || !meleeAiming.Enabled) {
+			if (!item.TryGetGlobalItem<ItemMeleeAttackAiming>(out var meleeAiming) || !meleeAiming.Enabled) {
 				return;
 			}
 
-			if(item.TryGetGlobalItem<ItemCharging>(out var itemCharging) && itemCharging.IsCharging) {
+			if (item.TryGetGlobalItem<ItemCharging>(out var itemCharging) && itemCharging.IsCharging) {
 				return;
 			}
 

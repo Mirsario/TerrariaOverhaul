@@ -19,29 +19,29 @@ namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 
 		public override void PostUpdateEverything()
 		{
-			if(Main.gamePaused && !Stopwatch.IsRunning) {
+			if (Main.gamePaused && !Stopwatch.IsRunning) {
 				return;
 			}
 
 			float delta = (float)Stopwatch.Elapsed.TotalSeconds;
 
-			if(delta <= 0f) {
+			if (delta <= 0f) {
 				delta = TimeSystem.LogicDeltaTime;
 			}
 
-			for(int i = 0; i < ScreenShakes.Count; i++) {
+			for (int i = 0; i < ScreenShakes.Count; i++) {
 				var shake = ScreenShakes[i];
 
 				shake.time -= delta;
 
-				if(shake.time <= 0f) {
+				if (shake.time <= 0f) {
 					ScreenShakes.RemoveAt(i--);
 				} else {
 					ScreenShakes[i] = shake;
 				}
 			}
 
-			if(Main.gamePaused) {
+			if (Main.gamePaused) {
 				Stopwatch.Reset();
 			} else {
 				Stopwatch.Restart();
@@ -52,15 +52,15 @@ namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 		{
 			float power = 0f;
 
-			for(int i = 0; i < ScreenShakes.Count; i++) {
+			for (int i = 0; i < ScreenShakes.Count; i++) {
 				var shake = ScreenShakes[i];
 
 				float maxPower;
 
-				if(shake.powerGradient != null) {
+				if (shake.powerGradient != null) {
 					float progress = (shake.TimeMax - shake.time) / shake.TimeMax;
 
-					if(float.IsNaN(progress)) {
+					if (float.IsNaN(progress)) {
 						progress = 0f;
 					}
 
@@ -69,7 +69,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 					maxPower = shake.power;
 				}
 
-				if(shake.position.HasValue) {
+				if (shake.position.HasValue) {
 					maxPower *= 1f - Math.Min(1f, Vector2.Distance(shake.position.Value, point) / shake.range);
 				}
 
@@ -87,14 +87,14 @@ namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 
 		public static void New(ScreenShake screenShake)
 		{
-			if(screenShake.uniqueId == null) {
+			if (screenShake.uniqueId == null) {
 				ScreenShakes.Add(screenShake);
 				return;
 			}
 
 			int index = ScreenShakes.FindIndex(s => s.uniqueId == screenShake.uniqueId);
 
-			if(index >= 0) {
+			if (index >= 0) {
 				ScreenShakes[index] = screenShake;
 			} else {
 				ScreenShakes.Add(screenShake);

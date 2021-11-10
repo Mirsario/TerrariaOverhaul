@@ -1,11 +1,11 @@
 ﻿using System;
-using Terraria;
-using Terraria.ID;
-using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 using TerrariaOverhaul.Common.Systems.Time;
-using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Core.Systems.Configuration;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 {
@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 		public override void Load()
 		{
 			On.Terraria.Player.ItemCheck_ApplyHoldStyle += (orig, player, mountOffset, sItem, heldItemFrame) => {
-				if(ShouldForceUseAnim(sItem)) {
+				if (ShouldForceUseAnim(sItem)) {
 					player.ItemCheck_ApplyUseStyle(mountOffset, sItem, heldItemFrame);
 
 					return;
@@ -33,24 +33,24 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			On.Terraria.Player.ItemCheck_ApplyUseStyle += (orig, player, mountOffset, sItem, heldItemFrame) => {
 				orig(player, mountOffset, sItem, heldItemFrame);
 
-				if(sItem.useStyle == ItemUseStyleID.Shoot) {
+				if (sItem.useStyle == ItemUseStyleID.Shoot) {
 					var modPlayer = player.GetModPlayer<PlayerHoldOutAnimation>();
 
 					player.itemRotation = ConvertRotation(modPlayer.directItemRotation, player) - MathHelper.ToRadians(modPlayer.visualRecoil * player.direction * (int)player.gravDir);
 
 					//Fix rotation range.
-					if(player.itemRotation > MathHelper.Pi) {
+					if (player.itemRotation > MathHelper.Pi) {
 						player.itemRotation -= MathHelper.TwoPi;
 					}
 
-					if(player.itemRotation < -MathHelper.Pi) {
+					if (player.itemRotation < -MathHelper.Pi) {
 						player.itemRotation += MathHelper.TwoPi;
 					}
 				}
 			};
 
 			On.Terraria.Player.PlayerFrame += (orig, player) => {
-				if(ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
+				if (ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
 					InvokeWithForcedAnimation(player, () => orig(player));
 					return;
 				}
@@ -61,7 +61,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			On.Terraria.DataStructures.PlayerDrawLayers.DrawPlayer_27_HeldItem += (On.Terraria.DataStructures.PlayerDrawLayers.orig_DrawPlayer_27_HeldItem orig, ref PlayerDrawSet drawInfo) => {
 				var player = drawInfo.drawPlayer;
 
-				if(ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
+				if (ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
 					ForceAnim(player, out int itemAnim, out int itemAnimMax);
 
 					orig(ref drawInfo);
@@ -74,13 +74,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 				orig(ref drawInfo);
 			};
 		}
-		
+
 		public override void PreUpdate()
 		{
 			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
 			Vector2 offset = mouseWorld - Player.Center;
 
-			if(offset != Vector2.Zero && Math.Sign(offset.X) == Player.direction) {
+			if (offset != Vector2.Zero && Math.Sign(offset.X) == Player.direction) {
 				directTargetItemRotation = offset.ToRotation();
 			}
 
@@ -88,7 +88,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			visualRecoil = MathHelper.Lerp(visualRecoil, 0f, 10f * TimeSystem.LogicDeltaTime);
 
 			//This could go somewhere else?
-			if(Player.HeldItem?.IsAir == false && ShouldForceUseAnim(Player.HeldItem)) {
+			if (Player.HeldItem?.IsAir == false && ShouldForceUseAnim(Player.HeldItem)) {
 				Player.HeldItem.useTurn = true;
 			}
 		}
@@ -97,7 +97,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 
 		private static float ConvertRotation(float rotation, Player player)
 		{
-			if(player.direction < 0) {
+			if (player.direction < 0) {
 				rotation -= MathHelper.Pi;
 			}
 
@@ -112,13 +112,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			player.itemAnimation = 1;
 			player.itemAnimationMax = 2;
 		}
-		
+
 		private static void RestoreAnim(Player player, int itemAnim, int itemAnimMax)
 		{
 			player.itemAnimation = itemAnim;
 			player.itemAnimationMax = itemAnimMax;
 		}
-		
+
 		private static void InvokeWithForcedAnimation(Player player, Action action)
 		{
 			ForceAnim(player, out int itemAnim, out int itemAnimMax);

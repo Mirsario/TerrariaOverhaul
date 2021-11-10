@@ -19,11 +19,11 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 			Main.OnPreDraw += OnPreDraw;
 		}
-		
+
 		public override void Unload()
 		{
-			if(chunks != null) {
-				foreach(var chunk in chunks.Values) {
+			if (chunks != null) {
+				foreach (var chunk in chunks.Values) {
 					chunk.Dispose();
 				}
 
@@ -37,7 +37,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 		public override void PostDrawTiles()
 		{
-			if(Main.gameMenu) {
+			if (Main.gameMenu) {
 				return;
 			}
 
@@ -45,8 +45,8 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 			//sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-			foreach(var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea, false)) {
-				foreach(var component in chunk.Components) {
+			foreach (var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea, false)) {
+				foreach (var component in chunk.Components) {
 					component.PostDrawTiles(chunk, sb);
 				}
 			}
@@ -65,12 +65,12 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 		private void OnPreDraw(GameTime gameTime)
 		{
-			if(Main.gameMenu) {
+			if (Main.gameMenu) {
 				return;
 			}
 
-			foreach(var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea, false)) {
-				foreach(var component in chunk.Components) {
+			foreach (var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea, false)) {
+				foreach (var component in chunk.Components) {
 					component.PreGameDraw(chunk);
 				}
 			}
@@ -78,13 +78,13 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 		public static IEnumerable<Chunk> EnumerateChunksInArea(Player player, int areaSize, bool instantiate)
 		{
-			if(player?.active != true) {
+			if (player?.active != true) {
 				return Enumerable.Empty<Chunk>();
 			}
 
 			return EnumerateChunksInArea(player.position.ToTileCoordinates(), areaSize, instantiate);
 		}
-		
+
 		public static IEnumerable<Chunk> EnumerateChunksInArea(Vector2Int tileCenter, int areaSize, bool instantiate)
 		{
 			Vector2Int chunkCenter = TileToChunkCoordinates(tileCenter);
@@ -94,12 +94,12 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 			int xEnd = chunkCenter.X + areaSize;
 			int yEnd = chunkCenter.Y + areaSize;
 
-			for(int y = yStart; y < yEnd; y++) {
-				for(int x = xStart; x < xEnd; x++) {
+			for (int y = yStart; y < yEnd; y++) {
+				for (int x = xStart; x < xEnd; x++) {
 					long encodedPosition = Chunk.PackPosition(x, y);
 
-					if(!chunks.TryGetValue(encodedPosition, out var chunk)) {
-						if(!instantiate) {
+					if (!chunks.TryGetValue(encodedPosition, out var chunk)) {
+						if (!instantiate) {
 							continue;
 						}
 
@@ -121,7 +121,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 		{
 			long encodedPosition = Chunk.PackPosition(chunkPosition.X, chunkPosition.Y);
 
-			if(!chunks.TryGetValue(encodedPosition, out var chunk)) {
+			if (!chunks.TryGetValue(encodedPosition, out var chunk)) {
 				chunks[encodedPosition] = chunk = new Chunk(chunkPosition.X, chunkPosition.Y);
 			}
 

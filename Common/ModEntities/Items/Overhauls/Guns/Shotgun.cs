@@ -24,7 +24,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunFire", 4, volume: 0.2f, pitchVariance: 0.2f);
 			PumpSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunPump", 0, volume: 0.25f, pitchVariance: 0.1f);
 
-			switch(item.type) {
+			switch (item.type) {
 				default:
 					ShellCount = 1;
 					break;
@@ -36,12 +36,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 					break;
 			}
 		}
-		
+
 		public override bool? UseItem(Item item, Player player)
 		{
 			bool? baseResult = base.UseItem(item, player);
 
-			if(baseResult == false) {
+			if (baseResult == false) {
 				return false;
 			}
 
@@ -49,12 +49,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 			return baseResult;
 		}
-		
+
 		public override void HoldItem(Item item, Player player)
 		{
 			base.HoldItem(item, player);
 
-			if(!Main.dedServ && PumpSound != null && pumpTime != 0 && Main.GameUpdateCount == pumpTime) {
+			if (!Main.dedServ && PumpSound != null && pumpTime != 0 && Main.GameUpdateCount == pumpTime) {
 				SoundEngine.PlaySound(PumpSound, player.Center);
 				SpawnCasings<ShellCasing>(player, ShellCount);
 			}

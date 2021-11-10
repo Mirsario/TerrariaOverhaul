@@ -20,14 +20,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostItemCheck()
 		{
-			if(!EnableBunnyhopping) {
+			if (!EnableBunnyhopping) {
 				return;
 			}
 
 			bool onGround = Player.OnGround();
 			bool wasOnGround = Player.WasOnGround();
 
-			if(!onGround && wasOnGround && Player.velocity.Y < 0f) {
+			if (!onGround && wasOnGround && Player.velocity.Y < 0f) {
 				Player.velocity.X += boost * Player.KeyDirection();
 			}
 		}

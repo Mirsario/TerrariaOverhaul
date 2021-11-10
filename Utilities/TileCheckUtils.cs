@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
@@ -10,9 +10,9 @@ namespace TerrariaOverhaul.Utilities
 	{
 		public static bool CheckIfAllBlocksAreSolid(int x, int y, int width, int height)
 		{
-			for(int yy = 0; yy < height; yy++) {
-				for(int xx = 0; xx < width; xx++) {
-					if(!Main.tile.TryGet(x + xx, y + yy, out Tile tile) || !Main.tileSolid[tile.type] || !tile.IsActive) {
+			for (int yy = 0; yy < height; yy++) {
+				for (int xx = 0; xx < width; xx++) {
+					if (!Main.tile.TryGet(x + xx, y + yy, out Tile tile) || !Main.tileSolid[tile.type] || !tile.IsActive) {
 						return false;
 					}
 				}
@@ -28,9 +28,9 @@ namespace TerrariaOverhaul.Utilities
 			int x2 = (int)MathHelper.Clamp(x + width, 0, Main.maxTilesX - 1);
 			int y2 = (int)MathHelper.Clamp(y + height, 0, Main.maxTilesY - 1);
 
-			for(int yy = y1; yy < y2; yy++) {
-				for(int xx = x1; xx < x2; xx++) {
-					if(!Main.tile.TryGet(xx, yy, out var tile) || !func(xx, yy, tile)) {
+			for (int yy = y1; yy < y2; yy++) {
+				for (int xx = x1; xx < x2; xx++) {
+					if (!Main.tile.TryGet(xx, yy, out var tile) || !func(xx, yy, tile)) {
 						return false;
 					}
 				}
@@ -41,15 +41,15 @@ namespace TerrariaOverhaul.Utilities
 
 		public static bool CheckDiamondAll(int x, int y, Func<Tile, Point16, bool> func)
 		{
-			for(int yy = -1; yy <= 1; yy++) {
-				for(int xx = -1; xx <= 1; xx++) {
-					if(Math.Abs(xx) == Math.Abs(yy)) {
+			for (int yy = -1; yy <= 1; yy++) {
+				for (int xx = -1; xx <= 1; xx++) {
+					if (Math.Abs(xx) == Math.Abs(yy)) {
 						continue;
 					}
 
 					var point = new Point16(x + xx, y + yy);
 
-					if(!Main.tile.TryGet(point, out var tile) || !func(tile, point)) {
+					if (!Main.tile.TryGet(point, out var tile) || !func(tile, point)) {
 						return false;
 					}
 				}

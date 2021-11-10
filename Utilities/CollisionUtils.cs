@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Core.Systems.Debugging;
 
@@ -12,7 +11,7 @@ namespace TerrariaOverhaul.Utilities
 
 		public static bool CheckRectangleVsCircleCollision(Rectangle aabb, Vector2 circleCenter, float circleRadius, out Vector2 closestPoint)
 		{
-			if(!Main.dedServ && DebugSystem.EnableDebugRendering) {
+			if (!Main.dedServ && DebugSystem.EnableDebugRendering) {
 				DebugSystem.DrawCircle(circleCenter, circleRadius, Color.White);
 			}
 
@@ -34,13 +33,13 @@ namespace TerrariaOverhaul.Utilities
 		{
 			float halfRadius = arcRadius * 0.5f;
 
-			if(!Main.dedServ && DebugSystem.EnableDebugRendering) {
+			if (!Main.dedServ && DebugSystem.EnableDebugRendering) {
 				DebugSystem.DrawLine(arcCenter, arcCenter + new Vector2(arcDistance, 0f).RotatedBy(arcAngle - halfRadius), Color.White);
 				DebugSystem.DrawLine(arcCenter, arcCenter + new Vector2(arcDistance, 0f).RotatedBy(arcAngle), Color.White);
 				DebugSystem.DrawLine(arcCenter, arcCenter + new Vector2(arcDistance, 0f).RotatedBy(arcAngle + halfRadius), Color.White);
 			}
 
-			if(!CheckRectangleVsCircleCollision(aabb, arcCenter, arcDistance, out closestPoint)) {
+			if (!CheckRectangleVsCircleCollision(aabb, arcCenter, arcDistance, out closestPoint)) {
 				return false;
 			}
 

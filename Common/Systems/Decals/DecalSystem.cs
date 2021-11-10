@@ -24,7 +24,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 		{
 			BloodShader = Mod.Assets.Request<Effect>("Assets/Shaders/Blood");
 		}
-		
+
 		public override void Unload()
 		{
 			BloodShader = null;
@@ -39,24 +39,24 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 		{
 			var tilePos = point.ToTileCoordinates();
 
-			if(!tilePos.IsInWorld()) {
+			if (!tilePos.IsInWorld()) {
 				return;
 			}
 
 			AddDecals(new Rectangle((int)(point.X / 2) * 2, (int)(point.Y / 2) * 2, 2, 2), color, ifChunkExists, blendState);
 		}
-		
+
 		public static void AddDecals(Texture2D texture, Rectangle dest, Color color, bool ifChunkExists = false, BlendState blendState = null)
 		{
-			if(Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode || !EnableDecals) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
+			if (Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode || !EnableDecals) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
 				return;
 			}
 
-			if(texture == null) {
+			if (texture == null) {
 				throw new ArgumentNullException(nameof(texture));
 			}
 
-			if(blendState == null) {
+			if (blendState == null) {
 				blendState = DefaultBlendState;
 			}
 
@@ -70,15 +70,15 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			);
 
 			//The provided rectangle will be split between chunks, possibly into multiple draws.
-			for(int chunkY = chunkStart.Y; chunkY <= chunkEnd.Y; chunkY++) {
-				for(int chunkX = chunkStart.X; chunkX <= chunkEnd.X; chunkX++) {
+			for (int chunkY = chunkStart.Y; chunkY <= chunkEnd.Y; chunkY++) {
+				for (int chunkX = chunkStart.X; chunkX <= chunkEnd.X; chunkX++) {
 					var chunkPoint = new Vector2Int(chunkX, chunkY);
 
 					Chunk chunk;
 
-					if(!ifChunkExists) {
+					if (!ifChunkExists) {
 						chunk = ChunkSystem.GetOrCreateChunk(chunkPoint);
-					} else if(!ChunkSystem.TryGetChunk(chunkPoint, out chunk)) {
+					} else if (!ChunkSystem.TryGetChunk(chunkPoint, out chunk)) {
 						continue;
 					}
 

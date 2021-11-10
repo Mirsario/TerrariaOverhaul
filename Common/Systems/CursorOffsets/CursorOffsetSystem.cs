@@ -34,7 +34,7 @@ namespace TerrariaOverhaul.Common.Systems.CursorOffsets
 
 			Main.OnPostDraw += PostDraw;
 		}
-		
+
 		public override void Unload()
 		{
 			offsets = null;
@@ -48,18 +48,18 @@ namespace TerrariaOverhaul.Common.Systems.CursorOffsets
 			var mousePos = new Vector2Int(mouseState.X, mouseState.Y);
 			var newMousePos = mousePos;
 
-			for(int i = 0; i < offsets.Count; i++) {
+			for (int i = 0; i < offsets.Count; i++) {
 				var info = offsets[i];
 				var remaining = info.remainder;
 				var newRemainder = remaining * (1f - (float)gameTime.ElapsedGameTime.TotalSeconds * info.speed);
 
 				const float Threshold = 0.01f;
 
-				if(Math.Abs(newRemainder.X) < Threshold) {
+				if (Math.Abs(newRemainder.X) < Threshold) {
 					newRemainder.X = 0f;
 				}
 
-				if(Math.Abs(newRemainder.Y) < Threshold) {
+				if (Math.Abs(newRemainder.Y) < Threshold) {
 					newRemainder.Y = 0f;
 				}
 
@@ -71,14 +71,14 @@ namespace TerrariaOverhaul.Common.Systems.CursorOffsets
 				newMousePos += flooredGain;
 				info.counter -= flooredGain;
 
-				if(info.remainder == default) {
+				if (info.remainder == default) {
 					offsets.RemoveAt(i--);
 				} else {
 					offsets[i] = info;
 				}
 			}
 
-			if(mousePos != newMousePos) {
+			if (mousePos != newMousePos) {
 				Mouse.SetPosition(newMousePos.X, newMousePos.Y);
 
 				Main.mouseX = newMousePos.X;

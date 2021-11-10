@@ -28,20 +28,20 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 
 			DebugSystem.Log("Initializing configuration...");
 
-			foreach(var entry in EntriesByName.Values) {
+			foreach (var entry in EntriesByName.Values) {
 				entry.Initialize(Mod);
 			}
 
-			if(!LoadConfig()) {
+			if (!LoadConfig()) {
 				DebugSystem.Logger.Warn("Config file contained incorrect values.");
 			}
-			
+
 			SaveConfig();
 		}
 
 		public override void Unload()
 		{
-			
+
 		}
 
 		private void ForceInitializeStaticConstructors()
@@ -51,21 +51,21 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 			var assembly = Assembly.GetExecutingAssembly();
 			string assemblyName = assembly.GetName().Name;
 
-			foreach(var mod in ModLoader.Mods) {
+			foreach (var mod in ModLoader.Mods) {
 				var modAssembly = mod.GetType().Assembly;
 
-				if(mod != Mod && !modAssembly.GetReferencedAssemblies().Any(n => n.Name == assemblyName)) {
+				if (mod != Mod && !modAssembly.GetReferencedAssemblies().Any(n => n.Name == assemblyName)) {
 					continue;
 				}
 
-				foreach(var type in modAssembly.GetTypes()) {
-					if(type.IsEnum) {
+				foreach (var type in modAssembly.GetTypes()) {
+					if (type.IsEnum) {
 						continue;
 					}
 
 					var fields = type.GetFields(ReflectionUtils.AnyBindingFlags); //This will include backing fields of properties.
 
-					if(fields.Any(f => f.FieldType.GetInterfaces().Contains(typeof(IConfigEntry)))) {
+					if (fields.Any(f => f.FieldType.GetInterfaces().Contains(typeof(IConfigEntry)))) {
 						RuntimeHelpers.RunClassConstructor(type.TypeHandle);
 					}
 				}
@@ -74,36 +74,36 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 
 		public static bool LoadConfig()
 		{
-			if(!File.Exists(ConfigPath)) {
+			if (!File.Exists(ConfigPath)) {
 				return false;
 			}
 
 			string text = File.ReadAllText(ConfigPath);
 			var jsonObject = JObject.Parse(text);
 
-			if(jsonObject == null) {
+			if (jsonObject == null) {
 				return false;
 			}
 
 			bool hadErrors = false;
 
-			foreach(var categoryPair in jsonObject) {
-				if(categoryPair.Value is not JObject categoryJson) {
+			foreach (var categoryPair in jsonObject) {
+				if (categoryPair.Value is not JObject categoryJson) {
 					continue;
 				}
 
-				if(!CategoriesByName.TryGetValue(categoryPair.Key, out var category)) {
+				if (!CategoriesByName.TryGetValue(categoryPair.Key, out var category)) {
 					continue;
 				}
 
-				foreach(var entryPair in categoryJson) {
-					if(!category.EntriesByName.TryGetValue(entryPair.Key, out var entry)) {
+				foreach (var entryPair in categoryJson) {
+					if (!category.EntriesByName.TryGetValue(entryPair.Key, out var entry)) {
 						continue;
 					}
 
 					object value = entryPair.Value.ToObject(entry.ValueType);
 
-					if(value != null) {
+					if (value != null) {
 						entry.LocalValue = value;
 					} else {
 						hadErrors = true;
@@ -118,8 +118,8 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 		{
 			var jObject = new JObject();
 
-			foreach(var entry in EntriesByName.Values) {
-				if(!jObject.TryGetValue(entry.Category, out var categoryToken)) {
+			foreach (var entry in EntriesByName.Values) {
+				if (!jObject.TryGetValue(entry.Category, out var categoryToken)) {
 					jObject[entry.Category] = categoryToken = new JObject();
 				}
 
@@ -133,7 +133,7 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 		{
 			EntriesByName.Add(entry.Name, entry);
 
-			if(!CategoriesByName.TryGetValue(entry.Category, out var category)) {
+			if (!CategoriesByName.TryGetValue(entry.Category, out var category)) {
 				CategoriesByName[entry.Category] = category = new();
 			}
 

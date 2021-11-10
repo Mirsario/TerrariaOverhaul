@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using TerrariaOverhaul.Core.Systems.Configuration;
@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
 			Vector2 offset = mouseWorld - Player.Center;
 
-			if(Math.Sign(offset.X) == Player.direction) {
+			if (Math.Sign(offset.X) == Player.direction) {
 				targetHeadRotation = (offset * Player.direction).ToRotation() * LookStrength;
 			}
 
@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)
 		{
-			if(!Main.gameMenu && EnablePlayerHeadRotation) {
+			if (!Main.gameMenu && EnablePlayerHeadRotation) {
 				Player.headRotation = headRotation;
 			}
 		}

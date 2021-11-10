@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 		public override void Update()
 		{
-			if(Vector2.DistanceSquared(position, CameraSystem.ScreenCenter) >= MaxParticleDistanceSqr || position.HasNaNs()) {
+			if (Vector2.DistanceSquared(position, CameraSystem.ScreenCenter) >= MaxParticleDistanceSqr || position.HasNaNs()) {
 				Destroy();
 
 				return;
@@ -35,19 +35,19 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 			velocity += gravity * TimeSystem.LogicDeltaTime;
 
-			if(CollidesWithTiles && Main.tile.TryGet((int)(position.X / 16), (int)(position.Y / 16), out var tile)) {
-				if(tile.IsActive && Main.tileSolid[tile.type]) {
+			if (CollidesWithTiles && Main.tile.TryGet((int)(position.X / 16), (int)(position.Y / 16), out var tile)) {
+				if (tile.IsActive && Main.tileSolid[tile.type]) {
 					OnTileContact(tile, out bool destroy);
 
-					if(destroy) {
+					if (destroy) {
 						Destroy();
 
 						return;
 					}
-				} else if(tile.LiquidAmount > 0) {
+				} else if (tile.LiquidAmount > 0) {
 					OnLiquidContact(tile, out bool destroy);
 
-					if(destroy) {
+					if (destroy) {
 						Destroy(true);
 						return;
 					}

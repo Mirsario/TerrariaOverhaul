@@ -1,7 +1,7 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
@@ -21,11 +21,11 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			e => (Item item, Player player, NPC target) => {
 				bool? globalResult = null;
 
-				foreach(Hook g in e.Enumerate(item)) {
+				foreach (Hook g in e.Enumerate(item)) {
 					bool? result = g.CanMeleeCollideWithNPC(item, player, target);
 
-					if(result.HasValue) {
-						if(result.Value) {
+					if (result.HasValue) {
+						if (result.Value) {
 							globalResult = true;
 						} else {
 							return false;
@@ -51,7 +51,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 				int itemRectangleArgId = 0;
 				int npcRectangleLocalId = 0;
 
-				if(!cursor.TryGotoNext(
+				if (!cursor.TryGotoNext(
 					MoveType.Before,
 					i => i.MatchLdarga(out itemRectangleArgId),
 					i => i.MatchLdloc(out npcRectangleLocalId),

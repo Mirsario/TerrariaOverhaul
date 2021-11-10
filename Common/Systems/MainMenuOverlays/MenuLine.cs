@@ -42,12 +42,12 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 
 			IsHovered = rect.Contains(new Vector2Int(Main.mouseX, Main.mouseY));
 
-			if(IsHovered && InputSystem.GetMouseButtonDown(0)) {
+			if (IsHovered && InputSystem.GetMouseButtonDown(0)) {
 				SoundEngine.PlaySound(SoundID.MenuOpen);
 				OnClicked();
 			}
 		}
-		
+
 		public virtual void Draw(SpriteBatch sb, Vector2 position)
 		{
 			var color = ForcedColor?.Invoke(IsHovered) ?? Color.White;

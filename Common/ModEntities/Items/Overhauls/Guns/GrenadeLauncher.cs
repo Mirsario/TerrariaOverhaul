@@ -13,15 +13,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
-			if(item.useAmmo != AmmoID.Rocket) {
+			if (item.useAmmo != AmmoID.Rocket) {
 				return false;
 			}
 
-			if(!ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out var proj)) {
+			if (!ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out var proj)) {
 				return false;
 			}
 
-			if(proj.aiStyle != ProjAIStyleID.Explosive || OverhaulProjectileTags.Rocket.Has(proj.type)) {
+			if (proj.aiStyle != ProjAIStyleID.Explosive || OverhaulProjectileTags.Rocket.Has(proj.type)) {
 				return false;
 			}
 

@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Systems.SimpleEntities
@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 
 		public void Destroy(bool allowEffects = false)
 		{
-			if(!Destroyed) {
+			if (!Destroyed) {
 				OnDestroyed(allowEffects);
 
 				Destroyed = true;
@@ -19,13 +19,13 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 		}
 
 		public virtual void Load(Mod mod) { }
-		
+
 		public virtual void Unload() { }
-		
+
 		public virtual void Init() { }
-		
+
 		public virtual void Update() { }
-		
+
 		public virtual void Draw(SpriteBatch sb) { }
 
 		protected virtual void OnDestroyed(bool allowEffects) { }

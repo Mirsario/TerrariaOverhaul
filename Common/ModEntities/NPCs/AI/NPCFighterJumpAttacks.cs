@@ -16,18 +16,18 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs.AI
 
 		public override void AI(NPC npc)
 		{
-			if(!npc.HasValidTarget) {
+			if (!npc.HasValidTarget) {
 				return;
 			}
 
 			var target = npc.GetTarget();
 			float distance = Vector2.Distance(target.Center, npc.Center);
 
-			if(npc.velocity.Y == 0f && distance <= 80f && prevDistance > 80f) {
+			if (npc.velocity.Y == 0f && distance <= 80f && prevDistance > 80f) {
 				npc.velocity.X = 3f * npc.direction;
 				npc.velocity.Y = -4f;
 
-				if(!Main.dedServ) {
+				if (!Main.dedServ) {
 					npc.IdleSounds();
 				}
 			}

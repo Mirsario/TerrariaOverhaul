@@ -15,16 +15,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
-			if(!OverhaulProjectileTags.Incendiary.Has(projectile.type)) {
+			if (!OverhaulProjectileTags.Incendiary.Has(projectile.type)) {
 				return;
 			}
 
 			AddDecals(projectile, 32, 0.2f);
 		}
-		
+
 		public override void PostAI(Projectile projectile)
 		{
-			if(!OverhaulProjectileTags.Incendiary.Has(projectile.type) || Main.GameUpdateCount % 2 != 0) {
+			if (!OverhaulProjectileTags.Incendiary.Has(projectile.type) || Main.GameUpdateCount % 2 != 0) {
 				return;
 			}
 

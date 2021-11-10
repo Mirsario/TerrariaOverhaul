@@ -1,6 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -30,13 +30,13 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 
 		public static IEnumerable<SimpleEntity> EnumerateEntities()
 		{
-			foreach(var entities in entitiesByType.Values) {
+			foreach (var entities in entitiesByType.Values) {
 				var node = entities.First;
 
-				while(node != null) {
+				while (node != null) {
 					var entity = node.Value;
 
-					if(entity.Destroyed) {
+					if (entity.Destroyed) {
 						var next = node.Next;
 
 						entities.Remove(node);
@@ -59,7 +59,7 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 
 			instance.Init();
 
-			if(!entitiesByType.TryGetValue(typeof(T), out var list)) {
+			if (!entitiesByType.TryGetValue(typeof(T), out var list)) {
 				entitiesByType[typeof(T)] = list = new LinkedList<SimpleEntity>();
 			}
 
@@ -70,11 +70,11 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 
 		private static void UpdateEntities()
 		{
-			if(!Main.dedServ && Main.gamePaused) {
+			if (!Main.dedServ && Main.gamePaused) {
 				return;
 			}
 
-			foreach(var entity in EnumerateEntities()) {
+			foreach (var entity in EnumerateEntities()) {
 				entity.Update();
 			}
 		}
@@ -85,7 +85,7 @@ namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 
 			sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-			foreach(var entity in EnumerateEntities()) {
+			foreach (var entity in EnumerateEntities()) {
 				entity.Draw(sb);
 			}
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
@@ -15,7 +14,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			typeof(IModifyItemNPCDeathSound).GetMethod(nameof(IModifyItemNPCDeathSound.ModifyItemNPCDeathSound)),
 			//Invocation
 			e => (Item item, Player player, NPC target, ref ISoundStyle customDeathSound, ref bool playNPCDeathSound) => {
-				foreach(IModifyItemNPCDeathSound g in e.Enumerate(item)) {
+				foreach (IModifyItemNPCDeathSound g in e.Enumerate(item)) {
 					g.ModifyItemNPCDeathSound(item, player, target, ref customDeathSound, ref playNPCDeathSound);
 				}
 			}

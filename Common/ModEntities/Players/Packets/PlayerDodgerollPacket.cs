@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 
 		public override void Read(BinaryReader reader, int sender)
 		{
-			if(!reader.TryReadSenderPlayer(sender, out var player)) {
+			if (!reader.TryReadSenderPlayer(sender, out var player)) {
 				return;
 			}
 
@@ -32,7 +32,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 			player.velocity = reader.ReadVector2();
 
 			//Resend
-			if(Main.netMode == NetmodeID.Server) {
+			if (Main.netMode == NetmodeID.Server) {
 				MultiplayerSystem.SendPacket(new PlayerDodgerollPacket(player), ignoreClient: sender);
 			}
 		}

@@ -26,17 +26,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 		{
 			return base.Clone(item, itemClone);
 		}
-		
+
 		public override void PostUpdate(Item item)
 		{
 			int lifeTime = item.timeSinceItemSpawned / 5;
 
-			if(lifeTime >= MaxLifetime) {
+			if (lifeTime >= MaxLifetime) {
 				item.active = false;
 				return;
 			}
 
-			if(lifeTime < GrabDelay) {
+			if (lifeTime < GrabDelay) {
 				return;
 			}
 
@@ -49,22 +49,22 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 				.OrderBy(tuple => tuple.sqrDistance)
 				.FirstOrDefault();
 
-			if(resultTuple != default) {
+			if (resultTuple != default) {
 				item.velocity += (resultTuple.player.Center - center).SafeNormalize(default) * (resultTuple.sqrDistance / resultTuple.sqrDistance);
 			}
 		}
-		
+
 		public override bool CanPickup(Item item, Player player)
 		{
 			int lifeTime = item.timeSinceItemSpawned / 5;
 
-			if(lifeTime < GrabDelay || !IsNeededByPlayer(item, player) || !player.getRect().Intersects(item.getRect())) {
+			if (lifeTime < GrabDelay || !IsNeededByPlayer(item, player) || !player.getRect().Intersects(item.getRect())) {
 				return false;
 			}
 
 			OnPickupReal(item, player);
 
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				SoundEngine.PlaySound(SoundID.Item30, player.Center);
 			}
 
@@ -73,7 +73,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			return false;
 		}
-		
+
 		public override Color? GetAlpha(Item item, Color lightColor)
 		{
 			float progress = GetIntensity(item);
@@ -81,7 +81,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			return new Color(255, 255, 255, alpha);
 		}
-		
+
 		public override bool PreDrawInWorld(Item item, SpriteBatch sb, Color lightColor, Color alphaColor, ref float rotation, ref float scale, int whoAmI)
 		{
 			float intensity = GetIntensity(item);

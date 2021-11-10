@@ -15,10 +15,10 @@ namespace TerrariaOverhaul.Common.Systems.Ambience.Sounds
 
 			AudioEffectsSystem.EnableSoundStyleWallOcclusion(Sound);
 		}
-		
+
 		public override float GetTargetVolume(Player localPlayer)
 		{
-			if(!localPlayer.ZonePurity) {
+			if (!localPlayer.ZonePurity) {
 				return 0f;
 			}
 

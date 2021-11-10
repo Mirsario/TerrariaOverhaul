@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
@@ -30,7 +29,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		public override float UseTimeMultiplier(Item item, Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				return 1f / (SpinShotCount - 1);
 			}
 
@@ -39,7 +38,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		public override float UseSpeedMultiplier(Item item, Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				return 0.6f;
 			}
 
@@ -50,7 +49,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		{
 			base.ModifyShootStats(item, player, ref position, ref velocity, ref type, ref damage, ref knockback);
 
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				velocity = velocity.RotatedByRandom(MathHelper.ToRadians(12f));
 				damage = (int)(damage * 0.75f);
 			}
@@ -58,7 +57,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		public override bool? UseItem(Item item, Player player)
 		{
-			if(player.altFunctionUse == 2) {
+			if (player.altFunctionUse == 2) {
 				player.reuseDelay = Math.Max(player.reuseDelay, item.useAnimation * 2);
 			}
 

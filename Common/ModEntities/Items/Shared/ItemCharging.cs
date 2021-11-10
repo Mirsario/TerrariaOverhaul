@@ -25,7 +25,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		public override void HoldItem(Item item, Player player)
 		{
-			if(!player.dead) {
+			if (!player.dead) {
 				UpdateCharging(item, player);
 			}
 		}
@@ -43,7 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		public void StopCharge(Item item, Player player, bool skipAction = false)
 		{
-			if(!skipAction) {
+			if (!skipAction) {
 				endAction?.Invoke(item, player, ChargeProgress);
 			}
 
@@ -55,11 +55,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		private void UpdateCharging(Item item, Player player)
 		{
-			if(!IsCharging) {
+			if (!IsCharging) {
 				return;
 			}
 
-			if(player.dead) {
+			if (player.dead) {
 				StopCharge(item, player, true);
 				return;
 			}
@@ -68,7 +68,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 			ChargeTime++;
 
-			if(ChargeTime >= ChargeTimeMax) {
+			if (ChargeTime >= ChargeTimeMax) {
 				StopCharge(item, player);
 			}
 		}

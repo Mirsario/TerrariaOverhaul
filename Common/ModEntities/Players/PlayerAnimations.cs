@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			void TryForceFrame(ref Rectangle frame, ref PlayerFrames? newFrame)
 			{
-				if(newFrame.HasValue) {
+				if (newFrame.HasValue) {
 					frame = newFrame.Value.ToRectangle();
 
 					newFrame = null;

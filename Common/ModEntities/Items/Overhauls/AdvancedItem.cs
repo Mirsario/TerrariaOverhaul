@@ -21,11 +21,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		//
 		public override bool? UseItem(Item item, Player player)
 		{
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				//Screenshake
 				var screenShake = OnUseScreenShake;
 
-				if(screenShake.power > 0f && screenShake.time > 0f) {
+				if (screenShake.power > 0f && screenShake.time > 0f) {
 					screenShake.position = player.Center;
 
 					ScreenShakeSystem.New(screenShake);
@@ -34,12 +34,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				//Recoil
 				float visualRecoil = OnUseVisualRecoil;
 
-				if(visualRecoil != 0f) {
+				if (visualRecoil != 0f) {
 					player.GetModPlayer<PlayerHoldOutAnimation>().visualRecoil += visualRecoil;
 				}
 
 				//Sounds
-				if(PlaySoundOnEveryUse && item.UseSound != null) {
+				if (PlaySoundOnEveryUse && item.UseSound != null) {
 					SoundEngine.PlaySound(item.UseSound, player.Center);
 				}
 			}

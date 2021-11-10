@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void Load()
 		{
-			if(Main.dedServ) {
+			if (Main.dedServ) {
 				return;
 			}
 
@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 				var modPlayer = drawPlayer.GetModPlayer<PlayerEffects>();
 
-				if(modPlayer.forceTrailEffectTime > 0) {
+				if (modPlayer.forceTrailEffectTime > 0) {
 					player.armorEffectDrawShadow = true;
 
 					modPlayer.forceTrailEffectTime--;

@@ -15,19 +15,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PreUpdate()
 		{
-			if(Player.dead) {
+			if (Player.dead) {
 				return;
 			}
 
 			Player.fullRotationOrigin = new Vector2(11, 22);
 		}
-		
+
 		public override void PostUpdate()
 		{
-			if(rotationOffsetScale != 0f && EnablePlayerTilting) {
+			if (rotationOffsetScale != 0f && EnablePlayerTilting) {
 				float movementRotation;
 
-				if(Player.OnGround()) {
+				if (Player.OnGround()) {
 					movementRotation = Player.velocity.X * (Player.velocity.X < Main.MouseWorld.X ? 1f : -1f) * 0.025f;
 				} else {
 					movementRotation = MathHelper.Clamp(Player.velocity.Y * Math.Sign(Player.velocity.X) * -0.015f, -0.4f, 0.4f);
@@ -46,7 +46,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				rotation += MathHelper.TwoPi;
 			}*/
 
-			if(!Player.mount.Active) {
+			if (!Player.mount.Active) {
 				Player.fullRotation = rotation * Player.gravDir;
 			}
 

@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System.Linq;
+﻿using System.Linq;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -34,7 +34,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override bool PreItemCheck()
 		{
-			if(!IsClimbing) {
+			if (!IsClimbing) {
 				TryStartClimbing();
 			} else {
 				UpdateClimbing();
@@ -50,40 +50,40 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			climbStartPos = Player.position = posFrom;
 			climbEndPos = posTo;
 
-			if(Main.netMode == NetmodeID.MultiplayerClient && Player.IsLocal()) {
+			if (Main.netMode == NetmodeID.MultiplayerClient && Player.IsLocal()) {
 				MultiplayerSystem.SendPacket(new PlayerClimbStartMessage(Player, posFrom, posTo));
 			}
 		}
 
 		private void TryStartClimbing()
 		{
-			if(!EnableClimbing) {
+			if (!EnableClimbing) {
 				return;
 			}
 
 			//isSleeping ||
-			if(climbCooldown.Active) {
+			if (climbCooldown.Active) {
 				return;
 			}
 
 			//Can only be started on local client
-			if(!Player.IsLocal()) {
+			if (!Player.IsLocal()) {
 				return;
 			}
 
 			//Check for keypress.
-			if(!Player.controlUp && !forceClimb) {
+			if (!Player.controlUp && !forceClimb) {
 				return;
 			}
 
 			forceClimb = false;
 
 			//Disable climbing if flying upwards or flying with wings
-			if(Player.velocity.Y < -6f /* || (Player.wingsLogic > 0 && Player.wingTime > 0f)*/) {
+			if (Player.velocity.Y < -6f /* || (Player.wingsLogic > 0 && Player.wingTime > 0f)*/) {
 				return;
 			}
 
-			if(Player.pulley || Player.EnumerateGrapplingHooks().Any() || (Player.mount != null && Player.mount.Active)) {
+			if (Player.pulley || Player.EnumerateGrapplingHooks().Any() || (Player.mount != null && Player.mount.Active)) {
 				return;
 			}
 
@@ -91,22 +91,22 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			var tilePos = Player.position.ToTileCoordinates();
 
-			for(int i = 1; i >= 0; i--) {
+			for (int i = 1; i >= 0; i--) {
 				var pos = new Point16(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + i);
 
 				//The base tile has to be solid
-				if(!Main.tile.TryGet(pos, out var tempTile) || !tempTile.IsActive || tempTile.IsActuated || (!Main.tileSolid[tempTile.type] && !Main.tileSolidTop[tempTile.type]) || (i != 0 && tempTile.Slope != SlopeType.Solid)) {
+				if (!Main.tile.TryGet(pos, out var tempTile) || !tempTile.IsActive || tempTile.IsActuated || (!Main.tileSolid[tempTile.type] && !Main.tileSolidTop[tempTile.type]) || (i != 0 && tempTile.Slope != SlopeType.Solid)) {
 					continue;
 				}
 
 				//Ice can't climbed on, unless you have climbing gear
-				if(OverhaulTileTags.NoClimbing.Has(tempTile.type) && !HasClimbingGear) {
+				if (OverhaulTileTags.NoClimbing.Has(tempTile.type) && !HasClimbingGear) {
 					continue;
 				}
 
 				bool CheckFree(int x, int y, Tile t) => !(t.IsActive && !t.IsActuated) || !Main.tileSolid[t.type] || OverhaulTileTags.AllowClimbing.Has(t.type);
 
-				if(!(
+				if (!(
 					TileCheckUtils.CheckAreaAll(pos.X, pos.Y - 3, 1, 3, CheckFree)
 					& TileCheckUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -1 : 1), pos.Y - 3, 1, 4, CheckFree)
 					& TileCheckUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -2 : 2), pos.Y - 2, 1, 3, CheckFree)
@@ -137,7 +137,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			//Progress climbing.
 			ClimbProgress = MathUtils.StepTowards(ClimbProgress, 1f, (1f / ClimbTime) * TimeSystem.LogicDeltaTime);
 
-			if(ClimbProgress >= 1f) {
+			if (ClimbProgress >= 1f) {
 				IsClimbing = false;
 			} else {
 				playerAnimations.forcedBodyFrame = ClimbProgress > 0.75f ? PlayerFrames.Use4 : ClimbProgress > 0.5f ? PlayerFrames.Use3 : ClimbProgress > 0.25f ? PlayerFrames.Use2 : PlayerFrames.Use1;

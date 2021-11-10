@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				Gore SpawnGore<T>() where T : ModGore
 				{
 					Vector2 position = projectile.oldPosition + projectile.Size * 0.5f;
@@ -32,7 +32,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				SpawnGore<ArrowMiddle>();
 				SpawnGore<ArrowBack>();
 
-				if(projectile.type == ProjectileID.FireArrow && arrowHead is OverhaulGore oGore) {
+				if (projectile.type == ProjectileID.FireArrow && arrowHead is OverhaulGore oGore) {
 					oGore.onFire = true;
 				}
 			}

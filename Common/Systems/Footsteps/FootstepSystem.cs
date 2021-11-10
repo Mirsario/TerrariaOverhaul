@@ -26,7 +26,7 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 
 		public static bool Footstep(Entity entity, FootstepType type, Point16? forcedPoint = null)
 		{
-			if(Main.dedServ) {
+			if (Main.dedServ) {
 				return false;
 			}
 
@@ -34,11 +34,11 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 			var point = new Vector2Int((int)Math.Floor(vec.X), (int)Math.Ceiling(vec.Y));
 			Tile tile = null;
 
-			if(forcedPoint.HasValue && forcedPoint.Value.IsInWorld() && Main.tile.TryGet(forcedPoint.Value, out var tempTile) && tempTile.IsActive) {
+			if (forcedPoint.HasValue && forcedPoint.Value.IsInWorld() && Main.tile.TryGet(forcedPoint.Value, out var tempTile) && tempTile.IsActive) {
 				tile = tempTile;
 			} else {
-				for(int x = 0; x < 2; x++) {
-					if(Main.tile.TryGet(point.X + x, point.Y, out tempTile) && tempTile.IsActive) {
+				for (int x = 0; x < 2; x++) {
+					if (Main.tile.TryGet(point.X + x, point.Y, out tempTile) && tempTile.IsActive) {
 						tile = tempTile;
 
 						break;
@@ -46,7 +46,7 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 				}
 			}
 
-			if(tile == null) {
+			if (tile == null) {
 				return false;
 			}
 
@@ -55,25 +55,25 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 			// Check for nearby gore
 			var entityRect = entity.GetRectangle();
 
-			for(int i = 0; i < Main.maxGore; i++) {
+			for (int i = 0; i < Main.maxGore; i++) {
 				var gore = Main.gore[i];
 
-				if(gore == null || !gore.active || !entityRect.Intersects(gore.AABBRectangle)) {
+				if (gore == null || !gore.active || !entityRect.Intersects(gore.AABBRectangle)) {
 					continue;
 				}
 
-				if(gore is not IPhysicalMaterialProvider materialProvider) {
+				if (gore is not IPhysicalMaterialProvider materialProvider) {
 					continue;
 				}
 
-				if(materialProvider.PhysicalMaterial is IFootstepSoundProvider goreFootstepProvider) {
+				if (materialProvider.PhysicalMaterial is IFootstepSoundProvider goreFootstepProvider) {
 					soundProvider ??= goreFootstepProvider;
 					break;
 				}
 			}
 
 			// Try to get a footstep provider from the tile
-			if(soundProvider == null && PhysicalMaterialSystem.TryGetTilePhysicalMaterial(tile.type, out var material)) {
+			if (soundProvider == null && PhysicalMaterialSystem.TryGetTilePhysicalMaterial(tile.type, out var material)) {
 				soundProvider = material as IFootstepSoundProvider;
 			}
 

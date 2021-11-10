@@ -26,7 +26,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
-			if(!Enabled) {
+			if (!Enabled) {
 				return;
 			}
 
@@ -35,14 +35,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 			knockback *= velocityDamageScale;
 			damage = (int)Math.Round(damage * velocityDamageScale);
 
-			if(Main.dedServ) {
+			if (Main.dedServ) {
 				return;
 			}
 
 			bool critBackup = crit;
 
 			CombatTextSystem.AddFilter(1, text => {
-				if(!uint.TryParse(text.text, out _)) {
+				if (!uint.TryParse(text.text, out _)) {
 					return;
 				}
 
@@ -50,11 +50,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 				string additionalInfo = $"({(critBackup ? "CRITx" : null)}{(isCharged ? "POWERx" : critBackup ? null : "x")}{velocityDamageScale:0.00})";
 				float gradientScale = velocityDamageScale;
 
-				if(critBackup) {
+				if (critBackup) {
 					gradientScale *= 2;
 				}
 
-				if(isCharged) {
+				if (isCharged) {
 					gradientScale *= 1.3f;
 				}
 

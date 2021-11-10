@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			e => (Item item, Player player, ref float range) => {
 				(item.ModItem as Hook)?.ModifyMeleeRange(item, player, ref range);
 
-				foreach(Hook g in e.Enumerate(item)) {
+				foreach (Hook g in e.Enumerate(item)) {
 					g.ModifyMeleeRange(item, player, ref range);
 				}
 			}

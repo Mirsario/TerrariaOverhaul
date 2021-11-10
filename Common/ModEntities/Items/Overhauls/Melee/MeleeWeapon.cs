@@ -26,7 +26,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		protected ItemMeleeAttackAiming MeleeAttackAiming { get; private set; }
 
 		public virtual MeleeAnimation Animation => ModContent.GetInstance<GenericMeleeAnimation>();
-		
+
 		public virtual float GetHeavyness(Item item)
 		{
 			const float HeaviestSpeed = 0.5f;
@@ -49,12 +49,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		{
 			base.Load();
 
-			if(GetType() == typeof(MeleeWeapon)) {
+			if (GetType() == typeof(MeleeWeapon)) {
 				//Disable attackCD for melee.
 				IL.Terraria.Player.ItemCheck_MeleeHitNPCs += context => {
 					var cursor = new ILCursor(context);
 
-					if(!cursor.TryGotoNext(
+					if (!cursor.TryGotoNext(
 						MoveType.Before,
 						i => i.Match(OpCodes.Ldarg_0),
 						i => i.Match(OpCodes.Ldc_I4_1),
@@ -75,10 +75,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				};
 			}
 		}
-		
+
 		public override void SetDefaults(Item item)
 		{
-			if(item.UseSound != Terraria.ID.SoundID.Item15) {
+			if (item.UseSound != Terraria.ID.SoundID.Item15) {
 				item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/SwingLight", 4);
 				//item.UseSound = new BlendedSoundStyle(
 				//	new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/SwingLight", 4),
@@ -92,13 +92,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			MeleeAttackAiming.Enabled = true;
 		}
-		
+
 		public override void HoldItem(Item item, Player player)
 		{
 			base.HoldItem(item, player);
 
 			// Hit gore.
-			if(player.itemAnimation >= player.itemAnimationMax - 1 && ICanDoMeleeDamage.Hook.Invoke(item, player)) {
+			if (player.itemAnimation >= player.itemAnimationMax - 1 && ICanDoMeleeDamage.Hook.Invoke(item, player)) {
 				float range = ItemMeleeAttackAiming.GetAttackRange(item, player);
 				float arcRadius = MathHelper.Pi * 0.5f;
 
@@ -106,22 +106,22 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 				int numHit = 0;
 
-				for(int i = 0; i < Main.maxGore; i++) {
-					if(Main.gore[i] is not OverhaulGore gore || !gore.active || gore.time < 30) {
+				for (int i = 0; i < Main.maxGore; i++) {
+					if (Main.gore[i] is not OverhaulGore gore || !gore.active || gore.time < 30) {
 						continue;
 					}
 
-					if(CollisionUtils.CheckRectangleVsArcCollision(gore.AABBRectangle, player.Center, MeleeAttackAiming.AttackAngle, arcRadius, range)) {
+					if (CollisionUtils.CheckRectangleVsArcCollision(gore.AABBRectangle, player.Center, MeleeAttackAiming.AttackAngle, arcRadius, range)) {
 						gore.HitGore(MeleeAttackAiming.AttackDirection);
 
-						if(++numHit >= MaxHits) {
+						if (++numHit >= MaxHits) {
 							break;
 						}
 					}
 				}
 			}
 		}
-		
+
 		public override void UseItemFrame(Item item, Player player)
 		{
 			base.UseItemFrame(item, player);
@@ -130,7 +130,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			float pitch = MathUtils.RadiansToPitch(weaponRotation);
 			var weaponDirection = weaponRotation.ToRotationVector2();
 
-			if(Math.Sign(weaponDirection.X) != player.direction) {
+			if (Math.Sign(weaponDirection.X) != player.direction) {
 				pitch = weaponDirection.Y < 0f ? 1f : 0f;
 			}
 
@@ -138,16 +138,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			Vector2 locationOffset;
 
-			if(pitch > 0.95f) {
+			if (pitch > 0.95f) {
 				player.bodyFrame = PlayerFrames.Use1.ToRectangle();
 				locationOffset = new Vector2(-8f, -9f);
-			} else if(pitch > 0.7f) {
+			} else if (pitch > 0.7f) {
 				player.bodyFrame = PlayerFrames.Use2.ToRectangle();
 				locationOffset = new Vector2(4f, -8f);
-			} else if(pitch > 0.3f) {
+			} else if (pitch > 0.3f) {
 				player.bodyFrame = PlayerFrames.Use3.ToRectangle();
 				locationOffset = new Vector2(4f, 2f);
-			} else if(pitch > 0.05f) {
+			} else if (pitch > 0.05f) {
 				player.bodyFrame = PlayerFrames.Use4.ToRectangle();
 				locationOffset = new Vector2(4f, 7f);
 			} else {
@@ -157,34 +157,34 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			player.itemRotation = weaponRotation + MathHelper.PiOver4;
 
-			if(player.direction < 0) {
+			if (player.direction < 0) {
 				player.itemRotation += MathHelper.PiOver2;
 			}
 
 			player.itemLocation = player.Center + new Vector2(locationOffset.X * player.direction, locationOffset.Y);
 
-			if(!Main.dedServ && DebugSystem.EnableDebugRendering) {
+			if (!Main.dedServ && DebugSystem.EnableDebugRendering) {
 				DebugSystem.DrawCircle(player.itemLocation, 3f, Color.White);
 			}
 		}
 
 		//Hitting
-		
+
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
 			base.ModifyHitNPC(item, player, target, ref damage, ref knockback, ref crit);
 
 			// Make directional knockback work with melee.
-			if(target.TryGetGlobalNPC(out NPCDirectionalKnockback npcKnockback)) {
+			if (target.TryGetGlobalNPC(out NPCDirectionalKnockback npcKnockback)) {
 				npcKnockback.SetNextKnockbackDirection(MeleeAttackAiming.AttackDirection);
 			}
 
 			// Reduce knockback when the player is in air, and the enemy is somewhat above them.
-			if(!player.OnGround() && MeleeAttackAiming.AttackDirection.Y < 0.25f) {
+			if (!player.OnGround() && MeleeAttackAiming.AttackDirection.Y < 0.25f) {
 				knockback *= 0.75f;
 			}
 		}
-		
+
 		public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockback, bool crit)
 		{
 			base.OnHitNPC(item, player, target, damage, knockback, crit);
@@ -198,8 +198,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			var movement = player.GetModPlayer<Players.PlayerMovement>();
 			var modifier = Players.PlayerMovement.MovementModifier.Default;
 
-			if(player.velocity.Y != 0f) {
-				if(MeleeAttackAiming.AttackDirection.Y < 0.1f) {
+			if (player.velocity.Y != 0f) {
+				if (MeleeAttackAiming.AttackDirection.Y < 0.1f) {
 					modifier.gravityScale *= 0.1f;
 				}
 
@@ -231,7 +231,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public virtual void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref ISoundStyle customHitSound, ref bool playNPCHitSound)
 		{
-			if(OverhaulItemTags.Wooden.Has(item.netID)) {
+			if (OverhaulItemTags.Wooden.Has(item.netID)) {
 				customHitSound = WoodenHitSound;
 			}
 		}

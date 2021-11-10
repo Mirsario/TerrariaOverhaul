@@ -36,7 +36,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private void Update()
 		{
-			if(!Player.IsLocal()) {
+			if (!Player.IsLocal()) {
 				return;
 			}
 
@@ -49,7 +49,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			lowHealthEffectIntensity = MathUtils.StepTowards(lowHealthEffectIntensity, goalLowHealthEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
 			//Audio filtering
-			if(lowHealthEffectIntensity > 0) {
+			if (lowHealthEffectIntensity > 0) {
 				float effectIntensityCopy = lowHealthEffectIntensity;
 
 				AudioEffectsSystem.AddAudioEffectModifier(
@@ -71,10 +71,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			SoundUtils.UpdateLoopingSound(ref lowHealthSoundSlot, LowHealthSound, soundVolume, CameraSystem.ScreenCenter);
 
 			//Bleeding
-			if(!Player.dead) {
+			if (!Player.dead) {
 				lowHealthBleedingCounter += lowHealthEffectIntensity / 4f;
 
-				while(lowHealthBleedingCounter >= 1f) {
+				while (lowHealthBleedingCounter >= 1f) {
 					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Blood);
 
 					lowHealthBleedingCounter--;

@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.Systems.Ambience
 
 		private void UpdateAmbienceTracks()
 		{
-			for(int i = 0; i < Tracks.Count; i++) {
+			for (int i = 0; i < Tracks.Count; i++) {
 				Tracks[i].Update();
 			}
 		}

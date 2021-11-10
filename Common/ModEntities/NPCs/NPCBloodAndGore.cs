@@ -1,8 +1,7 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Gores;
@@ -38,7 +37,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			//Replace specific dusts with new blood particles.
 			On.Terraria.Dust.NewDust += (orig, position, width, height, type, speedX, speedY, alpha, color, scale) => {
-				if(disableReplacementsSubscriptions > 0) {
+				if (disableReplacementsSubscriptions > 0) {
 					return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
 				}
 
@@ -48,9 +47,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					usedColor
 				);
 
-				switch(type) {
+				switch (type) {
 					default:
-						if(disableNonBloodEffectSubscriptions > 0) {
+						if (disableNonBloodEffectSubscriptions > 0) {
 							break;
 						}
 
@@ -75,7 +74,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			//Record and save blood information onto gores spawned during HitEffect.
 			On.Terraria.NPC.HitEffect += (orig, npc, hitDirection, dmg) => {
 				//Ignore contexts where we only want blood to spawn.
-				if(disableNonBloodEffectSubscriptions > 0 || !npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
+				if (disableNonBloodEffectSubscriptions > 0 || !npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
 					orig(npc, hitDirection, dmg);
 
 					return;
@@ -90,7 +89,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 				npcBloodAndGore.LastHitBloodAmount = bloodColors.Count;
 
-				if(spawnedGores.Count == 0 || bloodColors.Count == 0) {
+				if (spawnedGores.Count == 0 || bloodColors.Count == 0) {
 					return;
 				}
 
@@ -98,8 +97,8 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				var bloodColor = bloodColors[0]; //TODO: Do something smarter?
 				bool onFire = npc.onFire;
 
-				foreach(var (gore, _) in spawnedGores) {
-					if(gore is OverhaulGore goreExt) {
+				foreach (var (gore, _) in spawnedGores) {
+					if (gore is OverhaulGore goreExt) {
 						goreExt.bleedColor = bloodColor;
 						goreExt.onFire = onFire;
 					}
@@ -110,36 +109,36 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		public override bool PreAI(NPC npc)
 		{
 			//Bleed on low health.
-			if(!Main.dedServ && npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % 5 == 0) {
+			if (!Main.dedServ && npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % 5 == 0) {
 				Bleed(npc, 1);
 			}
 
 			return true;
 		}
-		
+
 		public override void OnKill(NPC npc)
 		{
 			//Add extra blood on death.
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				int count = (int)Math.Sqrt(npc.width * npc.height) / 12;
 
 				Bleed(npc, count);
 			}
 		}
-		
+
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit) => OnHit(npc);
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit) => OnHit(npc);
 
 		private void OnHit(NPC npc) //, int damage, float knockback, bool crit)
 		{
 			//Add extra blood when hit.
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				//Bleed(npc, (int)Math.Sqrt(npc.width * npc.height) / 10);
 			}
 		}
 		private void Bleed(NPC npc, int amount)
 		{
-			for(int i = 0; i < amount; i++) {
+			for (int i = 0; i < amount; i++) {
 				SpawnBloodWithHitEffect(npc, npc.direction, 1);
 			}
 		}
@@ -155,7 +154,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				disableNonBloodEffectSubscriptions--;
 			}
 		}
-		
+
 		private static void SpawnNewBlood(Vector2 position, Vector2 velocity, Color color)
 		{
 			SimpleEntity.Instantiate<BloodParticle>(p => {
@@ -164,7 +163,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 				float intensity;
 
-				switch(Main.rand.Next(3)) {
+				switch (Main.rand.Next(3)) {
 					case 2:
 						intensity = 0.7f;
 						break;

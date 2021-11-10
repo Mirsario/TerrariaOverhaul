@@ -15,18 +15,18 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 		{
 			string actualText = text?.ToString();
 
-			if(toChat) {
+			if (toChat) {
 				Main.NewText(actualText);
 			}
 
-			if(toFile) {
+			if (toFile) {
 				Logger.Info(actualText);
 			}
 
-			if(toConsole || Main.dedServ && toFile) {
+			if (toConsole || Main.dedServ && toFile) {
 				Console.WriteLine(actualText);
 
-				if(Main.dedServ) {
+				if (Main.dedServ) {
 					return;
 				}
 			}

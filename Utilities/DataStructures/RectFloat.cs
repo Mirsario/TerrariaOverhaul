@@ -89,7 +89,7 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 
 		public bool Contains(Vector2 point, bool inclusive = false)
 		{
-			if(inclusive) {
+			if (inclusive) {
 				return point.X > x && point.X < x + width && point.Y > y && point.Y < y + height;
 			}
 

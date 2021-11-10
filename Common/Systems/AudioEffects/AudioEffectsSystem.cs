@@ -104,8 +104,8 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				il.Emit(OpCodes.Ldarg_0);
 				il.Emit(OpCodes.Ldloc, soundEffectInstanceLocalId);
 				il.EmitDelegate<Action<ActiveSound, SoundEffectInstance>>((activeSound, soundEffectInstance) => {
-					if(soundEffectInstance?.IsDisposed == false) {
-						if(SoundStylesToIgnore.Contains(activeSound.Style)) {
+					if (soundEffectInstance?.IsDisposed == false) {
+						if (SoundStylesToIgnore.Contains(activeSound.Style)) {
 							return;
 						}
 
@@ -120,8 +120,8 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			On.Terraria.Audio.LegacySoundPlayer.PlaySound += (orig, soundPlayer, type, x, y, style, volumeScale, pitchOffset) => {
 				var result = orig(soundPlayer, type, x, y, style, volumeScale, pitchOffset);
 
-				if(result != null && TrackedSoundInstances != null) {
-					if(SoundStylesToIgnore.Any(s => s is LegacySoundStyle ls && ls.SoundId == type && (ls.Style == style || ls.Style <= 0))) {
+				if (result != null && TrackedSoundInstances != null) {
+					if (SoundStylesToIgnore.Any(s => s is LegacySoundStyle ls && ls.SoundId == type && (ls.Style == style || ls.Style <= 0))) {
 						return result;
 					}
 
@@ -179,12 +179,12 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			AudioEffectParameters newSoundParameters = AudioEffectParameters.Default;
 			AudioEffectParameters newMusicParameters = AudioEffectParameters.Default;
 
-			for(int i = 0; i < Modifiers.Count; i++) {
+			for (int i = 0; i < Modifiers.Count; i++) {
 				var modifier = Modifiers[i];
 
 				modifier.Modifier(modifier.TimeLeft / (float)modifier.TimeMax, ref newSoundParameters, ref newMusicParameters);
 
-				if(--modifier.TimeLeft <= 0) {
+				if (--modifier.TimeLeft <= 0) {
 					Modifiers.RemoveAt(i--);
 				} else {
 					Modifiers[i] = modifier;
@@ -196,14 +196,14 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 			playerWallOcclusionCache = Main.LocalPlayer.GetModPlayer<PlayerWallOcclusion>().OcclusionFactor;
 
-			if(IsEnabled) {
+			if (IsEnabled) {
 				bool fullUpdate = Main.GameUpdateCount % FullAudioUpdateThreshold == 0;
 
 				//Update sound instances
-				for(int i = 0; i < TrackedSoundInstances.Count; i++) {
+				for (int i = 0; i < TrackedSoundInstances.Count; i++) {
 					var data = TrackedSoundInstances[i];
 
-					if(!UpdateSoundData(ref data, fullUpdate)) {
+					if (!UpdateSoundData(ref data, fullUpdate)) {
 						TrackedSoundInstances.RemoveAt(i--);
 						continue;
 					}
@@ -211,12 +211,12 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 					TrackedSoundInstances[i] = data;
 				}
 
-				if(Main.audioSystem is LegacyAudioSystem legacyAudioSystem) {
-					for(int i = 0; i < legacyAudioSystem.AudioTracks.Length; i++) {
-						if(legacyAudioSystem.AudioTracks[i] is ASoundEffectBasedAudioTrack soundEffectTrack) {
+				if (Main.audioSystem is LegacyAudioSystem legacyAudioSystem) {
+					for (int i = 0; i < legacyAudioSystem.AudioTracks.Length; i++) {
+						if (legacyAudioSystem.AudioTracks[i] is ASoundEffectBasedAudioTrack soundEffectTrack) {
 							var instance = (DynamicSoundEffectInstance)soundEffectBasedAudioTrackInstanceField.GetValue(soundEffectTrack);
 
-							if(instance?.IsDisposed == false) {
+							if (instance?.IsDisposed == false) {
 								ApplyEffects(instance, musicParameters);
 							}
 						}
@@ -229,7 +229,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 		{
 			int existingIndex = Modifiers.FindIndex(m => m.Id == identifier);
 
-			if(existingIndex < 0) {
+			if (existingIndex < 0) {
 				Modifiers.Add(new AudioEffectsModifier(time, identifier, func));
 				return;
 			}
@@ -248,26 +248,26 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 		private static void ApplyEffects(SoundEffectInstance instance, AudioEffectParameters parameters)
 		{
-			if(ReverbEnabled) {
+			if (ReverbEnabled) {
 				applyReverbFunc(instance, parameters.Reverb);
 			}
 
-			if(LowPassFilteringEnabled) {
+			if (LowPassFilteringEnabled) {
 				applyLowPassFilteringFunc(instance, 1f - (parameters.LowPassFiltering * 0.9f));
 			}
 		}
-		
+
 		private static bool UpdateSoundData(ref SoundInstanceData data, bool fullUpdate)
 		{
-			if(!data.Instance.TryGetTarget(out var instance) || instance.IsDisposed || instance.State != SoundState.Playing) {
+			if (!data.Instance.TryGetTarget(out var instance) || instance.IsDisposed || instance.State != SoundState.Playing) {
 				return false;
 			}
 
-			if(fullUpdate || data.firstUpdate) {
+			if (fullUpdate || data.firstUpdate) {
 				UpdateSoundOcclusion(ref data);
 			}
 
-			if(data.firstUpdate) {
+			if (data.firstUpdate) {
 				data.localLowPassFiltering = data.targetLocalLowPassFiltering;
 			} else {
 				data.localLowPassFiltering = MathHelper.Lerp(data.localLowPassFiltering, data.targetLocalLowPassFiltering, 3f * TimeSystem.LogicDeltaTime);
@@ -283,13 +283,13 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 			return true;
 		}
-		
+
 		private static void UpdateSoundOcclusion(ref SoundInstanceData data)
 		{
 			Vector2? soundPosition;
 			ActiveSound trackedSound = null;
 
-			if(data.TrackedSound != null && data.TrackedSound.TryGetTarget(out trackedSound)) {
+			if (data.TrackedSound != null && data.TrackedSound.TryGetTarget(out trackedSound)) {
 				soundPosition = trackedSound.Position;
 			} else {
 				soundPosition = data.StartPosition;
@@ -297,17 +297,17 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 			float occlusion = 0f;
 
-			if(soundPosition.HasValue) {
+			if (soundPosition.HasValue) {
 				occlusion = MathHelper.Clamp(occlusion + CalculateSoundOcclusion(soundPosition.Value.ToTileCoordinates()), 0f, 1f);
 			}
 
-			if(trackedSound != null && SoundStylesWithWallOcclusion.Contains(trackedSound.Style)) {
+			if (trackedSound != null && SoundStylesWithWallOcclusion.Contains(trackedSound.Style)) {
 				occlusion = MathHelper.Clamp(occlusion + playerWallOcclusionCache, 0f, 1f);
 			}
 
 			data.targetLocalLowPassFiltering = occlusion;
 		}
-		
+
 		private static float CalculateSoundOcclusion(Vector2Int position)
 		{
 			int occludingTiles = 0;
@@ -318,15 +318,15 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				CameraSystem.ScreenCenter.ToTileCoordinates(),
 				position,
 				(Vector2Int point, ref bool stop) => {
-					if(!Main.tile.TryGet(point, out var tile)) {
+					if (!Main.tile.TryGet(point, out var tile)) {
 						stop = true;
 						return;
 					}
 
-					if(tile.IsActive && Main.tileSolid[tile.type]) {
+					if (tile.IsActive && Main.tileSolid[tile.type]) {
 						occludingTiles++;
 
-						if(occludingTiles >= MaxOccludingTiles) {
+						if (occludingTiles >= MaxOccludingTiles) {
 							stop = true;
 						}
 					}

@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Content.Items.Tools
 			Item.height = 32;
 			Item.value = Item.sellPrice(0, 0, 0, 5);
 		}
-		
+
 		public override void AddRecipes() => this.CreateRecipe(r => r.AddIngredient(ItemID.StoneBlock, 6));
 	}
 }

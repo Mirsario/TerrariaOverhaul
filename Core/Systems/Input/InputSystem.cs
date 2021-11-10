@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Core.Systems.Input
 		{
 			PostUpdateInput();
 		}
-		
+
 		public override void PostUpdateInput()
 		{
 			mouseStatePrev = mouseState;
@@ -32,7 +32,7 @@ namespace TerrariaOverhaul.Core.Systems.Input
 
 		private static bool GetMouseButtonState(MouseState mouseState, int button)
 		{
-			switch(button) {
+			switch (button) {
 				case 0:
 					return mouseState.LeftButton == ButtonState.Pressed;
 				case 1:

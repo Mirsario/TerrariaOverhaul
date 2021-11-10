@@ -43,10 +43,10 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 			decalsToAdd = new Dictionary<BlendState, List<DecalInfo>>();
 		}
-		
+
 		public override void OnDispose(Chunk chunk)
 		{
-			if(texture != null) {
+			if (texture != null) {
 				var textureHandle = texture;
 
 				Main.QueueMainThreadAction(() => {
@@ -56,12 +56,12 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				texture = null;
 			}
 		}
-		
+
 		public override void PreGameDraw(Chunk chunk)
 		{
 			//Add pending decals
 
-			if(decalsToAdd.Count == 0) {
+			if (decalsToAdd.Count == 0) {
 				return;
 			}
 
@@ -69,13 +69,13 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			var sb = Main.spriteBatch;
 
-			foreach(var pair in decalsToAdd) {
+			foreach (var pair in decalsToAdd) {
 				var blendState = pair.Key;
 				var drawList = pair.Value;
 
 				sb.Begin(SpriteSortMode.Deferred, blendState, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
 
-				foreach(var info in drawList) {
+				foreach (var info in drawList) {
 					sb.Draw(info.texture, info.destRect, info.srcRect, info.color);
 				}
 
@@ -86,7 +86,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			decalsToAdd.Clear();
 		}
-		
+
 		public override void PostDrawTiles(Chunk chunk, SpriteBatch sb)
 		{
 			//Render the RT in the world
@@ -100,8 +100,8 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			bool CheckResources(params (GraphicsResource, string)[] resources)
 			{
-				foreach(var (resource, name) in resources) {
-					if(resource.IsDisposed != false) {
+				foreach (var (resource, name) in resources) {
+					if (resource.IsDisposed != false) {
 						DebugSystem.Log($"{nameof(ChunkDecals)}.{nameof(PostDrawTiles)}: {name} is null or disposed.");
 
 						return false;
@@ -114,7 +114,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 			var shader = DecalSystem.BloodShader.Value;
 			var lightingBuffer = chunk.Components.Get<ChunkLighting>().Texture;
 
-			if(!CheckResources(
+			if (!CheckResources(
 				(texture, nameof(texture)),
 				(shader, nameof(shader)),
 				(lightingBuffer, nameof(lightingBuffer)),
@@ -126,7 +126,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 			var graphicsDevice = Main.instance.GraphicsDevice;
 
-			lock(lightingBuffer) {
+			lock (lightingBuffer) {
 				const int NumTextures = 3;
 
 				shader.Parameters["texture0"].SetValue(texture);
@@ -137,7 +137,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 				graphicsDevice.BlendState = BlendState.AlphaBlend;
 
-				foreach(var pass in shader.CurrentTechnique.Passes) {
+				foreach (var pass in shader.CurrentTechnique.Passes) {
 					pass.Apply();
 
 					//TODO: Comment the following.
@@ -157,7 +157,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				}
 
 				//Very important to unbind the textures.
-				for(int i = 0; i < NumTextures; i++) {
+				for (int i = 0; i < NumTextures; i++) {
 					graphicsDevice.Textures[i] = null;
 				}
 			}
@@ -165,7 +165,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 		public void AddDecals(Texture2D texture, Rectangle localDestRect, Rectangle? srcRect, Color color, BlendState blendState)
 		{
-			if(!decalsToAdd.TryGetValue(blendState, out var list)) {
+			if (!decalsToAdd.TryGetValue(blendState, out var list)) {
 				decalsToAdd[blendState] = list = new List<DecalInfo>();
 			}
 

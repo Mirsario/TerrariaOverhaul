@@ -28,54 +28,54 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 		}
 
 		public static bool EnableDebugRendering { get; set; }
-		
+
 		private readonly List<Line> LinesToDraw = new();
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
 			layers.Add(new LegacyGameInterfaceLayer($"{nameof(TerrariaOverhaul)}/Debug", () => {
-				if(EnableDebugRendering) {
-					for(int i = 0; i < Main.maxPlayers; i++) {
+				if (EnableDebugRendering) {
+					for (int i = 0; i < Main.maxPlayers; i++) {
 						var player = Main.player[i];
 
-						if(player.active) {
+						if (player.active) {
 							DrawRectangle(player.getRect(), Color.SpringGreen, 1);
 						}
 					}
 
-					for(int i = 0; i < Main.maxNPCs; i++) {
+					for (int i = 0; i < Main.maxNPCs; i++) {
 						var npc = Main.npc[i];
 
-						if(npc.active) {
+						if (npc.active) {
 							DrawRectangle(npc.getRect(), Color.IndianRed, 1);
 						}
 					}
 
-					for(int i = 0; i < Main.maxProjectiles; i++) {
+					for (int i = 0; i < Main.maxProjectiles; i++) {
 						var projectile = Main.projectile[i];
 
-						if(projectile.active) {
+						if (projectile.active) {
 							DrawRectangle(projectile.getRect(), Color.Orange, 1);
 						}
 					}
 
-					for(int i = 0; i < Main.maxItems; i++) {
+					for (int i = 0; i < Main.maxItems; i++) {
 						var item = Main.item[i];
 
-						if(item.active) {
+						if (item.active) {
 							DrawRectangle(item.getRect(), Color.DodgerBlue, 1);
 						}
 					}
 
-					for(int i = 0; i < Main.maxGore; i++) {
+					for (int i = 0; i < Main.maxGore; i++) {
 						var gore = Main.gore[i];
 
-						if(gore.active) {
+						if (gore.active) {
 							DrawRectangle(gore.AABBRectangle, Color.Purple, 1);
 						}
 					}
 
-					foreach(var line in LinesToDraw) {
+					foreach (var line in LinesToDraw) {
 						Vector2 edge = line.end - line.start;
 						Rectangle rect = new Rectangle(
 							(int)Math.Round(line.start.X - Main.screenPosition.X),
@@ -93,17 +93,17 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 				return true;
 			}, InterfaceScaleType.Game));
 		}
-		
+
 		public override void PostDrawInterface(SpriteBatch sb)
 		{
-			
+
 		}
 
 		public static void DrawLine(Vector2 start, Vector2 end, Color color, int width = 2)
 		{
 			ModContent.GetInstance<DebugSystem>().LinesToDraw.Add(new Line(start, end, color, width));
 		}
-		
+
 		public static void DrawRectangle(Rectangle rectangle, Color color, int width = 2)
 		{
 			var lines = ModContent.GetInstance<DebugSystem>().LinesToDraw;
@@ -113,7 +113,7 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 			lines.Add(new Line(rectangle.BottomRight(), rectangle.BottomLeft(), color, width));
 			lines.Add(new Line(rectangle.BottomLeft(), rectangle.TopLeft(), color, width));
 		}
-		
+
 		public static void DrawCircle(Vector2 center, float radius, Color color, int resolution = 16, int width = 2)
 		{
 			var lines = ModContent.GetInstance<DebugSystem>().LinesToDraw;
@@ -121,7 +121,7 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 			float step = MathHelper.TwoPi / resolution;
 			Vector2 offset = new Vector2(radius, 0f);
 
-			for(int i = 0; i <= resolution; i++) {
+			for (int i = 0; i <= resolution; i++) {
 				Line line;
 
 				line.start = center + offset;

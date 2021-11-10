@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 	{
 		public override void AI(Projectile projectile)
 		{
-			if(projectile.type == ProjectileID.SlimeGun) {
+			if (projectile.type == ProjectileID.SlimeGun) {
 				SimpleEntity.Instantiate<BloodParticle>(p => {
 					p.position = projectile.Center;
 					p.velocity = projectile.velocity * 60f + Main.rand.NextVector2Circular(20f, 20f);

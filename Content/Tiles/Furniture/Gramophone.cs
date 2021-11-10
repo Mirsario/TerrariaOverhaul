@@ -28,7 +28,7 @@ namespace TerrariaOverhaul.Content.Tiles.Furniture
 
 			this.AddMapEntry(Color.Gold, "Gramophone");
 		}
-		
+
 		public override void MouseOver(int x, int y) => Main.cursorOverride = 3;
 		public override void KillMultiTile(int x, int y, int frameX, int frameY)
 		{

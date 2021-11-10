@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
-			if(!Player.IsLocal()) {
+			if (!Player.IsLocal()) {
 				return;
 			}
 
@@ -40,14 +40,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 					occupied = tile.IsActive && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type] && tile.BlockType == Terraria.ID.BlockType.Solid;
 
-					if(!occupied && (tile.wall > 0 || y >= Main.worldSurface)) {
+					if (!occupied && (tile.wall > 0 || y >= Main.worldSurface)) {
 						numWalls++;
 
-						if(DebugSystem.EnableDebugRendering) {
+						if (DebugSystem.EnableDebugRendering) {
 							DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.Red, 1);
 						}
 
-						if(numWalls >= requiredWallTiles && !DebugSystem.EnableDebugRendering) {
+						if (numWalls >= requiredWallTiles && !DebugSystem.EnableDebugRendering) {
 							stop = true;
 						}
 					}

@@ -22,7 +22,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			set {
 				int newArraySize = Math.Max(value + 1, 1);
 
-				if(newArraySize != interpolatedTargetVelocities.Length) {
+				if (newArraySize != interpolatedTargetVelocities.Length) {
 					Array.Resize(ref interpolatedTargetVelocities, newArraySize);
 				}
 			}
@@ -48,25 +48,25 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if(!DebugSystem.EnableDebugRendering) {
+			if (!DebugSystem.EnableDebugRendering) {
 				return;
 			}
 
 			var target = npc.GetTargetData();
 
-			if(target.Invalid) {
+			if (target.Invalid) {
 				return;
 			}
 
 			const int PredictionRate = 20;
 
-			if(Main.GameUpdateCount % PredictionRate == 0) {
+			if (Main.GameUpdateCount % PredictionRate == 0) {
 				lastPredictedDebugPosition = GetPredictionWithDelay(npc, PredictionRate * TimeSystem.LogicDeltaTime);
 			}
 
 			DebugSystem.DrawCircle(lastPredictedDebugPosition, 7f, Color.LightGoldenrodYellow);
 
-			if(DebugProjectileSpeed.HasValue) {
+			if (DebugProjectileSpeed.HasValue) {
 				var projectilePrediction = GetPredictionWithSpeed(npc, DebugProjectileSpeed.Value);
 
 				DebugSystem.DrawCircle(projectilePrediction, 7f, Color.PaleVioletRed);

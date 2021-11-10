@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		public override void SetDefaults(Item item)
 		{
-			if(item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks)) {
+			if (item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks)) {
 				powerAttacks.OnChargeStart += OnChargeStart;
 				powerAttacks.OnChargeEnd += OnChargeEnd;
 			}
@@ -28,10 +28,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		public override void HoldItem(Item item, Player player)
 		{
-			if(!Main.dedServ && chargeSoundInstance.IsValid) {
+			if (!Main.dedServ && chargeSoundInstance.IsValid) {
 				var activeSound = SoundEngine.GetActiveSound(chargeSoundInstance);
 
-				if(activeSound != null) {
+				if (activeSound != null) {
 					activeSound.Position = player.Center;
 				} else {
 					chargeSoundInstance = default;
@@ -43,7 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 		{
 			var instance = item.GetGlobalItem<ItemPowerAttackSounds>();
 
-			if(instance.Enabled) {
+			if (instance.Enabled) {
 				instance.chargeSoundInstance = SoundEngine.PlayTrackedSound(instance.Sound, player.Center);
 			}
 		}
@@ -52,7 +52,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 		{
 			var instance = item.GetGlobalItem<ItemPowerAttackSounds>();
 
-			if(instance.Enabled && instance.chargeSoundInstance.IsValid) {
+			if (instance.Enabled && instance.chargeSoundInstance.IsValid) {
 				SoundEngine.GetActiveSound(instance.chargeSoundInstance)?.Stop();
 			}
 		}

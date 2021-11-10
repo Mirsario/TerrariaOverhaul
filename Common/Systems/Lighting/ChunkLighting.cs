@@ -33,7 +33,7 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 
 			On.Terraria.Lighting.LightTiles += (On.Terraria.Lighting.orig_LightTiles orig, int firstX, int lastX, int firstY, int lastY) => {
 				void UpdateLighting()
-				{ 
+				{
 					const int Offset = 4;
 
 					Vector4Int loopArea;
@@ -50,8 +50,8 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 						ChunkSystem.TileToChunkCoordinates(loopArea.W)
 					);
 
-					for(int chunkY = chunkLoopArea.Y; chunkY <= chunkLoopArea.W; chunkY++) {
-						for(int chunkX = chunkLoopArea.X; chunkX <= chunkLoopArea.Z; chunkX++) {
+					for (int chunkY = chunkLoopArea.Y; chunkY <= chunkLoopArea.W; chunkY++) {
+						for (int chunkX = chunkLoopArea.X; chunkX <= chunkLoopArea.Z; chunkX++) {
 							var chunk = ChunkSystem.GetOrCreateChunk(new Vector2Int(chunkX, chunkY));
 
 							var lighting = chunk.Components.Get<ChunkLighting>();
@@ -71,8 +71,8 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 					}
 				}
 
-				if(Main.GameUpdateCount % LightingUpdateFrequency == 0) {
-					lock(lightingUpdateLock) {
+				if (Main.GameUpdateCount % LightingUpdateFrequency == 0) {
+					lock (lightingUpdateLock) {
 						UpdateLighting();
 					}
 				}
@@ -80,7 +80,7 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 				orig(firstX, lastX, firstY, lastY);
 			};
 		}
-		
+
 		public override void Unload()
 		{
 			lightingUpdateLock = null;
@@ -94,11 +94,11 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 			Colors = new Surface<Color>(textureWidth, textureHeight);
 			Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 		}
-		
+
 		public override void OnDispose(Chunk chunk)
 		{
-			if(Texture != null) {
-				lock(Texture) {
+			if (Texture != null) {
+				lock (Texture) {
 					var textureHandle = Texture;
 
 					Main.QueueMainThreadAction(() => {
@@ -112,15 +112,15 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 
 		public void UpdateArea(Chunk chunk, Vector4Int area)
 		{
-			for(int y = area.Y; y <= area.W; y++) {
-				for(int x = area.X; x <= area.Z; x++) {
+			for (int y = area.Y; y <= area.W; y++) {
+				for (int x = area.X; x <= area.Z; x++) {
 					Colors[x - chunk.TileRectangle.X, y - chunk.TileRectangle.Y] = Terraria.Lighting.GetColor(x, y);
 				}
 			}
 		}
 		public void ApplyColors()
 		{
-			lock(Texture) {
+			lock (Texture) {
 				Texture.SetData(Colors.Data);
 			}
 		}

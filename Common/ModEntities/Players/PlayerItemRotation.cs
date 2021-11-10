@@ -6,7 +6,7 @@
 
 		public override void PostUpdate()
 		{
-			if(forcedItemRotation.HasValue) {
+			if (forcedItemRotation.HasValue) {
 				Player.itemRotation = forcedItemRotation.Value;
 
 				forcedItemRotation = null;

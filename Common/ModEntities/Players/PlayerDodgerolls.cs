@@ -1,14 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using System;
-using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Common.Systems.Time;
-using TerrariaOverhaul.Core.Systems.Input;
 using TerrariaOverhaul.Core.Systems.Networking;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
@@ -42,13 +40,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
 		}
-		
+
 		public override bool PreItemCheck()
 		{
 			UpdateDodging();
 
 			//Stop umbrella and other things from working
-			if(isDodging && Player.HeldItem.type == ItemID.Umbrella) {
+			if (isDodging && Player.HeldItem.type == ItemID.Umbrella) {
 				return false;
 			}
 
@@ -65,7 +63,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			wantsDodgerollTimer = wantTime;
 			wantedDodgerollDir = direction;
 
-			if(force) {
+			if (force) {
 				dodgeCooldown = 0;
 			}
 		}
@@ -74,23 +72,23 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			bool isLocal = Player.IsLocal();
 
-			if(isLocal && wantsDodgerollTimer <= 0f && DodgerollKey.JustPressed && !Player.mouseInterface) {
+			if (isLocal && wantsDodgerollTimer <= 0f && DodgerollKey.JustPressed && !Player.mouseInterface) {
 				QueueDodgeroll(0.25f, (sbyte)Player.KeyDirection());
 			}
 
-			if(!forceDodgeroll) {
+			if (!forceDodgeroll) {
 				//Only initiate dodgerolls locally.
-				if(!isLocal) {
+				if (!isLocal) {
 					return false;
 				}
 
 				//Input & cooldown check. The cooldown can be enforced by other actions.
-				if(wantsDodgerollTimer <= 0f || dodgeCooldown.Active) {
+				if (wantsDodgerollTimer <= 0f || dodgeCooldown.Active) {
 					return false;
 				}
 
 				//Don't allow dodging on mounts and during item use.
-				if((Player.mount != null && Player.mount.Active) || Player.itemAnimation > 0) {
+				if ((Player.mount != null && Player.mount.Active) || Player.itemAnimation > 0) {
 					return false;
 				}
 			}
@@ -111,7 +109,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 			}*/
 
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				SoundEngine.PlaySound(DodgerollSound, Player.Center);
 			}
 
@@ -127,9 +125,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			dodgeDirection = wantedDodgerollDir != 0 ? wantedDodgerollDir : (sbyte)Player.direction;
 			dodgeCooldown = DodgeDefaultCooldown;
 
-			if(!isLocal) {
+			if (!isLocal) {
 				forceDodgeroll = false;
-			} else if(Main.netMode != NetmodeID.SinglePlayer) {
+			} else if (Main.netMode != NetmodeID.SinglePlayer) {
 				MultiplayerSystem.SendPacket(new PlayerDodgerollPacket(Player));
 			}
 
@@ -141,7 +139,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			noDodge |= Player.mount.Active;
 
-			if(noDodge) {
+			if (noDodge) {
 				isDodging = false;
 				noDodge = false;
 
@@ -154,12 +152,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			ref float rotation = ref Player.GetModPlayer<PlayerRotation>().rotation;
 
 			//Attempt to initiate a dodgeroll if the player isn't doing one already.
-			if(!isDodging && !TryStartDodgeroll()) {
+			if (!isDodging && !TryStartDodgeroll()) {
 				return;
 			}
 
 			//Lower fall damage
-			if(dodgeTime < DodgeTimeMax / 1.5f && onGround && !wasOnGround) {
+			if (dodgeTime < DodgeTimeMax / 1.5f && onGround && !wasOnGround) {
 				Player.fallStart = (int)MathHelper.Lerp(Player.fallStart, (int)(Player.position.Y / 16f), 0.35f);
 			}
 
@@ -167,26 +165,26 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			var tilePos = Player.position.ToTileCoordinates16();
 			int x = dodgeDirection > 0 ? tilePos.X + 2 : tilePos.X - 1;
 
-			for(int y = tilePos.Y; y < tilePos.Y + 3; y++) {
-				if(!Main.tile.TryGet(x, y, out var tile)) {
+			for (int y = tilePos.Y; y < tilePos.Y + 3; y++) {
+				if (!Main.tile.TryGet(x, y, out var tile)) {
 					continue;
 				}
 
-				if(tile.type == TileID.ClosedDoor) {
+				if (tile.type == TileID.ClosedDoor) {
 					WorldGen.OpenDoor(x, y, dodgeDirection);
 				}
 			}
 
 			//Apply velocity
-			if(dodgeTime < DodgeTimeMax * 0.5f) {
+			if (dodgeTime < DodgeTimeMax * 0.5f) {
 				float newVelX = (onGround ? 6f : 4f) * dodgeDirection;
 
-				if(Math.Abs(Player.velocity.X) < Math.Abs(newVelX) || Math.Sign(newVelX) != Math.Sign(Player.velocity.X)) {
+				if (Math.Abs(Player.velocity.X) < Math.Abs(newVelX) || Math.Sign(newVelX) != Math.Sign(Player.velocity.X)) {
 					Player.velocity.X = newVelX;
 				}
 			}
 
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				//Trail
 				Player.GetModPlayer<PlayerEffects>().ForceTrailEffect(2);
 			}
@@ -208,7 +206,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			//Prevent other actions
 			Player.GetModPlayer<PlayerClimbing>().climbCooldown.Set(1);
 
-			if(dodgeTime >= DodgeTimeMax) {
+			if (dodgeTime >= DodgeTimeMax) {
 				isDodging = false;
 				Player.eocDash = 0;
 

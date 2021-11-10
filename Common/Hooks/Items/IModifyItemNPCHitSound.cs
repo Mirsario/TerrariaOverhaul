@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			typeof(IModifyItemNPCHitSound).GetMethod(nameof(IModifyItemNPCHitSound.ModifyItemNPCHitSound)),
 			//Invocation
 			e => (Item item, Player player, NPC target, ref ISoundStyle customHitSound, ref bool playNPCHitSound) => {
-				foreach(IModifyItemNPCHitSound g in e.Enumerate(item)) {
+				foreach (IModifyItemNPCHitSound g in e.Enumerate(item)) {
 					g.ModifyItemNPCHitSound(item, player, target, ref customHitSound, ref playNPCHitSound);
 				}
 			}

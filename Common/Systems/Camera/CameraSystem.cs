@@ -50,26 +50,26 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 
 		public override void ModifyScreenPosition()
 		{
-			if(Main.gameMenu) {
+			if (Main.gameMenu) {
 				return;
 			}
 
 			var player = Main.LocalPlayer;
 
-			if(player?.active != true) {
+			if (player?.active != true) {
 				return;
 			}
 
 			var currentFocus = focus ?? GetFocusFor(player);
 
 			//NaNCheck
-			if(Main.screenPosition.HasNaNs()) {
+			if (Main.screenPosition.HasNaNs()) {
 				ResetCamera();
 			}
 
 			float frameDelta = TimeSystem.LogicDeltaTime;
 
-			if(cameraUpdateSW == null) {
+			if (cameraUpdateSW == null) {
 				cameraUpdateSW = new Stopwatch();
 
 				cameraUpdateSW.Start();
@@ -82,9 +82,9 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 				cameraUpdateSW.Start();
 			}
 
-			if(Main.GameZoomTarget < 1f) {
+			if (Main.GameZoomTarget < 1f) {
 				Main.GameZoomTarget = originalZoom = 1f;
-			} else if(originalZoom == 0f) {
+			} else if (originalZoom == 0f) {
 				originalZoom = 1f;
 			}
 
@@ -102,23 +102,23 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 
 			float worldTime = TimeSystem.UpdateCount * TimeSystem.LogicDeltaTime;
 
-			if(worldTime < ReducedOffsetTime) {
+			if (worldTime < ReducedOffsetTime) {
 				mouseMovementScale *= worldTime / ReducedOffsetTime;
 			}
 
-			if(!skip) {
+			if (!skip) {
 				cameraSubFrameOffset = default;
-			} else if(currentFocus.velocity.X != 0f || currentFocus.velocity.Y != 0f) {
+			} else if (currentFocus.velocity.X != 0f || currentFocus.velocity.Y != 0f) {
 				cameraSubFrameOffset += currentFocus.velocity * frameDelta;
 			}
 
-			if(!skip) {
-				if(zoomScaleGoal != smoothZoomScale) {
+			if (!skip) {
+				if (zoomScaleGoal != smoothZoomScale) {
 					smoothZoomScale = MathUtils.StepTowards(smoothZoomScale, zoomScaleGoal, 2f * TimeSystem.LogicDeltaTime);
 					Main.GameZoomTarget = originalZoom * smoothZoomScale;
-				} else if(zoomScaleGoal == 1f) {
+				} else if (zoomScaleGoal == 1f) {
 					originalZoom = Main.GameZoomTarget;
-				} else if(smoothZoomScale != 1f) {
+				} else if (smoothZoomScale != 1f) {
 					Main.GameZoomTarget = originalZoom * smoothZoomScale;
 				}
 			}
@@ -126,7 +126,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			float length = 0.15f;
 			var item = player.HeldItem;
 
-			if(item != null && item.active && item.stack > 0 && item.type == ItemID.SniperRifle && player.controlUseTile) {
+			if (item != null && item.active && item.stack > 0 && item.type == ItemID.SniperRifle && player.controlUseTile) {
 				length = 0.5f;
 			}
 
@@ -141,10 +141,10 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 
 			Vector2 offset;
 
-			if(noOffsetUpdating || !Main.hasFocus || Main.mouseX < 0 || Main.mouseX > Main.screenWidth || Main.mouseY < 0 || Main.mouseY > Main.screenHeight) {
+			if (noOffsetUpdating || !Main.hasFocus || Main.mouseX < 0 || Main.mouseX > Main.screenWidth || Main.mouseY < 0 || Main.mouseY > Main.screenHeight) {
 				offset = prevOffsetGoal;
 			} else {
-				if(player.dead || player.whoAmI == Main.myPlayer && (Main.playerInventory || Main.ingameOptionsWindow)) {
+				if (player.dead || player.whoAmI == Main.myPlayer && (Main.playerInventory || Main.ingameOptionsWindow)) {
 					offset = default;
 				} else {
 					offset = (mousePos - ScreenHalf) * new Vector2(length, Math.Sign(player.gravity) * length);
@@ -154,7 +154,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			noOffsetUpdating = false;
 			prevOffsetGoal = offset;
 
-			if(mouseMovementScale == 0f) {
+			if (mouseMovementScale == 0f) {
 				offset = default;
 			}
 
@@ -169,21 +169,21 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 			cameraShakeOffset = Main.rand.NextVector2Circular(shakePower, shakePower);
 			screenPosNoShakes += cameraSubFrameOffset;
 
-			if(!skip) {
+			if (!skip) {
 				oldCameraPos = Vector2.Lerp(oldCameraPos, screenPosNoShakes, TimeSystem.LogicDeltaTime * 8f);
 			}
 
-			if(SmoothCamera.Value) {
+			if (SmoothCamera.Value) {
 				screenPosNoShakes += oldCameraPos - screenPosNoShakes;
 			}
 
-			if(mouseMovementScale > 0f) {
+			if (mouseMovementScale > 0f) {
 				screenPosNoShakes += offset * mouseMovementScale;
 			}
 
 			screenPos = screenPosNoShakes + cameraShakeOffset;
 
-			if(screenPos.HasNaNs()) {
+			if (screenPos.HasNaNs()) {
 				ResetCamera();
 			} else {
 				Main.screenPosition = screenPos.Floor(); //new Vector2((float)Math.Round(screenPos.X),(float)Math.Round(screenPos.Y));

@@ -1,5 +1,4 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
 
@@ -14,7 +13,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			typeof(IHoldItemWhileDead).GetMethod(nameof(HoldItemWhileDead)),
 			//Invocation
 			e => (Item item, Player player) => {
-				foreach(IHoldItemWhileDead g in e.Enumerate(item)) {
+				foreach (IHoldItemWhileDead g in e.Enumerate(item)) {
 					g.HoldItemWhileDead(item, player);
 				}
 			}
@@ -29,7 +28,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 		{
 			var heldItem = Player.HeldItem;
 
-			if(heldItem?.IsAir == false) {
+			if (heldItem?.IsAir == false) {
 				IHoldItemWhileDead.Hook.Invoke(heldItem, Player);
 			}
 		}

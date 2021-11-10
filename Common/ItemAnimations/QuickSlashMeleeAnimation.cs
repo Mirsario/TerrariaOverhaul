@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.ItemAnimations
 	{
 		public override float GetItemRotation(Item item, Player player)
 		{
-			if(!item.TryGetGlobalItem(out ItemMeleeAttackAiming meleeAiming, false)) {
+			if (!item.TryGetGlobalItem(out ItemMeleeAttackAiming meleeAiming, false)) {
 				return 0f;
 			}
 
@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Common.ItemAnimations
 			float minValue = baseAngle - (MathHelper.PiOver2 * 1.25f);
 			float maxValue = baseAngle + (MathHelper.PiOver2 * 1.0f);
 
-			if(dir < 0) {
+			if (dir < 0) {
 				Utils.Swap(ref minValue, ref maxValue);
 			}
 

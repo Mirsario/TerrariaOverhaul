@@ -47,17 +47,17 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 
 		public Gradient(params (float position, T value)[] values)
 		{
-			if(LerpFunc == null) {
+			if (LerpFunc == null) {
 				throw new NotSupportedException($"Gradient<{typeof(T).Name}>.{nameof(Gradient<float>.LerpFunc)} is not defined.");
 			}
 
-			if(values.Length == 0) {
+			if (values.Length == 0) {
 				throw new ArgumentException("Array length must not be zero.");
 			}
 
 			keys = new GradientKey[values.Length];
 
-			for(int i = 0; i < keys.Length; i++) {
+			for (int i = 0; i < keys.Length; i++) {
 				var (position, value) = values[i];
 
 				keys[i] = new GradientKey(position, value);
@@ -69,14 +69,14 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 			GradientKey left = null;
 			GradientKey right = null;
 
-			for(int i = 0; i < keys.Length; i++) {
-				if(left == null || keys[i].time > left.time && keys[i].time <= time) {
+			for (int i = 0; i < keys.Length; i++) {
+				if (left == null || keys[i].time > left.time && keys[i].time <= time) {
 					left = keys[i];
 				}
 			}
 
-			for(int i = keys.Length - 1; i >= 0; i--) {
-				if(right == null || keys[i].time < right.time && keys[i].time >= time) {
+			for (int i = keys.Length - 1; i >= 0; i--) {
+				if (right == null || keys[i].time < right.time && keys[i].time >= time) {
 					right = keys[i];
 				}
 			}

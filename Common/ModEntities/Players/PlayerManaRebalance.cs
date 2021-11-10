@@ -34,22 +34,22 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 				il.GotoNext();
 				il.EmitDelegate<Action<Player>>(p => {
-					if(IsEnabled) {
+					if (IsEnabled) {
 						p.manaRegen = BaseManaRegen + p.manaRegenBonus;
 
-						if(p.velocity.Y == 0f && Math.Abs(p.velocity.X) < 2f && p.itemAnimation <= 0 && !p.controlUseItem && p.controlLeft == p.controlRight) {
+						if (p.velocity.Y == 0f && Math.Abs(p.velocity.X) < 2f && p.itemAnimation <= 0 && !p.controlUseItem && p.controlLeft == p.controlRight) {
 							p.manaRegen *= 2;
 
-							if(p.statMana < p.statManaMax2) {
+							if (p.statMana < p.statManaMax2) {
 								p.AddBuff(ModContent.BuffType<ManaChannelling>(), 2);
 							}
 						}
 
-						if(p.manaRegenBuff) {
+						if (p.manaRegenBuff) {
 							p.manaRegen *= 2;
 						}
 
-						if(p.itemAnimation > 0 && p.HeldItem.mana > 0) {
+						if (p.itemAnimation > 0 && p.HeldItem.mana > 0) {
 							p.manaRegen = 0;
 						}
 					}

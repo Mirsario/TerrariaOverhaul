@@ -26,22 +26,22 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 		public static void AddLimitedVelocity(this Player player, Vector2 velocity, Vector2 maxVelocity)
 		{
-			if(maxVelocity.X < 0f || maxVelocity.Y < 0f) {
+			if (maxVelocity.X < 0f || maxVelocity.Y < 0f) {
 				throw new ArgumentException($"'{nameof(maxVelocity)}' cannot have negative values.");
 			}
 
-			if(player.pulley) { // || oPlayer.OnIce) {
+			if (player.pulley) { // || oPlayer.OnIce) {
 				return;
 			}
 
-			if(Math.Sign(player.velocity.X) != Math.Sign(velocity.X) || Math.Abs(player.velocity.X) < maxVelocity.X) {
+			if (Math.Sign(player.velocity.X) != Math.Sign(velocity.X) || Math.Abs(player.velocity.X) < maxVelocity.X) {
 				player.velocity.X = MathUtils.StepTowards(player.velocity.X, maxVelocity.X * Math.Sign(velocity.X), Math.Abs(velocity.X));
 			}
 
-			if(Math.Sign(player.velocity.Y) != Math.Sign(velocity.Y) || Math.Abs(player.velocity.Y) < maxVelocity.Y) {
+			if (Math.Sign(player.velocity.Y) != Math.Sign(velocity.Y) || Math.Abs(player.velocity.Y) < maxVelocity.Y) {
 				player.velocity.Y = MathUtils.StepTowards(player.velocity.Y, maxVelocity.Y * Math.Sign(velocity.Y), Math.Abs(velocity.Y));
 
-				if(velocity.Y < 0f && player.velocity.Y < Math.Min(7f, player.maxFallSpeed)) {
+				if (velocity.Y < 0f && player.velocity.Y < Math.Min(7f, player.maxFallSpeed)) {
 					player.fallStart = player.fallStart2 = (int)(player.position.Y / 16f);
 				}
 			}
@@ -54,7 +54,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 		{
 			var accessories = player.EnumerateAccessories();
 
-			bool Predicate((Item,int) tuple) => itemIds.Contains(tuple.Item1.type);
+			bool Predicate((Item, int) tuple) => itemIds.Contains(tuple.Item1.type);
 
 			return any ? accessories.Any(Predicate) : accessories.All(Predicate);
 		}
@@ -62,10 +62,10 @@ namespace TerrariaOverhaul.Utilities.Extensions
 		public static IEnumerable<(Item item, int index)> EnumerateAccessories(this Player player)
 		{
 			//TODO: Might need to update this in the future.
-			for(int i = 3; i < 10; i++) {
+			for (int i = 3; i < 10; i++) {
 				var item = player.armor[i];
 
-				if(item != null && item.active) {
+				if (item != null && item.active) {
 					yield return (item, i);
 				}
 			}
@@ -75,8 +75,8 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 		public static void StopGrappling(this Player player, Projectile exceptFor = null)
 		{
-			foreach(var (grapplingHook, hookIndex) in player.EnumerateGrapplingHooks()) {
-				if(grapplingHook != exceptFor && grapplingHook.ai[0] == 2f) {
+			foreach (var (grapplingHook, hookIndex) in player.EnumerateGrapplingHooks()) {
+				if (grapplingHook != exceptFor && grapplingHook.ai[0] == 2f) {
 					grapplingHook.Kill();
 
 					player.grappling[hookIndex] = -1;
@@ -88,10 +88,10 @@ namespace TerrariaOverhaul.Utilities.Extensions
 		{
 			//The player.grappling array is some really useless crap.
 
-			for(int i = 0; i < Main.projectile.Length; i++) {
+			for (int i = 0; i < Main.projectile.Length; i++) {
 				var proj = Main.projectile[i];
 
-				if(proj != null && proj.active && proj.aiStyle == 7 && proj.owner == player.whoAmI) {
+				if (proj != null && proj.active && proj.aiStyle == 7 && proj.owner == player.whoAmI) {
 					yield return (proj, i);
 				}
 			}

@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			texture = Mod.Assets.Request<Texture2D>($"{ModPathUtils.GetDirectory(GetType())}/Muzzleflash");
 			gunBarrelEndPositions = new Dictionary<int, Vector2>();
 		}
-		
+
 		public override void Unload()
 		{
 			texture = null;
@@ -40,7 +40,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 			var item = player.HeldItem;
 
-			if(item?.IsAir != false || !item.TryGetGlobalItem<Gun>(out var gun, false) || gun.MuzzleflashTime <= 0) {
+			if (item?.IsAir != false || !item.TryGetGlobalItem<Gun>(out var gun, false) || gun.MuzzleflashTime <= 0) {
 				return;
 			}
 
@@ -49,14 +49,14 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			var itemTexture = TextureAssets.Item[item.type].Value;
 			var gunBarrelEnd = GetGunBarrelEndPosition(item.type, itemTexture) * item.scale;
 
-			for(int i = 0; i < drawInfo.DrawDataCache.Count; i++) {
+			for (int i = 0; i < drawInfo.DrawDataCache.Count; i++) {
 				var data = drawInfo.DrawDataCache[i];
 
-				if(data.texture == itemTexture) {
+				if (data.texture == itemTexture) {
 					var gunPosition = data.position;
 					var gunFixedOrigin = player.direction > 0 ? data.origin : (Vector2.UnitX * data.texture.Width - data.origin);
 
-					if(DebugSystem.EnableDebugRendering) {
+					if (DebugSystem.EnableDebugRendering) {
 						DebugSystem.DrawCircle(gunPosition + Main.screenPosition, 4f, Color.White);
 					}
 
@@ -81,7 +81,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 		/// <summary> Tries to calculate the center of the end of a gun's barrel based on its texture. </summary>
 		private static Vector2 GetGunBarrelEndPosition(int type, Texture2D texture)
 		{
-			if(gunBarrelEndPositions.TryGetValue(type, out var result)) {
+			if (gunBarrelEndPositions.TryGetValue(type, out var result)) {
 				return result;
 			}
 
@@ -91,26 +91,26 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 			var columnPoints = new List<Vector2>();
 
-			for(int x = surface.Width - 1; x >= 0; x--) {
+			for (int x = surface.Width - 1; x >= 0; x--) {
 				bool columnIsEmpty = true;
 
-				for(int y = 0; y < surface.Height; y++) {
-					if(surface[x, y].A > 0) {
+				for (int y = 0; y < surface.Height; y++) {
+					if (surface[x, y].A > 0) {
 						columnIsEmpty = false;
 
 						columnPoints.Add(new Vector2(x, y));
 					}
 				}
 
-				if(!columnIsEmpty) {
+				if (!columnIsEmpty) {
 					break;
 				}
 			}
 
 			result = default;
 
-			if(columnPoints.Count > 0) {
-				foreach(var value in columnPoints) {
+			if (columnPoints.Count > 0) {
+				foreach (var value in columnPoints) {
 					result += value;
 				}
 

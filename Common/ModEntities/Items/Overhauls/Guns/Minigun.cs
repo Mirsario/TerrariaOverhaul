@@ -26,22 +26,22 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			//Miniguns always use bullets.
-			if(item.useAmmo != AmmoID.Bullet) {
+			if (item.useAmmo != AmmoID.Bullet) {
 				return false;
 			}
 
-			if(item.UseSound != SoundID.Item11 && item.UseSound != SoundID.Item40 && item.UseSound != SoundID.Item41) {
+			if (item.UseSound != SoundID.Item11 && item.UseSound != SoundID.Item40 && item.UseSound != SoundID.Item41) {
 				return false;
 			}
 
 			//Exclude slow firing guns.
-			if(item.useTime >= 10) {
+			if (item.useTime >= 10) {
 				return false;
 			}
 
 			return true;
 		}
-		
+
 		public override void SetDefaults(Item item)
 		{
 			base.SetDefaults(item);
@@ -63,7 +63,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		{
 			base.HoldItem(item, player);
 
-			if(player.controlUseItem) {
+			if (player.controlUseItem) {
 				speedFactor = MathUtils.StepTowards(speedFactor, 1f, AccelerationTime * TimeSystem.LogicDeltaTime);
 			} else {
 				speedFactor = MinSpeedFactor; //speedFactor = MathUtils.StepTowards(speedFactor, MinSpeedFactor, DecelerationTime * TimeSystem.LogicDeltaTime);
@@ -72,10 +72,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		public override bool? UseItem(Item item, Player player)
 		{
-			if(!Main.dedServ && DoSpawnCasings) {
+			if (!Main.dedServ && DoSpawnCasings) {
 				int numCasings = player.altFunctionUse == 2 ? 2 : 1;
-				
-				for(int i = 0; i < numCasings; i++) {
+
+				for (int i = 0; i < numCasings; i++) {
 					SpawnCasings<BulletCasing>(player);
 				}
 			}
@@ -93,12 +93,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 			var velocity = modifiedDirection * new Vector2(item.useTime / 15f, item.useTime / 2.875f);
 
 			//Disable horizontal velocity recoil whenever the player is holding a directional key opposite to the direction of the dash.
-			if(player.KeyDirection() == -Math.Sign(velocity.X)) {
+			if (player.KeyDirection() == -Math.Sign(velocity.X)) {
 				velocity.X = 0f;
 			}
 
 			//Disable vertical velocity whenever aiming upwards or standing on the ground
-			if(velocity.Y > 0f || player.velocity.Y == 0f) {
+			if (velocity.Y > 0f || player.velocity.Y == 0f) {
 				velocity.Y = 0f;
 			}
 

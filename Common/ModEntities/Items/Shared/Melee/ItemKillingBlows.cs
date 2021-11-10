@@ -46,7 +46,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 
 				cursor.Emit(OpCodes.Ldarg_0);
 
-				foreach(var incomingLabel in incomingLabels) {
+				foreach (var incomingLabel in incomingLabels) {
 					incomingLabel.Target = cursor.Prev;
 				}
 
@@ -59,11 +59,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
-			if(!Enabled) {
+			if (!Enabled) {
 				return;
 			}
 
-			if(item.TryGetGlobalItem<ItemPowerAttacks>(out var powerAttacks) && !powerAttacks.PowerAttack) {
+			if (item.TryGetGlobalItem<ItemPowerAttacks>(out var powerAttacks) && !powerAttacks.PowerAttack) {
 				return;
 			}
 
@@ -72,16 +72,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 
 		private static void CheckForKillingBlow(NPC npc, ref double damage)
 		{
-			if(!tryApplyingKillingBlow) {
+			if (!tryApplyingKillingBlow) {
 				return;
 			}
 
 			const double Multiplier = 1.5;
 
-			if(damage >= 0 && npc.life - damage * Multiplier <= 0.0d) {
+			if (damage >= 0 && npc.life - damage * Multiplier <= 0.0d) {
 				damage *= Multiplier;
 
-				if(!Main.dedServ) {
+				if (!Main.dedServ) {
 					SoundEngine.PlaySound(KillingBlowSound, npc.Center);
 					CombatText.NewText(npc.getRect(), Color.MediumVioletRed, "Killing Blow!", true);
 				}

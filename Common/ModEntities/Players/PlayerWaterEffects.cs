@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
-			if(!Player.IsLocal()) {
+			if (!Player.IsLocal()) {
 				return;
 			}
 
@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			underwaterEffectIntensity = MathUtils.StepTowards(underwaterEffectIntensity, goalUnderwaterEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
 			//Audio filtering
-			if(underwaterEffectIntensity > 0) {
+			if (underwaterEffectIntensity > 0) {
 				float addedLowPassFiltering = underwaterEffectIntensity;
 
 				AudioEffectsSystem.AddAudioEffectModifier(

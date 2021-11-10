@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
@@ -25,21 +23,21 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			int id = itemOverhauls.Count;
 			var attachments = GetType().GetCustomAttribute<ItemAttachmentAttribute>();
 
-			if(attachments != null) {
-				foreach(int itemId in attachments.ItemIds) {
+			if (attachments != null) {
+				foreach (int itemId in attachments.ItemIds) {
 					itemIdMapping[itemId] = id;
 				}
 			}
 
 			itemOverhauls.Add(this);
 		}
-		
+
 		public override void Unload()
 		{
 			itemOverhauls.Clear();
 			itemIdMapping.Clear();
 		}
-		
+
 		public override GlobalItem Clone(Item item, Item itemClone)
 		{
 			var clone = base.Clone(item, itemClone);
@@ -51,15 +49,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public static ItemOverhaul ChooseItemOverhaul(Item item)
 		{
-			if(itemIdMapping.TryGetValue(item.type, out int overhaulId)) {
+			if (itemIdMapping.TryGetValue(item.type, out int overhaulId)) {
 				return itemOverhauls[overhaulId];
 			}
 
 			//May need some sort of priority system in the future. And cache?
-			for(int i = 0; i < itemOverhauls.Count; i++) {
+			for (int i = 0; i < itemOverhauls.Count; i++) {
 				var itemOverhaul = itemOverhauls[i];
 
-				if(itemOverhaul.ShouldApplyItemOverhaul(item)) {
+				if (itemOverhaul.ShouldApplyItemOverhaul(item)) {
 					return itemOverhaul;
 				}
 			}

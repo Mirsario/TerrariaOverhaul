@@ -33,14 +33,14 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 
 		public T Value {
 			get {
-				if(Side == ConfigSide.Both && Main.netMode == NetmodeID.MultiplayerClient) {
+				if (Side == ConfigSide.Both && Main.netMode == NetmodeID.MultiplayerClient) {
 					return RemoteValue;
 				}
 
 				return LocalValue;
 			}
 			set {
-				if(Side == ConfigSide.Both && Main.netMode == NetmodeID.MultiplayerClient) {
+				if (Side == ConfigSide.Both && Main.netMode == NetmodeID.MultiplayerClient) {
 					RemoteValue = value;
 				} else {
 					LocalValue = value;

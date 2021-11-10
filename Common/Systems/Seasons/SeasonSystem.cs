@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Common.Systems.Seasons
 				ModContent.GetInstance<Winter>()
 			};
 
-			for(int i = 0; i < seasons.Length; i++) {
+			for (int i = 0; i < seasons.Length; i++) {
 				var season = seasons[i];
 
 				season.Id = i;
@@ -37,26 +37,26 @@ namespace TerrariaOverhaul.Common.Systems.Seasons
 				season.Init();
 			}
 		}
-		
+
 		public override void Unload()
 		{
-			if(seasons != null) {
-				foreach(var season in seasons) {
+			if (seasons != null) {
+				foreach (var season in seasons) {
 					season.Components.Dispose();
 				}
 
 				seasons = null;
 			}
 		}
-		
+
 		public override void PreUpdateWorld()
 		{
-			if(seasons == null) {
+			if (seasons == null) {
 				return;
 			}
 
-			foreach(var season in seasons) {
-				foreach(var component in season.Components) {
+			foreach (var season in seasons) {
+				foreach (var component in season.Components) {
 					component.OnUpdate(season);
 				}
 			}
@@ -67,7 +67,7 @@ namespace TerrariaOverhaul.Common.Systems.Seasons
 
 		public static void AdvanceSeasonTime()
 		{
-			if(seasons == null || Main.netMode == NetmodeID.MultiplayerClient) {
+			if (seasons == null || Main.netMode == NetmodeID.MultiplayerClient) {
 				return;
 			}
 
@@ -82,7 +82,7 @@ namespace TerrariaOverhaul.Common.Systems.Seasons
 
 			int newSeasonId = CurrentDay / SeasonLength;
 
-			if(seasonId != newSeasonId) {
+			if (seasonId != newSeasonId) {
 				SetSeason(newSeasonId, arrival);
 			}
 		}
@@ -95,28 +95,28 @@ namespace TerrariaOverhaul.Common.Systems.Seasons
 
 		public static void SetSeason(int seasonId, bool arrival)
 		{
-			if(seasonId != currentSeasonId) {
+			if (seasonId != currentSeasonId) {
 				var oldSeason = CurrentSeason;
 
 				currentSeasonId = seasonId;
 
 				var newSeason = CurrentSeason;
 
-				if(newSeason != oldSeason) {
+				if (newSeason != oldSeason) {
 					OnSeasonActivated?.Invoke(newSeason);
 
-					foreach(var component in oldSeason.Components) {
+					foreach (var component in oldSeason.Components) {
 						component.OnSeasonDeactivated(oldSeason);
 
-						if(arrival) {
+						if (arrival) {
 							component.OnSeasonEnd(oldSeason);
 						}
 					}
 
-					foreach(var component in newSeason.Components) {
+					foreach (var component in newSeason.Components) {
 						component.OnSeasonActivated(newSeason);
 
-						if(arrival) {
+						if (arrival) {
 							component.OnSeasonBegin(newSeason);
 						}
 					}

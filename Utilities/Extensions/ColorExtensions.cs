@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using System;
+using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities.Extensions
 {
@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 			return color;
 		}
-		
+
 		public static Color WithAlpha(this Color color, float alpha)
 		{
 			color.A = (byte)(MathHelper.Clamp(alpha, 0f, 1f) * 255f);
@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 		public static float GetHue(this Color color)
 		{
-			if(color.R == color.G && color.G == color.B) {
+			if (color.R == color.G && color.G == color.B) {
 				return 0f;
 			}
 
@@ -38,17 +38,17 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 			delta = max - min;
 
-			if(r == max) {
+			if (r == max) {
 				hue = (g - b) / delta;
-			} else if(g == max) {
+			} else if (g == max) {
 				hue = 2 + (b - r) / delta;
-			} else if(b == max) {
+			} else if (b == max) {
 				hue = 4 + (r - g) / delta;
 			}
 
 			hue *= 60;
 
-			if(hue < 0.0f) {
+			if (hue < 0.0f) {
 				hue += 360.0f;
 			}
 

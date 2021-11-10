@@ -24,16 +24,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		{
 			base.HoldItem(item, player);
 
-			if(MuzzleflashTime > 0) {
+			if (MuzzleflashTime > 0) {
 				MuzzleflashTime--;
 			}
 		}
-		
+
 		public override bool? UseItem(Item item, Player player)
 		{
 			MuzzleflashTime = Math.Max(MuzzleflashTime, 5);
 
-			if(!Main.dedServ && player.IsLocal()) {
+			if (!Main.dedServ && player.IsLocal()) {
 				ApplyRecoil(item, player);
 			}
 
@@ -44,7 +44,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		{
 			var position = player.Center + new Vector2(player.direction > 0 ? 0f : -6f, -12f);
 
-			for(int i = 0; i < amount; i++) {
+			for (int i = 0; i < amount; i++) {
 				var velocity = player.velocity * 0.5f + new Vector2(Main.rand.NextFloat(1f) * -player.direction, Main.rand.NextFloat(-0.5f, -1.5f));
 
 				Gore.NewGore(position, velocity, ModContent.GoreType<T>());
@@ -57,7 +57,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		{
 			float strength = GetRecoilStrength(item, player);
 
-			if(strength <= 0f) {
+			if (strength <= 0f) {
 				return;
 			}
 

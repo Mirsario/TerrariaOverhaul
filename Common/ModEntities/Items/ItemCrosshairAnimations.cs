@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 	{
 		public override bool? UseItem(Item item, Player player)
 		{
-			if(!player.IsLocal() || !CrosshairSystem.ShowCrosshair) {
+			if (!player.IsLocal() || !CrosshairSystem.ShowCrosshair) {
 				return null;
 			}
 
@@ -24,19 +24,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 			return null;
 		}
-		
+
 		public override void UseAnimation(Item item, Player player)
 		{
-			if(!player.IsLocal() || !CrosshairSystem.ShowCrosshair) {
+			if (!player.IsLocal() || !CrosshairSystem.ShowCrosshair) {
 				return;
 			}
 
 			const int MinTime = 25;
 
-			if(item.useAnimation > MinTime) {
+			if (item.useAnimation > MinTime) {
 				int useAnimation = CombinedHooks.TotalAnimationTime(item.useAnimation, player, item);
 
-				if(useAnimation > MinTime) {
+				if (useAnimation > MinTime) {
 					CrosshairSystem.AddImpulse(10f, useAnimation * TimeSystem.LogicDeltaTime, autoRotation: true);
 				}
 			}

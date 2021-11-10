@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			e => (Item item, Player player, ref CommonStatMultipliers multipliers) => {
 				(item.ModItem as Hook)?.ModifyCommonStatMultipliers(item, player, ref multipliers);
 
-				foreach(Hook g in e.Enumerate(item)) {
+				foreach (Hook g in e.Enumerate(item)) {
 					g.ModifyCommonStatMultipliers(item, player, ref multipliers);
 				}
 			}

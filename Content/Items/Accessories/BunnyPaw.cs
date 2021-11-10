@@ -17,7 +17,7 @@ namespace TerrariaOverhaul.Content.Items.Accessories
 			Item.scale = 0.25f;
 			Item.value = Item.sellPrice(0, 0, 1);
 		}
-		
+
 		public override void AddRecipes() => this.CreateRecipe(r => {
 			r.AddIngredient(ItemID.Bunny, 5);
 			r.AddTile(TileID.Sawmill);

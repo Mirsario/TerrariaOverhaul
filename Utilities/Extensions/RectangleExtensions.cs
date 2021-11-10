@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 				&& rect.Right <= point.X
 				&& rect.Bottom <= point.Y;
 		}
-		
+
 		public static bool ContainsWithThreshold(this Rectangle rect, Vector2 point, float threshold) => ContainsWithThreshold(rect, point, new Vector2(threshold, threshold));
 		public static bool ContainsWithThreshold(this Rectangle rect, Vector2 point, Vector2 threshold)
 		{

@@ -20,10 +20,10 @@ namespace TerrariaOverhaul.Common.Systems.Crosshairs
 
 			time = timeMax = timeInSeconds;
 
-			if(autoRotation) {
-				if(timeInSeconds < 0.33f) {
+			if (autoRotation) {
+				if (timeInSeconds < 0.33f) {
 					this.rotation = MathHelper.PiOver2;
-				} else if(time < 1f) {
+				} else if (time < 1f) {
 					this.rotation = MathHelper.Pi;
 				} else {
 					this.rotation = MathHelper.TwoPi;

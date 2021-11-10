@@ -17,7 +17,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostItemCheck()
 		{
-			if(Main.dedServ || !EnablePlayerFootsteps) {
+			if (Main.dedServ || !EnablePlayerFootsteps) {
 				return;
 			}
 
@@ -27,26 +27,26 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			FootstepType? footstepType = null;
 
-			if(onGround != wasOnGround) {
-				if(!onGround || Player.controlJump) {
+			if (onGround != wasOnGround) {
+				if (!onGround || Player.controlJump) {
 					footstepType = FootstepType.Jump;
 				} else {
 					footstepType = FootstepType.Land;
 				}
-			} else if(onGround) {
+			} else if (onGround) {
 				footstepType = FootstepType.Default;
 			}
 
-			if(footstepType.HasValue && (footstepType.Value != FootstepType.Default || (stepState == 1 && (legFrame == 16 || legFrame == 17)) || (stepState == 0 && (legFrame == 9 || legFrame == 10)))) {
+			if (footstepType.HasValue && (footstepType.Value != FootstepType.Default || (stepState == 1 && (legFrame == 16 || legFrame == 17)) || (stepState == 0 && (legFrame == 9 || legFrame == 10)))) {
 				double time = TimeSystem.GlobalTime;
 
-				if(time - lastFootstepTime > FootstepCooldown && FootstepSystem.Footstep(Player, footstepType.Value)) {
+				if (time - lastFootstepTime > FootstepCooldown && FootstepSystem.Footstep(Player, footstepType.Value)) {
 					stepState = (byte)(stepState == 0 ? 1 : 0);
 					lastFootstepTime = TimeSystem.GlobalTime;
 				}
 			}
 
-			if(!onGround || legFrame == 0) {
+			if (!onGround || legFrame == 0) {
 				stepState = 0;
 			}
 		}

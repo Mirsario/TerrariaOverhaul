@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -28,7 +27,7 @@ namespace TerrariaOverhaul.Common.Systems.Ambience
 		{
 			Initialize();
 
-			if(Sound == null) {
+			if (Sound == null) {
 				throw new InvalidOperationException($"'{nameof(AmbienceTrack)}.{nameof(Sound)}' has not been assigned in '{GetType().Name}.{nameof(Initialize)}()'.");
 			}
 
@@ -48,8 +47,8 @@ namespace TerrariaOverhaul.Common.Systems.Ambience
 		{
 			var soundInstance = InstanceReference.IsValid ? SoundEngine.GetActiveSound(InstanceReference) : null;
 
-			if(!ShouldBeActive) {
-				if(soundInstance != null) {
+			if (!ShouldBeActive) {
+				if (soundInstance != null) {
 					soundInstance.Stop();
 
 					InstanceReference = SlotId.Invalid;
@@ -58,18 +57,18 @@ namespace TerrariaOverhaul.Common.Systems.Ambience
 				return;
 			}
 
-			if(soundInstance == null) {
+			if (soundInstance == null) {
 				var sound = Sound;
 				float styleVolume = sound.Volume;
 
 				//The need to do this is horrible.
-				if(sound is ModSoundStyle modSound1) {
+				if (sound is ModSoundStyle modSound1) {
 					modSound1.Volume = Volume;
 				}
 
 				InstanceReference = SoundEngine.PlayTrackedSound(sound, CameraSystem.ScreenCenter);
 
-				if(sound is ModSoundStyle modSound2) {
+				if (sound is ModSoundStyle modSound2) {
 					modSound2.Volume = styleVolume;
 				}
 			} else {

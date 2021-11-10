@@ -1,5 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using System.IO;
+﻿using System.IO;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Systems.Networking;
@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 
 		public override void Read(BinaryReader reader, int sender)
 		{
-			if(!reader.TryReadSenderPlayer(sender, out var player)) {
+			if (!reader.TryReadSenderPlayer(sender, out var player)) {
 				return;
 			}
 
@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 			player.GetModPlayer<PlayerClimbing>().StartClimbing(posFrom, posTo);
 
 			//Resend
-			if(Main.netMode == NetmodeID.Server) {
+			if (Main.netMode == NetmodeID.Server) {
 				MultiplayerSystem.SendPacket(new PlayerClimbStartMessage(player, posFrom, posTo), ignoreClient: sender);
 			}
 		}

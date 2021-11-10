@@ -30,21 +30,21 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		public override bool AltFunctionUse(Item item, Player player)
 		{
-			if(!Enabled) {
+			if (!Enabled) {
 				return false;
 			}
 
 			var itemCharging = item.GetGlobalItem<ItemCharging>();
 
-			if(itemCharging.IsCharging || player.itemAnimation > 0) {
+			if (itemCharging.IsCharging || player.itemAnimation > 0) {
 				return false;
 			}
 
-			if(!player.CheckMana(item)) {
+			if (!player.CheckMana(item)) {
 				return false;
 			}
 
-			if(CanStartPowerAttack != null && CanStartPowerAttack.GetInvocationList().Any(func => !((CanStartPowerAttackDelegate)func)(item, player))) {
+			if (CanStartPowerAttack != null && CanStartPowerAttack.GetInvocationList().Any(func => !((CanStartPowerAttackDelegate)func)(item, player))) {
 				return false;
 			}
 
@@ -78,21 +78,21 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared
 
 		public override void UseAnimation(Item item, Player player)
 		{
-			if(PowerAttack) {
+			if (PowerAttack) {
 				OnStart?.Invoke(item, player);
 			}
 		}
 
 		public override void HoldItem(Item item, Player player)
 		{
-			if(player.itemAnimation <= 1 && !item.GetGlobalItem<ItemCharging>().IsCharging) {
+			if (player.itemAnimation <= 1 && !item.GetGlobalItem<ItemCharging>().IsCharging) {
 				PowerAttack = false;
 			}
 		}
 
 		public void ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatMultipliers multipliers)
 		{
-			if(PowerAttack) {
+			if (PowerAttack) {
 				multipliers *= CommonStatMultipliers;
 			}
 		}

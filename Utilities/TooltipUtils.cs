@@ -24,7 +24,7 @@ namespace TerrariaOverhaul.Utilities
 				});
 			}
 
-			if(InputSystem.GetKey(Key)) {
+			if (InputSystem.GetKey(Key)) {
 				var lines = getLines().Prepend(mod.GetTextValue("CommonTooltips.CombatInfo"));
 
 				AddTooltip("CombatInfo", string.Join("\r\n", lines));

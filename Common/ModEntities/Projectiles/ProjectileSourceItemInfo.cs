@@ -20,20 +20,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			On.Terraria.Projectile.NewProjectile_IProjectileSource_float_float_float_float_int_int_float_int_float_float += (orig, source, x, y, speedX, speedY, type, damage, knockback, Owner, ai0, ai1) => {
 				int id = orig(source, x, y, speedX, speedY, type, damage, knockback, Owner, ai0, ai1);
 
-				if(id != Main.maxProjectiles) {
+				if (id != Main.maxProjectiles) {
 					var projectile = Main.projectile[id];
 
-					if(source is ProjectileSource_Item itemSource) {
+					if (source is ProjectileSource_Item itemSource) {
 						var info = projectile.GetGlobalProjectile<ProjectileSourceItemInfo>();
 
 						info.UseTime = itemSource.Item.useTime;
 						info.UseAnimation = itemSource.Item.useAnimation;
 						info.ManaUse = itemSource.Item.mana;
 						info.Available = true;
-					} else if(source is ProjectileSource_ProjectileParent parentSource) {
+					} else if (source is ProjectileSource_ProjectileParent parentSource) {
 						var parentInfo = parentSource.ParentProjectile.GetGlobalProjectile<ProjectileSourceItemInfo>();
 
-						if(parentInfo.Available) {
+						if (parentInfo.Available) {
 							var info = projectile.GetGlobalProjectile<ProjectileSourceItemInfo>();
 
 							info.UseTime = parentInfo.UseTime;

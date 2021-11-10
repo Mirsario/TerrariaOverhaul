@@ -1,5 +1,4 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
 
@@ -14,8 +13,8 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			typeof(IShowItemCrosshair).GetMethod(nameof(ShowItemCrosshair)),
 			//Invocation
 			e => (Item item, Player player) => {
-				foreach(IShowItemCrosshair g in e.Enumerate(item)) {
-					if(g.ShowItemCrosshair(item, player)) {
+				foreach (IShowItemCrosshair g in e.Enumerate(item)) {
+					if (g.ShowItemCrosshair(item, player)) {
 						return true;
 					}
 				}

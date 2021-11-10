@@ -12,7 +12,7 @@
 			/*controlHookPrev = controlHook;
 			controlHook = player.controlHook;*/
 		}
-		
+
 		public override void PreUpdate()
 		{
 			controlJumpPrev = Player.controlJump;

@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 		}
 
 		public virtual void PreGameDraw(Chunk chunk) { }
-		
+
 		public virtual void PostDrawTiles(Chunk chunk, SpriteBatch sb) { }
 	}
 }

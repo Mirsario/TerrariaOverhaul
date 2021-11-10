@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 		public static bool TryGet(this Tile[,] tiles, Vector2Int pos, out Tile tile) => TryGet(tiles, pos.X, pos.Y, out tile);
 		public static bool TryGet(this Tile[,] tiles, int x, int y, out Tile tile)
 		{
-			if(x >= 0 && y >= 0 && x < Main.maxTilesX && y < Main.maxTilesY) {
+			if (x >= 0 && y >= 0 && x < Main.maxTilesX && y < Main.maxTilesY) {
 				return (tile = tiles[x, y]) != null;
 			}
 

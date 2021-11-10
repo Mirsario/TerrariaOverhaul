@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			const int EffectLength = 5;
 
-			if(delta <= EffectLength) {
+			if (delta <= EffectLength) {
 				float intensity = 1f - (delta / (float)EffectLength);
 				float maxDimension = Math.Max(1f, Math.Max(npc.width, npc.height) * npc.scale);
 				float maxScaleDown = maxDimension / (maxDimension + 4f);
@@ -43,23 +43,23 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return true;
 		}
-		
+
 		public override void PostDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
-			if(usedDrawScaleMultiplier.HasValue) {
-				if(usedDrawScaleMultiplier.Value != 0f) {
+			if (usedDrawScaleMultiplier.HasValue) {
+				if (usedDrawScaleMultiplier.Value != 0f) {
 					npc.scale /= usedDrawScaleMultiplier.Value;
 				}
 
 				usedDrawScaleMultiplier = null;
 			}
 
-			if(usedDrawRotationOffset.HasValue) {
+			if (usedDrawRotationOffset.HasValue) {
 				npc.rotation -= usedDrawRotationOffset.Value;
 				usedDrawRotationOffset = null;
 			}
 
-			if(usedDrawPositionOffset.HasValue) {
+			if (usedDrawPositionOffset.HasValue) {
 				npc.position -= usedDrawPositionOffset.Value;
 				usedDrawPositionOffset = null;
 			}

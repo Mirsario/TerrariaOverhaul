@@ -29,14 +29,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private void TryDoingWallJumps()
 		{
-			if(!Player.IsLocal() || Player.mount.Active || Player.pulley || Player.EnumerateGrapplingHooks().Any()) {
+			if (!Player.IsLocal() || Player.mount.Active || Player.pulley || Player.EnumerateGrapplingHooks().Any()) {
 				return;
 			}
 
 			var playerDodgerolls = Player.GetModPlayer<PlayerDodgerolls>();
 			var playerMovement = Player.GetModPlayer<PlayerMovement>();
 
-			if(playerDodgerolls.isDodging || playerMovement.velocityRecord == null) {
+			if (playerDodgerolls.isDodging || playerMovement.velocityRecord == null) {
 				return;
 			}
 
@@ -44,7 +44,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			//They do not trigger dodgerolls.
 			bool ninjaJump = Player.controlUp && Player.EnumerateAccessories().Any(tuple => OverhaulItemTags.NinjaGear.Has(tuple.item.type));
 
-			if(!(ninjaJump ? EnableWallJumping : EnableWallFlips)) {
+			if (!(ninjaJump ? EnableWallJumping : EnableWallFlips)) {
 				return;
 			}
 
@@ -54,11 +54,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			float fastestSpeed = prevDirX < 0 ? ordereredVelocityRecord.First().X : ordereredVelocityRecord.Last().X;
 
 			//Return if the player didn't JUST hit a wall, or if they're standing on the ground.
-			if(Player.velocity.X != 0f || Player.oldVelocity.X == 0f || Player.OnGround()) {
+			if (Player.velocity.X != 0f || Player.oldVelocity.X == 0f || Player.OnGround()) {
 				return;
 			}
 
-			if((Math.Abs(fastestSpeed) < MinSpeedForWallRoll && !ninjaJump) || Player.direction != (ninjaJump ? -prevDirX : prevDirX) || Player.KeyDirection() != (ninjaJump ? 0 : -Player.direction)) {
+			if ((Math.Abs(fastestSpeed) < MinSpeedForWallRoll && !ninjaJump) || Player.direction != (ninjaJump ? -prevDirX : prevDirX) || Player.KeyDirection() != (ninjaJump ? 0 : -Player.direction)) {
 				return;
 			}
 
@@ -66,12 +66,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			bool frontWallSolid = TileCheckUtils.CheckIfAllBlocksAreSolid(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + 1, 1, 2);
 			bool backWallSolid = TileCheckUtils.CheckIfAllBlocksAreSolid(tilePos.X + (Player.direction == 1 ? -1 : 2), tilePos.Y + 1, 1, 2);
 
-			if(ninjaJump) {
-				if(!TileCheckUtils.CheckIfAllBlocksAreSolid(tilePos.X + (Player.direction == 1 ? -1 : 2), tilePos.Y + 1, 1, 2)) {
+			if (ninjaJump) {
+				if (!TileCheckUtils.CheckIfAllBlocksAreSolid(tilePos.X + (Player.direction == 1 ? -1 : 2), tilePos.Y + 1, 1, 2)) {
 					return;
 				}
 			} else {
-				if(!TileCheckUtils.CheckIfAllBlocksAreSolid(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + 1, 1, 2)) {
+				if (!TileCheckUtils.CheckIfAllBlocksAreSolid(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + 1, 1, 2)) {
 					return;
 				}
 			}
@@ -79,7 +79,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			Player.velocity.X = ninjaJump ? 5f * -prevDirX : -(fastestSpeed * 0.75f);
 			Player.velocity.Y = Math.Min(Player.velocity.Y, ninjaJump ? -7.45f : -8f);
 
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				//Play voicelines.
 
 				//TODO:
@@ -91,7 +91,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 				//Spawn dusts.
 
-				for(int i = 0; i < 12; i++) {
+				for (int i = 0; i < 12; i++) {
 					Dust.NewDust(prevDirX > 0 ? Player.Right : Player.Left, 4, 12, DustID.Smoke, -prevDirX);
 				}
 
@@ -104,7 +104,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				FootstepSystem.Footstep(Player, FootstepType.Jump, footPoint);
 			}
 
-			if(!ninjaJump) {
+			if (!ninjaJump) {
 				playerDodgerolls.QueueDodgeroll(0.1f, (sbyte)-prevDirX, true);
 			}
 

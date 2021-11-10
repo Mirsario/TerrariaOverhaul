@@ -23,11 +23,11 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 			//Draw the overlay right before the cursor.
 			IL.Terraria.Main.DrawMenu += context => {
 				var cursor = new ILCursor(context);
-				
+
 				//Source:
 				//	spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerStateForCursor, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, UIScaleMatrix);
 
-				if(!cursor.TryGotoNext(
+				if (!cursor.TryGotoNext(
 					i => i.MatchLdsfld(typeof(Main), nameof(Main.spriteBatch)),
 					i => i.Match(OpCodes.Ldc_I4_0),
 					i => i.MatchLdsfld(typeof(BlendState), nameof(BlendState.AlphaBlend)),
@@ -52,7 +52,7 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 				new MenuLink("Github", @"https://github.com/Mirsario/TerrariaOverhaul/tree/1.4"),
 			};
 		}
-		
+
 		public override void Unload()
 		{
 			menuLines = null;
@@ -60,7 +60,7 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 
 		private static void DrawOverlay(SpriteBatch sb)
 		{
-			if(!Main.gameMenu) {
+			if (!Main.gameMenu) {
 				return;
 			}
 
@@ -69,8 +69,8 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 			var textPos = new Vector2(16, 16);
 			var lines = menuLines; //Copy for thread safety.
 
-			if(lines != null) {
-				foreach(var entry in lines) {
+			if (lines != null) {
+				foreach (var entry in lines) {
 					entry.Update(textPos);
 					entry.Draw(sb, textPos);
 

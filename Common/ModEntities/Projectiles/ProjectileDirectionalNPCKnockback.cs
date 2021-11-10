@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 	{
 		public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{
-			if(target.TryGetGlobalNPC(out NPCDirectionalKnockback npcKnockback)) {
+			if (target.TryGetGlobalNPC(out NPCDirectionalKnockback npcKnockback)) {
 				Vector2 direction = projectile.velocity.SafeNormalize(Vector2.UnitX * hitDirection);
 
 				npcKnockback.SetNextKnockbackDirection(direction);

@@ -33,7 +33,7 @@ namespace TerrariaOverhaul.Content.Tiles.Furniture
 
 			this.AddMapEntry(Color.IndianRed, "Calendar");
 		}
-		
+
 		/*public override bool RightClick(int x, int y)
 		{
 			int days = SeasonSystem.SeasonLength - SeasonSystem.currentSeasonDay;

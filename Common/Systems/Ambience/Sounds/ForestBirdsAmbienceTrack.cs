@@ -16,16 +16,16 @@ namespace TerrariaOverhaul.Common.Systems.Ambience.Sounds
 
 			AudioEffectsSystem.EnableSoundStyleWallOcclusion(Sound);
 		}
-		
+
 		public override float GetTargetVolume(Player localPlayer)
 		{
 			//Only in purity
-			if(!localPlayer.ZonePurity) {
+			if (!localPlayer.ZonePurity) {
 				return 0f;
 			}
 
 			float result = 1f;
-			
+
 			//During day
 			result *= TimeSystem.DayGradient.GetValue(TimeSystem.RealTime);
 			//On the surface

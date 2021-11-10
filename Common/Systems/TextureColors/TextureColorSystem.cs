@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System;
-using System.Collections.Generic;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.Systems.TextureColors
@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Common.Systems.TextureColors
 		public override void Load() => cache = new Dictionary<Asset<Texture2D>, Color>();
 		public override void Unload()
 		{
-			if(cache != null) {
+			if (cache != null) {
 				cache.Clear();
 
 				cache = null;
@@ -28,7 +28,7 @@ namespace TerrariaOverhaul.Common.Systems.TextureColors
 		{
 			var instance = ModContent.GetInstance<TextureColorSystem>() ?? throw new InvalidOperationException($"{nameof(TextureColorSystem)} has not been loaded.");
 
-			if(!instance.cache.TryGetValue(texture, out var color)) {
+			if (!instance.cache.TryGetValue(texture, out var color)) {
 				instance.cache[texture] = color = CalculateAverageColor(texture.Value);
 			}
 
@@ -49,20 +49,20 @@ namespace TerrariaOverhaul.Common.Systems.TextureColors
 			long[] values = new long[3];
 			long numFittingPixels = 0;
 
-			for(int i = 0; i < data.Length; i++) {
-				if(hasRect) {
+			for (int i = 0; i < data.Length; i++) {
+				if (hasRect) {
 					int y = i / texWidth;
 					int x = i - (y * texWidth);
 
-					if(x < rect.X || y < rect.Y || x >= rect.X + rect.Width || y >= rect.Y + rect.Height) {
+					if (x < rect.X || y < rect.Y || x >= rect.X + rect.Width || y >= rect.Y + rect.Height) {
 						continue;
 					}
 				}
 
 				var col = data[i];
 
-				if(col.A >= alphaTest) {
-					if(hasExcludedColors && excludedColors.Contains(col)) {
+				if (col.A >= alphaTest) {
+					if (hasExcludedColors && excludedColors.Contains(col)) {
 						continue;
 					}
 
@@ -76,7 +76,7 @@ namespace TerrariaOverhaul.Common.Systems.TextureColors
 
 			Color result;
 
-			if(numFittingPixels == 0) {
+			if (numFittingPixels == 0) {
 				result = Color.Transparent;
 			} else {
 				result = new Color(

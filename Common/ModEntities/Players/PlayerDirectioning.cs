@@ -31,7 +31,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
 			};
 		}
-		
+
 		public override void PreUpdate() => SetDirection(true);
 		public override void PostUpdate() => SetDirection();
 		public override bool PreItemCheck()
@@ -45,27 +45,27 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private void SetDirection(bool resetForcedDirection)
 		{
-			if(!Main.dedServ && Main.gameMenu) {
+			if (!Main.dedServ && Main.gameMenu) {
 				Player.direction = 1;
 
 				return;
 			}
 
-			if(Player.IsLocal() && Main.hasFocus) {
+			if (Player.IsLocal() && Main.hasFocus) {
 				mouseWorld = Main.MouseWorld;
 
-				if(Main.netMode == NetmodeID.MultiplayerClient && Main.GameUpdateCount % MouseWorldSyncFrequency == 0 && lastSyncedMouseWorld != mouseWorld) {
+				if (Main.netMode == NetmodeID.MultiplayerClient && Main.GameUpdateCount % MouseWorldSyncFrequency == 0 && lastSyncedMouseWorld != mouseWorld) {
 					MultiplayerSystem.SendPacket(new PlayerMousePositionPacket(Player));
 
 					lastSyncedMouseWorld = mouseWorld;
 				}
 			}
 
-			if(!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || ICanTurnDuringItemUse.Hook.Invoke(Player.HeldItem, Player))) {
-				if(forcedDirection != 0) {
+			if (!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || ICanTurnDuringItemUse.Hook.Invoke(Player.HeldItem, Player))) {
+				if (forcedDirection != 0) {
 					Player.direction = forcedDirection;
 
-					if(resetForcedDirection) {
+					if (resetForcedDirection) {
 						forcedDirection = 0;
 					}
 				} else {

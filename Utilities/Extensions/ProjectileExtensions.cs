@@ -10,10 +10,10 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 		public static Player GetOwner(this Projectile proj)
 		{
-			if(Main.player.IndexInRange(proj.owner)) {
+			if (Main.player.IndexInRange(proj.owner)) {
 				var player = Main.player[proj.owner];
 
-				if(player != null && player.active) {
+				if (player != null && player.active) {
 					return player;
 				}
 			}

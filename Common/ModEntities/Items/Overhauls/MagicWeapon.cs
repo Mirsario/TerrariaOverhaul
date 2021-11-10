@@ -20,17 +20,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			//Ignore weapons with non-magic damage types
-			if(item.DamageType != DamageClass.Magic && !item.DamageType.CountsAs(DamageClass.Magic)) {
+			if (item.DamageType != DamageClass.Magic && !item.DamageType.CountsAs(DamageClass.Magic)) {
 				return false;
 			}
 
 			//Avoid tools and placeables
-			if(item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
+			if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
 				return false;
 			}
 
 			//Ignore weapons that don't shoot, don't use mana, or deal hitbox damage 
-			if(item.shoot <= ProjectileID.None || item.mana <= 0 || !item.noMelee) {
+			if (item.shoot <= ProjectileID.None || item.mana <= 0 || !item.noMelee) {
 				return false;
 			}
 
@@ -41,7 +41,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		{
 			base.SetDefaults(item);
 
-			if(item.UseSound == SoundID.Item43) {
+			if (item.UseSound == SoundID.Item43) {
 				item.UseSound = MagicBlastSound;
 			}
 
@@ -54,7 +54,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			powerAttacks.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
 
 			powerAttacks.OnChargeStart += (item, player, chargeLength) => {
-				if(Main.dedServ) {
+				if (Main.dedServ) {
 					return;
 				}
 
@@ -68,7 +68,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				);
 			};
 
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				var powerAttackSounds = item.GetGlobalItem<ItemPowerAttackSounds>();
 
 				powerAttackSounds.Enabled = true;

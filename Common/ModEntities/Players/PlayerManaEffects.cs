@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
@@ -35,7 +34,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PreUpdate()
 		{
-			if(!Player.IsLocal()) {
+			if (!Player.IsLocal()) {
 				return;
 			}
 
@@ -47,7 +46,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			float goalLowManaEffectIntensity;
 
-			if(!Player.dead) {
+			if (!Player.dead) {
 				float manaFactor = Player.statMana / (float)Player.statManaMax2;
 
 				goalLowManaEffectIntensity = LowManaVolumeGradient.GetValue(manaFactor);
@@ -61,10 +60,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			SoundUtils.UpdateLoopingSound(ref lowManaSoundSlot, LowManaSound, lowManaEffectIntensity, CameraSystem.ScreenCenter);
 
 			//Dust
-			if(!Player.dead) {
+			if (!Player.dead) {
 				lowManaDustCounter += lowManaEffectIntensity / 4f;
 
-				while(lowManaDustCounter >= 1f) {
+				while (lowManaDustCounter >= 1f) {
 					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.SomethingRed, Alpha: 255, Scale: Main.rand.NextFloat(1.5f, 2f));
 
 					dust.noLight = true;
@@ -81,7 +80,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			float goalManaRegenEffectIntensity;
 
-			if(!Player.dead) {
+			if (!Player.dead) {
 				float manaFactor = Player.statMana / (float)Player.statManaMax2;
 				float regenSpeed = Player.manaRegen + Player.manaRegenBonus;
 
@@ -96,10 +95,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, ManaRegenSound, manaRegenEffectIntensity, CameraSystem.ScreenCenter);
 
 			//Dust
-			if(!Player.dead) {
+			if (!Player.dead) {
 				manaRegenDustCounter += manaRegenEffectIntensity / 4f;
 
-				while(manaRegenDustCounter >= 1f) {
+				while (manaRegenDustCounter >= 1f) {
 					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, 45, Alpha: 255, Scale: Main.rand.NextFloat(2f, 2.6f));
 
 					dust.noLight = true;

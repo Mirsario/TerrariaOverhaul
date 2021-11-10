@@ -26,7 +26,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
-			if(!Player.IsLocal() || Main.GameUpdateCount % 5 != 0) {
+			if (!Player.IsLocal() || Main.GameUpdateCount % 5 != 0) {
 				return;
 			}
 
@@ -39,7 +39,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			int numReverbTiles = 0;
 			int maxTiles = size.X * size.Y;
 			int maxReverbTiles = (int)(maxTiles * MaxReverbTileRatio) + 1;
-			
+
 			GeometryUtils.FloodFill(
 				areaCenter - start,
 				size,
@@ -50,7 +50,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 					occupied = tile.IsActive && Main.tileSolid[tile.type];
 
-					if(!occupied) {
+					if (!occupied) {
 						/*if(DebugSystem.EnableDebugRendering) {
 							DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.White, 1);
 						}*/
@@ -58,17 +58,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 						return;
 					}
 
-					if(tile.type >= TileLoader.TileCount || !OverhaulTileTags.Reverb.Has(tile.type)) {
+					if (tile.type >= TileLoader.TileCount || !OverhaulTileTags.Reverb.Has(tile.type)) {
 						return;
 					}
 
-					if(DebugSystem.EnableDebugRendering) {
+					if (DebugSystem.EnableDebugRendering) {
 						DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.Red, 1);
 					}
 
 					numReverbTiles++;
 
-					if(numReverbTiles >= maxReverbTiles) {
+					if (numReverbTiles >= maxReverbTiles) {
 						stop = true;
 					}
 				}
@@ -78,13 +78,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			float adjustedReverbTileFactor = ReverbFactorToReverbIntensity.GetValue(reverbTileFactor);
 			float calculatedReverb = adjustedReverbTileFactor * MaxReverbIntensity;
 
-			if(DebugSystem.EnableDebugRendering) {
+			if (DebugSystem.EnableDebugRendering) {
 				DebugSystem.DrawRectangle(new Rectangle(start.X * 16, start.Y * 16, halfSize.X * 32, halfSize.Y * 32), Color.Purple, 4);
 			}
 
 			//DebugSystem.Log($"{numReverbTiles} = {reverbTileFactor:0.00} = {adjustedReverbTileFactor:0.00} = {calculatedReverb:0.00}");
 
-			if(calculatedReverb > 0f) {
+			if (calculatedReverb > 0f) {
 				AudioEffectsSystem.AddAudioEffectModifier(
 					60,
 					$"{nameof(TerrariaOverhaul)}/{nameof(PlayerSurroundingsReverb)}",

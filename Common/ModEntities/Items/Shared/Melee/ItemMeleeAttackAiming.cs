@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using MonoMod.RuntimeDetour.HookGen;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
@@ -44,7 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Shared.Melee
 
 		public bool? CanMeleeCollideWithNPC(Item item, Player player, NPC target)
 		{
-			if(!Enabled) {
+			if (!Enabled) {
 				return null;
 			}
 

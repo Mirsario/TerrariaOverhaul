@@ -1,5 +1,4 @@
-﻿using System;
-using Terraria;
+﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
 
@@ -16,11 +15,11 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			e => (Item item, Player player) => {
 				bool? globalResult = null;
 
-				foreach(ICanTurnDuringItemUse g in e.Enumerate(item)) {
+				foreach (ICanTurnDuringItemUse g in e.Enumerate(item)) {
 					bool? result = g.CanTurnDuringItemUse(item, player);
 
-					if(result.HasValue) {
-						if(result.Value) {
+					if (result.HasValue) {
+						if (result.Value) {
 							globalResult = true;
 						} else {
 							return false;

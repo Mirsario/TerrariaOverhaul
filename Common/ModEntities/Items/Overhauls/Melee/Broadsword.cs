@@ -4,7 +4,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ItemAnimations;
@@ -14,7 +13,6 @@ using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -32,16 +30,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			//Broadswords always swing, deal melee damage, don't have channeling, and are visible
-			if(item.useStyle != ItemUseStyleID.Swing || item.noMelee || item.channel || item.noUseGraphic) {
+			if (item.useStyle != ItemUseStyleID.Swing || item.noMelee || item.channel || item.noUseGraphic) {
 				return false;
 			}
 
 			//Avoid tools and blocks
-			if(item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
+			if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
 				return false;
 			}
 
-			if(item.DamageType != DamageClass.Melee) {
+			if (item.DamageType != DamageClass.Melee) {
 				return false;
 			}
 
@@ -65,13 +63,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				//These 2 lines only affect animations.
 				MeleeAttackAiming.FlippedAttack = false;
 
-				if(item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
+				if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
 					aiming.AttackDirection = Vector2.UnitX * player.direction;
 				}
 			};
 			powerAttacks.OnChargeUpdate += (item, player, chargeLength, progress) => {
 				// Purely visual
-				if(item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
+				if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
 					aiming.AttackDirection = Vector2.Lerp(aiming.AttackDirection, player.LookDirection(), 5f * TimeSystem.LogicDeltaTime);
 				}
 			};
@@ -81,12 +79,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			killingBlows = item.GetGlobalItem<ItemKillingBlows>();
 			killingBlows.Enabled = true;
 		}
-		
+
 		public override void UseAnimation(Item item, Player player)
 		{
 			base.UseAnimation(item, player);
 
-			if(!powerAttacks.PowerAttack) {
+			if (!powerAttacks.PowerAttack) {
 				MeleeAttackAiming.FlippedAttack = MeleeAttackAiming.AttackId % 2 != 0;
 			}
 
@@ -103,27 +101,27 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				totalAnimationTime / 7f,
 				totalAnimationTime / 13f
 			);
-			 
-			if(powerAttacks.PowerAttack) {
+
+			if (powerAttacks.PowerAttack) {
 				dashSpeed.X *= 1.5f;
 				dashSpeed.Y *= 2.2f;
 
-				if(player.OnGround()) {
+				if (player.OnGround()) {
 					dashSpeed.Y *= 1.65f;
 				}
 			} else {
-				if(player.OnGround()) {
+				if (player.OnGround()) {
 					//Disable vertical dashes for non-charged attacks whenever the player is on ground.
 					//Also reduces horizontal movement.
 					dashSpeed.X *= 0.625f;
 					dashSpeed.Y = 0f;
-				} else if(attackDirection.Y < 0f && player.velocity.Y > 0f) {
+				} else if (attackDirection.Y < 0f && player.velocity.Y > 0f) {
 					//Disable upwards dashes whenever the player is falling down.
 					dashSpeed.Y = 0f;
 				}
 
 				//Disable horizontal dashes whenever the player is holding a directional key opposite to the direction of the dash.
-				if(player.KeyDirection() == -Math.Sign(attackDirection.X)) {
+				if (player.KeyDirection() == -Math.Sign(attackDirection.X)) {
 					dashSpeed.X = 0f;
 				}
 			}
@@ -131,18 +129,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			player.AddLimitedVelocity(dashSpeed * attackDirection, new Vector2(dashSpeed.X, 12f));
 
 			//Slight screenshake for the swing.
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				ScreenShakeSystem.New(3f, item.useAnimation / 120f);
 			}
 		}
-		
+
 		public override void UseItemFrame(Item item, Player player)
 		{
 			base.UseItemFrame(item, player);
 
 			// Leg frame
-			if(player.velocity.Y == 0f && player.KeyDirection() == 0) {
-				if(Math.Abs(MeleeAttackAiming.AttackDirection.X) > 0.5f) {
+			if (player.velocity.Y == 0f && player.KeyDirection() == 0) {
+				if (Math.Abs(MeleeAttackAiming.AttackDirection.X) > 0.5f) {
 					player.legFrame = (MeleeAttackAiming.FlippedAttack ? PlayerFrames.Walk8 : PlayerFrames.Jump).ToRectangle();
 				} else {
 					player.legFrame = PlayerFrames.Walk13.ToRectangle();
@@ -153,7 +151,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		public override void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref ISoundStyle customHitSound, ref bool playNPCHitSound)
 		{
 			// This checks for whether or not the target has bled.
-			if(target.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore) && npcBloodAndGore.LastHitBloodAmount > 0) {
+			if (target.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore) && npcBloodAndGore.LastHitBloodAmount > 0) {
 				customHitSound = SwordFleshHitSound;
 			}
 

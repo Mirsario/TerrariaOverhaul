@@ -1,7 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
-using System;
 using Terraria.GameContent;
 
 namespace TerrariaOverhaul.Utilities.Extensions
@@ -25,10 +25,10 @@ namespace TerrariaOverhaul.Utilities.Extensions
 		//Text
 		public static void DrawStringOutlined(this SpriteBatch sb, DynamicSpriteFont font, string text, Vector2 position, Color color, Vector2 origin = default, float scale = 1f)
 		{
-			for(int i = 0; i < 5; i++) {
+			for (int i = 0; i < 5; i++) {
 				var newColor = Color.Black;
 
-				if(i == 4) {
+				if (i == 4) {
 					newColor = color;
 					newColor.R = (byte)((255 + newColor.R) / 2);
 					newColor.G = (byte)((255 + newColor.G) / 2);
@@ -39,7 +39,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 				Vector2 offset;
 
-				switch(i) {
+				switch (i) {
 					case 0:
 						offset = new Vector2(-2f, 0f);
 						break;
