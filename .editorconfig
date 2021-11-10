@@ -83,7 +83,7 @@ dotnet_diagnostic.CS1998.severity = silent
 	csharp_style_var_when_type_is_apparent = true:none
 
 # Expression-bodied members
-	csharp_style_expression_bodied_lambdas = when_on_single_line:suggestion
+	csharp_style_expression_bodied_lambdas = when_on_single_line:silent
 	csharp_style_expression_bodied_local_functions = when_on_single_line:suggestion
 	csharp_style_expression_bodied_operators = when_on_single_line:suggestion
 	csharp_style_expression_bodied_constructors = when_on_single_line:silent
@@ -212,3 +212,6 @@ dotnet_diagnostic.CS1998.severity = silent
 	dotnet_naming_style.begins_with_i.required_suffix =
 	dotnet_naming_style.begins_with_i.word_separator =
 	dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+# IDE0053: Use expression body for lambda expressions
+dotnet_diagnostic.IDE0053.severity = silent
