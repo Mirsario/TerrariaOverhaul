@@ -13,10 +13,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 	{
 		public static readonly ConfigEntry<bool> AlwaysShowAimableWeapons = new(ConfigSide.Both, "PlayerVisuals", nameof(AlwaysShowAimableWeapons), () => true);
 
-		public float visualRecoil;
-
 		private float directItemRotation;
 		private float directTargetItemRotation;
+
+		public float VisualRecoil { get; set; }
 
 		public override void Load()
 		{
@@ -36,7 +36,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 				if (sItem.useStyle == ItemUseStyleID.Shoot) {
 					var modPlayer = player.GetModPlayer<PlayerHoldOutAnimation>();
 
-					player.itemRotation = ConvertRotation(modPlayer.directItemRotation, player) - MathHelper.ToRadians(modPlayer.visualRecoil * player.direction * (int)player.gravDir);
+					player.itemRotation = ConvertRotation(modPlayer.directItemRotation, player) - MathHelper.ToRadians(modPlayer.VisualRecoil * player.direction * (int)player.gravDir);
 
 					//Fix rotation range.
 					if (player.itemRotation > MathHelper.Pi) {
@@ -85,7 +85,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			}
 
 			directItemRotation = MathUtils.LerpRadians(directItemRotation, directTargetItemRotation, 16f * TimeSystem.LogicDeltaTime);
-			visualRecoil = MathHelper.Lerp(visualRecoil, 0f, 10f * TimeSystem.LogicDeltaTime);
+			VisualRecoil = MathHelper.Lerp(VisualRecoil, 0f, 10f * TimeSystem.LogicDeltaTime);
 
 			//This could go somewhere else?
 			if (Player.HeldItem?.IsAir == false && ShouldForceUseAnim(Player.HeldItem)) {

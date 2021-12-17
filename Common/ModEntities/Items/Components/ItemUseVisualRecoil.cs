@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 		public override bool? UseItem(Item item, Player player)
 		{
 			if (Enabled && Power != 0f) {
-				player.GetModPlayer<PlayerHoldOutAnimation>().visualRecoil += Power;
+				player.GetModPlayer<PlayerHoldOutAnimation>().VisualRecoil += Power;
 			}
 
 			return base.UseItem(item, player);
