@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Buffs
@@ -8,7 +9,7 @@ namespace TerrariaOverhaul.Content.Buffs
 		public override void SetStaticDefaults()
 		{
 			Main.buffNoTimeDisplay[Type] = true;
-			CanBeCleared = false;
+			BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
 		}
 	}
 }

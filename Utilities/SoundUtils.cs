@@ -11,11 +11,11 @@ namespace TerrariaOverhaul.Utilities
 			var sound = slot.IsValid ? SoundEngine.GetActiveSound(slot) : null;
 
 			if (volume > 0f) {
-				float styleVolume = style.Volume;
+				//float styleVolume = style.Volume;
 
 				try {
 					if (sound == null) {
-						style.Volume = 0f;
+						//style.Volume = 0f;
 						slot = SoundEngine.PlayTrackedSound(style, position);
 						sound = SoundEngine.GetActiveSound(slot);
 
@@ -28,7 +28,7 @@ namespace TerrariaOverhaul.Utilities
 					sound.Volume = volume;
 				}
 				finally {
-					style.Volume = styleVolume;
+					//style.Volume = styleVolume;
 				}
 			} else if (sound != null) {
 				sound.Stop();
