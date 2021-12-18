@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.ItemAnimations
 {
 	public class QuickSlashMeleeAnimation : MeleeAnimation
 	{
-		public override float GetItemRotation(Item item, Player player)
+		public override float GetItemRotation(Player player, Item item)
 		{
 			if (!item.TryGetGlobalItem(out ItemMeleeAttackAiming meleeAiming, false)) {
 				return 0f;

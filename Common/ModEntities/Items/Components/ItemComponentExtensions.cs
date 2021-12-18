@@ -10,7 +10,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 			var component = item.GetGlobalItem<T>();
 
 			if (component.Enabled) {
-				throw new InvalidOperationException($"Component {typeof(T).Name} is already enabled on item {item.Name}.");
+				return component;
+				//throw new InvalidOperationException($"Component {typeof(T).Name} is already enabled on item {item.Name}.");
 			}
 
 			component.Enabled = true;

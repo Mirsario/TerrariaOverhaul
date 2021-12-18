@@ -6,7 +6,7 @@ namespace TerrariaOverhaul.Common.ItemAnimations
 {
 	public class GenericMeleeAnimation : MeleeAnimation
 	{
-		public override float GetItemRotation(Item item, Player player)
+		public override float GetItemRotation(Player player, Item item)
 		{
 			if (!item.TryGetGlobalItem(out ItemMeleeAttackAiming aimableAttacks, false)) {
 				return 0f;

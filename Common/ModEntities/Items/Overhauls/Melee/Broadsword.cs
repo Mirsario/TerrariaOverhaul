@@ -25,8 +25,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		private ItemPowerAttacks powerAttacks;
 		private ItemKillingBlows killingBlows;
 
-		public override QuickSlashMeleeAnimation Animation { get; } = new QuickSlashMeleeAnimation();
-
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			//Broadswords always swing, deal melee damage, don't have channeling, and are visible
@@ -50,34 +48,36 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		{
 			base.SetDefaults(item);
 
+			item.GetGlobalItem<ItemPlayerAnimator>().Animation = new QuickSlashMeleeAnimation();
+
 			// Power Attacks
 
-			powerAttacks = item.GetGlobalItem<ItemPowerAttacks>();
-			powerAttacks.Enabled = true;
-			powerAttacks.ChargeLengthMultiplier = 1.5f;
-			powerAttacks.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
-			powerAttacks.CommonStatMultipliers.MeleeDamageMultiplier = powerAttacks.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
-			powerAttacks.CommonStatMultipliers.MeleeKnockbackMultiplier = powerAttacks.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
+			powerAttacks = item.AddComponent<ItemPowerAttacks>(c => {
+				c.ChargeLengthMultiplier = 1.5f;
+				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
+				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
+				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
 
-			powerAttacks.OnChargeStart += (item, player, chargeLength) => {
-				//These 2 lines only affect animations.
-				MeleeAttackAiming.FlippedAttack = false;
+				c.OnChargeStart += (item, player, chargeLength) => {
+					//These 2 lines only affect animations.
+					MeleeAttackAiming.FlippedAttack = false;
 
-				if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
-					aiming.AttackDirection = Vector2.UnitX * player.direction;
-				}
-			};
-			powerAttacks.OnChargeUpdate += (item, player, chargeLength, progress) => {
-				// Purely visual
-				if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
-					aiming.AttackDirection = Vector2.Lerp(aiming.AttackDirection, player.LookDirection(), 5f * TimeSystem.LogicDeltaTime);
-				}
-			};
+					if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
+						aiming.AttackDirection = Vector2.UnitX * player.direction;
+					}
+				};
+
+				c.OnChargeUpdate += (item, player, chargeLength, progress) => {
+					// Purely visual
+					if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
+						aiming.AttackDirection = Vector2.Lerp(aiming.AttackDirection, player.LookDirection(), 5f * TimeSystem.LogicDeltaTime);
+					}
+				};
+			});
 
 			// Killing Blows
 
-			killingBlows = item.GetGlobalItem<ItemKillingBlows>();
-			killingBlows.Enabled = true;
+			killingBlows = item.AddComponent<ItemKillingBlows>();
 		}
 
 		public override void UseAnimation(Item item, Player player)

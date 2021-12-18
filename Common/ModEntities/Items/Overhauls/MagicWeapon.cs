@@ -68,6 +68,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			if (!Main.dedServ) {
 				item.AddComponent<ItemPowerAttackSounds>(c => {
 					c.Sound = ChargeSound;
+					c.CancelPlaybackOnEnd = true;
 				});
 
 				item.AddComponent<ItemUseVisualRecoil>(c => {

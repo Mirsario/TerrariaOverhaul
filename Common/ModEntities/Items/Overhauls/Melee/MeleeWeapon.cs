@@ -7,14 +7,12 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ItemAnimations;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
-using TerrariaOverhaul.Common.Systems.Gores;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Exceptions;
-using TerrariaOverhaul.Core.Systems.Debugging;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
@@ -24,8 +22,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		public static readonly ModSoundStyle WoodenHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/WoodenHit", 3, volume: 0.3f, pitchVariance: 0.1f);
 
 		protected ItemMeleeAttackAiming MeleeAttackAiming { get; private set; }
-
-		public virtual MeleeAnimation Animation => ModContent.GetInstance<GenericMeleeAnimation>();
 
 		public virtual float GetHeavyness(Item item)
 		{
@@ -79,96 +75,24 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		public override void SetDefaults(Item item)
 		{
 			if (item.UseSound != Terraria.ID.SoundID.Item15) {
-				item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/SwingLight", 4);
-				//item.UseSound = new BlendedSoundStyle(
-				//	new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/SwingLight", 4),
-				//	new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/SwingHeavy", 4),
-				//	GetHeavyness(item),
-				//	0.3f
-				//);
+				float heavyness = GetHeavyness(item);
+				float averageDimension = (item.width + item.height) * 0.5f;
+
+				item.UseSound = averageDimension switch {
+					//>= 38 => new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2),
+					>= 25 => new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 3),
+					_ => new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingLightAlt", 3)
+				};
 			}
 
-			MeleeAttackAiming = item.GetGlobalItem<ItemMeleeAttackAiming>();
+			MeleeAttackAiming = item.AddComponent<ItemMeleeAttackAiming>();
 
-			MeleeAttackAiming.Enabled = true;
+			item.AddComponent<ItemPlayerAnimator>(c => {
+				c.Animation = ModContent.GetInstance<GenericMeleeAnimation>();
+			});
 		}
 
-		public override void HoldItem(Item item, Player player)
-		{
-			base.HoldItem(item, player);
-
-			// Hit gore.
-			if (player.itemAnimation >= player.itemAnimationMax - 1 && ICanDoMeleeDamage.Hook.Invoke(item, player)) {
-				float range = ItemMeleeAttackAiming.GetAttackRange(item, player);
-				float arcRadius = MathHelper.Pi * 0.5f;
-
-				const int MaxHits = 5;
-
-				int numHit = 0;
-
-				for (int i = 0; i < Main.maxGore; i++) {
-					if (Main.gore[i] is not OverhaulGore gore || !gore.active || gore.time < 30) {
-						continue;
-					}
-
-					if (CollisionUtils.CheckRectangleVsArcCollision(gore.AABBRectangle, player.Center, MeleeAttackAiming.AttackAngle, arcRadius, range)) {
-						gore.HitGore(MeleeAttackAiming.AttackDirection);
-
-						if (++numHit >= MaxHits) {
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		public override void UseItemFrame(Item item, Player player)
-		{
-			base.UseItemFrame(item, player);
-
-			float weaponRotation = MathUtils.Modulo(Animation.GetItemRotation(item, player), MathHelper.TwoPi);
-			float pitch = MathUtils.RadiansToPitch(weaponRotation);
-			var weaponDirection = weaponRotation.ToRotationVector2();
-
-			if (Math.Sign(weaponDirection.X) != player.direction) {
-				pitch = weaponDirection.Y < 0f ? 1f : 0f;
-			}
-
-			player.bodyFrame = PlayerFrames.Use3.ToRectangle();
-
-			Vector2 locationOffset;
-
-			if (pitch > 0.95f) {
-				player.bodyFrame = PlayerFrames.Use1.ToRectangle();
-				locationOffset = new Vector2(-8f, -9f);
-			} else if (pitch > 0.7f) {
-				player.bodyFrame = PlayerFrames.Use2.ToRectangle();
-				locationOffset = new Vector2(4f, -8f);
-			} else if (pitch > 0.3f) {
-				player.bodyFrame = PlayerFrames.Use3.ToRectangle();
-				locationOffset = new Vector2(4f, 2f);
-			} else if (pitch > 0.05f) {
-				player.bodyFrame = PlayerFrames.Use4.ToRectangle();
-				locationOffset = new Vector2(4f, 7f);
-			} else {
-				player.bodyFrame = PlayerFrames.Walk5.ToRectangle();
-				locationOffset = new Vector2(-8f, 2f);
-			}
-
-			player.itemRotation = weaponRotation + MathHelper.PiOver4;
-
-			if (player.direction < 0) {
-				player.itemRotation += MathHelper.PiOver2;
-			}
-
-			player.itemLocation = player.Center + new Vector2(locationOffset.X * player.direction, locationOffset.Y);
-
-			if (!Main.dedServ && DebugSystem.EnableDebugRendering) {
-				DebugSystem.DrawCircle(player.itemLocation, 3f, Color.White);
-			}
-		}
-
-		//Hitting
+		// Hitting
 
 		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 		{
@@ -208,17 +132,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				var dashDirection = target.velocity.SafeNormalize(default);
 				var dashVelocity = dashDirection;
 
-				//Boost velocity is based on item knockback.
+				// Boost velocity is based on item knockback.
 				float targetSpeed = target.velocity.SafeLength();
 
 				dashVelocity *= Math.Min(Math.Max(2f, targetSpeed), distance / 3f);
 
-				//Reduce intensity when the player is not directly aiming at the enemy.
+				// Reduce intensity when the player is not directly aiming at the enemy.
 				float directionsDotProduct = Vector2.Dot(dashDirection, MeleeAttackAiming.AttackDirection);
 
 				dashVelocity *= Math.Max(0f, directionsDotProduct * directionsDotProduct);
 
-				//Slight upwards movement bonus.
+				// Slight upwards movement bonus.
 				dashVelocity.Y -= 1.5f;
 
 				var maxVelocity = Vector2.Min(Vector2.One * 9f, new Vector2(Math.Abs(dashVelocity.X), Math.Abs(dashVelocity.Y)));
