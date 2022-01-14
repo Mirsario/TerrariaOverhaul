@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/StarCannon/StarCannonFire", 0, volume: 0.2f, pitchVariance: 0.2f);
 
 			if (!Main.dedServ) {
-				item.AddComponent<ItemPlaySoundOnEveryUse>();
+				item.EnableComponent<ItemPlaySoundOnEveryUse>();
 			}
 		}
 	}

@@ -22,9 +22,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 	{
 		public static readonly ModSoundStyle SwordFleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2, volume: 0.65f, pitchVariance: 0.1f);
 
-		private ItemPowerAttacks powerAttacks;
-		private ItemKillingBlows killingBlows;
-
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			//Broadswords always swing, deal melee damage, don't have channeling, and are visible
@@ -51,8 +48,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			item.GetGlobalItem<ItemPlayerAnimator>().Animation = new QuickSlashMeleeAnimation();
 
 			// Power Attacks
-
-			powerAttacks = item.AddComponent<ItemPowerAttacks>(c => {
+			item.EnableComponent<ItemPowerAttacks>(c => {
 				c.ChargeLengthMultiplier = 1.5f;
 				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
 				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
@@ -76,13 +72,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			});
 
 			// Killing Blows
-
-			killingBlows = item.AddComponent<ItemKillingBlows>();
+			item.EnableComponent<ItemKillingBlows>();
 		}
 
 		public override void UseAnimation(Item item, Player player)
 		{
 			base.UseAnimation(item, player);
+
+			var powerAttacks = item.GetGlobalItem<ItemPowerAttacks>();
 
 			if (!powerAttacks.PowerAttack) {
 				MeleeAttackAiming.FlippedAttack = MeleeAttackAiming.AttackId % 2 != 0;

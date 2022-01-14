@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Systems.Debugging;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {
@@ -10,6 +11,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 		public override bool InstancePerEntity => true;
 
 		public override GlobalItem Clone(Item item, Item itemClone)
-			=> base.Clone(item, itemClone);
+		{
+			return base.Clone(item, itemClone);
+		}
 	}
 }

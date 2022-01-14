@@ -24,14 +24,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		public override void SetDefaults(Item item)
 		{
+			base.SetDefaults(item);
+
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 
 			if (!Main.dedServ) {
-				item.AddComponent<ItemUseVisualRecoil>(c => {
+				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 13f;
 				});
 
-				item.AddComponent<ItemUseScreenShake>(c => {
+				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(4f, 0.2f);
 				});
 			}

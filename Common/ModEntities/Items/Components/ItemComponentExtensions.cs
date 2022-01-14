@@ -1,18 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using Terraria;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {
 	public static class ItemComponentExtensions
 	{
-		public static T AddComponent<T>(this Item item, Action<T> initializer = null) where T : ItemComponent
+		public static T EnableComponent<T>(this Item item, Action<T> initializer = null) where T : ItemComponent
 		{
 			var component = item.GetGlobalItem<T>();
-
-			if (component.Enabled) {
-				return component;
-				//throw new InvalidOperationException($"Component {typeof(T).Name} is already enabled on item {item.Name}.");
-			}
 
 			component.Enabled = true;
 

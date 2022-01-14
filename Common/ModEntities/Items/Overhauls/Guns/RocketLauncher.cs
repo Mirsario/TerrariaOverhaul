@@ -28,14 +28,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		public override void SetDefaults(Item item)
 		{
+			base.SetDefaults(item);
+
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/RocketLauncher/RocketLauncherFire", 0, volume: 0.35f);
 
 			if (!Main.dedServ) {
-				item.AddComponent<ItemUseVisualRecoil>(c => {
+				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 6f;
 				});
 
-				item.AddComponent<ItemUseScreenShake>(c => {
+				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(8f, 0.4f);
 				});
 			}

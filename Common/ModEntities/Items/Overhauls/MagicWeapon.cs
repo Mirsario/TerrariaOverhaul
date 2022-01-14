@@ -43,7 +43,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				item.UseSound = MagicBlastSound;
 			}
 
-			item.AddComponent<ItemPowerAttacks>(c => {
+			item.EnableComponent<ItemPowerAttacks>(c => {
 				c.ChargeLengthMultiplier = 2f;
 				c.CommonStatMultipliers.ProjectileDamageMultiplier = 2.5f;
 				c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
@@ -66,16 +66,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			});
 
 			if (!Main.dedServ) {
-				item.AddComponent<ItemPowerAttackSounds>(c => {
+				item.EnableComponent<ItemPowerAttackSounds>(c => {
 					c.Sound = ChargeSound;
 					c.CancelPlaybackOnEnd = true;
 				});
 
-				item.AddComponent<ItemUseVisualRecoil>(c => {
+				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 10f;
 				});
 
-				item.AddComponent<ItemUseScreenShake>(c => {
+				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(4f, 0.2f);
 				});
 			}

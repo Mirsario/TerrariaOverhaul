@@ -22,7 +22,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 			//item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Revolver/RevolverFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 
 			if (!Main.dedServ) {
-				item.AddComponent<ItemPlaySoundOnEveryUse>();
+				item.EnableComponent<ItemPlaySoundOnEveryUse>();
 			}
 		}
 

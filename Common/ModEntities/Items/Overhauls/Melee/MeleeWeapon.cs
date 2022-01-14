@@ -22,6 +22,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		public static readonly ModSoundStyle WoodenHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/WoodenHit", 3, volume: 0.3f, pitchVariance: 0.1f);
 
 		protected ItemMeleeAttackAiming MeleeAttackAiming { get; private set; }
+		protected ItemPlayerAnimator ItemPlayerAnimator { get; private set; }
 
 		public virtual float GetHeavyness(Item item)
 		{
@@ -72,8 +73,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			}
 		}
 
+		public override GlobalItem Clone(Item item, Item itemClone)
+		{
+			var clone = (MeleeWeapon)base.Clone(item, itemClone);
+
+			clone.MeleeAttackAiming = itemClone.GetGlobalItem<ItemMeleeAttackAiming>();
+			clone.ItemPlayerAnimator = itemClone.GetGlobalItem<ItemPlayerAnimator>();
+
+			return clone;
+		}
+
 		public override void SetDefaults(Item item)
 		{
+			base.SetDefaults(item);
+
 			if (item.UseSound != Terraria.ID.SoundID.Item15) {
 				float heavyness = GetHeavyness(item);
 				float averageDimension = (item.width + item.height) * 0.5f;
@@ -85,9 +98,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				};
 			}
 
-			MeleeAttackAiming = item.AddComponent<ItemMeleeAttackAiming>();
+			MeleeAttackAiming = item.EnableComponent<ItemMeleeAttackAiming>();
 
-			item.AddComponent<ItemPlayerAnimator>(c => {
+			ItemPlayerAnimator = item.EnableComponent<ItemPlayerAnimator>(c => {
 				c.Animation = ModContent.GetInstance<GenericMeleeAnimation>();
 			});
 		}

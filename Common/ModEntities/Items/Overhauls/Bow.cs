@@ -42,7 +42,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			}
 
 			if (!Main.dedServ) {
-				item.AddComponent<ItemUseScreenShake>(c => {
+				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(2f, 0.2f);
 				});
 			}

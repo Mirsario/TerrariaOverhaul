@@ -29,11 +29,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 			};
 
 			if (!Main.dedServ) {
-				item.AddComponent<ItemUseVisualRecoil>(c => {
+				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 25f;
 				});
 
-				item.AddComponent<ItemUseScreenShake>(c => {
+				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(10f, 0.25f);
 				});
 			}

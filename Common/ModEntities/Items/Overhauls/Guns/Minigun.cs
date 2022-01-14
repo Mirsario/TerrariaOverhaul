@@ -44,28 +44,26 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		{
 			base.SetDefaults(item);
 
-			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Minigun/MinigunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 			speedFactor = MinSpeedFactor;
 
-			if (!Main.dedServ) {
-				item.AddComponent<ItemPlaySoundOnEveryUse>();
+			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Minigun/MinigunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 
-				item.AddComponent<ItemUseVisualRecoil>(c => {
+			if (!Main.dedServ) {
+				item.EnableComponent<ItemPlaySoundOnEveryUse>();
+
+				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 5f;
 				});
 
-				item.AddComponent<ItemUseScreenShake>(c => {
+				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(5f, 0.25f);
 				});
 			}
 		}
 
 		public override float UseSpeedMultiplier(Item item, Player player)
-			=> base.UseSpeedMultiplier(item, player) * speedFactor;
-
-		public override void ModifyWeaponDamage(Item item, Player player, ref StatModifier damage, ref float flat)
 		{
-			base.ModifyWeaponDamage(item, player, ref damage, ref flat);
+			return base.UseSpeedMultiplier(item, player) * speedFactor;
 		}
 
 		public override void HoldItem(Item item, Player player)

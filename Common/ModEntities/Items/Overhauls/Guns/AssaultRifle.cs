@@ -26,16 +26,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		public override void SetDefaults(Item item)
 		{
+			base.SetDefaults(item);
+
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3, volume: 0.125f, pitchVariance: 0.2f);
 
 			if (!Main.dedServ) {
-				item.AddComponent<ItemPlaySoundOnEveryUse>();
+				item.EnableComponent<ItemPlaySoundOnEveryUse>();
 
-				item.AddComponent<ItemUseVisualRecoil>(c => {
+				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 10f;
 				});
 
-				item.AddComponent<ItemUseScreenShake>(c => {
+				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(4f, 0.2f);
 				});
 			}

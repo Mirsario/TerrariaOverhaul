@@ -10,23 +10,25 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
 	public class Flamethrower : Gun
 	{
-		private ISoundStyle fireSound;
+		private static readonly ISoundStyle FireSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Flamethrower/FlamethrowerFireLoop", 0, volume: 0.15f, pitchVariance: 0.2f);
+		
 		private SlotId soundId;
 
-		public override bool ShouldApplyItemOverhaul(Item item) => item.useAmmo == AmmoID.Gel;
+		public override bool ShouldApplyItemOverhaul(Item item)
+			=> item.useAmmo == AmmoID.Gel;
 
 		public override void SetDefaults(Item item)
 		{
+			base.SetDefaults(item);
+
 			item.UseSound = null;
 
-			fireSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Flamethrower/FlamethrowerFireLoop", 0, volume: 0.15f, pitchVariance: 0.2f);
-
 			if (!Main.dedServ) {
-				item.AddComponent<ItemUseVisualRecoil>(c => {
+				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 4f;
 				});
 
-				item.AddComponent<ItemUseScreenShake>(c => {
+				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(3f, 0.2f);
 				});
 			}
@@ -35,7 +37,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 		public override bool? UseItem(Item item, Player player)
 		{
 			if (!soundId.IsValid || SoundEngine.GetActiveSound(soundId) == null) {
-				soundId = SoundEngine.PlayTrackedSound(fireSound, player.Center);
+				soundId = SoundEngine.PlayTrackedSound(FireSound, player.Center);
 			}
 
 			return base.UseItem(item, player);
