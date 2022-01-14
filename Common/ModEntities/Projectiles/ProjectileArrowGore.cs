@@ -10,7 +10,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
-	public sealed class ProjectileArrowGore : GlobalProjectileBase
+	public sealed class ProjectileArrowGore : GlobalProjectile
 	{
 		public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
 		{

@@ -62,7 +62,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 
 			var currentFocus = focus ?? GetFocusFor(player);
 
-			//NaNCheck
+			// NaNCheck
 			if (Main.screenPosition.HasNaNs()) {
 				ResetCamera();
 			}

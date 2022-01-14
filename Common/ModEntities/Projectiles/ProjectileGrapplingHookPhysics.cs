@@ -4,13 +4,14 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
-	//Could use more comments.
-	public class ProjectileGrapplingHookPhysics : GlobalProjectileBase
+	// Could use more comments.
+	public class ProjectileGrapplingHookPhysics : GlobalProjectile
 	{
 		public const int GrapplingHookAIStyle = 7;
 
@@ -41,9 +42,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				orig(player);
 			};
 
-			//Vanilla's data for this is hardcoded and not accessible. These stats are from the wiki.
+			// Vanilla's data for this is hardcoded and not accessible. These stats are from the wiki.
 			vanillaHookRangesInTiles = new Dictionary<int, float> {
-				//PHM Singlehooks
+				// PHM Singlehooks
 				{ ProjectileID.Hook,             18.750f },
 				{ ProjectileID.GemHookAmethyst,     18.750f },
 				{ ProjectileID.SquirrelHook,        19.000f },
@@ -53,7 +54,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				{ ProjectileID.GemHookRuby,         26.250f },
 				{ ProjectileID.AmberHook,           27.500f },
 				{ ProjectileID.GemHookDiamond,      29.125f },
-				//PHM Multihooks
+				// PHM Multihooks
 				{ ProjectileID.Web,                  15.625f },
 				{ ProjectileID.SkeletronHand,       21.875f },
 				{ ProjectileID.SlimeHook,           18.750f },
@@ -61,12 +62,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				{ ProjectileID.IvyWhip,             28.000f },
 				{ ProjectileID.BatHook,             31.250f },
 				{ ProjectileID.CandyCaneHook,       25.000f },
-				//HM Singlehooks
+				// HM Singlehooks
 				{ ProjectileID.DualHookBlue,     27.500f },
 				{ ProjectileID.DualHookRed,         27.500f },
 				{ ProjectileID.QueenSlimeHook,      30.000f },
 				{ ProjectileID.StaticHook,          37.500f },
-				//HM Multihooks
+				// HM Multihooks
 				{ ProjectileID.ThornHook,            30.000f },
 				{ ProjectileID.IlluminantHook,      30.000f },
 				{ ProjectileID.WormHook,            30.000f },
@@ -120,7 +121,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			proj.rotation = (float)Math.Atan2(mountedOffset.Y, mountedOffset.X) - 1.57f;
 			proj.velocity = Vector2.Zero;
 
-			//Check if the tile that this is latched to has disappeared.
+			// Check if the tile that this is latched to has disappeared.
 
 			if (!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) || !tile.IsActive || tile.IsActuated || (!Main.tileSolid[tile.type] && tile.type != TileID.MinecartTrack)) {
 				SetHooked(proj, false);
@@ -129,12 +130,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				return;
 			}
 
-			//Dismount if currently using a mount
+			// Dismount if currently using a mount
 			if (player.mount.Active) {
 				player.mount.Dismount(player);
 			}
 
-			//Reset movement, but not jumps.
+			// Reset movement, but not jumps.
 			player.RefreshMovementAbilities();
 
 			player.rocketFrame = false;
@@ -143,12 +144,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			player.fallStart = (int)(playerCenter.Y / 16f);
 			player.sandStorm = false;
 
-			//If the grappling button is ever released - never allow pulling in again.
+			// If the grappling button is ever released - never allow pulling in again.
 			if (!player.controlHook) {
 				noPulling = true;
 			}
 
-			//
+			// 
 			var dir = (playerCenter - projCenter).SafeNormalize(default);
 			bool pull = !noPulling && player.controlHook;
 
@@ -215,10 +216,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				player.RemoveAllGrapplingHooks();
 			}
 		}
-		//
+		// 
 		public static bool GetHooked(Projectile proj) => proj.ai[0] == 2f;
 		public static void SetHooked(Projectile proj, bool newValue) => proj.ai[0] = newValue ? 2f : 0f;
-		//
+		// 
 		public static bool ShouldOverrideGrapplingHookPhysics(Player player, out Projectile projectile)
 		{
 			projectile = player != null ? Main.projectile.FirstOrDefault(p => p != null && p.active && p.aiStyle == GrapplingHookAIStyle && p.owner == player.whoAmI && GetHooked(p)) : null;
@@ -243,7 +244,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				return false;
 			}
 
-			//Ignore fake minecart hooks.
+			// Ignore fake minecart hooks.
 			if (proj.type == ProjectileID.TrackHook) {
 				return false;
 			}

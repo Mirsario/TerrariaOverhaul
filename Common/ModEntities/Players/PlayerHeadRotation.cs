@@ -2,11 +2,12 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Systems.Configuration;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public class PlayerHeadRotation : PlayerBase
+	public class PlayerHeadRotation : ModPlayer
 	{
 		public static readonly ConfigEntry<bool> EnablePlayerHeadRotation = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnablePlayerHeadRotation), () => true);
 

@@ -58,10 +58,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			lowManaEffectIntensity = MathUtils.StepTowards(lowManaEffectIntensity, goalLowManaEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
-			//Sound
+			// Sound
 			SoundUtils.UpdateLoopingSound(ref lowManaSoundSlot, LowManaSound, lowManaEffectIntensity, CameraSystem.ScreenCenter);
 
-			//Dust
+			// Dust
 			if (!Player.dead) {
 				lowManaDustCounter += lowManaEffectIntensity / 4f;
 				IEntitySource entitySource = new EntitySource_EntityLowMana(Player);
@@ -94,10 +94,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			manaRegenEffectIntensity = MathUtils.StepTowards(manaRegenEffectIntensity, goalManaRegenEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
-			//Sound
+			// Sound
 			SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, ManaRegenSound, manaRegenEffectIntensity, CameraSystem.ScreenCenter);
 
-			//Dust
+			// Dust
 			if (!Player.dead) {
 				manaRegenDustCounter += manaRegenEffectIntensity / 4f;
 				IEntitySource entitySource = new EntitySource_EntityLowMana(Player);

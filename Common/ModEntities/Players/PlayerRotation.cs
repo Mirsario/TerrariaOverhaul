@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public sealed class PlayerRotation : PlayerBase
+	public sealed class PlayerRotation : ModPlayer
 	{
 		public static readonly ConfigEntry<bool> EnablePlayerTilting = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnablePlayerTilting), () => true);
 

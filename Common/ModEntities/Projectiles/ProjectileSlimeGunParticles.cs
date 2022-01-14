@@ -8,7 +8,7 @@ using TerrariaOverhaul.Core.Systems.SimpleEntities;
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
 	[Autoload(Side = ModSide.Client)]
-	public sealed class ProjectileSlimeGunParticles : GlobalProjectileBase
+	public sealed class ProjectileSlimeGunParticles : GlobalProjectile
 	{
 		public override void AI(Projectile projectile)
 		{

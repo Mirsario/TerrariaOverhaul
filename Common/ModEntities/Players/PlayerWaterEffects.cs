@@ -28,7 +28,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			underwaterEffectIntensity = MathUtils.StepTowards(underwaterEffectIntensity, goalUnderwaterEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
-			//Audio filtering
+			// Audio filtering
 			if (underwaterEffectIntensity > 0) {
 				float addedLowPassFiltering = underwaterEffectIntensity;
 
@@ -41,7 +41,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				);
 			}
 
-			//Sound
+			// Sound
 			SoundUtils.UpdateLoopingSound(ref underwaterLoopSoundSlot, UnderwaterLoopSound, underwaterEffectIntensity, CameraSystem.ScreenCenter);
 		}
 	}

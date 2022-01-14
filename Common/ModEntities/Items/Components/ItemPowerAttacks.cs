@@ -49,14 +49,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 
 			itemCharging.StartCharge(
 				chargeLength,
-				//Update
+				// Update
 				(i, p, progress) => {
 					p.itemTime = 2;
 					p.itemAnimation = p.itemAnimationMax;
 
 					OnChargeUpdate?.Invoke(i, p, chargeLength, progress);
 				},
-				//End
+				// End
 				(i, p, progress) => {
 					i.GetGlobalItem<ItemPowerAttacks>().PowerAttack = true;
 
@@ -64,7 +64,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 
 					OnChargeEnd?.Invoke(i, p, chargeLength, progress);
 				},
-				//Allow turning
+				// Allow turning
 				true
 			);
 

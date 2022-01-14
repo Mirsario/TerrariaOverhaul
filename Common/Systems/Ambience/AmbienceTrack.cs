@@ -61,7 +61,7 @@ namespace TerrariaOverhaul.Common.Systems.Ambience
 				var sound = Sound;
 				float styleVolume = sound.Volume;
 
-				//The need to do this is horrible.
+				// The need to do this is horrible.
 				if (sound is ModSoundStyle modSound1) {
 					modSound1.Volume = Volume;
 				}

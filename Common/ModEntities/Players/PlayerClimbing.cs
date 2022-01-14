@@ -66,19 +66,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				return;
 			}
 
-			//Can only be started on local client
+			// Can only be started on local client
 			if (!Player.IsLocal()) {
 				return;
 			}
 
-			//Check for keypress.
+			// Check for keypress.
 			if (!Player.controlUp && !forceClimb) {
 				return;
 			}
 
 			forceClimb = false;
 
-			//Disable climbing if flying upwards or flying with wings
+			// Disable climbing if flying upwards or flying with wings
 			if (Player.velocity.Y < -6f /* || (Player.wingsLogic > 0 && Player.wingTime > 0f)*/) {
 				return;
 			}
@@ -94,12 +94,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			for (int i = 1; i >= 0; i--) {
 				var pos = new Point16(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + i);
 
-				//The base tile has to be solid
+				// The base tile has to be solid
 				if (!Main.tile.TryGet(pos, out var tempTile) || !tempTile.IsActive || tempTile.IsActuated || (!Main.tileSolid[tempTile.type] && !Main.tileSolidTop[tempTile.type]) || (i != 0 && tempTile.Slope != SlopeType.Solid)) {
 					continue;
 				}
 
-				//Ice can't climbed on, unless you have climbing gear
+				// Ice can't climbed on, unless you have climbing gear
 				if (OverhaulTileTags.NoClimbing.Has(tempTile.type) && !HasClimbingGear) {
 					continue;
 				}
@@ -126,15 +126,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			var playerAnimations = Player.GetModPlayer<PlayerAnimations>();
 			var playerDirectioning = Player.GetModPlayer<PlayerDirectioning>();
 
-			Player.gfxOffY = 0f; //Disable autostep vertical sprite offsets.
+			Player.gfxOffY = 0f; // Disable autostep vertical sprite offsets.
 
-			//If we don't reset fall time, the player may explode from fall damage once they stop climbing.
+			// If we don't reset fall time, the player may explode from fall damage once they stop climbing.
 			Player.fallStart = (int)(Player.position.Y / 16f);
 
-			//Force direction.
+			// Force direction.
 			playerDirectioning.forcedDirection = climbStartPos.X <= climbEndPos.X ? 1 : -1;
 
-			//Progress climbing.
+			// Progress climbing.
 			ClimbProgress = MathUtils.StepTowards(ClimbProgress, 1f, (1f / ClimbTime) * TimeSystem.LogicDeltaTime);
 
 			if (ClimbProgress >= 1f) {
@@ -149,18 +149,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			Player.position.Y = ClimbProgress < 0.75f ? MathHelper.Lerp(climbStartPos.Y, climbEndPos.Y, ClimbProgress / 0.75f) : climbEndPos.Y;
 			playerMovement.forcedPosition = Player.position;
 
-			//Fix suffocating when climbing sand
+			// Fix suffocating when climbing sand
 			Player.suffocating = false;
 			Player.suffocateDelay = 0;
 
-			//Make sure we're not moving
+			// Make sure we're not moving
 			Player.jump = 0;
 			Player.velocity = new Vector2(0f, 0.0001f);
 			Player.runAcceleration = 0f;
 			Player.runSlowdown = 0f;
 			Player.maxRunSpeed = 0f;
 
-			//Prevent other actions
+			// Prevent other actions
 			Player.GetModPlayer<PlayerDodgerolls>().dodgeCooldown.Set(1);
 		}
 	}

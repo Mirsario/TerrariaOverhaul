@@ -5,7 +5,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 {
 	public static class RectangleExtensions
 	{
-		//Contains
+		// Contains
 		public static bool Contains(this Rectangle rect, Vector2 point)
 		{
 			return rect.X >= point.X
@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 				&& rect.Bottom + threshold.Y <= point.Y;
 		}
 
-		//Random
+		// Random
 		public static Vector2 GetRandomPoint(this Rectangle rect)
 		{
 			return new Vector2(
@@ -32,7 +32,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 			);
 		}
 
-		//Etc
+		// Etc
 		public static Vector2 GetCorner(this Rectangle rect, Vector2 point)
 		{
 			var topLeft = rect.TopLeft();

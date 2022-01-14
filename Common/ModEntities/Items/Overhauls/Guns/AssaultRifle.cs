@@ -11,12 +11,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 	{
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
-			//Rifles always use bullets.
+			// Rifles always use bullets.
 			if (item.useAmmo != AmmoID.Bullet) {
 				return false;
 			}
 
-			//Require ClockworkAssaultRifle's sound. TODO: This should also somehow accept other sounds, and also avoid conflicting with handgun/minigun overhauls. Width/height ratios can help with the former.
+			// Require ClockworkAssaultRifle's sound. TODO: This should also somehow accept other sounds, and also avoid conflicting with handgun/minigun overhauls. Width/height ratios can help with the former.
 			if (item.UseSound != SoundID.Item31) {
 				return false;
 			}

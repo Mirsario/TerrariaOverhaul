@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	//This class implements both wall jumps and wall rolls.
+	// This class implements both wall jumps and wall rolls.
 	public class PlayerWallJumps : ModPlayer
 	{
 		public static readonly ConfigEntry<bool> EnableWallJumping = new(ConfigSide.Both, "PlayerMovement", nameof(EnableWallJumping), () => true);
@@ -41,8 +41,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				return;
 			}
 
-			//Ninja jumps are executed by looking away from a wall while touching it and pressing movement towards it.
-			//They do not trigger dodgerolls.
+			// Ninja jumps are executed by looking away from a wall while touching it and pressing movement towards it.
+			// They do not trigger dodgerolls.
 			bool ninjaJump = Player.controlUp && Player.EnumerateAccessories().Any(tuple => OverhaulItemTags.NinjaGear.Has(tuple.item.type));
 
 			if (!(ninjaJump ? EnableWallJumping : EnableWallFlips)) {
@@ -54,7 +54,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			sbyte prevDirX = (sbyte)(Player.oldVelocity.X > 0f ? 1 : -1);
 			float fastestSpeed = prevDirX < 0 ? ordereredVelocityRecord.First().X : ordereredVelocityRecord.Last().X;
 
-			//Return if the player didn't JUST hit a wall, or if they're standing on the ground.
+			// Return if the player didn't JUST hit a wall, or if they're standing on the ground.
 			if (Player.velocity.X != 0f || Player.oldVelocity.X == 0f || Player.OnGround()) {
 				return;
 			}
@@ -81,7 +81,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			Player.velocity.Y = Math.Min(Player.velocity.Y, ninjaJump ? -7.45f : -8f);
 
 			if (!Main.dedServ) {
-				//Play voicelines.
+				// Play voicelines.
 
 				//TODO:
 				/*var slot = audioSource["voice"];
@@ -98,7 +98,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					Dust.NewDust(entitySource, prevDirX > 0 ? Player.Right : Player.Left, 4, 12, DustID.Smoke, -prevDirX);
 				}
 
-				//Do a footstep sound.
+				// Do a footstep sound.
 
 				var footPoint = Player.TopLeft.ToTileCoordinates16() + new Point16(prevDirX < 0 ? -1 : 2, 1);
 

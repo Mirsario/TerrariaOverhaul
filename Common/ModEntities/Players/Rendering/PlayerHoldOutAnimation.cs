@@ -3,13 +3,14 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 {
-	public sealed class PlayerHoldOutAnimation : PlayerBase
+	public sealed class PlayerHoldOutAnimation : ModPlayer
 	{
 		public static readonly ConfigEntry<bool> AlwaysShowAimableWeapons = new(ConfigSide.Both, "PlayerVisuals", nameof(AlwaysShowAimableWeapons), () => true);
 
@@ -38,7 +39,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 
 					player.itemRotation = ConvertRotation(modPlayer.directItemRotation, player) - MathHelper.ToRadians(modPlayer.VisualRecoil * player.direction * (int)player.gravDir);
 
-					//Fix rotation range.
+					// Fix rotation range.
 					if (player.itemRotation > MathHelper.Pi) {
 						player.itemRotation -= MathHelper.TwoPi;
 					}
@@ -87,13 +88,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 			directItemRotation = MathUtils.LerpRadians(directItemRotation, directTargetItemRotation, 16f * TimeSystem.LogicDeltaTime);
 			VisualRecoil = MathHelper.Lerp(VisualRecoil, 0f, 10f * TimeSystem.LogicDeltaTime);
 
-			//This could go somewhere else?
+			// This could go somewhere else?
 			if (Player.HeldItem?.IsAir == false && ShouldForceUseAnim(Player.HeldItem)) {
 				Player.HeldItem.useTurn = true;
 			}
 		}
 
-		private static bool ShouldForceUseAnim(Item item) => item.useStyle == ItemUseStyleID.Shoot && !item.noUseGraphic;
+		private static bool ShouldForceUseAnim(Item item)
+		{
+			return item.useStyle == ItemUseStyleID.Shoot && !item.noUseGraphic;
+		}
 
 		private static float ConvertRotation(float rotation, Player player)
 		{

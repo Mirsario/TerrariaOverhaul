@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Debugging;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {

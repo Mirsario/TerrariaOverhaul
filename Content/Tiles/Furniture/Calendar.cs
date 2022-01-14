@@ -8,7 +8,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Content.Tiles.Furniture
 {
-	public class Calendar : TileBase
+	public class Calendar : ModTile
 	{
 		public override void SetStaticDefaults()
 		{
@@ -38,10 +38,10 @@ namespace TerrariaOverhaul.Content.Tiles.Furniture
 		{
 			int days = SeasonSystem.SeasonLength - SeasonSystem.currentSeasonDay;
 
-			//It's currently X...
+			// It's currently X...
 			Main.NewText(LocalizationSystem.GetTextFormatted("SeasonSystem.CalendarCurrentSeason", SeasonSystem.currentSeason.DisplayName), Color.Yellow);
 
-			//X will arrive in Y...
+			// X will arrive in Y...
 			Main.NewText(LocalizationSystem.GetTextFormatted($"SeasonSystem.{(days > 1 ? "CalendarNextSeasonDays" : "CalendarNextSeasonTomorrow")}", SeasonSystem.NextSeason.DisplayName, days), Color.Yellow);
 
 			var player = Main.LocalPlayer;

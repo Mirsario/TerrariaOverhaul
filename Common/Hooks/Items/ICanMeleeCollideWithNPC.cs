@@ -15,9 +15,9 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 		public delegate bool? Delegate(Item item, Player player, NPC target);
 
 		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			//Method reference
+			// Method reference
 			typeof(Hook).GetMethod(nameof(CanMeleeCollideWithNPC)),
-			//Invocation
+			// Invocation
 			e => (Item item, Player player, NPC target) => {
 				bool? globalResult = null;
 

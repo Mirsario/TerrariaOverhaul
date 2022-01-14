@@ -69,7 +69,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 				(int)(dest.Bottom / 16f / Chunk.MaxChunkSize)
 			);
 
-			//The provided rectangle will be split between chunks, possibly into multiple draws.
+			// The provided rectangle will be split between chunks, possibly into multiple draws.
 			for (int chunkY = chunkStart.Y; chunkY <= chunkEnd.Y; chunkY++) {
 				for (int chunkX = chunkStart.X; chunkX <= chunkEnd.X; chunkX++) {
 					var chunkPoint = new Vector2Int(chunkX, chunkY);
@@ -84,7 +84,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 					var localDestRect = (RectFloat)dest;
 
-					//Clip the destination rectangle to the chunk's bounds.
+					// Clip the destination rectangle to the chunk's bounds.
 					localDestRect = RectFloat.FromPoints(
 						Math.Max(localDestRect.x, chunk.WorldRectangle.x),
 						Math.Max(localDestRect.y, chunk.WorldRectangle.y),
@@ -92,16 +92,16 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 						Math.Min(localDestRect.Bottom, chunk.WorldRectangle.Bottom)
 					);
 
-					//Move the destination rectangle to local space.
+					// Move the destination rectangle to local space.
 					localDestRect.x -= chunk.WorldRectangle.x;
 					localDestRect.y -= chunk.WorldRectangle.y;
-					//Divide the destination rectangle, since decal RTs have halved resolution.
+					// Divide the destination rectangle, since decal RTs have halved resolution.
 					localDestRect.x /= 2;
 					localDestRect.y /= 2;
 					localDestRect.width /= 2;
 					localDestRect.height /= 2;
 
-					//Clip the source rectangle.
+					// Clip the source rectangle.
 					var destinationRectInChunkSpace = RectFloat.FromPoints(((RectFloat)dest).Points / Chunk.MaxChunkSizeInPixels);
 					var clippedRectInChunkSpace = RectFloat.FromPoints(
 						Math.Max(destinationRectInChunkSpace.Left, chunk.Rectangle.Left),
@@ -117,7 +117,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 						(clippedRectInChunkSpace.height / destinationRectInChunkSpace.height) * texture.Height
 					);
 
-					//Enqueue a draw for the chunk component to do on its own.
+					// Enqueue a draw for the chunk component to do on its own.
 					chunk.Components.Get<ChunkDecals>().AddDecals(texture, (Rectangle)localDestRect, srcRect, color, blendState);
 				}
 			}

@@ -1,9 +1,10 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
+using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
-	public sealed class ProjectileSourceItemInfo : GlobalProjectileBase
+	public sealed class ProjectileSourceItemInfo : GlobalProjectile
 	{
 		public bool Available { get; private set; }
 		public int UseTime { get; private set; }

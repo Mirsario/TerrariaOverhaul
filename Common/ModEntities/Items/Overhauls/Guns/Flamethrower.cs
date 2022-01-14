@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 	public class Flamethrower : Gun
 	{
 		private static readonly ISoundStyle FireSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Flamethrower/FlamethrowerFireLoop", 0, volume: 0.15f, pitchVariance: 0.2f);
-		
+
 		private SlotId soundId;
 
 		public override bool ShouldApplyItemOverhaul(Item item)

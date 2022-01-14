@@ -2,7 +2,6 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent;
-using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.CombatTexts;
 using TerrariaOverhaul.Utilities.DataStructures;
 

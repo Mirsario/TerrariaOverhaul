@@ -49,9 +49,9 @@ namespace TerrariaOverhaul.Common.Systems.Time
 
 		public override void Load()
 		{
-			AprilFools = Date.Month == 4 && Date.Day == 1;      //1st April
-			AustraliaDay = Date.Month == 1 && Date.Day == 26;   //26th January
-			ProgrammersDay = Date.DayOfYear == 256;           //13th or 12th September
+			AprilFools = Date.Month == 4 && Date.Day == 1;      // 1st April
+			AustraliaDay = Date.Month == 1 && Date.Day == 26;   // 26th January
+			ProgrammersDay = Date.DayOfYear == 256;           // 13th or 12th September
 			Halloween = Date.Month == 10 || Date.Month == 11 && Date.Day < 10;
 			Christmas = Date.Month == 12 && Date.Day >= 20 && Date.Day <= 26;
 			NewYear = (Date.Month == 12 && Date.Day >= 27) || (Date.Month == 1 && Date.Day <= 5);

@@ -41,6 +41,7 @@ namespace TerrariaOverhaul
 			}*/
 		}
 
-		public override void HandlePacket(BinaryReader reader, int sender) => MultiplayerSystem.HandlePacket(reader, sender);
+		public override void HandlePacket(BinaryReader reader, int sender)
+			=> MultiplayerSystem.HandlePacket(reader, sender);
 	}
 }

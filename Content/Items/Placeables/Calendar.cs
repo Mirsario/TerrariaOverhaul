@@ -8,14 +8,14 @@ namespace TerrariaOverhaul.Content.Items.Placeables
 	{
 		public override void SetDefaults()
 		{
-			//Placeable properties
+			// Placeable properties
 			Item.createTile = ModContent.TileType<Tiles.Furniture.Calendar>();
-			//Use properties.
+			// Use properties.
 			Item.useTime = Item.useAnimation = 25;
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.autoReuse = true;
 			Item.consumable = true;
-			//Universal properties.
+			// Universal properties.
 			Item.width = 32;
 			Item.height = 80;
 			Item.value = Item.buyPrice(0, 1);

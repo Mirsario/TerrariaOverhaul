@@ -1,16 +1,17 @@
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Content.Items.Accessories
 {
-	public class BunnyPaw : ItemBase
+	public class BunnyPaw : ModItem
 	{
 		public override void SetDefaults()
 		{
-			//Accessory properties.
+			// Accessory properties.
 			Item.accessory = true;
-			//Universal properties.
+			// Universal properties.
 			Item.width = 32;
 			Item.height = 32;
 			Item.rare = ItemRarityID.Green;
@@ -22,6 +23,7 @@ namespace TerrariaOverhaul.Content.Items.Accessories
 			r.AddIngredient(ItemID.Bunny, 5);
 			r.AddTile(TileID.Sawmill);
 		});
+
 		//TODO: Reimplement.
 		/*public override void OnCraft(Recipe recipe)
 		{

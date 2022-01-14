@@ -110,13 +110,24 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 				}
 			}
 		}
-		//TryGet
-		public static bool TryGetChunkAtWorldPosition(Vector2 worldPosition, out Chunk chunk) => TryGetChunkAtTilePosition(worldPosition.ToTileCoordinates(), out chunk);
-		public static bool TryGetChunkAtTilePosition(Vector2Int tilePosition, out Chunk chunk) => TryGetChunk(TileToChunkCoordinates(tilePosition), out chunk);
-		public static bool TryGetChunk(Vector2Int chunkPosition, out Chunk chunk) => chunks.TryGetValue(Chunk.PackPosition(chunkPosition.X, chunkPosition.Y), out chunk);
-		//GetOrCreate
-		public static Chunk GetOrCreateChunkAtWorldPosition(Vector2 worldPosition) => GetOrCreateChunkAtTilePosition(TileToChunkCoordinates(worldPosition.ToTileCoordinates()));
-		public static Chunk GetOrCreateChunkAtTilePosition(Vector2Int tilePosition) => GetOrCreateChunk(TileToChunkCoordinates(tilePosition));
+
+		// TryGet
+		public static bool TryGetChunkAtWorldPosition(Vector2 worldPosition, out Chunk chunk)
+			=> TryGetChunkAtTilePosition(worldPosition.ToTileCoordinates(), out chunk);
+
+		public static bool TryGetChunkAtTilePosition(Vector2Int tilePosition, out Chunk chunk)
+			=> TryGetChunk(TileToChunkCoordinates(tilePosition), out chunk);
+
+		public static bool TryGetChunk(Vector2Int chunkPosition, out Chunk chunk)
+			=> chunks.TryGetValue(Chunk.PackPosition(chunkPosition.X, chunkPosition.Y), out chunk);
+
+		// GetOrCreate
+		public static Chunk GetOrCreateChunkAtWorldPosition(Vector2 worldPosition)
+			=> GetOrCreateChunkAtTilePosition(TileToChunkCoordinates(worldPosition.ToTileCoordinates()));
+		
+		public static Chunk GetOrCreateChunkAtTilePosition(Vector2Int tilePosition)
+			=> GetOrCreateChunk(TileToChunkCoordinates(tilePosition));
+		
 		public static Chunk GetOrCreateChunk(Vector2Int chunkPosition)
 		{
 			long encodedPosition = Chunk.PackPosition(chunkPosition.X, chunkPosition.Y);
@@ -128,7 +139,10 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 			return chunk;
 		}
 
-		public static int TileToChunkCoordinates(int coordinate) => coordinate / Chunk.MaxChunkSize;
-		public static Vector2Int TileToChunkCoordinates(Vector2Int tilePosition) => new(tilePosition.X / Chunk.MaxChunkSize, tilePosition.Y / Chunk.MaxChunkSize);
+		public static int TileToChunkCoordinates(int coordinate)
+			=> coordinate / Chunk.MaxChunkSize;
+
+		public static Vector2Int TileToChunkCoordinates(Vector2Int tilePosition)
+			=> new(tilePosition.X / Chunk.MaxChunkSize, tilePosition.Y / Chunk.MaxChunkSize);
 	}
 }

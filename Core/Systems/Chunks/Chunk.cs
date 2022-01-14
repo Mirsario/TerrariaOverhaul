@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 
 		internal Chunk(int x, int y)
 		{
-			//Positions
+			// Positions
 
 			Position = new Vector2Int(x, y);
 			EncodedPosition = PackPosition(x, y);
@@ -50,7 +50,7 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 				TileRectangle.Height * TileUtils.TileSizeInPixels
 			);
 
-			//Components
+			// Components
 
 			Components = new(this);
 		}
@@ -60,6 +60,9 @@ namespace TerrariaOverhaul.Core.Systems.Chunks
 			Components.Dispose();
 		}
 
-		public static long PackPosition(int x, int y) => (long)y << 32 | (uint)x;
+		public static long PackPosition(int x, int y)
+		{
+			return ((long)y << 32) | (uint)x;
+		}
 	}
 }

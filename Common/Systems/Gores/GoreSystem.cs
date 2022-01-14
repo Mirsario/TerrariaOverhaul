@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			On.Terraria.Gore.Update += GoreUpdate;
 
 			On.Terraria.Gore.NewGore_IEntitySource_Vector2_Vector2_int_float += (orig, entitySource, position, velocity, type, scale) => {
-				//Disable gore spawn, if requested.
+				// Disable gore spawn, if requested.
 				if (disableGoreSubscriptions > 0) {
 					return Main.maxGore;
 				}
@@ -26,10 +26,10 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				int result = orig(entitySource, position, velocity, type, scale);
 
 				if (result < Main.maxGore) {
-					//Convert gores to a new class.
+					// Convert gores to a new class.
 					var goreExt = ConvertGore(Main.gore[result], () => result);
 
-					//Record gores, if requested.
+					// Record gores, if requested.
 					for (int i = 0; i < goreRecordingLists.Count; i++) {
 						goreRecordingLists[i].Add((goreExt, result));
 					}
@@ -41,7 +41,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 		public override void Unload()
 		{
-			//Reset gores so that they don't remain of GoreExt type.
+			// Reset gores so that they don't remain of GoreExt type.
 			for (int i = 0; i < Main.gore.Length; i++) {
 				Main.gore[i] = new Gore();
 			}
@@ -96,7 +96,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				return;
 			}
 
-			if (!(gore is OverhaulGore goreExt)) {
+			if (gore is not OverhaulGore goreExt) {
 				goreExt = ConvertGore(gore, () => Array.IndexOf(Main.gore, gore)); //TODO: Avoid this IndexOf call?
 			}
 

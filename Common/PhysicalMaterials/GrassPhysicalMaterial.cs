@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Common.PhysicalMaterials
 	{
 		public TagData TileTag { get; } = OverhaulTileTags.Grass;
 
-		//Footsteps
+		// Footsteps
 		public ISoundStyle FootstepSound { get; } = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Grass/Step", 8, volume: 0.5f);
 
 		public ISoundStyle JumpFootstepSound => ModContent.GetInstance<DirtPhysicalMaterial>().JumpFootstepSound;

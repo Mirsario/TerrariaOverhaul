@@ -24,12 +24,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
-			//Broadswords always swing, deal melee damage, don't have channeling, and are visible
+			// Broadswords always swing, deal melee damage, don't have channeling, and are visible
 			if (item.useStyle != ItemUseStyleID.Swing || item.noMelee || item.channel || item.noUseGraphic) {
 				return false;
 			}
 
-			//Avoid tools and blocks
+			// Avoid tools and blocks
 			if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
 				return false;
 			}
@@ -55,7 +55,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
 
 				c.OnChargeStart += (item, player, chargeLength) => {
-					//These 2 lines only affect animations.
+					// These 2 lines only affect animations.
 					MeleeAttackAiming.FlippedAttack = false;
 
 					if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
@@ -85,7 +85,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				MeleeAttackAiming.FlippedAttack = MeleeAttackAiming.AttackId % 2 != 0;
 			}
 
-			//Swing velocity
+			// Swing velocity
 
 			// TML Problem:
 			// Couldn't just use MeleeAttackAiming.AttackDirection here due to TML lacking proper tools for controlling execution orders.
@@ -108,16 +108,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				}
 			} else {
 				if (player.OnGround()) {
-					//Disable vertical dashes for non-charged attacks whenever the player is on ground.
-					//Also reduces horizontal movement.
+					// Disable vertical dashes for non-charged attacks whenever the player is on ground.
+					// Also reduces horizontal movement.
 					dashSpeed.X *= 0.625f;
 					dashSpeed.Y = 0f;
 				} else if (attackDirection.Y < 0f && player.velocity.Y > 0f) {
-					//Disable upwards dashes whenever the player is falling down.
+					// Disable upwards dashes whenever the player is falling down.
 					dashSpeed.Y = 0f;
 				}
 
-				//Disable horizontal dashes whenever the player is holding a directional key opposite to the direction of the dash.
+				// Disable horizontal dashes whenever the player is holding a directional key opposite to the direction of the dash.
 				if (player.KeyDirection() == -Math.Sign(attackDirection.X)) {
 					dashSpeed.X = 0f;
 				}
@@ -125,7 +125,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			player.AddLimitedVelocity(dashSpeed * attackDirection, new Vector2(dashSpeed.X, 12f));
 
-			//Slight screenshake for the swing.
+			// Slight screenshake for the swing.
 			if (!Main.dedServ) {
 				ScreenShakeSystem.New(3f, item.useAnimation / 120f);
 			}

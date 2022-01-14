@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
 	//TODO: Use conditional instancing when it's implemented for projectiles.
 	[Autoload(Side = ModSide.Client)]
-	public class ProjectileIncendiaryDecals : GlobalProjectileBase
+	public class ProjectileIncendiaryDecals : GlobalProjectile
 	{
 		public override bool InstancePerEntity => true;
 

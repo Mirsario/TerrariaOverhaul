@@ -19,18 +19,18 @@ namespace TerrariaOverhaul.Common.Systems.Ambience.Sounds
 
 		public override float GetTargetVolume(Player localPlayer)
 		{
-			//Only in purity
+			// Only in purity
 			if (!localPlayer.ZonePurity) {
 				return 0f;
 			}
 
 			float result = 1f;
 
-			//During day
+			// During day
 			result *= TimeSystem.DayGradient.GetValue(TimeSystem.RealTime);
-			//On the surface
+			// On the surface
 			result *= WorldLocationUtils.SurfaceGradient.GetValue(localPlayer.Center.ToTileCoordinates().Y);
-			//When it's not raining too much
+			// When it's not raining too much
 			result *= MathHelper.Clamp(1f - Main.maxRaining * 2f, 0f, 1f);
 
 			return result;

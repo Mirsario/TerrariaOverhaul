@@ -22,7 +22,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 			sb.Draw(texture ?? TextureAssets.BlackTile.Value, rect, null, color ?? Color.White, angle, Vector2.Zero, SpriteEffects.None, 0f);
 		}
 
-		//Text
+		// Text
 		public static void DrawStringOutlined(this SpriteBatch sb, DynamicSpriteFont font, string text, Vector2 position, Color color, Vector2 origin = default, float scale = 1f)
 		{
 			for (int i = 0; i < 5; i++) {

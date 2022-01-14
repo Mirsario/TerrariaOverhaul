@@ -9,7 +9,7 @@ using TerrariaOverhaul.Content.Items.Materials;
 
 namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 {
-	public abstract class AshMonster : NPCBase
+	public abstract class AshMonster : ModNPC
 	{
 		protected abstract int BaseNPC { get; }
 
@@ -17,10 +17,10 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 		{
 			NPC.CloneDefaults(BaseNPC);
 
-			//Sound.
+			// Sound.
 			NPC.HitSound = SoundID.NPCHit18;
 			NPC.DeathSound = SoundID.NPCDeath21;
-			//Buffs.
+			// Buffs.
 			NPC.buffImmune[BuffID.Bleeding] = true;
 			NPC.buffImmune[BuffID.Poisoned] = true;
 			NPC.buffImmune[BuffID.OnFire] = true;
@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 			NPC.buffImmune[BuffID.BrokenArmor] = true;
 			NPC.buffImmune[BuffID.Ichor] = true;
 			NPC.buffImmune[BuffID.CursedInferno] = true;
-			//Animation.
+			// Animation.
 			AnimationType = BaseNPC;
 			Main.npcFrameCount[Type] = Main.npcFrameCount[BaseNPC];
 
@@ -39,7 +39,7 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 		public override void AI()
 		{
 			if (!Main.dedServ) {
-				//Slight glow in the dark, due to the eye.
+				// Slight glow in the dark, due to the eye.
 				Lighting.AddLight(NPC.Top, new Vector3(1f, 0.75f, 0f) * 0.15f);
 			}
 		}

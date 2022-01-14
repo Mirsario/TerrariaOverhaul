@@ -10,9 +10,9 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 		public delegate void Delegate(Item item, Player player, ref float range);
 
 		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			//Method reference
+			// Method reference
 			typeof(Hook).GetMethod(nameof(ModifyMeleeRange)),
-			//Invocation
+			// Invocation
 			e => (Item item, Player player, ref float range) => {
 				(item.ModItem as Hook)?.ModifyMeleeRange(item, player, ref range);
 

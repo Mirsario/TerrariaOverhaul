@@ -28,7 +28,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 
 			player.GetModPlayer<PlayerClimbing>().StartClimbing(posFrom, posTo);
 
-			//Resend
+			// Resend
 			if (Main.netMode == NetmodeID.Server) {
 				MultiplayerSystem.SendPacket(new PlayerClimbStartMessage(player, posFrom, posTo), ignoreClient: sender);
 			}

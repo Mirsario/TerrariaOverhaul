@@ -31,7 +31,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 
 			player.velocity = reader.ReadVector2();
 
-			//Resend
+			// Resend
 			if (Main.netMode == NetmodeID.Server) {
 				MultiplayerSystem.SendPacket(new PlayerDodgerollPacket(player), ignoreClient: sender);
 			}

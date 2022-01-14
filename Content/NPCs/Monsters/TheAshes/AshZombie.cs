@@ -11,12 +11,12 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 		{
 			base.SetDefaults();
 
-			//Combat.
+			// Combat.
 			NPC.damage = 40;
 			NPC.knockBackResist = 0.35f;
 			NPC.defense = 20;
 			NPC.lifeMax = NPC.life = 100;
-			//Universal.
+			// Universal.
 			NPC.color = Color.White;
 			NPC.alpha = 0;
 			NPC.value = 200f;

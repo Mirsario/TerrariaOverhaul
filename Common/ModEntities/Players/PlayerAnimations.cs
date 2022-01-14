@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public sealed class PlayerAnimations : PlayerBase
+	public sealed class PlayerAnimations : ModPlayer
 	{
 		public PlayerFrames? forcedHeadFrame;
 		public PlayerFrames? forcedBodyFrame;

@@ -9,9 +9,9 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 		public delegate void Delegate(Item item, Player player);
 
 		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			//Method reference
+			// Method reference
 			typeof(IHoldItemWhileDead).GetMethod(nameof(HoldItemWhileDead)),
-			//Invocation
+			// Invocation
 			e => (Item item, Player player) => {
 				foreach (IHoldItemWhileDead g in e.Enumerate(item)) {
 					g.HoldItemWhileDead(item, player);

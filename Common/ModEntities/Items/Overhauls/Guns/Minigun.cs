@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
-			//Miniguns always use bullets.
+			// Miniguns always use bullets.
 			if (item.useAmmo != AmmoID.Bullet) {
 				return false;
 			}
@@ -32,7 +32,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 				return false;
 			}
 
-			//Exclude slow firing guns.
+			// Exclude slow firing guns.
 			if (item.useTime >= 10) {
 				return false;
 			}
@@ -99,12 +99,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 			var modifiedDirection = new Vector2(direction.X, direction.Y * Math.Abs(direction.Y));
 			var velocity = modifiedDirection * new Vector2(item.useTime / 15f, item.useTime / 2.875f);
 
-			//Disable horizontal velocity recoil whenever the player is holding a directional key opposite to the direction of the dash.
+			// Disable horizontal velocity recoil whenever the player is holding a directional key opposite to the direction of the dash.
 			if (player.KeyDirection() == -Math.Sign(velocity.X)) {
 				velocity.X = 0f;
 			}
 
-			//Disable vertical velocity whenever aiming upwards or standing on the ground
+			// Disable vertical velocity whenever aiming upwards or standing on the ground
 			if (velocity.Y > 0f || player.velocity.Y == 0f) {
 				velocity.Y = 0f;
 			}

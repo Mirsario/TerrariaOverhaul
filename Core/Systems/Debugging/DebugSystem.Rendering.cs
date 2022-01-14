@@ -94,11 +94,6 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 			}, InterfaceScaleType.Game));
 		}
 
-		public override void PostDrawInterface(SpriteBatch sb)
-		{
-
-		}
-
 		public static void DrawLine(Vector2 start, Vector2 end, Color color, int width = 2)
 		{
 			ModContent.GetInstance<DebugSystem>().LinesToDraw.Add(new Line(start, end, color, width));

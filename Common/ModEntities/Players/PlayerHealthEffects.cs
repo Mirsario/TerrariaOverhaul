@@ -7,7 +7,6 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.Systems.AudioEffects;
 using TerrariaOverhaul.Common.Systems.Camera;
-using TerrariaOverhaul.Common.Systems.Gores;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
@@ -53,7 +52,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			lowHealthEffectIntensity = MathUtils.StepTowards(lowHealthEffectIntensity, goalLowHealthEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
-			//Audio filtering
+			// Audio filtering
 			if (lowHealthEffectIntensity > 0) {
 				float effectIntensityCopy = lowHealthEffectIntensity;
 
@@ -70,12 +69,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				);
 			}
 
-			//Sound
+			// Sound
 			float soundVolume = Player.dead ? 0f : lowHealthEffectIntensity;
 
 			SoundUtils.UpdateLoopingSound(ref lowHealthSoundSlot, LowHealthSound, soundVolume, CameraSystem.ScreenCenter);
 
-			//Bleeding
+			// Bleeding
 			if (!Player.dead) {
 				lowHealthBleedingCounter += lowHealthEffectIntensity / 4f;
 				IEntitySource entitySource = new EntitySource_EntityBleeding(Player);

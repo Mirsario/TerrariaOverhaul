@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public override bool AppliesToEntity(Item item, bool lateInstantiation)
 			=> lateInstantiation && ChooseItemOverhaul(item) == this;
-		
+
 		public override void Load()
 		{
 			int id = ItemOverhauls.Count;
@@ -54,7 +54,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				return ItemOverhauls[overhaulId];
 			}
 
-			//May need some sort of priority system in the future. And cache?
+			// May need some sort of priority system in the future. And cache?
 			for (int i = 0; i < ItemOverhauls.Count; i++) {
 				var itemOverhaul = ItemOverhauls[i];
 

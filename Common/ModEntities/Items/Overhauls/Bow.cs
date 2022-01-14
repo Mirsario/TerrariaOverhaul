@@ -15,17 +15,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
-			//Ignore weapons that don't shoot, and ones that deal hitbox damage 
+			// Ignore weapons that don't shoot, and ones that deal hitbox damage 
 			if (item.shoot <= ProjectileID.None || !item.noMelee) {
 				return false;
 			}
 
-			//Ignore weapons that don't shoot arrows.
+			// Ignore weapons that don't shoot arrows.
 			if (item.useAmmo != AmmoID.Arrow) {
 				return false;
 			}
 
-			//Avoid tools and placeables
+			// Avoid tools and placeables
 			if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
 				return false;
 			}

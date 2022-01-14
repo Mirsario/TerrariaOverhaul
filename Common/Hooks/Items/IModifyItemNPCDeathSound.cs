@@ -10,9 +10,9 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 		public delegate void Delegate(Item item, Player player, NPC target, ref ISoundStyle customDeathSound, ref bool playNPCDeathSound);
 
 		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			//Method reference
+			// Method reference
 			typeof(IModifyItemNPCDeathSound).GetMethod(nameof(IModifyItemNPCDeathSound.ModifyItemNPCDeathSound)),
-			//Invocation
+			// Invocation
 			e => (Item item, Player player, NPC target, ref ISoundStyle customDeathSound, ref bool playNPCDeathSound) => {
 				foreach (IModifyItemNPCDeathSound g in e.Enumerate(item)) {
 					g.ModifyItemNPCDeathSound(item, player, target, ref customDeathSound, ref playNPCDeathSound);

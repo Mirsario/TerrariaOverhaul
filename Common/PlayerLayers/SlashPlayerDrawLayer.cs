@@ -77,7 +77,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			float scale = attackRange / 30f;
 			var effect = ((player.direction > 0) ^ meleeAiming.FlippedAttack) ? SpriteEffects.FlipVertically : SpriteEffects.None;
 
-			//Color calculation
+			// Color calculation
 			Main.instance.LoadItem(item.type);
 
 			const float MaxAlpha = 0.33f;
@@ -92,7 +92,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			var itemTextureAsset = TextureAssets.Item[item.type];
 			var color = Lighting.GetColor(position.ToTileCoordinates()).MultiplyRGB(TextureColorSystem.GetAverageColor(itemTextureAsset)) * alphaGradient.GetValue(useProgress);
 
-			//Drawing
+			// Drawing
 			drawInfo.DrawDataCache.Add(new DrawData(tex, position - Main.screenPosition, sourceRectangle, color, rotation, origin, scale, effect, 0));
 		}
 	}

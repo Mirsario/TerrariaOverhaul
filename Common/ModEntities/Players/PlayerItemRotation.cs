@@ -1,6 +1,8 @@
-﻿namespace TerrariaOverhaul.Common.ModEntities.Players
+﻿using Terraria.ModLoader;
+
+namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public sealed class PlayerItemRotation : PlayerBase
+	public sealed class PlayerItemRotation : ModPlayer
 	{
 		public float? forcedItemRotation;
 

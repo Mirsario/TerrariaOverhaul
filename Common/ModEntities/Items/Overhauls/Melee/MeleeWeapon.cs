@@ -47,7 +47,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			base.Load();
 
 			if (GetType() == typeof(MeleeWeapon)) {
-				//Disable attackCD for melee.
+				// Disable attackCD for melee.
 				IL.Terraria.Player.ItemCheck_MeleeHitNPCs += context => {
 					var cursor = new ILCursor(context);
 

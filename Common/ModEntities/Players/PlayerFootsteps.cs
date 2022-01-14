@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Footsteps;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Core.Systems.Configuration;
@@ -6,7 +7,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public sealed class PlayerFootsteps : PlayerBase
+	public sealed class PlayerFootsteps : ModPlayer
 	{
 		public static readonly ConfigEntry<bool> EnablePlayerFootsteps = new(ConfigSide.ClientOnly, "Ambience", nameof(EnablePlayerFootsteps), () => true);
 

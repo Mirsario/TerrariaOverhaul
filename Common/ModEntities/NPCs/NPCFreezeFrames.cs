@@ -1,4 +1,4 @@
-﻿//Commented out, as I'm not sure about this feature --Mirsario.
+﻿// Commented out, as I'm not sure about this feature --Mirsario.
 /*using System;
 using Microsoft.Xna.Framework;
 using Terraria;

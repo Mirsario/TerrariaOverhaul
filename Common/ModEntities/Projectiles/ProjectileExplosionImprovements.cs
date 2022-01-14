@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.AudioEffects;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Systems.Decals;
@@ -13,7 +14,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
-	public class ProjectileExplosionImprovements : GlobalProjectileBase
+	public class ProjectileExplosionImprovements : GlobalProjectile
 	{
 		private Vector2 maxSize;
 
@@ -48,9 +49,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			float knockbackRangeSquared = knockbackRange * knockbackRange;
 			var center = projectile.Center;
 
-			//Knockback
+			// Knockback
 			for (int i = 0; i < Main.maxPlayers + Main.maxItems + Main.maxGore; i++) {
-				ref Vector2 velocity = ref projectile.velocity; //Unused assignment.
+				ref Vector2 velocity = ref projectile.velocity; // Unused assignment.
 				Rectangle rectangle;
 				object entity;
 
@@ -99,7 +100,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 					continue;
 				}
 
-				//Explosions have a chance to set gore on fire.
+				// Explosions have a chance to set gore on fire.
 				if (entity is Systems.Gores.OverhaulGore goreExt && Main.rand.Next(5) == 0) {
 					goreExt.onFire = true;
 				}
@@ -115,14 +116,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				if (Main.LocalPlayer != null) {
 					float distance = Vector2.Distance(Main.LocalPlayer.Center, center);
 
-					//Screenshake
+					// Screenshake
 					float screenshakePower = MathUtils.DistancePower(distance, maxPower * 10f) * 15f;
 
 					if (screenshakePower > 0f) {
 						ScreenShakeSystem.New(screenshakePower, 0.5f);
 					}
 
-					//Low-pass filtering
+					// Low-pass filtering
 					int lowPassFilteringTime = (int)(TimeSystem.LogicFramerate * 5f * MathUtils.DistancePower(distance, maxPower * 3f));
 
 					if (lowPassFilteringTime > 0) {
@@ -139,7 +140,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 					}
 				}
 
-				//Decal
+				// Decal
 				var rect = new Rectangle((int)projectile.Center.X, (int)projectile.Center.Y, 0, 0);
 
 				rect.Inflate(64, 64);

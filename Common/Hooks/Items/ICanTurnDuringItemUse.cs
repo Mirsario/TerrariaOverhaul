@@ -9,9 +9,9 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 		public delegate bool Delegate(Item item, Player player);
 
 		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			//Method reference
+			// Method reference
 			typeof(ICanTurnDuringItemUse).GetMethod(nameof(ICanTurnDuringItemUse.CanTurnDuringItemUse)),
-			//Invocation
+			// Invocation
 			e => (Item item, Player player) => {
 				bool? globalResult = null;
 

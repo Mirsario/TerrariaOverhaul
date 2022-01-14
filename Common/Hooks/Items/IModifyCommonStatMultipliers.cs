@@ -12,9 +12,9 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 		public delegate void Delegate(Item item, Player player, ref CommonStatMultipliers multipliers);
 
 		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			//Method reference
+			// Method reference
 			typeof(Hook).GetMethod(nameof(ModifyCommonStatMultipliers)),
-			//Invocation
+			// Invocation
 			e => (Item item, Player player, ref CommonStatMultipliers multipliers) => {
 				(item.ModItem as Hook)?.ModifyCommonStatMultipliers(item, player, ref multipliers);
 

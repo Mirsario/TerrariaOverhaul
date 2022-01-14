@@ -65,7 +65,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			}
 		}
 
-		//Load-time
+		// Load-time
 		public void Load(Mod mod)
 		{
 			goreSoundCooldowns = new Dictionary<ISoundStyle, ulong>();
@@ -80,7 +80,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			}
 		}
 
-		//In-game
+		// In-game
 		public void Init()
 		{
 			Main.instance.LoadGore(type);
@@ -105,7 +105,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			}
 
 			if (Main.tileSolid[tile.type] && tile.IsActive) {
-				//MoveGoreUpwards(point);
+				// MoveGoreUpwards(point);
 			} else if (tile.LiquidAmount > 0) {
 				OnLiquidCollision(tile);
 			}
@@ -172,7 +172,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			int maxSizeDimension = (int)Math.Max(size.X, size.Y);
 
-			//Split into small pieces
+			// Split into small pieces
 
 			if (bleedColor.HasValue && type != ModContent.GoreType<GenericGore>()) {
 				IEntitySource entitySource = new EntitySource_GoreDeath(this);
@@ -186,10 +186,10 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				}
 			}
 
-			//Blood
+			// Blood
 			SpawnBlood(maxSizeDimension, 2f);
 
-			//Hit sounds
+			// Hit sounds
 			if (!silent && bleedColor.HasValue) {
 				TryPlaySound(GoreBreakSound, position);
 			}
@@ -222,7 +222,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 		private void OnLiquidCollision(Tile tile)
 		{
-			//Evaporate in lava
+			// Evaporate in lava
 			if (tile.LiquidAmount > 0 && tile.LiquidType == LiquidID.Lava) {
 				IEntitySource entitySource = new EntitySource_GoreLiquidCollision(this);
 
@@ -237,7 +237,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				return;
 			}
 
-			//Water physics
+			// Water physics
 			var center = Center;
 			float yPosRelative = center.Y - (float)(Math.Floor(center.Y / 16f) * 16f);
 
@@ -245,7 +245,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				velocity.X = MathHelper.Lerp(velocity.X, 0f, 0.5f / 60f);
 				velocity.Y = MathHelper.Lerp(velocity.Y, -3f, 5f / 60f);
 
-				//Create ripples
+				// Create ripples
 				if (prevVelocity.Length() >= 2f && Main.GameUpdateCount % 5 == 0) {
 					((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(center, minDimension / 32f);
 				}
@@ -268,7 +268,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			}
 
 			uint offsettedUpdateCount = (uint)(position.X + Main.GameUpdateCount);
-			
+
 			if (offsettedUpdateCount % 5 == 0) {
 				Dust.NewDustPerfect(new EntitySource_GoreUpdate(this), GetRandomPoint(), DustID.Torch, Scale: 2f).noGravity = true;
 			}
@@ -287,7 +287,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			var bounceSound = customBounceSound ?? (bleedColor.HasValue ? GoreGroundHitSound : null);
 
 			if (velocity.Y == 0f) {
-				//Vertical bouncing
+				// Vertical bouncing
 				if (Math.Abs(prevVelocity.Y) >= 1f) {
 					if (bounceSound != null) {
 						TryPlaySound(bounceSound, position);
@@ -296,7 +296,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 					velocity.Y = -prevVelocity.Y * 0.66f;
 				}
 
-				//Friction
+				// Friction
 				velocity.X *= 0.97f;
 
 				if (velocity.X > -0.01f && velocity.X < 0.01f) {
@@ -304,7 +304,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				}
 			}
 
-			//Horizontal bouncing
+			// Horizontal bouncing
 			if (velocity.X == 0f && Math.Abs(prevVelocity.X) >= 1f) {
 				if (bounceSound != null) {
 					TryPlaySound(bounceSound, position);
@@ -324,7 +324,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			}
 		}
 
-		//Makeshift optimization to not spam PlaySound and not enumerate any lists to check if there's anything playing.
+		// Makeshift optimization to not spam PlaySound and not enumerate any lists to check if there's anything playing.
 		private static bool TryPlaySound(ISoundStyle style, Vector2 position)
 		{
 			ulong tick = Main.GameUpdateCount;

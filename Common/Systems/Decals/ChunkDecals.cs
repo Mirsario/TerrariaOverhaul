@@ -59,7 +59,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 		public override void PreGameDraw(Chunk chunk)
 		{
-			//Add pending decals
+			// Add pending decals
 
 			if (decalsToAdd.Count == 0) {
 				return;
@@ -89,7 +89,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 
 		public override void PostDrawTiles(Chunk chunk, SpriteBatch sb)
 		{
-			//Render the RT in the world
+			// Render the RT in the world
 
 			var destination = chunk.WorldRectangle;
 
@@ -156,7 +156,7 @@ namespace TerrariaOverhaul.Common.Systems.Decals
 					graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, QuadTriangles, 0, QuadTriangles.Length / 3);
 				}
 
-				//Very important to unbind the textures.
+				// Very important to unbind the textures.
 				for (int i = 0; i < NumTextures; i++) {
 					graphicsDevice.Textures[i] = null;
 				}

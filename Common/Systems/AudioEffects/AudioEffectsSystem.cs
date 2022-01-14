@@ -63,7 +63,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 		private static float playerWallOcclusionCache;
 		private static AudioEffectParameters soundParameters = AudioEffectParameters.Default;
 		private static AudioEffectParameters musicParameters = AudioEffectParameters.Default;
-		//Reflection
+		// Reflection
 		private static Action<SoundEffectInstance, float> applyReverbFunc;
 		private static Action<SoundEffectInstance, float> applyLowPassFilteringFunc;
 		private static FieldInfo soundEffectBasedAudioTrackInstanceField;
@@ -89,7 +89,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 			IsEnabled = applyReverbFunc != null && applyLowPassFilteringFunc != null;
 
-			//Track 'active' sounds, and apply effects before they get played.
+			// Track 'active' sounds, and apply effects before they get played.
 			IL.Terraria.Audio.ActiveSound.Play += context => {
 				var il = new ILCursor(context);
 
@@ -116,7 +116,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				});
 			};
 
-			//Track legacy sounds
+			// Track legacy sounds
 			On.Terraria.Audio.LegacySoundPlayer.PlaySound += (orig, soundPlayer, type, x, y, style, volumeScale, pitchOffset) => {
 				var result = orig(soundPlayer, type, x, y, style, volumeScale, pitchOffset);
 
@@ -133,14 +133,14 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 				return result;
 			};
 
-			//Update volume of music.
+			// Update volume of music.
 			IL.Terraria.Main.UpdateAudio += context => {
 				var il = new ILCursor(context);
 
 				int volumeLocalId = 0;
 				int iLocalId = 0;
 
-				//Match 'float num2 = musicFade[i] * musicVolume * num;'
+				// Match 'float num2 = musicFade[i] * musicVolume * num;'
 				il.GotoNext(
 					MoveType.After,
 					i => i.MatchLdsfld(typeof(Main), nameof(Main.musicFade)),
@@ -153,13 +153,13 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 					i => i.MatchStloc(out volumeLocalId)
 				);
 
-				//Go into the start of the switch case. *Into* is to avoid dealing with jumps.
+				// Go into the start of the switch case. *Into* is to avoid dealing with jumps.
 				il.GotoNext(
 					MoveType.After,
 					i => i.MatchLdloc(iLocalId)
 				);
 
-				//Emit code that pops 'i', modifies the local, and loads 'i' again.
+				// Emit code that pops 'i', modifies the local, and loads 'i' again.
 				il.Emit(OpCodes.Pop);
 				il.Emit(OpCodes.Ldloc, volumeLocalId);
 				il.EmitDelegate<Func<float, float>>(volume => volume * musicParameters.Volume);
@@ -172,7 +172,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 
 		public override void PostUpdateEverything()
 		{
-			//Update global values
+			// Update global values
 			ReverbEnabled = true;
 			LowPassFilteringEnabled = true;
 
@@ -199,7 +199,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 			if (IsEnabled) {
 				bool fullUpdate = Main.GameUpdateCount % FullAudioUpdateThreshold == 0;
 
-				//Update sound instances
+				// Update sound instances
 				for (int i = 0; i < TrackedSoundInstances.Count; i++) {
 					var data = TrackedSoundInstances[i];
 

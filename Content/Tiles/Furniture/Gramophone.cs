@@ -7,7 +7,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Content.Tiles.Furniture
 {
-	public class Gramophone : TileBase
+	public class Gramophone : ModTile
 	{
 		public override void SetStaticDefaults()
 		{

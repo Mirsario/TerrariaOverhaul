@@ -15,8 +15,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void Load()
 		{
-			//This IL edit completely replaces silly vanilla mana regeneration logic.
-			//Forces a constant regeneration value.
+			// This IL edit completely replaces silly vanilla mana regeneration logic.
+			// Forces a constant regeneration value.
 			IL.Terraria.Player.UpdateManaRegen += context => {
 				var il = new ILCursor(context);
 

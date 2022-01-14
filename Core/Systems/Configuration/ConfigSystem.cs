@@ -63,7 +63,7 @@ namespace TerrariaOverhaul.Core.Systems.Configuration
 						continue;
 					}
 
-					var fields = type.GetFields(ReflectionUtils.AnyBindingFlags); //This will include backing fields of properties.
+					var fields = type.GetFields(ReflectionUtils.AnyBindingFlags); // This will include backing fields of properties.
 
 					if (fields.Any(f => f.FieldType.GetInterfaces().Contains(typeof(IConfigEntry)))) {
 						RuntimeHelpers.RunClassConstructor(type.TypeHandle);

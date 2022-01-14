@@ -45,7 +45,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			UpdateDodging();
 
-			//Stop umbrella and other things from working
+			// Stop umbrella and other things from working
 			if (isDodging && Player.HeldItem.type == ItemID.Umbrella) {
 				return false;
 			}
@@ -53,7 +53,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			return true;
 		}
 
-		//CanX
+		// CanX
 		public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot) => !isDodging;
 		public override bool CanBeHitByProjectile(Projectile proj) => !isDodging;
 		public override bool CanUseItem(Item item) => !isDodging;
@@ -77,17 +77,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			if (!forceDodgeroll) {
-				//Only initiate dodgerolls locally.
+				// Only initiate dodgerolls locally.
 				if (!isLocal) {
 					return false;
 				}
 
-				//Input & cooldown check. The cooldown can be enforced by other actions.
+				// Input & cooldown check. The cooldown can be enforced by other actions.
 				if (wantsDodgerollTimer <= 0f || dodgeCooldown.Active) {
 					return false;
 				}
 
-				//Don't allow dodging on mounts and during item use.
+				// Don't allow dodging on mounts and during item use.
 				if ((Player.mount != null && Player.mount.Active) || Player.itemAnimation > 0) {
 					return false;
 				}
@@ -96,7 +96,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			wantsDodgerollTimer = 0f;
 
 			/*if(onFire) {
-				//Don't stop but roll
+				// Don't stop but roll
 				int fireBuff = player.FindBuffIndex(24);
 				int fireBuff2 = player.FindBuffIndex(39);
 			
@@ -151,17 +151,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			ref float rotation = ref Player.GetModPlayer<PlayerRotation>().rotation;
 
-			//Attempt to initiate a dodgeroll if the player isn't doing one already.
+			// Attempt to initiate a dodgeroll if the player isn't doing one already.
 			if (!isDodging && !TryStartDodgeroll()) {
 				return;
 			}
 
-			//Lower fall damage
+			// Lower fall damage
 			if (dodgeTime < DodgeTimeMax / 1.5f && onGround && !wasOnGround) {
 				Player.fallStart = (int)MathHelper.Lerp(Player.fallStart, (int)(Player.position.Y / 16f), 0.35f);
 			}
 
-			//Open doors
+			// Open doors
 			var tilePos = Player.position.ToTileCoordinates16();
 			int x = dodgeDirection > 0 ? tilePos.X + 2 : tilePos.X - 1;
 
@@ -175,7 +175,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 			}
 
-			//Apply velocity
+			// Apply velocity
 			if (dodgeTime < DodgeTimeMax * 0.5f) {
 				float newVelX = (onGround ? 6f : 4f) * dodgeDirection;
 
@@ -185,13 +185,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			if (!Main.dedServ) {
-				//Trail
+				// Trail
 				Player.GetModPlayer<PlayerEffects>().ForceTrailEffect(2);
 			}
 
 			Player.pulley = false;
 
-			//Apply rotations & direction
+			// Apply rotations & direction
 			Player.GetModPlayer<PlayerItemRotation>().forcedItemRotation = dodgeItemRotation;
 			Player.GetModPlayer<PlayerAnimations>().forcedLegFrame = PlayerFrames.Jump;
 			Player.GetModPlayer<PlayerDirectioning>().forcedDirection = dodgeDirectionVisual;
@@ -200,10 +200,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				? Math.Min(MathHelper.Pi * 2f, MathHelper.Lerp(dodgeStartRot, MathHelper.TwoPi, dodgeTime / (DodgeTimeMax * 1f)))
 				: Math.Max(-MathHelper.Pi * 2f, MathHelper.Lerp(dodgeStartRot, -MathHelper.TwoPi, dodgeTime / (DodgeTimeMax * 1f)));
 
-			//Progress the dodgeroll
+			// Progress the dodgeroll
 			dodgeTime += 1f / 60f;
 
-			//Prevent other actions
+			// Prevent other actions
 			Player.GetModPlayer<PlayerClimbing>().climbCooldown.Set(1);
 
 			if (dodgeTime >= DodgeTimeMax) {

@@ -6,6 +6,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities.DataStructures;
@@ -13,7 +14,7 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public sealed class PlayerMovement : PlayerBase
+	public sealed class PlayerMovement : ModPlayer
 	{
 		public struct MovementModifier
 		{
@@ -54,11 +55,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void Load()
 		{
-			//Replace jump hold down logic with gravity scaling
+			// Replace jump hold down logic with gravity scaling
 			IL.Terraria.Player.JumpMovement += (context) => {
 				var cursor = new ILCursor(context);
 
-				//Match 'if (jump > 0)'
+				// Match 'if (jump > 0)'
 				cursor.GotoNext(
 					MoveType.After,
 					i => i.Match(OpCodes.Ldarg_0),
@@ -67,7 +68,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					i => i.MatchCgt() || i.MatchBle(out _)
 				);
 
-				//Match 'velocity.Y = (0f - jumpSpeed) * gravDir;'
+				// Match 'velocity.Y = (0f - jumpSpeed) * gravDir;'
 				cursor.GotoNext(
 					MoveType.Before,
 					i => i.Match(OpCodes.Ldarg_0),
@@ -104,7 +105,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			bool onGround = Player.OnGround();
 			bool wasOnGround = Player.WasOnGround();
 
-			//Update the data necessary for jump key holding logic
+			// Update the data necessary for jump key holding logic
 			if (Player.jump != prevPlayerJump) {
 				if (Player.jump > prevPlayerJump) {
 					maxPlayerJump = Player.jump;
@@ -113,7 +114,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				prevPlayerJump = Player.jump;
 			}
 
-			//Scale jump stats
+			// Scale jump stats
 			Player.jumpSpeed *= 1.21f;
 			Player.jumpHeight = (int)(Player.jumpHeight * 1.75f);
 
@@ -124,14 +125,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				if (vanillaAccelerationTime > 0) {
 					vanillaAccelerationTime--;
 				} else if (!Player.slippy && !Player.slippy2 && EnableHorizontalAccelerationChanges) {
-					//Horizontal acceleration
+					// Horizontal acceleration
 					if (onGround) {
 						Player.runAcceleration *= 2f;
 					} else {
 						Player.runAcceleration *= 1.65f;
 					}
 
-					//Wind acceleration
+					// Wind acceleration
 					if (Player.FindBuffIndex(BuffID.WindPushed) >= 0) {
 						if (Main.windSpeedCurrent >= 0f ? Player.velocity.X < Main.windSpeedCurrent : Player.velocity.X > Main.windSpeedCurrent) {
 							Player.velocity.X += Main.windSpeedCurrent / (Player.KeyDirection() == -Math.Sign(Main.windSpeedCurrent) ? 180f : 70f);
@@ -151,7 +152,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				if (EnableVerticalAccelerationChanges) {
 					Player.maxFallSpeed = wingFall ? 10f : 1000f;
 
-					//Falling friction & speed limit
+					// Falling friction & speed limit
 					if (Player.velocity.Y > Player.maxFallSpeed) {
 						Player.velocity.Y = Player.maxFallSpeed;
 					} else if (Player.velocity.Y > 0f) {
@@ -165,7 +166,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
-			Array.Copy(velocityRecord, 0, velocityRecord, 1, velocityRecord.Length - 1); //Shift
+			Array.Copy(velocityRecord, 0, velocityRecord, 1, velocityRecord.Length - 1); // Shift
 
 			velocityRecord[0] = Player.velocity;
 

@@ -24,9 +24,9 @@ namespace TerrariaOverhaul.Common.Systems.Ambience.Sounds
 
 			float result = 1f;
 
-			//During night
+			// During night
 			result *= TimeSystem.NightGradient.GetValue(TimeSystem.RealTime);
-			//On the surface
+			// On the surface
 			result *= WorldLocationUtils.SurfaceGradient.GetValue(localPlayer.Center.ToTileCoordinates().Y);
 
 			return result;

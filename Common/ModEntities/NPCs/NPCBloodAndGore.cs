@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		public override void Load()
 		{
-			//Disable blood dust replacement during projectile AI.
+			// Disable blood dust replacement during projectile AI.
 			On.Terraria.Projectile.AI += (orig, proj) => {
 				disableReplacementsSubscriptions++;
 
@@ -35,7 +35,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				}
 			};
 
-			//Replace specific dusts with new blood particles.
+			// Replace specific dusts with new blood particles.
 			On.Terraria.Dust.NewDust_IEntitySource_Vector2_int_int_int_float_float_int_Color_float += (orig, entitySource, position, width, height, type, speedX, speedY, alpha, color, scale) => {
 				if (disableReplacementsSubscriptions > 0) {
 					return orig(entitySource, position, width, height, type, speedX, speedY, alpha, color, scale);
@@ -71,9 +71,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				return Main.maxDust;
 			};
 
-			//Record and save blood information onto gores spawned during HitEffect.
+			// Record and save blood information onto gores spawned during HitEffect.
 			On.Terraria.NPC.HitEffect += (orig, npc, hitDirection, dmg) => {
-				//Ignore contexts where we only want blood to spawn.
+				// Ignore contexts where we only want blood to spawn.
 				if (disableNonBloodEffectSubscriptions > 0 || !npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
 					orig(npc, hitDirection, dmg);
 
@@ -93,7 +93,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					return;
 				}
 
-				//Enumerate the spawned gores, and register blood information to them.
+				// Enumerate the spawned gores, and register blood information to them.
 				var bloodColor = bloodColors[0]; //TODO: Do something smarter?
 				bool onFire = npc.onFire;
 
@@ -108,7 +108,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		public override bool PreAI(NPC npc)
 		{
-			//Bleed on low health.
+			// Bleed on low health.
 			if (!Main.dedServ && npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % 5 == 0) {
 				Bleed(npc, 1);
 			}
@@ -118,7 +118,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		public override void OnKill(NPC npc)
 		{
-			//Add extra blood on death.
+			// Add extra blood on death.
 			if (!Main.dedServ) {
 				int count = (int)Math.Sqrt(npc.width * npc.height) / 12;
 
@@ -129,9 +129,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit) => OnHit(npc);
 		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit) => OnHit(npc);
 
-		private void OnHit(NPC npc) //, int damage, float knockback, bool crit)
+		private void OnHit(NPC npc) // , int damage, float knockback, bool crit)
 		{
-			//Add extra blood when hit.
+			// Add extra blood when hit.
 			if (!Main.dedServ) {
 				//Bleed(npc, (int)Math.Sqrt(npc.width * npc.height) / 10);
 			}

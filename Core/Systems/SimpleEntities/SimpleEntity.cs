@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Systems.SimpleEntities
 {
-	//Because screw dusts and bloated vanilla classes.
+	// Because screw dusts and bloated vanilla classes.
 	public class SimpleEntity : ILoadable
 	{
 		public bool Destroyed { get; private set; }

@@ -25,7 +25,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 		public override bool CollidesWithTiles => LifeTime >= 3;
 
-		//Load-time
+		// Load-time
 		public override void Load(Mod mod)
 		{
 			bloodColorRecordingLists = new List<List<Color>>();
@@ -40,7 +40,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			}
 		}
 
-		//In-game
+		// In-game
 		public override void Init()
 		{
 			frame = new Rectangle(0, 8 * Main.rand.Next(3), 8, 8);
@@ -59,7 +59,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 		public override void Update()
 		{
-			//Track old positions.
+			// Track old positions.
 			Array.Copy(positions, 0, positions, 1, positions.Length - 1);
 
 			positions[0] = position;

@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Utilities
 			float diff = b - a;
 
 			if (diff < -MathHelper.Pi) {
-				//Lerp upwards past TwoPi
+				// Lerp upwards past TwoPi
 				b += MathHelper.TwoPi;
 				result = MathHelper.Lerp(a, b, factor);
 
@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Utilities
 					result -= MathHelper.TwoPi;
 				}
 			} else if (diff > MathHelper.Pi) {
-				//Lerp downwards past 0
+				// Lerp downwards past 0
 				b -= MathHelper.TwoPi;
 				result = MathHelper.Lerp(a, b, factor);
 
@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Utilities
 					result += MathHelper.TwoPi;
 				}
 			} else {
-				//Straight lerp
+				// Straight lerp
 				result = MathHelper.Lerp(a, b, factor);
 			}
 
@@ -67,20 +67,35 @@ namespace TerrariaOverhaul.Utilities
 			return r < 0 ? r + length : r;
 		}
 
-		public static float Modulo(float value, float length) => value - (float)Math.Floor(value / length) * length;
-		public static double Modulo(double value, double length) => value - (float)Math.Floor(value / length) * length;
+		public static float Modulo(float value, float length)
+			=> value - (float)Math.Floor(value / length) * length;
 
-		public static int Clamp(int value, int min, int max) => value <= min ? min : (value >= max ? max : value);
-		public static float Clamp(float value, float min, float max) => value <= min ? min : (value >= max ? max : value);
-		public static float Clamp01(float value) => value <= 0f ? 0f : (value >= 1f ? 1f : value);
+		public static double Modulo(double value, double length)
+			=> value - (float)Math.Floor(value / length) * length;
 
-		public static int MaxAbs(int a, int b) => Math.Abs(a) >= Math.Abs(b) ? a : b;
-		public static float MaxAbs(float a, float b) => Math.Abs(a) >= Math.Abs(b) ? a : b;
+		public static int Clamp(int value, int min, int max)
+			=> value <= min ? min : (value >= max ? max : value);
 
-		public static int MinAbs(int a, int b) => Math.Abs(a) <= Math.Abs(b) ? a : b;
-		public static float MinAbs(float a, float b) => Math.Abs(a) <= Math.Abs(b) ? a : b;
+		public static float Clamp(float value, float min, float max)
+			=> value <= min ? min : (value >= max ? max : value);
 
-		public static float InverseLerp(float value, float start, float end) => (value - start) / (end - start);
+		public static float Clamp01(float value)
+			=> value <= 0f ? 0f : (value >= 1f ? 1f : value);
+
+		public static int MaxAbs(int a, int b)
+			=> Math.Abs(a) >= Math.Abs(b) ? a : b;
+
+		public static float MaxAbs(float a, float b)
+			=> Math.Abs(a) >= Math.Abs(b) ? a : b;
+
+		public static int MinAbs(int a, int b)
+			=> Math.Abs(a) <= Math.Abs(b) ? a : b;
+
+		public static float MinAbs(float a, float b)
+			=> Math.Abs(a) <= Math.Abs(b) ? a : b;
+
+		public static float InverseLerp(float value, float start, float end)
+			=> (value - start) / (end - start);
 
 		public static float StepTowards(float value, float goal, float step)
 		{

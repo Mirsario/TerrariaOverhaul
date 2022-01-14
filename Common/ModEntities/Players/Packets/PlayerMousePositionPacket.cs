@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 
 			modPlayer.mouseWorld = reader.ReadVector2();
 
-			//Resend
+			// Resend
 			if (Main.netMode == NetmodeID.Server) {
 				MultiplayerSystem.SendPacket(new PlayerMousePositionPacket(player), ignoreClient: sender);
 			}

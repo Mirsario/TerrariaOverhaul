@@ -1,9 +1,10 @@
-﻿using TerrariaOverhaul.Core.Systems.Configuration;
+﻿using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public sealed class PlayerBunnyhopping : PlayerBase
+	public sealed class PlayerBunnyhopping : ModPlayer
 	{
 		public static readonly ConfigEntry<bool> EnableBunnyhopping = new(ConfigSide.Both, "PlayerMovement", nameof(EnableBunnyhopping), () => true);
 

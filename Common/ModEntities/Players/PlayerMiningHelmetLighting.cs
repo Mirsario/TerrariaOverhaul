@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
-	public sealed class PlayerMiningHelmetLighting : PlayerBase
+	public sealed class PlayerMiningHelmetLighting : ModPlayer
 	{
 		public override void Load()
 		{

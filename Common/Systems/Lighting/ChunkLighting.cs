@@ -10,7 +10,7 @@ using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.Systems.Lighting
 {
-	//This class provides lighting on per-chunk basis. In the future, this could be replaced with a screen-space buffer.
+	// This class provides lighting on per-chunk basis. In the future, this could be replaced with a screen-space buffer.
 	[Autoload(Side = ModSide.Client)]
 	public sealed class ChunkLighting : ChunkComponent
 	{
@@ -25,7 +25,7 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 		{
 			lightingUpdateLock = new object();
 
-			//This fixes tileTarget not being available in many cases. And other dumb issues.
+			// This fixes tileTarget not being available in many cases. And other dumb issues.
 			HookEndpointManager.Add<Func<Func<bool>, bool>>(
 				typeof(Main).GetProperty(nameof(Main.RenderTargetsRequired)).GetMethod,
 				new Func<Func<bool>, bool>(orig => true)

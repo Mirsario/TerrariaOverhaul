@@ -7,17 +7,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 	{
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
-			//Must have woodcutting capabilities
+			// Must have woodcutting capabilities
 			if (item.axe <= 0) {
 				return false;
 			}
 
-			//Avoid pickaxes and placeables
+			// Avoid pickaxes and placeables
 			if (item.pick > 0 || item.createTile >= TileID.Dirt || item.createWall >= WallID.None) {
 				return false;
 			}
 
-			//Axes always swing, deal melee damage, don't have channeling, and are visible
+			// Axes always swing, deal melee damage, don't have channeling, and are visible
 			if (item.useStyle != ItemUseStyleID.Swing || item.noMelee || item.channel || item.noUseGraphic) {
 				return false;
 			}

@@ -17,11 +17,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		public override void Load()
 		{
-			//Hook for making the PlayHitSound method control whether or not to play the original hitsound.
+			// Hook for making the PlayHitSound method control whether or not to play the original hitsound.
 			IL.Terraria.NPC.StrikeNPC += context => {
 				var cursor = new ILCursor(context);
 
-				//Match 'if (HitSound != null)'
+				// Match 'if (HitSound != null)'
 				ILLabel onCheckFailureLabel = null;
 
 				cursor.GotoNext(
@@ -39,11 +39,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				cursor.Emit(OpCodes.Brfalse, onCheckFailureLabel);
 			};
 
-			//Hook for making the PlayDeathSound method control whether or not to play the original death sound.
+			// Hook for making the PlayDeathSound method control whether or not to play the original death sound.
 			IL.Terraria.NPC.checkDead += context => {
 				var cursor = new ILCursor(context);
 
-				//Match 'if (DeathSound != null)'
+				// Match 'if (DeathSound != null)'
 				ILLabel onCheckFailureLabel = null;
 
 				cursor.GotoNext(
@@ -78,7 +78,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			var damageSource = DamageSourceSystem.CurrentDamageSource;
 
-			//Call item hit sound modification hooks.
+			// Call item hit sound modification hooks.
 			if (damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
 				IModifyItemNPCHitSound.Hook.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
 			}
@@ -105,7 +105,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			var damageSource = DamageSourceSystem.CurrentDamageSource;
 
-			//Call item death sound modification hooks.
+			// Call item death sound modification hooks.
 			if (damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
 				IModifyItemNPCDeathSound.Hook.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
 			}

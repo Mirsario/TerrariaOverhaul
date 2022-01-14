@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 
 		public override void Load()
 		{
-			//Draw the overlay right before the cursor.
+			// Draw the overlay right before the cursor.
 			IL.Terraria.Main.DrawMenu += context => {
 				var cursor = new ILCursor(context);
 
@@ -67,7 +67,7 @@ namespace TerrariaOverhaul.Common.Systems.MainMenuOverlays
 			sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, null, Main.UIScaleMatrix);
 
 			var textPos = new Vector2(16, 16);
-			var lines = menuLines; //Copy for thread safety.
+			var lines = menuLines; // Copy for thread safety.
 
 			if (lines != null) {
 				foreach (var entry in lines) {

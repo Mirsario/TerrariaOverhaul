@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 {
 	public static class PlayerExtensions
 	{
-		//Essentials
+		// Essentials
 
 		public static bool IsLocal(this Player player) => player.whoAmI == Main.myPlayer;
 
@@ -22,7 +22,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 		public static Vector2 LookDirection(this Player player) => (player.GetModPlayer<PlayerDirectioning>().mouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
 
-		//Velocity
+		// Velocity
 
 		public static void AddLimitedVelocity(this Player player, Vector2 velocity, Vector2 maxVelocity)
 		{
@@ -47,7 +47,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 			}
 		}
 
-		//Inventory
+		// Inventory
 
 		public static bool HasAccessory(this Player player, int itemId) => player.EnumerateAccessories().Any(tuple => tuple.item.type == itemId);
 		public static bool HasAccessory(this Player player, bool any, params int[] itemIds)
@@ -71,7 +71,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 			}
 		}
 
-		//Grappling hooks
+		// Grappling hooks
 
 		public static void StopGrappling(this Player player, Projectile exceptFor = null)
 		{
@@ -86,7 +86,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 		public static IEnumerable<(Projectile projectile, int hookIndex)> EnumerateGrapplingHooks(this Player player)
 		{
-			//The player.grappling array is some really useless crap.
+			// The player.grappling array is some really useless crap.
 
 			for (int i = 0; i < Main.projectile.Length; i++) {
 				var proj = Main.projectile[i];

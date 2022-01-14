@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
-	public sealed class ProjectileDirectionalNPCKnockback : GlobalProjectileBase
+	public sealed class ProjectileDirectionalNPCKnockback : GlobalProjectile
 	{
 		public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
 		{

@@ -1,5 +1,4 @@
 ﻿using Terraria;
-using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components

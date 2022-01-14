@@ -3,8 +3,8 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.Systems.DamageSources
 {
-	//This weird system tries to guess damage sources based on callstack locations.
-	//Used in places like StrikeNPC hooks.
+	// This weird system tries to guess damage sources based on callstack locations.
+	// Used in places like StrikeNPC hooks.
 	public class DamageSourceSystem : ModSystem
 	{
 		public static DamageSource CurrentDamageSource { get; private set; }
@@ -46,7 +46,7 @@ namespace TerrariaOverhaul.Common.Systems.DamageSources
 
 		public override void PostUpdateEverything()
 		{
-			CurrentDamageSource = null; //Reset just in case exceptions screw something over.
+			CurrentDamageSource = null; // Reset just in case exceptions screw something over.
 		}
 	}
 }

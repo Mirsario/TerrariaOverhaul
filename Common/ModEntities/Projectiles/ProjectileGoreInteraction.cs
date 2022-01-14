@@ -7,7 +7,7 @@ using TerrariaOverhaul.Common.Tags;
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
 	[Autoload(Side = ModSide.Client)]
-	public class ProjectileGoreInteraction : GlobalProjectileBase
+	public class ProjectileGoreInteraction : GlobalProjectile
 	{
 		public bool dontHitGore;
 
@@ -15,12 +15,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public override void AI(Projectile projectile)
 		{
-			//Reset dontHitGore every X ticks when the projectile's flying somewhere
+			// Reset dontHitGore every X ticks when the projectile's flying somewhere
 			if (dontHitGore && projectile.position != projectile.oldPosition && projectile.timeLeft % 3 == 0) {
 				dontHitGore = false;
 			}
 
-			//Skip gore enumeration when there's nothing to do.
+			// Skip gore enumeration when there's nothing to do.
 			if (dontHitGore) {
 				return;
 			}
@@ -31,21 +31,21 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			for (int i = 0; i < Main.maxGore; i++) {
 				var gore = Main.gore[i];
 
-				if (gore == null || !gore.active || !(Main.gore[i] is OverhaulGore goreExt)) {
+				if (gore == null || !gore.active || Main.gore[i] is not OverhaulGore goreExt) {
 					continue;
 				}
 
-				//For now, only bleeding gores are considered hittable.
+				// For now, only bleeding gores are considered hittable.
 				if (!goreExt.bleedColor.HasValue) {
 					continue;
 				}
 
-				//Intersection check
+				// Intersection check
 				if (!projectile.getRect().Intersects(new Rectangle((int)gore.position.X, (int)gore.position.Y, (int)goreExt.Width, (int)goreExt.Height))) {
 					continue;
 				}
 
-				//Interact
+				// Interact
 				float hitPower = 1f;
 
 				if (incendiary) {

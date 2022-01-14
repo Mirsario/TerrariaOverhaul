@@ -43,11 +43,17 @@ namespace TerrariaOverhaul.Core.Systems.Networking
 			}
 		}
 
-		//Get
-		public static NetPacket GetPacket(byte id) => packets[id];
-		public static NetPacket GetPacket(Type type) => packetsByType[type];
-		public static T GetPacket<T>() where T : NetPacket => ModContent.GetInstance<T>();
-		//Send
+		// Get
+		public static NetPacket GetPacket(byte id)
+			=> packets[id];
+
+		public static NetPacket GetPacket(Type type)
+			=> packetsByType[type];
+
+		public static T GetPacket<T>() where T : NetPacket
+			=> ModContent.GetInstance<T>();
+
+		// Send
 		public static void SendPacket<T>(T packet, int toClient = -1, int ignoreClient = -1, Func<Player, bool> sendDelegate = null) where T : NetPacket
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer) {

@@ -24,10 +24,12 @@ namespace TerrariaOverhaul.Utilities
 				stepA.X = -1;
 			else if (width > 0)
 				stepA.X = 1;
+
 			if (height < 0)
 				stepA.Y = -1;
 			else if (height > 0)
 				stepA.Y = 1;
+
 			if (width < 0)
 				stepB.X = -1;
 			else if (width > 0)
