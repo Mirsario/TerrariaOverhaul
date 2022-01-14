@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 
 		public override void Load()
 		{
-			On.Terraria.Player.ItemCheck_ApplyHoldStyle += (orig, player, mountOffset, sItem, heldItemFrame) => {
+			On.Terraria.Player.ItemCheck_ApplyHoldStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
 				if (ShouldForceUseAnim(sItem)) {
 					player.ItemCheck_ApplyUseStyle(mountOffset, sItem, heldItemFrame);
 
@@ -31,7 +31,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 				orig(player, mountOffset, sItem, heldItemFrame);
 			};
 
-			On.Terraria.Player.ItemCheck_ApplyUseStyle += (orig, player, mountOffset, sItem, heldItemFrame) => {
+			On.Terraria.Player.ItemCheck_ApplyUseStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
 				orig(player, mountOffset, sItem, heldItemFrame);
 
 				if (sItem.useStyle == ItemUseStyleID.Shoot) {
