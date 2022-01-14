@@ -2,8 +2,10 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.ModEntities.Items;
 using TerrariaOverhaul.Common.ModEntities.Projectiles;
 using TerrariaOverhaul.Content.Dusts;
@@ -61,9 +63,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 					if (Main.GameUpdateCount % 2 == 0) {
 						Vector2 point = npc.getRect().GetRandomPoint();
-						//Vector2 directionTowardsCenter = point.DirectionTo(npc.Center);
+						IEntitySource entitySource = new EntitySource_EntityResourceDrops(npc);
 
-						Dust.NewDustPerfect(point, ModContent.DustType<ManaDust>(), Vector2.Zero);
+						Dust.NewDustPerfect(entitySource, point, ModContent.DustType<ManaDust>(), Vector2.Zero);
 					}
 				}
 			}
@@ -104,10 +106,13 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				dropsCount = GetDefaultDropCount(player, player.statLife, player.statLifeMax2, HealthPickupChanges.HealthPerPickup, maxDrops, ItemID.Heart);
 			}
 
+			IEntitySource entitySource = new EntitySource_EntityResourceDrops(npc);
+
 			for (int i = 0; i < dropsCount; i++) {
-				Item.NewItem(npc.getRect(), ItemID.Heart, noBroadcast: true);
+				Item.NewItem(entitySource, npc.getRect(), ItemID.Heart, noBroadcast: true);
 			}
 		}
+
 		public void DropMana(NPC npc, Player player, int? amount = null)
 		{
 			int dropsCount;
@@ -118,8 +123,10 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				dropsCount = GetDefaultDropCount(player, player.statMana, player.statManaMax2, ManaPickupChanges.ManaPerPickup, 3);
 			}
 
+			IEntitySource entitySource = new EntitySource_EntityResourceDrops(npc);
+
 			for (int i = 0; i < dropsCount; i++) {
-				Item.NewItem(npc.getRect(), ItemID.Star, noBroadcast: true);
+				Item.NewItem(entitySource, npc.getRect(), ItemID.Star, noBroadcast: true);
 			}
 		}
 
@@ -143,6 +150,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return dropsCount;
 		}
+
 		private void AccumulateManaOnHit(NPC npc, Player player, float damage, int useTime, int useAnimation, int manaUse)
 		{
 			if (npc.damage <= 0 || NPCID.Sets.ProjectileNPC[npc.type] || player.statMana >= player.statManaMax2) {
@@ -164,7 +172,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			manaPickupsToDrop += useTime / ManaPickupChanges.ManaPerPickup / 6f;
 			//manaPickupsToDrop += dps / ManaPickupChanges.ManaPerPickup * 2f;
 
-			//Drop everything instantly if dead.
+			// Drop everything instantly if dead.
 			if (!npc.active) {
 				DropMana(npc, player, (int)Math.Ceiling(manaPickupsToDrop));
 

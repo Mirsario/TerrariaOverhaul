@@ -1,10 +1,13 @@
 ﻿using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.Systems.AudioEffects;
 using TerrariaOverhaul.Common.Systems.Camera;
+using TerrariaOverhaul.Common.Systems.Gores;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
@@ -32,6 +35,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		}
 
 		public override void PostUpdate() => Update();
+
 		public override void UpdateDead() => PostUpdate();
 
 		private void Update()
@@ -42,6 +46,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			UpdateLowHealthEffects();
 		}
+
 		private void UpdateLowHealthEffects()
 		{
 			float goalLowHealthEffectIntensity = LowHealthEffectGradient.GetValue(Player.statLife);
@@ -73,9 +78,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			//Bleeding
 			if (!Player.dead) {
 				lowHealthBleedingCounter += lowHealthEffectIntensity / 4f;
+				IEntitySource entitySource = new EntitySource_EntityBleeding(Player);
 
 				while (lowHealthBleedingCounter >= 1f) {
-					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Blood);
+					var dust = Dust.NewDustDirect(entitySource, Player.position, Player.width, Player.height, DustID.Blood);
 
 					lowHealthBleedingCounter--;
 				}

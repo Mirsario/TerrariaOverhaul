@@ -64,7 +64,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					i => i.Match(OpCodes.Ldarg_0),
 					i => i.MatchLdfld(typeof(Player), nameof(Player.jump)),
 					i => i.MatchLdcI4(0),
-					i => i.MatchCgt()
+					i => i.MatchCgt() || i.MatchBle(out _)
 				);
 
 				//Match 'velocity.Y = (0f - jumpSpeed) * gravDir;'

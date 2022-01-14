@@ -50,7 +50,14 @@ namespace TerrariaOverhaul.Content.Tiles.Furniture
 			return true;
 		}*/
 
-		public override void MouseOver(int x, int y) => Main.cursorOverride = 3;
-		public override void KillMultiTile(int x, int y, int frameX, int frameY) => Item.NewItem(x * 16, y * 16, 32, 80, ModContent.ItemType<Items.Placeables.Calendar>());
+		public override void MouseOver(int x, int y)
+		{
+			Main.cursorOverride = 3;
+		}
+
+		public override void KillMultiTile(int x, int y, int frameX, int frameY)
+		{
+			Item.NewItem(new EntitySource_TileBreak(x, y), x * 16, y * 16, 32, 80, ModContent.ItemType<Items.Placeables.Calendar>());
+		}
 	}
 }

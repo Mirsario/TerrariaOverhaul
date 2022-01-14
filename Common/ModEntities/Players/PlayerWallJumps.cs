@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.Systems.Footsteps;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Systems.Configuration;
@@ -89,10 +90,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					slot.SetSound(entity => SoundInstance.Create<OggSoundInstance, OggSoundInfo>("Voice/ArgLong", entity, 1f, (player.Male ? Main.rand.Range(1f, 1.25f) : Main.rand.Range(1.55f, 1.75f)) * 1.2f));
 				}*/
 
-				//Spawn dusts.
+				// Spawn dusts.
+
+				IEntitySource entitySource = new EntitySource_Entity(Player);
 
 				for (int i = 0; i < 12; i++) {
-					Dust.NewDust(prevDirX > 0 ? Player.Right : Player.Left, 4, 12, DustID.Smoke, -prevDirX);
+					Dust.NewDust(entitySource, prevDirX > 0 ? Player.Right : Player.Left, 4, 12, DustID.Smoke, -prevDirX);
 				}
 
 				//Do a footstep sound.

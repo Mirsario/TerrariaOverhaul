@@ -2,8 +2,10 @@
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.Systems.Camera;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
@@ -62,9 +64,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			//Dust
 			if (!Player.dead) {
 				lowManaDustCounter += lowManaEffectIntensity / 4f;
+				IEntitySource entitySource = new EntitySource_EntityLowMana(Player);
 
 				while (lowManaDustCounter >= 1f) {
-					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.SomethingRed, Alpha: 255, Scale: Main.rand.NextFloat(1.5f, 2f));
+					var dust = Dust.NewDustDirect(entitySource, Player.position, Player.width, Player.height, DustID.SomethingRed, Alpha: 255, Scale: Main.rand.NextFloat(1.5f, 2f));
 
 					dust.noLight = true;
 					dust.noGravity = true;
@@ -97,9 +100,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			//Dust
 			if (!Player.dead) {
 				manaRegenDustCounter += manaRegenEffectIntensity / 4f;
+				IEntitySource entitySource = new EntitySource_EntityLowMana(Player);
 
 				while (manaRegenDustCounter >= 1f) {
-					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, 45, Alpha: 255, Scale: Main.rand.NextFloat(2f, 2.6f));
+					var dust = Dust.NewDustDirect(entitySource, Player.position, Player.width, Player.height, 45, Alpha: 255, Scale: Main.rand.NextFloat(2f, 2.6f));
 
 					dust.noLight = true;
 					dust.noGravity = true;

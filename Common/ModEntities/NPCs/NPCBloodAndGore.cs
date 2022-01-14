@@ -36,9 +36,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			};
 
 			//Replace specific dusts with new blood particles.
-			On.Terraria.Dust.NewDust += (orig, position, width, height, type, speedX, speedY, alpha, color, scale) => {
+			On.Terraria.Dust.NewDust_IEntitySource_Vector2_int_int_int_float_float_int_Color_float += (orig, entitySource, position, width, height, type, speedX, speedY, alpha, color, scale) => {
 				if (disableReplacementsSubscriptions > 0) {
-					return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
+					return orig(entitySource, position, width, height, type, speedX, speedY, alpha, color, scale);
 				}
 
 				void SpawnParticles(Color usedColor) => SpawnNewBlood(
@@ -53,7 +53,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 							break;
 						}
 
-						return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
+						return orig(entitySource, position, width, height, type, speedX, speedY, alpha, color, scale);
 					case DustID.Blood:
 						SpawnParticles(Color.DarkRed);
 						break;

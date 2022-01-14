@@ -29,8 +29,8 @@ namespace TerrariaOverhaul.Common.Hooks.Npcs
 	{
 		public void Load(Mod mod)
 		{
-			On.Terraria.Projectile.NewProjectile_IProjectileSource_float_float_float_float_int_int_float_int_float_float += (orig, projectileSource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1) => {
-				if (projectileSource is ProjectileSource_NPC npcSource) {
+			On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += (orig, entitySource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1) => {
+				if (entitySource is EntitySource_NPC npcSource) {
 					var position = new Vector2(x, y);
 					var velocity = new Vector2(speedX, speedY);
 
@@ -39,7 +39,7 @@ namespace TerrariaOverhaul.Common.Hooks.Npcs
 					(x, y, speedX, speedY) = (position.X, position.Y, velocity.X, velocity.Y);
 				}
 
-				return orig(projectileSource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1);
+				return orig(entitySource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1);
 			};
 		}
 

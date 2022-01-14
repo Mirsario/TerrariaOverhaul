@@ -9,6 +9,7 @@ using Terraria.GameContent.Shaders;
 using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.PhysicalMaterials;
 using TerrariaOverhaul.Common.Systems.Fires;
 using TerrariaOverhaul.Content.Gores;
@@ -69,6 +70,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		{
 			goreSoundCooldowns = new Dictionary<ISoundStyle, ulong>();
 		}
+
 		public void Unload()
 		{
 			if (goreSoundCooldowns != null) {
@@ -77,6 +79,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				goreSoundCooldowns = null;
 			}
 		}
+
 		//In-game
 		public void Init()
 		{
@@ -89,6 +92,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			minDimension = Math.Min(size.X, size.Y);
 			health = 1f;
 		}
+
 		public void PostUpdate()
 		{
 			var center = Center;
@@ -115,6 +119,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			time++;
 		}
+
 		public void CopyFrom(Gore gore)
 		{
 			typeof(Gore)
@@ -136,6 +141,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			behindTiles = gore.behindTiles;
 			frameCounter = gore.frameCounter;
 		}
+
 		public Vector2 GetRandomPoint() => position + Main.rand.NextVector2Square(size.X, size.Y);
 
 		public bool HitGore(Vector2 hitDirection, float powerScale = 1f, bool silent = false)
@@ -155,6 +161,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			return true;
 		}
+
 		public void Destroy(bool immediate = false, bool silent = false, Vector2 hitDirection = default)
 		{
 			active = false;
@@ -168,10 +175,11 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			//Split into small pieces
 
 			if (bleedColor.HasValue && type != ModContent.GoreType<GenericGore>()) {
+				IEntitySource entitySource = new EntitySource_GoreDeath(this);
 				int numGore = maxSizeDimension / 6;
 
 				for (int i = 0; i < numGore; i++) {
-					if (NewGorePerfect(position, velocity + (hitDirection * 0.5f - Vector2.UnitY + Main.rand.NextVector2Circular(1f, 1f)), ModContent.GoreType<GenericGore>()) is OverhaulGore goreExt) {
+					if (NewGorePerfect(entitySource, position, velocity + (hitDirection * 0.5f - Vector2.UnitY + Main.rand.NextVector2Circular(1f, 1f)), ModContent.GoreType<GenericGore>()) is OverhaulGore goreExt) {
 						goreExt.bleedColor = bleedColor;
 						goreExt.onFire = onFire;
 					}
@@ -190,6 +198,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				SoundInstance.Create<OggSoundInstance, OggSoundInfo>("Gore", position, MathHelper.Lerp(0.2f, 1f, Math.Min(1f, maxSizeDimension * 0.015625f)), Main.rand.Range(0.925f, 1.2f), maxAmount: 2);
 			}*/
 		}
+
 		public void SpawnBlood(int amount, float sprayScale = 1f)
 		{
 			if (stopBleeding || !bleedColor.HasValue) {
@@ -215,10 +224,12 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		{
 			//Evaporate in lava
 			if (tile.LiquidAmount > 0 && tile.LiquidType == LiquidID.Lava) {
+				IEntitySource entitySource = new EntitySource_GoreLiquidCollision(this);
+
 				TryPlaySound(FireSystem.ExtinguishSound, position);
 
 				for (int i = 0; i < 5; i++) {
-					Dust.NewDustPerfect(GetRandomPoint(), DustID.Smoke, Main.rand.NextVector2(-1f, -1f, 1f, 0f), 128, Color.White);
+					Dust.NewDustPerfect(entitySource, GetRandomPoint(), DustID.Smoke, Main.rand.NextVector2(-1f, -1f, 1f, 0f), 128, Color.White);
 				}
 
 				active = false;
@@ -242,12 +253,14 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				stopBleeding = true;
 			}
 		}
+
 		private void Bleeding()
 		{
 			if (!stopBleeding && bleedColor.HasValue && Main.GameUpdateCount % 5 == 0 && velocity.Length() >= 0.5f && prevVelocity.Length() >= 0.5f) {
 				SpawnBlood(1);
 			}
 		}
+
 		private void Burning()
 		{
 			if (!onFire) {
@@ -255,9 +268,9 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 			}
 
 			uint offsettedUpdateCount = (uint)(position.X + Main.GameUpdateCount);
-
+			
 			if (offsettedUpdateCount % 5 == 0) {
-				Dust.NewDustPerfect(GetRandomPoint(), DustID.Torch, Scale: 2f).noGravity = true;
+				Dust.NewDustPerfect(new EntitySource_GoreUpdate(this), GetRandomPoint(), DustID.Torch, Scale: 2f).noGravity = true;
 			}
 
 			if (offsettedUpdateCount % 30 == 0 && Main.rand.Next(3) == 0) {
@@ -268,6 +281,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				}
 			}
 		}
+
 		private void Bouncing()
 		{
 			var bounceSound = customBounceSound ?? (bleedColor.HasValue ? GoreGroundHitSound : null);
@@ -299,6 +313,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				velocity.X = -prevVelocity.X * 0.66f;
 			}
 		}
+
 		private void MoveGoreUpwards(Point16 point)
 		{
 			int upY = point.Y - 2;

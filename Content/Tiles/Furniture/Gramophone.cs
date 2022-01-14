@@ -29,13 +29,18 @@ namespace TerrariaOverhaul.Content.Tiles.Furniture
 			this.AddMapEntry(Color.Gold, "Gramophone");
 		}
 
-		public override void MouseOver(int x, int y) => Main.cursorOverride = 3;
+		public override void MouseOver(int x, int y)
+		{
+			Main.cursorOverride = 3;
+		}
+
 		public override void KillMultiTile(int x, int y, int frameX, int frameY)
 		{
 			base.KillMultiTile(x, y, frameX, frameY);
 
-			Item.NewItem(x * 16, y * 16, 1, 1, ModContent.ItemType<Items.Placeables.Gramophone>());
+			Item.NewItem(new EntitySource_TileBreak(x, y), x * 16, y * 16, 1, 1, ModContent.ItemType<Items.Placeables.Gramophone>());
 		}
+
 		/*public override bool TileFrame(int x, int y, ref bool resetFrame, ref bool noBreak)
 		{
 			if(!Main.tile.GetUnsafe(x, y, out var tile)) {

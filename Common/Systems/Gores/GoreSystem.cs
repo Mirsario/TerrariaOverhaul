@@ -17,13 +17,13 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 
 			On.Terraria.Gore.Update += GoreUpdate;
 
-			On.Terraria.Gore.NewGore += (orig, position, velocity, type, scale) => {
+			On.Terraria.Gore.NewGore_IEntitySource_Vector2_Vector2_int_float += (orig, entitySource, position, velocity, type, scale) => {
 				//Disable gore spawn, if requested.
 				if (disableGoreSubscriptions > 0) {
 					return Main.maxGore;
 				}
 
-				int result = orig(position, velocity, type, scale);
+				int result = orig(entitySource, position, velocity, type, scale);
 
 				if (result < Main.maxGore) {
 					//Convert gores to a new class.
