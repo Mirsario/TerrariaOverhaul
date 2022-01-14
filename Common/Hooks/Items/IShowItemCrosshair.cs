@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
+using Hook = TerrariaOverhaul.Common.Hooks.Items.IShowItemCrosshair;
 
 namespace TerrariaOverhaul.Common.Hooks.Items
 {
@@ -10,10 +11,10 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 
 		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
 			// Method reference
-			typeof(IShowItemCrosshair).GetMethod(nameof(ShowItemCrosshair)),
+			typeof(Hook).GetMethod(nameof(ShowItemCrosshair)),
 			// Invocation
 			e => (Item item, Player player) => {
-				foreach (IShowItemCrosshair g in e.Enumerate(item)) {
+				foreach (Hook g in e.Enumerate(item)) {
 					if (g.ShowItemCrosshair(item, player)) {
 						return true;
 					}

@@ -2,6 +2,7 @@
 using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
+using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyItemNPCDeathSound;
 
 namespace TerrariaOverhaul.Common.Hooks.Items
 {
@@ -11,10 +12,10 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 
 		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
 			// Method reference
-			typeof(IModifyItemNPCDeathSound).GetMethod(nameof(IModifyItemNPCDeathSound.ModifyItemNPCDeathSound)),
+			typeof(Hook).GetMethod(nameof(ModifyItemNPCDeathSound)),
 			// Invocation
 			e => (Item item, Player player, NPC target, ref ISoundStyle customDeathSound, ref bool playNPCDeathSound) => {
-				foreach (IModifyItemNPCDeathSound g in e.Enumerate(item)) {
+				foreach (Hook g in e.Enumerate(item)) {
 					g.ModifyItemNPCDeathSound(item, player, target, ref customDeathSound, ref playNPCDeathSound);
 				}
 			}
