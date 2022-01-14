@@ -35,7 +35,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				);
 
 				cursor.Emit(OpCodes.Ldarg_0);
-				cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || npcDamageAudio.PlayHitSound(npc));
+				cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || PlayHitSound(npc));
 				cursor.Emit(OpCodes.Brfalse, onCheckFailureLabel);
 			};
 
@@ -57,12 +57,12 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				);
 
 				cursor.Emit(OpCodes.Ldarg_0);
-				cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || npcDamageAudio.PlayDeathSound(npc));
+				cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || PlayDeathSound(npc));
 				cursor.Emit(OpCodes.Brfalse, onCheckFailureLabel);
 			};
 		}
 
-		public bool PlayHitSound(NPC npc)
+		private static bool PlayHitSound(NPC npc)
 		{
 			if (!npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
 				return true;
@@ -89,7 +89,8 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			return playOriginalSound;
 		}
-		public bool PlayDeathSound(NPC npc)
+
+		private static bool PlayDeathSound(NPC npc)
 		{
 			if (!npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
 				return true;
