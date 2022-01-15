@@ -36,6 +36,12 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 		{
 			var player = drawInfo.drawPlayer;
 
+			// Don't render as after-image
+			if (drawInfo.shadow != 0f) {
+				return;
+			}
+
+			// Only render while a use is in progress
 			if (player.itemAnimation <= 0 || player.itemAnimationMax <= 0) {
 				return;
 			}
