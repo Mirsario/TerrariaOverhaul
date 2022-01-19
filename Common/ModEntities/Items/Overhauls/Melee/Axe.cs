@@ -1,13 +1,10 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
+﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.ItemAnimations;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.ModEntities.Items.Components.Animations;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
-using TerrariaOverhaul.Common.Systems.Time;
-using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
@@ -49,9 +46,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			item.EnableComponent<ItemMeleeCooldownDisabler>();
 			item.EnableComponent<ItemMeleeAttackAiming>();
 			item.EnableComponent<ItemVelocityBasedDamage>();
-
-			item.EnableComponent<ItemPlayerAnimator>(c => {
-				c.Animation = ModContent.GetInstance<GenericMeleeAnimation>();
+			// Animation
+			item.EnableComponent<QuickSlashMeleeAnimation>(c => {
+				c.FlipAttackEachSwing = true;
+				c.AnimateLegs = true;
 			});
 
 			// Power Attacks

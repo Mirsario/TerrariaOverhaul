@@ -6,12 +6,11 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.ItemAnimations;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.ModEntities.Items.Components.Animations;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
-using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
@@ -59,9 +58,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			item.EnableComponent<ItemMeleeCooldownDisabler>();
 			item.EnableComponent<ItemMeleeAttackAiming>();
 			item.EnableComponent<ItemVelocityBasedDamage>();
-
-			item.EnableComponent<ItemPlayerAnimator>(c => {
-				c.Animation = ModContent.GetInstance<QuickSlashMeleeAnimation>();
+			// Animation
+			item.EnableComponent<QuickSlashMeleeAnimation>(c => {
+				c.FlipAttackEachSwing = true;
+				c.AnimateLegs = true;
 			});
 
 			// Power Attacks
@@ -85,10 +85,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		public override void UseAnimation(Item item, Player player)
 		{
 			var powerAttacks = item.GetGlobalItem<ItemPowerAttacks>();
-
-			if (!powerAttacks.PowerAttack && item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
-				aiming.FlippedAttack = aiming.AttackId % 2 != 0;
-			}
 
 			// Swing velocity
 
@@ -133,22 +129,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			// Slight screenshake for the swing.
 			if (!Main.dedServ) {
 				ScreenShakeSystem.New(3f, item.useAnimation / 120f);
-			}
-		}
-
-		public override void UseItemFrame(Item item, Player player)
-		{
-			base.UseItemFrame(item, player);
-
-			// Leg frame
-			var aiming = item.GetGlobalItem<ItemMeleeAttackAiming>();
-
-			if (player.velocity.Y == 0f && player.KeyDirection() == 0) {
-				if (Math.Abs(aiming.AttackDirection.X) > 0.5f) {
-					player.legFrame = (aiming.FlippedAttack ? PlayerFrames.Walk8 : PlayerFrames.Jump).ToRectangle();
-				} else {
-					player.legFrame = PlayerFrames.Walk13.ToRectangle();
-				}
 			}
 		}
 

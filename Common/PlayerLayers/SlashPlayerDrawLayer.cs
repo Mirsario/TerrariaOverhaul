@@ -6,6 +6,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.ModEntities.Items.Components.Animations;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 using TerrariaOverhaul.Common.Systems.TextureColors;
 using TerrariaOverhaul.Utilities.DataStructures;
@@ -64,6 +65,8 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 				return;
 			}
 
+			bool flipped = item.TryGetGlobalItem(out QuickSlashMeleeAnimation animation) && animation.IsAttackFlipped; // Hardcode.............
+
 			// Framing
 			var frame = TextureFrame;
 
@@ -81,7 +84,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			float rotation = attackAngle;
 			Vector2 origin = sourceRectangle.Size() * 0.5f;
 			float scale = attackRange / 30f;
-			var effect = ((player.direction > 0) ^ meleeAiming.FlippedAttack) ? SpriteEffects.FlipVertically : SpriteEffects.None;
+			var effect = ((player.direction > 0) ^ flipped) ? SpriteEffects.FlipVertically : SpriteEffects.None;
 
 			// Color calculation
 			Main.instance.LoadItem(item.type);

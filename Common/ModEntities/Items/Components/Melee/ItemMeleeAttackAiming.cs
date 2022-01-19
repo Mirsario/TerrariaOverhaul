@@ -12,7 +12,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee
 		private Vector2 attackDirection;
 		private float attackAngle;
 
-		public bool FlippedAttack { get; set; }
 		public int AttackId { get; private set; }
 
 		public Vector2 AttackDirection {

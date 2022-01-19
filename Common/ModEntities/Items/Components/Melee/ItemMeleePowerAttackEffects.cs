@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using TerrariaOverhaul.Common.ModEntities.Items.Components.Animations;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -19,8 +20,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee
 			if (item.TryGetGlobalItem<ItemPowerAttacks>(out var powerAttacks) && item.TryGetGlobalItem<ItemMeleeAttackAiming>(out _)) {
 				powerAttacks.OnChargeStart += (item, player, chargeLength) => {
 					if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
-						aiming.FlippedAttack = false;
 						aiming.AttackDirection = Vector2.UnitX * player.direction;
+
+						// Hardcode pretty much..
+						if (item.TryGetGlobalItem(out QuickSlashMeleeAnimation anim)) {
+							anim.IsAttackFlipped = false;
+						}
 					}
 				};
 

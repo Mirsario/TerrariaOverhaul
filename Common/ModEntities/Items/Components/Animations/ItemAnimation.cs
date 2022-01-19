@@ -1,25 +1,24 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Common.ItemAnimations;
 using TerrariaOverhaul.Core.Systems.Debugging;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Components
+namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Animations
 {
-	public sealed class ItemPlayerAnimator : ItemComponent
+	public abstract class ItemAnimation : ItemComponent
 	{
-		public MeleeAnimation Animation { get; set; }
+		public abstract float GetItemRotation(Player player, Item item);
 
 		public override void UseItemFrame(Item item, Player player)
 		{
-			if (Animation == null) {
+			if (!Enabled) {
 				return;
 			}
 
-			float animationRotation = Animation.GetItemRotation(player, item);
+			float animationRotation = GetItemRotation(player, item);
 			float weaponRotation = MathUtils.Modulo(animationRotation, MathHelper.TwoPi);
 			float pitch = MathUtils.RadiansToPitch(weaponRotation);
 			var weaponDirection = weaponRotation.ToRotationVector2();

@@ -2,9 +2,9 @@
 using Terraria;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 
-namespace TerrariaOverhaul.Common.ItemAnimations
+namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Animations
 {
-	public class GenericMeleeAnimation : MeleeAnimation
+	public class GenericMeleeAnimation : ItemAnimation
 	{
 		public override float GetItemRotation(Player player, Item item)
 		{
