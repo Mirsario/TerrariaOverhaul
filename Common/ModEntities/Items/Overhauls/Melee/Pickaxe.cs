@@ -44,6 +44,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			item.EnableComponent<ItemMeleeNpcStuns>();
 			item.EnableComponent<ItemMeleeCooldownDisabler>();
 			item.EnableComponent<ItemMeleeAttackAiming>();
+			item.EnableComponent<ItemVelocityBasedDamage>();
 
 			item.EnableComponent<ItemPlayerAnimator>(c => {
 				c.Animation = ModContent.GetInstance<GenericMeleeAnimation>();
