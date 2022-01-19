@@ -1,5 +1,10 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
+using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ItemAnimations;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
@@ -23,6 +28,26 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			}
 
 			return true;
+		}
+
+		public override void SetDefaults(Item item)
+		{
+			// Defaults
+
+			if (item.UseSound is LegacySoundStyle && item.UseSound != SoundID.Item15) {
+				item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/BluntSwingHeavy", 4, volume: 0.75f, pitchVariance: 0.1f);
+			}
+
+			// Components
+
+			item.EnableComponent<ItemMeleeGoreInteraction>();
+			item.EnableComponent<ItemMeleeNpcStuns>();
+			item.EnableComponent<ItemMeleeCooldownDisabler>();
+			item.EnableComponent<ItemMeleeAttackAiming>();
+
+			item.EnableComponent<ItemPlayerAnimator>(c => {
+				c.Animation = ModContent.GetInstance<GenericMeleeAnimation>();
+			});
 		}
 	}
 }

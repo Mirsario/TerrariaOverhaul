@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ItemAnimations;
@@ -31,6 +32,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public override void SetDefaults(Item item)
 		{
+			// Defaults
+
+			if (item.UseSound is LegacySoundStyle && item.UseSound != SoundID.Item15) {
+				item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMediumAlt", 3, volume: 0.75f, pitchVariance: 0.1f);
+			}
+
+			// Components
+
 			item.EnableComponent<ItemMeleeGoreInteraction>();
 			item.EnableComponent<ItemMeleeAirCombat>();
 			item.EnableComponent<ItemMeleeNpcStuns>();
