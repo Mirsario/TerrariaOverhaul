@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using log4net;
 using Terraria;
 using Terraria.ModLoader;
@@ -30,6 +31,22 @@ namespace TerrariaOverhaul.Core.Systems.Debugging
 					return;
 				}
 			}
+		}
+
+		internal static void EnableMonoModDumps()
+		{
+			string dumpDir = Path.GetFullPath("MonoModDump");
+
+			Directory.CreateDirectory(dumpDir);
+
+			Environment.SetEnvironmentVariable("MONOMOD_DMD_DEBUG", "1");
+			Environment.SetEnvironmentVariable("MONOMOD_DMD_DUMP", dumpDir);
+		}
+
+		internal static void DisableMonoModDumps()
+		{
+			Environment.SetEnvironmentVariable("MONOMOD_DMD_DEBUG", "0");
+			Environment.SetEnvironmentVariable("MONOMOD_DMD_DUMP", null);
 		}
 	}
 }
