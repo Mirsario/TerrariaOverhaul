@@ -13,40 +13,23 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public override bool InstancePerEntity => true;
 
-		public override void Load()
+		public override void OnSpawn(Projectile projectile, IEntitySource source)
 		{
-			base.Load();
+			if (source is EntitySource_ItemUse itemSource) {
+				UseTime = itemSource.Item.useTime;
+				UseAnimation = itemSource.Item.useAnimation;
+				ManaUse = itemSource.Item.mana;
+				Available = true;
+			} else if (source is EntitySource_ProjectileParent parentSource) {
+				var parentInfo = parentSource.ParentProjectile.GetGlobalProjectile<ProjectileSourceItemInfo>();
 
-			//TODO: Use the OnSpawn hook when it's added.
-			On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += (orig, source, x, y, speedX, speedY, type, damage, knockback, Owner, ai0, ai1) => {
-				int id = orig(source, x, y, speedX, speedY, type, damage, knockback, Owner, ai0, ai1);
-
-				if (id != Main.maxProjectiles) {
-					var projectile = Main.projectile[id];
-
-					if (source is EntitySource_Item itemSource) {
-						var info = projectile.GetGlobalProjectile<ProjectileSourceItemInfo>();
-
-						info.UseTime = itemSource.Item.useTime;
-						info.UseAnimation = itemSource.Item.useAnimation;
-						info.ManaUse = itemSource.Item.mana;
-						info.Available = true;
-					} else if (source is EntitySource_ProjectileParent parentSource) {
-						var parentInfo = parentSource.ParentProjectile.GetGlobalProjectile<ProjectileSourceItemInfo>();
-
-						if (parentInfo.Available) {
-							var info = projectile.GetGlobalProjectile<ProjectileSourceItemInfo>();
-
-							info.UseTime = parentInfo.UseTime;
-							info.UseAnimation = parentInfo.UseAnimation;
-							info.ManaUse = parentInfo.ManaUse;
-							info.Available = true;
-						}
-					}
+				if (parentInfo.Available) {
+					UseTime = parentInfo.UseTime;
+					UseAnimation = parentInfo.UseAnimation;
+					ManaUse = parentInfo.ManaUse;
+					Available = true;
 				}
-
-				return id;
-			};
+			}
 		}
 	}
 }
