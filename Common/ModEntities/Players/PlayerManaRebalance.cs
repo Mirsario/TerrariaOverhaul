@@ -3,13 +3,12 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Content.Buffs;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public class PlayerManaRebalance : ModPlayer
 	{
-		public static int BaseManaRegen => 13;
+		public static int BaseManaRegen => 7;
 
 		private static bool IsEnabled => true;
 
@@ -52,9 +51,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 							p.manaRegen *= 2;
 						}
 
+						/*
 						if (p.itemAnimation > 0 && p.HeldItem.mana > 0) {
 							p.manaRegen = 0;
 						}
+						*/
 					}
 				});
 				il.Emit(OpCodes.Ldarg_0);
