@@ -20,6 +20,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		private int manaDropCooldown = ManaDropCooldownTime;
 		private float manaPickupsToDrop;
+		private float totalManaPickupsToDrop;
 
 		public override bool InstancePerEntity => true;
 
@@ -41,6 +42,21 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					//DropMana(npc, player);
 				}
 			};
+		}
+
+		public override void SetDefaults(NPC npc)
+		{
+			if (npc.damage <= 0 || NPCID.Sets.ProjectileNPC[npc.type]) {
+				return;
+			}
+
+			float totalManaToDrop = 10f;
+
+			if (npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type]) {
+				totalManaToDrop = npc.lifeMax / 75f; // This is so not going to be balanced...
+			}
+
+			totalManaPickupsToDrop = MathF.Ceiling(totalManaToDrop / ManaPickupChanges.ManaPerPickup);
 		}
 
 		public override void PostAI(NPC npc)
@@ -153,7 +169,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		private void AccumulateManaOnHit(NPC npc, Player player, float damage, int useTime, int useAnimation, int manaUse)
 		{
-			if (npc.damage <= 0 || NPCID.Sets.ProjectileNPC[npc.type] || player.statMana >= player.statManaMax2) {
+			if (player.statMana >= player.statManaMax2) {
 				return;
 			}
 
@@ -169,12 +185,15 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			manaPickupsToDrop += manaUsePerSecond * ManaUsePerSecondToManaPickupFactor / shotsPerUse;
 			*/
 
-			manaPickupsToDrop += useTime / ManaPickupChanges.ManaPerPickup / 6f;
+			float effectiveDamage = Math.Max(0, damage + Math.Min(0, npc.life));
+
+			manaPickupsToDrop += effectiveDamage / Math.Max(npc.lifeMax, 1f) * totalManaPickupsToDrop;
+			//manaPickupsToDrop += useTime / ManaPickupChanges.ManaPerPickup / 6f;
 			//manaPickupsToDrop += dps / ManaPickupChanges.ManaPerPickup * 2f;
 
 			// Drop everything instantly if dead.
 			if (!npc.active) {
-				DropMana(npc, player, (int)Math.Ceiling(manaPickupsToDrop));
+				DropMana(npc, player, (int)Math.Floor(manaPickupsToDrop));
 
 				manaPickupsToDrop = 0;
 			}
