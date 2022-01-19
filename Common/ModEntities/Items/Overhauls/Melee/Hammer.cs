@@ -60,6 +60,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
 				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
 				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 2.0f; // Even more knockback
+				c.CommonStatMultipliers.ProjectileSpeedMultiplier = 1.5f;
 			});
 
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
