@@ -3,7 +3,7 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
-	public class Pickaxe : MeleeWeapon
+	public class Pickaxe : ItemOverhaul
 	{
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{

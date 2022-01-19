@@ -1,9 +1,13 @@
 ﻿using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ItemAnimations;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
-	public class Axe : MeleeWeapon
+	public class Axe : ItemOverhaul
 	{
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -23,6 +27,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			}
 
 			return true;
+		}
+
+		public override void SetDefaults(Item item)
+		{
+			item.EnableComponent<ItemMeleeGoreInteraction>();
+			item.EnableComponent<ItemMeleeAirCombat>();
+			item.EnableComponent<ItemMeleeNpcStuns>();
+			item.EnableComponent<ItemMeleeCooldownDisabler>();
+			item.EnableComponent<ItemMeleeAttackAiming>();
+
+			item.EnableComponent<ItemPlayerAnimator>(c => {
+				c.Animation = ModContent.GetInstance<GenericMeleeAnimation>();
+			});
 		}
 	}
 }

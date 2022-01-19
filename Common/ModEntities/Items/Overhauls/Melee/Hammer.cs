@@ -3,7 +3,7 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
-	public class Hammer : MeleeWeapon
+	public class Hammer : ItemOverhaul
 	{
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{

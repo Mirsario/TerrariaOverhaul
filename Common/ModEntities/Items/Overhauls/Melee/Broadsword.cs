@@ -18,9 +18,10 @@ using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
-	public partial class Broadsword : MeleeWeapon, ICanDoMeleeDamage
+	public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNPCHitSound
 	{
 		public static readonly ModSoundStyle SwordFleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2, volume: 0.65f, pitchVariance: 0.1f);
+		public static readonly ModSoundStyle ChargedSwordSlashSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -45,7 +46,23 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		{
 			base.SetDefaults(item);
 
-			item.GetGlobalItem<ItemPlayerAnimator>().Animation = new QuickSlashMeleeAnimation();
+			// Defaults
+
+			if (item.UseSound is LegacySoundStyle && item.UseSound != SoundID.Item15) {
+				item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2, pitchVariance: 0.1f);
+			}
+
+			// Components
+
+			item.EnableComponent<ItemMeleeGoreInteraction>();
+			item.EnableComponent<ItemMeleeAirCombat>();
+			item.EnableComponent<ItemMeleeNpcStuns>();
+			item.EnableComponent<ItemMeleeCooldownDisabler>();
+			item.EnableComponent<ItemMeleeAttackAiming>();
+
+			item.EnableComponent<ItemPlayerAnimator>(c => {
+				c.Animation = ModContent.GetInstance<QuickSlashMeleeAnimation>();
+			});
 
 			// Power Attacks
 			item.EnableComponent<ItemPowerAttacks>(c => {
@@ -56,7 +73,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 				c.OnChargeStart += (item, player, chargeLength) => {
 					// These 2 lines only affect animations.
-					MeleeAttackAiming.FlippedAttack = false;
+					item.GetGlobalItem<ItemMeleeAttackAiming>().FlippedAttack = false;
 
 					if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
 						aiming.AttackDirection = Vector2.UnitX * player.direction;
@@ -71,6 +88,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				};
 			});
 
+			item.EnableComponent<ItemPowerAttackSounds>(c => {
+				c.Sound = ChargedSwordSlashSound;
+				c.ReplacesUseSound = true;
+			});
+
 			// Killing Blows
 			item.EnableComponent<ItemKillingBlows>();
 		}
@@ -81,8 +103,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			var powerAttacks = item.GetGlobalItem<ItemPowerAttacks>();
 
-			if (!powerAttacks.PowerAttack) {
-				MeleeAttackAiming.FlippedAttack = MeleeAttackAiming.AttackId % 2 != 0;
+			if (!powerAttacks.PowerAttack && item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
+				aiming.FlippedAttack = aiming.AttackId % 2 != 0;
 			}
 
 			// Swing velocity
@@ -136,23 +158,15 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			base.UseItemFrame(item, player);
 
 			// Leg frame
+			var aiming = item.GetGlobalItem<ItemMeleeAttackAiming>();
+
 			if (player.velocity.Y == 0f && player.KeyDirection() == 0) {
-				if (Math.Abs(MeleeAttackAiming.AttackDirection.X) > 0.5f) {
-					player.legFrame = (MeleeAttackAiming.FlippedAttack ? PlayerFrames.Walk8 : PlayerFrames.Jump).ToRectangle();
+				if (Math.Abs(aiming.AttackDirection.X) > 0.5f) {
+					player.legFrame = (aiming.FlippedAttack ? PlayerFrames.Walk8 : PlayerFrames.Jump).ToRectangle();
 				} else {
 					player.legFrame = PlayerFrames.Walk13.ToRectangle();
 				}
 			}
-		}
-
-		public override void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref ISoundStyle customHitSound, ref bool playNPCHitSound)
-		{
-			// This checks for whether or not the target has bled.
-			if (target.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore) && npcBloodAndGore.LastHitBloodAmount > 0) {
-				customHitSound = SwordFleshHitSound;
-			}
-
-			base.ModifyItemNPCHitSound(item, player, target, ref customHitSound, ref playNPCHitSound);
 		}
 
 		public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
@@ -173,6 +187,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 		{
 			// Damage will only be applied during the first half of the use. The second half is a cooldown, and the animations reflect that.
 			return player.itemAnimation >= player.itemAnimationMax / 2 && !item.GetGlobalItem<ItemCharging>().IsCharging;
+		}
+
+		void IModifyItemNPCHitSound.ModifyItemNPCHitSound(Item item, Player player, NPC target, ref ISoundStyle customHitSound, ref bool playNPCHitSound)
+		{
+			// This checks for whether or not the target has bled.
+			if (target.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore) && npcBloodAndGore.LastHitBloodAmount > 0) {
+				customHitSound = SwordFleshHitSound;
+			}
 		}
 	}
 }

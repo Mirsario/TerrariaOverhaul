@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 
@@ -33,6 +34,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee
 		{
 			AttackDirection = player.LookDirection();
 			AttackId++;
+		}
+
+		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+		{
+			// Make directional knockback work with melee.
+			if (target.TryGetGlobalNPC(out NPCDirectionalKnockback npcKnockback)) {
+				npcKnockback.SetNextKnockbackDirection(AttackDirection);
+			}
 		}
 
 		public bool? CanMeleeCollideWithNPC(Item item, Player player, NPC target)
