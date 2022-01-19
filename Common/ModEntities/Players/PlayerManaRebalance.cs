@@ -37,6 +37,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					if (IsEnabled) {
 						p.manaRegen = BaseManaRegen + p.manaRegenBonus;
 
+						// The vanilla "Staying still doubles mana regen" feature. I think it's stupid.
+						/*
 						if (p.velocity.Y == 0f && Math.Abs(p.velocity.X) < 2f && p.itemAnimation <= 0 && !p.controlUseItem && p.controlLeft == p.controlRight) {
 							p.manaRegen *= 2;
 
@@ -44,6 +46,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 								p.AddBuff(ModContent.BuffType<ManaChannelling>(), 2);
 							}
 						}
+						*/
 
 						if (p.manaRegenBuff) {
 							p.manaRegen *= 2;
@@ -57,9 +60,5 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				il.Emit(OpCodes.Ldarg_0);
 			};
 		}
-		/*public override void ModifyManaCost(Item item, ref float reduce, ref float mult)
-		{
-			mult *= 1.3f;
-		}*/
 	}
 }
