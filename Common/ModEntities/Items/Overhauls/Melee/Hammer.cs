@@ -38,6 +38,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/BluntSwingHeavy", 4, volume: 0.75f, pitchVariance: 0.1f);
 			}
 
+			item.knockBack *= 1.5f; // Increased knockback
+
 			// Components
 
 			item.EnableComponent<ItemMeleeGoreInteraction>();
@@ -48,6 +50,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			item.EnableComponent<ItemPlayerAnimator>(c => {
 				c.Animation = ModContent.GetInstance<GenericMeleeAnimation>();
+			});
+
+			// Power Attacks
+			item.EnableComponent<ItemMeleePowerAttackEffects>();
+			item.EnableComponent<ItemPowerAttacks>(c => {
+				c.ChargeLengthMultiplier = 1.5f;
+				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
+				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
+				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 2.0f; // Even more knockback
+			});
+
+			item.EnableComponent<ItemPowerAttackSounds>(c => {
+				c.Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/BluntSwingSuperHeavy", pitchVariance: 0.1f);
+				c.ReplacesUseSound = true;
 			});
 		}
 	}

@@ -21,7 +21,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 	public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNPCHitSound
 	{
 		public static readonly ModSoundStyle SwordFleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2, volume: 0.65f, pitchVariance: 0.1f);
-		public static readonly ModSoundStyle ChargedSwordSlashSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -66,31 +65,16 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			});
 
 			// Power Attacks
+			item.EnableComponent<ItemMeleePowerAttackEffects>();
 			item.EnableComponent<ItemPowerAttacks>(c => {
 				c.ChargeLengthMultiplier = 1.5f;
 				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
 				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
 				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
-
-				c.OnChargeStart += (item, player, chargeLength) => {
-					// These 2 lines only affect animations.
-					item.GetGlobalItem<ItemMeleeAttackAiming>().FlippedAttack = false;
-
-					if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
-						aiming.AttackDirection = Vector2.UnitX * player.direction;
-					}
-				};
-
-				c.OnChargeUpdate += (item, player, chargeLength, progress) => {
-					// Purely visual
-					if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
-						aiming.AttackDirection = Vector2.Lerp(aiming.AttackDirection, player.LookDirection(), 5f * TimeSystem.LogicDeltaTime);
-					}
-				};
 			});
 
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
-				c.Sound = ChargedSwordSlashSound;
+				c.Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2);
 				c.ReplacesUseSound = true;
 			});
 
@@ -100,8 +84,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 		public override void UseAnimation(Item item, Player player)
 		{
-			base.UseAnimation(item, player);
-
 			var powerAttacks = item.GetGlobalItem<ItemPowerAttacks>();
 
 			if (!powerAttacks.PowerAttack && item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {

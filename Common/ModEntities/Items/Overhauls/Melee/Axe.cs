@@ -1,10 +1,13 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ItemAnimations;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
+using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
@@ -49,6 +52,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			item.EnableComponent<ItemPlayerAnimator>(c => {
 				c.Animation = ModContent.GetInstance<GenericMeleeAnimation>();
+			});
+
+			// Power Attacks
+			item.EnableComponent<ItemMeleePowerAttackEffects>();
+			item.EnableComponent<ItemPowerAttacks>(c => {
+				c.ChargeLengthMultiplier = 1.5f;
+				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
+				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
+				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
+			});
+
+			item.EnableComponent<ItemPowerAttackSounds>(c => {
+				c.Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2);
+				c.ReplacesUseSound = true;
 			});
 		}
 	}
