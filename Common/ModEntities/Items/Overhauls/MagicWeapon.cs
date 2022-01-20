@@ -45,7 +45,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 
 			item.EnableComponent<ItemPowerAttacks>(c => {
 				c.ChargeLengthMultiplier = 2f;
-				c.CommonStatMultipliers.ProjectileDamageMultiplier = 2.5f;
+				c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.75f;
 				c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
 				c.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
 
