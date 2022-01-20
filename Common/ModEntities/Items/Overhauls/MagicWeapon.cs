@@ -32,6 +32,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				return false;
 			}
 
+			// Ignore laser guns
+			if (item.UseSound == SoundID.Item157) {
+				return false;
+			}
+
 			return true;
 		}
 
