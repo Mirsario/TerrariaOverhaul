@@ -10,7 +10,7 @@ namespace TerrariaOverhaul
 {
 	public partial class OverhaulMod : Mod
 	{
-		public static readonly uint BetaNumber = 8;
+		public static readonly uint BetaNumber = 9;
 		public static readonly bool IsBeta = BetaNumber > 0;
 		public static readonly string VersionSuffix = $"(BETA {BetaNumber})";
 		public static readonly string PersonalDirectory = Path.Combine(Main.SavePath, "TerrariaOverhaul");
