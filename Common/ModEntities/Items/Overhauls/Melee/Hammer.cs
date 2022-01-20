@@ -64,7 +64,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 			});
 
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
-				c.Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/BluntSwingSuperHeavy", pitchVariance: 0.1f);
+				c.Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/BluntSwingSuperHeavy", volume: 0.5f, pitchVariance: 0.1f);
 				c.ReplacesUseSound = true;
 			});
 		}
