@@ -8,7 +8,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public class PlayerManaRebalance : ModPlayer
 	{
-		public static int BaseManaRegen => 7;
+		public static int BaseManaRegen => 20;
+		public static float TotalManaRegenMultiplier => 0.4f; // 'Mana Regeneration Band' adds whooping 25 regen per second. This exists to battle disbalance from values like that.
 
 		private static bool IsEnabled => true;
 
@@ -48,7 +49,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 						*/
 
 						if (p.manaRegenBuff) {
-							p.manaRegen *= 2;
+							p.manaRegen = (int)(p.manaRegen * 1.5f); // *= 2;
 						}
 
 						/*
@@ -56,6 +57,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 							p.manaRegen = 0;
 						}
 						*/
+
+						p.manaRegen = (int)(p.manaRegen * TotalManaRegenMultiplier);
 					}
 				});
 				il.Emit(OpCodes.Ldarg_0);
