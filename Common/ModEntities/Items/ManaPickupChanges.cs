@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 			ItemID.SugarPlum
 		};
 
-		public override int MaxLifetime => 300;
+		public override int MaxLifetime => 600;
 
 		public override bool AppliesToEntity(Item item, bool lateInstantiation)
 		{
