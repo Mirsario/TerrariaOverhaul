@@ -50,10 +50,10 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				return;
 			}
 
-			float totalManaToDrop = 10f;
+			float totalManaToDrop = 15f;
 
 			if (npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type]) {
-				totalManaToDrop = npc.lifeMax / 75f; // This is so not going to be balanced...
+				totalManaToDrop = npc.lifeMax / 6f; // This is so not going to be balanced...
 			}
 
 			totalManaPickupsToDrop = MathF.Ceiling(totalManaToDrop / ManaPickupChanges.ManaPerPickup);
