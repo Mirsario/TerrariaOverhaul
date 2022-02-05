@@ -170,7 +170,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					continue;
 				}
 
-				if (tile.type == TileID.ClosedDoor) {
+				if (tile.TileType == TileID.ClosedDoor) {
 					WorldGen.OpenDoor(x, y, dodgeDirection);
 				}
 			}

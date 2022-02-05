@@ -123,7 +123,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 			// Check if the tile that this is latched to has disappeared.
 
-			if (!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) || !tile.IsActive || tile.IsActuated || (!Main.tileSolid[tile.type] && tile.type != TileID.MinecartTrack)) {
+			if (!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) || !tile.HasTile || tile.IsActuated || (!Main.tileSolid[tile.TileType] && tile.TileType != TileID.MinecartTrack)) {
 				SetHooked(proj, false);
 				proj.Kill();
 

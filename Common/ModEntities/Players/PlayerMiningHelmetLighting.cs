@@ -48,7 +48,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					continue;
 				}
 
-				if (tile.IsActive && Main.tileSolid[tile.type]) {
+				if (tile.HasTile && Main.tileSolid[tile.TileType]) {
 					maxBrightness -= 0.2f;
 
 					if (maxBrightness <= 0f) {

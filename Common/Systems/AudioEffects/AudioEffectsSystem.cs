@@ -323,7 +323,7 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 						return;
 					}
 
-					if (tile.IsActive && Main.tileSolid[tile.type]) {
+					if (tile.HasTile && Main.tileSolid[tile.TileType]) {
 						occludingTiles++;
 
 						if (occludingTiles >= MaxOccludingTiles) {

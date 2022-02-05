@@ -32,13 +32,13 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 
 			var vec = entity.BottomLeft / 16f;
 			var point = new Vector2Int((int)Math.Floor(vec.X), (int)Math.Ceiling(vec.Y));
-			Tile tile = null;
+			Tile tile = default;
 
-			if (forcedPoint.HasValue && forcedPoint.Value.IsInWorld() && Main.tile.TryGet(forcedPoint.Value, out var tempTile) && tempTile.IsActive) {
+			if (forcedPoint.HasValue && forcedPoint.Value.IsInWorld() && Main.tile.TryGet(forcedPoint.Value, out var tempTile) && tempTile.HasTile) {
 				tile = tempTile;
 			} else {
 				for (int x = 0; x < 2; x++) {
-					if (Main.tile.TryGet(point.X + x, point.Y, out tempTile) && tempTile.IsActive) {
+					if (Main.tile.TryGet(point.X + x, point.Y, out tempTile) && tempTile.HasTile) {
 						tile = tempTile;
 
 						break;
@@ -73,7 +73,7 @@ namespace TerrariaOverhaul.Common.Systems.Footsteps
 			}
 
 			// Try to get a footstep provider from the tile
-			if (soundProvider == null && PhysicalMaterialSystem.TryGetTilePhysicalMaterial(tile.type, out var material)) {
+			if (soundProvider == null && PhysicalMaterialSystem.TryGetTilePhysicalMaterial(tile.TileType, out var material)) {
 				soundProvider = material as IFootstepSoundProvider;
 			}
 

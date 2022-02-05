@@ -104,7 +104,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 				return;
 			}
 
-			if (Main.tileSolid[tile.type] && tile.IsActive) {
+			if (Main.tileSolid[tile.TileType] && tile.HasTile) {
 				// MoveGoreUpwards(point);
 			} else if (tile.LiquidAmount > 0) {
 				OnLiquidCollision(tile);
@@ -318,7 +318,7 @@ namespace TerrariaOverhaul.Common.Systems.Gores
 		{
 			int upY = point.Y - 2;
 
-			if (upY >= 0 && Main.tile.TryGet(point.X, upY, out var upTile) && (!Main.tileSolid[upTile.type] || !upTile.IsActive)) {
+			if (upY >= 0 && Main.tile.TryGet(point.X, upY, out var upTile) && (!Main.tileSolid[upTile.TileType] || !upTile.HasTile)) {
 				position.Y -= 1;
 				velocity.Y = 0.000001f;
 			}

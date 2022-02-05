@@ -95,16 +95,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				var pos = new Point16(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + i);
 
 				// The base tile has to be solid
-				if (!Main.tile.TryGet(pos, out var tempTile) || !tempTile.IsActive || tempTile.IsActuated || (!Main.tileSolid[tempTile.type] && !Main.tileSolidTop[tempTile.type]) || (i != 0 && tempTile.Slope != SlopeType.Solid)) {
+				if (!Main.tile.TryGet(pos, out var tile) || !tile.HasUnactuatedTile || (!Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType]) || (i != 0 && tile.Slope != SlopeType.Solid)) {
 					continue;
 				}
 
 				// Ice can't climbed on, unless you have climbing gear
-				if (OverhaulTileTags.NoClimbing.Has(tempTile.type) && !HasClimbingGear) {
+				if (OverhaulTileTags.NoClimbing.Has(tile.TileType) && !HasClimbingGear) {
 					continue;
 				}
 
-				bool CheckFree(int x, int y, Tile t) => !(t.IsActive && !t.IsActuated) || !Main.tileSolid[t.type] || OverhaulTileTags.AllowClimbing.Has(t.type);
+				bool CheckFree(int x, int y, Tile t)
+					=> !(t.HasTile && !t.IsActuated) || !Main.tileSolid[t.TileType] || OverhaulTileTags.AllowClimbing.Has(t.TileType);
 
 				if (!(
 					TileCheckUtils.CheckAreaAll(pos.X, pos.Y - 3, 1, 3, CheckFree)

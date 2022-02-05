@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Utilities
 		{
 			for (int yy = 0; yy < height; yy++) {
 				for (int xx = 0; xx < width; xx++) {
-					if (!Main.tile.TryGet(x + xx, y + yy, out Tile tile) || !Main.tileSolid[tile.type] || !tile.IsActive) {
+					if (!Main.tile.TryGet(x + xx, y + yy, out Tile tile) || !Main.tileSolid[tile.TileType] || !tile.HasTile) {
 						return false;
 					}
 				}
@@ -59,9 +59,9 @@ namespace TerrariaOverhaul.Utilities
 		}
 
 		public static bool CheckSurrounded(int x, int y)
-			=> CheckDiamondAll(x, y, (tile, point) => tile.IsActive && Main.tileSolid[tile.type]);
+			=> CheckDiamondAll(x, y, (tile, point) => tile.HasTile && Main.tileSolid[tile.TileType]);
 
 		public static bool CheckTotallySurrounded(int x, int y)
-			=> CheckDiamondAll(x, y, (tile, point) => tile.IsActive && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type]);
+			=> CheckDiamondAll(x, y, (tile, point) => tile.HasTile && Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType]);
 	}
 }

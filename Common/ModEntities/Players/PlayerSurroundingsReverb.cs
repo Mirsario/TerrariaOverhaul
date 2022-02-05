@@ -48,7 +48,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					int y = p.Y + start.Y;
 					Tile tile = Main.tile[x, y];
 
-					occupied = tile.IsActive && Main.tileSolid[tile.type];
+					occupied = tile.HasTile && Main.tileSolid[tile.TileType];
 
 					if (!occupied) {
 						/*if(DebugSystem.EnableDebugRendering) {
@@ -58,7 +58,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 						return;
 					}
 
-					if (tile.type >= TileLoader.TileCount || !OverhaulTileTags.Reverb.Has(tile.type)) {
+					if (tile.TileType >= TileLoader.TileCount || !OverhaulTileTags.Reverb.Has(tile.TileType)) {
 						return;
 					}
 

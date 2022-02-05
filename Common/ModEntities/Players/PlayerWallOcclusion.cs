@@ -38,9 +38,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					int y = p.Y + start.Y;
 					Tile tile = Main.tile[x, y];
 
-					occupied = tile.IsActive && Main.tileSolid[tile.type] && !Main.tileSolidTop[tile.type] && tile.BlockType == Terraria.ID.BlockType.Solid;
+					occupied = tile.HasTile && Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType] && tile.BlockType == Terraria.ID.BlockType.Solid;
 
-					if (!occupied && (tile.wall > 0 || y >= Main.worldSurface)) {
+					if (!occupied && (tile.WallType > 0 || y >= Main.worldSurface)) {
 						numWalls++;
 
 						if (DebugSystem.EnableDebugRendering) {

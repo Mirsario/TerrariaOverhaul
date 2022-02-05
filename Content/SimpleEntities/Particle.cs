@@ -36,7 +36,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			velocity += gravity * TimeSystem.LogicDeltaTime;
 
 			if (CollidesWithTiles && Main.tile.TryGet((int)(position.X / 16), (int)(position.Y / 16), out var tile)) {
-				if (tile.IsActive && Main.tileSolid[tile.type]) {
+				if (tile.HasTile && Main.tileSolid[tile.TileType]) {
 					OnTileContact(tile, out bool destroy);
 
 					if (destroy) {
@@ -58,7 +58,14 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			LifeTime++;
 		}
 
-		protected virtual void OnLiquidContact(Tile tile, out bool destroy) => destroy = false;
-		protected virtual void OnTileContact(Tile tile, out bool destroy) => destroy = true;
+		protected virtual void OnLiquidContact(Tile tile, out bool destroy)
+		{
+			destroy = false;
+		}
+
+		protected virtual void OnTileContact(Tile tile, out bool destroy)
+		{
+			destroy = true;
+		}
 	}
 }
