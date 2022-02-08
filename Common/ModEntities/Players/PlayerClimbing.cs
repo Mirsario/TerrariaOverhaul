@@ -20,11 +20,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	{
 		public static readonly ConfigEntry<bool> EnableClimbing = new(ConfigSide.Both, "PlayerMovement", nameof(EnableClimbing), () => true);
 
-		public bool forceClimb;
-		public Timer climbCooldown;
-
 		private Vector2 climbStartPos;
 		private Vector2 climbEndPos;
+
+		public bool ForceClimb;
+		public Timer ClimbCooldown;
 
 		public float ClimbProgress { get; private set; }
 		public bool IsClimbing { get; private set; }
@@ -62,7 +62,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			//isSleeping ||
-			if (climbCooldown.Active) {
+			if (ClimbCooldown.Active) {
 				return;
 			}
 
@@ -72,11 +72,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			// Check for keypress.
-			if (!Player.controlUp && !forceClimb) {
+			if (!Player.controlUp && !ForceClimb) {
 				return;
 			}
 
-			forceClimb = false;
+			ForceClimb = false;
 
 			// Disable climbing if flying upwards or flying with wings
 			if (Player.velocity.Y < -6f /* || (Player.wingsLogic > 0 && Player.wingTime > 0f)*/) {
@@ -104,7 +104,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					continue;
 				}
 
-				bool CheckFree(int x, int y, Tile t)
+				static bool CheckFree(int x, int y, Tile t)
 					=> !(t.HasTile && !t.IsActuated) || !Main.tileSolid[t.TileType] || OverhaulTileTags.AllowClimbing.Has(t.TileType);
 
 				if (!(
@@ -120,6 +120,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				break;
 			}
 		}
+
 		private void UpdateClimbing()
 		{
 			var playerMovement = Player.GetModPlayer<PlayerMovement>();
@@ -133,7 +134,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			Player.fallStart = (int)(Player.position.Y / 16f);
 
 			// Force direction.
-			playerDirectioning.forcedDirection = climbStartPos.X <= climbEndPos.X ? 1 : -1;
+			playerDirectioning.ForcedDirection = climbStartPos.X <= climbEndPos.X ? 1 : -1;
 
 			// Progress climbing.
 			ClimbProgress = MathUtils.StepTowards(ClimbProgress, 1f, (1f / ClimbTime) * TimeSystem.LogicDeltaTime);
@@ -141,14 +142,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			if (ClimbProgress >= 1f) {
 				IsClimbing = false;
 			} else {
-				playerAnimations.forcedBodyFrame = ClimbProgress > 0.75f ? PlayerFrames.Use4 : ClimbProgress > 0.5f ? PlayerFrames.Use3 : ClimbProgress > 0.25f ? PlayerFrames.Use2 : PlayerFrames.Use1;
-				playerRotation.rotation = ClimbProgress * 0.7f * Player.direction;
-				playerRotation.rotationOffsetScale = 0f;
+				playerAnimations.ForcedBodyFrame = ClimbProgress > 0.75f ? PlayerFrames.Use4 : ClimbProgress > 0.5f ? PlayerFrames.Use3 : ClimbProgress > 0.25f ? PlayerFrames.Use2 : PlayerFrames.Use1;
+				playerRotation.Rotation = ClimbProgress * 0.7f * Player.direction;
+				playerRotation.RotationOffsetScale = 0f;
 			}
 
 			Player.position.X = MathHelper.Lerp(climbStartPos.X, climbEndPos.X, ClimbProgress);
 			Player.position.Y = ClimbProgress < 0.75f ? MathHelper.Lerp(climbStartPos.Y, climbEndPos.Y, ClimbProgress / 0.75f) : climbEndPos.Y;
-			playerMovement.forcedPosition = Player.position;
+			playerMovement.ForcedPosition = Player.position;
 
 			// Fix suffocating when climbing sand
 			Player.suffocating = false;
@@ -162,7 +163,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			Player.maxRunSpeed = 0f;
 
 			// Prevent other actions
-			Player.GetModPlayer<PlayerDodgerolls>().dodgeCooldown.Set(1);
+			Player.GetModPlayer<PlayerDodgerolls>().DodgeCooldown.Set(1);
 		}
 	}
 }

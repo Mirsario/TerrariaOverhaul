@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 
 			Writer.TryWriteSenderPlayer(player);
 
-			Writer.WriteVector2(modPlayer.mouseWorld);
+			Writer.WriteVector2(modPlayer.MouseWorld);
 		}
 
 		public override void Read(BinaryReader reader, int sender)
@@ -25,7 +25,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 
 			var modPlayer = player.GetModPlayer<PlayerDirectioning>();
 
-			modPlayer.mouseWorld = reader.ReadVector2();
+			modPlayer.MouseWorld = reader.ReadVector2();
 
 			// Resend
 			if (Main.netMode == NetmodeID.Server) {

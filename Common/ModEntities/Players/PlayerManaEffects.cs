@@ -79,6 +79,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				lowManaDustCounter = 0f;
 			}
 		}
+
 		private void UpdateManaRegenEffects()
 		{
 			float goalManaRegenEffectIntensity;

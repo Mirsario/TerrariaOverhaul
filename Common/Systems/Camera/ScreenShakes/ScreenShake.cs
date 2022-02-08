@@ -20,6 +20,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera.ScreenShakes
 		{
 			this.powerGradient = powerGradient;
 		}
+
 		public ScreenShake(float power, float time, Vector2? position = null, float range = DefaultRange, string uniqueId = null)
 		{
 			this.power = power;

@@ -4,8 +4,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerInput : ModPlayer
 	{
-		public bool controlHookPrev;
-		public bool controlJumpPrev;
+		public bool ControlHookPrev { get; private set; }
+		public bool ControlJumpPrev { get; private set; }
 
 		//TODO: Sync.
 
@@ -17,8 +17,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PreUpdate()
 		{
-			controlJumpPrev = Player.controlJump;
-			controlHookPrev = Player.controlHook;
+			ControlJumpPrev = Player.controlJump;
+			ControlHookPrev = Player.controlHook;
 		}
 	}
 }

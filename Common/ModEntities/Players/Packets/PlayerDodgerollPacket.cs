@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 
 			Writer.TryWriteSenderPlayer(player);
 
-			Writer.Write(playerDodgerolls.wantedDodgerollDir);
+			Writer.Write(playerDodgerolls.WantedDodgerollDirection);
 			Writer.WriteVector2(player.velocity);
 		}
 
@@ -26,8 +26,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 
 			var playerDodgerolls = player.GetModPlayer<PlayerDodgerolls>();
 
-			playerDodgerolls.forceDodgeroll = true;
-			playerDodgerolls.wantedDodgerollDir = reader.ReadSByte();
+			playerDodgerolls.ForceDodgeroll = true;
+			playerDodgerolls.WantedDodgerollDirection = reader.ReadSByte();
 
 			player.velocity = reader.ReadVector2();
 

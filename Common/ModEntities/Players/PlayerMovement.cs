@@ -19,34 +19,36 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public struct MovementModifier
 		{
 			public static readonly MovementModifier Default = new() {
-				gravityScale = 1f,
-				runAccelerationScale = 1f,
-				maxRunSpeedScale = 1f
+				GravityScale = 1f,
+				RunAccelerationScale = 1f,
+				MaxRunSpeedScale = 1f
 			};
 
-			public float gravityScale;
-			public float runAccelerationScale;
-			public float maxRunSpeedScale;
+			public float GravityScale;
+			public float RunAccelerationScale;
+			public float MaxRunSpeedScale;
 
 			public void Apply(Player player)
 			{
-				player.gravity *= gravityScale;
-				player.runAcceleration *= runAccelerationScale;
+				player.gravity *= GravityScale;
+				player.runAcceleration *= RunAccelerationScale;
 			}
 		}
 
 		public static readonly int VelocityRecordSize = 5;
-		// The way to disable this has been removed due to vanilla jump velocity logic resetting velocity and clashing with many different features
-		//public static readonly ConfigEntry<bool> EnableJumpPhysicsImprovements = new(ConfigSide.Both, "PlayerMovement", nameof(EnableJumpPhysicsImprovements), () => true);
+
 		public static readonly ConfigEntry<bool> EnableVerticalAccelerationChanges = new(ConfigSide.Both, "PlayerMovement", nameof(EnableVerticalAccelerationChanges), () => true);
 		public static readonly ConfigEntry<bool> EnableHorizontalAccelerationChanges = new(ConfigSide.Both, "PlayerMovement", nameof(EnableHorizontalAccelerationChanges), () => true);
 
-		//public Timer noJumpTime;
-		public Timer noMovementTime;
-		public int vanillaAccelerationTime;
-		public Vector2? forcedPosition;
-		//public Vector2 prevVelocity;
-		public Vector2[] velocityRecord = new Vector2[VelocityRecordSize];
+		// The way to disable this has been removed due to vanilla jump velocity logic resetting velocity and clashing with many different features
+		//public static readonly ConfigEntry<bool> EnableJumpPhysicsImprovements = new(ConfigSide.Both, "PlayerMovement", nameof(EnableJumpPhysicsImprovements), () => true);
+
+		//public Timer NoJumpTime { get; set; }
+		//public Vector2 PrevVelocity { get; set; }
+		public Timer NoMovementTime { get; set; }
+		public int VanillaAccelerationTime { get; set; }
+		public Vector2? ForcedPosition { get; set; }
+		public Vector2[] VelocityRecord { get; private set; } = new Vector2[VelocityRecordSize];
 
 		private int maxPlayerJump;
 		private int prevPlayerJump;
@@ -122,8 +124,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				bool wings = Player.wingsLogic > 0 && Player.controlJump && !onGround && !wasOnGround;
 				bool wingFall = wings && Player.wingTime == 0;
 
-				if (vanillaAccelerationTime > 0) {
-					vanillaAccelerationTime--;
+				if (VanillaAccelerationTime > 0) {
+					VanillaAccelerationTime--;
 				} else if (!Player.slippy && !Player.slippy2 && EnableHorizontalAccelerationChanges) {
 					// Horizontal acceleration
 					if (onGround) {
@@ -142,7 +144,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					Player.runSlowdown = onGround ? 0.275f : 0.02f;
 				}
 
-				if (noMovementTime.Active) {
+				if (NoMovementTime.Active) {
 					Player.maxRunSpeed = 0f;
 					Player.runAcceleration = 0f;
 				} else if (Player.chilled) {
@@ -166,13 +168,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
-			Array.Copy(velocityRecord, 0, velocityRecord, 1, velocityRecord.Length - 1); // Shift
+			Array.Copy(VelocityRecord, 0, VelocityRecord, 1, VelocityRecord.Length - 1); // Shift
 
-			velocityRecord[0] = Player.velocity;
+			VelocityRecord[0] = Player.velocity;
 
-			if (forcedPosition != null) {
-				Player.position = forcedPosition.Value;
-				forcedPosition = null;
+			if (ForcedPosition != null) {
+				Player.position = ForcedPosition.Value;
+				ForcedPosition = null;
 			}
 
 			Player.oldVelocity = Player.velocity;

@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 		public static int KeyDirection(this Player player) => player.controlLeft ? -1 : player.controlRight ? 1 : 0;
 
-		public static Vector2 LookDirection(this Player player) => (player.GetModPlayer<PlayerDirectioning>().mouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
+		public static Vector2 LookDirection(this Player player) => (player.GetModPlayer<PlayerDirectioning>().MouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
 
 		// Velocity
 

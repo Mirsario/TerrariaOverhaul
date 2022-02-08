@@ -9,19 +9,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 	[Autoload(Side = ModSide.Client)]
 	public class ProjectileGoreInteraction : GlobalProjectile
 	{
-		public bool dontHitGore;
+		public bool DontHitGore { get; set; }
 
 		public override bool InstancePerEntity => true;
 
 		public override void AI(Projectile projectile)
 		{
 			// Reset dontHitGore every X ticks when the projectile's flying somewhere
-			if (dontHitGore && projectile.position != projectile.oldPosition && projectile.timeLeft % 3 == 0) {
-				dontHitGore = false;
+			if (DontHitGore && projectile.position != projectile.oldPosition && projectile.timeLeft % 3 == 0) {
+				DontHitGore = false;
 			}
 
 			// Skip gore enumeration when there's nothing to do.
-			if (dontHitGore) {
+			if (DontHitGore) {
 				return;
 			}
 
@@ -58,7 +58,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 					hitPower = 5f;
 				}
 
-				dontHitGore = goreExt.HitGore(projectile.velocity.SafeNormalize(default), hitPower);
+				DontHitGore = goreExt.HitGore(projectile.velocity.SafeNormalize(default), hitPower);
 
 				break;
 			}

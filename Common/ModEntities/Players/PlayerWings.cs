@@ -1,17 +1,17 @@
 ﻿using Terraria.ModLoader;
+using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerWings : ModPlayer
 	{
-		public int noWingsTime;
+		public Timer WingsCooldown { get; set; }
 
 		public override void PreUpdate()
 		{
 			// No Wings Time
-			if (noWingsTime > 0) {
+			if (WingsCooldown.Active) {
 				Player.wingsLogic = 0;
-				noWingsTime--;
 			}
 		}
 	}

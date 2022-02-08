@@ -32,7 +32,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee
 
 			if (player.velocity.Y != 0f) {
 				if (meleeAttackAiming.AttackDirection.Y < 0.1f) {
-					modifier.gravityScale *= 0.1f;
+					modifier.GravityScale *= 0.1f;
 				}
 
 				var positionDifference = target.Center - player.Center;

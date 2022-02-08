@@ -13,8 +13,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	{
 		private const int MouseWorldSyncFrequency = 12;
 
-		public int forcedDirection;
-		public Vector2 mouseWorld;
+		public int ForcedDirection { get; set; }
+		public Vector2 MouseWorld { get; set; }
 
 		private Vector2 lastSyncedMouseWorld;
 
@@ -52,24 +52,24 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			if (Player.IsLocal() && Main.hasFocus) {
-				mouseWorld = Main.MouseWorld;
+				MouseWorld = Main.MouseWorld;
 
-				if (Main.netMode == NetmodeID.MultiplayerClient && Main.GameUpdateCount % MouseWorldSyncFrequency == 0 && lastSyncedMouseWorld != mouseWorld) {
+				if (Main.netMode == NetmodeID.MultiplayerClient && Main.GameUpdateCount % MouseWorldSyncFrequency == 0 && lastSyncedMouseWorld != MouseWorld) {
 					MultiplayerSystem.SendPacket(new PlayerMousePositionPacket(Player));
 
-					lastSyncedMouseWorld = mouseWorld;
+					lastSyncedMouseWorld = MouseWorld;
 				}
 			}
 
 			if (!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || ICanTurnDuringItemUse.Hook.Invoke(Player.HeldItem, Player))) {
-				if (forcedDirection != 0) {
-					Player.direction = forcedDirection;
+				if (ForcedDirection != 0) {
+					Player.direction = ForcedDirection;
 
 					if (resetForcedDirection) {
-						forcedDirection = 0;
+						ForcedDirection = 0;
 					}
 				} else {
-					Player.direction = mouseWorld.X >= Player.Center.X ? 1 : -1;
+					Player.direction = MouseWorld.X >= Player.Center.X ? 1 : -1;
 				}
 			}
 		}

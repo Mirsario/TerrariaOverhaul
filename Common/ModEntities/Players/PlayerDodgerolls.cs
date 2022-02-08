@@ -22,19 +22,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public static ModKeybind DodgerollKey { get; private set; }
 
 		public static float DodgeTimeMax => 0.37f;
-		public static uint DodgeDefaultCooldown => 90;
+		public static uint DodgeDefaultCooldown => (int)(TimeSystem.LogicFramerate * 1.5f);
 
-		public Timer dodgeCooldown;
-		public sbyte dodgeDirection;
-		public sbyte dodgeDirectionVisual;
-		public sbyte wantedDodgerollDir;
-		public float dodgeTime;
-		public float dodgeStartRot;
-		public float dodgeItemRotation;
-		public bool isDodging;
-		public float wantsDodgerollTimer;
-		public bool forceDodgeroll;
-		public bool noDodge;
+		public Timer DodgeCooldown;
+		public Timer DodgeAttemptTimer;
+		public bool ForceDodgeroll;
+		public sbyte WantedDodgerollDirection;
+
+		public bool IsDodging { get; private set; }
+		public float DodgeStartRotation { get; private set; }
+		public float DodgeItemRotation { get; private set; }
+		public float DodgeTime { get; private set; }
+		public sbyte DodgeDirection { get; private set; }
+		public sbyte DodgeDirectionVisual { get; private set; }
 
 		public override void Load()
 		{
@@ -46,7 +46,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			UpdateDodging();
 
 			// Stop umbrella and other things from working
-			if (isDodging && Player.HeldItem.type == ItemID.Umbrella) {
+			if (IsDodging && Player.HeldItem.type == ItemID.Umbrella) {
 				return false;
 			}
 
@@ -54,17 +54,22 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		}
 
 		// CanX
-		public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot) => !isDodging;
-		public override bool CanBeHitByProjectile(Projectile proj) => !isDodging;
-		public override bool CanUseItem(Item item) => !isDodging;
+		public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot)
+			=> !IsDodging;
 
-		public void QueueDodgeroll(float wantTime, sbyte direction, bool force = false)
+		public override bool CanBeHitByProjectile(Projectile proj)
+			=> !IsDodging;
+
+		public override bool CanUseItem(Item item)
+			=> !IsDodging;
+
+		public void QueueDodgeroll(int minAttemptTimer, sbyte direction, bool force = false)
 		{
-			wantsDodgerollTimer = wantTime;
-			wantedDodgerollDir = direction;
+			DodgeAttemptTimer = minAttemptTimer;
+			WantedDodgerollDirection = direction;
 
 			if (force) {
-				dodgeCooldown = 0;
+				DodgeCooldown = 0;
 			}
 		}
 
@@ -72,18 +77,18 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			bool isLocal = Player.IsLocal();
 
-			if (isLocal && wantsDodgerollTimer <= 0f && DodgerollKey.JustPressed && !Player.mouseInterface) {
-				QueueDodgeroll(0.25f, (sbyte)Player.KeyDirection());
+			if (isLocal && !DodgeAttemptTimer.Active && DodgerollKey.JustPressed && !Player.mouseInterface) {
+				QueueDodgeroll((int)(TimeSystem.LogicFramerate * 0.25f), (sbyte)Player.KeyDirection());
 			}
 
-			if (!forceDodgeroll) {
+			if (!ForceDodgeroll) {
 				// Only initiate dodgerolls locally.
 				if (!isLocal) {
 					return false;
 				}
 
 				// Input & cooldown check. The cooldown can be enforced by other actions.
-				if (wantsDodgerollTimer <= 0f || dodgeCooldown.Active) {
+				if (!DodgeAttemptTimer.Active || DodgeCooldown.Active) {
 					return false;
 				}
 
@@ -93,7 +98,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 			}
 
-			wantsDodgerollTimer = 0f;
+			DodgeAttemptTimer = 0;
 
 			/*if(onFire) {
 				// Don't stop but roll
@@ -117,31 +122,28 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			Player.eocHit = 1;
 
-			isDodging = true;
-			dodgeStartRot = Player.GetModPlayer<PlayerRotation>().rotation;
-			dodgeItemRotation = Player.itemRotation;
-			dodgeTime = 0f;
-			dodgeDirectionVisual = (sbyte)Player.direction;
-			dodgeDirection = wantedDodgerollDir != 0 ? wantedDodgerollDir : (sbyte)Player.direction;
-			dodgeCooldown = DodgeDefaultCooldown;
+			IsDodging = true;
+			DodgeStartRotation = Player.GetModPlayer<PlayerRotation>().Rotation;
+			DodgeItemRotation = Player.itemRotation;
+			DodgeTime = 0f;
+			DodgeDirectionVisual = (sbyte)Player.direction;
+			DodgeDirection = WantedDodgerollDirection != 0 ? WantedDodgerollDirection : (sbyte)Player.direction;
+
+			DodgeCooldown.Set(DodgeDefaultCooldown);
 
 			if (!isLocal) {
-				forceDodgeroll = false;
+				ForceDodgeroll = false;
 			} else if (Main.netMode != NetmodeID.SinglePlayer) {
 				MultiplayerSystem.SendPacket(new PlayerDodgerollPacket(Player));
 			}
 
 			return true;
 		}
+
 		private void UpdateDodging()
 		{
-			wantsDodgerollTimer = MathUtils.StepTowards(wantsDodgerollTimer, 0f, TimeSystem.LogicDeltaTime);
-
-			noDodge |= Player.mount.Active;
-
-			if (noDodge) {
-				isDodging = false;
-				noDodge = false;
+			if (Player.mount.Active) {
+				IsDodging = false;
 
 				return;
 			}
@@ -149,21 +151,21 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			bool onGround = Player.OnGround();
 			bool wasOnGround = Player.WasOnGround();
 
-			ref float rotation = ref Player.GetModPlayer<PlayerRotation>().rotation;
+			ref float rotation = ref Player.GetModPlayer<PlayerRotation>().Rotation;
 
 			// Attempt to initiate a dodgeroll if the player isn't doing one already.
-			if (!isDodging && !TryStartDodgeroll()) {
+			if (!IsDodging && !TryStartDodgeroll()) {
 				return;
 			}
 
 			// Lower fall damage
-			if (dodgeTime < DodgeTimeMax / 1.5f && onGround && !wasOnGround) {
+			if (DodgeTime < DodgeTimeMax / 1.5f && onGround && !wasOnGround) {
 				Player.fallStart = (int)MathHelper.Lerp(Player.fallStart, (int)(Player.position.Y / 16f), 0.35f);
 			}
 
 			// Open doors
 			var tilePos = Player.position.ToTileCoordinates16();
-			int x = dodgeDirection > 0 ? tilePos.X + 2 : tilePos.X - 1;
+			int x = DodgeDirection > 0 ? tilePos.X + 2 : tilePos.X - 1;
 
 			for (int y = tilePos.Y; y < tilePos.Y + 3; y++) {
 				if (!Main.tile.TryGet(x, y, out var tile)) {
@@ -171,13 +173,13 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 
 				if (tile.TileType == TileID.ClosedDoor) {
-					WorldGen.OpenDoor(x, y, dodgeDirection);
+					WorldGen.OpenDoor(x, y, DodgeDirection);
 				}
 			}
 
 			// Apply velocity
-			if (dodgeTime < DodgeTimeMax * 0.5f) {
-				float newVelX = (onGround ? 6f : 4f) * dodgeDirection;
+			if (DodgeTime < DodgeTimeMax * 0.5f) {
+				float newVelX = (onGround ? 6f : 4f) * DodgeDirection;
 
 				if (Math.Abs(Player.velocity.X) < Math.Abs(newVelX) || Math.Sign(newVelX) != Math.Sign(Player.velocity.X)) {
 					Player.velocity.X = newVelX;
@@ -192,22 +194,22 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			Player.pulley = false;
 
 			// Apply rotations & direction
-			Player.GetModPlayer<PlayerItemRotation>().forcedItemRotation = dodgeItemRotation;
-			Player.GetModPlayer<PlayerAnimations>().forcedLegFrame = PlayerFrames.Jump;
-			Player.GetModPlayer<PlayerDirectioning>().forcedDirection = dodgeDirectionVisual;
+			Player.GetModPlayer<PlayerItemRotation>().ForcedItemRotation = DodgeItemRotation;
+			Player.GetModPlayer<PlayerAnimations>().ForcedLegFrame = PlayerFrames.Jump;
+			Player.GetModPlayer<PlayerDirectioning>().ForcedDirection = DodgeDirectionVisual;
 
-			rotation = dodgeDirection == 1
-				? Math.Min(MathHelper.Pi * 2f, MathHelper.Lerp(dodgeStartRot, MathHelper.TwoPi, dodgeTime / (DodgeTimeMax * 1f)))
-				: Math.Max(-MathHelper.Pi * 2f, MathHelper.Lerp(dodgeStartRot, -MathHelper.TwoPi, dodgeTime / (DodgeTimeMax * 1f)));
+			rotation = DodgeDirection == 1
+				? Math.Min(MathHelper.Pi * 2f, MathHelper.Lerp(DodgeStartRotation, MathHelper.TwoPi, DodgeTime / (DodgeTimeMax * 1f)))
+				: Math.Max(-MathHelper.Pi * 2f, MathHelper.Lerp(DodgeStartRotation, -MathHelper.TwoPi, DodgeTime / (DodgeTimeMax * 1f)));
 
 			// Progress the dodgeroll
-			dodgeTime += 1f / 60f;
+			DodgeTime += 1f / 60f;
 
 			// Prevent other actions
-			Player.GetModPlayer<PlayerClimbing>().climbCooldown.Set(1);
+			Player.GetModPlayer<PlayerClimbing>().ClimbCooldown.Set(1);
 
-			if (dodgeTime >= DodgeTimeMax) {
-				isDodging = false;
+			if (DodgeTime >= DodgeTimeMax) {
+				IsDodging = false;
 				Player.eocDash = 0;
 
 				//forceSyncControls = true;

@@ -7,6 +7,8 @@ using TerrariaOverhaul.Common.Systems.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
+	// Offsets, rotates, and scales enemies whenever they're hit, so that they look less static even when they're not moving.
+	// Looks like some sort of flinching.
 	public class NPCHitEffects : GlobalNPC
 	{
 		private const int EffectLength = 10;
@@ -18,8 +20,12 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		public override bool InstancePerEntity => true;
 
-		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit) => ResetHitTime();
-		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit) => ResetHitTime();
+		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+			=> ResetHitTime();
+
+		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
+			=> ResetHitTime();
+
 		// Drawing
 		public override bool PreDraw(NPC npc, SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 		{
@@ -65,6 +71,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			}
 		}
 
-		private void ResetHitTime() => lastHitTime = TimeSystem.UpdateCount;
+		private void ResetHitTime()
+		{
+			lastHitTime = TimeSystem.UpdateCount;
+		}
 	}
 }

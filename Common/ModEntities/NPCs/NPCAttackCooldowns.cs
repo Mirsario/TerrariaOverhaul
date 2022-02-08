@@ -7,10 +7,10 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
 	public class NPCAttackCooldowns : GlobalNPC
 	{
+		private Color? defaultColor;
+
 		public int AttackCooldown { get; private set; }
 		public bool ShowDamagedEffect { get; private set; }
-
-		private Color defaultColor;
 
 		public override bool InstancePerEntity => true;
 
@@ -20,8 +20,8 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				AttackCooldown--;
 
 				if (AttackCooldown == 0 && ShowDamagedEffect) {
-					if (defaultColor != null) {
-						npc.color = defaultColor;
+					if (defaultColor.HasValue) {
+						npc.color = defaultColor.Value;
 					}
 
 					ShowDamagedEffect = false;

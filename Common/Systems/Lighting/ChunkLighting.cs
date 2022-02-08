@@ -118,6 +118,7 @@ namespace TerrariaOverhaul.Common.Systems.Lighting
 				}
 			}
 		}
+
 		public void ApplyColors()
 		{
 			lock (Texture) {

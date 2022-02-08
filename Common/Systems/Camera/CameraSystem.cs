@@ -198,6 +198,7 @@ namespace TerrariaOverhaul.Common.Systems.Camera
 
 			smoothZoomScale = 3f;
 		}
+
 		public void OnLeaveWorld()
 		{
 			cameraUpdateSW = null;

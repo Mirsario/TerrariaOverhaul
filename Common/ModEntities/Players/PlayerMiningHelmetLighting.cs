@@ -33,7 +33,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			const int NumSteps = 24;
 
-			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
+			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().MouseWorld;
 			var startPos = Player.Center - Vector2.UnitY * 8;
 			var endPos = Player.position + Vector2.Transform(new Vector2(NumSteps * 16f, 0f), Matrix.CreateRotationZ((mouseWorld - startPos).ToRotation()));
 			float maxBrightness = 1f;

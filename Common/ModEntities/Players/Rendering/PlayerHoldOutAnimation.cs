@@ -78,7 +78,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Rendering
 
 		public override void PreUpdate()
 		{
-			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
+			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().MouseWorld;
 			Vector2 offset = mouseWorld - Player.Center;
 
 			if (offset != Vector2.Zero && Math.Sign(offset.X) == Player.direction) {

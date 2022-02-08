@@ -10,11 +10,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public static float DefaultBoost => 0.8f;
 
-		public float boost;
+		public float Boost { get; set; }
 
 		public override void ResetEffects()
 		{
-			boost = DefaultBoost;
+			Boost = DefaultBoost;
 
 			Player.autoJump = true;
 		}
@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			bool wasOnGround = Player.WasOnGround();
 
 			if (!onGround && wasOnGround && Player.velocity.Y < 0f) {
-				Player.velocity.X += boost * Player.KeyDirection();
+				Player.velocity.X += Boost * Player.KeyDirection();
 			}
 		}
 	}

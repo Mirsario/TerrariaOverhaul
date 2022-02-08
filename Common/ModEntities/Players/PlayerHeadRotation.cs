@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			const float LookStrength = 0.55f;
 
-			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
+			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().MouseWorld;
 			Vector2 offset = mouseWorld - Player.Center;
 
 			if (Math.Sign(offset.X) == Player.direction) {

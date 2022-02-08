@@ -6,6 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.Systems.Footsteps;
+using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Systems.Configuration;
 using TerrariaOverhaul.Utilities;
@@ -37,7 +38,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			var playerDodgerolls = Player.GetModPlayer<PlayerDodgerolls>();
 			var playerMovement = Player.GetModPlayer<PlayerMovement>();
 
-			if (playerDodgerolls.isDodging || playerMovement.velocityRecord == null) {
+			if (playerDodgerolls.IsDodging || playerMovement.VelocityRecord == null) {
 				return;
 			}
 
@@ -49,7 +50,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				return;
 			}
 
-			var ordereredVelocityRecord = playerMovement.velocityRecord.OrderBy(q => q.X);
+			var ordereredVelocityRecord = playerMovement.VelocityRecord.OrderBy(q => q.X);
 
 			sbyte prevDirX = (sbyte)(Player.oldVelocity.X > 0f ? 1 : -1);
 			float fastestSpeed = prevDirX < 0 ? ordereredVelocityRecord.First().X : ordereredVelocityRecord.Last().X;
@@ -108,7 +109,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			if (!ninjaJump) {
-				playerDodgerolls.QueueDodgeroll(0.1f, (sbyte)-prevDirX, true);
+				playerDodgerolls.QueueDodgeroll((int)(TimeSystem.LogicFramerate * 0.1f), (sbyte) - prevDirX, true);
 			}
 
 			Player.StopGrappling();

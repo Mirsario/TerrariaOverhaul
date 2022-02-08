@@ -126,8 +126,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			}
 		}
 
-		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit) => OnHit(npc);
-		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit) => OnHit(npc);
+		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+			=> OnHit(npc);
+
+		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
+			=> OnHit(npc);
 
 		private void OnHit(NPC npc) // , int damage, float knockback, bool crit)
 		{
@@ -136,6 +139,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				//Bleed(npc, (int)Math.Sqrt(npc.width * npc.height) / 10);
 			}
 		}
+
 		private void Bleed(NPC npc, int amount)
 		{
 			for (int i = 0; i < amount; i++) {

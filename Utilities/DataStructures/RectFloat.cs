@@ -85,7 +85,8 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 			this.height = height;
 		}
 
-		public override string ToString() => $"[X:{x} Y:{y} Width:{width} Height:{height}]";
+		public override string ToString()
+			=> $"[X:{x} Y:{y} Width:{width} Height:{height}]";
 
 		public bool Contains(Vector2 point, bool inclusive = false)
 		{
@@ -96,7 +97,9 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 			return point.X >= x && point.Y <= x + width && point.Y >= y && point.Y <= y + height;
 		}
 
-		public static RectFloat FromPoints(Vector4 points) => FromPoints(points.X, points.Y, points.Z, points.W);
+		public static RectFloat FromPoints(Vector4 points)
+			=> FromPoints(points.X, points.Y, points.Z, points.W);
+
 		public static RectFloat FromPoints(float x1, float y1, float x2, float y2)
 		{
 			RectFloat rect;
@@ -109,7 +112,10 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 			return rect;
 		}
 
-		public static explicit operator RectFloat(Rectangle rectI) => new(rectI.X, rectI.Y, rectI.Width, rectI.Height);
-		public static explicit operator Rectangle(RectFloat rectF) => new((int)rectF.x, (int)rectF.y, (int)rectF.width, (int)rectF.height);
+		public static explicit operator RectFloat(Rectangle rectI)
+			=> new(rectI.X, rectI.Y, rectI.Width, rectI.Height);
+
+		public static explicit operator Rectangle(RectFloat rectF)
+			=> new((int)rectF.x, (int)rectF.y, (int)rectF.width, (int)rectF.height);
 	}
 }
