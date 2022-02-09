@@ -18,6 +18,7 @@
     <None Remove="Old\**" />
     <None Remove="lib\**" />
     <None Remove="**/*.png" />
+    <None Remove="**/*.ase" />
     <None Remove="build.txt" />
     <None Remove="description.txt" />
     <None Remove=".gitignore" />
