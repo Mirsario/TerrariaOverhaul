@@ -7,20 +7,38 @@ using TerrariaOverhaul.Common.ModEntities.Players;
 
 namespace TerrariaOverhaul.Utilities.Extensions
 {
-	public static class PlayerExtensions
+	public static partial class PlayerExtensions
 	{
 		// Essentials
 
-		public static bool IsLocal(this Player player) => player.whoAmI == Main.myPlayer;
+		public static bool IsLocal(this Player player)
+			=> player.whoAmI == Main.myPlayer;
 
-		public static bool OnGround(this Player player) => player.velocity.Y == 0f; //player.GetModPlayer<PlayerMovement>().OnGround;
-		public static bool WasOnGround(this Player player) => player.oldVelocity.Y == 0f; //player.GetModPlayer<PlayerMovement>().WasOnGround;
+		public static bool OnGround(this Player player)
+			=> player.velocity.Y == 0f; //player.GetModPlayer<PlayerMovement>().OnGround;
 
-		public static bool IsUnderwater(this Player player) => Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
+		public static bool WasOnGround(this Player player)
+			=> player.oldVelocity.Y == 0f; //player.GetModPlayer<PlayerMovement>().WasOnGround;
 
-		public static int KeyDirection(this Player player) => player.controlLeft ? -1 : player.controlRight ? 1 : 0;
+		public static bool IsUnderwater(this Player player)
+			=> Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
 
-		public static Vector2 LookDirection(this Player player) => (player.GetModPlayer<PlayerDirectioning>().MouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
+		public static int KeyDirection(this Player player)
+			=> player.controlLeft ? -1 : player.controlRight ? 1 : 0;
+
+		public static Vector2 LookDirection(this Player player)
+			=> (player.GetModPlayer<PlayerDirectioning>().MouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
+
+		// (De)buffs
+
+		public static void RemoveBuffsOfType(this Player player, int type)
+		{
+			int buffIndex = player.FindBuffIndex(type);
+			
+			if (buffIndex >= 0) {
+				player.DelBuff(buffIndex);
+			}
+		}
 
 		// Velocity
 
@@ -49,7 +67,9 @@ namespace TerrariaOverhaul.Utilities.Extensions
 
 		// Inventory
 
-		public static bool HasAccessory(this Player player, int itemId) => player.EnumerateAccessories().Any(tuple => tuple.item.type == itemId);
+		public static bool HasAccessory(this Player player, int itemId)
+			=> player.EnumerateAccessories().Any(tuple => tuple.item.type == itemId);
+
 		public static bool HasAccessory(this Player player, bool any, params int[] itemIds)
 		{
 			var accessories = player.EnumerateAccessories();
