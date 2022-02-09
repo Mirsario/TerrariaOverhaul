@@ -109,6 +109,11 @@ namespace TerrariaOverhaul.Common.Systems.AudioEffects
 							return;
 						}
 
+						// This is a temporary workaround for dumb soundfix designs..
+						if (activeSound.Style is ModSoundStyle activeMS && SoundStylesToIgnore.Any(s => s is ModSoundStyle ms && ms.SoundPath == activeMS.SoundPath)) {
+							return;
+						}
+
 						TrackedSoundInstances.Add(new SoundInstanceData(soundEffectInstance, activeSound.Position, activeSound));
 
 						ApplyEffects(soundEffectInstance, soundParameters);
