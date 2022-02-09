@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Common.Systems.Time;
 using TerrariaOverhaul.Common.Tags;
@@ -163,7 +164,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			Player.maxRunSpeed = 0f;
 
 			// Prevent other actions
-			Player.GetModPlayer<PlayerDodgerolls>().DodgeCooldown.Set(1);
+			Player.GetModPlayer<PlayerDodgerolls>().NoDodgerollsTimer.Set(1);
 		}
 	}
 }
