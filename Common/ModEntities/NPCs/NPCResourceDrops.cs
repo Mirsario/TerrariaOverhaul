@@ -26,7 +26,9 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		public override void Load()
 		{
-			On.Terraria.NPC.NPCLoot_DropHeals += (orig, npc, closestPlayer) => {
+			On.Terraria.NPC.NPCLoot += (orig, npc) => {
+				orig(npc);
+
 				if (Main.netMode == NetmodeID.Server) {
 					return;
 				}
@@ -41,6 +43,10 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 					DropHealth(npc, player);
 					//DropMana(npc, player);
 				}
+			};
+
+			On.Terraria.NPC.NPCLoot_DropHeals += (orig, npc, closestPlayer) => {
+				// Juuuust don't.
 			};
 		}
 
