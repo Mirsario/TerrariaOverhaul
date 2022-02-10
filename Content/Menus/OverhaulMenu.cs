@@ -1,18 +1,57 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Menus
 {
+	[Autoload(Side = ModSide.Client)]
 	public sealed class OverhaulMenu : ModMenu
 	{
-		private Asset<Texture2D> texture;
+		private Asset<Texture2D> logoTerraria;
+		private Asset<Texture2D> logoOverhaul;
+		private Asset<Texture2D> logoGlowmask;
+		private BlendState blendState;
 
-		public override Asset<Texture2D> Logo => texture;
+		public override Asset<Texture2D> Logo => logoOverhaul;
 
 		public override void Load()
 		{
-			texture = Mod.Assets.Request<Texture2D>("Logo");
+			logoTerraria = Mod.Assets.Request<Texture2D>("Content/Menus/Logo_Terraria");
+			logoOverhaul = Mod.Assets.Request<Texture2D>("Content/Menus/Logo_Overhaul");
+			logoGlowmask = Mod.Assets.Request<Texture2D>("Content/Menus/Logo_Glowmask");
+
+			blendState = BlendState.AlphaBlend;
+
+			blendState.AlphaDestinationBlend = Blend.SourceColor;
+		}
+
+		public override bool PreDrawLogo(SpriteBatch sb, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
+		{
+			if (!logoOverhaul.IsLoaded || !logoTerraria.IsLoaded || !logoGlowmask.IsLoaded) {
+				return false;
+			}
+
+			var textureSize = logoOverhaul.Value.Size();
+			var textureCenter = textureSize * 0.5f;
+
+			// Small 'Terraria' in background
+			sb.Draw(logoTerraria.Value, logoDrawCenter, null, drawColor, logoRotation, textureCenter, logoScale, SpriteEffects.None, 0f);
+
+			// 'Overhaul' in foreground
+			sb.Draw(logoOverhaul.Value, logoDrawCenter, null, drawColor, logoRotation, textureCenter, logoScale, SpriteEffects.None, 0f);
+
+			// 'Overhaul' glowmask'
+			//sb.End();
+			//sb.Begin(SpriteSortMode.Deferred, blendState, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
+
+			sb.Draw(logoGlowmask.Value, logoDrawCenter, null, Color.White, logoRotation, textureCenter, logoScale, SpriteEffects.None, 0f);
+
+			//sb.End();
+			//sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
+
+			return false;
 		}
 	}
 }
