@@ -1,5 +1,8 @@
+![](Content/Menus/Logo.png)
+
 # What's this?
-Terraria Overhaul is a huuuge game mechanics changing mod for Terraria. You can read more about it at [this forum page](https://forums.terraria.org/index.php?threads/.60369/).
+Terraria Overhaul is a *huuuge* game mechanics changing mod for Terraria.
+You can read more about it at [this forum page](https://forums.terraria.org/index.php?threads/.60369/) (Might be outdated.)
 
 # What's the state of the rebuild?
 This version is around 50% done.
