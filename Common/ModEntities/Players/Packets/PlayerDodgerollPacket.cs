@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using Terraria;
 using Terraria.ID;
+using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Core.Systems.Networking;
 using TerrariaOverhaul.Utilities.Extensions;
 

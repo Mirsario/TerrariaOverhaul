@@ -9,8 +9,10 @@ namespace TerrariaOverhaul.Utilities.DataStructures
 		private uint endTime;
 
 		public bool Active => Main.GameUpdateCount < endTime;
+		public int UnclampedValue => (int)((long)endTime - Main.GameUpdateCount);
+
 		public uint Value {
-			get => (uint)Math.Max(0, (long)endTime - Main.GameUpdateCount);
+			get => (uint)Math.Max(0, UnclampedValue);
 			set => endTime = Main.GameUpdateCount + Math.Max(0, value);
 		}
 

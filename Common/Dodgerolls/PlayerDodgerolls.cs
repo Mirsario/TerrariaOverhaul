@@ -5,29 +5,43 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
+using TerrariaOverhaul.Common.Systems.AudioEffects;
 using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.Systems.Networking;
-using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.Dodgerolls
 {
 	public sealed class PlayerDodgerolls : ModPlayer
 	{
 		public static readonly ISoundStyle DodgerollSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/Armor", 3, volume: 0.65f, pitchVariance: 0.2f);
+		public static readonly ISoundStyle FailureSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/NoAmmo", volume: 0.2f, pitch: 0.5f, pitchVariance: 0.2f);
+		public static readonly ISoundStyle RechargedSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Common/Dodgerolls/DodgerollReady", 2, volume: 0.9f, pitchVariance: 0.125f);
+
+		private static int debuffTiredness;
+		private static int debuffCooldown;
 
 		public static ModKeybind DodgerollKey { get; private set; }
 
 		public static float DodgeTimeMax => 0.37f;
-		public static uint DodgeDefaultCooldown => (int)(TimeSystem.LogicFramerate * 1.5f);
+		public static uint DefaultDodgeTirednessTime => (int)(TimeSystem.LogicFramerate * 1.5f);
+		public static uint DefaultDodgeCooldownTime => DefaultDodgeTirednessTime * 2;
+		public static int DefaultDodgeMaxCharges => 2;
 
-		public Timer DodgeCooldown;
+		public Timer DodgerollTirednessTimer;
+		public Timer DodgerollCooldownTimer;
+		public Timer NoDodgerollsTimer;
 		public Timer DodgeAttemptTimer;
 		public bool ForceDodgeroll;
 		public sbyte WantedDodgerollDirection;
+
+		public int MaxCharges { get; set; }
+		public int CurrentCharges { get; set; }
 
 		public bool IsDodging { get; private set; }
 		public float DodgeStartRotation { get; private set; }
@@ -38,11 +52,27 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void Load()
 		{
+			// Make GUI-related sounds ignored by reverb & other filters.
+			AudioEffectsSystem.IgnoreSoundStyle(FailureSound);
+			AudioEffectsSystem.IgnoreSoundStyle(RechargedSound);
+
 			DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
+		}
+
+		public override void SetStaticDefaults()
+		{
+			debuffTiredness = ModContent.BuffType<DodgeTiredness>();
+			debuffCooldown = ModContent.BuffType<DodgeCooldown>();
+		}
+
+		public override void Initialize()
+		{
+			CurrentCharges = MaxCharges = DefaultDodgeMaxCharges;
 		}
 
 		public override bool PreItemCheck()
 		{
+			UpdateCooldowns();
 			UpdateDodging();
 
 			// Stop umbrella and other things from working
@@ -63,13 +93,32 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		public override bool CanUseItem(Item item)
 			=> !IsDodging;
 
-		public void QueueDodgeroll(int minAttemptTimer, sbyte direction, bool force = false)
+		public void QueueDodgeroll(uint minAttemptTimer, sbyte direction, bool force = false)
 		{
-			DodgeAttemptTimer = minAttemptTimer;
-			WantedDodgerollDirection = direction;
-
 			if (force) {
-				DodgeCooldown = 0;
+				DodgerollCooldownTimer = 0;
+				CurrentCharges = Math.Max(CurrentCharges, 1);
+			} else if (CurrentCharges == 0) {
+				if (!Main.dedServ) {
+					SoundEngine.PlaySound(FailureSound);
+				}
+
+				return;
+			}
+
+			DodgeAttemptTimer.Set(minAttemptTimer);
+
+			WantedDodgerollDirection = direction;
+		}
+
+		private void UpdateCooldowns()
+		{
+			if (!DodgerollTirednessTimer.Active && CurrentCharges < MaxCharges) {
+				CurrentCharges = MaxCharges;
+				
+				if (!Main.dedServ) {
+					SoundEngine.PlaySound(RechargedSound);
+				}
 			}
 		}
 
@@ -78,7 +127,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			bool isLocal = Player.IsLocal();
 
 			if (isLocal && !DodgeAttemptTimer.Active && DodgerollKey.JustPressed && !Player.mouseInterface) {
-				QueueDodgeroll((int)(TimeSystem.LogicFramerate * 0.25f), (sbyte)Player.KeyDirection());
+				QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), (sbyte)Player.KeyDirection());
 			}
 
 			if (!ForceDodgeroll) {
@@ -88,12 +137,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 
 				// Input & cooldown check. The cooldown can be enforced by other actions.
-				if (!DodgeAttemptTimer.Active || DodgeCooldown.Active) {
+				if (!DodgeAttemptTimer.Active || NoDodgerollsTimer.Active || CurrentCharges == 0) {
 					return false;
 				}
 
 				// Don't allow dodging on mounts and during item use.
-				if ((Player.mount != null && Player.mount.Active) || Player.itemAnimation > 0) {
+				if (Player.mount != null && Player.mount.Active || Player.itemAnimation > 0) {
 					return false;
 				}
 			}
@@ -129,7 +178,14 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			DodgeDirectionVisual = (sbyte)Player.direction;
 			DodgeDirection = WantedDodgerollDirection != 0 ? WantedDodgerollDirection : (sbyte)Player.direction;
 
-			DodgeCooldown.Set(DodgeDefaultCooldown);
+			// Handle cooldowns
+
+			CurrentCharges = Math.Max(0, CurrentCharges - 1);
+
+			// Activate tiredness, which doesn't stop the next dodgeroll on its own
+			uint tirednessTime = CurrentCharges == 0 ? DefaultDodgeCooldownTime : DefaultDodgeTirednessTime;
+
+			DodgerollTirednessTimer.Set(tirednessTime);
 
 			if (!isLocal) {
 				ForceDodgeroll = false;

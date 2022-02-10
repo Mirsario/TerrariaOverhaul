@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.Systems.Footsteps;
 using TerrariaOverhaul.Common.Systems.Time;
@@ -109,7 +110,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			if (!ninjaJump) {
-				playerDodgerolls.QueueDodgeroll((int)(TimeSystem.LogicFramerate * 0.1f), (sbyte) - prevDirX, true);
+				playerDodgerolls.QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.1f), (sbyte) - prevDirX, force: true);
 			}
 
 			Player.StopGrappling();
