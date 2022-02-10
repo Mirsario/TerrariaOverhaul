@@ -1,5 +1,5 @@
 ﻿using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Configuration;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players

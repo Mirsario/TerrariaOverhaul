@@ -4,7 +4,7 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Networking;
+using TerrariaOverhaul.Core.Networking;
 
 namespace TerrariaOverhaul
 {

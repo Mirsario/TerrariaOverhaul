@@ -10,7 +10,7 @@ using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Animations;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
-using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
+using TerrariaOverhaul.Common.Camera.ScreenShakes;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;

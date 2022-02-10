@@ -7,8 +7,8 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Time;
-using TerrariaOverhaul.Core.Systems.Configuration;
+using TerrariaOverhaul.Common.Time;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 

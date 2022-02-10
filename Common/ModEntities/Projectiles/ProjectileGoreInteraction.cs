@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Gores;
+using TerrariaOverhaul.Common.Gores;
 using TerrariaOverhaul.Common.Tags;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles

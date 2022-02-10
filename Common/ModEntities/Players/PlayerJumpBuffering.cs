@@ -1,6 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players

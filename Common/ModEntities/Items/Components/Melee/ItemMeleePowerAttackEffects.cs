@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Animations;
-using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee

@@ -3,7 +3,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Configuration;
+using TerrariaOverhaul.Common.Time;
+using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
@@ -25,7 +26,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				targetHeadRotation = (offset * Player.direction).ToRotation() * LookStrength;
 			}
 
-			headRotation = MathHelper.Lerp(headRotation, targetHeadRotation, 16f * Systems.Time.TimeSystem.LogicDeltaTime);
+			headRotation = MathHelper.Lerp(headRotation, targetHeadRotation, 16f * TimeSystem.LogicDeltaTime);
 		}
 
 		public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)

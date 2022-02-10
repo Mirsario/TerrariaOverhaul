@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Decals;
+using TerrariaOverhaul.Common.Decals;
 using TerrariaOverhaul.Common.Tags;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles

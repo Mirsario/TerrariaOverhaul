@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using Terraria;
 using Terraria.ID;
-using TerrariaOverhaul.Core.Systems.Networking;
+using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players.Packets

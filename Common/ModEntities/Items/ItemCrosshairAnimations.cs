@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Crosshairs;
-using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Common.Crosshairs;
+using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items

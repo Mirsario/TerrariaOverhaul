@@ -2,9 +2,9 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.AudioEffects;
-using TerrariaOverhaul.Common.Systems.Camera;
-using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Common.AudioEffects;
+using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 

@@ -7,7 +7,7 @@ using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns;
-using TerrariaOverhaul.Core.Systems.Debugging;
+using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.PlayerLayers

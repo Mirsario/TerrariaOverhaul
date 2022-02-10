@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.Systems.Gores;
+using TerrariaOverhaul.Common.Gores;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee

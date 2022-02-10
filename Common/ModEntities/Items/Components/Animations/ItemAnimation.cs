@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Core.Systems.Debugging;
+using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;

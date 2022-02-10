@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Camera;
-using TerrariaOverhaul.Common.Systems.Decals;
+using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Decals;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Content.SimpleEntities

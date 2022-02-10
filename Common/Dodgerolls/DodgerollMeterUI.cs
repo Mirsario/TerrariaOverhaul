@@ -6,7 +6,7 @@ using ReLogic.Content;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
-using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.Dodgerolls

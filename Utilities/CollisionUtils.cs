@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Core.Systems.Debugging;
+using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Utilities
 {

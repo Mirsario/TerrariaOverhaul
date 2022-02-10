@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent;
-using TerrariaOverhaul.Common.Systems.CombatTexts;
+using TerrariaOverhaul.Common.CombatTexts;
 using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee

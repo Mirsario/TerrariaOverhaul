@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Input;
+using TerrariaOverhaul.Core.Input;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Utilities

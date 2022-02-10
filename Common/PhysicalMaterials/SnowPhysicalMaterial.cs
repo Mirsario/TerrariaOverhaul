@@ -1,9 +1,9 @@
 ﻿using Terraria.Audio;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Tags;
-using TerrariaOverhaul.Common.Systems.Footsteps;
+using TerrariaOverhaul.Common.Footsteps;
 using TerrariaOverhaul.Common.Tags;
-using TerrariaOverhaul.Core.Systems.PhysicalMaterials;
+using TerrariaOverhaul.Core.PhysicalMaterials;
 
 namespace TerrariaOverhaul.Common.PhysicalMaterials
 {

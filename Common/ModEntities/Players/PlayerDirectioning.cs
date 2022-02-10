@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
-using TerrariaOverhaul.Core.Systems.Networking;
+using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players

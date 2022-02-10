@@ -1,6 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Debugging;
+using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Common.Commands
 {

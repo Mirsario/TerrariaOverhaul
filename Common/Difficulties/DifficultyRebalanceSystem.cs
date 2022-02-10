@@ -7,8 +7,8 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.DataStructures;
-using TerrariaOverhaul.Core.Systems.Debugging;
-using TerrariaOverhaul.Core.Systems.Input;
+using TerrariaOverhaul.Core.Debugging;
+using TerrariaOverhaul.Core.Input;
 using Microsoft.Xna.Framework.Input;
 
 namespace TerrariaOverhaul.Common.Difficulties

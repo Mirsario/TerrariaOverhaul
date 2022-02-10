@@ -6,10 +6,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Common.EntitySources;
-using TerrariaOverhaul.Common.Systems.Footsteps;
-using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Common.Footsteps;
+using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Common.Tags;
-using TerrariaOverhaul.Core.Systems.Configuration;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 

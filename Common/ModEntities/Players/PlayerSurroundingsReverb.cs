@@ -1,10 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.AudioEffects;
-using TerrariaOverhaul.Common.Systems.Camera;
+using TerrariaOverhaul.Common.AudioEffects;
+using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Tags;
-using TerrariaOverhaul.Core.Systems.Debugging;
+using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;

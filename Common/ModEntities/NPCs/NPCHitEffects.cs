@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Common.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {

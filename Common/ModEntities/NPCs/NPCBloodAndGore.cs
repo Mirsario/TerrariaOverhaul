@@ -4,10 +4,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Gores;
-using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Common.Gores;
+using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Content.SimpleEntities;
-using TerrariaOverhaul.Core.Systems.SimpleEntities;
+using TerrariaOverhaul.Core.SimpleEntities;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
