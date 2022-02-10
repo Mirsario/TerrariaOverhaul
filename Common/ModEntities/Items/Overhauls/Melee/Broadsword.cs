@@ -74,10 +74,12 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				c.CommonStatMultipliers.ProjectileSpeedMultiplier = 1.5f;
 			});
 
-			item.EnableComponent<ItemPowerAttackSounds>(c => {
-				c.Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2);
-				c.ReplacesUseSound = true;
-			});
+			if (!Main.dedServ) {
+				item.EnableComponent<ItemPowerAttackSounds>(c => {
+					c.Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2);
+					c.ReplacesUseSound = true;
+				});
+			}
 
 			// Killing Blows
 			item.EnableComponent<ItemKillingBlows>();
