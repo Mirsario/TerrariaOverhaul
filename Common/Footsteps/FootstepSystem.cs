@@ -5,8 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.PhysicalMaterials;
 using TerrariaOverhaul.Core.PhysicalMaterials;
-using TerrariaOverhaul.Utilities.DataStructures;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Footsteps
 {

@@ -7,7 +7,6 @@ using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Camera.ScreenShakes;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.Extensions;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Common.Movement;
 

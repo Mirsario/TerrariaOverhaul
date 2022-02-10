@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Core.Time
 {

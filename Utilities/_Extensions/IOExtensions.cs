@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 
-namespace TerrariaOverhaul.Utilities.Extensions
+namespace TerrariaOverhaul.Utilities
 {
 	public static class IOExtensions
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace TerrariaOverhaul.Utilities.Extensions
+namespace TerrariaOverhaul.Utilities
 {
 	internal static class ColorExtensions
 	{

@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.Utilities;
 
-namespace TerrariaOverhaul.Utilities.Extensions
+namespace TerrariaOverhaul.Utilities
 {
 	public static class RandomExtensions
 	{

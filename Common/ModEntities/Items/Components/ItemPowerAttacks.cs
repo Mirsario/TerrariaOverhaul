@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ModEntities.Players;
-using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {

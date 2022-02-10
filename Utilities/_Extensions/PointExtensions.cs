@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 
-namespace TerrariaOverhaul.Utilities.Extensions
+namespace TerrariaOverhaul.Utilities
 {
 	public static class PointExtensions
 	{

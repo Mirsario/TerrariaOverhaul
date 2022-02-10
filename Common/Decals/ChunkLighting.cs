@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.Decals
 {

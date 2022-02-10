@@ -6,7 +6,6 @@ using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {

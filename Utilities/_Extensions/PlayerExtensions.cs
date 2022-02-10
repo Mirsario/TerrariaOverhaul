@@ -4,8 +4,9 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Utilities.Extensions
+namespace TerrariaOverhaul.Utilities
 {
 	public static partial class PlayerExtensions
 	{
@@ -34,7 +35,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 		public static void RemoveBuffsOfType(this Player player, int type)
 		{
 			int buffIndex = player.FindBuffIndex(type);
-			
+
 			if (buffIndex >= 0) {
 				player.DelBuff(buffIndex);
 			}

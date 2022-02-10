@@ -1,6 +1,6 @@
 ﻿using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Movement
 {

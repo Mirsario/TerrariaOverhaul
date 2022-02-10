@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.CursorOffsets
 {

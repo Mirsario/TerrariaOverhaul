@@ -9,7 +9,7 @@ using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.ModEntities.Items;
 using TerrariaOverhaul.Common.ModEntities.Projectiles;
 using TerrariaOverhaul.Content.Dusts;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {

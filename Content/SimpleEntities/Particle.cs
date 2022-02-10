@@ -3,7 +3,7 @@ using Terraria;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.SimpleEntities
 {

@@ -1,6 +1,6 @@
 ﻿using Terraria;
 
-namespace TerrariaOverhaul.Utilities.Extensions
+namespace TerrariaOverhaul.Utilities
 {
 	public static class NpcExtensions
 	{
@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Utilities.Extensions
 				return null;
 			}
 
-			return npc.HasPlayerTarget ? Main.player[npc.target] : (Entity)Main.npc[npc.target - 300];
+			return npc.HasPlayerTarget ? Main.player[npc.target] : Main.npc[npc.target - 300];
 		}
 	}
 }

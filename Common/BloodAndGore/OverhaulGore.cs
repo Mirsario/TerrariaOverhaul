@@ -16,7 +16,7 @@ using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Content.SimpleEntities;
 using TerrariaOverhaul.Core.PhysicalMaterials;
 using TerrariaOverhaul.Core.SimpleEntities;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.BloodAndGore
 {

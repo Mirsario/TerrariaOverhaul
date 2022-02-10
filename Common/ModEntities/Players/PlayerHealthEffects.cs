@@ -8,8 +8,6 @@ using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.DataStructures;
-using TerrariaOverhaul.Utilities.Extensions;
 using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players

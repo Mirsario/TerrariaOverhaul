@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Dodgerolls
 {

@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
-using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Utilities.Extensions
+namespace TerrariaOverhaul.Utilities
 {
 	public static class TilemapExtensions
 	{

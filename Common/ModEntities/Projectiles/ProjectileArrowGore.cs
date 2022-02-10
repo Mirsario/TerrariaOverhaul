@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Content.Gores;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {

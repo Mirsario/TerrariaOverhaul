@@ -1,5 +1,5 @@
 ﻿using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.DamageSources
 {

@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Crosshairs;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items
 {

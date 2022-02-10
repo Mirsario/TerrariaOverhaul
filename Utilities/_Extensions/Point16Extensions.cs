@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
 
-namespace TerrariaOverhaul.Utilities.Extensions
+namespace TerrariaOverhaul.Utilities
 {
 	public static class Point16Extensions
 	{

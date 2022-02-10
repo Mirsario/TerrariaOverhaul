@@ -6,8 +6,6 @@ using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.DataStructures;
-using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {

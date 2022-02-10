@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
-using TerrariaOverhaul.Utilities.DataStructures;
-using TerrariaOverhaul.Utilities.Enums;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Animations
 {

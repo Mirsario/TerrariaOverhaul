@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
-using TerrariaOverhaul.Utilities.Enums;
+using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Utilities.Extensions
+namespace TerrariaOverhaul.Utilities
 {
 	public static class PlayerFramesExtensions
 	{

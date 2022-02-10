@@ -1,4 +1,4 @@
-﻿namespace TerrariaOverhaul.Utilities.Enums
+﻿namespace TerrariaOverhaul.Utilities
 {
 	public enum PlayerFrames
 	{

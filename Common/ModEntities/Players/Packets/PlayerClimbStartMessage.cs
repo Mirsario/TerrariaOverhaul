@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Networking;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 {

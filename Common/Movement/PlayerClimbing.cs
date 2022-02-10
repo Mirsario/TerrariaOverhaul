@@ -10,9 +10,6 @@ using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.DataStructures;
-using TerrariaOverhaul.Utilities.Enums;
-using TerrariaOverhaul.Utilities.Extensions;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Common.ModEntities.Players;
 

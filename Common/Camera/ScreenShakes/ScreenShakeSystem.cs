@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Camera.ScreenShakes
 {

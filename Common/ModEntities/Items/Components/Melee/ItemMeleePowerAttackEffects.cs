@@ -2,7 +2,7 @@
 using Terraria;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Animations;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee
 {

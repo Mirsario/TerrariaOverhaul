@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Core.Components;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Core.Chunks
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 
-namespace TerrariaOverhaul.Utilities.DataStructures
+namespace TerrariaOverhaul.Utilities
 {
 	public class Gradient<T>
 	{

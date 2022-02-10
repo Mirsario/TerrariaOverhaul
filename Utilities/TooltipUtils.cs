@@ -5,7 +5,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Input;
-using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Utilities
 {

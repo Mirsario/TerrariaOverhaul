@@ -1,4 +1,4 @@
-﻿namespace TerrariaOverhaul.Utilities.DataStructures
+﻿namespace TerrariaOverhaul.Utilities
 {
 	public struct CommonStatMultipliers
 	{

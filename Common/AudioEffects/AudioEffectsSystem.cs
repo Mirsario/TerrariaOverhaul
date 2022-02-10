@@ -13,8 +13,6 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.DataStructures;
-using TerrariaOverhaul.Utilities.Extensions;
 using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.AudioEffects

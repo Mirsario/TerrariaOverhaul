@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities.Enums;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {

@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Common.Movement;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components.Melee
 {

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
-using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Utilities
 {

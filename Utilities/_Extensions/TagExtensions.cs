@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Terraria.ModLoader.Tags;
 
-namespace TerrariaOverhaul.Utilities.Extensions
+namespace TerrariaOverhaul.Utilities
 {
 	public static class TagExtensions
 	{

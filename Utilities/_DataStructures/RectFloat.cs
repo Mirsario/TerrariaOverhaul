@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace TerrariaOverhaul.Utilities.DataStructures
+namespace TerrariaOverhaul.Utilities
 {
 	public struct RectFloat
 	{

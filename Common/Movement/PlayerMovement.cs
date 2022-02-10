@@ -9,8 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities.DataStructures;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Movement
 {

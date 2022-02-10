@@ -10,11 +10,10 @@ using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.Networking;
-using TerrariaOverhaul.Utilities.DataStructures;
-using TerrariaOverhaul.Utilities.Enums;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Dodgerolls
 {

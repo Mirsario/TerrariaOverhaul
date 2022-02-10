@@ -9,7 +9,7 @@ using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Animations;
 using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 using TerrariaOverhaul.Common.TextureColors;
-using TerrariaOverhaul.Utilities.DataStructures;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.PlayerLayers
 {

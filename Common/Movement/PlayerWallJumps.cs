@@ -10,7 +10,6 @@ using TerrariaOverhaul.Common.Footsteps;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.Extensions;
 using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.Movement
