@@ -21,12 +21,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 		public override void Load()
 		{
-			texture = Mod.Assets.Request<Texture2D>($"{Utilities.ModPathUtils.GetDirectory(GetType())}/Slash");
-		}
-
-		public override void Unload()
-		{
-			texture = null;
+			texture = Mod.Assets.Request<Texture2D>($"{ModPathUtils.GetDirectory(GetType())}/Slash");
 		}
 
 		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.HeldItem);

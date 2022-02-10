@@ -2,7 +2,7 @@
 using System.Reflection;
 using Terraria;
 
-namespace TerrariaOverhaul.Common.Seasons.Components
+namespace TerrariaOverhaul.Common.Seasons
 {
 	// Replaces rain with snow
 	public sealed class SnowSeasonComponent : SeasonComponent

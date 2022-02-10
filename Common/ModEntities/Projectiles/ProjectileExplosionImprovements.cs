@@ -5,12 +5,12 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
-using TerrariaOverhaul.Common.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Decals;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Common.Camera;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {

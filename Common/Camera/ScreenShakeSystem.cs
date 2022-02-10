@@ -8,7 +8,7 @@ using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Camera.ScreenShakes
+namespace TerrariaOverhaul.Common.Camera
 {
 	public sealed class ScreenShakeSystem : ModSystem
 	{

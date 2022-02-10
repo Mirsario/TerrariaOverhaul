@@ -1,6 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Camera.ScreenShakes;
+using TerrariaOverhaul.Common.Camera;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {

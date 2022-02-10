@@ -3,7 +3,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
-using TerrariaOverhaul.Common.Camera.ScreenShakes;
+using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Content.Gores;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Seasons.Components;
 using TerrariaOverhaul.Core.Components;
 
 namespace TerrariaOverhaul.Common.Seasons

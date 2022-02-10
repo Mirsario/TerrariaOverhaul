@@ -3,9 +3,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
-using TerrariaOverhaul.Common.Camera.ScreenShakes;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Common.Camera;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {

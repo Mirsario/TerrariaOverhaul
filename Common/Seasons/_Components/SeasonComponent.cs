@@ -1,7 +1,7 @@
 ﻿using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Components;
 
-namespace TerrariaOverhaul.Common.Seasons.Components
+namespace TerrariaOverhaul.Common.Seasons
 {
 	public abstract class SeasonComponent : ModComponent<Season>
 	{

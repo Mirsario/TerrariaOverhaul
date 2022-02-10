@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
-using TerrariaOverhaul.Common.Camera.ScreenShakes;
+using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Core.Time;

@@ -1,6 +1,4 @@
-﻿using TerrariaOverhaul.Common.Seasons.Components;
-
-namespace TerrariaOverhaul.Common.Seasons
+﻿namespace TerrariaOverhaul.Common.Seasons
 {
 	public class Winter : Season
 	{

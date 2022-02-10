@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using TerrariaOverhaul.Core.Components;
 
-namespace TerrariaOverhaul.Common.Seasons.Components
+namespace TerrariaOverhaul.Common.Seasons
 {
 	[GlobalComponent]
 	public sealed class ArrivalAnnouncementSeasonComponent : SeasonComponent

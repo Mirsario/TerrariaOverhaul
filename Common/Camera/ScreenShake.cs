@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Camera.ScreenShakes
+namespace TerrariaOverhaul.Common.Camera
 {
 	public struct ScreenShake
 	{
