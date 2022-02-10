@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Content.Menus
 		private Asset<Texture2D> logoTerraria;
 		private Asset<Texture2D> logoOverhaul;
 		private Asset<Texture2D> logoGlowmask;
-		private BlendState blendState;
+		//private BlendState blendState;
 
 		public override Asset<Texture2D> Logo => logoOverhaul;
 
@@ -22,9 +22,9 @@ namespace TerrariaOverhaul.Content.Menus
 			logoOverhaul = Mod.Assets.Request<Texture2D>("Content/Menus/Logo_Overhaul");
 			logoGlowmask = Mod.Assets.Request<Texture2D>("Content/Menus/Logo_Glowmask");
 
-			blendState = BlendState.AlphaBlend;
-
-			blendState.AlphaDestinationBlend = Blend.SourceColor;
+			//blendState = new BlendState {
+				//AlphaDestinationBlend = Blend.SourceColor
+			//};
 		}
 
 		public override bool PreDrawLogo(SpriteBatch sb, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
