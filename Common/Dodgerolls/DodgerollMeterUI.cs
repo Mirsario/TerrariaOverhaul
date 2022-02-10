@@ -16,6 +16,7 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 	{
 		private static readonly int TicksBeforeFading = (int)(TimeSystem.LogicFramerate * 1.5f);
 		private static readonly int FadingLength = (int)(TimeSystem.LogicFramerate * 0.3f);
+		private static readonly float Opacity = 0.5f;
 
 		private static Asset<Texture2D> meterTexture;
 		private static LegacyGameInterfaceLayer layer;
@@ -54,6 +55,8 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 					lastNotChargedTime.Value = 0;
 				}
 
+				var drawColor = new Color(Opacity, Opacity, Opacity, Opacity);
+
 				for (int i = 0; i < dodgerolls.MaxCharges; i++) {
 					int frame;
 					
@@ -80,7 +83,7 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 					float x = ((dodgerolls.MaxCharges - 1) * -0.5f) + i;
 					var drawPosition = basePosition + new Vector2(x * 10f, 0f);
 
-					Main.spriteBatch.Draw(texture, drawPosition, srcRect, Color.White, 0f, new Vector2(6f, 6f), 1f, SpriteEffects.None, 0f);
+					Main.spriteBatch.Draw(texture, drawPosition, srcRect, drawColor, 0f, new Vector2(6f, 6f), 1f, SpriteEffects.None, 0f);
 				}
 
 				return true;
