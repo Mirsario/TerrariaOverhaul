@@ -6,6 +6,13 @@ namespace TerrariaOverhaul.Content.Menus
 {
 	public sealed class OverhaulMenu : ModMenu
 	{
-		public override Asset<Texture2D> Logo => Mod.Assets.Request<Texture2D>("Content/Menus/Logo");
+		private Asset<Texture2D> texture;
+
+		public override Asset<Texture2D> Logo => texture;
+
+		public override void Load()
+		{
+			texture = Mod.Assets.Request<Texture2D>("Logo");
+		}
 	}
 }
