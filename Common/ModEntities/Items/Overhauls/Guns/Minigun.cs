@@ -9,6 +9,7 @@ using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Common.Movement;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {
@@ -94,7 +95,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 
 		private static void ApplyVelocityRecoil(Item item, Player player)
 		{
-			var mouseWorld = player.GetModPlayer<Players.PlayerDirectioning>().MouseWorld;
+			var mouseWorld = player.GetModPlayer<PlayerDirectioning>().MouseWorld;
 			var direction = (player.Center - mouseWorld).SafeNormalize(default);
 			var modifiedDirection = new Vector2(direction.X, direction.Y * Math.Abs(direction.Y));
 			var velocity = modifiedDirection * new Vector2(item.useTime / 15f, item.useTime / 2.875f);

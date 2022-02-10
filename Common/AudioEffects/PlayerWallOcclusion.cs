@@ -6,7 +6,7 @@ using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.AudioEffects
 {
 	public sealed class PlayerWallOcclusion : ModPlayer
 	{
@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			Vector2Int areaCenter = Player.Center.ToTileCoordinates();
-			Vector2Int halfSize = new Vector2Int(5, 5);
+			var halfSize = new Vector2Int(5, 5);
 			Vector2Int size = halfSize * 2;
 			Vector2Int start = areaCenter - halfSize;
 			Vector2Int end = areaCenter + halfSize;

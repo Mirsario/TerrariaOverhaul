@@ -12,7 +12,7 @@ using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.Movement
 {
 	public sealed class PlayerMovement : ModPlayer
 	{

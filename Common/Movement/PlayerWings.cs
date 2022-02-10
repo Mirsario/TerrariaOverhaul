@@ -1,7 +1,7 @@
 ﻿using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities.DataStructures;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.Movement
 {
 	public sealed class PlayerWings : ModPlayer
 	{

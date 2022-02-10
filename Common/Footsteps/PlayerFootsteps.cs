@@ -1,11 +1,10 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Footsteps;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.Footsteps
 {
 	public sealed class PlayerFootsteps : ModPlayer
 	{
@@ -38,7 +37,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				footstepType = FootstepType.Default;
 			}
 
-			if (footstepType.HasValue && (footstepType.Value != FootstepType.Default || (stepState == 1 && (legFrame == 16 || legFrame == 17)) || (stepState == 0 && (legFrame == 9 || legFrame == 10)))) {
+			if (footstepType.HasValue && (footstepType.Value != FootstepType.Default || stepState == 1 && (legFrame == 16 || legFrame == 17) || stepState == 0 && (legFrame == 9 || legFrame == 10))) {
 				double time = TimeSystem.GlobalTime;
 
 				if (time - lastFootstepTime > FootstepCooldown && FootstepSystem.Footstep(Player, footstepType.Value)) {

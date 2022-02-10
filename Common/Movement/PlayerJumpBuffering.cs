@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.Movement
 {
 	public sealed class PlayerJumpBuffering : ModPlayer
 	{

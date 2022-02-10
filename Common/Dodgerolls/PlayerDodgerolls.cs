@@ -14,6 +14,7 @@ using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Common.Movement;
 
 namespace TerrariaOverhaul.Common.Dodgerolls
 {

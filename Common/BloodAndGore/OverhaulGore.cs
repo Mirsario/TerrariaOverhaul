@@ -18,7 +18,7 @@ using TerrariaOverhaul.Core.PhysicalMaterials;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.Gores
+namespace TerrariaOverhaul.Common.BloodAndGore
 {
 	[Autoload(Side = ModSide.Client)]
 	public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider

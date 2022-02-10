@@ -10,7 +10,7 @@ using TerrariaOverhaul.Common.Decals;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
-using TerrariaOverhaul.Common.Gores;
+using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles

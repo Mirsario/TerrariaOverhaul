@@ -14,8 +14,9 @@ using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
 using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Common.ModEntities.Players;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.Movement
 {
 	public class PlayerClimbing : ModPlayer
 	{
@@ -84,7 +85,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				return;
 			}
 
-			if (Player.pulley || Player.EnumerateGrapplingHooks().Any() || (Player.mount != null && Player.mount.Active)) {
+			if (Player.pulley || Player.EnumerateGrapplingHooks().Any() || Player.mount != null && Player.mount.Active) {
 				return;
 			}
 
@@ -96,7 +97,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				var pos = new Point16(tilePos.X + (Player.direction == 1 ? 2 : -1), tilePos.Y + i);
 
 				// The base tile has to be solid
-				if (!Main.tile.TryGet(pos, out var tile) || !tile.HasUnactuatedTile || (!Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType]) || (i != 0 && tile.Slope != SlopeType.Solid)) {
+				if (!Main.tile.TryGet(pos, out var tile) || !tile.HasUnactuatedTile || !Main.tileSolid[tile.TileType] && !Main.tileSolidTop[tile.TileType] || i != 0 && tile.Slope != SlopeType.Solid) {
 					continue;
 				}
 
@@ -138,7 +139,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			playerDirectioning.ForcedDirection = climbStartPos.X <= climbEndPos.X ? 1 : -1;
 
 			// Progress climbing.
-			ClimbProgress = MathUtils.StepTowards(ClimbProgress, 1f, (1f / ClimbTime) * TimeSystem.LogicDeltaTime);
+			ClimbProgress = MathUtils.StepTowards(ClimbProgress, 1f, 1f / ClimbTime * TimeSystem.LogicDeltaTime);
 
 			if (ClimbProgress >= 1f) {
 				IsClimbing = false;

@@ -7,33 +7,38 @@ using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.Movement
 {
 	public sealed class PlayerDirectioning : ModPlayer
 	{
 		private const int MouseWorldSyncFrequency = 12;
 
+		private Vector2 lastSyncedMouseWorld;
+
 		public int ForcedDirection { get; set; }
 		public Vector2 MouseWorld { get; set; }
 
-		private Vector2 lastSyncedMouseWorld;
-
 		public override void Load()
 		{
-			On.Terraria.Player.HorizontalMovement += (orig, player) => {
+			On.Terraria.Player.HorizontalMovement += static (orig, player) => {
 				orig(player);
 
 				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
 			};
-			On.Terraria.Player.ChangeDir += (orig, player, dir) => {
+
+			On.Terraria.Player.ChangeDir += static (orig, player, dir) => {
 				orig(player, dir);
 
 				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
 			};
 		}
 
-		public override void PreUpdate() => SetDirection(true);
-		public override void PostUpdate() => SetDirection();
+		public override void PreUpdate()
+			=> SetDirection(true);
+
+		public override void PostUpdate()
+			=> SetDirection();
+
 		public override bool PreItemCheck()
 		{
 			SetDirection();
@@ -41,7 +46,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			return true;
 		}
 
-		public void SetDirection() => SetDirection(false);
+		public void SetDirection()
+			=> SetDirection(false);
 
 		private void SetDirection(bool resetForcedDirection)
 		{

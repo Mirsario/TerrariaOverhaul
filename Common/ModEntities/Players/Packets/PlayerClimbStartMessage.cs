@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities.Extensions;
 

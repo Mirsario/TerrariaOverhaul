@@ -2,7 +2,7 @@
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities.Extensions;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.Movement
 {
 	public sealed class PlayerBunnyhopping : ModPlayer
 	{

@@ -7,6 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.DamageSources;
+using TerrariaOverhaul.Common.BloodAndGore;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {

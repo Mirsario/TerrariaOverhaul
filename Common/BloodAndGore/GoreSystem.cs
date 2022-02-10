@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.Gores
+namespace TerrariaOverhaul.Common.BloodAndGore
 {
 	[Autoload(Side = ModSide.Client)]
 	public class GoreSystem : ModSystem

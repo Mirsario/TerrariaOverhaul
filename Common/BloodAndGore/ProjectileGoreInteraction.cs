@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Gores;
 using TerrariaOverhaul.Common.Tags;
 
-namespace TerrariaOverhaul.Common.ModEntities.Projectiles
+namespace TerrariaOverhaul.Common.BloodAndGore
 {
 	[Autoload(Side = ModSide.Client)]
 	public class ProjectileGoreInteraction : GlobalProjectile

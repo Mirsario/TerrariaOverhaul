@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 using TerrariaOverhaul.Core.Time;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.Movement
 {
 	// This class implements both wall jumps and wall rolls.
 	public class PlayerWallJumps : ModPlayer
@@ -61,7 +61,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				return;
 			}
 
-			if ((Math.Abs(fastestSpeed) < MinSpeedForWallRoll && !ninjaJump) || Player.direction != (ninjaJump ? -prevDirX : prevDirX) || Player.KeyDirection() != (ninjaJump ? 0 : -Player.direction)) {
+			if (Math.Abs(fastestSpeed) < MinSpeedForWallRoll && !ninjaJump || Player.direction != (ninjaJump ? -prevDirX : prevDirX) || Player.KeyDirection() != (ninjaJump ? 0 : -Player.direction)) {
 				return;
 			}
 
@@ -110,7 +110,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}
 
 			if (!ninjaJump) {
-				playerDodgerolls.QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.1f), (sbyte) - prevDirX, force: true);
+				playerDodgerolls.QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.1f), (sbyte)-prevDirX, force: true);
 			}
 
 			Player.StopGrappling();

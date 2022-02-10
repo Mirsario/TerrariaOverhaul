@@ -10,7 +10,6 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;

@@ -4,12 +4,11 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Gores;
 using TerrariaOverhaul.Content.SimpleEntities;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Time;
 
-namespace TerrariaOverhaul.Common.ModEntities.NPCs
+namespace TerrariaOverhaul.Common.BloodAndGore
 {
 	[Autoload(Side = ModSide.Client)]
 	public class NPCBloodAndGore : GlobalNPC
@@ -140,13 +139,6 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			}
 		}
 
-		private void Bleed(NPC npc, int amount)
-		{
-			for (int i = 0; i < amount; i++) {
-				SpawnBloodWithHitEffect(npc, npc.direction, 1);
-			}
-		}
-
 		public static void SpawnBloodWithHitEffect(NPC npc, int direction, int damage)
 		{
 			disableNonBloodEffectSubscriptions++;
@@ -156,6 +148,13 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			}
 			finally {
 				disableNonBloodEffectSubscriptions--;
+			}
+		}
+
+		private static void Bleed(NPC npc, int amount)
+		{
+			for (int i = 0; i < amount; i++) {
+				SpawnBloodWithHitEffect(npc, npc.direction, 1);
 			}
 		}
 
