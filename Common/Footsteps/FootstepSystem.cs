@@ -14,14 +14,9 @@ namespace TerrariaOverhaul.Common.Footsteps
 	{
 		public static IFootstepSoundProvider DefaultFootstepSoundProvider { get; private set; }
 
-		public override void Load()
+		public override void OnModLoad()
 		{
 			DefaultFootstepSoundProvider = ModContent.GetInstance<StonePhysicalMaterial>();
-		}
-
-		public override void Unload()
-		{
-			DefaultFootstepSoundProvider = null;
 		}
 
 		public static bool Footstep(Entity entity, FootstepType type, Point16? forcedPoint = null)
