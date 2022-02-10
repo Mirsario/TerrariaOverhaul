@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 	{
 		private static readonly int TicksBeforeFading = (int)(TimeSystem.LogicFramerate * 1.5f);
 		private static readonly int FadingLength = (int)(TimeSystem.LogicFramerate * 0.3f);
-		private static readonly float Opacity = 0.5f;
+		private static readonly float Opacity = 0.675f;
 
 		private static Asset<Texture2D> meterTexture;
 		private static LegacyGameInterfaceLayer layer;
