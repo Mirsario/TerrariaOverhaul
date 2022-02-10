@@ -49,12 +49,18 @@ namespace TerrariaOverhaul.Core.Time
 
 		public override void Load()
 		{
-			AprilFools = Date.Month == 4 && Date.Day == 1;      // 1st April
-			AustraliaDay = Date.Month == 1 && Date.Day == 26;   // 26th January
-			ProgrammersDay = Date.DayOfYear == 256;           // 13th or 12th September
-			Halloween = Date.Month == 10 || Date.Month == 11 && Date.Day < 10;
-			Christmas = Date.Month == 12 && Date.Day >= 20 && Date.Day <= 26;
-			NewYear = Date.Month == 12 && Date.Day >= 27 || Date.Month == 1 && Date.Day <= 5;
+			// 1st April
+			AprilFools = Date.Month == 4 && Date.Day == 1;
+			// 26th January
+			AustraliaDay = Date.Month == 1 && Date.Day == 26;
+			// 13th or 12th September
+			ProgrammersDay = Date.DayOfYear == 256;
+			// From October 25th to November 5th, inclusively.
+			Halloween = (Date.Month == 10 && Date.Day >= 25) || (Date.Month == 11 && Date.Day < 3);
+			// From 24th December to 26th, inclusively.
+			Christmas = Date.Month == 12 && Date.Day >= 24 && Date.Day <= 26;
+			// From 27th December to 5th January, inclusively.
+			NewYear = (Date.Month == 12 && Date.Day >= 27) || (Date.Month == 1 && Date.Day <= 5);
 
 			lastLoadDate = DateTime.Now;
 
