@@ -8,12 +8,12 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Common.AudioEffects;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.Dodgerolls
 {

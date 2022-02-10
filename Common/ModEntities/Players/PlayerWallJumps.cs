@@ -7,11 +7,11 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.Footsteps;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {

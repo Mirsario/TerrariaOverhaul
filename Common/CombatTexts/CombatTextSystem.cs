@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Time;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.CombatTexts
 {

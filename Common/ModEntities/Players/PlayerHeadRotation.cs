@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {

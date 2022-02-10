@@ -4,8 +4,8 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Common.Camera.ScreenShakes

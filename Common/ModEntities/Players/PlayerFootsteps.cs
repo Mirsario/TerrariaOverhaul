@@ -1,8 +1,8 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Footsteps;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players

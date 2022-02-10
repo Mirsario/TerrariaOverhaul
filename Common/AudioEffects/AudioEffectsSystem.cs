@@ -12,11 +12,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.AudioEffects
 {

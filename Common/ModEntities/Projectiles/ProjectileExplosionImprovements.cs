@@ -7,11 +7,11 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.Camera.ScreenShakes;
 using TerrariaOverhaul.Common.Decals;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
 using TerrariaOverhaul.Common.Gores;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {

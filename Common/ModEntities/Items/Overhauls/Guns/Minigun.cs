@@ -5,10 +5,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Camera.ScreenShakes;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls.Guns
 {

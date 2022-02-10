@@ -4,7 +4,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Common.Time;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Ambience

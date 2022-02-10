@@ -6,7 +6,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;
@@ -14,6 +13,7 @@ using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.DataStructures;
 using TerrariaOverhaul.Utilities.Enums;
 using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {

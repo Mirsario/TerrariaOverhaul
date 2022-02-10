@@ -8,7 +8,7 @@ using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.Time;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.Crosshairs
 {

@@ -5,8 +5,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera.ScreenShakes;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Camera

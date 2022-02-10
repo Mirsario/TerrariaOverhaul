@@ -5,9 +5,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Gores;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Content.SimpleEntities;
 using TerrariaOverhaul.Core.SimpleEntities;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {

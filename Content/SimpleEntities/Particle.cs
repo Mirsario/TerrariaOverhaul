@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Core.SimpleEntities;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Content.SimpleEntities
