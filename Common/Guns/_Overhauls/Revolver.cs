@@ -2,7 +2,9 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 
@@ -25,6 +27,10 @@ namespace TerrariaOverhaul.Common.Guns
 
 			if (!Main.dedServ) {
 				item.EnableComponent<ItemPlaySoundOnEveryUse>();
+
+				item.EnableComponent<ItemBulletCasings>(c => {
+					c.CasingGoreType = ModContent.GoreType<BulletCasing>();
+				});
 			}
 		}
 
