@@ -59,7 +59,7 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 
 				for (int i = 0; i < dodgerolls.MaxCharges; i++) {
 					int frame;
-					
+
 					if (forcedFrame.HasValue) {
 						frame = forcedFrame.Value;
 					} else if (i < dodgerolls.CurrentCharges) {

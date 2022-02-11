@@ -10,10 +10,10 @@ namespace TerrariaOverhaul.Utilities
 
 		public static string SafeFormat(string str, object arg0)
 			=> str?.Replace("{0}", arg0?.ToString() ?? "");
-		
+
 		public static string SafeFormat(string str, object arg0, object arg1)
 			=> str?.Replace("{0}", arg0?.ToString() ?? "").Replace("{1}", arg1?.ToString() ?? "");
-		
+
 		public static string SafeFormat(string str, params object[] args)
 		{
 			if (str != null) {

@@ -21,10 +21,6 @@ namespace TerrariaOverhaul.Content.Menus
 			logoTerraria = Mod.Assets.Request<Texture2D>("Content/Menus/Logo_Terraria");
 			logoOverhaul = Mod.Assets.Request<Texture2D>("Content/Menus/Logo_Overhaul");
 			logoGlowmask = Mod.Assets.Request<Texture2D>("Content/Menus/Logo_Glowmask");
-
-			//blendState = new BlendState {
-				//AlphaDestinationBlend = Blend.SourceColor
-			//};
 		}
 
 		public override bool PreDrawLogo(SpriteBatch sb, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
@@ -43,13 +39,7 @@ namespace TerrariaOverhaul.Content.Menus
 			sb.Draw(logoOverhaul.Value, logoDrawCenter, null, drawColor, logoRotation, textureCenter, logoScale, SpriteEffects.None, 0f);
 
 			// 'Overhaul' glowmask'
-			//sb.End();
-			//sb.Begin(SpriteSortMode.Deferred, blendState, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
-
 			sb.Draw(logoGlowmask.Value, logoDrawCenter, null, Color.White, logoRotation, textureCenter, logoScale, SpriteEffects.None, 0f);
-
-			//sb.End();
-			//sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.None, Main.Rasterizer, null, Main.UIScaleMatrix);
 
 			return false;
 		}

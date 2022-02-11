@@ -124,10 +124,10 @@ namespace TerrariaOverhaul.Core.Chunks
 		// GetOrCreate
 		public static Chunk GetOrCreateChunkAtWorldPosition(Vector2 worldPosition)
 			=> GetOrCreateChunkAtTilePosition(TileToChunkCoordinates(worldPosition.ToTileCoordinates()));
-		
+
 		public static Chunk GetOrCreateChunkAtTilePosition(Vector2Int tilePosition)
 			=> GetOrCreateChunk(TileToChunkCoordinates(tilePosition));
-		
+
 		public static Chunk GetOrCreateChunk(Vector2Int chunkPosition)
 		{
 			long encodedPosition = Chunk.PackPosition(chunkPosition.X, chunkPosition.Y);

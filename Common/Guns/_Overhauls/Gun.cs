@@ -3,10 +3,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.CursorOffsets;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Core.ItemOverhauls;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Guns
 {

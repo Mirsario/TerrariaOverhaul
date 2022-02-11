@@ -24,20 +24,20 @@ namespace TerrariaOverhaul.Core.Input
 		// Keyboard
 		public static bool GetKey(Keys key)
 			=> !PlayerInput.WritingText && Main.hasFocus && Main.keyState.IsKeyDown(key);
-		
+
 		public static bool GetKeyDown(Keys key)
 			=> !PlayerInput.WritingText && Main.hasFocus && Main.keyState.IsKeyDown(key) && !Main.oldKeyState.IsKeyDown(key);
-		
+
 		public static bool GetKeyUp(Keys key)
 			=> !PlayerInput.WritingText && Main.hasFocus && !Main.keyState.IsKeyDown(key) && Main.oldKeyState.IsKeyDown(key);
-		
+
 		// Mouse
 		public static bool GetMouseButton(int button)
 			=> Main.hasFocus && GetMouseButtonState(mouseState, button);
-		
+
 		public static bool GetMouseButtonDown(int button)
 			=> Main.hasFocus && GetMouseButtonState(mouseState, button) && !GetMouseButtonState(mouseStatePrev, button);
-		
+
 		public static bool GetMouseButtonUp(int button)
 			=> Main.hasFocus && !GetMouseButtonState(mouseState, button) && GetMouseButtonState(mouseStatePrev, button);
 

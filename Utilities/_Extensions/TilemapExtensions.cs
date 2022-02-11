@@ -1,6 +1,5 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Utilities
 {

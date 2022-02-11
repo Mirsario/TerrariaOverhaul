@@ -5,13 +5,13 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
-using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Core.ItemOverhauls;
+using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Core.ItemOverhauls;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Melee
 {

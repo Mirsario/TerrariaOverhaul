@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 					orig(player, item);
 					return;
 				}
-				
+
 				var useSoundBackup = heldItem.UseSound;
 
 				Hook.Hook.Invoke(heldItem, player, ref heldItem.UseSound);

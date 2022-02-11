@@ -1,5 +1,4 @@
 ﻿using System;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Utilities
 {

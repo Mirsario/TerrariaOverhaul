@@ -1,10 +1,10 @@
 ﻿using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Core.ItemOverhauls;
+using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Core.ItemOverhauls;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {

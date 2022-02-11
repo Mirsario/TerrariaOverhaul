@@ -3,13 +3,13 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Content.Gores;
-using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Guns
 {

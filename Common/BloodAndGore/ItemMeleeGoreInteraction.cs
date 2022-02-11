@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Common.Melee;
+using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.BloodAndGore
 {

@@ -114,7 +114,7 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 		{
 			if (!DodgerollTirednessTimer.Active && CurrentCharges < MaxCharges) {
 				CurrentCharges = MaxCharges;
-				
+
 				if (!Main.dedServ) {
 					SoundEngine.PlaySound(RechargedSound);
 				}

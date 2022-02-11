@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using Terraria.DataStructures;
-using TerrariaOverhaul.Core.Debugging;
-using TerrariaOverhaul.Core.Input;
-using Microsoft.Xna.Framework.Input;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.Difficulties
 {

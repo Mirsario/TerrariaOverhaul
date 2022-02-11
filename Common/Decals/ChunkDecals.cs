@@ -4,8 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.DataStructures;
 using TerrariaOverhaul.Core.Chunks;
+using TerrariaOverhaul.Core.DataStructures;
 using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Common.Decals

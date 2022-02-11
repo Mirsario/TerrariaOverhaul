@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Utilities
 {

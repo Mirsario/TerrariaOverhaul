@@ -5,9 +5,9 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.DamageSources;
 using TerrariaOverhaul.Common.BloodAndGore;
+using TerrariaOverhaul.Common.DamageSources;
+using TerrariaOverhaul.Common.Hooks.Items;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {

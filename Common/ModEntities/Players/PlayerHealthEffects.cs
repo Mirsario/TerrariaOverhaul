@@ -4,11 +4,11 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
