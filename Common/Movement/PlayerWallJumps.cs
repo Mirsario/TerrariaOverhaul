@@ -9,8 +9,8 @@ using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.Footsteps;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Movement
 {

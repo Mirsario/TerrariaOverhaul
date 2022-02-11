@@ -5,13 +5,13 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
+using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;
-using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Common.ModEntities.Players;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Movement
 {

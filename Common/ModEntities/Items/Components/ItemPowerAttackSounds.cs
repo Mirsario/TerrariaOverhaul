@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Core.ItemComponents;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {

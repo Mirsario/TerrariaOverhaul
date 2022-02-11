@@ -1,5 +1,6 @@
 ﻿using Terraria;
 using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Core.ItemComponents;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {

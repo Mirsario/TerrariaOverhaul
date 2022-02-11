@@ -5,9 +5,8 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Melee;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
-using TerrariaOverhaul.Common.ModEntities.Items.Components.Animations;
-using TerrariaOverhaul.Common.ModEntities.Items.Components.Melee;
 using TerrariaOverhaul.Common.TextureColors;
 using TerrariaOverhaul.Utilities;
 

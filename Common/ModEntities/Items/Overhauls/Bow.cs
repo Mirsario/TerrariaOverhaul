@@ -2,8 +2,9 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Core.ItemOverhauls;
+using TerrariaOverhaul.Core.ItemComponents;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
