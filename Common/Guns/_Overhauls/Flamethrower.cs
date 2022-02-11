@@ -4,12 +4,15 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Crosshairs;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Core.ItemOverhauls;
 
 namespace TerrariaOverhaul.Common.Guns
 {
-	public class Flamethrower : Gun
+	public class Flamethrower : ItemOverhaul
 	{
 		private static readonly ISoundStyle FireSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Flamethrower/FlamethrowerFireLoop", 0, volume: 0.15f, pitchVariance: 0.2f);
 
@@ -25,6 +28,13 @@ namespace TerrariaOverhaul.Common.Guns
 			item.UseSound = null;
 
 			if (!Main.dedServ) {
+				item.EnableComponent<ItemAimRecoil>();
+				item.EnableComponent<ItemCrosshairController>();
+
+				item.EnableComponent<ItemMuzzleflashes>(c => {
+					c.DefaultMuzzleflashLength = (uint)(item.useTime + 1);
+				});
+
 				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 4f;
 				});

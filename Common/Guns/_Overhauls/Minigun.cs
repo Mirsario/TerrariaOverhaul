@@ -4,16 +4,19 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Crosshairs;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Core.ItemOverhauls;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Guns
 {
-	public class Minigun : Gun
+	public class Minigun : ItemOverhaul
 	{
 		private float speedFactor;
 
@@ -49,6 +52,9 @@ namespace TerrariaOverhaul.Common.Guns
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Minigun/MinigunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 
 			if (!Main.dedServ) {
+				item.EnableComponent<ItemAimRecoil>();
+				item.EnableComponent<ItemMuzzleflashes>();
+				item.EnableComponent<ItemCrosshairController>();
 				item.EnableComponent<ItemPlaySoundOnEveryUse>();
 
 				item.EnableComponent<ItemUseVisualRecoil>(c => {

@@ -1,18 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Crosshairs;
+using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items
+namespace TerrariaOverhaul.Common.Crosshairs
 {
 	[Autoload(Side = ModSide.Client)]
-	public sealed class ItemCrosshairAnimations : GlobalItem
+	public sealed class ItemCrosshairController : ItemComponent
 	{
 		public override bool? UseItem(Item item, Player player)
 		{
-			if (!player.IsLocal() || !CrosshairSystem.ShowCrosshair) {
+			if (!Enabled || !player.IsLocal()) {
 				return null;
 			}
 
@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 		public override void UseAnimation(Item item, Player player)
 		{
-			if (!player.IsLocal() || !CrosshairSystem.ShowCrosshair) {
+			if (!Enabled || !player.IsLocal()) {
 				return;
 			}
 

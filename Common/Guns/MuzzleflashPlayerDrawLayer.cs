@@ -6,11 +6,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Guns;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.PlayerLayers
+namespace TerrariaOverhaul.Common.Guns
 {
 	[Autoload(Side = ModSide.Client)]
 	public class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
@@ -30,9 +29,11 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			gunBarrelEndPositions = null;
 		}
 
-		public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.HeldItem);
+		public override Position GetDefaultPosition()
+			=> new AfterParent(PlayerDrawLayers.HeldItem);
 
-		public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => true;
+		public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
+			=> true;
 
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
@@ -40,7 +41,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 			var item = player.HeldItem;
 
-			if (item?.IsAir != false || !item.TryGetGlobalItem<Gun>(out var gun, false) || gun.MuzzleflashTime <= 0) {
+			if (item?.IsAir != false || !item.TryGetGlobalItem(out ItemMuzzleflashes muzzleflashes) || !muzzleflashes.MuzzleflashTimer.Active) {
 				return;
 			}
 
@@ -54,7 +55,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 				if (data.texture == itemTexture) {
 					var gunPosition = data.position;
-					var gunFixedOrigin = player.direction > 0 ? data.origin : (Vector2.UnitX * data.texture.Width - data.origin);
+					var gunFixedOrigin = player.direction > 0 ? data.origin : Vector2.UnitX * data.texture.Width - data.origin;
 
 					if (DebugSystem.EnableDebugRendering) {
 						DebugSystem.DrawCircle(gunPosition + Main.screenPosition, 4f, Color.White);
@@ -62,16 +63,18 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 					var originOffset = new Vector2(
 						(gunBarrelEnd.X - gunFixedOrigin.X) * player.direction,
-						(-gunFixedOrigin.Y * player.direction + gunBarrelEnd.Y)
+						-gunFixedOrigin.Y * player.direction + gunBarrelEnd.Y
 					);
 
 					var muzzleflashTexture = texture.Value;
 					var muzzleflashPosition = gunPosition + originOffset.RotatedBy(player.itemRotation);
 					var muzzleflashOrigin = new Vector2(player.direction < 0 ? muzzleflashTexture.Width : 0f, muzzleflashTexture.Height * 0.5f);
 
-					drawInfo.DrawDataCache.Insert(i++, new DrawData(muzzleflashTexture, muzzleflashPosition, null, Color.White, player.itemRotation, muzzleflashOrigin, 1f, drawInfo.itemEffect, 0));
+					drawInfo.DrawDataCache.Insert(i++, new DrawData(muzzleflashTexture, muzzleflashPosition, null, muzzleflashes.MuzzleflashColor, player.itemRotation, muzzleflashOrigin, 1f, drawInfo.itemEffect, 0));
 
-					Lighting.AddLight(muzzleflashPosition, Color.Gold.ToVector3());
+					if (muzzleflashes.LightColor.LengthSquared() > 0f) {
+						Lighting.AddLight(muzzleflashPosition, muzzleflashes.LightColor);
+					}
 
 					break;
 				}

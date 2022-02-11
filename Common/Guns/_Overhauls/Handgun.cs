@@ -2,13 +2,16 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Crosshairs;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Core.ItemOverhauls;
 
 namespace TerrariaOverhaul.Common.Guns
 {
-	public class Handgun : Gun
+	public class Handgun : ItemOverhaul
 	{
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -30,6 +33,10 @@ namespace TerrariaOverhaul.Common.Guns
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 
 			if (!Main.dedServ) {
+				item.EnableComponent<ItemAimRecoil>();
+				item.EnableComponent<ItemMuzzleflashes>();
+				item.EnableComponent<ItemCrosshairController>();
+
 				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 13f;
 				});

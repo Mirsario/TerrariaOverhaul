@@ -2,13 +2,13 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Common.Crosshairs;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 {
-	public partial class Bow : ItemOverhaul, IShowItemCrosshair
+	public partial class Bow : ItemOverhaul
 	{
 		public static readonly ModSoundStyle BowFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowFire", 4, volume: 0.375f, pitchVariance: 0.2f);
 		public static readonly ModSoundStyle BowChargeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowCharge", 4, volume: 0.375f, pitchVariance: 0.2f);
@@ -46,9 +46,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls
 				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(2f, 0.2f);
 				});
+
+				item.EnableComponent<ItemCrosshairController>();
 			}
 		}
-
-		public bool ShowItemCrosshair(Item item, Player player) => true;
 	}
 }

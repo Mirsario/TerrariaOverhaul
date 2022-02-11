@@ -3,20 +3,24 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Crosshairs;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Core.ItemOverhauls;
 
 namespace TerrariaOverhaul.Common.Guns
 {
-	public class Shotgun : Gun
+	public class Shotgun : ItemOverhaul
 	{
 		private uint pumpTime;
 
 		public ISoundStyle PumpSound { get; set; }
 		public int ShellCount { get; set; } = 1;
 
-		public override bool ShouldApplyItemOverhaul(Item item) => item.useAmmo == AmmoID.Bullet && (item.UseSound == SoundID.Item36 || item.UseSound == SoundID.Item38);
+		public override bool ShouldApplyItemOverhaul(Item item)
+			=> item.useAmmo == AmmoID.Bullet && (item.UseSound == SoundID.Item36 || item.UseSound == SoundID.Item38);
 
 		public override void SetDefaults(Item item)
 		{
@@ -24,6 +28,11 @@ namespace TerrariaOverhaul.Common.Guns
 			PumpSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunPump", 0, volume: 0.25f, pitchVariance: 0.1f);
 
 			if (!Main.dedServ) {
+				item.EnableComponent<ItemAimRecoil>();
+				item.EnableComponent<ItemMuzzleflashes>();
+				item.EnableComponent<ItemCrosshairController>();
+				item.EnableComponent<ItemCrosshairController>();
+
 				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 25f;
 				});
@@ -39,6 +48,7 @@ namespace TerrariaOverhaul.Common.Guns
 						ItemID.QuadBarrelShotgun => 4,
 						_ => 1,
 					};
+					c.SpawnOnUse = false;
 				});
 			}
 		}

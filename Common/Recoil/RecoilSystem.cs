@@ -6,10 +6,10 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.CursorOffsets
+namespace TerrariaOverhaul.Common.Recoil
 {
 	[Autoload(Side = ModSide.Client)]
-	public sealed class CursorOffsetSystem : ModSystem
+	public sealed class RecoilSystem : ModSystem
 	{
 		private struct CursorOffset
 		{

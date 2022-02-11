@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Common.Crosshairs;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Magic
 {
-	public partial class MagicWeapon : ItemOverhaul, IShowItemCrosshair
+	public partial class MagicWeapon : ItemOverhaul
 	{
 		public static readonly ModSoundStyle MagicBlastSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicBlast", 3, pitchVariance: 0.1f);
 		public static readonly ModSoundStyle MagicPowerfulBlastSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast", pitchVariance: 0.4f);
@@ -73,6 +73,8 @@ namespace TerrariaOverhaul.Common.Magic
 			});
 
 			if (!Main.dedServ) {
+				item.EnableComponent<ItemCrosshairController>();
+
 				item.EnableComponent<ItemPowerAttackSounds>(c => {
 					c.Sound = ChargeSound;
 					c.CancelPlaybackOnEnd = true;

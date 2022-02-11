@@ -28,14 +28,17 @@ namespace TerrariaOverhaul.Common.Crosshairs
 					return false;
 				}
 
-				var player = Main.LocalPlayer;
-				var item = player?.HeldItem;
+				var item = Main.LocalPlayer?.HeldItem;
 
 				if (item?.IsAir != false) {
 					return false;
 				}
 
-				return IShowItemCrosshair.Hook.Invoke(item, player);
+				if (!item.TryGetGlobalItem(out ItemCrosshairController itemCrosshair)) {
+					return false;
+				}
+
+				return itemCrosshair.Enabled;
 			}
 		}
 
@@ -137,6 +140,9 @@ namespace TerrariaOverhaul.Common.Crosshairs
 			}
 		}
 
-		public static void ClearImpulses() => impulses.Clear();
+		public static void ClearImpulses()
+		{
+			impulses.Clear();
+		}
 	}
 }

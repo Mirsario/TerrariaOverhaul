@@ -9,9 +9,9 @@ namespace TerrariaOverhaul.Common.Guns
 	[Autoload(Side = ModSide.Client)]
 	public sealed class ItemBulletCasings : ItemComponent
 	{
-		public int CasingCount { get; set; } = 1;
-		public int CasingGoreType { get; set; } = -1;
-		public bool SpawnOnUse { get; set; } = true;
+		public int CasingCount = 1;
+		public int CasingGoreType = -1;
+		public bool SpawnOnUse = true;
 
 		public override bool? UseItem(Item item, Player player)
 		{

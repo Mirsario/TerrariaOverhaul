@@ -3,7 +3,10 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Crosshairs;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
@@ -11,12 +14,12 @@ using TerrariaOverhaul.Core.ItemOverhauls;
 namespace TerrariaOverhaul.Common.Guns
 {
 	[ItemAttachment(ItemID.Revolver, ItemID.TheUndertaker)]
-	public class Revolver : Handgun
+	public class Revolver : ItemOverhaul
 	{
 		public const float SpinAnimationLengthMultiplier = 2f;
 		public const int SpinShotCount = 6;
 
-		//TODO:
+		//TODO: Implement rules, be sure to differentiate from handguns somehow.
 		public override bool ShouldApplyItemOverhaul(Item item) => false;
 
 		public override void SetDefaults(Item item)
@@ -24,15 +27,29 @@ namespace TerrariaOverhaul.Common.Guns
 			base.SetDefaults(item);
 
 			//item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Revolver/RevolverFire", 0, volume: 0.15f, pitchVariance: 0.2f);
+			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
 
 			if (!Main.dedServ) {
+				item.EnableComponent<ItemAimRecoil>();
+				item.EnableComponent<ItemMuzzleflashes>();
+				item.EnableComponent<ItemCrosshairController>();
 				item.EnableComponent<ItemPlaySoundOnEveryUse>();
+
+				item.EnableComponent<ItemUseVisualRecoil>(c => {
+					c.Power = 13f;
+				});
+
+				item.EnableComponent<ItemUseScreenShake>(c => {
+					c.ScreenShake = new ScreenShake(4f, 0.2f);
+				});
 
 				item.EnableComponent<ItemBulletCasings>(c => {
 					c.CasingGoreType = ModContent.GoreType<BulletCasing>();
 				});
 			}
 		}
+
+		//TODO: Move all the following logic to a component
 
 		public override bool AltFunctionUse(Item item, Player player)
 		{

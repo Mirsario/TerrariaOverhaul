@@ -2,13 +2,16 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Crosshairs;
 using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Core.ItemOverhauls;
 
 namespace TerrariaOverhaul.Common.Guns
 {
-	public class RocketLauncher : Gun
+	public class RocketLauncher : ItemOverhaul
 	{
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -34,6 +37,10 @@ namespace TerrariaOverhaul.Common.Guns
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/RocketLauncher/RocketLauncherFire", 0, volume: 0.35f);
 
 			if (!Main.dedServ) {
+				item.EnableComponent<ItemAimRecoil>();
+				item.EnableComponent<ItemMuzzleflashes>();
+				item.EnableComponent<ItemCrosshairController>();
+
 				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 6f;
 				});
