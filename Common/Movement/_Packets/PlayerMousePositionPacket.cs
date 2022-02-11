@@ -1,13 +1,12 @@
 ﻿using System.IO;
 using Terraria;
 using Terraria.ID;
-using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
+namespace TerrariaOverhaul.Common.Movement
 {
-	public class PlayerMousePositionPacket : NetPacket
+	public sealed class PlayerMousePositionPacket : NetPacket
 	{
 		public PlayerMousePositionPacket(Player player)
 		{

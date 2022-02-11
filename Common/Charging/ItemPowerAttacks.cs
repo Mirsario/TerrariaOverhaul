@@ -7,7 +7,7 @@ using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Components
+namespace TerrariaOverhaul.Common.Charging
 {
 	public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultipliers, ICanDoMeleeDamage
 	{

@@ -6,7 +6,7 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Core.ItemComponents;
 
 namespace TerrariaOverhaul.Common.Melee

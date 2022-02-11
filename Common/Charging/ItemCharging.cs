@@ -2,7 +2,7 @@
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Components
+namespace TerrariaOverhaul.Common.Charging
 {
 	//TODO: Somehow make this have conditional instancing?
 	public sealed class ItemCharging : ItemComponent, ICanTurnDuringItemUse, IHoldItemWhileDead

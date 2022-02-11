@@ -1,13 +1,12 @@
 ﻿using System.IO;
 using Terraria;
 using Terraria.ID;
-using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
+namespace TerrariaOverhaul.Common.Dodgerolls
 {
-	public class PlayerDodgerollPacket : NetPacket
+	public sealed class PlayerDodgerollPacket : NetPacket
 	{
 		public PlayerDodgerollPacket(Player player)
 		{

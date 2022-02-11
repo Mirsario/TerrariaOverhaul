@@ -6,7 +6,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Common.ModEntities.Players;
-using TerrariaOverhaul.Common.ModEntities.Players.Packets;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;
@@ -15,7 +14,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Movement
 {
-	public class PlayerClimbing : ModPlayer
+	public sealed class PlayerClimbing : ModPlayer
 	{
 		public static readonly ConfigEntry<bool> EnableClimbing = new(ConfigSide.Both, "PlayerMovement", nameof(EnableClimbing), () => true);
 
@@ -50,7 +49,7 @@ namespace TerrariaOverhaul.Common.Movement
 			climbEndPos = posTo;
 
 			if (Main.netMode == NetmodeID.MultiplayerClient && Player.IsLocal()) {
-				MultiplayerSystem.SendPacket(new PlayerClimbStartMessage(Player, posFrom, posTo));
+				MultiplayerSystem.SendPacket(new PlayerClimbStartPacket(Player, posFrom, posTo));
 			}
 		}
 

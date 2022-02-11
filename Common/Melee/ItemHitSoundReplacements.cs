@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.Tags;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items
+namespace TerrariaOverhaul.Common.Melee
 {
 	public sealed class ItemHitSoundReplacements : GlobalItem, IModifyItemNPCHitSound
 	{

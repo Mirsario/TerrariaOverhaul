@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Melee

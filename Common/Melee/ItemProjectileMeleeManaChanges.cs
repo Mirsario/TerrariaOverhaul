@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items
+namespace TerrariaOverhaul.Common.Melee
 {
 	public sealed class ItemProjectileMeleeManaChanges : GlobalItem
 	{
@@ -75,7 +75,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Items
 
 		public override void SetDefaults(Item item)
 		{
-			item.mana = Math.Max(item.mana, 3 + (int)(item.useTime / 6));
+			item.mana = Math.Max(item.mana, 3 + item.useTime / 6);
 		}
 
 		private static bool CanReallyShoot(Player player, Item item)

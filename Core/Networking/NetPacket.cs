@@ -28,6 +28,8 @@ namespace TerrariaOverhaul.Core.Networking
 
 		public void Dispose()
 		{
+			GC.SuppressFinalize(this);
+
 			Writer?.Dispose();
 			stream?.Dispose();
 

@@ -2,15 +2,14 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
-using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
+namespace TerrariaOverhaul.Common.Movement
 {
-	public class PlayerClimbStartMessage : NetPacket
+	public sealed class PlayerClimbStartPacket : NetPacket
 	{
-		public PlayerClimbStartMessage(Player player, Vector2 posFrom, Vector2 posTo)
+		public PlayerClimbStartPacket(Player player, Vector2 posFrom, Vector2 posTo)
 		{
 			Writer.TryWriteSenderPlayer(player);
 
@@ -31,7 +30,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players.Packets
 
 			// Resend
 			if (Main.netMode == NetmodeID.Server) {
-				MultiplayerSystem.SendPacket(new PlayerClimbStartMessage(player, posFrom, posTo), ignoreClient: sender);
+				MultiplayerSystem.SendPacket(new PlayerClimbStartPacket(player, posFrom, posTo), ignoreClient: sender);
 			}
 		}
 	}

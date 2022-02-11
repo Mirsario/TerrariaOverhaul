@@ -5,12 +5,11 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Melee;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.TextureColors;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.PlayerLayers
+namespace TerrariaOverhaul.Common.Melee
 {
 	[Autoload(Side = ModSide.Client)]
 	public class SlashPlayerDrawLayer : PlayerDrawLayer
@@ -23,9 +22,11 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			texture = Mod.Assets.Request<Texture2D>($"{ModPathUtils.GetDirectory(GetType())}/Slash");
 		}
 
-		public override Position GetDefaultPosition() => new BeforeParent(PlayerDrawLayers.HeldItem);
+		public override Position GetDefaultPosition()
+			=> new BeforeParent(PlayerDrawLayers.HeldItem);
 
-		public override bool GetDefaultVisibility(PlayerDrawSet drawInfo) => true;
+		public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
+			=> true;
 
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
@@ -43,7 +44,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 
 			float useProgress = player.itemAnimation / (float)player.itemAnimationMax;
 
-			useProgress = (useProgress * 2f) - 1f;
+			useProgress = useProgress * 2f - 1f;
 
 			if (useProgress < 0) {
 				return;
@@ -78,7 +79,7 @@ namespace TerrariaOverhaul.Common.PlayerLayers
 			float rotation = attackAngle;
 			Vector2 origin = sourceRectangle.Size() * 0.5f;
 			float scale = attackRange / 30f;
-			var effect = ((player.direction > 0) ^ flipped) ? SpriteEffects.FlipVertically : SpriteEffects.None;
+			var effect = player.direction > 0 ^ flipped ? SpriteEffects.FlipVertically : SpriteEffects.None;
 
 			// Color calculation
 			Main.instance.LoadItem(item.type);

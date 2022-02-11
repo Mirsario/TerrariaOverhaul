@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
