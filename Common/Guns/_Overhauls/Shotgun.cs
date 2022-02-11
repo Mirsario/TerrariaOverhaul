@@ -23,12 +23,6 @@ namespace TerrariaOverhaul.Common.Guns
 			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunFire", 4, volume: 0.2f, pitchVariance: 0.2f);
 			PumpSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunPump", 0, volume: 0.25f, pitchVariance: 0.1f);
 
-			ShellCount = item.type switch {
-				ItemID.Boomstick => 2,
-				ItemID.QuadBarrelShotgun => 4,
-				_ => 1,
-			};
-
 			if (!Main.dedServ) {
 				item.EnableComponent<ItemUseVisualRecoil>(c => {
 					c.Power = 25f;
@@ -36,6 +30,15 @@ namespace TerrariaOverhaul.Common.Guns
 
 				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(10f, 0.25f);
+				});
+
+				item.EnableComponent<ItemBulletCasings>(c => {
+					c.CasingGoreType = ModContent.GoreType<ShellCasing>();
+					c.CasingCount = item.type switch {
+						ItemID.Boomstick => 2,
+						ItemID.QuadBarrelShotgun => 4,
+						_ => 1,
+					};
 				});
 			}
 		}
@@ -59,7 +62,8 @@ namespace TerrariaOverhaul.Common.Guns
 
 			if (!Main.dedServ && PumpSound != null && pumpTime != 0 && Main.GameUpdateCount == pumpTime) {
 				SoundEngine.PlaySound(PumpSound, player.Center);
-				SpawnCasings<ShellCasing>(player, ShellCount);
+
+				item.GetGlobalItem<ItemBulletCasings>().SpawnCasings(item, player);
 			}
 		}
 	}

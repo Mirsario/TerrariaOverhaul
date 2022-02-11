@@ -20,7 +20,6 @@ namespace TerrariaOverhaul.Common.Guns
 		public virtual float MinSpeedFactor => 0.333f;
 		public virtual float AccelerationTime => 1f;
 		public virtual float DecelerationTime => 1f;
-		public virtual bool DoSpawnCasings => true;
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -59,6 +58,10 @@ namespace TerrariaOverhaul.Common.Guns
 				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(5f, 0.25f);
 				});
+
+				item.EnableComponent<ItemBulletCasings>(c => {
+					c.CasingGoreType = ModContent.GoreType<BulletCasing>();
+				});
 			}
 		}
 
@@ -80,14 +83,6 @@ namespace TerrariaOverhaul.Common.Guns
 
 		public override bool? UseItem(Item item, Player player)
 		{
-			if (!Main.dedServ && DoSpawnCasings) {
-				int numCasings = player.altFunctionUse == 2 ? 2 : 1;
-
-				for (int i = 0; i < numCasings; i++) {
-					SpawnCasings<BulletCasing>(player);
-				}
-			}
-
 			ApplyVelocityRecoil(item, player);
 
 			return base.UseItem(item, player);

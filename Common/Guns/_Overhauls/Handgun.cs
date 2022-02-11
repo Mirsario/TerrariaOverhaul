@@ -37,16 +37,11 @@ namespace TerrariaOverhaul.Common.Guns
 				item.EnableComponent<ItemUseScreenShake>(c => {
 					c.ScreenShake = new ScreenShake(4f, 0.2f);
 				});
-			}
-		}
 
-		public override bool? UseItem(Item item, Player player)
-		{
-			if (!Main.dedServ) {
-				SpawnCasings<BulletCasing>(player);
+				item.EnableComponent<ItemBulletCasings>(c => {
+					c.CasingGoreType = ModContent.GoreType<BulletCasing>();
+				});
 			}
-
-			return base.UseItem(item, player);
 		}
 	}
 }

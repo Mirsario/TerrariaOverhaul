@@ -8,8 +8,6 @@ namespace TerrariaOverhaul.Common.Guns
 {
 	public class StarCannon : Minigun
 	{
-		public override bool DoSpawnCasings => false;
-
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			if (item.useAmmo != AmmoID.FallenStar) {
