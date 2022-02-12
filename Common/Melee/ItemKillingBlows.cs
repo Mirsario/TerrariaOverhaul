@@ -8,6 +8,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Melee
 {
@@ -40,14 +41,9 @@ namespace TerrariaOverhaul.Common.Melee
 					i => i.MatchStloc(out _)
 				);
 
-				var incomingLabels = cursor.IncomingLabels.ToArray();
+				cursor.HijackIncomingLabels(); // Make jumps be to before the upcoming delete instead of after it.
 
 				cursor.Emit(OpCodes.Ldarg_0);
-
-				foreach (var incomingLabel in incomingLabels) {
-					incomingLabel.Target = cursor.Prev;
-				}
-
 				cursor.Emit(OpCodes.Ldloca, damageLocalId);
 				cursor.EmitDelegate<NPCDamageModifier>(CheckForKillingBlow);
 			};
