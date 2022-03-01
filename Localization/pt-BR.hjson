@@ -1,3 +1,15 @@
+UI: {
+	Journey: "Jornada"
+	Normal: "Muito Jovem Para Minerar"
+	Expert: "Um Ossinho Não Dói"
+	Master: "Eu Sou A Encarnação de Cthulhu"
+
+	JourneyDescription: "O modo Criativo / Acessível (Para aqueles que querem estar no controle)"
+	NormalDescription: "Menos danos de inimigos, mesmas recompensas (Para os descompromissados)"
+	ExpertDescription: "A nova experiência padrão (Para aqueles que gostam de um desafio justo)"
+	MasterDescription: "Punição extrema e novas recompensas (Para os verdadeiramente desumanos)"
+}
+
 Mods: {
 	TerrariaOverhaul: {
 		Configuration: {
