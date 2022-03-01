@@ -9,6 +9,7 @@ namespace TerrariaOverhaul.Core.Exceptions
 			$"IL matching error has occured in '{context.Method.Name}'."
 			+ (locationInfo != null ? $"\r\nLocation: '{locationInfo}'." : null)
 			+ (initiator != null ? $"\r\nInitiator: '{initiator.GetType().FullName}'." : null)
-		) { }
+		)
+		{ }
 	}
 }

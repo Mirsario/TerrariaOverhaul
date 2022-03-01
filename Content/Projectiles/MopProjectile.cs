@@ -1,5 +1,5 @@
 ﻿using Terraria;
-using TerrariaOverhaul.Common.Systems.Decals;
+using TerrariaOverhaul.Common.Decals;
 
 namespace TerrariaOverhaul.Content.Projectiles
 {
@@ -15,12 +15,12 @@ namespace TerrariaOverhaul.Content.Projectiles
 			Projectile.width = 16;
 			Projectile.height = 16;
 		}
-		
+
 		public override void PostAI()
 		{
 			base.PostAI();
 
-			if(!Main.dedServ) {
+			if (!Main.dedServ) {
 				DecalSystem.ClearDecals(Projectile.getRect());
 			}
 		}

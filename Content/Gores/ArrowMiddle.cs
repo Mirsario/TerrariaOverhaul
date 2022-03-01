@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Content.Gores
 {
 	public class ArrowMiddle : ModGore
 	{
-		public override void OnSpawn(Gore gore)
+		public override void OnSpawn(Gore gore, IEntitySource source)
 		{
 			gore.Frame = new SpriteFrame(2, 1, (byte)Main.rand.Next(2), 0);
 			gore.rotation = Main.rand.NextFloat(MathHelper.TwoPi);

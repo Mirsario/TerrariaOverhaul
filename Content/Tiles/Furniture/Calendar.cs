@@ -4,13 +4,13 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.Tiles.Furniture
 {
-	public class Calendar : TileBase
+	public class Calendar : ModTile
 	{
-		public override void SetDefaults()
+		public override void SetStaticDefaults()
 		{
 			Main.tileSolid[Type] = false;
 			Main.tileNoAttach[Type] = false;
@@ -33,15 +33,15 @@ namespace TerrariaOverhaul.Content.Tiles.Furniture
 
 			this.AddMapEntry(Color.IndianRed, "Calendar");
 		}
-		
+
 		/*public override bool RightClick(int x, int y)
 		{
 			int days = SeasonSystem.SeasonLength - SeasonSystem.currentSeasonDay;
 
-			//It's currently X...
+			// It's currently X...
 			Main.NewText(LocalizationSystem.GetTextFormatted("SeasonSystem.CalendarCurrentSeason", SeasonSystem.currentSeason.DisplayName), Color.Yellow);
 
-			//X will arrive in Y...
+			// X will arrive in Y...
 			Main.NewText(LocalizationSystem.GetTextFormatted($"SeasonSystem.{(days > 1 ? "CalendarNextSeasonDays" : "CalendarNextSeasonTomorrow")}", SeasonSystem.NextSeason.DisplayName, days), Color.Yellow);
 
 			var player = Main.LocalPlayer;
@@ -50,7 +50,14 @@ namespace TerrariaOverhaul.Content.Tiles.Furniture
 			return true;
 		}*/
 
-		public override void MouseOver(int x, int y) => Main.cursorOverride = 3;
-		public override void KillMultiTile(int x, int y, int frameX, int frameY) => Item.NewItem(x * 16, y * 16, 32, 80, ModContent.ItemType<Items.Placeables.Calendar>());
+		public override void MouseOver(int x, int y)
+		{
+			Main.cursorOverride = 3;
+		}
+
+		public override void KillMultiTile(int x, int y, int frameX, int frameY)
+		{
+			Item.NewItem(new EntitySource_TileBreak(x, y), x * 16, y * 16, 32, 80, ModContent.ItemType<Items.Placeables.Calendar>());
+		}
 	}
 }

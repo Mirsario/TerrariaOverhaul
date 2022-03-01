@@ -1,9 +1,10 @@
 using Microsoft.Xna.Framework;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Items.Materials
 {
-	public class Charcoal : ItemBase
+	public class Charcoal : ModItem
 	{
 		public override void SetDefaults()
 		{

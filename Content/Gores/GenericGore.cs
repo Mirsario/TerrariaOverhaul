@@ -2,13 +2,13 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Gores;
+using TerrariaOverhaul.Common.BloodAndGore;
 
 namespace TerrariaOverhaul.Content.Gores
 {
 	public class GenericGore : ModGore
 	{
-		public override void OnSpawn(Gore gore)
+		public override void OnSpawn(Gore gore, IEntitySource source)
 		{
 			gore.Frame = new SpriteFrame(1, 3, 0, (byte)Main.rand.Next(3));
 			gore.sticky = false;

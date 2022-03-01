@@ -1,13 +1,13 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Camera;
-using TerrariaOverhaul.Common.Systems.Decals;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Decals;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.SimpleEntities
 {
@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 	{
 		private const int MaxPositions = 3;
 
-		public static readonly SoundStyle BloodDripSound = new ModSoundStyle(nameof(TerrariaOverhaul), "Assets/Sounds/Gore/BloodDrip", 14, volume: 0.3f, pitchVariance: 0.2f);
+		public static readonly ISoundStyle BloodDripSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/BloodDrip", 14, volume: 0.3f, pitchVariance: 0.2f);
 
 		private static List<List<Color>> bloodColorRecordingLists;
 
@@ -25,22 +25,22 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 		public override bool CollidesWithTiles => LifeTime >= 3;
 
-		//Load-time
+		// Load-time
 		public override void Load(Mod mod)
 		{
 			bloodColorRecordingLists = new List<List<Color>>();
 		}
-		
+
 		public override void Unload()
 		{
-			if(bloodColorRecordingLists != null) {
+			if (bloodColorRecordingLists != null) {
 				bloodColorRecordingLists.Clear();
 
 				bloodColorRecordingLists = null;
 			}
 		}
 
-		//In-game
+		// In-game
 		public override void Init()
 		{
 			frame = new Rectangle(0, 8 * Main.rand.Next(3), 8, 8);
@@ -48,28 +48,28 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			velocityScale = Vector2.One * Main.rand.NextFloat(0.5f, 1f);
 			positions = new Vector2[MaxPositions];
 
-			for(int i = 0; i < positions.Length; i++) {
+			for (int i = 0; i < positions.Length; i++) {
 				positions[i] = position;
 			}
 
-			for(int i = 0; i < bloodColorRecordingLists.Count; i++) {
+			for (int i = 0; i < bloodColorRecordingLists.Count; i++) {
 				bloodColorRecordingLists[i].Add(color);
 			}
 		}
-		
+
 		public override void Update()
 		{
-			//Track old positions.
+			// Track old positions.
 			Array.Copy(positions, 0, positions, 1, positions.Length - 1);
 
 			positions[0] = position;
 
 			base.Update();
 		}
-		
+
 		public override void Draw(SpriteBatch sb)
 		{
-			if(Vector2.DistanceSquared(position, CameraSystem.ScreenCenter) > Main.screenWidth * Main.screenWidth * 2 || position.HasNaNs()) {
+			if (Vector2.DistanceSquared(position, CameraSystem.ScreenCenter) > Main.screenWidth * Main.screenWidth * 2 || position.HasNaNs()) {
 				Destroy();
 				return;
 			}
@@ -78,7 +78,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 			usedColor.A = (byte)(color.A * alpha);
 
-			if(usedColor != default) {
+			if (usedColor != default) {
 				var lineStart = position;
 				var lineEnd = positions[positions.Length - 1];
 
@@ -90,13 +90,13 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 		{
 			destroy = true;
 
-			if(Main.rand.Next(50) == 0) {
+			if (Main.rand.Next(50) == 0) {
 				SoundEngine.PlaySound(BloodDripSound, position);
 			}
 
 			DecalSystem.AddDecals(position + velocity.SafeNormalize(default) * Main.rand.NextFloat(5f), color);
 		}
-		
+
 		protected override void OnDestroyed(bool allowEffects)
 		{
 			base.OnDestroyed(allowEffects);

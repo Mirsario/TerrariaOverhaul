@@ -5,9 +5,9 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.BloodAndGore;
+using TerrariaOverhaul.Common.DamageSources;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.Systems.DamageSources;
-using TerrariaOverhaul.Core.Exceptions;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
@@ -18,11 +18,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		public override void Load()
 		{
-			//Hook for making the PlayHitSound method control whether or not to play the original hitsound.
+			// Hook for making the PlayHitSound method control whether or not to play the original hitsound.
 			IL.Terraria.NPC.StrikeNPC += context => {
 				var cursor = new ILCursor(context);
 
-				//Match 'if (HitSound != null)'
+				// Match 'if (HitSound != null)'
 				ILLabel onCheckFailureLabel = null;
 
 				cursor.GotoNext(
@@ -36,15 +36,15 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				);
 
 				cursor.Emit(OpCodes.Ldarg_0);
-				cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || npcDamageAudio.PlayHitSound(npc));
+				cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || PlayHitSound(npc));
 				cursor.Emit(OpCodes.Brfalse, onCheckFailureLabel);
 			};
 
-			//Hook for making the PlayDeathSound method control whether or not to play the original death sound.
+			// Hook for making the PlayDeathSound method control whether or not to play the original death sound.
 			IL.Terraria.NPC.checkDead += context => {
 				var cursor = new ILCursor(context);
 
-				//Match 'if (DeathSound != null)'
+				// Match 'if (DeathSound != null)'
 				ILLabel onCheckFailureLabel = null;
 
 				cursor.GotoNext(
@@ -58,60 +58,61 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				);
 
 				cursor.Emit(OpCodes.Ldarg_0);
-				cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || npcDamageAudio.PlayDeathSound(npc));
+				cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || PlayDeathSound(npc));
 				cursor.Emit(OpCodes.Brfalse, onCheckFailureLabel);
 			};
 		}
 
-		public bool PlayHitSound(NPC npc)
+		private static bool PlayHitSound(NPC npc)
 		{
-			if(!npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
+			if (!npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
 				return true;
 			}
 
 			bool playOriginalSound = true;
-			SoundStyle customSoundStyle = null;
+			ISoundStyle customSoundStyle = null;
 
-			if(npcBloodAndGore.LastHitBloodAmount > 0) {
+			if (npcBloodAndGore.LastHitBloodAmount > 0) {
 				customSoundStyle = FleshHitSound;
 				playOriginalSound = npc.HitSound != SoundID.NPCHit1;
 			}
 
 			var damageSource = DamageSourceSystem.CurrentDamageSource;
 
-			//Call item hit sound modification hooks.
-			if(damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
+			// Call item hit sound modification hooks.
+			if (damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
 				IModifyItemNPCHitSound.Hook.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
 			}
 
-			if(customSoundStyle != null) {
+			if (customSoundStyle != null) {
 				SoundEngine.PlaySound(customSoundStyle, npc.Center);
 			}
 
 			return playOriginalSound;
 		}
-		public bool PlayDeathSound(NPC npc)
+
+		private static bool PlayDeathSound(NPC npc)
 		{
-			if(!npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
+			if (!npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
 				return true;
 			}
 
 			bool playOriginalSound = true;
-			SoundStyle customSoundStyle = null;
+			ISoundStyle customSoundStyle = null;
 
-			if(npcBloodAndGore.LastHitBloodAmount > 0) {
+			if (npcBloodAndGore.LastHitBloodAmount > 0) {
 				customSoundStyle = GoreSound;
 				playOriginalSound = npc.DeathSound != SoundID.NPCDeath1;
 			}
 
 			var damageSource = DamageSourceSystem.CurrentDamageSource;
 
-			//Call item death sound modification hooks.
-			if(damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
+			// Call item death sound modification hooks.
+			if (damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
 				IModifyItemNPCDeathSound.Hook.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
 			}
 
-			if(customSoundStyle != null) {
+			if (customSoundStyle != null) {
 				SoundEngine.PlaySound(customSoundStyle, npc.Center);
 			}
 

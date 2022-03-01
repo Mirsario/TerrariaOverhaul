@@ -1,14 +1,15 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Content.Items.Materials;
 
 namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 {
-	public abstract class AshMonster : NPCBase
+	public abstract class AshMonster : ModNPC
 	{
 		protected abstract int BaseNPC { get; }
 
@@ -16,10 +17,10 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 		{
 			NPC.CloneDefaults(BaseNPC);
 
-			//Sound.
+			// Sound.
 			NPC.HitSound = SoundID.NPCHit18;
 			NPC.DeathSound = SoundID.NPCDeath21;
-			//Buffs.
+			// Buffs.
 			NPC.buffImmune[BuffID.Bleeding] = true;
 			NPC.buffImmune[BuffID.Poisoned] = true;
 			NPC.buffImmune[BuffID.OnFire] = true;
@@ -28,30 +29,31 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 			NPC.buffImmune[BuffID.BrokenArmor] = true;
 			NPC.buffImmune[BuffID.Ichor] = true;
 			NPC.buffImmune[BuffID.CursedInferno] = true;
-			//Animation.
+			// Animation.
 			AnimationType = BaseNPC;
 			Main.npcFrameCount[Type] = Main.npcFrameCount[BaseNPC];
 
 			//OverhaulNPC.goreInfos.AddIfNeedTo(npc.type,() => new NPCGoreInfo(npc,bloodColor:Color.Transparent,goreType:""));
 		}
-		
+
 		public override void AI()
 		{
-			if(!Main.dedServ) {
-				//Slight glow in the dark, due to the eye.
+			if (!Main.dedServ) {
+				// Slight glow in the dark, due to the eye.
 				Lighting.AddLight(NPC.Top, new Vector3(1f, 0.75f, 0f) * 0.15f);
 			}
 		}
-		
+
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int amount = NPC.life <= 0 ? 50 : (int)damage;
+			IEntitySource entitySource = new EntitySource_EntityHit(NPC);
 
-			for(int i = 0; i < amount; i++) {
-				Dust.NewDust(NPC.position, NPC.width, NPC.height, 54, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));
+			for (int i = 0; i < amount; i++) {
+				Dust.NewDust(entitySource, NPC.position, NPC.width, NPC.height, 54, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));
 			}
 		}
-		
+
 		public override void ModifyNPCLoot(NPCLoot npcLoot)
 		{
 			npcLoot.Add(ItemDropRule.Common(ItemID.AshBlock, minimumDropped: 5, maximumDropped: 10));

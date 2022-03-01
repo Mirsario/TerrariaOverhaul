@@ -4,8 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Input;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Core.Input;
 
 namespace TerrariaOverhaul.Utilities
 {
@@ -24,7 +23,7 @@ namespace TerrariaOverhaul.Utilities
 				});
 			}
 
-			if(InputSystem.GetKey(Key)) {
+			if (InputSystem.GetKey(Key)) {
 				var lines = getLines().Prepend(mod.GetTextValue("CommonTooltips.CombatInfo"));
 
 				AddTooltip("CombatInfo", string.Join("\r\n", lines));

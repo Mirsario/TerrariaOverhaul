@@ -25,13 +25,13 @@ namespace TerrariaOverhaul.Core.Components
 			Entity = entity;
 			ComponentsReadOnly = (Components = new()).AsReadOnly();
 
-			if(!autoloadGlobalComponents) {
+			if (!autoloadGlobalComponents) {
 				return;
 			}
 
-			foreach(var mod in ModLoader.Mods) {
-				foreach(var component in mod.GetContent<TComponent>()) {
-					if(component.GetType().GetCustomAttribute<GlobalComponentAttribute>() != null) {
+			foreach (var mod in ModLoader.Mods) {
+				foreach (var component in mod.GetContent<TComponent>()) {
+					if (component.GetType().GetCustomAttribute<GlobalComponentAttribute>() != null) {
 						Add((TComponent)component.Clone());
 					}
 				}
@@ -49,8 +49,8 @@ namespace TerrariaOverhaul.Core.Components
 
 		public bool Has<T>() where T : TComponent
 		{
-			foreach(var component in Components) {
-				if(component is T) {
+			foreach (var component in Components) {
+				if (component is T) {
 					return true;
 				}
 			}
@@ -60,8 +60,8 @@ namespace TerrariaOverhaul.Core.Components
 
 		public T Get<T>() where T : TComponent
 		{
-			foreach(var component in Components) {
-				if(component is T result) {
+			foreach (var component in Components) {
+				if (component is T result) {
 					return result;
 				}
 			}
@@ -73,11 +73,11 @@ namespace TerrariaOverhaul.Core.Components
 
 		public void Dispose()
 		{
-			if(IsDisposed) {
+			if (IsDisposed) {
 				return;
 			}
 
-			foreach(var component in Components) {
+			foreach (var component in Components) {
 				component.OnDispose(Entity);
 			}
 

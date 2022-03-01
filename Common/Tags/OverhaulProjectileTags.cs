@@ -1,7 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Tags;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 using Group = Terraria.ModLoader.Tags.ItemTags;
 
 namespace TerrariaOverhaul.Common.Tags

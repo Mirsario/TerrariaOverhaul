@@ -1,15 +1,16 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Gores;
+using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Content.Gores;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
-	public sealed class ProjectileArrowGore : GlobalProjectileBase
+	public sealed class ProjectileArrowGore : GlobalProjectile
 	{
 		public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
 		{
@@ -18,23 +19,27 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public override void Kill(Projectile projectile, int timeLeft)
 		{
-			if(!Main.dedServ) {
-				Gore SpawnGore<T>() where T : ModGore
-				{
-					Vector2 position = projectile.oldPosition + projectile.Size * 0.5f;
-					Vector2 velocity = (projectile.RealVelocity() * -0.25f).RotatedByRandom(MathHelper.ToRadians(30f));
+			if (Main.dedServ) {
+				return;
+			}
 
-					return Gore.NewGoreDirect(position, velocity, ModContent.GoreType<T>());
-				}
+			IEntitySource entitySource = new EntitySource_ProjectileParent(projectile);
 
-				var arrowHead = SpawnGore<ArrowHead>();
+			Gore SpawnGore<T>() where T : ModGore
+			{
+				Vector2 position = projectile.oldPosition + projectile.Size * 0.5f;
+				Vector2 velocity = (projectile.RealVelocity() * -0.25f).RotatedByRandom(MathHelper.ToRadians(30f));
 
-				SpawnGore<ArrowMiddle>();
-				SpawnGore<ArrowBack>();
+				return Gore.NewGoreDirect(entitySource, position, velocity, ModContent.GoreType<T>());
+			}
 
-				if(projectile.type == ProjectileID.FireArrow && arrowHead is OverhaulGore oGore) {
-					oGore.onFire = true;
-				}
+			var arrowHead = SpawnGore<ArrowHead>();
+
+			SpawnGore<ArrowMiddle>();
+			SpawnGore<ArrowBack>();
+
+			if (projectile.type == ProjectileID.FireArrow && arrowHead is OverhaulGore oGore) {
+				oGore.onFire = true;
 			}
 		}
 	}

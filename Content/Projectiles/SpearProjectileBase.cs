@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 namespace TerrariaOverhaul.Content.Projectiles
 {
 	public abstract class SpearProjectileBase : ModProjectile
-    {
+	{
 		protected abstract float HoldoutRangeMin { get; }
 		protected abstract float HoldoutRangeMax { get; }
 
@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Content.Projectiles
 			Projectile.ownerHitCheck = true;
 			Projectile.timeLeft = int.MaxValue;
 		}
-		
+
 		public override bool PreAI()
 		{
 			Player player = Main.player[Projectile.owner];
@@ -31,7 +31,7 @@ namespace TerrariaOverhaul.Content.Projectiles
 
 			int realDuration = (int)(UseDuration(player) * player.meleeSpeed);
 
-			if(Projectile.timeLeft == int.MaxValue) {
+			if (Projectile.timeLeft == int.MaxValue) {
 				Projectile.timeLeft = realDuration;
 			}
 

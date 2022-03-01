@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Utilities
 			string ns = type.Namespace;
 			int firstPeriod = ns.IndexOf('.');
 
-			if(firstPeriod < 0) {
+			if (firstPeriod < 0) {
 				return ns;
 			}
 

@@ -1,7 +1,7 @@
 ﻿using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Tags;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 using Group = Terraria.ModLoader.Tags.TileTags;
 
 namespace TerrariaOverhaul.Common.Tags
@@ -70,7 +70,7 @@ namespace TerrariaOverhaul.Common.Tags
 
 		void ILoadable.Load(Mod mod)
 		{
-			//Footsteps
+			// Footsteps
 
 			Grass.PopulateFromSets(TileID.Sets.Grass);
 			Grass.SetMultiple(new int[] {
@@ -98,7 +98,7 @@ namespace TerrariaOverhaul.Common.Tags
 				TileID.ActiveStoneBlock,
 				TileID.SandStoneSlab,
 				TileID.GrayBrick,
-				//Moss
+				// Moss
 				TileID.ArgonMoss,
 				TileID.BlueMoss,
 				TileID.BrownMoss,
@@ -108,7 +108,7 @@ namespace TerrariaOverhaul.Common.Tags
 				TileID.RedMoss,
 				TileID.PurpleMoss,
 				TileID.XenonMoss,
-				//Evil
+				// Evil
 				TileID.Ebonstone,
 				TileID.Crimstone,
 				TileID.Pearlstone,

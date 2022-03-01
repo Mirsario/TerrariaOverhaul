@@ -11,6 +11,11 @@ root = true
 # C# files
 [*.cs]
 
+#### Diagnostic Rules ####
+
+# CS1998: Async method lacks 'await' operators and will run synchronously
+dotnet_diagnostic.CS1998.severity = silent
+
 #### Core EditorConfig Options ####
 
 # Indentation and spacing
@@ -68,7 +73,7 @@ root = true
 	dotnet_style_readonly_field = true:suggestion
 
 # Parameter preferences
-	dotnet_code_quality_unused_parameters = all:none
+	dotnet_code_quality_unused_parameters = all:suggestion
 
 #### C# Coding Conventions ####
 
@@ -78,7 +83,7 @@ root = true
 	csharp_style_var_when_type_is_apparent = true:none
 
 # Expression-bodied members
-	csharp_style_expression_bodied_lambdas = when_on_single_line:suggestion
+	csharp_style_expression_bodied_lambdas = when_on_single_line:silent
 	csharp_style_expression_bodied_local_functions = when_on_single_line:suggestion
 	csharp_style_expression_bodied_operators = when_on_single_line:suggestion
 	csharp_style_expression_bodied_constructors = when_on_single_line:silent
@@ -107,8 +112,8 @@ root = true
 	csharp_prefer_simple_default_expression = true:suggestion
 	csharp_style_deconstructed_variable_declaration = true:suggestion
 	csharp_style_pattern_local_over_anonymous_function = true:suggestion
-	csharp_style_prefer_index_operator = true:suggestion
-	csharp_style_prefer_range_operator = true:suggestion
+	csharp_style_prefer_index_operator = false:suggestion
+	csharp_style_prefer_range_operator = false:suggestion
 	csharp_style_throw_expression = true:suggestion
 	csharp_style_unused_value_assignment_preference = discard_variable:suggestion
 	csharp_style_unused_value_expression_statement_preference = discard_variable:silent
@@ -116,7 +121,7 @@ root = true
 	csharp_style_inlined_variable_declaration = true:suggestion
 
 # 'using' directive preferences
-	csharp_using_directive_placement = outside_namespace:suggestion
+	csharp_using_directive_placement = outside_namespace:silent
 
 #### C# Formatting Rules ####
 
@@ -143,7 +148,7 @@ root = true
 	csharp_space_after_colon_in_inheritance_clause = true
 	csharp_space_after_comma = true
 	csharp_space_after_dot = false
-	csharp_space_after_keywords_in_control_flow_statements = false
+	csharp_space_after_keywords_in_control_flow_statements = true
 	csharp_space_after_semicolon_in_for_statement = true
 	csharp_space_around_binary_operators = before_and_after
 	csharp_space_around_declaration_statements = false
@@ -207,3 +212,6 @@ root = true
 	dotnet_naming_style.begins_with_i.required_suffix =
 	dotnet_naming_style.begins_with_i.word_separator =
 	dotnet_naming_style.begins_with_i.capitalization = pascal_case
+
+# IDE0053: Use expression body for lambda expressions
+dotnet_diagnostic.IDE0053.severity = silent

@@ -1,9 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Common.Systems.Camera;
-using TerrariaOverhaul.Common.Systems.Time;
-using TerrariaOverhaul.Core.Systems.SimpleEntities;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Core.SimpleEntities;
+using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.SimpleEntities
 {
@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 		public override void Update()
 		{
-			if(Vector2.DistanceSquared(position, CameraSystem.ScreenCenter) >= MaxParticleDistanceSqr || position.HasNaNs()) {
+			if (Vector2.DistanceSquared(position, CameraSystem.ScreenCenter) >= MaxParticleDistanceSqr || position.HasNaNs()) {
 				Destroy();
 
 				return;
@@ -35,19 +35,19 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 			velocity += gravity * TimeSystem.LogicDeltaTime;
 
-			if(CollidesWithTiles && Main.tile.TryGet((int)(position.X / 16), (int)(position.Y / 16), out var tile)) {
-				if(tile.IsActive && Main.tileSolid[tile.type]) {
+			if (CollidesWithTiles && Main.tile.TryGet((int)(position.X / 16), (int)(position.Y / 16), out var tile)) {
+				if (tile.HasTile && Main.tileSolid[tile.TileType]) {
 					OnTileContact(tile, out bool destroy);
 
-					if(destroy) {
+					if (destroy) {
 						Destroy();
 
 						return;
 					}
-				} else if(tile.LiquidAmount > 0) {
+				} else if (tile.LiquidAmount > 0) {
 					OnLiquidContact(tile, out bool destroy);
 
-					if(destroy) {
+					if (destroy) {
 						Destroy(true);
 						return;
 					}
@@ -58,7 +58,14 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			LifeTime++;
 		}
 
-		protected virtual void OnLiquidContact(Tile tile, out bool destroy) => destroy = false;
-		protected virtual void OnTileContact(Tile tile, out bool destroy) => destroy = true;
+		protected virtual void OnLiquidContact(Tile tile, out bool destroy)
+		{
+			destroy = false;
+		}
+
+		protected virtual void OnTileContact(Tile tile, out bool destroy)
+		{
+			destroy = true;
+		}
 	}
 }

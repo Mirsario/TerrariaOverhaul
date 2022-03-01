@@ -3,7 +3,7 @@
   <Import Project="..\tModLoader.targets" />
   <PropertyGroup>
 	<AssemblyName>TerrariaOverhaul</AssemblyName>
-	<TargetFramework>net5.0</TargetFramework>
+	<TargetFramework>net6.0</TargetFramework>
 	<PlatformTarget>AnyCPU</PlatformTarget>
 	<LangVersion>latest</LangVersion>
   </PropertyGroup>
@@ -18,6 +18,8 @@
     <None Remove="Old\**" />
     <None Remove="lib\**" />
     <None Remove="**/*.png" />
+    <None Remove="**/*.ogg" />
+    <None Remove="**/*.ase" />
     <None Remove="build.txt" />
     <None Remove="description.txt" />
     <None Remove=".gitignore" />
