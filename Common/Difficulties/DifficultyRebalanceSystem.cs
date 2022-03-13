@@ -31,7 +31,7 @@ namespace TerrariaOverhaul.Common.Difficulties
 			}
 
 			for (int i = 0; i < presets.Length; i++) {
-				Main.RegisterdGameModes[i] = presets[i];
+				Main.RegisteredGameModes[i] = presets[i];
 			}
 
 			Main.GameMode = Main.GameMode;

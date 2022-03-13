@@ -93,7 +93,7 @@ namespace TerrariaOverhaul.Common.Movement
 
 				// Spawn dusts.
 
-				IEntitySource entitySource = new EntitySource_Entity(Player);
+				IEntitySource entitySource = new EntitySource_Parent(Player);
 
 				for (int i = 0; i < 12; i++) {
 					Dust.NewDust(entitySource, prevDirX > 0 ? Player.Right : Player.Left, 4, 12, DustID.Smoke, -prevDirX);

@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				return;
 			}
 
-			IEntitySource entitySource = new EntitySource_ProjectileParent(projectile);
+			IEntitySource entitySource = new EntitySource_Parent(projectile);
 
 			Gore SpawnGore<T>() where T : ModGore
 			{

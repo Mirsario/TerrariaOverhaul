@@ -68,7 +68,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
 		{
 			if (player.IsLocal()) {
-				AccumulateManaOnHit(npc, player, damage, item.useTime, item.useAnimation, item.mana);
+				AccumulateManaOnHit(npc, player, damage);
 			}
 		}
 
@@ -76,12 +76,12 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 		{
 			var ownerPlayer = projectile.GetOwner();
 
-			if (ownerPlayer?.IsLocal() == true && projectile.TryGetGlobalProjectile<ProjectileSourceItemInfo>(out var projInfo) && projInfo.Available) {
-				AccumulateManaOnHit(npc, ownerPlayer, damage, projInfo.UseTime, projInfo.UseAnimation, projInfo.ManaUse);
+			if (ownerPlayer?.IsLocal() == true) {
+				AccumulateManaOnHit(npc, ownerPlayer, damage);
 			}
 		}
 
-		private void AccumulateManaOnHit(NPC npc, Player player, float damage, int useTime, int useAnimation, int manaUse)
+		private void AccumulateManaOnHit(NPC npc, Player player, float damage)
 		{
 			if (player.statMana >= player.statManaMax2) {
 				return;

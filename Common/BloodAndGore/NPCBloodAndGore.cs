@@ -71,10 +71,10 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			};
 
 			// Record and save blood information onto gores spawned during HitEffect.
-			On.Terraria.NPC.HitEffect += (orig, npc, hitDirection, dmg) => {
+			On.Terraria.NPC.HitEffect += (orig, npc, hitDirection, dmg, spawnSourceOverride) => {
 				// Ignore contexts where we only want blood to spawn.
 				if (disableNonBloodEffectSubscriptions > 0 || !npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
-					orig(npc, hitDirection, dmg);
+					orig(npc, hitDirection, dmg, spawnSourceOverride);
 
 					return;
 				}
@@ -82,7 +82,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 				List<Color> bloodColors = null;
 				var spawnedGores = GoreSystem.InvokeWithGoreSpawnRecording(() => {
 					bloodColors = BloodParticle.RecordBloodColors(() => {
-						orig(npc, hitDirection, dmg);
+						orig(npc, hitDirection, dmg, spawnSourceOverride);
 					});
 				});
 
@@ -144,7 +144,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			disableNonBloodEffectSubscriptions++;
 
 			try {
-				GoreSystem.InvokeWithGoreSpawnDisabled(() => NPCLoader.HitEffect(npc, direction, damage));
+				GoreSystem.InvokeWithGoreSpawnDisabled(() => NPCLoader.HitEffect(npc, null, direction, damage));
 			}
 			finally {
 				disableNonBloodEffectSubscriptions--;
