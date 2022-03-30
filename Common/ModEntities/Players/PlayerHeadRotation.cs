@@ -20,11 +20,17 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			const float LookStrength = 0.55f;
 
-			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().MouseWorld;
-			Vector2 offset = mouseWorld - Player.Center;
+			if (Player.sleeping.isSleeping) {
+				targetHeadRotation = 0;
+			} else {
+				var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().MouseWorld;
+				Vector2 offset = mouseWorld - Player.Center;
 
-			if (Math.Sign(offset.X) == Player.direction) {
-				targetHeadRotation = (offset * Player.direction).ToRotation() * LookStrength;
+				if (Math.Sign(offset.X) == Player.direction) {
+					targetHeadRotation = (offset * Player.direction).ToRotation() * LookStrength;
+				} else {
+					targetHeadRotation = 0;
+				}
 			}
 
 			headRotation = MathHelper.Lerp(headRotation, targetHeadRotation, 16f * TimeSystem.LogicDeltaTime);

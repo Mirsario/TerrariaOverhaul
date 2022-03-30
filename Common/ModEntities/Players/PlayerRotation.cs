@@ -25,6 +25,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
+			if (Player.sleeping.isSleeping) {
+				return;
+			}
+
 			if (RotationOffsetScale != 0f && EnablePlayerTilting) {
 				float movementRotation;
 

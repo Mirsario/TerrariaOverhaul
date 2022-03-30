@@ -1,17 +1,22 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
+using OnPlayerSittingHelper = On.Terraria.GameContent.PlayerSittingHelper;
+using OnPlayerSleepingHelper = On.Terraria.GameContent.PlayerSleepingHelper;
 
 namespace TerrariaOverhaul.Common.Movement
 {
 	public sealed class PlayerDirectioning : ModPlayer
 	{
 		private const int MouseWorldSyncFrequency = 12;
+
+		private static int skipSetDirectionCounter;
 
 		private Vector2 lastSyncedMouseWorld;
 
@@ -30,6 +35,28 @@ namespace TerrariaOverhaul.Common.Movement
 				orig(player, dir);
 
 				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
+			};
+
+			OnPlayerSleepingHelper.StartSleeping += static (OnPlayerSleepingHelper.orig_StartSleeping orig, ref PlayerSleepingHelper self, Player player, int x, int y) => {
+				try {
+					skipSetDirectionCounter++;
+
+					orig(ref self, player, x, y);
+				}
+				finally {
+					skipSetDirectionCounter--;
+				}
+			};
+
+			OnPlayerSittingHelper.SitDown += static (OnPlayerSittingHelper.orig_SitDown orig, ref PlayerSittingHelper self, Player player, int x, int y) => {
+				try {
+					skipSetDirectionCounter++;
+
+					orig(ref self, player, x, y);
+				}
+				finally {
+					skipSetDirectionCounter--;
+				}
 			};
 		}
 
@@ -65,6 +92,10 @@ namespace TerrariaOverhaul.Common.Movement
 
 					lastSyncedMouseWorld = MouseWorld;
 				}
+			}
+
+			if (skipSetDirectionCounter > 0 || Player.sleeping.isSleeping || Player.sitting.isSitting) {
+				return;
 			}
 
 			if (!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || ICanTurnDuringItemUse.Hook.Invoke(Player.HeldItem, Player))) {
