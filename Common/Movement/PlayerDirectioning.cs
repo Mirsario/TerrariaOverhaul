@@ -2,6 +2,9 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.GameContent;
+using SleepingOrig = On.Terraria.GameContent.PlayerSleepingHelper;
+using SittingOrig = On.Terraria.GameContent.PlayerSittingHelper;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Core.Networking;
@@ -14,6 +17,8 @@ namespace TerrariaOverhaul.Common.Movement
 		private const int MouseWorldSyncFrequency = 12;
 
 		private Vector2 lastSyncedMouseWorld;
+
+		private static int skipSetDirectionCounter;
 
 		public int ForcedDirection { get; set; }
 		public Vector2 MouseWorld { get; set; }
@@ -30,6 +35,28 @@ namespace TerrariaOverhaul.Common.Movement
 				orig(player, dir);
 
 				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
+			};
+
+			On.Terraria.GameContent.PlayerSleepingHelper.StartSleeping += static (SleepingOrig.orig_StartSleeping orig, ref global::Terraria.GameContent.PlayerSleepingHelper self, global::Terraria.Player player, int x, int y) => {
+				try {
+					skipSetDirectionCounter++;
+
+					orig(ref self, player, x, y);
+					}
+				finally {
+					skipSetDirectionCounter--;
+				}
+			};
+
+			On.Terraria.GameContent.PlayerSittingHelper.SitDown += static (SittingOrig.orig_SitDown orig, ref global::Terraria.GameContent.PlayerSittingHelper self, global::Terraria.Player player, int x, int y) => {
+				try {
+					skipSetDirectionCounter++;
+
+					orig(ref self, player, x, y);
+					}
+				finally {
+					skipSetDirectionCounter--;
+				}
 			};
 		}
 
@@ -51,6 +78,7 @@ namespace TerrariaOverhaul.Common.Movement
 
 		private void SetDirection(bool resetForcedDirection)
 		{
+
 			if (!Main.dedServ && Main.gameMenu) {
 				Player.direction = 1;
 
@@ -65,6 +93,10 @@ namespace TerrariaOverhaul.Common.Movement
 
 					lastSyncedMouseWorld = MouseWorld;
 				}
+			}
+
+			if (skipSetDirectionCounter > 0 || Player.sleeping.isSleeping || Player.sitting.isSitting) {
+				return;
 			}
 
 			if (!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || ICanTurnDuringItemUse.Hook.Invoke(Player.HeldItem, Player))) {
