@@ -1,14 +1,14 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Terraria.GameContent;
-using SleepingOrig = On.Terraria.GameContent.PlayerSleepingHelper;
-using SittingOrig = On.Terraria.GameContent.PlayerSittingHelper;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
+using OnPlayerSittingHelper = On.Terraria.GameContent.PlayerSittingHelper;
+using OnPlayerSleepingHelper = On.Terraria.GameContent.PlayerSleepingHelper;
 
 namespace TerrariaOverhaul.Common.Movement
 {
@@ -16,9 +16,9 @@ namespace TerrariaOverhaul.Common.Movement
 	{
 		private const int MouseWorldSyncFrequency = 12;
 
-		private Vector2 lastSyncedMouseWorld;
-
 		private static int skipSetDirectionCounter;
+
+		private Vector2 lastSyncedMouseWorld;
 
 		public int ForcedDirection { get; set; }
 		public Vector2 MouseWorld { get; set; }
@@ -37,23 +37,23 @@ namespace TerrariaOverhaul.Common.Movement
 				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
 			};
 
-			On.Terraria.GameContent.PlayerSleepingHelper.StartSleeping += static (SleepingOrig.orig_StartSleeping orig, ref global::Terraria.GameContent.PlayerSleepingHelper self, global::Terraria.Player player, int x, int y) => {
+			OnPlayerSleepingHelper.StartSleeping += static (OnPlayerSleepingHelper.orig_StartSleeping orig, ref PlayerSleepingHelper self, Player player, int x, int y) => {
 				try {
 					skipSetDirectionCounter++;
 
 					orig(ref self, player, x, y);
-					}
+				}
 				finally {
 					skipSetDirectionCounter--;
 				}
 			};
 
-			On.Terraria.GameContent.PlayerSittingHelper.SitDown += static (SittingOrig.orig_SitDown orig, ref global::Terraria.GameContent.PlayerSittingHelper self, global::Terraria.Player player, int x, int y) => {
+			OnPlayerSittingHelper.SitDown += static (OnPlayerSittingHelper.orig_SitDown orig, ref PlayerSittingHelper self, Player player, int x, int y) => {
 				try {
 					skipSetDirectionCounter++;
 
 					orig(ref self, player, x, y);
-					}
+				}
 				finally {
 					skipSetDirectionCounter--;
 				}
@@ -78,7 +78,6 @@ namespace TerrariaOverhaul.Common.Movement
 
 		private void SetDirection(bool resetForcedDirection)
 		{
-
 			if (!Main.dedServ && Main.gameMenu) {
 				Player.direction = 1;
 
