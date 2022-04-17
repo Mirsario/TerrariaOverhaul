@@ -3,277 +3,278 @@ Mods: {
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
-					//DisplayName: "Enable Ambient Sounds"
-					//Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
+					DisplayName: "启用环境音效"
+					Description: "开关环境音效，如鸟、蟋蟀、风、洞穴声等"
 				}
 				
 				EnablePlayerFootsteps: {
-					//DisplayName: "Enable Player Footsteps"
-					//Description: "Toggles player character footstep audio"
+					DisplayName: "启用脚步声"
+					Description: "开关玩家角色的脚步声音"
 				}
 			}
 			
 			BloodAndGore: {
 				EnableDecals: {
-					//DisplayName: "Enable Decals"
-					//Description: "Toggles decals, also known as 'blood on tiles'."
+					DisplayName: "启用血迹糊砖效果"
+					Description: "开关留在方块上的血迹"
 				}
 			}
 			
 			Camera: {
 				SmoothCamera: {
-					//DisplayName: "Smooth Camera"
-					//Description: "Interpolates the camera's movement to improve the feel of velocity."
+					DisplayName: "平滑镜头"
+					Description: "插值以平滑游戏镜头的运动，以改善整体动感。"
 				}
 				
 				ScreenShakeStrength: {
-					//DisplayName: "Screen Shake Strength"
-					//Description: "Controls the strength of screen shaking effects. Set this to zero to disable screen shakes completely."
+					DisplayName: "屏幕震动强度"
+					Description: "控制屏幕震动效果的强度，要完全禁用屏幕抖动请设置为零。"
 				}
 			}
 			
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
-					//DisplayName: "Enable Vertical Acceleration Changes"
-					//Description: "Toggle air friction and (almost) unlimited maximum fall speed."
+					DisplayName: "应用垂直加速度更改"
+					Description: "开关空气阻力和（几乎）无限制的最大坠落速度。"
 				}
 				
 				EnableHorizontalAccelerationChanges: {
-					//DisplayName: "Enable Horizontal Acceleration Changes"
-					//Description: "Toggle changes to horizontal friction, run max speed and acceleration."
+					DisplayName: "应用水平加速度更改"
+					Description: "开关水平阻力、最大奔跑速度和加速度的更改。"
 				}
 				
 				EnableBunnyhopping: {
-					//DisplayName: "Enable Bunnyhopping"
-					//Description: "Bunnyhopping gives you a slight horizontal boost every time you jump. Turning this off will disable certain accessories."
+					DisplayName: "开启兔子蹦跳"
+					Description: "兔子蹦跳指在每次跳跃时都会给你带来轻微的水平速度提升。若关闭这个功能，将禁用某些饰品。"
 				}
 				
 				EnableClimbing: {
-					//DisplayName: "Enable Climbing"
-					//Description: "Climbing lets you reach new heights by holding the up button."
+					DisplayName: "开启攀登功能"
+					Description: "此功能可以让你通过按住向上键来爬升至更高的高度。"
 				}
 				
 				EnableWallJumping: {
-					//DisplayName: "Enable Wall Jumping"
-					//Description:
-					//	'''
-					//	Wall jumping is a new movement mechanic that requires climbing gear or spike shoes.
-					//	It is done by hitting a wall with your back while holding the up button with horizontal movement buttons released.
-					//	'''
+					DisplayName: "开启蹬墙跳功能"
+					Description:
+						'''
+						蹬墙跳是一种新的运动机制，需要装备有攀爬装备或钉鞋才能完成。
+						背对着冲向墙，在撞击墙壁的同时按住向上键，并放开水平方向移动按钮，即可完成此动作。
+						'''
 				}
 				
 				EnableWallFlips: {
-					//DisplayName: "Enable Wall Flips"
-					//Description:
-					//	'''
-					//	A wall flip is a new movement mechanic that does not require any accessories.
-					//	It is done by hitting a wall with your front with enough velocity while holding the horizontal movement opposite of the player's direction.
-					//	'''
+					DisplayName: "开启蹬墙空翻功能"
+					Description:
+						'''
+						蹬墙空翻是一种新的运动机制，不需要任何额外饰品即可完成。
+						在以足够的速度撞击墙壁的瞬间，按下反向移动按键以改变运动方向，即可完成此动作。
+						'''
 				}
 			}
 			
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
-					//DisplayName: "Always Show Aimable Weapons"
-					//Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
+					DisplayName: "总是显示可瞄准的武器"
+					Description: "可瞄准武器在不使用时是否会被持握于玩家手中。"
 				}
 				
 				EnablePlayerHeadRotation: {
-					//DisplayName: "Enable Player Head Rotation"
-					//Description: "Toggles player characters looking at their cursors."
+					DisplayName: "启用玩家头部旋转"
+					Description: "玩家是否总是会看向鼠标光标位置。"
 				}
 				
 				EnablePlayerTilting: {
-					//DisplayName: "Enable Player Tilting"
-					//Description: "Toggles player characters being slightly tilted based on their velocity. This makes them look a lot more alive."
+					DisplayName: "启用玩家倾斜"
+					Description: "根据玩家的速度，玩家整体是否会略微倾斜，这将使他们看起来更有活力。"
 				}
 			}
 		}
 		
 		Seasons: {
 			Spring: {
-				//Name: "Spring"
+				Name: "春季"
 			}
 
 			Summer: {
-				//Name: "Summer"
+				Name: "夏季"
 			}
 
 			Autumn: {
-				//Name: "Autumn"
+				Name: "秋季"
 			}
 
 			Winter: {
-				//Name: "Winter"
+				Name: "冬季"
 			}
 
-			//SelectSeason: "Select starting season:"
-			//CalendarCurrentSeason: "It's currently {SeasonName}."
-			//CalendarNextSeasonDays: "{SeasonName} will arrive in {NumDays} days."
-			//CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
+			SelectSeason: "选择起始季节："
+			CalendarCurrentSeason: "现在的季节为：{SeasonName}。"
+			CalendarNextSeasonDays: "将会在{NumDays}天后进入{SeasonName}。"
+			CalendarNextSeasonTomorrow: "将会在明天进入{SeasonName}！"
 		}
 		
 		ItemOverhauls: {
 			Melee: {
 				Broadsword: {
-					//KillingBlow: "Killing Blow!"
-					//KillingBlowInfo: 
-					//	'''
-					//	Charged strikes can deal Killing Blows to damaged enemies
-					//	Killing Blows double damage whenever that would finish the enemy
-					//	'''
+					KillingBlow: "致命一击！"
+					KillingBlowInfo: 
+						'''
+						蓄力攻击可以对残血的敌人造成致命一击
+						致命一击会对敌人造成双倍伤害
+						'''
 				}
 				
-				//AirCombatInfo: "Attacking enemies mid-air launches you towards them"
-				//VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
+				AirCombatInfo: "冲向并打击半空中的敌人"
+				VelocityBasedDamageInfo: "伤害会随玩家的速度而上升，冲就完了"
 			}
 		}
 		
 		CommonTooltips: {
-			//ShowCombatInfo: "[Hold {Key} to show combat information]"
-			//CombatInfo: "[Combat Information]"
+			ShowCombatInfo: "[按住{Key}键以显示战斗信息]"
+			CombatInfo: "[战斗信息]"
 		}
 		
 		DeathText: {
-			//Zombified: "And then {PlayerName} was a zombie."
-			//ZombifiedScreenText: "You became a zombie..."
-			//ZombifiedName: "{PlayerName} the Zombie"
-			//Lightning: "{PlayerName} was struck by lightning. Ouch!"
+			Zombified: "{PlayerName}成了只僵尸。"
+			ZombifiedScreenText: "你变成了一只僵尸..."
+			ZombifiedName: "僵尸{PlayerName}"
+			Lightning: "{PlayerName}遭天谴了！"
 		}
 		
 		ItemName: {
 			//Accessories
-			//BunnyPaw: "Bunny Paw"
+			BunnyPaw: "兔爪"
 			
 			//Materials
-			//Charcoal: "Charcoal"
+			Charcoal: "黑炭"
 			
 			//Placeables
-			//Calendar: "Calendar"
-			//Gramophone: "Gramophone"
+			Calendar: "日历"
+			Gramophone: "留声机"
 			
 			//Consumables
-			//MusicDisc: "Music Disc"
+			MusicDisc: "音乐光碟"
 			
 			//Tools
-			//Mop: "Mop"
-			//StoneAxe: "Stone Axe"
-			//StonePickaxe: "Stone Pickaxe"
+			Mop: "扫帚"
+			StoneAxe: "石斧"
+			StonePickaxe: "石镐"
 			
 			//Unused
-			//HarmlessRocket: "Harmless Rocket"
-			//HaxxCostume: "Jade's Birb Disguise"
-			//ImpactBomb: "Impact Bomb"
-			//ImpactDynamite: "Impact Dynamite"
-			//ImpactGrenade: "Impact Grenade"
-			//LightningRod: "Lightning Rod"
-			//RedGel: "Red Gel"
-			//RepairKit1: "Primitive Repair Kit"
-			//RepairKit2: "Goblin Repair Kit"
-			//RepairTable: "Repair Table"
-			//RocketJumper: "Rocket Jumper"
-			//SleepingPotion: "Sleeping Potion"
-			//SmokeDetector: "Smoke Detector"
-			//SuperShotgun: "Super Shotgun"
-			//WaterArrow: "Water Arrow"
+			//HarmlessRocket: "无害火箭"
+			//HaxxCostume: "Jade的白桦伪装"
+			//ImpactBomb: "撞击炸弹"
+			//ImpactDynamite: "撞击炸药"
+			//ImpactGrenade: "撞击手榴弹"
+			//LightningRod: "避雷针"
+			//OnyxCell: "暗能爆弹"
+			//RedGel: "红凝胶"
+			//RepairKit1: "基础修理包"
+			//RepairKit2: "哥布林修理包"
+			//RepairTable: "修理台"
+			//RocketJumper: "爆发火箭筒"
+			//SleepingPotion: "安眠药水"。
+			//SmokeDetector: "烟雾检测器"
+			//SuperShotgun: "超级霰弹枪"
+			//WaterArrow: "水箭"。
 		}
 
 		ItemTooltip: {
 			//Accessories
-			//BunnyPaw: "Increases bunnyhop speed boost"
+			BunnyPaw: "加强兔子蹦跳的速度提升效果"
 			
 			//Materials
-			//Charcoal: "It's still warm"
+			Charcoal: "热乎着呢"
 			
 			//Placeables
-			//Calendar:
-			//	'''
-			//	Counts amount of days left until the next season
-			//	Right click after placing to use it
-			//	'''
-			//Gramophone: "Plays music discs"
+			Calendar:
+				'''
+				计算到达下一季的剩余天数
+				放置后右键点击即可使用
+				'''
+			Gramophone: "播放音乐光碟"
 			
 			//Consumables
-			//MusicDisc: "Can be played in a gramophone"
+			MusicDisc: "可在留声机处播放"
 			
 			//Tools
-			//Mop: "Keeps your house clean of guts and shredded eyeballs"
-			//StoneAxe: "Wood is probably stronger than this"
-			//StonePickaxe: "Great against dirt!"
+			//Mop: "让你的房子里没有怪物内脏和眼球碎片的痕迹"
+			//StoneAxe: "木材说不定比这还要坚固"
+			//StonePickaxe: "用来敲泥土的话还挺不错！"
 			
 			//Unused
 			//HarmlessRocket:
 			//	'''
-			//	Deals no damage
-			//	Used by Rocket Jumper
+			//	不造成任何伤害
+			//	用于爆发火箭筒
 			//	'''
-			//HaxxCostume: "Overhaul contributor's item"
+			//HaxxCostume: "大修模组贡献者的物品"
 			//ImpactBomb:
 			//	'''
-			//	A small explosion that will destroy tiles
-			//	[c/ff0000:Explodes on impact]
+			//	造成小爆炸，会破坏物块
+			//	[c/ff0000:撞击时爆炸]
 			//	'''
 			//ImpactDynamite:
 			//	'''
-			//	A large explosion that will destroy most tiles
-			//	[c/ff0000:Explodes on impact]
+			//	造成巨大爆炸，会破坏大量物块
+			//	[c/ff0000:撞击时爆炸]
 			//	'''
 			//ImpactGrenade:
 			//	'''
-			//	A small explosion that will not destroy tiles
-			//	Explodes on impact
+			//	造成小爆炸，不会破坏物块
+			//	撞击时爆炸
 			//	'''
 			//LightningRod:
 			//	'''
-			//	Attracts lightning, saves your life
-			//	[c/ff0000:Place on non-flammable blocks]
+			//	引雷，把你和你的房子从电闪雷鸣中救下来
+			//	[c/ff0000:请放置在不可燃方块上]
 			//	'''
 			//OnyxCell:
 			//	'''
-			//	Used by Onyx Blaster 9000
-			//	Extremely illegal
+			//	用于玛瑙爆破抢
+			//	极端非法
 			//	'''
 			//RedGel:
 			//	'''
-			//	Can be used to make impact explosives
+			//	可用于制造撞击性炸药
 			//	[c/ff0000:CAUSE RED GOEZ FASTA!!!]
 			//	'''
-			//RepairKit1: "Used for repair of some primitive weapons and tools"
-			//RepairKit2: "Used for repair of advanced weapons and tools."
-			//RepairTable: "Right click after placing to repair your items"
+			//RepairKit1: "用于修理基础武器和工具"
+			//RepairKit2: "用于修理高级武器和工具"
+			//RepairTable: "放下后右键单机以修理物品"
 			//RocketJumper:
 			//	'''
-			//	Fires training rockets that deal no damage
-			//	Great for rocket jump training!
+			//	发射无伤害的训练火箭弹
+			//	很适合练习火箭跳！
 			//	'''
 			//SleepingPotion:
 			//	'''
-			//	Lets you sleep during daytime
-			//	10 minute duration
+			//	让你做白日梦
+			//	10分钟持续时间
 			//	'''
 			//SmokeDetector:
 			//	'''
-			//	Sends a signal output whenever there's a fire near
-			//	Right click to toggle modes
+			//	每当附近有火灾时就会发出信号
+			//	右键单机以调节模式
 			//	'''
-			//SuperShotgun: "They're all doomed"
-			//WaterArrow: "Creates a small water explosion which knocks enemies back"
+			//SuperShotgun: "全 完 了"
+			//WaterArrow: "产生一个小型的水爆炸，将敌人击退"
 		}
 		
 		NPCName: {
-			//AshSlime: "Ash Clot"
-			//AshZombie: "Walking Ashes"
-			//FlyingPiranha: "Flying Piranha"
-			//FlyingShark: "Flying Shark"
-			//FlyingTree: "Flying Tree"
+			AshSlime: "块状凝灰"
+			AshZombie: "凝灰尸块"
+			FlyingPiranha: "飞天食人鲳"
+			FlyingShark: "飞鲨"
+			FlyingTree: "飞树"
 		}
 		
 		BuffName: {
-			//ManaChannelling: "Mana Channelling"
+			ManaChannelling: "集中魔力"
 		}
 		
 		BuffDescription: {
-			//ManaChannelling: "Your patience is increasing your mana regeneration"
+			ManaChannelling: "你的耐心使你的魔力再生速度提升"
 		}
 	}
 }
