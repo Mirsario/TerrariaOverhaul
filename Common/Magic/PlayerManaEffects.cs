@@ -100,7 +100,7 @@ namespace TerrariaOverhaul.Common.Magic
 				manaRegenDustCounter += manaRegenEffectIntensity / 4f;
 
 				while (manaRegenDustCounter >= 1f) {
-					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, 45, Alpha: 255, Scale: Main.rand.NextFloat(2f, 2.6f));
+					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.ManaRegeneration, Alpha: 255, Scale: Main.rand.NextFloat(2f, 2.6f));
 
 					dust.noLight = true;
 					dust.noGravity = true;
