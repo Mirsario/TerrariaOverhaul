@@ -26,7 +26,7 @@ namespace TerrariaOverhaul.Common.Camera
 		private static float originalZoom;
 		private static float smoothZoomScale = 1f;
 		private static Vector2 prevOffsetGoal;
-		private static Stopwatch cameraUpdateSW;
+		private static Stopwatch? cameraUpdateSW;
 		private static Vector2 cameraShakeOffset;
 		private static Vector2 screenPos;
 		private static Vector2 screenPosNoShakes;
@@ -191,14 +191,14 @@ namespace TerrariaOverhaul.Common.Camera
 			focus = null;
 		}
 
-		public void OnEnterWorld()
+		public static void OnEnterWorld()
 		{
 			cameraUpdateSW = null;
 
 			smoothZoomScale = 3f;
 		}
 
-		public void OnLeaveWorld()
+		public static void OnLeaveWorld()
 		{
 			cameraUpdateSW = null;
 		}

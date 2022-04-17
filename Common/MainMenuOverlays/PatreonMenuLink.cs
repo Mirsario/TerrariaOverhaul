@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 {
 	public class PatreonMenuLink : MenuLink
 	{
-		public PatreonMenuLink(string text, string url, Asset<DynamicSpriteFont> font = null, float scale = 1, Func<bool, Color> forcedColor = null)
+		public PatreonMenuLink(string text, string url, Asset<DynamicSpriteFont>? font = null, float scale = 1, Func<bool, Color>? forcedColor = null)
 			: base(text, url, font, scale, forcedColor) { }
 
 		public override void Draw(SpriteBatch sb, Vector2 position)

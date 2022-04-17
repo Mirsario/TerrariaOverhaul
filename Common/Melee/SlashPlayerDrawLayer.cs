@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.Melee
 	public class SlashPlayerDrawLayer : PlayerDrawLayer
 	{
 		private static readonly SpriteFrame TextureFrame = new(1, 3);
-		private static Asset<Texture2D> texture;
+		private static Asset<Texture2D>? texture;
 
 		public override void Load()
 		{
@@ -30,6 +30,11 @@ namespace TerrariaOverhaul.Common.Melee
 
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
+			// Wait for the texture to load
+			if (texture?.IsLoaded != true) {
+				return;
+			}
+
 			var player = drawInfo.drawPlayer;
 
 			// Don't render as after-image

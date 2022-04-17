@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Menus
@@ -9,12 +10,12 @@ namespace TerrariaOverhaul.Content.Menus
 	[Autoload(Side = ModSide.Client)]
 	public sealed class OverhaulMenu : ModMenu
 	{
-		private Asset<Texture2D> logoTerraria;
-		private Asset<Texture2D> logoOverhaul;
-		private Asset<Texture2D> logoGlowmask;
+		private Asset<Texture2D>? logoTerraria;
+		private Asset<Texture2D>? logoOverhaul;
+		private Asset<Texture2D>? logoGlowmask;
 		//private BlendState blendState;
 
-		public override Asset<Texture2D> Logo => logoOverhaul;
+		public override Asset<Texture2D>? Logo => logoOverhaul;
 
 		public override void Load()
 		{
@@ -25,7 +26,7 @@ namespace TerrariaOverhaul.Content.Menus
 
 		public override bool PreDrawLogo(SpriteBatch sb, ref Vector2 logoDrawCenter, ref float logoRotation, ref float logoScale, ref Color drawColor)
 		{
-			if (!logoOverhaul.IsLoaded || !logoTerraria.IsLoaded || !logoGlowmask.IsLoaded) {
+			if (logoOverhaul?.IsLoaded != true || logoTerraria?.IsLoaded != true || logoGlowmask?.IsLoaded != true) {
 				return false;
 			}
 

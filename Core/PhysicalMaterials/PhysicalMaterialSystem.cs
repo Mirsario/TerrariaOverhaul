@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Core.PhysicalMaterials
 				}
 			}
 
-			result = default;
+			result = default!;
 
 			return false;
 		}
@@ -44,7 +44,7 @@ namespace TerrariaOverhaul.Core.PhysicalMaterials
 				}
 			}
 
-			result = default;
+			result = default!;
 
 			return false;
 		}

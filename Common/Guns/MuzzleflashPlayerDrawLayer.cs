@@ -14,13 +14,13 @@ namespace TerrariaOverhaul.Common.Guns
 	[Autoload(Side = ModSide.Client)]
 	public class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
 	{
-		private static Asset<Texture2D> texture;
-		private static Dictionary<int, Vector2> gunBarrelEndPositions;
+		private static Asset<Texture2D>? texture;
+		private static Dictionary<int, Vector2>? gunBarrelEndPositions;
 
 		public override void Load()
 		{
 			texture = Mod.Assets.Request<Texture2D>($"{ModPathUtils.GetDirectory(GetType())}/Muzzleflash");
-			gunBarrelEndPositions = new Dictionary<int, Vector2>();
+			gunBarrelEndPositions ??= new();
 		}
 
 		public override void Unload()
@@ -37,8 +37,11 @@ namespace TerrariaOverhaul.Common.Guns
 
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
-			var player = drawInfo.drawPlayer;
+			if (texture?.Value is not Texture2D muzzleflashTexture) {
+				return;
+			}
 
+			var player = drawInfo.drawPlayer;
 			var item = player.HeldItem;
 
 			if (item?.IsAir != false || !item.TryGetGlobalItem(out ItemMuzzleflashes muzzleflashes) || !muzzleflashes.MuzzleflashTimer.Active) {
@@ -66,7 +69,6 @@ namespace TerrariaOverhaul.Common.Guns
 						-gunFixedOrigin.Y * player.direction + gunBarrelEnd.Y
 					);
 
-					var muzzleflashTexture = texture.Value;
 					var muzzleflashPosition = gunPosition + originOffset.RotatedBy(player.itemRotation);
 					var muzzleflashOrigin = new Vector2(player.direction < 0 ? muzzleflashTexture.Width : 0f, muzzleflashTexture.Height * 0.5f);
 
@@ -84,6 +86,8 @@ namespace TerrariaOverhaul.Common.Guns
 		/// <summary> Tries to calculate the center of the end of a gun's barrel based on its texture. </summary>
 		private static Vector2 GetGunBarrelEndPosition(int type, Texture2D texture)
 		{
+			gunBarrelEndPositions ??= new();
+
 			if (gunBarrelEndPositions.TryGetValue(type, out var result)) {
 				return result;
 			}

@@ -9,8 +9,8 @@ namespace TerrariaOverhaul.Common.Charging
 	{
 		public delegate void ChargeAction(Item item, Player player, float chargeProgress);
 
-		private ChargeAction updateAction;
-		private ChargeAction endAction;
+		private ChargeAction? updateAction;
+		private ChargeAction? endAction;
 		private bool? allowTurning;
 
 		public bool IsCharging { get; private set; }

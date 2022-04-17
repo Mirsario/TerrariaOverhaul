@@ -7,18 +7,19 @@ namespace TerrariaOverhaul.Common.Seasons
 {
 	public partial class SeasonSystem : ModSystem
 	{
-		private static Season[] seasons;
+		private static Season[]? seasons;
 		private static int currentSeasonId;
 
+		public static int SeasonLength { get; set; } = 15;
 		public static int CurrentDay { get; private set; }
 
-		public static int SeasonCount => seasons.Length;
-		public static int SeasonLength => 15;
+		public static ReadOnlySpan<Season> Seasons => seasons != null ? seasons : throw new InvalidOperationException("Trying to get Seasons' data before they are initialized.");
+		public static int SeasonCount => Seasons.Length;
 		public static int CurrentSeasonDay => CurrentDay % SeasonLength;
-		public static Season CurrentSeason => seasons[currentSeasonId];
-		public static Season NextSeason => seasons[(currentSeasonId + 1) % SeasonCount];
+		public static Season CurrentSeason => Seasons[currentSeasonId];
+		public static Season NextSeason => Seasons[(currentSeasonId + 1) % SeasonCount];
 
-		public static event Action<Season> OnSeasonActivated;
+		public static event Action<Season>? OnSeasonActivated;
 
 		public override void PostSetupContent()
 		{
@@ -41,8 +42,8 @@ namespace TerrariaOverhaul.Common.Seasons
 		public override void Unload()
 		{
 			if (seasons != null) {
-				foreach (var season in seasons) {
-					season.Components.Dispose();
+				foreach (Season season in seasons) {
+					season?.Components.Dispose();
 				}
 
 				seasons = null;
@@ -67,7 +68,7 @@ namespace TerrariaOverhaul.Common.Seasons
 
 		public static void AdvanceSeasonTime()
 		{
-			if (seasons == null || Main.netMode == NetmodeID.MultiplayerClient) {
+			if (Main.netMode == NetmodeID.MultiplayerClient) {
 				return;
 			}
 

@@ -24,14 +24,14 @@ namespace TerrariaOverhaul.Common.AudioEffects
 		private struct SoundInstanceData
 		{
 			public readonly WeakReference<SoundEffectInstance> Instance;
-			public readonly WeakReference<ActiveSound> TrackedSound;
+			public readonly WeakReference<ActiveSound>? TrackedSound;
 			public readonly Vector2? StartPosition;
 
 			public bool firstUpdate;
 			public float localLowPassFiltering;
 			public float targetLocalLowPassFiltering;
 
-			public SoundInstanceData(SoundEffectInstance instance, Vector2? initialPosition = null, ActiveSound trackedSound = null)
+			public SoundInstanceData(SoundEffectInstance instance, Vector2? initialPosition = null, ActiveSound? trackedSound = null)
 			{
 				Instance = new WeakReference<SoundEffectInstance>(instance);
 				TrackedSound = trackedSound != null ? new WeakReference<ActiveSound>(trackedSound) : null;
@@ -61,9 +61,9 @@ namespace TerrariaOverhaul.Common.AudioEffects
 		private static AudioEffectParameters soundParameters = AudioEffectParameters.Default;
 		private static AudioEffectParameters musicParameters = AudioEffectParameters.Default;
 		// Reflection
-		private static Action<SoundEffectInstance, float> applyReverbFunc;
-		private static Action<SoundEffectInstance, float> applyLowPassFilteringFunc;
-		private static FieldInfo soundEffectBasedAudioTrackInstanceField;
+		private static Action<SoundEffectInstance, float>? applyReverbFunc;
+		private static Action<SoundEffectInstance, float>? applyLowPassFilteringFunc;
+		private static FieldInfo? soundEffectBasedAudioTrackInstanceField;
 
 		public static bool IsEnabled { get; private set; }
 		public static bool ReverbEnabled { get; private set; }
@@ -84,7 +84,10 @@ namespace TerrariaOverhaul.Common.AudioEffects
 			soundEffectBasedAudioTrackInstanceField = typeof(ASoundEffectBasedAudioTrack)
 				.GetField("_soundEffectInstance", BindingFlags.Instance | BindingFlags.NonPublic);
 
-			IsEnabled = applyReverbFunc != null && applyLowPassFilteringFunc != null;
+			IsEnabled = applyReverbFunc != null && applyLowPassFilteringFunc != null && soundEffectBasedAudioTrackInstanceField != null;
+			
+			ReverbEnabled = true;
+			LowPassFilteringEnabled = true;
 
 			// Track 'active' sounds, and apply effects before they get played.
 			IL.Terraria.Audio.ActiveSound.Play += context => {
@@ -175,8 +178,6 @@ namespace TerrariaOverhaul.Common.AudioEffects
 		public override void PostUpdateEverything()
 		{
 			// Update global values
-			ReverbEnabled = true;
-			LowPassFilteringEnabled = true;
 
 			AudioEffectParameters newSoundParameters = AudioEffectParameters.Default;
 			AudioEffectParameters newMusicParameters = AudioEffectParameters.Default;
@@ -216,7 +217,7 @@ namespace TerrariaOverhaul.Common.AudioEffects
 				if (Main.audioSystem is LegacyAudioSystem legacyAudioSystem) {
 					for (int i = 0; i < legacyAudioSystem.AudioTracks.Length; i++) {
 						if (legacyAudioSystem.AudioTracks[i] is ASoundEffectBasedAudioTrack soundEffectTrack) {
-							var instance = (DynamicSoundEffectInstance)soundEffectBasedAudioTrackInstanceField.GetValue(soundEffectTrack);
+							var instance = soundEffectBasedAudioTrackInstanceField!.GetValue(soundEffectTrack) as DynamicSoundEffectInstance;
 
 							if (instance?.IsDisposed == false) {
 								ApplyEffects(instance, musicParameters);
@@ -245,17 +246,24 @@ namespace TerrariaOverhaul.Common.AudioEffects
 			Modifiers[existingIndex] = modifier;
 		}
 
-		public static void IgnoreSoundStyle(ISoundStyle ISoundStyle) => SoundStylesToIgnore.Add(ISoundStyle);
-		public static void EnableSoundStyleWallOcclusion(ISoundStyle ISoundStyle) => SoundStylesWithWallOcclusion.Add(ISoundStyle);
+		public static void IgnoreSoundStyle(ISoundStyle ISoundStyle)
+			=> SoundStylesToIgnore.Add(ISoundStyle);
+		
+		public static void EnableSoundStyleWallOcclusion(ISoundStyle ISoundStyle)
+			=> SoundStylesWithWallOcclusion.Add(ISoundStyle);
 
 		private static void ApplyEffects(SoundEffectInstance instance, AudioEffectParameters parameters)
 		{
+			if (!IsEnabled) {
+				return;
+			}
+
 			if (ReverbEnabled) {
-				applyReverbFunc(instance, parameters.Reverb);
+				applyReverbFunc!(instance, parameters.Reverb);
 			}
 
 			if (LowPassFilteringEnabled) {
-				applyLowPassFilteringFunc(instance, 1f - (parameters.LowPassFiltering * 0.9f));
+				applyLowPassFilteringFunc!(instance, 1f - (parameters.LowPassFiltering * 0.9f));
 			}
 		}
 
@@ -289,7 +297,7 @@ namespace TerrariaOverhaul.Common.AudioEffects
 		private static void UpdateSoundOcclusion(ref SoundInstanceData data)
 		{
 			Vector2? soundPosition;
-			ActiveSound trackedSound = null;
+			ActiveSound? trackedSound = null;
 
 			if (data.TrackedSound != null && data.TrackedSound.TryGetTarget(out trackedSound)) {
 				soundPosition = trackedSound.Position;

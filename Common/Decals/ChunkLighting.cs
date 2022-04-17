@@ -15,18 +15,17 @@ namespace TerrariaOverhaul.Common.Decals
 	{
 		public static int LightingUpdateFrequency => 10;
 
-		private static volatile object lightingUpdateLock;
+		private static readonly object lightingUpdateLock = new();
 
-		public RenderTarget2D Texture { get; private set; }
-		public Surface<Color> Colors { get; private set; }
+		public RenderTarget2D? Texture { get; private set; }
+		public Surface<Color>? Colors { get; private set; }
+		public bool IsReady { get; private set; }
 
 		public override void Load()
 		{
-			lightingUpdateLock = new object();
-
 			// This fixes tileTarget not being available in many cases. And other dumb issues.
 			HookEndpointManager.Add<Func<Func<bool>, bool>>(
-				typeof(Main).GetProperty(nameof(Main.RenderTargetsRequired)).GetMethod,
+				typeof(Main).GetProperty(nameof(Main.RenderTargetsRequired))!.GetMethod,
 				new Func<Func<bool>, bool>(orig => true)
 			);
 
@@ -83,11 +82,6 @@ namespace TerrariaOverhaul.Common.Decals
 			};
 		}
 
-		public override void Unload()
-		{
-			lightingUpdateLock = null;
-		}
-
 		public override void OnInit(Chunk chunk)
 		{
 			int textureWidth = chunk.TileRectangle.Width;
@@ -96,11 +90,14 @@ namespace TerrariaOverhaul.Common.Decals
 			Main.QueueMainThreadAction(() => {
 				Colors = new Surface<Color>(textureWidth, textureHeight);
 				Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+				IsReady = true;
 			});
 		}
 
 		public override void OnDispose(Chunk chunk)
 		{
+			IsReady = false;
+
 			if (Texture != null) {
 				lock (Texture) {
 					var textureHandle = Texture;
@@ -116,17 +113,25 @@ namespace TerrariaOverhaul.Common.Decals
 
 		public void UpdateArea(Chunk chunk, Vector4Int area)
 		{
+			if (!IsReady) {
+				throw new InvalidOperationException("Chunk lighting was not yet ready.");
+			}
+
 			for (int y = area.Y; y <= area.W; y++) {
 				for (int x = area.X; x <= area.Z; x++) {
-					Colors[x - chunk.TileRectangle.X, y - chunk.TileRectangle.Y] = Lighting.GetColor(x, y);
+					Colors![x - chunk.TileRectangle.X, y - chunk.TileRectangle.Y] = Lighting.GetColor(x, y);
 				}
 			}
 		}
 
 		public void ApplyColors()
 		{
-			lock (Texture) {
-				Texture.SetData(Colors.Data);
+			if (!IsReady) {
+				throw new InvalidOperationException("Chunk lighting was not yet ready.");
+			}
+
+			lock (Texture!) {
+				Texture.SetData(Colors!.Data);
 			}
 		}
 	}

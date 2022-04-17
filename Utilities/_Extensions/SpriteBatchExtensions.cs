@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Utilities
 {
 	public static class SpriteBatchExtensions
 	{
-		public static void DrawLine(this SpriteBatch sb, Vector2 start, Vector2 end, Color? color = null, int width = 1, Texture2D texture = null)
+		public static void DrawLine(this SpriteBatch sb, Vector2 start, Vector2 end, Color? color = null, int width = 1, Texture2D? texture = null)
 		{
 			var offset = end - start;
 			float angle = (float)Math.Atan2(offset.Y, offset.X);

@@ -25,19 +25,15 @@ namespace TerrariaOverhaul.Common.Recoil
 			}
 		}
 
-		private static List<CursorOffset> offsets;
+		private static readonly List<CursorOffset> offsets = new();
 
 		public override void Load()
 		{
-			offsets = new List<CursorOffset>();
-
 			Main.OnPostDraw += PostDraw;
 		}
 
 		public override void Unload()
 		{
-			offsets = null;
-
 			Main.OnPostDraw -= PostDraw;
 		}
 

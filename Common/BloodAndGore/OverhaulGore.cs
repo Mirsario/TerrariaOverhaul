@@ -30,34 +30,34 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 		public static readonly ISoundStyle GoreBreakSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2, volume: 0.15f, pitchVariance: 0.2f);
 		public static readonly ISoundStyle GoreGroundHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSmallSplatter", 2, volume: 0.4f, pitchVariance: 0.2f);
 
-		private static Dictionary<ISoundStyle, ulong> goreSoundCooldowns;
+		private static readonly Dictionary<ISoundStyle, ulong> goreSoundCooldowns = new();
 
-		public bool onFire;
-		//public bool noBlood;
-		//public bool noFallSounds;
-		//public bool wasInLiquid;
-		public bool stopBleeding;
-		public Vector2 size;
-		public Vector2 originalSize;
-		public float minDimension;
-		public int time;
-		public float health;
-		public Vector2 prevVelocity;
-		public Vector2 prevPosition;
-		public Color? bleedColor;
-		public ISoundStyle customBounceSound;
+		public bool OnFire;
+		//public bool NoBlood;
+		//public bool NoFallSounds;
+		//public bool WasInLiquid;
+		public bool StopBleeding;
+		public Vector2 Size;
+		public Vector2 OriginalSize;
+		public float MinDimension;
+		public int Time;
+		public float Health;
+		public Vector2 PrevVelocity;
+		public Vector2 PrevPosition;
+		public Color? BleedColor;
+		public ISoundStyle? CustomBounceSound;
 
-		public Vector2 Center => position + size * 0.5f;
+		public Vector2 Center => position + Size * 0.5f;
 
-		public PhysicalMaterial PhysicalMaterial {
+		public PhysicalMaterial? PhysicalMaterial {
 			get {
-				PhysicalMaterial result = null;
+				PhysicalMaterial? result = null;
 
 				if (ModGore is IPhysicalMaterialProvider provider) {
 					result ??= provider.PhysicalMaterial;
 				}
 
-				if (bleedColor.HasValue) {
+				if (BleedColor.HasValue) {
 					result ??= ModContent.GetInstance<GorePhysicalMaterial>();
 				}
 
@@ -66,31 +66,29 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 		}
 
 		// Load-time
+
 		public void Load(Mod mod)
 		{
-			goreSoundCooldowns = new Dictionary<ISoundStyle, ulong>();
+			
 		}
 
 		public void Unload()
 		{
-			if (goreSoundCooldowns != null) {
-				goreSoundCooldowns.Clear();
-
-				goreSoundCooldowns = null;
-			}
+			goreSoundCooldowns?.Clear();
 		}
 
 		// In-game
+		
 		public void Init()
 		{
 			Main.instance.LoadGore(type);
 
 			var texture = TextureAssets.Gore[type].Value;
 
-			originalSize = new Vector2(texture.Width / Frame.ColumnCount, texture.Height / Frame.RowCount);
-			size = originalSize * scale;
-			minDimension = Math.Min(size.X, size.Y);
-			health = 1f;
+			OriginalSize = new Vector2(texture.Width / Frame.ColumnCount, texture.Height / Frame.RowCount);
+			Size = OriginalSize * scale;
+			MinDimension = Math.Min(Size.X, Size.Y);
+			Health = 1f;
 		}
 
 		public void PostUpdate()
@@ -114,16 +112,16 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			Burning();
 			Bouncing();
 
-			prevVelocity = velocity;
-			prevPosition = position;
+			PrevVelocity = velocity;
+			PrevPosition = position;
 
-			time++;
+			Time++;
 		}
 
 		public void CopyFrom(Gore gore)
 		{
 			typeof(Gore)
-				.GetProperty(nameof(ModGore), System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+				.GetProperty(nameof(ModGore), System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!
 				.SetValue(this, gore.ModGore);
 
 			type = gore.type;
@@ -142,20 +140,20 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			frameCounter = gore.frameCounter;
 		}
 
-		public Vector2 GetRandomPoint() => position + Main.rand.NextVector2Square(size.X, size.Y);
+		public Vector2 GetRandomPoint() => position + Main.rand.NextVector2Square(Size.X, Size.Y);
 
 		public bool HitGore(Vector2 hitDirection, float powerScale = 1f, bool silent = false)
 		{
-			if (Main.dedServ || time < 5 && Main.rand.Next(4) != 0) {
+			if (Main.dedServ || Time < 5 && Main.rand.Next(4) != 0) {
 				return false;
 			}
 
 			velocity += new Vector2(hitDirection.X == 0f ? hitDirection.X : Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-2f, -0.5f)) * powerScale;
-			health -= Main.rand.NextFloat(0.4f, 1.1f) * powerScale;
+			Health -= Main.rand.NextFloat(0.4f, 1.1f) * powerScale;
 
-			if (health <= 0f) {
+			if (Health <= 0f) {
 				Destroy(silent: silent);
-			} else if (!silent && bleedColor.HasValue) {
+			} else if (!silent && BleedColor.HasValue) {
 				TryPlaySound(GoreHitSound, position);
 			}
 
@@ -170,18 +168,18 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 				return;
 			}
 
-			int maxSizeDimension = (int)Math.Max(size.X, size.Y);
+			int maxSizeDimension = (int)Math.Max(Size.X, Size.Y);
 
 			// Split into small pieces
 
-			if (bleedColor.HasValue && type != ModContent.GoreType<GenericGore>()) {
+			if (BleedColor.HasValue && type != ModContent.GoreType<GenericGore>()) {
 				IEntitySource entitySource = new EntitySource_GoreDeath(this);
 				int numGore = maxSizeDimension / 6;
 
 				for (int i = 0; i < numGore; i++) {
 					if (NewGorePerfect(entitySource, position, velocity + (hitDirection * 0.5f - Vector2.UnitY + Main.rand.NextVector2Circular(1f, 1f)), ModContent.GoreType<GenericGore>()) is OverhaulGore goreExt) {
-						goreExt.bleedColor = bleedColor;
-						goreExt.onFire = onFire;
+						goreExt.BleedColor = BleedColor;
+						goreExt.OnFire = OnFire;
 					}
 				}
 			}
@@ -190,7 +188,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			SpawnBlood(maxSizeDimension, 2f);
 
 			// Hit sounds
-			if (!silent && bleedColor.HasValue) {
+			if (!silent && BleedColor.HasValue) {
 				TryPlaySound(GoreBreakSound, position);
 			}
 
@@ -201,7 +199,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 
 		public void SpawnBlood(int amount, float sprayScale = 1f)
 		{
-			if (stopBleeding || !bleedColor.HasValue) {
+			if (StopBleeding || !BleedColor.HasValue) {
 				return;
 			}
 
@@ -215,7 +213,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 						Main.rand.NextFloat(-maxHorizontalSpeed, maxHorizontalSpeed),
 						Main.rand.NextFloat(-maxVerticalSpeed, 0f)
 					);
-					p.color = bleedColor.Value;
+					p.color = BleedColor.Value;
 				});
 			}
 		}
@@ -244,24 +242,24 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 				velocity.Y = MathHelper.Lerp(velocity.Y, -3f, 5f / 60f);
 
 				// Create ripples
-				if (prevVelocity.Length() >= 2f && Main.GameUpdateCount % 5 == 0) {
-					((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(center, minDimension / 32f);
+				if (PrevVelocity.Length() >= 2f && Main.GameUpdateCount % 5 == 0) {
+					((WaterShaderData)Filters.Scene["WaterDistortion"].GetShader()).QueueRipple(center, MinDimension / 32f);
 				}
 
-				stopBleeding = true;
+				StopBleeding = true;
 			}
 		}
 
 		private void Bleeding()
 		{
-			if (!stopBleeding && bleedColor.HasValue && Main.GameUpdateCount % 5 == 0 && velocity.Length() >= 0.5f && prevVelocity.Length() >= 0.5f) {
+			if (!StopBleeding && BleedColor.HasValue && Main.GameUpdateCount % 5 == 0 && velocity.Length() >= 0.5f && PrevVelocity.Length() >= 0.5f) {
 				SpawnBlood(1);
 			}
 		}
 
 		private void Burning()
 		{
-			if (!onFire) {
+			if (!OnFire) {
 				return;
 			}
 
@@ -282,16 +280,16 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 
 		private void Bouncing()
 		{
-			var bounceSound = customBounceSound ?? (bleedColor.HasValue ? GoreGroundHitSound : null);
+			var bounceSound = CustomBounceSound ?? (BleedColor.HasValue ? GoreGroundHitSound : null);
 
 			if (velocity.Y == 0f) {
 				// Vertical bouncing
-				if (Math.Abs(prevVelocity.Y) >= 1f) {
+				if (Math.Abs(PrevVelocity.Y) >= 1f) {
 					if (bounceSound != null) {
 						TryPlaySound(bounceSound, position);
 					}
 
-					velocity.Y = -prevVelocity.Y * 0.66f;
+					velocity.Y = -PrevVelocity.Y * 0.66f;
 				}
 
 				// Friction
@@ -303,12 +301,12 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			}
 
 			// Horizontal bouncing
-			if (velocity.X == 0f && Math.Abs(prevVelocity.X) >= 1f) {
+			if (velocity.X == 0f && Math.Abs(PrevVelocity.X) >= 1f) {
 				if (bounceSound != null) {
 					TryPlaySound(bounceSound, position);
 				}
 
-				velocity.X = -prevVelocity.X * 0.66f;
+				velocity.X = -PrevVelocity.X * 0.66f;
 			}
 		}
 

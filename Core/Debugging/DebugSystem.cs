@@ -8,13 +8,13 @@ namespace TerrariaOverhaul.Core.Debugging
 {
 	public sealed partial class DebugSystem : ModSystem
 	{
-		private static ILog logger;
+		private static ILog? logger;
 
 		public static ILog Logger => logger ??= LogManager.GetLogger(nameof(TerrariaOverhaul));
 
 		public static void Log(object text, bool toChat = false, bool toConsole = false, bool toFile = true)
 		{
-			string actualText = text?.ToString();
+			string? actualText = text?.ToString();
 
 			if (toChat) {
 				Main.NewText(actualText);

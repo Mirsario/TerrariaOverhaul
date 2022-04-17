@@ -11,16 +11,11 @@ namespace TerrariaOverhaul.Common.TextureColors
 	[Autoload(Side = ModSide.Client)]
 	public class TextureColorSystem : ModSystem
 	{
-		private Dictionary<Asset<Texture2D>, Color> cache;
+		private readonly Dictionary<Asset<Texture2D>, Color> cache = new(); // Non-static to not trigger anything on servers.
 
-		public override void Load() => cache = new Dictionary<Asset<Texture2D>, Color>();
 		public override void Unload()
 		{
-			if (cache != null) {
-				cache.Clear();
-
-				cache = null;
-			}
+			cache?.Clear();
 		}
 
 		/// <summary> Returns an average color from a texture's pixel data. </summary>
@@ -36,7 +31,7 @@ namespace TerrariaOverhaul.Common.TextureColors
 		}
 
 		/// <summary> Calculates an average color from a texture's pixel data. </summary>
-		private static Color CalculateAverageColor(Texture2D tex, byte alphaTest = 64, Rectangle rect = default, HashSet<Color> excludedColors = null)
+		private static Color CalculateAverageColor(Texture2D tex, byte alphaTest = 64, Rectangle rect = default, HashSet<Color>? excludedColors = null)
 		{
 			bool hasRect = rect != default;
 			bool hasExcludedColors = excludedColors != null;
@@ -62,7 +57,7 @@ namespace TerrariaOverhaul.Common.TextureColors
 				var col = data[i];
 
 				if (col.A >= alphaTest) {
-					if (hasExcludedColors && excludedColors.Contains(col)) {
+					if (hasExcludedColors && excludedColors!.Contains(col)) {
 						continue;
 					}
 

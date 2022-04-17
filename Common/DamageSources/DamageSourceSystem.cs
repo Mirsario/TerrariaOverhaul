@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.DamageSources
 	// Used in places like StrikeNPC hooks.
 	public class DamageSourceSystem : ModSystem
 	{
-		public static DamageSource CurrentDamageSource { get; private set; }
+		public static DamageSource? CurrentDamageSource { get; private set; }
 
 		public override void Load()
 		{

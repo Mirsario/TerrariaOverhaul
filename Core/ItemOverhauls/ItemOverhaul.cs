@@ -16,8 +16,6 @@ namespace TerrariaOverhaul.Core.ItemOverhauls
 		private static readonly List<ItemOverhaul> ItemOverhauls = new();
 		private static readonly Dictionary<int, int> ItemIdMapping = new();
 
-		protected Item item;
-
 		public override bool InstancePerEntity => true;
 
 		public abstract bool ShouldApplyItemOverhaul(Item item);
@@ -47,14 +45,10 @@ namespace TerrariaOverhaul.Core.ItemOverhauls
 
 		public override GlobalItem Clone(Item item, Item itemClone)
 		{
-			var clone = base.Clone(item, itemClone);
-
-			((ItemOverhaul)clone).item = itemClone;
-
-			return clone;
+			return base.Clone(item, itemClone);
 		}
 
-		public static ItemOverhaul ChooseItemOverhaul(Item item)
+		public static ItemOverhaul? ChooseItemOverhaul(Item item)
 		{
 			if (ItemIdMapping.TryGetValue(item.type, out int overhaulId)) {
 				return ItemOverhauls[overhaulId];

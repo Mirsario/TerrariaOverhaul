@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Common.Guns
 	{
 		private uint pumpTime;
 
-		public ISoundStyle PumpSound { get; set; }
+		public ISoundStyle? PumpSound { get; set; }
 		public int ShellCount { get; set; } = 1;
 
 		public override bool ShouldApplyItemOverhaul(Item item)

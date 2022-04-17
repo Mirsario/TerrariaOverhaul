@@ -30,7 +30,7 @@ namespace TerrariaOverhaul.Core.SimpleEntities
 
 		protected virtual void OnDestroyed(bool allowEffects) { }
 
-		public static T Instantiate<T>(Action<T> preinitializer = null) where T : SimpleEntity
+		public static T Instantiate<T>(Action<T>? preinitializer = null) where T : SimpleEntity
 			=> SimpleEntitySystem.InstantiateEntity(preinitializer);
 	}
 }

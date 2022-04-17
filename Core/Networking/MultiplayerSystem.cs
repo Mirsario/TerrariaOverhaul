@@ -14,13 +14,11 @@ namespace TerrariaOverhaul.Core.Networking
 	{
 		public static MultiplayerSystem Instance => ModContent.GetInstance<MultiplayerSystem>();
 
-		private static List<NetPacket> packets;
-		private static Dictionary<Type, NetPacket> packetsByType;
+		private static readonly List<NetPacket> packets = new();
+		private static readonly Dictionary<Type, NetPacket> packetsByType = new();
 
 		public override void Load()
 		{
-			packets = new List<NetPacket>();
-			packetsByType = new Dictionary<Type, NetPacket>();
 
 			foreach (var type in Assembly.GetExecutingAssembly().GetTypes().Where(t => !t.IsAbstract && t.IsSubclassOf(typeof(NetPacket)))) {
 				var instance = (NetPacket)FormatterServices.GetUninitializedObject(type);
@@ -36,11 +34,8 @@ namespace TerrariaOverhaul.Core.Networking
 
 		public override void Unload()
 		{
-			if (packets != null) {
-				packets.Clear();
-
-				packets = null;
-			}
+			packets?.Clear();
+			packetsByType?.Clear();
 		}
 
 		// Get
@@ -54,7 +49,7 @@ namespace TerrariaOverhaul.Core.Networking
 			=> ModContent.GetInstance<T>();
 
 		// Send
-		public static void SendPacket<T>(T packet, int toClient = -1, int ignoreClient = -1, Func<Player, bool> sendDelegate = null) where T : NetPacket
+		public static void SendPacket<T>(T packet, int toClient = -1, int ignoreClient = -1, Func<Player, bool>? sendDelegate = null) where T : NetPacket
 		{
 			if (Main.netMode == NetmodeID.SinglePlayer) {
 				return;

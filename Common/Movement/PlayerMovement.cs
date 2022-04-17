@@ -191,7 +191,7 @@ namespace TerrariaOverhaul.Common.Movement
 
 		private void HandleMovementModifiers()
 		{
-			List<string> keysToRemove = null;
+			List<string>? keysToRemove = null;
 
 			foreach (var pair in MovementModifiers) {
 				string id = pair.Key;

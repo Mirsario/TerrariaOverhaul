@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 	{
 		private readonly string Url;
 
-		public MenuLink(string text, string url, Asset<DynamicSpriteFont> font = null, float scale = 1f, Func<bool, Color> forcedColor = null)
+		public MenuLink(string text, string url, Asset<DynamicSpriteFont>? font = null, float scale = 1f, Func<bool, Color>? forcedColor = null)
 			: base(text, font, scale, forcedColor)
 		{
 			Url = url;

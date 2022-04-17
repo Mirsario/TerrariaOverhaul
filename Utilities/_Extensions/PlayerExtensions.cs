@@ -94,7 +94,7 @@ namespace TerrariaOverhaul.Utilities
 
 		// Grappling hooks
 
-		public static void StopGrappling(this Player player, Projectile exceptFor = null)
+		public static void StopGrappling(this Player player, Projectile? exceptFor = null)
 		{
 			foreach (var (grapplingHook, hookIndex) in player.EnumerateGrapplingHooks()) {
 				if (grapplingHook != exceptFor && grapplingHook.ai[0] == 2f) {

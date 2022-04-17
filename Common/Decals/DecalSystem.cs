@@ -17,24 +17,20 @@ namespace TerrariaOverhaul.Common.Decals
 		public static readonly BlendState DefaultBlendState = BlendState.AlphaBlend;
 		public static readonly ConfigEntry<bool> EnableDecals = new(ConfigSide.ClientOnly, "BloodAndGore", nameof(EnableDecals), () => true);
 
-		public static Asset<Effect> BloodShader { get; private set; }
+		public static Asset<Effect>? BloodShader { get; private set; }
 
 		public override void Load()
 		{
 			BloodShader = Mod.Assets.Request<Effect>("Assets/Shaders/Blood");
 		}
 
-		public override void Unload()
-		{
-			BloodShader = null;
-		}
-
 		public static void ClearDecals(Rectangle dest)
 			=> AddDecals(dest, Color.Transparent, true, BlendState.Opaque);
-		public static void AddDecals(Rectangle dest, Color color, bool ifChunkExists = false, BlendState blendState = null)
+		
+		public static void AddDecals(Rectangle dest, Color color, bool ifChunkExists = false, BlendState? blendState = null)
 			=> AddDecals(TextureAssets.BlackTile.Value, dest, color, ifChunkExists, blendState);
 
-		public static void AddDecals(Vector2 point, Color color, bool ifChunkExists = false, BlendState blendState = null)
+		public static void AddDecals(Vector2 point, Color color, bool ifChunkExists = false, BlendState? blendState = null)
 		{
 			var tilePos = point.ToTileCoordinates();
 
@@ -45,7 +41,7 @@ namespace TerrariaOverhaul.Common.Decals
 			AddDecals(new Rectangle((int)(point.X / 2) * 2, (int)(point.Y / 2) * 2, 2, 2), color, ifChunkExists, blendState);
 		}
 
-		public static void AddDecals(Texture2D texture, Rectangle dest, Color color, bool ifChunkExists = false, BlendState blendState = null)
+		public static void AddDecals(Texture2D texture, Rectangle dest, Color color, bool ifChunkExists = false, BlendState? blendState = null)
 		{
 			if (Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode || !EnableDecals) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
 				return;
@@ -55,9 +51,7 @@ namespace TerrariaOverhaul.Common.Decals
 				throw new ArgumentNullException(nameof(texture));
 			}
 
-			if (blendState == null) {
-				blendState = DefaultBlendState;
-			}
+			blendState ??= DefaultBlendState;
 
 			var chunkStart = new Vector2Int(
 				(int)(dest.X / 16f / Chunk.MaxChunkSize),

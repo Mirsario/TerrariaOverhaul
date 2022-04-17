@@ -35,7 +35,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 				}
 
 				// For now, only bleeding gores are considered hittable.
-				if (!goreExt.bleedColor.HasValue) {
+				if (!goreExt.BleedColor.HasValue) {
 					continue;
 				}
 
@@ -48,11 +48,11 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 				float hitPower = 1f;
 
 				if (incendiary) {
-					goreExt.onFire = true;
+					goreExt.OnFire = true;
 
 					continue;
 				} else if (extinguisher) {
-					goreExt.onFire = false;
+					goreExt.OnFire = false;
 
 					hitPower = 5f;
 				}

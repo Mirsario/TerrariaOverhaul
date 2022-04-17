@@ -3,31 +3,8 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities
 {
-	public class Gradient<T>
+	public abstract class Gradient
 	{
-		public class GradientKey
-		{
-			public float time;
-			public T value;
-
-			public GradientKey(float time, T value)
-			{
-				this.time = time;
-				this.value = value;
-			}
-		}
-
-		public static Func<T, T, float, T> LerpFunc { protected get; set; }
-
-		private GradientKey[] keys;
-
-		public GradientKey[] Keys {
-			get => keys;
-			set {
-				keys = value ?? throw new ArgumentNullException();
-			}
-		}
-
 		static Gradient()
 		{
 			Gradient<float>.LerpFunc = MathHelper.Lerp;
@@ -43,6 +20,30 @@ namespace TerrariaOverhaul.Utilities
 			Gradient<Vector2>.LerpFunc = Vector2.Lerp;
 			Gradient<Vector3>.LerpFunc = Vector3.Lerp;
 			Gradient<Vector4>.LerpFunc = Vector4.Lerp;
+		}
+	}
+
+	public class Gradient<T> : Gradient
+	{
+		public struct GradientKey
+		{
+			public float Time;
+			public T Value;
+
+			public GradientKey(float time, T value)
+			{
+				Time = time;
+				Value = value;
+			}
+		}
+
+		public static Func<T, T, float, T>? LerpFunc { protected get; set; }
+
+		private GradientKey[] keys;
+
+		public GradientKey[] Keys {
+			get => keys;
+			set => keys = value ?? throw new ArgumentNullException(nameof(value));
 		}
 
 		public Gradient(params (float position, T value)[] values)
@@ -66,22 +67,34 @@ namespace TerrariaOverhaul.Utilities
 
 		public T GetValue(float time)
 		{
-			GradientKey left = null;
-			GradientKey right = null;
+			if (keys.Length == 0) {
+				throw new InvalidOperationException("Gradient length must not be zero.");
+			}
+
+			bool leftDefined = false;
+			bool rightDefined = false;
+			GradientKey left = default;
+			GradientKey right = default;
 
 			for (int i = 0; i < keys.Length; i++) {
-				if (left == null || keys[i].time > left.time && keys[i].time <= time) {
+				if (!leftDefined || keys[i].Time > left.Time && keys[i].Time <= time) {
 					left = keys[i];
+					leftDefined = true;
 				}
 			}
 
 			for (int i = keys.Length - 1; i >= 0; i--) {
-				if (right == null || keys[i].time < right.time && keys[i].time >= time) {
+				if (!rightDefined || keys[i].Time < right.Time && keys[i].Time >= time) {
 					right = keys[i];
+					rightDefined = true;
 				}
 			}
 
-			return left.time == right.time ? left.value : LerpFunc(left.value, right.value, (time - left.time) / (right.time - left.time));
+			if (!leftDefined || !rightDefined) {
+				throw new InvalidOperationException("No keys found. This shouldn't happen.");
+			}
+
+			return left.Time == right.Time ? left.Value : LerpFunc!(left.Value, right.Value, (time - left.Time) / (right.Time - left.Time));
 		}
 	}
 }

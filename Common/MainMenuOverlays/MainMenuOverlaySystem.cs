@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 	{
 		private static DynamicSpriteFont Font => FontAssets.MouseText.Value;
 
-		private static List<MenuLine> menuLines;
+		private static List<MenuLine>? menuLines;
 
 		public override void Load()
 		{

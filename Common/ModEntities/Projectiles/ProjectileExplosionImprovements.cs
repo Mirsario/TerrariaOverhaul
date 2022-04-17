@@ -102,7 +102,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 				// Explosions have a chance to set gore on fire.
 				if (entity is OverhaulGore goreExt && Main.rand.Next(5) == 0) {
-					goreExt.onFire = true;
+					goreExt.OnFire = true;
 				}
 
 				velocity += direction * MathUtils.DistancePower(distance, knockbackRange) * maxPower / 13f;

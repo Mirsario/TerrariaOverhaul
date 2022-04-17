@@ -9,27 +9,27 @@ namespace TerrariaOverhaul.Common.Camera
 
 		public readonly float TimeMax;
 
-		public float power;
-		public float time;
-		public float range;
-		public string uniqueId;
-		public Vector2? position;
-		public Gradient<float> powerGradient;
+		public float Power;
+		public float Time;
+		public float Range;
+		public string? UniqueId;
+		public Vector2? Position;
+		public Gradient<float>? PowerGradient;
 
-		public ScreenShake(Gradient<float> powerGradient, float time, Vector2? position = null, float range = DefaultRange, string uniqueId = null) : this(0f, time, position, range, uniqueId)
+		public ScreenShake(Gradient<float> powerGradient, float time, Vector2? position = null, float range = DefaultRange, string? uniqueId = null) : this(0f, time, position, range, uniqueId)
 		{
-			this.powerGradient = powerGradient;
+			PowerGradient = powerGradient;
 		}
 
-		public ScreenShake(float power, float time, Vector2? position = null, float range = DefaultRange, string uniqueId = null)
+		public ScreenShake(float power, float time, Vector2? position = null, float range = DefaultRange, string? uniqueId = null)
 		{
-			this.power = power;
-			this.time = TimeMax = time;
-			this.position = position;
-			this.range = range;
-			this.uniqueId = uniqueId;
+			Power = power;
+			Time = TimeMax = time;
+			Position = position;
+			Range = range;
+			UniqueId = uniqueId;
 
-			powerGradient = null;
+			PowerGradient = null;
 		}
 	}
 }

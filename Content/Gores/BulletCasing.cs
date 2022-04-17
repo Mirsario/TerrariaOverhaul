@@ -22,7 +22,7 @@ namespace TerrariaOverhaul.Content.Gores
 		public override bool Update(Gore gore)
 		{
 			if (gore is OverhaulGore goreExt) {
-				goreExt.customBounceSound = BounceSound;
+				goreExt.CustomBounceSound = BounceSound;
 			}
 
 			return base.Update(gore);

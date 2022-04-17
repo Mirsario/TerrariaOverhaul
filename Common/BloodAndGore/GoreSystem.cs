@@ -8,13 +8,12 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 	[Autoload(Side = ModSide.Client)]
 	public class GoreSystem : ModSystem
 	{
+		private static readonly List<List<(Gore gore, int index)>> goreRecordingLists = new();
+		
 		private static int disableGoreSubscriptions;
-		private static List<List<(Gore gore, int index)>> goreRecordingLists;
 
 		public override void Load()
 		{
-			goreRecordingLists = new List<List<(Gore, int)>>();
-
 			On.Terraria.Gore.Update += GoreUpdate;
 
 			On.Terraria.Gore.NewGore_IEntitySource_Vector2_Vector2_int_float += (orig, entitySource, position, velocity, type, scale) => {

@@ -4,7 +4,7 @@ namespace TerrariaOverhaul.Utilities
 {
 	public static class NpcExtensions
 	{
-		public static Entity GetTarget(this NPC npc)
+		public static Entity? GetTarget(this NPC npc)
 		{
 			if (!npc.HasValidTarget) {
 				return null;

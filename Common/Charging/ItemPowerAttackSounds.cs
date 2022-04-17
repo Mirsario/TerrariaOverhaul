@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Common.Charging
 	[Autoload(Side = ModSide.Client)]
 	public sealed class ItemPowerAttackSounds : ItemComponent, IModifyItemUseSound
 	{
-		public ISoundStyle Sound;
+		public ISoundStyle? Sound;
 		public bool CancelPlaybackOnEnd;
 		public float RequiredChargeProgress;
 		public bool ReplacesUseSound;
@@ -40,7 +40,7 @@ namespace TerrariaOverhaul.Common.Charging
 			}
 		}
 
-		void IModifyItemUseSound.ModifyItemUseSound(Item item, Player player, ref ISoundStyle useSound)
+		void IModifyItemUseSound.ModifyItemUseSound(Item item, Player player, ref ISoundStyle? useSound)
 		{
 			if (ReplacesUseSound && item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.Enabled && powerAttacks.PowerAttack) {
 				useSound = Sound;

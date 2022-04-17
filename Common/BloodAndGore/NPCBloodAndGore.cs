@@ -79,12 +79,17 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 					return;
 				}
 
-				List<Color> bloodColors = null;
+				List<Color>? bloodColors = null;
+				
 				var spawnedGores = GoreSystem.InvokeWithGoreSpawnRecording(() => {
 					bloodColors = BloodParticle.RecordBloodColors(() => {
 						orig(npc, hitDirection, dmg);
 					});
 				});
+
+				if (bloodColors == null) {
+					return;
+				}
 
 				npcBloodAndGore.LastHitBloodAmount = bloodColors.Count;
 
@@ -98,8 +103,8 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 
 				foreach (var (gore, _) in spawnedGores) {
 					if (gore is OverhaulGore goreExt) {
-						goreExt.bleedColor = bloodColor;
-						goreExt.onFire = onFire;
+						goreExt.BleedColor = bloodColor;
+						goreExt.OnFire = onFire;
 					}
 				}
 			};

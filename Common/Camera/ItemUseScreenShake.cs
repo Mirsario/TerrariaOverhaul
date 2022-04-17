@@ -14,8 +14,8 @@ namespace TerrariaOverhaul.Common.Camera
 			if (Enabled) {
 				var screenShake = ScreenShake;
 
-				if (screenShake.power > 0f && screenShake.time > 0f) {
-					screenShake.position = player.Center;
+				if (screenShake.Power > 0f && screenShake.Time > 0f) {
+					screenShake.Position = player.Center;
 
 					ScreenShakeSystem.New(screenShake);
 				}

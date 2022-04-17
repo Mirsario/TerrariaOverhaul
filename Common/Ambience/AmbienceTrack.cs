@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Common.Ambience
 	public abstract class AmbienceTrack : ModType
 	{
 		public bool IsLooped { get; protected set; }
-		public ISoundStyle Sound { get; protected set; }
+		public ISoundStyle Sound { get; protected set; } = null!;
 		public float Volume { get; private set; }
 		public SlotId InstanceReference { get; private set; }
 

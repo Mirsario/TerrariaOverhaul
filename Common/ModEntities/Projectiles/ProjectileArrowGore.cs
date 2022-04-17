@@ -39,7 +39,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			SpawnGore<ArrowBack>();
 
 			if (projectile.type == ProjectileID.FireArrow && arrowHead is OverhaulGore oGore) {
-				oGore.onFire = true;
+				oGore.OnFire = true;
 			}
 		}
 	}

@@ -31,7 +31,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			}
 
 			for (int i = 0; i < Main.maxGore; i++) {
-				if (Main.gore[i] is not OverhaulGore gore || !gore.active || gore.time < 30) {
+				if (Main.gore[i] is not OverhaulGore gore || !gore.active || gore.Time < 30) {
 					continue;
 				}
 

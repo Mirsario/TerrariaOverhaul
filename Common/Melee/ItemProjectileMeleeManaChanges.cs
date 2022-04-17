@@ -46,7 +46,7 @@ namespace TerrariaOverhaul.Common.Melee
 
 			IL.Terraria.Player.ItemCheck_Shoot += context => {
 				var c = new ILCursor(context);
-				ILLabel skipReturn = null;
+				ILLabel? skipReturn = null;
 
 				c.GotoNext(
 					MoveType.After,

@@ -6,6 +6,7 @@
 	<TargetFramework>net6.0</TargetFramework>
 	<PlatformTarget>AnyCPU</PlatformTarget>
 	<LangVersion>latest</LangVersion>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
 	<PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />

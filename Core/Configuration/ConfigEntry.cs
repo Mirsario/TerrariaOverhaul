@@ -9,29 +9,29 @@ namespace TerrariaOverhaul.Core.Configuration
 	{
 		private readonly Func<T> DefaultValueGetter;
 
-		private T localValue;
-		private T remoteValue;
+		private T? localValue;
+		private T? remoteValue;
 
 		public string Name { get; }
 		public string Category { get; }
 		public ConfigSide Side { get; }
-		public ModTranslation DisplayName { get; internal set; }
-		public ModTranslation Description { get; internal set; }
-		public Mod Mod { get; private set; }
+		public ModTranslation? DisplayName { get; internal set; }
+		public ModTranslation? Description { get; internal set; }
+		public Mod? Mod { get; private set; }
 
 		public Type ValueType => typeof(T);
 		public T DefaultValue => DefaultValueGetter();
 
-		public T LocalValue {
+		public T? LocalValue {
 			get => ModifyGetValue(localValue);
 			set => localValue = ModifySetValue(value);
 		}
-		public T RemoteValue {
+		public T? RemoteValue {
 			get => ModifyGetValue(remoteValue);
 			set => remoteValue = ModifySetValue(value);
 		}
 
-		public T Value {
+		public T? Value {
 			get {
 				if (Side == ConfigSide.Both && Main.netMode == NetmodeID.MultiplayerClient) {
 					return RemoteValue;
@@ -48,14 +48,15 @@ namespace TerrariaOverhaul.Core.Configuration
 			}
 		}
 
-		object IConfigEntry.Value {
+		object? IConfigEntry.Value {
 			get => Value;
-			set => Value = (T)value;
+			set => Value = (T?)value;
 		}
-		object IConfigEntry.LocalValue {
+		object? IConfigEntry.LocalValue {
 			get => LocalValue;
-			set => LocalValue = (T)value;
+			set => LocalValue = (T?)value;
 		}
+		object IConfigEntry.DefaultValue => DefaultValue!;
 
 		public ConfigEntry(ConfigSide side, string category, string name, Func<T> defaultValueGetter)
 		{
@@ -69,9 +70,9 @@ namespace TerrariaOverhaul.Core.Configuration
 			ConfigSystem.RegisterEntry(this);
 		}
 
-		protected virtual T ModifyGetValue(T value) => value;
+		protected virtual T? ModifyGetValue(T? value) => value;
 
-		protected virtual T ModifySetValue(T value) => value;
+		protected virtual T? ModifySetValue(T? value) => value;
 
 		public void Initialize(Mod mod)
 		{
@@ -80,6 +81,6 @@ namespace TerrariaOverhaul.Core.Configuration
 			Description = LocalizationLoader.CreateTranslation(mod, $"Configuration.{Category}.{Name}.Description");
 		}
 
-		public static implicit operator T(ConfigEntry<T> configEntry) => configEntry.Value;
+		public static implicit operator T?(ConfigEntry<T> configEntry) => configEntry.Value;
 	}
 }

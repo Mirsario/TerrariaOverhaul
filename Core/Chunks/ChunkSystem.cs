@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -11,7 +12,7 @@ namespace TerrariaOverhaul.Core.Chunks
 	{
 		public const int ChunkUpdateArea = 3;
 
-		private static Dictionary<long, Chunk> chunks;
+		private static Dictionary<long, Chunk>? chunks;
 
 		public override void Load()
 		{
@@ -87,6 +88,10 @@ namespace TerrariaOverhaul.Core.Chunks
 
 		public static IEnumerable<Chunk> EnumerateChunksInArea(Vector2Int tileCenter, int areaSize, bool instantiate)
 		{
+			if (chunks == null) {
+				throw new InvalidOperationException("Chunks are not initialized.");
+			}
+
 			Vector2Int chunkCenter = TileToChunkCoordinates(tileCenter);
 
 			int xStart = chunkCenter.X - areaSize;
@@ -119,7 +124,15 @@ namespace TerrariaOverhaul.Core.Chunks
 			=> TryGetChunk(TileToChunkCoordinates(tilePosition), out chunk);
 
 		public static bool TryGetChunk(Vector2Int chunkPosition, out Chunk chunk)
-			=> chunks.TryGetValue(Chunk.PackPosition(chunkPosition.X, chunkPosition.Y), out chunk);
+		{
+			if (chunks == null) {
+				chunk = null!;
+				
+				return false;
+			}
+
+			return chunks.TryGetValue(Chunk.PackPosition(chunkPosition.X, chunkPosition.Y), out chunk!);
+		}
 
 		// GetOrCreate
 		public static Chunk GetOrCreateChunkAtWorldPosition(Vector2 worldPosition)
@@ -130,6 +143,10 @@ namespace TerrariaOverhaul.Core.Chunks
 
 		public static Chunk GetOrCreateChunk(Vector2Int chunkPosition)
 		{
+			if (chunks == null) {
+				throw new InvalidOperationException("Chunks are not initialized.");
+			}
+
 			long encodedPosition = Chunk.PackPosition(chunkPosition.X, chunkPosition.Y);
 
 			if (!chunks.TryGetValue(encodedPosition, out var chunk)) {

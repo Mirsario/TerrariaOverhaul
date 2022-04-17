@@ -8,12 +8,10 @@ namespace TerrariaOverhaul.Core.SimpleEntities
 {
 	public class SimpleEntitySystem : ModSystem
 	{
-		private static IDictionary<Type, LinkedList<SimpleEntity>> entitiesByType;
+		private static Dictionary<Type, LinkedList<SimpleEntity>> entitiesByType = new();
 
 		public override void Load()
 		{
-			entitiesByType = new Dictionary<Type, LinkedList<SimpleEntity>>();
-
 			On.Terraria.Main.DrawPlayers_AfterProjectiles += (orig, self) => {
 				orig(self);
 
@@ -23,7 +21,7 @@ namespace TerrariaOverhaul.Core.SimpleEntities
 
 		public override void Unload()
 		{
-			entitiesByType = null;
+			entitiesByType?.Clear();
 		}
 
 		public override void PreUpdateEntities() => UpdateEntities();
@@ -51,7 +49,7 @@ namespace TerrariaOverhaul.Core.SimpleEntities
 			}
 		}
 
-		internal static T InstantiateEntity<T>(Action<T> preinitializer = null) where T : SimpleEntity
+		internal static T InstantiateEntity<T>(Action<T>? preinitializer = null) where T : SimpleEntity
 		{
 			T instance = Activator.CreateInstance<T>();
 

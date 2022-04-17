@@ -31,8 +31,8 @@ namespace TerrariaOverhaul.Common.Decals
 
 		private static readonly short[] QuadTriangles = { 0, 2, 3, 0, 1, 2 };
 
-		private RenderTarget2D texture;
-		private Dictionary<BlendState, List<DecalInfo>> decalsToAdd;
+		private RenderTarget2D? texture;
+		private Dictionary<BlendState, List<DecalInfo>>? decalsToAdd;
 
 		public override void OnInit(Chunk chunk)
 		{
@@ -63,7 +63,7 @@ namespace TerrariaOverhaul.Common.Decals
 		{
 			// Add pending decals
 
-			if (decalsToAdd.Count == 0) {
+			if (decalsToAdd == null || decalsToAdd.Count == 0) {
 				return;
 			}
 
@@ -98,33 +98,10 @@ namespace TerrariaOverhaul.Common.Decals
 			destination.x -= Main.screenPosition.X;
 			destination.y -= Main.screenPosition.Y;
 
-			//sb.Draw(texture, destination, Color.White);
-
-			static bool CheckResources(params (GraphicsResource, string)[] resources)
-			{
-				foreach (var (resource, name) in resources) {
-					if (resource?.IsDisposed != false) {
-						DebugSystem.Log($"{nameof(ChunkDecals)}.{nameof(PostDrawTiles)}: {name} is null or disposed.");
-
-						return false;
-					}
-				}
-
-				return true;
-			}
-
-			var shader = DecalSystem.BloodShader.Value;
+			var shader = DecalSystem.BloodShader?.Value;
 			var lightingBuffer = chunk.Components.Get<ChunkLighting>().Texture;
 
-			if (texture == null || lightingBuffer == null) {
-				return;
-			}
-
-			if (!CheckResources(
-				(shader, nameof(shader)),
-				(Main.instance.tileTarget, nameof(Main.instance.tileTarget)),
-				(TextureAssets.MagicPixel.Value, nameof(TextureAssets.MagicPixel))
-			)) {
+			if (shader == null || texture == null || lightingBuffer == null || Main.instance.tileTarget == null) {
 				return;
 			}
 
@@ -169,6 +146,10 @@ namespace TerrariaOverhaul.Common.Decals
 
 		public void AddDecals(Texture2D texture, Rectangle localDestRect, Rectangle? srcRect, Color color, BlendState blendState)
 		{
+			if (decalsToAdd == null) {
+				return;
+			}
+
 			if (!decalsToAdd.TryGetValue(blendState, out var list)) {
 				decalsToAdd[blendState] = list = new List<DecalInfo>();
 			}

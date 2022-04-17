@@ -23,6 +23,12 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			}
 
 			var target = npc.GetTarget();
+
+			if (target == null) {
+				// They played us like a damn fiddle!
+				return;
+			}
+
 			float distance = Vector2.Distance(target.Center, npc.Center);
 
 			if (npc.velocity.Y == 0f && distance <= 80f && prevDistance > 80f) {

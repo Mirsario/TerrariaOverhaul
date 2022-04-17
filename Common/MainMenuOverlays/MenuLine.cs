@@ -19,11 +19,11 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 		public readonly Asset<DynamicSpriteFont> Font;
 		public readonly Vector2 Size;
 
-		protected readonly Func<bool, Color> ForcedColor;
+		protected readonly Func<bool, Color>? ForcedColor;
 
 		protected bool IsHovered { get; private set; }
 
-		public MenuLine(string text, Asset<DynamicSpriteFont> font = null, float scale = 1f, Func<bool, Color> forcedColor = null)
+		public MenuLine(string text, Asset<DynamicSpriteFont>? font = null, float scale = 1f, Func<bool, Color>? forcedColor = null)
 		{
 			Text = text;
 			Font = font ?? FontAssets.MouseText;

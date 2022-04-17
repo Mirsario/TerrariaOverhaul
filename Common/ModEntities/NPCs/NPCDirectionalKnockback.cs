@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				var cursor = new ILCursor(context);
 
 				// Match 'if (knockBack > 0f && knockBackResist > 0f)' to get the address to which it jumps on failure.
-				ILLabel skipKnockbackLabel = null;
+				ILLabel? skipKnockbackLabel = null;
 
 				if (!cursor.TryGotoNext(
 					MoveType.After,

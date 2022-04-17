@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 {
 	public abstract class MenuButton : MenuLine
 	{
-		public MenuButton(string text, Asset<DynamicSpriteFont> font = null, float scale = 1f, Func<bool, Color> forcedColor = null)
+		public MenuButton(string text, Asset<DynamicSpriteFont>? font = null, float scale = 1f, Func<bool, Color>? forcedColor = null)
 			: base(text, font, scale, forcedColor ?? GetColor) { }
 
 		protected abstract override void OnClicked();

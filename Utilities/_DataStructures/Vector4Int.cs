@@ -26,25 +26,45 @@ namespace TerrariaOverhaul.Utilities
 			W = w;
 		}
 
-		public override string ToString() => $"X: {X}, Y: {Y}, Z: {Z}, W: {W}";
-		public override int GetHashCode() => X.GetHashCode() ^ Y.GetHashCode() << 2 ^ Z.GetHashCode() >> 2 ^ W.GetHashCode() >> 1;
-		public override bool Equals(object other) => other is Vector4Int v && X == v.X && Y == v.Y && Z == v.Z && W == v.W;
+		public override string ToString()
+			=> $"X: {X}, Y: {Y}, Z: {Z}, W: {W}";
+		
+		public override int GetHashCode()
+			=> X.GetHashCode() ^ Y.GetHashCode() << 2 ^ Z.GetHashCode() >> 2 ^ W.GetHashCode() >> 1;
+		
+		public override bool Equals(object? other)
+			=> other is Vector4Int v && X == v.X && Y == v.Y && Z == v.Z && W == v.W;
 
 		// Vector4Int
+		
 		public static Vector4Int operator +(Vector4Int a, Vector4Int b) => new(a.X + b.X, a.Y + b.Y, a.Z + b.Z, a.W + b.W);
+		
 		public static Vector4Int operator -(Vector4Int a, Vector4Int b) => new(a.X - b.X, a.Y - b.Y, a.Z - b.Z, a.W - b.W);
+		
 		public static Vector4Int operator *(Vector4Int a, Vector4Int b) => new(a.X * b.X, a.Y * b.Y, a.Z * b.Z, a.W * b.W);
+		
 		public static Vector4Int operator /(Vector4Int a, Vector4Int b) => new(a.X / b.X, a.Y / b.Y, a.Z / b.Z, a.W / b.W);
+		
 		public static Vector4Int operator -(Vector4Int a) => new(-a.X, -a.Y, -a.Z, -a.W);
+		
 		public static bool operator ==(Vector4Int a, Vector4Int b) => a.X == b.X && a.Y == b.Y && a.Z == b.Z && a.W == b.W;
+		
 		public static bool operator !=(Vector4Int a, Vector4Int b) => a.X != b.X || a.Y != b.Y || a.Z != b.Z || a.W != b.W;
+		
 		// int
+		
 		public static Vector4Int operator *(Vector4Int a, int d) => new(a.X * d, a.Y * d, a.Z * d, a.W * d);
+		
 		public static Vector4Int operator *(int d, Vector4Int a) => new(a.X * d, a.Y * d, a.Z * d, a.W * d);
+		
 		public static Vector4Int operator /(Vector4Int a, int d) => new(a.X / d, a.Y / d, a.Z / d, a.W / d);
+		
 		// float
+		
 		public static Vector4 operator *(Vector4Int a, float d) => new(a.X * d, a.Y * d, a.Z * d, a.W * d);
+		
 		public static Vector4 operator *(float d, Vector4Int a) => new(d * a.X, d * a.Y, d * a.Z, d * a.W);
+		
 		public static Vector4 operator /(Vector4Int a, float d) => new(a.X / d, a.Y / d, a.Z / d, a.W / d);
 	}
 }

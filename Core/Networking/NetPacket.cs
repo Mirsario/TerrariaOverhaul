@@ -33,8 +33,8 @@ namespace TerrariaOverhaul.Core.Networking
 			Writer?.Dispose();
 			stream?.Dispose();
 
-			Writer = null;
-			stream = null;
+			Writer = null!;
+			stream = null!;
 		}
 	}
 }

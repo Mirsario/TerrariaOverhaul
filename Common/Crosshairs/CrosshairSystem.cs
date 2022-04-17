@@ -7,7 +7,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.UI;
-using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.Crosshairs
@@ -15,12 +14,12 @@ namespace TerrariaOverhaul.Common.Crosshairs
 	[Autoload(Side = ModSide.Client)]
 	public sealed class CrosshairSystem : ModSystem
 	{
-		private static Asset<Texture2D> crosshairTexture;
+		private static Asset<Texture2D>? crosshairTexture;
 		private static SpriteFrame crosshairBaseFrame = new(4, 2);
 		private static float crosshairOffset;
 		private static float crosshairRotation;
 		private static Color crosshairColor;
-		private static List<CrosshairImpulse> impulses;
+		private static List<CrosshairImpulse>? impulses;
 
 		public static bool ShowCrosshair {
 			get {
@@ -48,15 +47,24 @@ namespace TerrariaOverhaul.Common.Crosshairs
 			crosshairTexture = Mod.Assets.Request<Texture2D>("Assets/Textures/UI/Crosshair");
 		}
 
+		public override void Unload()
+		{
+			impulses?.Clear();
+
+			impulses = null;
+			crosshairTexture = null;
+		}
+
 		public override void PostUpdateEverything()
 		{
 			float totalOffset = 0f;
 			float totalRot = 0f;
-
 			Color color = Main.cursorColor;
 
-			for (int i = 0; i < impulses.Count; i++) {
-				var impulse = impulses[i];
+			int impulseCount = impulses?.Count ?? 0;
+
+			for (int i = 0; i < impulseCount; i++) {
+				var impulse = impulses![i];
 				float progress = impulse.time / impulse.timeMax;
 
 				if (impulse.reversed) {
@@ -101,6 +109,10 @@ namespace TerrariaOverhaul.Common.Crosshairs
 			layers[cursorOrEndIndex] = new LegacyGameInterfaceLayer(
 				layers[cursorOrEndIndex].Name,
 				() => {
+					if (crosshairTexture?.Value is not Texture2D texture) {
+						return true;
+					}
+					
 					int offset = (int)Math.Ceiling(crosshairOffset);
 
 					for (int i = 0; i < 2; i++) {
@@ -111,7 +123,6 @@ namespace TerrariaOverhaul.Common.Crosshairs
 								int xDir = x == 0 ? -1 : 1;
 								int yDir = y == 0 ? -1 : 1;
 
-								var texture = crosshairTexture.Value;
 								Vector2 vecOffset = new Vector2(offset * xDir, offset * yDir).RotatedBy(crosshairRotation);
 								var frame = crosshairBaseFrame.With((byte)(x + (outline ? 2 : 0)), y);
 								var srcRect = frame.GetSourceRectangle(texture);
@@ -136,13 +147,13 @@ namespace TerrariaOverhaul.Common.Crosshairs
 		public static void AddImpulse(CrosshairImpulse impulse)
 		{
 			if (ShowCrosshair) {
-				impulses.Add(impulse);
+				impulses?.Add(impulse);
 			}
 		}
 
 		public static void ClearImpulses()
 		{
-			impulses.Clear();
+			impulses?.Clear();
 		}
 	}
 }

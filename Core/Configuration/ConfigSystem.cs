@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -49,7 +50,7 @@ namespace TerrariaOverhaul.Core.Configuration
 			DebugSystem.Log($"Running static constructors of types that contain config entries...");
 
 			var assembly = Assembly.GetExecutingAssembly();
-			string assemblyName = assembly.GetName().Name;
+			string assemblyName = assembly.GetName().Name ?? throw new InvalidOperationException("Executing assembly lacks a 'Name'.");
 
 			foreach (var mod in ModLoader.Mods) {
 				var modAssembly = mod.GetType().Assembly;
@@ -101,7 +102,7 @@ namespace TerrariaOverhaul.Core.Configuration
 						continue;
 					}
 
-					object value = entryPair.Value.ToObject(entry.ValueType);
+					object? value = entryPair.Value?.ToObject(entry.ValueType);
 
 					if (value != null) {
 						entry.LocalValue = value;
@@ -123,7 +124,7 @@ namespace TerrariaOverhaul.Core.Configuration
 					jObject[entry.Category] = categoryToken = new JObject();
 				}
 
-				categoryToken[entry.Name] = JToken.FromObject(entry.LocalValue);
+				categoryToken[entry.Name] = JToken.FromObject(entry.LocalValue ?? entry.DefaultValue);
 			}
 
 			File.WriteAllText(ConfigPath, jObject.ToString());

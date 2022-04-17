@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Core.Configuration
 			MaxValue = maxValue;
 		}
 
-		protected override T ModifySetValue(T value)
+		protected override T? ModifySetValue(T? value)
 		{
 			value = base.ModifySetValue(value);
 

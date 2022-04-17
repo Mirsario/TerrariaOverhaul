@@ -7,15 +7,15 @@ namespace TerrariaOverhaul.Common.Seasons
 	// Replaces rain with snow
 	public sealed class SnowSeasonComponent : SeasonComponent
 	{
-		private static Action<SceneMetrics, int> snowTileCountSetter;
+		private static Action<SceneMetrics, int>? snowTileCountSetter;
 
 		public override void Load()
 		{
 			base.Load();
 
 			snowTileCountSetter = (Action<SceneMetrics, int>)typeof(SceneMetrics)
-				.GetProperty(nameof(SceneMetrics.SnowTileCount), BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-				.SetMethod
+				.GetProperty(nameof(SceneMetrics.SnowTileCount), BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!
+				.SetMethod!
 				.CreateDelegate(typeof(Action<SceneMetrics, int>));
 
 			On.Terraria.Main.snowing += orig => WrapCall(() => orig());

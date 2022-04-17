@@ -14,13 +14,12 @@ namespace TerrariaOverhaul.Common.CombatTexts
 			public ulong removeAt;
 		}
 
-		private static List<Filter> filters;
+		private static readonly List<Filter> filters = new();
+
 		private static bool skip;
 
 		public override void Load()
 		{
-			filters = new List<Filter>();
-
 			On.Terraria.CombatText.NewText_Rectangle_Color_string_bool_bool += (orig, location, color, text, dramatic, dot) => {
 				int result = orig(location, color, text, dramatic, dot);
 
@@ -54,11 +53,7 @@ namespace TerrariaOverhaul.Common.CombatTexts
 
 		public override void Unload()
 		{
-			if (filters != null) {
-				filters.Clear();
-
-				filters = null;
-			}
+			filters?.Clear();
 		}
 
 		public static void AddFilter(int lifeTime, Action<CombatText> action)

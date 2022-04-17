@@ -24,7 +24,7 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 		private static int debuffTiredness;
 		private static int debuffCooldown;
 
-		public static ModKeybind DodgerollKey { get; private set; }
+		public static ModKeybind DodgerollKey { get; private set; } = null!;
 
 		public static float DodgeTimeMax => 0.37f;
 		public static uint DefaultDodgeTirednessTime => (int)(TimeSystem.LogicFramerate * 1.5f);

@@ -17,6 +17,6 @@ namespace TerrariaOverhaul.Content.Gores
 			gore.drawOffset = new Vector2(0f, 4f);
 		}
 
-		public override Color? GetAlpha(Gore gore, Color lightColor) => (gore as OverhaulGore)?.bleedColor?.MultiplyRGB(lightColor);
+		public override Color? GetAlpha(Gore gore, Color lightColor) => (gore as OverhaulGore)?.BleedColor?.MultiplyRGB(lightColor);
 	}
 }

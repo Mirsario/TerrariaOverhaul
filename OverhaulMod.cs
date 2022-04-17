@@ -8,7 +8,7 @@ using TerrariaOverhaul.Core.Networking;
 
 namespace TerrariaOverhaul
 {
-	public partial class OverhaulMod : Mod
+	public class OverhaulMod : Mod
 	{
 		public static readonly uint BetaNumber = 9;
 		public static readonly bool IsBeta = BetaNumber > 0;
@@ -19,9 +19,11 @@ namespace TerrariaOverhaul
 		public static readonly Assembly EngineAssembly;
 		public static readonly Assembly TMLAssembly;
 
+		private static OverhaulMod? instance;
+
 		//internal static readonly ResourceManager ResourceManager = new ResourceManager("TerrariaOverhaul.Properties.Resources", Assembly.GetExecutingAssembly());
 
-		public static OverhaulMod Instance { get; private set; }
+		public static OverhaulMod Instance => instance ?? throw new InvalidOperationException("An instance of the mod has not yet been created.");
 
 		static OverhaulMod()
 		{
@@ -32,7 +34,7 @@ namespace TerrariaOverhaul
 
 		public OverhaulMod()
 		{
-			Instance = this;
+			instance = this;
 
 			Directory.CreateDirectory(PersonalDirectory);
 

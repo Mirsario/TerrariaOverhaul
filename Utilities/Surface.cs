@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Utilities
 
 		public void Dispose()
 		{
-			Data = null;
+			Data = null!;
 			Width = -1;
 			Height = -1;
 		}

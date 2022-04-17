@@ -32,10 +32,10 @@ namespace TerrariaOverhaul.Core.Time
 			(FullDayLength, 0.875f)
 		);
 
-		public static DateTime lastLoadDate;
-		public static Stopwatch globalStopwatch;
 
 		public static DateTime Date { get; } = DateTime.Now;
+		public static DateTime LastLoadDate { get; private set; }
+		public static Stopwatch? GlobalStopwatch { get; private set; }
 		public static bool AprilFools { get; private set; }
 		public static bool AustraliaDay { get; private set; }
 		public static bool ProgrammersDay { get; private set; }
@@ -62,16 +62,16 @@ namespace TerrariaOverhaul.Core.Time
 			// From 27th December to 5th January, inclusively.
 			NewYear = (Date.Month == 12 && Date.Day >= 27) || (Date.Month == 1 && Date.Day <= 5);
 
-			lastLoadDate = DateTime.Now;
+			LastLoadDate = DateTime.Now;
 
-			globalStopwatch = new Stopwatch();
-			globalStopwatch.Start();
+			GlobalStopwatch = Stopwatch.StartNew();
 		}
 
 		public override void Unload()
 		{
-			globalStopwatch.Stop();
-			globalStopwatch = null;
+			GlobalStopwatch?.Stop();
+
+			GlobalStopwatch = null;
 		}
 
 		public override void PostUpdateEverything()

@@ -18,11 +18,11 @@ namespace TerrariaOverhaul.Common.Charging
 
 		public bool PowerAttack { get; private set; }
 
-		public event Action<Item, Player> OnStart;
-		public event Action<Item, Player, float> OnChargeStart;
-		public event Action<Item, Player, float, float> OnChargeUpdate;
-		public event Action<Item, Player, float, float> OnChargeEnd;
-		public event CanStartPowerAttackDelegate CanStartPowerAttack;
+		public event Action<Item, Player>? OnStart;
+		public event Action<Item, Player, float>? OnChargeStart;
+		public event Action<Item, Player, float, float>? OnChargeUpdate;
+		public event Action<Item, Player, float, float>? OnChargeEnd;
+		public event CanStartPowerAttackDelegate? CanStartPowerAttack;
 
 		public override bool AltFunctionUse(Item item, Player player)
 		{

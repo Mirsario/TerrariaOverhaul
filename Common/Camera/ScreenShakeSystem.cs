@@ -32,9 +32,9 @@ namespace TerrariaOverhaul.Common.Camera
 			for (int i = 0; i < ScreenShakes.Count; i++) {
 				var shake = ScreenShakes[i];
 
-				shake.time -= delta;
+				shake.Time -= delta;
 
-				if (shake.time <= 0f) {
+				if (shake.Time <= 0f) {
 					ScreenShakes.RemoveAt(i--);
 				} else {
 					ScreenShakes[i] = shake;
@@ -57,42 +57,42 @@ namespace TerrariaOverhaul.Common.Camera
 
 				float maxPower;
 
-				if (shake.powerGradient != null) {
-					float progress = (shake.TimeMax - shake.time) / shake.TimeMax;
+				if (shake.PowerGradient != null) {
+					float progress = (shake.TimeMax - shake.Time) / shake.TimeMax;
 
 					if (float.IsNaN(progress)) {
 						progress = 0f;
 					}
 
-					maxPower = shake.powerGradient.GetValue(progress);
+					maxPower = shake.PowerGradient.GetValue(progress);
 				} else {
-					maxPower = shake.power;
+					maxPower = shake.Power;
 				}
 
-				if (shake.position.HasValue) {
-					maxPower *= 1f - Math.Min(1f, Vector2.Distance(shake.position.Value, point) / shake.range);
+				if (shake.Position.HasValue) {
+					maxPower *= 1f - Math.Min(1f, Vector2.Distance(shake.Position.Value, point) / shake.Range);
 				}
 
-				power += maxPower * (shake.time / shake.TimeMax);
+				power += maxPower * (shake.Time / shake.TimeMax);
 			}
 
 			return power * ScreenShakeStrength.Value;
 		}
 
-		public static void New(float power, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string uniqueId = null)
+		public static void New(float power, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string? uniqueId = null)
 			=> New(new ScreenShake(power, time, position, range, uniqueId));
 
-		public static void New(Gradient<float> powerGradient, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string uniqueId = null)
+		public static void New(Gradient<float> powerGradient, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string? uniqueId = null)
 			=> New(new ScreenShake(powerGradient, time, position, range, uniqueId));
 
 		public static void New(ScreenShake screenShake)
 		{
-			if (screenShake.uniqueId == null) {
+			if (screenShake.UniqueId == null) {
 				ScreenShakes.Add(screenShake);
 				return;
 			}
 
-			int index = ScreenShakes.FindIndex(s => s.uniqueId == screenShake.uniqueId);
+			int index = ScreenShakes.FindIndex(s => s.UniqueId == screenShake.UniqueId);
 
 			if (index >= 0) {
 				ScreenShakes[index] = screenShake;

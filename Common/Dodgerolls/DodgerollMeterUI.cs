@@ -18,8 +18,8 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 		private static readonly int FadingLength = (int)(TimeSystem.LogicFramerate * 0.3f);
 		private static readonly float Opacity = 0.675f;
 
-		private static Asset<Texture2D> meterTexture;
-		private static LegacyGameInterfaceLayer layer;
+		private static Asset<Texture2D>? meterTexture;
+		private static LegacyGameInterfaceLayer? layer;
 		private static Timer lastNotChargedTime;
 
 		public override void Load()
@@ -92,6 +92,10 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 
 		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
 		{
+			if (layer == null) {
+				return;
+			}
+			
 			int preferredIndex = layers.FindIndex(l => l.Name == "Vanilla: Cursor");
 
 			layers.Insert(preferredIndex < 0 ? 0 : preferredIndex, layer);

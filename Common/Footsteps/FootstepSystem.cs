@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Common.Footsteps
 {
 	public class FootstepSystem : ModSystem
 	{
-		public static IFootstepSoundProvider DefaultFootstepSoundProvider { get; private set; }
+		public static IFootstepSoundProvider DefaultFootstepSoundProvider { get; private set; } = null!;
 
 		public override void OnModLoad()
 		{
@@ -44,7 +44,7 @@ namespace TerrariaOverhaul.Common.Footsteps
 				return false;
 			}
 
-			IFootstepSoundProvider soundProvider = null;
+			IFootstepSoundProvider? soundProvider = null;
 
 			// Check for nearby gore
 			var entityRect = entity.GetRectangle();
