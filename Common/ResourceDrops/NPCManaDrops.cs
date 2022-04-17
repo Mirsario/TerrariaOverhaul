@@ -57,9 +57,8 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 
 					if (Main.GameUpdateCount % 2 == 0) {
 						Vector2 point = npc.getRect().GetRandomPoint();
-						IEntitySource entitySource = new EntitySource_EntityResourceDrops(npc);
 
-						Dust.NewDustPerfect(entitySource, point, ModContent.DustType<ManaDust>(), Vector2.Zero);
+						Dust.NewDustPerfect(point, ModContent.DustType<ManaDust>(), Vector2.Zero);
 					}
 				}
 			}

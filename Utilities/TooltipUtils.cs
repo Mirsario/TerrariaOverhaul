@@ -19,7 +19,7 @@ namespace TerrariaOverhaul.Utilities
 			void AddTooltip(string name, string text)
 			{
 				tooltips.Add(new TooltipLine(mod, name, text) {
-					overrideColor = color
+					OverrideColor = color
 				});
 			}
 

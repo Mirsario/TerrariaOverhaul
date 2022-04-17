@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
 
@@ -8,7 +7,7 @@ namespace TerrariaOverhaul.Content.Dusts
 {
 	public class ManaDust : ModDust
 	{
-		public override void OnSpawn(Dust dust, IEntitySource source)
+		public override void OnSpawn(Dust dust)
 		{
 			dust.noGravity = true;
 			dust.frame = new Rectangle(0, 0, 22, 22);

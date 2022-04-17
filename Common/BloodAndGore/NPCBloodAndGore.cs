@@ -35,9 +35,9 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			};
 
 			// Replace specific dusts with new blood particles.
-			On.Terraria.Dust.NewDust_IEntitySource_Vector2_int_int_int_float_float_int_Color_float += (orig, entitySource, position, width, height, type, speedX, speedY, alpha, color, scale) => {
+			On.Terraria.Dust.NewDust += (orig, position, width, height, type, speedX, speedY, alpha, color, scale) => {
 				if (disableReplacementsSubscriptions > 0) {
-					return orig(entitySource, position, width, height, type, speedX, speedY, alpha, color, scale);
+					return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
 				}
 
 				void SpawnParticles(Color usedColor) => SpawnNewBlood(
@@ -52,7 +52,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 							break;
 						}
 
-						return orig(entitySource, position, width, height, type, speedX, speedY, alpha, color, scale);
+						return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
 					case DustID.Blood:
 						SpawnParticles(Color.DarkRed);
 						break;
@@ -71,10 +71,10 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			};
 
 			// Record and save blood information onto gores spawned during HitEffect.
-			On.Terraria.NPC.HitEffect += (orig, npc, hitDirection, dmg, spawnSourceOverride) => {
+			On.Terraria.NPC.HitEffect += (orig, npc, hitDirection, dmg) => {
 				// Ignore contexts where we only want blood to spawn.
 				if (disableNonBloodEffectSubscriptions > 0 || !npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
-					orig(npc, hitDirection, dmg, spawnSourceOverride);
+					orig(npc, hitDirection, dmg);
 
 					return;
 				}
@@ -82,7 +82,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 				List<Color> bloodColors = null;
 				var spawnedGores = GoreSystem.InvokeWithGoreSpawnRecording(() => {
 					bloodColors = BloodParticle.RecordBloodColors(() => {
-						orig(npc, hitDirection, dmg, spawnSourceOverride);
+						orig(npc, hitDirection, dmg);
 					});
 				});
 
@@ -144,7 +144,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			disableNonBloodEffectSubscriptions++;
 
 			try {
-				GoreSystem.InvokeWithGoreSpawnDisabled(() => NPCLoader.HitEffect(npc, null, direction, damage));
+				GoreSystem.InvokeWithGoreSpawnDisabled(() => NPCLoader.HitEffect(npc, direction, damage));
 			}
 			finally {
 				disableNonBloodEffectSubscriptions--;

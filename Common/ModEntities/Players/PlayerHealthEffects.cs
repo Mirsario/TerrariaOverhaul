@@ -75,10 +75,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			// Bleeding
 			if (!Player.dead) {
 				lowHealthBleedingCounter += lowHealthEffectIntensity / 4f;
-				IEntitySource entitySource = new EntitySource_EntityBleeding(Player);
 
 				while (lowHealthBleedingCounter >= 1f) {
-					var dust = Dust.NewDustDirect(entitySource, Player.position, Player.width, Player.height, DustID.Blood);
+					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Blood);
 
 					lowHealthBleedingCounter--;
 				}

@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Common.Magic
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			// Ignore weapons with non-magic damage types
-			if (item.DamageType != DamageClass.Magic && !item.DamageType.CountsAs(DamageClass.Magic)) {
+			if (!item.CountsAsClass(DamageClass.Magic)) {
 				return false;
 			}
 

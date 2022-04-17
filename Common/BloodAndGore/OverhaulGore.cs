@@ -224,12 +224,10 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 		{
 			// Evaporate in lava
 			if (tile.LiquidAmount > 0 && tile.LiquidType == LiquidID.Lava) {
-				IEntitySource entitySource = new EntitySource_GoreLiquidCollision(this);
-
 				TryPlaySound(FireSystem.ExtinguishSound, position);
 
 				for (int i = 0; i < 5; i++) {
-					Dust.NewDustPerfect(entitySource, GetRandomPoint(), DustID.Smoke, Main.rand.NextVector2(-1f, -1f, 1f, 0f), 128, Color.White);
+					Dust.NewDustPerfect(GetRandomPoint(), DustID.Smoke, Main.rand.NextVector2(-1f, -1f, 1f, 0f), 128, Color.White);
 				}
 
 				active = false;
@@ -270,7 +268,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			uint offsettedUpdateCount = (uint)(position.X + Main.GameUpdateCount);
 
 			if (offsettedUpdateCount % 5 == 0) {
-				Dust.NewDustPerfect(new EntitySource_GoreUpdate(this), GetRandomPoint(), DustID.Torch, Scale: 2f).noGravity = true;
+				Dust.NewDustPerfect(GetRandomPoint(), DustID.Torch, Scale: 2f).noGravity = true;
 			}
 
 			if (offsettedUpdateCount % 30 == 0 && Main.rand.Next(3) == 0) {
