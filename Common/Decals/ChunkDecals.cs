@@ -39,8 +39,11 @@ namespace TerrariaOverhaul.Common.Decals
 			int textureWidth = chunk.TileRectangle.Width * 8;
 			int textureHeight = chunk.TileRectangle.Height * 8;
 
-			texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 			decalsToAdd = new Dictionary<BlendState, List<DecalInfo>>();
+
+			Main.QueueMainThreadAction(() => {
+				texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+			});
 		}
 
 		public override void OnDispose(Chunk chunk)
@@ -97,10 +100,10 @@ namespace TerrariaOverhaul.Common.Decals
 
 			//sb.Draw(texture, destination, Color.White);
 
-			bool CheckResources(params (GraphicsResource, string)[] resources)
+			static bool CheckResources(params (GraphicsResource, string)[] resources)
 			{
 				foreach (var (resource, name) in resources) {
-					if (resource.IsDisposed != false) {
+					if (resource?.IsDisposed != false) {
 						DebugSystem.Log($"{nameof(ChunkDecals)}.{nameof(PostDrawTiles)}: {name} is null or disposed.");
 
 						return false;
@@ -113,10 +116,12 @@ namespace TerrariaOverhaul.Common.Decals
 			var shader = DecalSystem.BloodShader.Value;
 			var lightingBuffer = chunk.Components.Get<ChunkLighting>().Texture;
 
+			if (texture == null || lightingBuffer == null) {
+				return;
+			}
+
 			if (!CheckResources(
-				(texture, nameof(texture)),
 				(shader, nameof(shader)),
-				(lightingBuffer, nameof(lightingBuffer)),
 				(Main.instance.tileTarget, nameof(Main.instance.tileTarget)),
 				(TextureAssets.MagicPixel.Value, nameof(TextureAssets.MagicPixel))
 			)) {
