@@ -35,7 +35,7 @@ namespace TerrariaOverhaul.Common.Guns
 		public static void SpawnCasings(Item item, Player player, int casingGoreType, int amount = 1)
 		{
 			var position = player.Center + new Vector2(player.direction > 0 ? 0f : -6f, -12f);
-			IEntitySource entitySource = new EntitySource_ItemUse(player, item);
+			var entitySource = player.GetSource_ItemUse(item);
 
 			for (int i = 0; i < amount; i++) {
 				var velocity = player.velocity * 0.5f + new Vector2(Main.rand.NextFloat(1f) * -player.direction, Main.rand.NextFloat(-0.5f, -1.5f));
