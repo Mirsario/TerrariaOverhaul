@@ -274,7 +274,7 @@ Mods: {
 		}
 		
 		BuffDescription: {
-			ManaChannelling: "你的耐心使你的魔力再生速度提升"
+			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
 		}
 	}
 }

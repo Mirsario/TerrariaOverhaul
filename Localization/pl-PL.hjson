@@ -273,7 +273,7 @@ Mods: {
 		}
 		
 		BuffDescription: {
-			ManaChannelling: "Twoja cierpliwość zwiększa regenerację many"
+			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
 		}
 	}
 }

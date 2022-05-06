@@ -265,7 +265,7 @@ Mods: {
 		}
 		
 		BuffDescription: {
-			ManaChannelling: "Tu paciencia está aumentando tu regeneración de maná"
+			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
 		}
 	}
 }
