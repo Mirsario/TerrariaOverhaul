@@ -269,7 +269,7 @@ Mods: {
 		}
 		
 		BuffName: {
-			ManaChannelling: "Ładowanie Many"
+			//ManaAbsorption: "Mana Absorption"
 		}
 		
 		BuffDescription: {

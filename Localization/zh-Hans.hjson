@@ -270,7 +270,7 @@ Mods: {
 		}
 		
 		BuffName: {
-			ManaChannelling: "集中魔力"
+			//ManaAbsorption: "Mana Absorption"
 		}
 		
 		BuffDescription: {

@@ -261,7 +261,7 @@ Mods: {
 		}
 		
 		BuffName: {
-			ManaChannelling: "Canalización de maná"
+			//ManaAbsorption: "Mana Absorption"
 		}
 		
 		BuffDescription: {

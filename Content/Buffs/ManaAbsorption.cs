@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Buffs
 {
-	public class ManaChannelling : ModBuff
+	public class ManaAbsorption : ModBuff
 	{
 		public override void SetStaticDefaults()
 		{
