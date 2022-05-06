@@ -57,14 +57,16 @@ namespace TerrariaOverhaul.Common.Crosshairs
 
 		public override void PostUpdateEverything()
 		{
+			if (impulses == null) {
+				return;
+			}
+
 			float totalOffset = 0f;
 			float totalRot = 0f;
 			Color color = Main.cursorColor;
 
-			int impulseCount = impulses?.Count ?? 0;
-
-			for (int i = 0; i < impulseCount; i++) {
-				var impulse = impulses![i];
+			for (int i = 0; i < impulses.Count; i++) {
+				var impulse = impulses[i];
 				float progress = impulse.time / impulse.timeMax;
 
 				if (impulse.reversed) {
