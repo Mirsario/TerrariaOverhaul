@@ -48,6 +48,7 @@ namespace TerrariaOverhaul.Common.Melee
 				var c = new ILCursor(context);
 				ILLabel? skipReturn = null;
 
+				//TODO: This seems to fail in debug TML builds.
 				c.GotoNext(
 					MoveType.After,
 					i => i.MatchLdarg(0),
