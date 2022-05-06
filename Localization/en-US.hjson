@@ -1,13 +1,13 @@
 UI: {
-	Journey: "Journey"
+	Creative: "Journey"
 	Normal: "I'm Too Young to Mine"
 	Expert: "Bone Me Plenty"
 	Master: "I Am Cthulhu Incarnate"
 	
-	JourneyDescription: "The Creative / Accessibility mode (For those who want to be in control)"
-	NormalDescription: "Less damage from enemies, but same rewards (For the easy-going)"
-	ExpertDescription: "The new standard experience (For those who like a fair challenge)"
-	MasterDescription: "Extreme punishment and new rewards (For the truly ruthless)"
+	WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
+	WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
+	WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
+	WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
 }
 
 Mods: {
