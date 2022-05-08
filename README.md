@@ -52,26 +52,33 @@ They still, however, make a big impact on the game's feel.
 
 # How do I build this?
 
-### For people who know what they're doing:
+## For people who know what they're doing:
 With the '[1.4_mergedtesting](https://github.com/tModLoader/tModLoader/tree/1.4_mergedtesting)' branch of tModLoader.
 
-### For people who don't know what they're doing:
+## For people who don't know what they're doing:
 Below is a step by step instruction for that. It only assumes that you know at least how to use cmd. You should.
 
-**Getting the right tModLoader:**
-- You need Windows to build it.
-- Install [Visual Studio 2022 Community](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&channel=Release&version=VS2022) (It's free.)
-During installation, check the `.NET desktop development` workload
-- Install Git if you don't have it - [Git For Windows](https://git-scm.com/download/win).
-- Ensure that you have .NET 6.0.1+ SDKs.
-- Clone the 1.4_mergedtesting branch - `git clone https://github.com/tModLoader/tModLoader -b 1.4_mergedtesting`.
-- Run setup.bat and click Setup, pointing the tool to your latest vanilla terraria .exe.
-- Run `solutions/buildRelease.bat`. This will build 1.4 tML into a 'tModLoaderDev' directory, find it next to Terraria's and use 'start-tModLoader.bat' to launch it.
+### Getting the right tModLoader
 
-**Compiling the mod:**
-- Clone the mod's 1.4 branch into `%userprofile%/Documents/My games/Terraria/ModLoader/Beta/Mod Sources`. Note the Beta directory.
+**THE EASY ROUTE:**
+> - Navigate to [`1.4_mergedtesting` Github Actions](https://github.com/tModLoader/tModLoader/actions?query=branch%3A1.4_mergedtesting).
+> - Click on the newest entry, Navigate down the page.
+> - Download 'Release Build'.
+
+**THE HARD ROUTE:**
+> - You need Windows to build it.
+> - Install [Visual Studio 2022 Community](https://visualstudio.microsoft.com/thank-you-downloading-visual-studio/?sku=Community&channel=Release&version=VS2022) (It's free.)
+> During installation, check the `.NET desktop development` workload
+> - Install Git if you don't have it - [Git For Windows](https://git-scm.com/download/win).
+> - Ensure that you have .NET 6.0.1+ SDKs.
+> - Clone the 1.4_mergedtesting branch - `git clone https://github.com/tModLoader/tModLoader -b 1.4_mergedtesting`.
+> - Run setup.bat and click Setup, pointing the tool to your latest vanilla terraria .exe.
+> - Run `solutions/buildRelease.bat`. This will build 1.4 tML into a 'tModLoaderDev' directory, find it next to Terraria's and use 'start-tModLoader.bat' to launch it.
+
+### Compiling the mod
+> - Clone the mod's 1.4 branch into `%userprofile%/Documents/My games/Terraria/tModLoader/ModSources`. Note that the directory was recently updated.
 The git command for that would be `git clone https://github.com/Mirsario/TerrariaOverhaul -b 1.4`.
-- Head over to Mod Sources in-game and `Build & Reload` TerrariaOverhaul.
+> - Head over to Mod Sources in-game and `Build & Reload` TerrariaOverhaul.
 
 That's all. Use `git fetch` and `git pull` to keep up with updates. Note that you'll need to rerun patching in the tML setup tool when updating tML.
 
