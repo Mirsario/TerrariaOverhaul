@@ -23,41 +23,26 @@ namespace TerrariaOverhaul.Utilities
 		}
 
 		// Text
-		public static void DrawStringOutlined(this SpriteBatch sb, DynamicSpriteFont font, string text, Vector2 position, Color color, Vector2 origin = default, float scale = 1f)
+		public static void DrawStringOutlined(this SpriteBatch sb, DynamicSpriteFont font, string text, Vector2 position, Color color, Vector2 origin = default, Vector2? scale = null, Color? outlineColor = null)
 		{
-			for (int i = 0; i < 5; i++) {
-				var newColor = Color.Black;
+			Color newColor = outlineColor ?? Color.Black.WithAlpha(0.5f);
 
+			scale ??= Vector2.One;
+
+			for (int i = 0; i < 5; i++) {
 				if (i == 4) {
 					newColor = color;
-					newColor.R = (byte)((255 + newColor.R) / 2);
-					newColor.G = (byte)((255 + newColor.G) / 2);
-					newColor.B = (byte)((255 + newColor.B) / 2);
 				}
 
-				newColor.A = (byte)(newColor.A * 0.5f);
-
-				Vector2 offset;
-
-				switch (i) {
-					case 0:
-						offset = new Vector2(-2f, 0f);
-						break;
-					case 1:
-						offset = new Vector2(2f, 0f);
-						break;
-					case 2:
-						offset = new Vector2(0f, -2f);
-						break;
-					case 3:
-						offset = new Vector2(0f, 2f);
-						break;
-					default:
-						offset = default;
-						break;
-				}
-
-				sb.DrawString(font, text, position + offset, newColor, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+				var offset = i switch {
+					0 => new Vector2(-2f, 0f),
+					1 => new Vector2(2f, 0f),
+					2 => new Vector2(0f, -2f),
+					3 => new Vector2(0f, 2f),
+					_ => default,
+				};
+				
+				sb.DrawString(font, text, position + offset, newColor, 0f, origin, scale.Value, SpriteEffects.None, 0f);
 			}
 		}
 	}
