@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.BloodAndGore;
 
@@ -9,6 +10,11 @@ namespace TerrariaOverhaul.Content.Gores
 	public class BulletCasing : ModGore
 	{
 		public static readonly ModSoundStyle BounceSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/CasingBounce", 4, volume: 0.085f, pitchVariance: 0.2f);
+
+		public override void SetStaticDefaults()
+		{
+			ChildSafety.SafeGore[Type] = true;
+		}
 
 		public override void OnSpawn(Gore gore, IEntitySource source)
 		{
