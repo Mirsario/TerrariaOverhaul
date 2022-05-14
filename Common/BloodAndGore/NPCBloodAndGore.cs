@@ -148,8 +148,16 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			}
 		}
 
+		//TODO: Using HitEffect was a bad idea in general. If possible, it's better to try to simulate its particle results instead.
 		public static void SpawnBloodWithHitEffect(NPC npc, int direction, int damage)
 		{
+			int? lifeToRestore = null;
+
+			if (npc.life <= 0) {
+				lifeToRestore = npc.life;
+				npc.life = 1;
+			}
+
 			disableNonBloodEffectSubscriptions++;
 
 			try {
@@ -157,6 +165,10 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			}
 			finally {
 				disableNonBloodEffectSubscriptions--;
+
+				if (lifeToRestore.HasValue) {
+					npc.life = lifeToRestore.Value;
+				}
 			}
 		}
 
