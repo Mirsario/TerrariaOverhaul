@@ -51,7 +51,7 @@ namespace TerrariaOverhaul.Common.Guns
 			Main.instance.LoadItem(item.type);
 
 			var itemTexture = TextureAssets.Item[item.type].Value;
-			var gunBarrelEnd = GetGunBarrelEndPosition(item.type, itemTexture) * item.scale;
+			var gunBarrelEnd = GetGunBarrelEndPosition(item.type, itemTexture);
 
 			for (int i = 0; i < drawInfo.DrawDataCache.Count; i++) {
 				var data = drawInfo.DrawDataCache[i];
@@ -67,7 +67,7 @@ namespace TerrariaOverhaul.Common.Guns
 					var originOffset = new Vector2(
 						(gunBarrelEnd.X - gunFixedOrigin.X) * player.direction,
 						-gunFixedOrigin.Y * player.direction + gunBarrelEnd.Y
-					);
+					) * item.scale;
 
 					var muzzleflashPosition = gunPosition + originOffset.RotatedBy(player.itemRotation);
 					var muzzleflashOrigin = new Vector2(player.direction < 0 ? muzzleflashTexture.Width : 0f, muzzleflashTexture.Height * 0.5f);
