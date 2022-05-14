@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Content.SimpleEntities;
@@ -103,7 +104,10 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 
 				foreach (var (gore, _) in spawnedGores) {
 					if (gore is OverhaulGore goreExt) {
-						goreExt.BleedColor = bloodColor;
+						if (!ChildSafety.SafeGore[gore.type]) {
+							goreExt.BleedColor = bloodColor;
+						}
+						
 						goreExt.OnFire = onFire;
 					}
 				}
