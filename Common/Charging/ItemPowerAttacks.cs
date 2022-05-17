@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Charging
@@ -77,10 +78,12 @@ namespace TerrariaOverhaul.Common.Charging
 						return;
 					}
 
-					if (itemPowerAttacks.AttemptPowerAttackStart(item, player)) {
-						player.altFunctionUse = 1;
-						player.controlUseItem = true;
-					}
+					itemPowerAttacks.AttemptPowerAttackStart(item, player);
+
+					/*
+					player.altFunctionUse = 1;
+					player.controlUseItem = true;
+					*/
 				});
 			};
 		}
@@ -101,7 +104,7 @@ namespace TerrariaOverhaul.Common.Charging
 
 		public bool AttemptPowerAttackStart(Item item, Player player)
 		{
-			if (!Enabled) {
+			if (!Enabled || !player.IsLocal()) {
 				return false;
 			}
 
@@ -118,8 +121,21 @@ namespace TerrariaOverhaul.Common.Charging
 			if (CanStartPowerAttack != null && CanStartPowerAttack.GetInvocationList().Any(func => !((CanStartPowerAttackDelegate)func)(item, player))) {
 				return false;
 			}
-
+			
 			int chargeLength = CombinedHooks.TotalAnimationTime(item.useAnimation * ChargeLengthMultiplier, player, item);
+
+			StartPowerAttack(item, player, chargeLength, itemCharging);
+
+			return true;
+		}
+
+		public void StartPowerAttack(Item item, Player player, int chargeLength, ItemCharging? itemCharging = null)
+		{
+			itemCharging ??= item.GetGlobalItem<ItemCharging>();
+
+			if (Main.netMode != NetmodeID.SinglePlayer) {
+				MultiplayerSystem.SendPacket(new PowerAttackStartPacket(player, chargeLength), ignoreClient: player.whoAmI);
+			}
 
 			OnChargeStart?.Invoke(item, player, chargeLength);
 
@@ -143,8 +159,6 @@ namespace TerrariaOverhaul.Common.Charging
 				// Allow turning
 				true
 			);
-
-			return false;
 		}
 
 		public void ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatMultipliers multipliers)
