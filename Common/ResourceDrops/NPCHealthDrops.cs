@@ -82,6 +82,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 
 			return healthFactor switch {
 				<= 1f / 4f => 3,
+				<= 1f / 3f => 2,
 				_ => 1,
 			};
 		}
