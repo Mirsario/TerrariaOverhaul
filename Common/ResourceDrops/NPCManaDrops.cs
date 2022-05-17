@@ -47,13 +47,28 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 				return;
 			}
 
-			if (Main.netMode != NetmodeID.MultiplayerClient) {
-				if (--manaDropCooldown <= 0 && DropAccumulatedMana(npc, expectedPickupAmount)) {
+			bool localPlayerNeedsMana = Main.netMode != NetmodeID.Server && CanDropManaForPlayer(Main.LocalPlayer, npc.Center);
+
+			if (--manaDropCooldown <= 0) {
+				bool resetCooldown = false;
+
+				if (Main.netMode != NetmodeID.MultiplayerClient) {
+					if (DropAccumulatedMana(npc, manaPickupsDropped + 1)) {
+						resetCooldown = true;
+					}
+				} else if (localPlayerNeedsMana) {
+					// Do nothing, just assume that the server dropped pickups for us, since we kinda need them.
+					// There is likely to be some desync, but not that much...
+					resetCooldown = true;
+					manaPickupsDropped = expectedPickupAmount;
+				}
+
+				if (resetCooldown) {
 					manaDropCooldown = ManaDropCooldownTime;
 				}
 			}
 
-			if (!Main.dedServ && CanDropManaForPlayer(Main.LocalPlayer, npc.Center)) {
+			if (!Main.dedServ && localPlayerNeedsMana) {
 				float lightPulse = (float)Math.Sin(Main.GameUpdateCount / 60f * 10f) * 0.5f + 0.5f;
 
 				Lighting.AddLight(npc.Center, Color.Lerp(Color.BlueViolet, Color.LightSkyBlue, lightPulse).ToVector3());
@@ -101,7 +116,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 
 			DropMana(npc, newAmount, dropsByPlayer);
 
-			manaPickupsDropped = currentExpectedAmount.Value;
+			manaPickupsDropped += newAmount;
 
 			return true;
 		}
