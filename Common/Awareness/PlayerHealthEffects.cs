@@ -1,16 +1,13 @@
 ﻿using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.Awareness
 {
 	[Autoload(Side = ModSide.Client)]
 	public sealed class PlayerHealthEffects : ModPlayer
@@ -24,7 +21,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		private SlotId lowHealthSoundSlot;
 		private float lowHealthEffectIntensity;
-		private float lowHealthBleedingCounter;
 
 		public override void Load()
 		{
@@ -71,17 +67,6 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			float soundVolume = Player.dead ? 0f : lowHealthEffectIntensity;
 
 			SoundUtils.UpdateLoopingSound(ref lowHealthSoundSlot, LowHealthSound, soundVolume, CameraSystem.ScreenCenter);
-
-			// Bleeding
-			if (!Player.dead) {
-				lowHealthBleedingCounter += lowHealthEffectIntensity / 4f;
-
-				while (lowHealthBleedingCounter >= 1f) {
-					var dust = Dust.NewDustDirect(Player.position, Player.width, Player.height, DustID.Blood);
-
-					lowHealthBleedingCounter--;
-				}
-			}
 		}
 	}
 }

@@ -134,20 +134,6 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			}
 		}
 
-		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
-			=> OnHit(npc);
-
-		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
-			=> OnHit(npc);
-
-		private void OnHit(NPC npc) // , int damage, float knockback, bool crit)
-		{
-			// Add extra blood when hit.
-			if (!Main.dedServ) {
-				//Bleed(npc, (int)Math.Sqrt(npc.width * npc.height) / 10);
-			}
-		}
-
 		//TODO: Using HitEffect was a bad idea in general. If possible, it's better to try to simulate its particle results instead.
 		public static void SpawnBloodWithHitEffect(NPC npc, int direction, int damage)
 		{
@@ -172,7 +158,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			}
 		}
 
-		private static void Bleed(NPC npc, int amount)
+		public static void Bleed(NPC npc, int amount)
 		{
 			for (int i = 0; i < amount; i++) {
 				SpawnBloodWithHitEffect(npc, npc.direction, 1);

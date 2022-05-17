@@ -2,15 +2,13 @@
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Magic
+namespace TerrariaOverhaul.Common.Awareness
 {
 	[Autoload(Side = ModSide.Client)]
 	public class PlayerManaEffects : ModPlayer
