@@ -4,13 +4,9 @@ namespace TerrariaOverhaul.Common.AudioEffects
 {
 	public struct AudioEffectParameters
 	{
-		public static readonly AudioEffectParameters Default = new() {
-			Volume = 1f
-		};
-
-		private float reverbIntensity;
-		private float lowPassFilteringIntensity;
-		private float volumeScale;
+		private float reverbIntensity = 0f;
+		private float lowPassFilteringIntensity = 0f;
+		private float volumeScale = 1f;
 
 		public float Reverb {
 			get => reverbIntensity;
@@ -24,5 +20,7 @@ namespace TerrariaOverhaul.Common.AudioEffects
 			get => volumeScale;
 			set => volumeScale = MathHelper.Clamp(value, 0f, 1f);
 		}
+
+		public AudioEffectParameters() { }
 	}
 }

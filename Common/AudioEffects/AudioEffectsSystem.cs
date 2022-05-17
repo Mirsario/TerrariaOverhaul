@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using Microsoft.Xna.Framework;
@@ -9,6 +10,7 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.Debugging;
@@ -18,6 +20,7 @@ using TerrariaOverhaul.Utilities;
 namespace TerrariaOverhaul.Common.AudioEffects
 {
 	//TODO: Add configuration.
+	//TODO: Split occlusion and other effect logic into other classes.
 	[Autoload(Side = ModSide.Client)]
 	public class AudioEffectsSystem : ModSystem
 	{
@@ -58,8 +61,8 @@ namespace TerrariaOverhaul.Common.AudioEffects
 		};
 
 		private static float playerWallOcclusionCache;
-		private static AudioEffectParameters soundParameters = AudioEffectParameters.Default;
-		private static AudioEffectParameters musicParameters = AudioEffectParameters.Default;
+		private static AudioEffectParameters soundParameters = new();
+		private static AudioEffectParameters musicParameters = new();
 		// Reflection
 		private static Action<SoundEffectInstance, float>? applyReverbFunc;
 		private static Action<SoundEffectInstance, float>? applyLowPassFilteringFunc;
@@ -73,6 +76,11 @@ namespace TerrariaOverhaul.Common.AudioEffects
 		{
 			IsEnabled = false;
 
+			if (!SoundEngine.IsAudioSupported) {
+				DebugSystem.Log($"Audio effects disabled: '{nameof(SoundEngine)}.{nameof(SoundEngine.IsAudioSupported)}' returned false.");
+				return;
+			}
+
 			applyReverbFunc = typeof(SoundEffectInstance)
 				.GetMethod("INTERNAL_applyReverb", BindingFlags.Instance | BindingFlags.NonPublic)
 				?.CreateDelegate<Action<SoundEffectInstance, float>>();
@@ -84,8 +92,21 @@ namespace TerrariaOverhaul.Common.AudioEffects
 			soundEffectBasedAudioTrackInstanceField = typeof(ASoundEffectBasedAudioTrack)
 				.GetField("_soundEffectInstance", BindingFlags.Instance | BindingFlags.NonPublic);
 
-			IsEnabled = applyReverbFunc != null && applyLowPassFilteringFunc != null && soundEffectBasedAudioTrackInstanceField != null;
+			if (applyReverbFunc == null || applyLowPassFilteringFunc == null || soundEffectBasedAudioTrackInstanceField == null) {
+				DebugSystem.Log("Audio effects disabled: Internal FNA methods are missing.");
+				return;
+			}
+
 			
+			if (!TestAudioFiltering(out var testException)) {
+				DebugSystem.Log($"Audio effects disabled: Audio Filtering Test failed! Exception of type {testException.GetType().Name} was thrown: '{testException.Message}'.");
+				
+				WorldGen.Hooks.OnWorldLoad += NotifyOfAudioErrors;
+				
+				return;
+			}
+
+			IsEnabled = true;
 			ReverbEnabled = true;
 			LowPassFilteringEnabled = true;
 
@@ -103,7 +124,11 @@ namespace TerrariaOverhaul.Common.AudioEffects
 
 				il.Emit(OpCodes.Ldarg_0);
 				il.Emit(OpCodes.Ldloc, soundEffectInstanceLocalId);
-				il.EmitDelegate<Action<ActiveSound, SoundEffectInstance>>((activeSound, soundEffectInstance) => {
+				il.EmitDelegate<Action<ActiveSound, SoundEffectInstance>>(static (activeSound, soundEffectInstance) => {
+					if (!IsEnabled) {
+						return;
+					}
+
 					if (soundEffectInstance?.IsDisposed == false) {
 						if (SoundStylesToIgnore.Contains(activeSound.Style)) {
 							return;
@@ -172,15 +197,20 @@ namespace TerrariaOverhaul.Common.AudioEffects
 				il.Emit(OpCodes.Ldloc, iLocalId);
 			};
 
-			DebugSystem.Log(IsEnabled ? "Audio effects enabled." : "Audio effects disabled: Internal FNA methods are missing.");
+			DebugSystem.Log("Audio effects enabled.");
+		}
+
+		public override void Unload()
+		{
+			WorldGen.Hooks.OnWorldLoad -= NotifyOfAudioErrors;
 		}
 
 		public override void PostUpdateEverything()
 		{
 			// Update global values
 
-			AudioEffectParameters newSoundParameters = AudioEffectParameters.Default;
-			AudioEffectParameters newMusicParameters = AudioEffectParameters.Default;
+			var newSoundParameters = new AudioEffectParameters();
+			var newMusicParameters = new AudioEffectParameters();
 
 			for (int i = 0; i < Modifiers.Count; i++) {
 				var modifier = Modifiers[i];
@@ -254,10 +284,6 @@ namespace TerrariaOverhaul.Common.AudioEffects
 
 		private static void ApplyEffects(SoundEffectInstance instance, AudioEffectParameters parameters)
 		{
-			if (!IsEnabled) {
-				return;
-			}
-
 			if (ReverbEnabled) {
 				applyReverbFunc!(instance, parameters.Reverb);
 			}
@@ -344,6 +370,35 @@ namespace TerrariaOverhaul.Common.AudioEffects
 			);
 
 			return occludingTiles / (float)MaxOccludingTiles;
+		}
+
+		private static bool TestAudioFiltering([NotNullWhen(false)] out Exception? exception)
+		{
+			try {
+				var testSoundInstance = SoundEngine.LegacySoundPlayer.SoundInstanceCamera;
+
+				// Apply
+				ApplyEffects(testSoundInstance, new AudioEffectParameters { LowPassFiltering = 0.5f, Reverb = 0.5f });
+
+				// Undo
+				ApplyEffects(testSoundInstance, new AudioEffectParameters { });
+			}
+			catch (Exception e) {
+				exception = e;
+				
+				return false;
+			}
+
+			exception = null;
+			
+			return true;
+		}
+
+		private static void NotifyOfAudioErrors()
+		{
+			Main.NewText(Language.GetTextValue($"Mods.{nameof(TerrariaOverhaul)}.Notifications.AudioFilteringTestFailure"), Color.MediumVioletRed);
+			
+			WorldGen.Hooks.OnWorldLoad -= NotifyOfAudioErrors;
 		}
 	}
 }

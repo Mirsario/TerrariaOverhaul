@@ -12,6 +12,10 @@ UI: {
 
 Mods: {
 	TerrariaOverhaul: {
+		Notifications: {
+			AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+		}
+
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
