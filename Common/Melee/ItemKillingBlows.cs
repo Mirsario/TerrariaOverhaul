@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Linq;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Melee
@@ -17,12 +19,28 @@ namespace TerrariaOverhaul.Common.Melee
 		private delegate void NPCDamageModifier(NPC npc, ref double damage);
 
 		public static readonly ISoundStyle KillingBlowSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/KillingBlow", 2, volume: 0.6f, pitchVariance: 0.1f);
+		public static readonly float KillingBlowDamageMultiplier = 1.5f;
+
+		// Super questionable shenanigans are this feature's MP synchronization.
+		private static readonly List<int> netNpcsWithPendingKillingBlows = new();
 
 		[ThreadStatic]
-		private static bool tryApplyingKillingBlow;
+		private static Player? playerCurrentlySwingingWeapons;
 
 		public override void Load()
 		{
+			// Stores context.
+			On.Terraria.Player.ItemCheck_MeleeHitNPCs += (orig, player, sItem, itemRectangle, originalDamage, knockback) => {
+				playerCurrentlySwingingWeapons = player;
+
+				try {
+					orig(player, sItem, itemRectangle, originalDamage, knockback);
+				}
+				finally {
+					playerCurrentlySwingingWeapons = null;
+				}
+			};
+
 			// This IL edit implements killing blows. They have to run after all damage modifications, as it needs to check the final damage.
 			IL.Terraria.NPC.StrikeNPC += context => {
 				var cursor = new ILCursor(context);
@@ -41,7 +59,7 @@ namespace TerrariaOverhaul.Common.Melee
 					i => i.MatchStloc(out _)
 				);
 
-				cursor.HijackIncomingLabels(); // Make jumps be to before the upcoming delete instead of after it.
+				cursor.HijackIncomingLabels(); // Make jumps be to before the upcoming insertion instead of after it.
 
 				cursor.Emit(OpCodes.Ldarg_0);
 				cursor.Emit(OpCodes.Ldloca, damageLocalId);
@@ -49,37 +67,56 @@ namespace TerrariaOverhaul.Common.Melee
 			};
 		}
 
-		public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
+		internal static void EnqueueNPCForKillingBlowHit(int npcId)
 		{
-			if (!Enabled) {
-				return;
-			}
-
-			if (item.TryGetGlobalItem<ItemPowerAttacks>(out var powerAttacks) && !powerAttacks.PowerAttack) {
-				return;
-			}
-
-			tryApplyingKillingBlow = true;
+			netNpcsWithPendingKillingBlows.Add(npcId);
 		}
 
 		private static void CheckForKillingBlow(NPC npc, ref double damage)
 		{
-			if (!tryApplyingKillingBlow) {
-				return;
+			bool sync = false;
+
+			if (Main.netMode == NetmodeID.SinglePlayer || !netNpcsWithPendingKillingBlows.Remove(npc.whoAmI)) {
+				if (playerCurrentlySwingingWeapons is not Player { HeldItem: Item item } player) {
+					return;
+				}
+
+				if (!item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) || !item.TryGetGlobalItem(out ItemKillingBlows killingBlows)) {
+					return;
+				}
+
+				if (!powerAttacks.Enabled || !killingBlows.Enabled || !powerAttacks.PowerAttack) {
+					return;
+				}
+
+				sync = true;
 			}
 
-			const double Multiplier = 1.5;
+			if (DoKillingBlow(npc, ref damage) && sync) {
+				MultiplayerSystem.SendPacket(new KillingBlowPacket(Main.LocalPlayer, npc));
+			}
+		}
 
-			if (damage >= 0 && npc.life - damage * Multiplier <= 0.0d) {
-				damage *= Multiplier;
+		private static bool DoKillingBlow(NPC npc, ref double damage)
+		{
+			if (damage <= 0.0 || npc.life <= 0) {
+				return false;
+			}
+			
+			double multipliedDamage = damage * KillingBlowDamageMultiplier;
+
+			if (npc.life - multipliedDamage <= 0.0d) {
+				damage = multipliedDamage;
 
 				if (!Main.dedServ) {
 					SoundEngine.PlaySound(KillingBlowSound, npc.Center);
 					CombatText.NewText(npc.getRect(), Color.MediumVioletRed, "Killing Blow!", true);
 				}
+
+				return true;
 			}
 
-			tryApplyingKillingBlow = false;
+			return false;
 		}
 	}
 }
