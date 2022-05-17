@@ -9,6 +9,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 	public sealed class HealthPickupChanges : ResourcePickupChanges
 	{
 		public const int HealthPerPickup = 5;
+		public const int MaxLifeTime = 600;
 
 		public static readonly int[] LifeTypes = {
 			ItemID.Heart,
@@ -16,7 +17,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 			ItemID.CandyCane
 		};
 
-		public override int MaxLifetime => 600;
+		public override int MaxLifetime => MaxLifeTime;
 
 		public override bool AppliesToEntity(Item item, bool lateInstantiation)
 		{

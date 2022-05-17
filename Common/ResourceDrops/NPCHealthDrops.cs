@@ -1,21 +1,25 @@
-﻿using Terraria;
-using Terraria.DataStructures;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.EntitySources;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ResourceDrops
 {
 	public sealed class NPCHealthDrops : GlobalNPC
 	{
 		public static readonly float DefaultHealthDropRange = ResourceDropUtils.DefaultResourceDropRange;
+		public static readonly int HealthDropItemType = ItemID.Heart;
 
 		public override void Load()
 		{
 			On.Terraria.NPC.NPCLoot += (orig, npc) => {
 				orig(npc);
 
-				if (Main.netMode == NetmodeID.Server) {
+				if (Main.netMode == NetmodeID.MultiplayerClient) {
 					return;
 				}
 
@@ -23,11 +27,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 					return;
 				}
 
-				var player = Main.LocalPlayer;
-
-				if (player.WithinRange(npc.Center, DefaultHealthDropRange)) {
-					DropHealth(npc, player);
-				}
+				DropHealthFromKill(npc);
 			};
 
 			On.Terraria.NPC.NPCLoot_DropHeals += (orig, npc, closestPlayer) => {
@@ -35,30 +35,62 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 			};
 		}
 
-		public static void DropHealth(NPC npc, Player player, int? amount = null)
+		public static void DropHealthFromKill(NPC npc)
 		{
-			int dropsCount;
+			int maxAmountToDrop = 0;
+			var dropPosition = npc.Center;
+			var dropsByPlayer = new Dictionary<Player, int>();
 
-			if (amount.HasValue) {
-				dropsCount = amount.Value;
-			} else {
-				float healthFactor = player.statLife / (float)player.statLifeMax2;
-				int maxDrops;
+			foreach (var player in ActiveEntities.Players) {
+				int dropCount = CalculateCommonHealthDropAmount(player, dropPosition);
 
-				if (healthFactor <= 0.25f) {
-					maxDrops = 3;
-				} else {
-					maxDrops = 1;
+				if (dropCount > 0) {
+					dropsByPlayer[player] = dropCount;
+					maxAmountToDrop = Math.Max(maxAmountToDrop, dropCount);
 				}
-
-				dropsCount = ResourceDropUtils.GetDefaultDropCount(player, player.statLife, player.statLifeMax2, HealthPickupChanges.HealthPerPickup, maxDrops, ItemID.Heart);
 			}
 
-			IEntitySource entitySource = new EntitySource_EntityResourceDrops(npc);
+			DropHealth(npc, maxAmountToDrop, dropsByPlayer);
+		}
+		
+		public static int CalculateCommonHealthDropAmount(Player player, Vector2 dropPosition)
+		{
+			float dropRange = DefaultHealthDropRange; // Used both in culling players and checking for existing drops
 
-			for (int i = 0; i < dropsCount; i++) {
-				Item.NewItem(entitySource, npc.getRect(), ItemID.Heart, noBroadcast: true);
+			// Ignore players that are too far away from the drop position
+			if (!player.WithinRange(dropPosition, dropRange)) {
+				return 0;
 			}
+
+			// Initial - How many resource drops the player needs
+			int dropCount = ResourceDropUtils.GetResourceDropsNeededByPlayer(player.statLife, player.statLifeMax2, HealthPickupChanges.HealthPerPickup);
+
+			// Cull by the amount of drops nearby to the player
+			int existingDrops = ResourceDropUtils.CountItemsOfTypeWithinRange(HealthDropItemType, dropPosition, dropRange);
+
+			dropCount = Math.Max(0, dropCount - existingDrops);
+
+			// Cull the drop count by the player's current health ratio
+			dropCount = Math.Min(dropCount, GetMaxHealthDropsForPlayersHealthRatio(player));
+
+			return dropCount;
+		}
+
+		public static int GetMaxHealthDropsForPlayersHealthRatio(Player player)
+		{
+			float healthFactor = player.statLife / (float)player.statLifeMax2;
+
+			return healthFactor switch {
+				<= 1f / 4f => 3,
+				_ => 1,
+			};
+		}
+
+		public static void DropHealth(NPC npc, int maxAmount, Dictionary<Player, int>? perPlayerAmount = null)
+		{
+			var entitySource = new EntitySource_EntityResourceDrops(npc);
+
+			ResourceDropUtils.DropResource(entitySource, npc.Center, HealthDropItemType, maxAmount, HealthPickupChanges.MaxLifeTime + 60, perPlayerAmount);
 		}
 	}
 }

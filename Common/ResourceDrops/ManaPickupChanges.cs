@@ -9,6 +9,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 	public sealed class ManaPickupChanges : ResourcePickupChanges
 	{
 		public const int ManaPerPickup = 5;
+		public const int MaxLifeTime = 600;
 
 		public static readonly int[] ManaTypes = {
 			ItemID.Star,
@@ -16,7 +17,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 			ItemID.SugarPlum
 		};
 
-		public override int MaxLifetime => 600;
+		public override int MaxLifetime => MaxLifeTime;
 
 		public override bool AppliesToEntity(Item item, bool lateInstantiation)
 		{

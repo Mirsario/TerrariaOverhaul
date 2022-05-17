@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.EntitySources;
-using TerrariaOverhaul.Common.ModEntities.Projectiles;
 using TerrariaOverhaul.Content.Dusts;
 using TerrariaOverhaul.Utilities;
 
@@ -14,11 +15,12 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 	public sealed class NPCManaDrops : GlobalNPC
 	{
 		public static readonly float DefaultManaDropRange = ResourceDropUtils.DefaultResourceDropRange;
+		public static readonly int ManaDropItemType = ItemID.Star;
 		public static readonly int ManaDropCooldownTime = 15;
 
 		private int manaDropCooldown = ManaDropCooldownTime;
-		private float manaPickupsToDrop;
-		private float totalManaPickupsToDrop;
+		private int manaPickupsToDropInTotal;
+		private int manaPickupsDropped;
 
 		public override bool InstancePerEntity => true;
 
@@ -34,85 +36,98 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 				totalManaToDrop = npc.lifeMax / 6f; // This is so not going to be balanced...
 			}
 
-			totalManaPickupsToDrop = MathF.Ceiling(totalManaToDrop / ManaPickupChanges.ManaPerPickup);
+			manaPickupsToDropInTotal = (int)MathF.Ceiling(totalManaToDrop / ManaPickupChanges.ManaPerPickup);
 		}
 
 		public override void PostAI(NPC npc)
 		{
-			if (Main.netMode != NetmodeID.Server && manaPickupsToDrop >= 1f) {
-				if (--manaDropCooldown <= 0) {
-					manaDropCooldown = ManaDropCooldownTime;
+			int expectedPickupAmount = CalculateExpectedDroppedManaPickupAmount(npc);
 
-					var player = Main.LocalPlayer;
-
-					if (player.WithinRange(npc.Center, DefaultManaDropRange)) {
-						DropMana(npc, player, 1);
-
-						manaPickupsToDrop--;
-					}
-				}
-
-				if (!Main.dedServ) {
-					Lighting.AddLight(npc.Center, Color.BlueViolet.ToVector3() * ((float)Math.Sin(Main.GameUpdateCount / 60f * 4f) * 0.5f + 0.5f));
-
-					if (Main.GameUpdateCount % 2 == 0) {
-						Vector2 point = npc.getRect().GetRandomPoint();
-
-						Dust.NewDustPerfect(point, ModContent.DustType<ManaDust>(), Vector2.Zero);
-					}
-				}
-			}
-		}
-
-		public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
-		{
-			if (player.IsLocal()) {
-				AccumulateManaOnHit(npc, player, damage);
-			}
-		}
-
-		public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
-		{
-			var ownerPlayer = projectile.GetOwner();
-
-			if (ownerPlayer?.IsLocal() == true) {
-				AccumulateManaOnHit(npc, ownerPlayer, damage);
-			}
-		}
-
-		private void AccumulateManaOnHit(NPC npc, Player player, float damage)
-		{
-			if (player.statMana >= player.statManaMax2) {
+			if (expectedPickupAmount <= manaPickupsDropped) {
 				return;
 			}
 
-			float effectiveDamage = Math.Max(0, damage + Math.Min(0, npc.life));
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
+				if (--manaDropCooldown <= 0 && DropAccumulatedMana(npc, expectedPickupAmount)) {
+					manaDropCooldown = ManaDropCooldownTime;
+				}
+			}
 
-			manaPickupsToDrop += effectiveDamage / Math.Max(npc.lifeMax, 1f) * totalManaPickupsToDrop;
+			if (!Main.dedServ) {
+				float lightPulse = (float)Math.Sin(Main.GameUpdateCount / 60f * 10f) * 0.5f + 0.5f;
 
-			// Drop everything instantly if dead.
-			if (!npc.active) {
-				DropMana(npc, player, (int)Math.Floor(manaPickupsToDrop));
+				Lighting.AddLight(npc.Center, Color.Lerp(Color.BlueViolet, Color.LightSkyBlue, lightPulse).ToVector3());
 
-				manaPickupsToDrop = 0;
+				if (Main.GameUpdateCount % 2 == 0) {
+					Vector2 point = npc.getRect().GetRandomPoint();
+
+					Dust.NewDustPerfect(point, ModContent.DustType<ManaDust>(), Vector2.Zero);
+				}
 			}
 		}
 
-		public static void DropMana(NPC npc, Player player, int? amount = null)
+		public override void OnKill(NPC npc)
 		{
-			int dropsCount;
+			if (Main.netMode != NetmodeID.MultiplayerClient) {
+				DropAccumulatedMana(npc);
+			}
+		}
 
-			if (amount.HasValue) {
-				dropsCount = amount.Value;
-			} else {
-				dropsCount = ResourceDropUtils.GetDefaultDropCount(player, player.statMana, player.statManaMax2, ManaPickupChanges.ManaPerPickup, 3);
+		public int CalculateExpectedDroppedManaPickupAmount(NPC npc)
+		{
+			float healthFactor = Math.Max(npc.life, 0) / (float)Math.Max(npc.lifeMax, 1);
+			int result = (int)MathF.Floor((1f - healthFactor) * manaPickupsToDropInTotal);
+
+			return result;
+		}
+
+		public bool DropAccumulatedMana(NPC npc, int? currentExpectedAmount = null)
+		{
+			currentExpectedAmount ??= CalculateExpectedDroppedManaPickupAmount(npc);
+
+			int newAmount = currentExpectedAmount.Value - manaPickupsDropped;
+
+			if (newAmount <= 0) {
+				return false;
 			}
 
-			IEntitySource entitySource = new EntitySource_EntityResourceDrops(npc);
+			var dropsByPlayer = new Dictionary<Player, int>();
 
-			for (int i = 0; i < dropsCount; i++) {
-				Item.NewItem(entitySource, npc.getRect(), ItemID.Star, noBroadcast: true);
+			foreach (var player in ActiveEntities.Players) {
+				if (CanDropManaForPlayer(player, npc.Center)) {
+					dropsByPlayer[player] = newAmount;
+				}
 			}
+
+			DropMana(npc, newAmount, dropsByPlayer);
+
+			manaPickupsDropped = currentExpectedAmount.Value;
+
+			return true;
+		}
+		
+		public static bool CanDropManaForPlayer(Player player, Vector2 dropPosition)
+		{
+			float dropRange = DefaultManaDropRange;
+
+			// Ignore players that are too far away from the drop position
+			if (!player.WithinRange(dropPosition, dropRange)) {
+				return false;
+			}
+
+			// Ignore players with full mana
+			if (player.statMana >= player.statManaMax2) {
+				return false;
+			}
+
+			return true;
+		}
+
+		public static void DropMana(NPC npc, int maxAmount, Dictionary<Player, int>? perPlayerAmount = null)
+		{
+			var entitySource = new EntitySource_EntityResourceDrops(npc);
+
+			ResourceDropUtils.DropResource(entitySource, npc.Center, ManaDropItemType, maxAmount, ManaPickupChanges.MaxLifeTime + 60, perPlayerAmount);
 		}
 	}
 }

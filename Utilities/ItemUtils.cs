@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
@@ -13,6 +14,10 @@ namespace TerrariaOverhaul.Utilities
 		{
 			if (Main.netMode == NetmodeID.MultiplayerClient) {
 				throw new InvalidOperationException($"{nameof(NewItemInstanced)} must not be called on multiplayer clients.");
+			}
+
+			if (Main.netMode == NetmodeID.SinglePlayer && players != null && !players.Any(p => p.whoAmI == Main.myPlayer)) {
+				return;
 			}
 
 			int itemId = Item.NewItem(source, position, type, stack, true, prefix);
