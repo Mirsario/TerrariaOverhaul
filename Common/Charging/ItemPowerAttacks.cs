@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ModEntities.Players;
@@ -24,7 +27,79 @@ namespace TerrariaOverhaul.Common.Charging
 		public event Action<Item, Player, float, float>? OnChargeEnd;
 		public event CanStartPowerAttackDelegate? CanStartPowerAttack;
 
-		public override bool AltFunctionUse(Item item, Player player)
+		public override void Load()
+		{
+			// AltFunctionUse hook doesn't fit, since it relies on 'ItemID.Sets.ItemsThatAllowRepeatedRightClick' for repeated uses.
+			// Also it's better to execute power attack code after all other mods are done with their AltFunctionUse hooks.
+			IL.Terraria.Player.ItemCheck_ManageRightClickFeatures += context => {
+				var il = new ILCursor(context);
+
+				int isButtonHeldLocalId = -1;
+
+				il.GotoNext(
+					// bool flag2 = flag;
+					i => i.MatchLdcI4(0),
+					i => i.MatchStloc(out isButtonHeldLocalId),
+					i => i.MatchLdloc(isButtonHeldLocalId),
+					i => i.MatchStloc(out _),
+					// if (!ItemID.Sets.ItemsThatAllowRepeatedRightClick[inventory[selectedItem].type] && !Main.mouseRightRelease)
+					i => i.MatchLdsfld(typeof(ItemID.Sets), nameof(ItemID.Sets.ItemsThatAllowRepeatedRightClick))
+					// ...
+				);
+
+				il.GotoNext(
+					MoveType.Before,
+					// if (!controlUseItem && altFunctionUse == 1)
+					i => i.Match(OpCodes.Ldarg_0),
+					i => i.MatchLdfld(typeof(Player), nameof(Player.controlUseItem)),
+					i => i.MatchBrtrue(out _),
+					//
+					i => i.Match(OpCodes.Ldarg_0),
+					i => i.MatchLdfld(typeof(Player), nameof(Player.altFunctionUse)),
+					i => i.MatchLdcI4(1)
+					// ...
+				);
+
+				il.HijackIncomingLabels();
+
+				il.Emit(OpCodes.Ldarg_0);
+				il.Emit(OpCodes.Ldloc, isButtonHeldLocalId);
+				il.EmitDelegate((Player player, bool isButtonHeld) => {
+					if (!isButtonHeld || player.altFunctionUse != 0) {
+						return;
+					}
+
+					if (player.HeldItem is not Item item) {
+						return;
+					}
+
+					if (item.TryGetGlobalItem(out ItemPowerAttacks itemPowerAttacks) != true) {
+						return;
+					}
+
+					if (itemPowerAttacks.AttemptPowerAttackStart(item, player)) {
+						player.altFunctionUse = 1;
+						player.controlUseItem = true;
+					}
+				});
+			};
+		}
+
+		public override void UseAnimation(Item item, Player player)
+		{
+			if (PowerAttack) {
+				OnStart?.Invoke(item, player);
+			}
+		}
+
+		public override void HoldItem(Item item, Player player)
+		{
+			if (player.itemAnimation <= 1 && !item.GetGlobalItem<ItemCharging>().IsCharging) {
+				PowerAttack = false;
+			}
+		}
+
+		public bool AttemptPowerAttackStart(Item item, Player player)
 		{
 			if (!Enabled) {
 				return false;
@@ -70,20 +145,6 @@ namespace TerrariaOverhaul.Common.Charging
 			);
 
 			return false;
-		}
-
-		public override void UseAnimation(Item item, Player player)
-		{
-			if (PowerAttack) {
-				OnStart?.Invoke(item, player);
-			}
-		}
-
-		public override void HoldItem(Item item, Player player)
-		{
-			if (player.itemAnimation <= 1 && !item.GetGlobalItem<ItemCharging>().IsCharging) {
-				PowerAttack = false;
-			}
 		}
 
 		public void ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatMultipliers multipliers)
