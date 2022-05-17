@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ResourceDrops
 {
@@ -26,7 +27,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 
 		public override float GetPickupRange(Item item, Player player)
 		{
-			float range = 160f;
+			float range = 11f * TileUtils.TileSizeInPixels;
 
 			if (player.lifeMagnet) {
 				range *= 2f;
