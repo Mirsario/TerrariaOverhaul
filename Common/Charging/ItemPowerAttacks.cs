@@ -133,8 +133,8 @@ namespace TerrariaOverhaul.Common.Charging
 		{
 			itemCharging ??= item.GetGlobalItem<ItemCharging>();
 
-			if (Main.netMode != NetmodeID.SinglePlayer) {
-				MultiplayerSystem.SendPacket(new PowerAttackStartPacket(player, chargeLength), ignoreClient: player.whoAmI);
+			if (Main.netMode == NetmodeID.MultiplayerClient && player.IsLocal()) {
+				MultiplayerSystem.SendPacket(new PowerAttackStartPacket(player, chargeLength));
 			}
 
 			OnChargeStart?.Invoke(item, player, chargeLength);

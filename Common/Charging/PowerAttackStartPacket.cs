@@ -35,6 +35,11 @@ namespace TerrariaOverhaul.Common.Charging
 
 			// Resend happens in this method automatically
 			powerAttacks.StartPowerAttack(item, player, chargeLength);
+
+			// Resend
+			if (Main.netMode == NetmodeID.Server) {
+				MultiplayerSystem.SendPacket(new PowerAttackStartPacket(player, chargeLength), ignoreClient: sender);
+			}
 		}
 	}
 }
