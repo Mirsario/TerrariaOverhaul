@@ -30,9 +30,9 @@ namespace TerrariaOverhaul.Common.AudioEffects
 			public readonly WeakReference<ActiveSound>? TrackedSound;
 			public readonly Vector2? StartPosition;
 
-			public bool firstUpdate;
-			public float localLowPassFiltering;
-			public float targetLocalLowPassFiltering;
+			public bool FirstUpdate;
+			public float LocalLowPassFiltering;
+			public float TargetLocalLowPassFiltering;
 
 			public SoundInstanceData(SoundEffectInstance instance, Vector2? initialPosition = null, ActiveSound? trackedSound = null)
 			{
@@ -40,8 +40,8 @@ namespace TerrariaOverhaul.Common.AudioEffects
 				TrackedSound = trackedSound != null ? new WeakReference<ActiveSound>(trackedSound) : null;
 				StartPosition = initialPosition;
 
-				firstUpdate = true;
-				targetLocalLowPassFiltering = localLowPassFiltering = 0f;
+				FirstUpdate = true;
+				TargetLocalLowPassFiltering = LocalLowPassFiltering = 0f;
 			}
 		}
 
@@ -97,7 +97,6 @@ namespace TerrariaOverhaul.Common.AudioEffects
 				return;
 			}
 
-			
 			if (!TestAudioFiltering(out var testException)) {
 				DebugSystem.Log($"Audio effects disabled: Audio Filtering Test failed! Exception of type {testException.GetType().Name} was thrown: '{testException.Message}'.");
 				
@@ -299,23 +298,23 @@ namespace TerrariaOverhaul.Common.AudioEffects
 				return false;
 			}
 
-			if (fullUpdate || data.firstUpdate) {
+			if (fullUpdate || data.FirstUpdate) {
 				UpdateSoundOcclusion(ref data);
 			}
 
-			if (data.firstUpdate) {
-				data.localLowPassFiltering = data.targetLocalLowPassFiltering;
+			if (data.FirstUpdate) {
+				data.LocalLowPassFiltering = data.TargetLocalLowPassFiltering;
 			} else {
-				data.localLowPassFiltering = MathHelper.Lerp(data.localLowPassFiltering, data.targetLocalLowPassFiltering, 3f * TimeSystem.LogicDeltaTime);
+				data.LocalLowPassFiltering = MathHelper.Lerp(data.LocalLowPassFiltering, data.TargetLocalLowPassFiltering, 3f * TimeSystem.LogicDeltaTime);
 			}
 
 			var localParameters = soundParameters;
 
-			localParameters.LowPassFiltering += data.localLowPassFiltering;
+			localParameters.LowPassFiltering += data.LocalLowPassFiltering;
 
 			ApplyEffects(instance, localParameters);
 
-			data.firstUpdate = false;
+			data.FirstUpdate = false;
 
 			return true;
 		}
@@ -341,7 +340,7 @@ namespace TerrariaOverhaul.Common.AudioEffects
 				occlusion = MathHelper.Clamp(occlusion + playerWallOcclusionCache, 0f, 1f);
 			}
 
-			data.targetLocalLowPassFiltering = occlusion;
+			data.TargetLocalLowPassFiltering = occlusion;
 		}
 
 		private static float CalculateSoundOcclusion(Vector2Int position)
