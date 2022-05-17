@@ -53,7 +53,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 				}
 			}
 
-			if (!Main.dedServ) {
+			if (!Main.dedServ && CanDropManaForPlayer(Main.LocalPlayer, npc.Center)) {
 				float lightPulse = (float)Math.Sin(Main.GameUpdateCount / 60f * 10f) * 0.5f + 0.5f;
 
 				Lighting.AddLight(npc.Center, Color.Lerp(Color.BlueViolet, Color.LightSkyBlue, lightPulse).ToVector3());
