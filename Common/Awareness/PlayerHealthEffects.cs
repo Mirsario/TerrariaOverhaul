@@ -4,6 +4,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
@@ -18,6 +19,9 @@ namespace TerrariaOverhaul.Common.Awareness
 			(30f, 1f),
 			(50f, 0f)
 		);
+		// Configuration
+		public static readonly RangeConfigEntry<float> LowHealthSoundVolume = new(ConfigSide.ClientOnly, "Awareness", nameof(LowHealthSoundVolume), 0f, 1f, () => 1f);
+		public static readonly RangeConfigEntry<float> LowHealthFilteringIntensity = new(ConfigSide.ClientOnly, "Awareness", nameof(LowHealthFilteringIntensity), 0f, 1f, () => 1f);
 
 		private SlotId lowHealthSoundSlot;
 		private float lowHealthEffectIntensity;
@@ -47,14 +51,14 @@ namespace TerrariaOverhaul.Common.Awareness
 			lowHealthEffectIntensity = MathUtils.StepTowards(lowHealthEffectIntensity, goalLowHealthEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
 			// Audio filtering
-			if (lowHealthEffectIntensity > 0) {
-				float effectIntensityCopy = lowHealthEffectIntensity;
-
+			float filteringIntensity = lowHealthEffectIntensity * LowHealthFilteringIntensity.Value;
+			
+			if (filteringIntensity > 0f) {
 				AudioEffectsSystem.AddAudioEffectModifier(
 					30,
 					$"{nameof(TerrariaOverhaul)}/{nameof(PlayerHealthEffects)}",
 					(float intensity, ref AudioEffectParameters soundParameters, ref AudioEffectParameters musicParameters) => {
-						float usedIntensity = effectIntensityCopy * intensity;
+						float usedIntensity = filteringIntensity * intensity;
 
 						soundParameters.LowPassFiltering += usedIntensity * 0.75f;
 						musicParameters.LowPassFiltering += usedIntensity;
@@ -64,7 +68,7 @@ namespace TerrariaOverhaul.Common.Awareness
 			}
 
 			// Sound
-			float soundVolume = Player.dead ? 0f : lowHealthEffectIntensity;
+			float soundVolume = Player.dead ? 0f : lowHealthEffectIntensity * LowHealthSoundVolume.Value;
 
 			SoundUtils.UpdateLoopingSound(ref lowHealthSoundSlot, LowHealthSound, soundVolume, CameraSystem.ScreenCenter);
 		}

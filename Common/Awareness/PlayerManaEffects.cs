@@ -5,6 +5,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
@@ -22,6 +23,9 @@ namespace TerrariaOverhaul.Common.Awareness
 			(0.375f, 0f),
 			(1f, 0f)
 		);
+		// Configuration
+		public static readonly RangeConfigEntry<float> LowManaSoundVolume = new(ConfigSide.ClientOnly, "Awareness", nameof(LowManaSoundVolume), 0f, 1f, () => 1f);
+		public static readonly RangeConfigEntry<float> ManaRegenerationSoundVolume = new(ConfigSide.ClientOnly, "Awareness", nameof(ManaRegenerationSoundVolume), 0f, 1f, () => 1f);
 
 		private SlotId lowManaSoundSlot;
 		private SlotId manaRegenSoundSlot;
@@ -55,7 +59,9 @@ namespace TerrariaOverhaul.Common.Awareness
 			lowManaEffectIntensity = MathUtils.StepTowards(lowManaEffectIntensity, goalLowManaEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
 			// Sound
-			SoundUtils.UpdateLoopingSound(ref lowManaSoundSlot, LowManaSound, lowManaEffectIntensity, CameraSystem.ScreenCenter);
+			float lowManaSoundVolume = lowManaEffectIntensity * LowManaSoundVolume.Value;
+
+			SoundUtils.UpdateLoopingSound(ref lowManaSoundSlot, LowManaSound, lowManaSoundVolume, CameraSystem.ScreenCenter);
 
 			// Dust
 			if (!Player.dead) {
@@ -91,6 +97,8 @@ namespace TerrariaOverhaul.Common.Awareness
 			manaRegenEffectIntensity = MathUtils.StepTowards(manaRegenEffectIntensity, goalManaRegenEffectIntensity, 0.75f * TimeSystem.LogicDeltaTime);
 
 			// Sound
+			float manaRegenSoundVolume = manaRegenEffectIntensity * ManaRegenerationSoundVolume.Value;
+			
 			SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, ManaRegenSound, manaRegenEffectIntensity, CameraSystem.ScreenCenter);
 
 			// Dust
