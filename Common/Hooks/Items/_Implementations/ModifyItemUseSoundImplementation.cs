@@ -17,7 +17,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 
 				var useSoundBackup = heldItem.UseSound;
 
-				Hook.Hook.Invoke(heldItem, player, ref heldItem.UseSound);
+				Hook.Invoke(heldItem, player, ref heldItem.UseSound);
 
 				bool soundSwapped = heldItem.UseSound != useSoundBackup;
 

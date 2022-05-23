@@ -8,20 +8,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface IModifyCommonStatMultipliers
 	{
-		public delegate void Delegate(Item item, Player player, ref CommonStatMultipliers multipliers);
-
-		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			// Method reference
-			typeof(Hook).GetMethod(nameof(ModifyCommonStatMultipliers)),
-			// Invocation
-			e => (Item item, Player player, ref CommonStatMultipliers multipliers) => {
-				(item.ModItem as Hook)?.ModifyCommonStatMultipliers(item, player, ref multipliers);
-
-				foreach (Hook g in e.Enumerate(item)) {
-					g.ModifyCommonStatMultipliers(item, player, ref multipliers);
-				}
-			}
-		));
+		public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyCommonStatMultipliers))));
 
 		void ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatMultipliers multipliers);
 
@@ -29,9 +16,18 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 		{
 			var multipliers = CommonStatMultipliers.Default;
 
-			Hook.Invoke(item, player, ref multipliers);
+			Invoke(item, player, ref multipliers);
 
 			return multipliers;
+		}
+
+		public static void Invoke(Item item, Player player, ref CommonStatMultipliers multipliers)
+		{
+			(item.ModItem as Hook)?.ModifyCommonStatMultipliers(item, player, ref multipliers);
+			
+			foreach (Hook g in Hook.Enumerate(item)) {
+				g.ModifyCommonStatMultipliers(item, player, ref multipliers);
+			}
 		}
 	}
 }

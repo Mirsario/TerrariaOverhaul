@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 				return;
 			}
 
-			if (player.itemAnimation < player.itemAnimationMax - 1 || !ICanDoMeleeDamage.Hook.Invoke(item, player)) {
+			if (player.itemAnimation < player.itemAnimationMax - 1 || !ICanDoMeleeDamage.Invoke(item, player)) {
 				return;
 			}
 

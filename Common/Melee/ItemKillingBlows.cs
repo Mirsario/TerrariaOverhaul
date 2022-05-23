@@ -6,7 +6,6 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Networking;
@@ -18,8 +17,11 @@ namespace TerrariaOverhaul.Common.Melee
 	{
 		private delegate void NPCDamageModifier(NPC npc, ref double damage);
 
-		public static readonly ISoundStyle KillingBlowSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/KillingBlow", 2, volume: 0.6f, pitchVariance: 0.1f);
 		public static readonly float KillingBlowDamageMultiplier = 1.5f;
+		public static readonly SoundStyle KillingBlowSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/KillingBlow", 2) {
+			Volume = 0.6f,
+			PitchVariance = 0.1f,
+		};
 
 		// Super questionable shenanigans are this feature's MP synchronization.
 		private static readonly List<int> netNpcsWithPendingKillingBlows = new();

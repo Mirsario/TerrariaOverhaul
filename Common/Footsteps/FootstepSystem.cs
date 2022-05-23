@@ -82,7 +82,9 @@ namespace TerrariaOverhaul.Common.Footsteps
 				_ => soundProvider.FootstepSound
 			};
 
-			SoundEngine.PlaySound(sound, entity.Bottom);
+			if (sound.HasValue) {
+				SoundEngine.PlaySound(sound.Value, entity.Bottom);
+			}
 
 			return true;
 		}

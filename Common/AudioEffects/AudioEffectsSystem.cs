@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -49,15 +50,15 @@ namespace TerrariaOverhaul.Common.AudioEffects
 
 		private static readonly List<AudioEffectsModifier> Modifiers = new();
 		private static readonly List<SoundInstanceData> TrackedSoundInstances = new();
-		private static readonly HashSet<ISoundStyle> SoundStylesToIgnore = new() {
-			new LegacySoundStyle(SoundID.Grab, -1),
-			new LegacySoundStyle(SoundID.MenuOpen, -1),
-			new LegacySoundStyle(SoundID.MenuClose, -1),
-			new LegacySoundStyle(SoundID.MenuTick, -1),
-			new LegacySoundStyle(SoundID.Chat, -1),
+		private static readonly HashSet<SoundStyle> SoundStylesToIgnore = new() {
+			SoundID.Grab,
+			SoundID.MenuOpen,
+			SoundID.MenuClose,
+			SoundID.MenuTick,
+			SoundID.Chat,
 		};
-		private static readonly HashSet<ISoundStyle> SoundStylesWithWallOcclusion = new() {
-			new LegacySoundStyle(SoundID.Bird, -1),
+		private static readonly HashSet<SoundStyle> SoundStylesWithWallOcclusion = new() {
+			SoundID.Bird,
 		};
 
 		private static float playerWallOcclusionCache;
@@ -133,33 +134,11 @@ namespace TerrariaOverhaul.Common.AudioEffects
 							return;
 						}
 
-						// This is a temporary workaround for dumb soundfix designs..
-						if (activeSound.Style is ModSoundStyle activeMS && SoundStylesToIgnore.Any(s => s is ModSoundStyle ms && ms.SoundPath == activeMS.SoundPath)) {
-							return;
-						}
-
 						TrackedSoundInstances.Add(new SoundInstanceData(soundEffectInstance, activeSound.Position, activeSound));
 
 						ApplyEffects(soundEffectInstance, soundParameters);
 					}
 				});
-			};
-
-			// Track legacy sounds
-			On.Terraria.Audio.LegacySoundPlayer.PlaySound += (orig, soundPlayer, type, x, y, style, volumeScale, pitchOffset) => {
-				var result = orig(soundPlayer, type, x, y, style, volumeScale, pitchOffset);
-
-				if (result != null && TrackedSoundInstances != null) {
-					if (SoundStylesToIgnore.Any(s => s is LegacySoundStyle ls && ls.SoundId == type && (ls.Style == style || ls.Style <= 0))) {
-						return result;
-					}
-
-					Vector2? position = x >= 0 && y >= 0 ? new Vector2(x, y) : null;
-
-					TrackedSoundInstances.Add(new SoundInstanceData(result, position));
-				}
-
-				return result;
 			};
 
 			// Update volume of music.
@@ -275,10 +254,10 @@ namespace TerrariaOverhaul.Common.AudioEffects
 			Modifiers[existingIndex] = modifier;
 		}
 
-		public static void IgnoreSoundStyle(ISoundStyle ISoundStyle)
+		public static void IgnoreSoundStyle(SoundStyle ISoundStyle)
 			=> SoundStylesToIgnore.Add(ISoundStyle);
 		
-		public static void EnableSoundStyleWallOcclusion(ISoundStyle ISoundStyle)
+		public static void EnableSoundStyleWallOcclusion(SoundStyle ISoundStyle)
 			=> SoundStylesWithWallOcclusion.Add(ISoundStyle);
 
 		private static void ApplyEffects(SoundEffectInstance instance, AudioEffectParameters parameters)
@@ -374,13 +353,20 @@ namespace TerrariaOverhaul.Common.AudioEffects
 		private static bool TestAudioFiltering([NotNullWhen(false)] out Exception? exception)
 		{
 			try {
-				var testSoundInstance = SoundEngine.LegacySoundPlayer.SoundInstanceCamera;
+				var testSound = ModContent.Request<SoundEffect>("Terraria/Sounds/Camera", AssetRequestMode.ImmediateLoad).Value;
+				using var testSoundInstance = testSound.CreateInstance();
+
+				testSoundInstance.Volume = 0f;
 
 				// Apply
 				ApplyEffects(testSoundInstance, new AudioEffectParameters { LowPassFiltering = 0.5f, Reverb = 0.5f });
 
+				testSoundInstance.Play();
+
 				// Undo
 				ApplyEffects(testSoundInstance, new AudioEffectParameters { });
+
+				testSoundInstance.Stop(true);
 			}
 			catch (Exception e) {
 				exception = e;

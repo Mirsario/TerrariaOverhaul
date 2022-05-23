@@ -17,9 +17,19 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 {
 	public sealed class PlayerDodgerolls : ModPlayer
 	{
-		public static readonly ISoundStyle DodgerollSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/Armor", 3, volume: 0.65f, pitchVariance: 0.2f);
-		public static readonly ISoundStyle FailureSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/NoAmmo", volume: 0.2f, pitch: 0.5f, pitchVariance: 0.2f);
-		public static readonly ISoundStyle RechargedSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Common/Dodgerolls/DodgerollReady", 2, volume: 0.9f, pitchVariance: 0.125f);
+		public static readonly SoundStyle DodgerollSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/Armor", 3) {
+			Volume = 0.65f,
+			PitchVariance = 0.2f
+		};
+		public static readonly SoundStyle FailureSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/NoAmmo") {
+			Volume = 0.2f,
+			Pitch = 0.5f,
+			PitchVariance = 0.2f
+		};
+		public static readonly SoundStyle RechargedSound = new($"{nameof(TerrariaOverhaul)}/Common/Dodgerolls/DodgerollReady", 2) {
+			Volume = 0.9f,
+			PitchVariance = 0.125f
+		};
 
 		private static int debuffTiredness;
 		private static int debuffCooldown;

@@ -9,20 +9,18 @@ namespace TerrariaOverhaul.Common.Hooks.Npcs
 {
 	public interface INpcModifyShootProjectile
 	{
-		public delegate void Delegate(NPC npc, ref int type, ref Vector2 position, ref Vector2 velocity, ref int damage, ref float knockback);
-
-		public static readonly HookList<GlobalNPC, Delegate> Hook = NPCLoader.AddModHook(new HookList<GlobalNPC, Delegate>(
-			// Method reference
-			typeof(Hook).GetMethod(nameof(ModifyShootProjectile)),
-			// Invocation
-			e => (NPC npc, ref int type, ref Vector2 position, ref Vector2 velocity, ref int damage, ref float knockback) => {
-				foreach (Hook g in e.Enumerate(npc)) {
-					g.ModifyShootProjectile(npc, ref type, ref position, ref velocity, ref damage, ref knockback);
-				}
-			}
-		));
+		public static readonly HookList<GlobalNPC> Hook = NPCLoader.AddModHook(new HookList<GlobalNPC>(typeof(Hook).GetMethod(nameof(ModifyShootProjectile))));
 
 		void ModifyShootProjectile(NPC npc, ref int type, ref Vector2 position, ref Vector2 velocity, ref int damage, ref float knockback);
+
+		public static void Invoke(NPC npc, ref int type, ref Vector2 position, ref Vector2 velocity, ref int damage, ref float knockback)
+		{
+			(npc.ModNPC as Hook)?.ModifyShootProjectile(npc, ref type, ref position, ref velocity, ref damage, ref knockback);
+
+			foreach (Hook g in Hook.Enumerate(npc)) {
+				g.ModifyShootProjectile(npc, ref type, ref position, ref velocity, ref damage, ref knockback);
+			}
+		}
 	}
 
 	public sealed class NpcOnShootProjectileImplementation : ILoadable
@@ -34,7 +32,7 @@ namespace TerrariaOverhaul.Common.Hooks.Npcs
 					var position = new Vector2(x, y);
 					var velocity = new Vector2(speedX, speedY);
 
-					Hook.Hook.Invoke(parentNpc, ref type, ref position, ref velocity, ref damage, ref knockback);
+					Hook.Invoke(parentNpc, ref type, ref position, ref velocity, ref damage, ref knockback);
 
 					(x, y, speedX, speedY) = (position.X, position.Y, velocity.X, velocity.Y);
 				}

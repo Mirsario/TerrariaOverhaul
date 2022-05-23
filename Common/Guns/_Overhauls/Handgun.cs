@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
@@ -13,6 +14,11 @@ namespace TerrariaOverhaul.Common.Guns
 {
 	public class Handgun : ItemOverhaul
 	{
+		public static readonly SoundStyle HandgunFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire") {
+			Volume = 0.15f,
+			PitchVariance = 0.2f,
+		};
+
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			if (item.useAmmo != AmmoID.Bullet) {
@@ -30,7 +36,7 @@ namespace TerrariaOverhaul.Common.Guns
 		{
 			base.SetDefaults(item);
 
-			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
+			item.UseSound = HandgunFireSound;
 
 			if (!Main.dedServ) {
 				item.EnableComponent<ItemAimRecoil>();

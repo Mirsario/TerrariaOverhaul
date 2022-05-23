@@ -59,7 +59,7 @@ namespace TerrariaOverhaul.Common.Melee
 		{
 			float range = (item.Size * item.scale * 1.25f).Length();
 
-			IModifyItemMeleeRange.Hook.Invoke(item, player, ref range);
+			IModifyItemMeleeRange.Invoke(item, player, ref range);
 
 			return range;
 		}

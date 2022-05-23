@@ -9,7 +9,10 @@ namespace TerrariaOverhaul.Common.Ambience.Sounds
 	{
 		public override void Initialize()
 		{
-			Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/Underground/CaveLoop", volume: 0.2f, type: SoundType.Ambient);
+			Sound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/Underground/CaveLoop", SoundType.Ambient) {
+				Volume = 0.2f,
+				IsLooped = true,
+			};
 		}
 
 		public override float GetTargetVolume(Player localPlayer)

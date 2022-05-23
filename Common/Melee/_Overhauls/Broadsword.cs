@@ -17,7 +17,16 @@ namespace TerrariaOverhaul.Common.Melee
 {
 	public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNPCHitSound
 	{
-		public static readonly ModSoundStyle SwordFleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2, volume: 0.65f, pitchVariance: 0.1f);
+		public static readonly SoundStyle SwordMediumSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2) {
+			PitchVariance = 0.1f,	
+		};
+		public static readonly SoundStyle SwordHeavySwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2) {
+			PitchVariance = 0.1f,
+		};
+		public static readonly SoundStyle SwordFleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2) {
+			Volume = 0.65f,
+			PitchVariance = 0.1f
+		};
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -44,8 +53,8 @@ namespace TerrariaOverhaul.Common.Melee
 
 			// Defaults
 
-			if (item.UseSound is LegacySoundStyle && item.UseSound != SoundID.Item15) {
-				item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2, pitchVariance: 0.1f);
+			if (item.UseSound.HasValue && !item.UseSound.Value.IsTheSameAs(SoundID.Item15)) {
+				item.UseSound = SwordMediumSwing;
 			}
 
 			// Components
@@ -74,7 +83,7 @@ namespace TerrariaOverhaul.Common.Melee
 
 			if (!Main.dedServ) {
 				item.EnableComponent<ItemPowerAttackSounds>(c => {
-					c.Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2);
+					c.Sound = SwordHeavySwing;
 					c.ReplacesUseSound = true;
 				});
 			}
@@ -153,7 +162,7 @@ namespace TerrariaOverhaul.Common.Melee
 			return player.itemAnimation >= player.itemAnimationMax / 2 && !item.GetGlobalItem<ItemCharging>().IsCharging;
 		}
 
-		void IModifyItemNPCHitSound.ModifyItemNPCHitSound(Item item, Player player, NPC target, ref ISoundStyle? customHitSound, ref bool playNPCHitSound)
+		void IModifyItemNPCHitSound.ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle? customHitSound, ref bool playNPCHitSound)
 		{
 			// This checks for whether or not the target has bled.
 			if (target.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore) && npcBloodAndGore.LastHitBloodAmount > 0) {

@@ -10,6 +10,11 @@ namespace TerrariaOverhaul.Common.Melee
 {
 	public class Pickaxe : ItemOverhaul
 	{
+		public static readonly SoundStyle PickaxeNormalSwingSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMediumAlt", 3) {
+			Volume = 0.4f,
+			PitchVariance = 0.1f,
+		};
+		
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			// Must have mining capabilities
@@ -34,8 +39,8 @@ namespace TerrariaOverhaul.Common.Melee
 		{
 			// Defaults
 
-			if (item.UseSound is LegacySoundStyle && item.UseSound != SoundID.Item15) {
-				item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMediumAlt", 3, volume: 0.4f, pitchVariance: 0.1f);
+			if (item.UseSound.HasValue && !item.UseSound.Value.IsTheSameAs(SoundID.Item15)) {
+				item.UseSound = PickaxeNormalSwingSound;
 			}
 
 			// Components

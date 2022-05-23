@@ -8,19 +8,17 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface IModifyItemNPCHitSound
 	{
-		public delegate void Delegate(Item item, Player player, NPC target, ref ISoundStyle? customHitSound, ref bool playNPCHitSound);
+		public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyItemNPCHitSound))));
 
-		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			// Method reference
-			typeof(Hook).GetMethod(nameof(ModifyItemNPCHitSound)),
-			// Invocation
-			e => (Item item, Player player, NPC target, ref ISoundStyle? customHitSound, ref bool playNPCHitSound) => {
-				foreach (Hook g in e.Enumerate(item)) {
-					g.ModifyItemNPCHitSound(item, player, target, ref customHitSound, ref playNPCHitSound);
-				}
+		void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle? customHitSound, ref bool playNPCHitSound);
+
+		public static void Invoke(Item item, Player player, NPC target, ref SoundStyle? customHitSound, ref bool playNPCHitSound)
+		{
+			(item.ModItem as Hook)?.ModifyItemNPCHitSound(item, player, target, ref customHitSound, ref playNPCHitSound);
+
+			foreach (Hook g in Hook.Enumerate(item)) {
+				g.ModifyItemNPCHitSound(item, player, target, ref customHitSound, ref playNPCHitSound);
 			}
-		));
-
-		void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref ISoundStyle? customHitSound, ref bool playNPCHitSound);
+		}
 	}
 }

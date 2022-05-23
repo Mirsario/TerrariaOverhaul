@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
@@ -16,6 +17,12 @@ namespace TerrariaOverhaul.Common.Guns
 	[ItemAttachment(ItemID.Revolver, ItemID.TheUndertaker)]
 	public class Revolver : ItemOverhaul
 	{
+		//public static readonly SoundStyle RevolverFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Revolver/RevolverFire") {
+		public static readonly SoundStyle RevolverFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire") {
+			Volume = 0.15f,
+			PitchVariance = 0.2f,
+		};
+
 		public const float SpinAnimationLengthMultiplier = 2f;
 		public const int SpinShotCount = 6;
 
@@ -26,8 +33,7 @@ namespace TerrariaOverhaul.Common.Guns
 		{
 			base.SetDefaults(item);
 
-			//item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Revolver/RevolverFire", 0, volume: 0.15f, pitchVariance: 0.2f);
-			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
+			item.UseSound = RevolverFireSound;
 
 			if (!Main.dedServ) {
 				item.EnableComponent<ItemAimRecoil>();

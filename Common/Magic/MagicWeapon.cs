@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
@@ -14,9 +15,16 @@ namespace TerrariaOverhaul.Common.Magic
 {
 	public partial class MagicWeapon : ItemOverhaul
 	{
-		public static readonly ModSoundStyle MagicBlastSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicBlast", 3, pitchVariance: 0.1f);
-		public static readonly ModSoundStyle MagicPowerfulBlastSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast", pitchVariance: 0.4f);
-		public static readonly ModSoundStyle ChargeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicCharge", volume: 0.5f, pitchVariance: 0.1f);
+		public static readonly SoundStyle MagicBlastSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicBlast", 3) {
+			PitchVariance = 0.1f,
+		};
+		public static readonly SoundStyle MagicPowerfulBlastSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast") {
+			PitchVariance = 0.4f,
+		};
+		public static readonly SoundStyle ChargeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicCharge") {
+			Volume = 0.5f,
+			PitchVariance = 0.1f,
+		};
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{

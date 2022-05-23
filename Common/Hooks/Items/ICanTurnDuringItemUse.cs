@@ -7,31 +7,27 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface ICanTurnDuringItemUse
 	{
-		public delegate bool Delegate(Item item, Player player);
-
-		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			// Method reference
-			typeof(Hook).GetMethod(nameof(CanTurnDuringItemUse)),
-			// Invocation
-			e => (Item item, Player player) => {
-				bool? globalResult = null;
-
-				foreach (Hook g in e.Enumerate(item)) {
-					bool? result = g.CanTurnDuringItemUse(item, player);
-
-					if (result.HasValue) {
-						if (result.Value) {
-							globalResult = true;
-						} else {
-							return false;
-						}
-					}
-				}
-
-				return globalResult ?? item.useTurn;
-			}
-		));
+		public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(CanTurnDuringItemUse))));
 
 		bool? CanTurnDuringItemUse(Item item, Player player);
+
+		public static bool Invoke(Item item, Player player)
+		{
+			bool? globalResult = null;
+
+			foreach (Hook g in Hook.Enumerate(item)) {
+				bool? result = g.CanTurnDuringItemUse(item, player);
+
+				if (result.HasValue) {
+					if (result.Value) {
+						globalResult = true;
+					} else {
+						return false;
+					}
+				}
+			}
+
+			return globalResult ?? item.useTurn;
+		}
 	}
 }

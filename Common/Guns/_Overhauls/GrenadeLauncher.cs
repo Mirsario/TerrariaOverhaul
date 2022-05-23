@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
@@ -13,6 +14,11 @@ namespace TerrariaOverhaul.Common.Guns
 {
 	public class GrenadeLauncher : ItemOverhaul
 	{
+		public static readonly SoundStyle GrenadeLauncherFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/GrenadeLauncher/GrenadeLauncherFire") {
+			Volume = 0.15f,
+			PitchVariance = 0.2f,
+		};
+
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			if (item.useAmmo != AmmoID.Rocket) {
@@ -34,7 +40,7 @@ namespace TerrariaOverhaul.Common.Guns
 		{
 			base.SetDefaults(item);
 
-			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/GrenadeLauncher/GrenadeLauncherFire", 0, volume: 0.15f);
+			item.UseSound = GrenadeLauncherFireSound;
 
 			if (!Main.dedServ) {
 				item.EnableComponent<ItemAimRecoil>();

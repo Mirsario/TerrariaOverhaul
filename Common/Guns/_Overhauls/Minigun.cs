@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
@@ -18,6 +19,11 @@ namespace TerrariaOverhaul.Common.Guns
 {
 	public class Minigun : ItemOverhaul
 	{
+		public static readonly SoundStyle MinigunFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Minigun/MinigunFire") {
+			Volume = 0.15f,
+			PitchVariance = 0.2f,
+		};
+
 		private float speedFactor;
 
 		public virtual float MinSpeedFactor => 0.333f;
@@ -49,7 +55,7 @@ namespace TerrariaOverhaul.Common.Guns
 
 			speedFactor = MinSpeedFactor;
 
-			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Minigun/MinigunFire", 0, volume: 0.15f, pitchVariance: 0.2f);
+			item.UseSound = MinigunFireSound;
 
 			if (!Main.dedServ) {
 				item.EnableComponent<ItemAimRecoil>();

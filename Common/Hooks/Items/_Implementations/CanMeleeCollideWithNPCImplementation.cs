@@ -38,7 +38,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 				cursor.EmitDelegate<Func<Item, Player, int, Rectangle, Rectangle, bool>>((item, player, npcId, itemRectangle, npcRectangle) => {
 					var npc = Main.npc[npcId];
 
-					return Hook.Hook.Invoke(item, player, npc) ?? itemRectangle.Intersects(npcRectangle);
+					return Hook.Invoke(item, player, npc) ?? itemRectangle.Intersects(npcRectangle);
 				});
 			};
 		}

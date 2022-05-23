@@ -8,7 +8,10 @@ namespace TerrariaOverhaul.Common.Ambience.Sounds
 	{
 		public override void Initialize()
 		{
-			Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/Evil/EvilDroneLoop", volume: 0.5f, type: SoundType.Ambient);
+			Sound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/Evil/EvilDroneLoop", SoundType.Ambient) {
+				Volume = 0.5f,
+				IsLooped = true,
+			};
 		}
 
 		public override float GetTargetVolume(Player localPlayer)

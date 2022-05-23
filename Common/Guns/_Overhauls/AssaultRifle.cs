@@ -1,4 +1,5 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
@@ -13,6 +14,11 @@ namespace TerrariaOverhaul.Common.Guns
 {
 	public class AssaultRifle : ItemOverhaul
 	{
+		public static readonly SoundStyle AssaultRifleFireSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3) {
+			Volume = 0.125f,
+			PitchVariance = 0.2f,
+		};
+
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			// Rifles always use bullets.
@@ -32,7 +38,7 @@ namespace TerrariaOverhaul.Common.Guns
 		{
 			base.SetDefaults(item);
 
-			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3, volume: 0.125f, pitchVariance: 0.2f);
+			item.UseSound = AssaultRifleFireSound;
 
 			if (!Main.dedServ) {
 				item.EnableComponent<ItemAimRecoil>();

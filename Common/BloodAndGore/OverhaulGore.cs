@@ -26,11 +26,20 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 		private const int GoreSoundMinCooldown = 10;
 		private const int GoreSoundMaxCooldown = 25;
 
-		public static readonly ISoundStyle GoreHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreHit", 3, volume: 0.4f, pitchVariance: 0.2f);
-		public static readonly ISoundStyle GoreBreakSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2, volume: 0.15f, pitchVariance: 0.2f);
-		public static readonly ISoundStyle GoreGroundHitSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSmallSplatter", 2, volume: 0.4f, pitchVariance: 0.2f);
+		public static readonly SoundStyle GoreHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreHit", 3) {
+			Volume = 0.4f,
+			PitchVariance = 0.2f
+		};
+		public static readonly SoundStyle GoreBreakSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2) {
+			Volume = 0.15f,
+			PitchVariance = 0.2f,
+		};
+		public static readonly SoundStyle GoreGroundHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSmallSplatter", 2) {
+			Volume = 0.4f,
+			PitchVariance = 0.2f,
+		};
 
-		private static readonly Dictionary<ISoundStyle, ulong> goreSoundCooldowns = new();
+		private static readonly Dictionary<SoundStyle, ulong> goreSoundCooldowns = new();
 
 		public bool OnFire;
 		//public bool NoBlood;
@@ -45,7 +54,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 		public Vector2 PrevVelocity;
 		public Vector2 PrevPosition;
 		public Color? BleedColor;
-		public ISoundStyle? CustomBounceSound;
+		public SoundStyle? CustomBounceSound;
 
 		public Vector2 Center => position + Size * 0.5f;
 
@@ -285,9 +294,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 			if (velocity.Y == 0f) {
 				// Vertical bouncing
 				if (Math.Abs(PrevVelocity.Y) >= 1f) {
-					if (bounceSound != null) {
-						TryPlaySound(bounceSound, position);
-					}
+					TryPlaySound(bounceSound, position);
 
 					velocity.Y = -PrevVelocity.Y * 0.66f;
 				}
@@ -302,9 +309,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 
 			// Horizontal bouncing
 			if (velocity.X == 0f && Math.Abs(PrevVelocity.X) >= 1f) {
-				if (bounceSound != null) {
-					TryPlaySound(bounceSound, position);
-				}
+				TryPlaySound(bounceSound, position);
 
 				velocity.X = -PrevVelocity.X * 0.66f;
 			}
@@ -321,14 +326,20 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 		}
 
 		// Makeshift optimization to not spam PlaySound and not enumerate any lists to check if there's anything playing.
-		private static bool TryPlaySound(ISoundStyle style, Vector2 position)
+		private static bool TryPlaySound(in SoundStyle? style, Vector2 position)
 		{
+			if (style == null) {
+				return false;
+			}
+
+
+			var realStyle = style.Value;
 			ulong tick = Main.GameUpdateCount;
 
-			if (!goreSoundCooldowns.TryGetValue(style, out ulong cooldownEnd) || tick >= cooldownEnd) {
-				goreSoundCooldowns[style] = tick + (ulong)Main.rand.Next(GoreSoundMinCooldown, GoreSoundMaxCooldown);
+			if (!goreSoundCooldowns.TryGetValue(realStyle, out ulong cooldownEnd) || tick >= cooldownEnd) {
+				goreSoundCooldowns[realStyle] = tick + (ulong)Main.rand.Next(GoreSoundMinCooldown, GoreSoundMaxCooldown);
 
-				SoundEngine.PlaySound(style, position);
+				SoundEngine.PlaySound(in realStyle, position);
 
 				return true;
 			}

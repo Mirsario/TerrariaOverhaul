@@ -16,7 +16,10 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 	{
 		private const int MaxPositions = 3;
 
-		public static readonly ISoundStyle BloodDripSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/BloodDrip", 14, volume: 0.3f, pitchVariance: 0.2f);
+		public static readonly SoundStyle BloodDripSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/BloodDrip", 14) {
+			Volume = 0.3f,
+			PitchVariance = 0.2f
+		};
 
 		private static readonly List<List<Color>> bloodColorRecordingLists = new();
 

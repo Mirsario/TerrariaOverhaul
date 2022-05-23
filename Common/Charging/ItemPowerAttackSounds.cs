@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Common.Charging
 	[Autoload(Side = ModSide.Client)]
 	public sealed class ItemPowerAttackSounds : ItemComponent, IModifyItemUseSound
 	{
-		public ISoundStyle? Sound;
+		public SoundStyle? Sound;
 		public bool CancelPlaybackOnEnd;
 		public float RequiredChargeProgress;
 		public bool ReplacesUseSound;
@@ -30,9 +30,7 @@ namespace TerrariaOverhaul.Common.Charging
 		public override void HoldItem(Item item, Player player)
 		{
 			if (!Main.dedServ && soundInstance.IsValid) {
-				var activeSound = SoundEngine.GetActiveSound(soundInstance);
-
-				if (activeSound != null) {
+				if (SoundEngine.TryGetActiveSound(soundInstance, out var activeSound)) {
 					activeSound.Position = player.Center;
 				} else {
 					soundInstance = default;
@@ -40,7 +38,7 @@ namespace TerrariaOverhaul.Common.Charging
 			}
 		}
 
-		void IModifyItemUseSound.ModifyItemUseSound(Item item, Player player, ref ISoundStyle? useSound)
+		void IModifyItemUseSound.ModifyItemUseSound(Item item, Player player, ref SoundStyle? useSound)
 		{
 			if (ReplacesUseSound && item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.Enabled && powerAttacks.PowerAttack) {
 				useSound = Sound;
@@ -49,7 +47,9 @@ namespace TerrariaOverhaul.Common.Charging
 
 		private void PlaySound(Player player)
 		{
-			soundInstance = SoundEngine.PlayTrackedSound(Sound, player.Center);
+			if (Sound.HasValue) {
+				soundInstance = SoundEngine.PlaySound(Sound.Value, player.Center);
+			}
 		}
 
 		private static void OnChargeStart(Item item, Player player, float chargeLength)
@@ -78,8 +78,8 @@ namespace TerrariaOverhaul.Common.Charging
 		{
 			var instance = item.GetGlobalItem<ItemPowerAttackSounds>();
 
-			if (instance.Enabled && instance.CancelPlaybackOnEnd && instance.soundInstance.IsValid) {
-				SoundEngine.GetActiveSound(instance.soundInstance)?.Stop();
+			if (instance.Enabled && instance.CancelPlaybackOnEnd && SoundEngine.TryGetActiveSound(instance.soundInstance, out var activeSound)) {
+				activeSound.Stop();
 			}
 		}
 	}

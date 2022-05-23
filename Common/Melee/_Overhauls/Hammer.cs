@@ -1,7 +1,6 @@
 ﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using Terraria.ModLoader;
 using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Core.ItemComponents;
@@ -11,6 +10,15 @@ namespace TerrariaOverhaul.Common.Melee
 {
 	public class Hammer : ItemOverhaul
 	{
+		public static readonly SoundStyle HammerNormalSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/BluntSwingHeavy", 4) {
+			Volume = 0.75f,
+			PitchVariance = 0.1f,
+		};
+		public static readonly SoundStyle HammerChargedSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/BluntSwingSuperHeavy") {
+			Volume = 0.5f,
+			PitchVariance = 0.1f,
+		};
+
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			// Must have hammering capabilities
@@ -35,8 +43,8 @@ namespace TerrariaOverhaul.Common.Melee
 		{
 			// Defaults
 
-			if (item.UseSound is LegacySoundStyle && item.UseSound != SoundID.Item15) {
-				item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/BluntSwingHeavy", 4, volume: 0.75f, pitchVariance: 0.1f);
+			if (item.UseSound.HasValue && !item.UseSound.Value.IsTheSameAs(SoundID.Item15)) {
+				item.UseSound = HammerNormalSwing;
 			}
 
 			item.knockBack *= 1.5f; // Increased knockback
@@ -66,7 +74,7 @@ namespace TerrariaOverhaul.Common.Melee
 
 			if (!Main.dedServ) {
 				item.EnableComponent<ItemPowerAttackSounds>(c => {
-					c.Sound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/BluntSwingSuperHeavy", volume: 0.5f, pitchVariance: 0.1f);
+					c.Sound = HammerChargedSwing;
 					c.ReplacesUseSound = true;
 				});
 			}

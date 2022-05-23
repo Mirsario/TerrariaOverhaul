@@ -1,11 +1,16 @@
 ﻿using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
-using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.Guns
 {
 	public class StarCannon : Minigun
 	{
+		public static readonly SoundStyle RocketLauncherFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/StarCannon/StarCannonFire") {
+			Volume = 0.2f,
+			PitchVariance = 0.2f,
+		};
+
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			if (item.useAmmo != AmmoID.FallenStar) {
@@ -23,7 +28,7 @@ namespace TerrariaOverhaul.Common.Guns
 		{
 			base.SetDefaults(item);
 
-			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/StarCannon/StarCannonFire", 0, volume: 0.2f, pitchVariance: 0.2f);
+			item.UseSound = RocketLauncherFireSound;
 		}
 	}
 }

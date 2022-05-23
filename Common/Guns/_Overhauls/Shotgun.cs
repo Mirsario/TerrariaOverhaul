@@ -14,9 +14,18 @@ namespace TerrariaOverhaul.Common.Guns
 {
 	public class Shotgun : ItemOverhaul
 	{
+		public static readonly SoundStyle ShotgunFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunFire", 4) {
+			Volume = 0.2f,
+			PitchVariance = 0.2f
+		};
+		public static readonly SoundStyle ShotgunPumpSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunPump") {
+			Volume = 0.25f,
+			PitchVariance = 0.1f
+		};
+
 		private uint pumpTime;
 
-		public ISoundStyle? PumpSound { get; set; }
+		public SoundStyle? PumpSound { get; set; }
 		public int ShellCount { get; set; } = 1;
 
 		public override bool ShouldApplyItemOverhaul(Item item)
@@ -24,8 +33,8 @@ namespace TerrariaOverhaul.Common.Guns
 
 		public override void SetDefaults(Item item)
 		{
-			item.UseSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunFire", 4, volume: 0.2f, pitchVariance: 0.2f);
-			PumpSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Shotgun/ShotgunPump", 0, volume: 0.25f, pitchVariance: 0.1f);
+			item.UseSound = ShotgunFireSound;
+			PumpSound = ShotgunPumpSound;
 
 			if (!Main.dedServ) {
 				item.EnableComponent<ItemAimRecoil>();
@@ -71,7 +80,7 @@ namespace TerrariaOverhaul.Common.Guns
 			base.HoldItem(item, player);
 
 			if (!Main.dedServ && PumpSound != null && pumpTime != 0 && Main.GameUpdateCount == pumpTime) {
-				SoundEngine.PlaySound(PumpSound, player.Center);
+				SoundEngine.PlaySound(PumpSound.Value, player.Center);
 
 				item.GetGlobalItem<ItemBulletCasings>().SpawnCasings(item, player);
 			}

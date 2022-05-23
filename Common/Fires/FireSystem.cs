@@ -5,6 +5,8 @@ namespace TerrariaOverhaul.Common.Fires
 {
 	public class FireSystem : ModSystem
 	{
-		public static readonly ISoundStyle ExtinguishSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Fire/Extinguish", 0, pitchVariance: 0.1f);
+		public static readonly SoundStyle ExtinguishSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Fire/Extinguish") {
+			PitchVariance = 0.1f
+		};
 	}
 }
