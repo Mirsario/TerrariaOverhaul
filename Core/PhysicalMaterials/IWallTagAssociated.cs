@@ -1,4 +1,4 @@
-﻿using Terraria.ModLoader.Tags;
+﻿using TerrariaOverhaul.Core.Tags;
 
 namespace TerrariaOverhaul.Core.PhysicalMaterials
 {

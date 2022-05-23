@@ -1,5 +1,5 @@
-﻿using Terraria.ModLoader.Tags;
-using Group = Terraria.ModLoader.Tags.WallTags;
+﻿using TerrariaOverhaul.Core.Tags;
+using Group = TerrariaOverhaul.Core.Tags.WallTags;
 
 namespace TerrariaOverhaul.Common.Tags
 {
