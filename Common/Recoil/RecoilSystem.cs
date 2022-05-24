@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Recoil
@@ -25,6 +26,8 @@ namespace TerrariaOverhaul.Common.Recoil
 			}
 		}
 
+		public static readonly ConfigEntry<bool> EnableAimingRecoil = new(ConfigSide.ClientOnly, "Guns", nameof(EnableAimingRecoil), () => false);
+
 		private static readonly List<CursorOffset> offsets = new();
 
 		public override void Load()
@@ -39,6 +42,12 @@ namespace TerrariaOverhaul.Common.Recoil
 
 		private void PostDraw(GameTime gameTime)
 		{
+			if (!EnableAimingRecoil.Value) {
+				offsets.Clear();
+
+				return;
+			}
+
 			var mouseState = Mouse.GetState();
 			var mousePos = new Vector2Int(mouseState.X, mouseState.Y);
 			var newMousePos = mousePos;
