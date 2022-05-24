@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Core.Configuration
 {
 	public class ConfigEntry<T> : IConfigEntry
 	{
-		private readonly Func<T> DefaultValueGetter;
+		private readonly Func<T> defaultValueGetter;
 
 		private T? localValue;
 		private T? remoteValue;
@@ -20,7 +20,7 @@ namespace TerrariaOverhaul.Core.Configuration
 		public Mod? Mod { get; private set; }
 
 		public Type ValueType => typeof(T);
-		public T DefaultValue => DefaultValueGetter();
+		public T DefaultValue => defaultValueGetter();
 
 		public T? LocalValue {
 			get => ModifyGetValue(localValue);
@@ -63,7 +63,7 @@ namespace TerrariaOverhaul.Core.Configuration
 			Name = name;
 			Category = category;
 			Side = side;
-			DefaultValueGetter = defaultValueGetter;
+			this.defaultValueGetter = defaultValueGetter;
 			RemoteValue = DefaultValue;
 			LocalValue = DefaultValue;
 

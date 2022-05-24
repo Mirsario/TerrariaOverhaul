@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Microsoft.Xna.Framework;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 
@@ -12,11 +13,21 @@ namespace TerrariaOverhaul.Common.Commands
 
 		public override void Action(CommandCaller caller, string input, string[] args)
 		{
-			if (ConfigSystem.LoadConfig()) {
-				MessageUtils.NewText($"Config successfully reloaded");
+			var (result, resultMessage) = ConfigSystem.LoadConfig(resetOnError: false);
+
+			Color color;
+
+			if (result.HasFlag(ConfigSystem.LoadingResult.ErrorFlag)) {
+				color = Color.IndianRed;
+			} else if (result.HasFlag(ConfigSystem.LoadingResult.WarningFlag)) {
+				color = Color.OrangeRed;
 			} else {
-				MessageUtils.NewText($"Config loading had errors.");
+				color = Color.SpringGreen;
 			}
+
+			MessageUtils.NewText(resultMessage, color);
+
+			ConfigSystem.SaveConfig();
 		}
 	}
 }
