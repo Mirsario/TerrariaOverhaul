@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Recoil
 {
@@ -24,6 +25,10 @@ namespace TerrariaOverhaul.Common.Recoil
 
 		public void ApplyRecoil(Item item, Player player)
 		{
+			if (!player.IsLocal()) {
+				return;
+			}
+
 			float strength = GetRecoilStrength(item);
 
 			if (strength <= 0f) {
