@@ -107,7 +107,7 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 				DodgerollCooldownTimer = 0;
 				CurrentCharges = Math.Max(CurrentCharges, 1);
 			} else if (CurrentCharges == 0) {
-				if (!Main.dedServ) {
+				if (!Main.dedServ && Player.IsLocal()) {
 					SoundEngine.PlaySound(FailureSound);
 				}
 
@@ -124,7 +124,7 @@ namespace TerrariaOverhaul.Common.Dodgerolls
 			if (!DodgerollTirednessTimer.Active && CurrentCharges < MaxCharges) {
 				CurrentCharges = MaxCharges;
 
-				if (!Main.dedServ) {
+				if (!Main.dedServ && Player.IsLocal()) {
 					SoundEngine.PlaySound(RechargedSound);
 				}
 			}
