@@ -48,6 +48,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 				new PatreonMenuLink("patreon.com/Mirsario", @"https://patreon.com/Mirsario") {
 					ForcedColor = isHovered => Color.Lerp(Color.White, Main.DiscoColor, isHovered ? 0.5f : 0.75f)
 				},
+				new ConfigurationMenuButton("Configuration"),
 				new MusicPackMenuButton("Get the Music Pack", "Enable the Music Pack", @"https://steamcommunity.com/sharedfiles/filedetails/?id=2440081576") {
 					PreferSteamBrowser = true,
 					ForcedColor = isHovered => Color.Lerp(Color.White, Main.DiscoColor, isHovered ? 0.25f : 0.33f)
