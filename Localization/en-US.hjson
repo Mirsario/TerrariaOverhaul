@@ -133,6 +133,11 @@ Mods: {
 			CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
 		}
 		
+		Banners: {
+			BannerBuffDescription: "Doubled loot and coin drops from the following:"
+			BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
+		}
+		
 		ItemOverhauls: {
 			Melee: {
 				Broadsword: {
