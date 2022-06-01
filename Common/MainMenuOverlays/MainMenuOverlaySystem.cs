@@ -45,9 +45,15 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 
 			menuLines = new List<MenuLine> {
 				new MenuLine($"Terraria Overhaul v{OverhaulMod.Instance.Version} {OverhaulMod.VersionSuffix}"),
-				new PatreonMenuLink("patreon.com/Mirsario", @"https://patreon.com/Mirsario", forcedColor: _ => Main.DiscoColor),
+				new PatreonMenuLink("patreon.com/Mirsario", @"https://patreon.com/Mirsario") {
+					ForcedColor = isHovered => Color.Lerp(Color.White, Main.DiscoColor, isHovered ? 0.5f : 0.75f)
+				},
+				new MusicPackMenuButton("Get the Music Pack", "Enable the Music Pack", @"https://steamcommunity.com/sharedfiles/filedetails/?id=2440081576") {
+					PreferSteamBrowser = true,
+					ForcedColor = isHovered => Color.Lerp(Color.White, Main.DiscoColor, isHovered ? 0.25f : 0.33f)
+				},
 				new MenuLink("Discord Server", @"https://discord.gg/RNGq9n8"),
-				new MenuLink("Forum Page", @"https://forums.terraria.org/index.php?threads/60369"),
+				//new MenuLink("Forum Page", @"https://forums.terraria.org/index.php?threads/60369"),
 				new MenuLink("Wiki Page", @"https://terrariamods.gamepedia.com/Terraria_Overhaul"),
 				new MenuLink("Github", @"https://github.com/Mirsario/TerrariaOverhaul/tree/1.4"),
 			};
@@ -71,6 +77,10 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 
 			if (lines != null) {
 				foreach (var entry in lines) {
+					if (!entry.IsActive) {
+						continue;
+					}
+					
 					entry.Update(textPos);
 					entry.Draw(sb, textPos);
 

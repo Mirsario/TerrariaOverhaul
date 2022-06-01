@@ -14,22 +14,19 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 {
 	public class MenuLine
 	{
-		public readonly string Text;
-		public readonly float Scale;
-		public readonly Asset<DynamicSpriteFont> Font;
-		public readonly Vector2 Size;
-
-		protected readonly Func<bool, Color>? ForcedColor;
+		public Vector2 Size { get; set; }
+		public string Text { get; set; }
+		public float Scale { get; set; } = 1f;
+		public Asset<DynamicSpriteFont> Font { get; set; } = FontAssets.MouseText;
+		public Func<bool, Color>? ForcedColor { get; set; }
 
 		protected bool IsHovered { get; private set; }
 
-		public MenuLine(string text, Asset<DynamicSpriteFont>? font = null, float scale = 1f, Func<bool, Color>? forcedColor = null)
+		public virtual bool IsActive => true;
+
+		public MenuLine(string text)
 		{
 			Text = text;
-			Font = font ?? FontAssets.MouseText;
-			Scale = scale;
-			ForcedColor = forcedColor;
-
 			Size = Font.Value.MeasureString(Text) * Scale;
 		}
 

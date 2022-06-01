@@ -1,15 +1,12 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using ReLogic.Graphics;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays
 {
 	public class PatreonMenuLink : MenuLink
 	{
-		public PatreonMenuLink(string text, string url, Asset<DynamicSpriteFont>? font = null, float scale = 1, Func<bool, Color>? forcedColor = null)
-			: base(text, url, font, scale, forcedColor) { }
+		public PatreonMenuLink(string text, string url) : base(text, url) { }
 
 		public override void Draw(SpriteBatch sb, Vector2 position)
 		{

@@ -1,23 +1,26 @@
-﻿using System;
-using System.Diagnostics;
-using Microsoft.Xna.Framework;
-using ReLogic.Content;
-using ReLogic.Graphics;
+﻿using System.Diagnostics;
+using Steamworks;
+using Terraria.Social;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays
 {
 	public class MenuLink : MenuButton
 	{
-		private readonly string Url;
-
-		public MenuLink(string text, string url, Asset<DynamicSpriteFont>? font = null, float scale = 1f, Func<bool, Color>? forcedColor = null)
-			: base(text, font, scale, forcedColor)
+		public string Url { get; }
+		public bool PreferSteamBrowser { get; init; }
+		
+		public MenuLink(string text, string url) : base(text)
 		{
 			Url = url;
 		}
 
 		protected override void OnClicked()
 		{
+			if (PreferSteamBrowser && SocialAPI.Mode == SocialMode.Steam) {
+				SteamFriends.ActivateGameOverlayToWebPage(Url);
+				return;
+			}
+
 			Process.Start(new ProcessStartInfo(Url) {
 				UseShellExecute = true
 			});
