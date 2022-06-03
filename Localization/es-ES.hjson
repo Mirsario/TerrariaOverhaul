@@ -1,3 +1,15 @@
+UI: {
+	Creative: "Viaje"
+	Normal: "Soy demasiado joven para minar"
+	Expert: "Ponme las pilas"
+	Master: "Soy la reencarnación de Cthulhu"
+	
+	WorldDescriptionCreative: "El modo Creativo / Accesible (Para los que quieren tener el control)"
+	WorldDescriptionNormal: "Menos daño de los enemigos, pero las mismas recompensas (Para los más relajados)
+	WorldDescriptionExpert: "La nueva experiencia estándar (Para los que les gusta un reto justo)"
+	WorldDescriptionMaster: "Castigo extremo y nuevas recompensas (Para los realmente despiadados)"
+}
+
 Mods: {
 	TerrariaOverhaul: {
 		Configuration: {
@@ -45,7 +57,11 @@ Mods: {
 				
 				EnableBunnyhopping: {
 					DisplayName: "Activar Salto de conejo"
-					Description: "El Salto de conejo otorga un ligero impulso horizontal cada vez que se salta. Si se desactiva, no funcionarán algunos accesorios."
+					Description:
+					'''
+					El Salto de conejo otorga un ligero impulso horizontal cada vez que se salta.
+					Si se desactiva, algunos accesorios no funcionarán.
+					'''
 				}
 				
 				EnableClimbing: {
@@ -55,12 +71,20 @@ Mods: {
 				
 				EnableWallJumping: {
 					DisplayName: "Activar Salto de pared"
-					Description: "El salto de pared es una nueva mecánica de movimiento que requiere equipo de escalada o zapatos de púa. Se realiza golpeando una pared con la espalda mientras se mantiene el botón de subida con los botones de movimiento horizontal sueltos."
+					Description:
+					'''
+					El salto de pared es una nueva mecánica de movimiento que requiere equipo de escalada o zapatos de púa.
+					Se realiza golpeando una pared con la espalda mientras se mantiene el botón de subida con los botones de movimiento horizontal sueltos.
+					'''
 				}
 				
 				EnableWallFlips: {
 					DisplayName: "Activar volteretas en paredes"
-					Description: "Las volteretas de pared son una nueva mecánica de movimiento que no requiere ningún accesorio. Se realizan golpeando una pared con la parte delantera con suficiente velocidad mientras se mantiene el movimiento horizontal en dirección contraria a la del jugador."
+					Description:
+					'''
+					Las volteretas de pared son una nueva mecánica de movimiento que no requiere ningún accesorio.
+					Se realizan golpeando una pared con la parte delantera con suficiente velocidad mientras se mantiene el movimiento horizontal en dirección contraria a la del jugador.
+					'''
 				}
 			}
 			
