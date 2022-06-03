@@ -1,9 +1,9 @@
 ﻿using Terraria.Audio;
 using Terraria.ModLoader;
-using Terraria.ModLoader.Tags;
-using TerrariaOverhaul.Common.Systems.Footsteps;
+using TerrariaOverhaul.Common.Footsteps;
 using TerrariaOverhaul.Common.Tags;
-using TerrariaOverhaul.Core.Systems.PhysicalMaterials;
+using TerrariaOverhaul.Core.PhysicalMaterials;
+using TerrariaOverhaul.Core.Tags;
 
 namespace TerrariaOverhaul.Common.PhysicalMaterials
 {
@@ -12,8 +12,10 @@ namespace TerrariaOverhaul.Common.PhysicalMaterials
 		public TagData TileTag { get; } = OverhaulTileTags.Wood;
 
 		// Footsteps
-		public ISoundStyle FootstepSound { get; } = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Wood/Step", 11, volume: 0.5f);
+		public SoundStyle? FootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Wood/Step", 11) {
+			Volume = 0.5f,
+		};
 
-		public ISoundStyle JumpFootstepSound => ModContent.GetInstance<StonePhysicalMaterial>().JumpFootstepSound;
+		public SoundStyle? JumpFootstepSound => ModContent.GetInstance<StonePhysicalMaterial>().JumpFootstepSound;
 	}
 }

@@ -2,7 +2,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
@@ -33,7 +34,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 			const int NumSteps = 24;
 
-			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
+			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().MouseWorld;
 			var startPos = Player.Center - Vector2.UnitY * 8;
 			var endPos = Player.position + Vector2.Transform(new Vector2(NumSteps * 16f, 0f), Matrix.CreateRotationZ((mouseWorld - startPos).ToRotation()));
 			float maxBrightness = 1f;
@@ -48,7 +49,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					continue;
 				}
 
-				if (tile.IsActive && Main.tileSolid[tile.type]) {
+				if (tile.HasTile && Main.tileSolid[tile.TileType]) {
 					maxBrightness -= 0.2f;
 
 					if (maxBrightness <= 0f) {

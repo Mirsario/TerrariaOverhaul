@@ -2,18 +2,19 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.AudioEffects;
-using TerrariaOverhaul.Common.Systems.Camera;
-using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Common.AudioEffects;
+using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	[Autoload(Side = ModSide.Client)]
 	public class PlayerWaterEffects : ModPlayer
 	{
-		public static readonly ISoundStyle UnderwaterLoopSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/UnderwaterLoop", volume: 0.75f);
+		public static readonly SoundStyle UnderwaterLoopSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/UnderwaterLoop") {
+			Volume = 0.75f,
+		};
 
 		private SlotId underwaterLoopSoundSlot;
 		private float underwaterEffectIntensity;

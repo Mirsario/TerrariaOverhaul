@@ -1,5 +1,4 @@
 ﻿using System;
-using TerrariaOverhaul.Utilities.DataStructures;
 
 namespace TerrariaOverhaul.Utilities
 {
@@ -8,7 +7,7 @@ namespace TerrariaOverhaul.Utilities
 		public delegate void CancellablePositionCallback(Vector2Int position, ref bool stop);
 		public delegate void FloodFillCallback(Vector2Int position, out bool occupied, ref bool stop);
 
-		private static bool[,] floodFillVisitCache;
+		private static bool[,]? floodFillVisitCache;
 
 		public static void BresenhamLine(Vector2Int start, Vector2Int end, CancellablePositionCallback action)
 		{
@@ -87,7 +86,7 @@ namespace TerrariaOverhaul.Utilities
 
 			void Recursion(Vector2Int position)
 			{
-				if (stop || position.X < 0 || position.Y < 0 || position.X >= gridSize.X || position.Y >= gridSize.Y || floodFillVisitCache[position.X, position.Y]) {
+				if (stop || position.X < 0 || position.Y < 0 || position.X >= gridSize.X || position.Y >= gridSize.Y || floodFillVisitCache![position.X, position.Y]) {
 					return;
 				}
 

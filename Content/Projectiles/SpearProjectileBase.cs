@@ -29,7 +29,7 @@ namespace TerrariaOverhaul.Content.Projectiles
 			player.heldProj = Projectile.whoAmI;
 			player.itemTime = player.itemAnimation;
 
-			int realDuration = (int)(UseDuration(player) * player.meleeSpeed);
+			int realDuration = (int)(UseDuration(player) * player.GetTotalAttackSpeed<MeleeDamageClass>());
 
 			if (Projectile.timeLeft == int.MaxValue) {
 				Projectile.timeLeft = realDuration;

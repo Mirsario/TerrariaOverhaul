@@ -1,14 +1,24 @@
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.GameContent;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Gores;
+using TerrariaOverhaul.Common.BloodAndGore;
 
 namespace TerrariaOverhaul.Content.Gores
 {
 	public class BulletCasing : ModGore
 	{
-		public static readonly ModSoundStyle BounceSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/CasingBounce", 4, volume: 0.085f, pitchVariance: 0.2f);
+		public static readonly SoundStyle BounceSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/CasingBounce", 4) {
+			Volume = 0.085f,
+			PitchVariance = 0.2f,
+		};
+
+		public override void SetStaticDefaults()
+		{
+			ChildSafety.SafeGore[Type] = true;
+		}
 
 		public override void OnSpawn(Gore gore, IEntitySource source)
 		{
@@ -22,7 +32,7 @@ namespace TerrariaOverhaul.Content.Gores
 		public override bool Update(Gore gore)
 		{
 			if (gore is OverhaulGore goreExt) {
-				goreExt.customBounceSound = BounceSound;
+				goreExt.CustomBounceSound = BounceSound;
 			}
 
 			return base.Update(gore);

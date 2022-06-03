@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
-using Terraria.ModLoader;
-using Terraria.ID;
 using Terraria.DataStructures;
-using TerrariaOverhaul.Core.Systems.Debugging;
-using TerrariaOverhaul.Core.Systems.Input;
-using Microsoft.Xna.Framework.Input;
+using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.Difficulties
 {
@@ -38,7 +31,7 @@ namespace TerrariaOverhaul.Common.Difficulties
 			}
 
 			for (int i = 0; i < presets.Length; i++) {
-				Main.RegisterdGameModes[i] = presets[i];
+				Main.RegisteredGameModes[i] = presets[i];
 			}
 
 			Main.GameMode = Main.GameMode;

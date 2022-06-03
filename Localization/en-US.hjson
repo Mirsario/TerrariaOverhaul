@@ -1,17 +1,21 @@
 UI: {
-	Journey: "Journey"
+	Creative: "Journey"
 	Normal: "I'm Too Young to Mine"
 	Expert: "Bone Me Plenty"
 	Master: "I Am Cthulhu Incarnate"
 	
-	JourneyDescription: "The Creative / Accessibility mode (For those who want to be in control)"
-	NormalDescription: "Less damage from enemies, but same rewards (For the easy-going)"
-	ExpertDescription: "The new standard experience (For those who like a fair challenge)"
-	MasterDescription: "Extreme punishment and new rewards (For the truly ruthless)"
+	WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
+	WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
+	WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
+	WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
 }
 
 Mods: {
 	TerrariaOverhaul: {
+		Notifications: {
+			AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+		}
+
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
@@ -127,6 +131,11 @@ Mods: {
 			CalendarCurrentSeason: "It's currently {SeasonName}."
 			CalendarNextSeasonDays: "{SeasonName} will arrive in {NumDays} days."
 			CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
+		}
+		
+		Banners: {
+			BannerBuffDescription: "Doubled loot and coin drops from the following:"
+			BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
 		}
 		
 		ItemOverhauls: {
@@ -285,11 +294,11 @@ Mods: {
 		}
 		
 		BuffName: {
-			ManaChannelling: "Mana Channelling"
+			ManaAbsorption: "Mana Absorption"
 		}
 		
 		BuffDescription: {
-			ManaChannelling: "Your patience is increasing your mana regeneration"
+			ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
 		}
 	}
 }

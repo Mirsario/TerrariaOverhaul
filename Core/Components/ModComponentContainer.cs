@@ -83,8 +83,8 @@ namespace TerrariaOverhaul.Core.Components
 
 			Components.Clear();
 
-			Components = null;
-			ComponentsReadOnly = null;
+			Components = null!;
+			ComponentsReadOnly = null!;
 			IsDisposed = true;
 		}
 

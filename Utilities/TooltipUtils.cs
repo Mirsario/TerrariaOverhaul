@@ -4,8 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Input;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Core.Input;
 
 namespace TerrariaOverhaul.Utilities
 {
@@ -20,7 +19,7 @@ namespace TerrariaOverhaul.Utilities
 			void AddTooltip(string name, string text)
 			{
 				tooltips.Add(new TooltipLine(mod, name, text) {
-					overrideColor = color
+					OverrideColor = color
 				});
 			}
 

@@ -47,10 +47,9 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 		public override void HitEffect(int hitDirection, double damage)
 		{
 			int amount = NPC.life <= 0 ? 50 : (int)damage;
-			IEntitySource entitySource = new EntitySource_EntityHit(NPC);
 
 			for (int i = 0; i < amount; i++) {
-				Dust.NewDust(entitySource, NPC.position, NPC.width, NPC.height, 54, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));
+				Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Wraith, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));
 			}
 		}
 
@@ -59,6 +58,7 @@ namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes
 			npcLoot.Add(ItemDropRule.Common(ItemID.AshBlock, minimumDropped: 5, maximumDropped: 10));
 			npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<Charcoal>(), minimumDropped: 1, maximumDropped: 3));
 		}
+
 		/*public override void PostDraw(SpriteBatch sb, Color drawColor) //TODO: Reimplement this when tML simplifies glowmasks
 		{
 			var tex = TextureSystem.GetTexture2D("NPCs/AshSlime_Glow");

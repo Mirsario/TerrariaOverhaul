@@ -2,6 +2,7 @@
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.ItemComponents;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {
@@ -13,8 +14,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 			if (Enabled) {
 				ItemID.Sets.SkipsInitialUseSound[item.type] = true;
 
-				if (item.UseSound != null) {
-					SoundEngine.PlaySound(item.UseSound, player.Center);
+				if (item.UseSound.HasValue) {
+					SoundEngine.PlaySound(item.UseSound.Value, player.Center);
 				}
 			}
 

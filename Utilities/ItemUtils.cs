@@ -1,25 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
+using Terraria.ID;
 
 namespace TerrariaOverhaul.Utilities
 {
 	public static class ItemUtils
 	{
-		public static float GetHeavyness(Item item)
+		public static void NewItemInstanced(IEntitySource source, Vector2 position, int type, int stack = 1, IEnumerable<Player>? players = null, int maxExpectedLifeTime = 54000, int prefix = 0)
 		{
-			const float HeaviestSpeed = 0.5f;
-			const float LightestSpeed = 5f;
+			if (Main.netMode == NetmodeID.MultiplayerClient) {
+				throw new InvalidOperationException($"{nameof(NewItemInstanced)} must not be called on multiplayer clients.");
+			}
 
-			float speed = 1f / (Math.Max(1, item.useAnimation) / 60f);
-			float speedResult = MathHelper.Clamp(MathUtils.InverseLerp(speed, LightestSpeed, HeaviestSpeed), 0f, 1f);
+			if (Main.netMode == NetmodeID.SinglePlayer && players != null && !players.Any(p => p.whoAmI == Main.myPlayer)) {
+				return;
+			}
 
-			float averageDimension = (item.width + item.height) * 0.5f;
-			float sizeResult = Math.Max(0f, averageDimension / 10f);
+			int itemId = Item.NewItem(source, position, type, stack, true, prefix);
 
-			float result = speedResult * sizeResult;
+			if (Main.netMode == NetmodeID.Server) {
+				players ??= ActiveEntities.Players;
 
-			return MathHelper.Clamp(result, 0f, 1f);
+				Main.timeItemSlotCannotBeReusedFor[itemId] = maxExpectedLifeTime;
+
+				foreach (var player in players) {
+					NetMessage.SendData(MessageID.InstancedItem, player.whoAmI, -1, null, itemId);
+				}
+
+				Main.item[itemId].active = false;
+			}
 		}
 	}
 }

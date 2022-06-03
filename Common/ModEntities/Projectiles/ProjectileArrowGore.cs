@@ -3,10 +3,10 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Gores;
+using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Content.Gores;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				return;
 			}
 
-			IEntitySource entitySource = new EntitySource_ProjectileParent(projectile);
+			var entitySource = projectile.GetSource_Death();
 
 			Gore SpawnGore<T>() where T : ModGore
 			{
@@ -39,7 +39,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			SpawnGore<ArrowBack>();
 
 			if (projectile.type == ProjectileID.FireArrow && arrowHead is OverhaulGore oGore) {
-				oGore.onFire = true;
+				oGore.OnFire = true;
 			}
 		}
 	}

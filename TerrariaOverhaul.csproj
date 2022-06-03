@@ -6,6 +6,7 @@
 	<TargetFramework>net6.0</TargetFramework>
 	<PlatformTarget>AnyCPU</PlatformTarget>
 	<LangVersion>latest</LangVersion>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
 	<PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
@@ -18,6 +19,8 @@
     <None Remove="Old\**" />
     <None Remove="lib\**" />
     <None Remove="**/*.png" />
+    <None Remove="**/*.ogg" />
+    <None Remove="**/*.ase" />
     <None Remove="build.txt" />
     <None Remove="description.txt" />
     <None Remove=".gitignore" />

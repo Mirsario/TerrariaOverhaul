@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.ModEntities.Players.Rendering;
+using TerrariaOverhaul.Common.ModEntities.Players;
+using TerrariaOverhaul.Core.ItemComponents;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Components
 {

@@ -1,5 +1,12 @@
-﻿(Check the mod's homepage for trailers & screenshots)
+﻿A large mod for Terraria that focuses on increasing overall enjoyment of the game, via improving aspects such as: combat looks, feel, & mechanics, movement, camera, ambience, and even the entire soundtrack.
 
-This is a huge mod, which, instead of adding new content to the game, focuses on adding new gameplay mechanics and completely remaking existing ones.
-It remakes melee, ranged and magic combat, adds seasons, dodgerolls, block climbing, walljumps, wallrolls, atmospheric sounds & footsteps, emotes, a weakness & resistance system, makes gore ridiculously enjoyable, adds blood on tiles, a fire and an electricity systems, makes everything more interactive, enhances enemy ai, completely remakes player rendering, makes trees fall like in starbound, and does a thousand more things i can't even memorize.
-Believe me, it's colossal.
+The Work-in-Progress 5.0 version for Terraria 1.4 is a complete reimplementation of the mod, which boasts:
+- A vastly superior & open sourced codebase;
+- Reimagined and more vanilla-faithful, while also more crazy, solid and fun game design;
+- Magnitudes more overall quality assurance & polishing.
+
+You can find out more about the state of the rebuild here:
+https://github.com/Mirsario/TerrariaOverhaul#whats-the-state-of-the-rebuild
+
+Join Overhaul's Discord server at:
+https://discord.gg/RNGq9N8

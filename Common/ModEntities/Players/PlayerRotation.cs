@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Configuration;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
@@ -11,8 +11,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 	{
 		public static readonly ConfigEntry<bool> EnablePlayerTilting = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnablePlayerTilting), () => true);
 
-		public float rotation;
-		public float rotationOffsetScale;
+		public float Rotation;
+		public float RotationOffsetScale;
 
 		public override void PreUpdate()
 		{
@@ -25,7 +25,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
-			if (rotationOffsetScale != 0f && EnablePlayerTilting) {
+			if (Player.sleeping.isSleeping) {
+				return;
+			}
+
+			if (RotationOffsetScale != 0f && EnablePlayerTilting) {
 				float movementRotation;
 
 				if (Player.OnGround()) {
@@ -34,7 +38,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 					movementRotation = MathHelper.Clamp(Player.velocity.Y * Math.Sign(Player.velocity.X) * -0.015f, -0.4f, 0.4f);
 				}
 
-				rotation += movementRotation;
+				Rotation += movementRotation;
 
 				//TODO: If swimming, multiply by 4.
 			}
@@ -48,11 +52,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 			}*/
 
 			if (!Player.mount.Active) {
-				Player.fullRotation = rotation * Player.gravDir;
+				Player.fullRotation = Rotation * Player.gravDir;
 			}
 
-			rotation = 0f;
-			rotationOffsetScale = 1f;
+			Rotation = 0f;
+			RotationOffsetScale = 1f;
 		}
 	}
 }

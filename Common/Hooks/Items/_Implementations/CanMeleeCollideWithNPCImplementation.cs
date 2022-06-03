@@ -20,15 +20,13 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 				int itemRectangleArgId = 0;
 				int npcRectangleLocalId = 0;
 
-				if (!cursor.TryGotoNext(
+				cursor.GotoNext(
 					MoveType.Before,
 					i => i.MatchLdarga(out itemRectangleArgId),
 					i => i.MatchLdloc(out npcRectangleLocalId),
 					i => i.MatchCall(typeof(Rectangle), nameof(Rectangle.Intersects)),
 					i => i.MatchBrfalse(out _)
-				)) {
-					throw new ILMatchException(context, nameof(CanMeleeCollideWithNPCImplementation), this);
-				}
+				);
 
 				cursor.RemoveRange(3);
 
@@ -40,7 +38,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 				cursor.EmitDelegate<Func<Item, Player, int, Rectangle, Rectangle, bool>>((item, player, npcId, itemRectangle, npcRectangle) => {
 					var npc = Main.npc[npcId];
 
-					return Hook.Hook.Invoke(item, player, npc) ?? itemRectangle.Intersects(npcRectangle);
+					return Hook.Invoke(item, player, npc) ?? itemRectangle.Intersects(npcRectangle);
 				});
 			};
 		}

@@ -4,24 +4,26 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Networking;
+using TerrariaOverhaul.Core.Networking;
 
 namespace TerrariaOverhaul
 {
-	public partial class OverhaulMod : Mod
+	public class OverhaulMod : Mod
 	{
-		public static readonly uint BetaNumber = 9;
+		public static readonly uint BetaNumber = 11;
 		public static readonly bool IsBeta = BetaNumber > 0;
-		public static readonly string VersionSuffix = $"(BETA {BetaNumber})";
+		public static readonly string VersionSuffix = $"(BETA {BetaNumber}B)";
 		public static readonly string PersonalDirectory = Path.Combine(Main.SavePath, "TerrariaOverhaul");
 		public static readonly Version MinimalTMLVersion = new("0.12");
 		public static readonly Assembly Assembly;
 		public static readonly Assembly EngineAssembly;
 		public static readonly Assembly TMLAssembly;
 
+		private static OverhaulMod? instance;
+
 		//internal static readonly ResourceManager ResourceManager = new ResourceManager("TerrariaOverhaul.Properties.Resources", Assembly.GetExecutingAssembly());
 
-		public static OverhaulMod Instance { get; private set; }
+		public static OverhaulMod Instance => instance ?? throw new InvalidOperationException("An instance of the mod has not yet been created.");
 
 		static OverhaulMod()
 		{
@@ -32,7 +34,7 @@ namespace TerrariaOverhaul
 
 		public OverhaulMod()
 		{
-			Instance = this;
+			instance = this;
 
 			Directory.CreateDirectory(PersonalDirectory);
 

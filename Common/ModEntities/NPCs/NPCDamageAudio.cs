@@ -5,15 +5,22 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.BloodAndGore;
+using TerrariaOverhaul.Common.DamageSources;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.Systems.DamageSources;
 
 namespace TerrariaOverhaul.Common.ModEntities.NPCs
 {
 	public class NPCDamageAudio : GlobalNPC
 	{
-		public static readonly ModSoundStyle GoreSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2, volume: 0.475f, pitchVariance: 0.25f);
-		public static readonly ModSoundStyle FleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/FleshHit", 4, volume: 0.5f, pitchVariance: 0.25f);
+		public static readonly SoundStyle GoreSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2) {
+			Volume = 0.475f,
+			PitchVariance = 0.25f,
+		};
+		public static readonly SoundStyle FleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/FleshHit", 4) {
+			Volume = 0.5f,
+			PitchVariance = 0.25f,
+		};
 
 		public override void Load()
 		{
@@ -22,12 +29,12 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				var cursor = new ILCursor(context);
 
 				// Match 'if (HitSound != null)'
-				ILLabel onCheckFailureLabel = null;
+				ILLabel? onCheckFailureLabel = null;
 
 				cursor.GotoNext(
 					MoveType.After,
 					i => i.Match(OpCodes.Ldarg_0),
-					i => i.MatchLdfld(typeof(NPC), nameof(NPC.HitSound))
+					i => i.MatchLdflda(typeof(NPC), nameof(NPC.HitSound))
 				);
 				cursor.GotoNext(
 					MoveType.After,
@@ -44,12 +51,12 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 				var cursor = new ILCursor(context);
 
 				// Match 'if (DeathSound != null)'
-				ILLabel onCheckFailureLabel = null;
+				ILLabel? onCheckFailureLabel = null;
 
 				cursor.GotoNext(
 					MoveType.After,
 					i => i.Match(OpCodes.Ldarg_0),
-					i => i.MatchLdfld(typeof(NPC), nameof(NPC.DeathSound))
+					i => i.MatchLdflda(typeof(NPC), nameof(NPC.DeathSound))
 				);
 				cursor.GotoNext(
 					MoveType.After,
@@ -69,7 +76,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			}
 
 			bool playOriginalSound = true;
-			ISoundStyle customSoundStyle = null;
+			SoundStyle? customSoundStyle = null;
 
 			if (npcBloodAndGore.LastHitBloodAmount > 0) {
 				customSoundStyle = FleshHitSound;
@@ -80,11 +87,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			// Call item hit sound modification hooks.
 			if (damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
-				IModifyItemNPCHitSound.Hook.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
+				IModifyItemNPCHitSound.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
 			}
 
-			if (customSoundStyle != null) {
-				SoundEngine.PlaySound(customSoundStyle, npc.Center);
+			if (customSoundStyle.HasValue) {
+				SoundEngine.PlaySound(customSoundStyle.Value, npc.Center);
 			}
 
 			return playOriginalSound;
@@ -97,7 +104,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 			}
 
 			bool playOriginalSound = true;
-			ISoundStyle customSoundStyle = null;
+			SoundStyle? customSoundStyle = null;
 
 			if (npcBloodAndGore.LastHitBloodAmount > 0) {
 				customSoundStyle = GoreSound;
@@ -108,11 +115,11 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 			// Call item death sound modification hooks.
 			if (damageSource != null && damageSource.Source is Item item && damageSource.Parent?.Source is Player player) {
-				IModifyItemNPCDeathSound.Hook.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
+				IModifyItemNPCDeathSound.Invoke(item, player, npc, ref customSoundStyle, ref playOriginalSound);
 			}
 
-			if (customSoundStyle != null) {
-				SoundEngine.PlaySound(customSoundStyle, npc.Center);
+			if (customSoundStyle.HasValue) {
+				SoundEngine.PlaySound(customSoundStyle.Value, npc.Center);
 			}
 
 			return playOriginalSound;

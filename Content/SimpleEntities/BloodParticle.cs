@@ -5,9 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Camera;
-using TerrariaOverhaul.Common.Systems.Decals;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Decals;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.SimpleEntities
 {
@@ -16,28 +16,21 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 	{
 		private const int MaxPositions = 3;
 
-		public static readonly ISoundStyle BloodDripSound = new ModSoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/BloodDrip", 14, volume: 0.3f, pitchVariance: 0.2f);
+		public static readonly SoundStyle BloodDripSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/BloodDrip", 14) {
+			Volume = 0.3f,
+			PitchVariance = 0.2f
+		};
 
-		private static List<List<Color>> bloodColorRecordingLists;
+		private static readonly List<List<Color>> bloodColorRecordingLists = new();
 
 		private Rectangle frame;
-		private Vector2[] positions;
+		private Vector2[]? positions;
 
 		public override bool CollidesWithTiles => LifeTime >= 3;
 
-		// Load-time
-		public override void Load(Mod mod)
-		{
-			bloodColorRecordingLists = new List<List<Color>>();
-		}
-
 		public override void Unload()
 		{
-			if (bloodColorRecordingLists != null) {
-				bloodColorRecordingLists.Clear();
-
-				bloodColorRecordingLists = null;
-			}
+			bloodColorRecordingLists?.Clear();
 		}
 
 		// In-game
@@ -59,6 +52,10 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 
 		public override void Update()
 		{
+			if (positions == null) {
+				throw new InvalidOperationException("Not initialized.");
+			}
+
 			// Track old positions.
 			Array.Copy(positions, 0, positions, 1, positions.Length - 1);
 
@@ -72,6 +69,10 @@ namespace TerrariaOverhaul.Content.SimpleEntities
 			if (Vector2.DistanceSquared(position, CameraSystem.ScreenCenter) > Main.screenWidth * Main.screenWidth * 2 || position.HasNaNs()) {
 				Destroy();
 				return;
+			}
+
+			if (positions == null) {
+				throw new InvalidOperationException("Not initialized.");
 			}
 
 			var usedColor = Lighting.GetColor((int)(position.X / 16f), (int)(position.Y / 16f), color);

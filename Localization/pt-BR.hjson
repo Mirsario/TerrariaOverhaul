@@ -1,3 +1,15 @@
+UI: {
+	Journey: "Jornada"
+	Normal: "Muito Jovem Para Minerar"
+	Expert: "Um Ossinho Não Dói"
+	Master: "Eu Sou A Encarnação de Cthulhu"
+
+	WorldDescriptionJourney: "O modo Criativo / Acessível (Para aqueles que querem estar no controle)"
+	WorldDescriptionNormal: "Menos danos de inimigos, mesmas recompensas (Para os descompromissados)"
+	WorldDescriptionExpert: "A nova experiência padrão (Para aqueles que gostam de um desafio justo)"
+	WorldDescriptionMaster: "Punição extrema e novas recompensas (Para os verdadeiramente desumanos)"
+}
+
 Mods: {
 	TerrariaOverhaul: {
 		Configuration: {
@@ -269,11 +281,11 @@ Mods: {
 		}
 		
 		BuffName: {
-			ManaChannelling: "Canalização de Mana"
+			//ManaAbsorption: "Mana Absorption"
 		}
 		
 		BuffDescription: {
-			ManaChannelling: "Sua paciência está aumentando a regeneração de mana"
+			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
 		}
 	}
 }

@@ -1,19 +1,18 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities.Enums;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerAnimations : ModPlayer
 	{
-		public PlayerFrames? forcedHeadFrame;
-		public PlayerFrames? forcedBodyFrame;
-		public PlayerFrames? forcedLegFrame;
+		public PlayerFrames? ForcedHeadFrame;
+		public PlayerFrames? ForcedBodyFrame;
+		public PlayerFrames? ForcedLegFrame;
 
 		public override void PostUpdate()
 		{
-			void TryForceFrame(ref Rectangle frame, ref PlayerFrames? newFrame)
+			static void TryForceFrame(ref Rectangle frame, ref PlayerFrames? newFrame)
 			{
 				if (newFrame.HasValue) {
 					frame = newFrame.Value.ToRectangle();
@@ -22,9 +21,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 				}
 			}
 
-			TryForceFrame(ref Player.headFrame, ref forcedHeadFrame);
-			TryForceFrame(ref Player.bodyFrame, ref forcedBodyFrame);
-			TryForceFrame(ref Player.legFrame, ref forcedLegFrame);
+			TryForceFrame(ref Player.headFrame, ref ForcedHeadFrame);
+			TryForceFrame(ref Player.bodyFrame, ref ForcedBodyFrame);
+			TryForceFrame(ref Player.legFrame, ref ForcedLegFrame);
 		}
 	}
 }

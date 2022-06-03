@@ -5,16 +5,17 @@ namespace TerrariaOverhaul.Utilities
 	public static class ModPathUtils
 	{
 		public static string GetPath(Type type) => $"{GetDirectory(type)}.{type.Name}";
+		
 		public static string GetDirectory(Type type)
 		{
-			string ns = type.Namespace;
-			int firstPeriod = ns.IndexOf('.');
+			string spaceName = type.Namespace ?? string.Empty;
+			int firstPeriod = spaceName.IndexOf('.');
 
 			if (firstPeriod < 0) {
-				return ns;
+				return spaceName;
 			}
 
-			return ns.Substring(firstPeriod + 1).Replace('.', '/');
+			return spaceName.Substring(firstPeriod + 1).Replace('.', '/');
 		}
 	}
 }

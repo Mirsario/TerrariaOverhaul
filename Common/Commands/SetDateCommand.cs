@@ -1,5 +1,5 @@
 ﻿using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.Seasons;
+using TerrariaOverhaul.Common.Seasons;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Commands

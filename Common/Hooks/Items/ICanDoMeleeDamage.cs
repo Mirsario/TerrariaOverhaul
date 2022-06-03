@@ -7,23 +7,19 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface ICanDoMeleeDamage
 	{
-		public delegate bool Delegate(Item item, Player player);
-
-		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			// Method reference
-			typeof(Hook).GetMethod(nameof(CanDoMeleeDamage)),
-			// Invocation
-			e => (Item item, Player player) => {
-				foreach (Hook g in e.Enumerate(item)) {
-					if (!g.CanDoMeleeDamage(item, player)) {
-						return false;
-					}
-				}
-
-				return true;
-			}
-		));
+		public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(CanDoMeleeDamage))));
 
 		bool CanDoMeleeDamage(Item item, Player player);
+
+		public static bool Invoke(Item item, Player player)
+		{
+			foreach (Hook g in Hook.Enumerate(item)) {
+				if (!g.CanDoMeleeDamage(item, player)) {
+					return false;
+				}
+			}
+
+			return true;
+		}
 	}
 }

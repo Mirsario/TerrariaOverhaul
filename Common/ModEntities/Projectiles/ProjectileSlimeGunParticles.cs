@@ -3,7 +3,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Content.SimpleEntities;
-using TerrariaOverhaul.Core.Systems.SimpleEntities;
+using TerrariaOverhaul.Core.SimpleEntities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {

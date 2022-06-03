@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Tags;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 	{
 		public const int GrapplingHookAIStyle = 7;
 
-		private static Dictionary<int, float> vanillaHookRangesInTiles;
+		private static Dictionary<int, float>? vanillaHookRangesInTiles;
 
 		private float maxDist;
 		private bool noPulling;
@@ -45,40 +45,40 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			// Vanilla's data for this is hardcoded and not accessible. These stats are from the wiki.
 			vanillaHookRangesInTiles = new Dictionary<int, float> {
 				// PHM Singlehooks
-				{ ProjectileID.Hook,             18.750f },
-				{ ProjectileID.GemHookAmethyst,     18.750f },
-				{ ProjectileID.SquirrelHook,        19.000f },
-				{ ProjectileID.GemHookTopaz,        20.625f },
-				{ ProjectileID.GemHookSapphire,     22.500f },
-				{ ProjectileID.GemHookEmerald,      24.375f },
-				{ ProjectileID.GemHookRuby,         26.250f },
-				{ ProjectileID.AmberHook,           27.500f },
-				{ ProjectileID.GemHookDiamond,      29.125f },
+				{ ProjectileID.Hook,				18.750f },
+				{ ProjectileID.GemHookAmethyst,		18.750f },
+				{ ProjectileID.SquirrelHook,		19.000f },
+				{ ProjectileID.GemHookTopaz,		20.625f },
+				{ ProjectileID.GemHookSapphire,		22.500f },
+				{ ProjectileID.GemHookEmerald,		24.375f },
+				{ ProjectileID.GemHookRuby,			26.250f },
+				{ ProjectileID.AmberHook,			27.500f },
+				{ ProjectileID.GemHookDiamond,		29.125f },
 				// PHM Multihooks
-				{ ProjectileID.Web,                  15.625f },
-				{ ProjectileID.SkeletronHand,       21.875f },
-				{ ProjectileID.SlimeHook,           18.750f },
-				{ ProjectileID.FishHook,            25.000f },
-				{ ProjectileID.IvyWhip,             28.000f },
-				{ ProjectileID.BatHook,             31.250f },
-				{ ProjectileID.CandyCaneHook,       25.000f },
+				{ ProjectileID.Web,					15.625f },
+				{ ProjectileID.SkeletronHand,		21.875f },
+				{ ProjectileID.SlimeHook,			18.750f },
+				{ ProjectileID.FishHook,			25.000f },
+				{ ProjectileID.IvyWhip,				28.000f },
+				{ ProjectileID.BatHook,				31.250f },
+				{ ProjectileID.CandyCaneHook,		25.000f },
 				// HM Singlehooks
-				{ ProjectileID.DualHookBlue,     27.500f },
-				{ ProjectileID.DualHookRed,         27.500f },
-				{ ProjectileID.QueenSlimeHook,      30.000f },
-				{ ProjectileID.StaticHook,          37.500f },
+				{ ProjectileID.DualHookBlue,		27.500f },
+				{ ProjectileID.DualHookRed,			27.500f },
+				{ ProjectileID.QueenSlimeHook,		30.000f },
+				{ ProjectileID.StaticHook,			37.500f },
 				// HM Multihooks
-				{ ProjectileID.ThornHook,            30.000f },
-				{ ProjectileID.IlluminantHook,      30.000f },
-				{ ProjectileID.WormHook,            30.000f },
-				{ ProjectileID.TendonHook,          30.000f },
-				{ ProjectileID.AntiGravityHook,     31.250f },
-				{ ProjectileID.WoodHook,            34.375f },
-				{ ProjectileID.ChristmasHook,       34.375f },
-				{ ProjectileID.LunarHookNebula,     34.375f },
-				{ ProjectileID.LunarHookSolar,      34.375f },
-				{ ProjectileID.LunarHookStardust,   34.375f },
-				{ ProjectileID.LunarHookVortex,     34.375f },
+				{ ProjectileID.ThornHook,			30.000f },
+				{ ProjectileID.IlluminantHook,		30.000f },
+				{ ProjectileID.WormHook,			30.000f },
+				{ ProjectileID.TendonHook,			30.000f },
+				{ ProjectileID.AntiGravityHook,		31.250f },
+				{ ProjectileID.WoodHook,			34.375f },
+				{ ProjectileID.ChristmasHook,		34.375f },
+				{ ProjectileID.LunarHookNebula,		34.375f },
+				{ ProjectileID.LunarHookSolar,		34.375f },
+				{ ProjectileID.LunarHookStardust,	34.375f },
+				{ ProjectileID.LunarHookVortex,		34.375f },
 			};
 		}
 
@@ -104,6 +104,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public void ProjectileGrappleMovement(Player player, Projectile proj)
 		{
+			if (vanillaHookRangesInTiles == null) {
+				throw new InvalidOperationException($"'{nameof(ProjectileGrappleMovement)}' called before '{nameof(Load)}'.");
+			}
+
 			var playerCenter = player.Center;
 			var projCenter = proj.Center;
 			float hookRange = proj.ModProjectile?.GrappleRange() ?? (vanillaHookRangesInTiles.TryGetValue(proj.type, out float vanillaRangeInTiles) ? vanillaRangeInTiles * 16f : 512f);
@@ -123,7 +127,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 			// Check if the tile that this is latched to has disappeared.
 
-			if (!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) || !tile.IsActive || tile.IsActuated || (!Main.tileSolid[tile.type] && tile.type != TileID.MinecartTrack)) {
+			if (!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) || !tile.HasTile || tile.IsActuated || (!Main.tileSolid[tile.TileType] && tile.TileType != TileID.MinecartTrack)) {
 				SetHooked(proj, false);
 				proj.Kill();
 
@@ -216,25 +220,28 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				player.RemoveAllGrapplingHooks();
 			}
 		}
-		// 
-		public static bool GetHooked(Projectile proj) => proj.ai[0] == 2f;
-		public static void SetHooked(Projectile proj, bool newValue) => proj.ai[0] = newValue ? 2f : 0f;
-		// 
-		public static bool ShouldOverrideGrapplingHookPhysics(Player player, out Projectile projectile)
+		
+		public static bool GetHooked(Projectile proj)
+			=> proj.ai[0] == 2f;
+
+		public static void SetHooked(Projectile proj, bool newValue)
+			=> proj.ai[0] = newValue ? 2f : 0f;
+		
+		public static bool ShouldOverrideGrapplingHookPhysics(Player player, out Projectile? projectile)
 		{
 			projectile = player != null ? Main.projectile.FirstOrDefault(p => p != null && p.active && p.aiStyle == GrapplingHookAIStyle && p.owner == player.whoAmI && GetHooked(p)) : null;
 
 			return ShouldOverrideGrapplingHookPhysics(player, projectile);
 		}
 
-		public static bool ShouldOverrideGrapplingHookPhysics(Projectile proj, out Player player)
+		public static bool ShouldOverrideGrapplingHookPhysics(Projectile? proj, out Player player)
 		{
-			player = proj?.GetOwner();
+			player = proj?.GetOwner()!;
 
 			return ShouldOverrideGrapplingHookPhysics(player, proj);
 		}
 
-		public static bool ShouldOverrideGrapplingHookPhysics(Player player, Projectile proj)
+		public static bool ShouldOverrideGrapplingHookPhysics(Player? player, Projectile? proj)
 		{
 			if (player?.active != true) {
 				return false;

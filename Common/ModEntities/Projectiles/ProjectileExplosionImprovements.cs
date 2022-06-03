@@ -4,13 +4,13 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Systems.AudioEffects;
-using TerrariaOverhaul.Common.Systems.Camera.ScreenShakes;
-using TerrariaOverhaul.Common.Systems.Decals;
-using TerrariaOverhaul.Common.Systems.Time;
+using TerrariaOverhaul.Common.AudioEffects;
+using TerrariaOverhaul.Common.BloodAndGore;
+using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Decals;
 using TerrariaOverhaul.Common.Tags;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Utilities.Extensions;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 {
@@ -101,8 +101,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				}
 
 				// Explosions have a chance to set gore on fire.
-				if (entity is Systems.Gores.OverhaulGore goreExt && Main.rand.Next(5) == 0) {
-					goreExt.onFire = true;
+				if (entity is OverhaulGore goreExt && Main.rand.Next(5) == 0) {
+					goreExt.OnFire = true;
 				}
 
 				velocity += direction * MathUtils.DistancePower(distance, knockbackRange) * maxPower / 13f;

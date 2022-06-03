@@ -8,21 +8,17 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 {
 	public interface IModifyItemUseSound
 	{
-		public delegate void Delegate(Item item, Player player, ref ISoundStyle useSound);
+		public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyItemUseSound))));
 
-		public static readonly HookList<GlobalItem, Delegate> Hook = ItemLoader.AddModHook(new HookList<GlobalItem, Delegate>(
-			// Method reference
-			typeof(Hook).GetMethod(nameof(ModifyItemUseSound)),
-			// Invocation
-			e => (Item item, Player player, ref ISoundStyle useSound) => {
-				(item.ModItem as Hook)?.ModifyItemUseSound(item, player, ref useSound);
+		void ModifyItemUseSound(Item item, Player player, ref SoundStyle? useSound);
 
-				foreach (Hook g in e.Enumerate(item)) {
-					g.ModifyItemUseSound(item, player, ref useSound);
-				}
+		public static void Invoke(Item item, Player player, ref SoundStyle? useSound)
+		{
+			(item.ModItem as Hook)?.ModifyItemUseSound(item, player, ref useSound);
+
+			foreach (Hook g in Hook.Enumerate(item)) {
+				g.ModifyItemUseSound(item, player, ref useSound);
 			}
-		));
-
-		void ModifyItemUseSound(Item item, Player player, ref ISoundStyle useSound);
+		}
 	}
 }

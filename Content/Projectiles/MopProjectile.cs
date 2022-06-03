@@ -1,5 +1,5 @@
 ﻿using Terraria;
-using TerrariaOverhaul.Common.Systems.Decals;
+using TerrariaOverhaul.Common.Decals;
 
 namespace TerrariaOverhaul.Content.Projectiles
 {

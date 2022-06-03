@@ -269,11 +269,11 @@ Mods: {
 		}
 		
 		BuffName: {
-			//ManaChannelling: "Mana Channelling"
+			//ManaAbsorption: "Mana Absorption"
 		}
 		
 		BuffDescription: {
-			//ManaChannelling: "Your patience is increasing your mana regeneration"
+			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
 		}
 	}
 }

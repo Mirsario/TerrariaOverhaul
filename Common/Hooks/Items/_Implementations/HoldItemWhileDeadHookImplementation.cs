@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items
 			var heldItem = Player.HeldItem;
 
 			if (heldItem?.IsAir == false) {
-				IHoldItemWhileDead.Hook.Invoke(heldItem, Player);
+				IHoldItemWhileDead.Invoke(heldItem, Player);
 			}
 		}
 	}

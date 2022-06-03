@@ -3,7 +3,9 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Systems.Configuration;
+using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
@@ -18,14 +20,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 		{
 			const float LookStrength = 0.55f;
 
-			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().mouseWorld;
-			Vector2 offset = mouseWorld - Player.Center;
+			if (Player.sleeping.isSleeping) {
+				targetHeadRotation = 0;
+			} else {
+				var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().MouseWorld;
+				Vector2 offset = mouseWorld - Player.Center;
 
-			if (Math.Sign(offset.X) == Player.direction) {
-				targetHeadRotation = (offset * Player.direction).ToRotation() * LookStrength;
+				if (Math.Sign(offset.X) == Player.direction) {
+					targetHeadRotation = (offset * Player.direction).ToRotation() * LookStrength;
+				} else {
+					targetHeadRotation = 0;
+				}
 			}
 
-			headRotation = MathHelper.Lerp(headRotation, targetHeadRotation, 16f * Systems.Time.TimeSystem.LogicDeltaTime);
+			headRotation = MathHelper.Lerp(headRotation, targetHeadRotation, 16f * TimeSystem.LogicDeltaTime);
 		}
 
 		public override void ModifyDrawInfo(ref PlayerDrawSet drawInfo)

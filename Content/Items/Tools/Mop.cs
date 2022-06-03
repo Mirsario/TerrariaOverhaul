@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Content.Projectiles;
-using TerrariaOverhaul.Utilities.Extensions;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.Items.Tools
 {
