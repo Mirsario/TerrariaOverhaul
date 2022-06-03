@@ -1,13 +1,13 @@
 UI: {
-	Journey: "Viaje"
+	Creative: "Viaje"
 	Normal: "Soy demasiado joven para minar"
 	Expert: "Ponme las pilas"
 	Master: "Soy la reencarnación de Cthulhu"
 	
-	JourneyDescription: "El modo Creativo / Accesible (Para los que quieren tener el control)"
-	NormalDescription: "Menos daño de los enemigos, pero las mismas recompensas (Para los más relajados)
-	ExpertDescription: "La nueva experiencia estándar (Para los que les gusta un reto justo)"
-	MasterDescription: "Castigo extremo y nuevas recompensas (Para los realmente despiadados)"
+	WorldDescriptionCreative: "El modo Creativo / Accesible (Para los que quieren tener el control)"
+	WorldDescriptionNormal: "Menos daño de los enemigos, pero las mismas recompensas (Para los más relajados)
+	WorldDescriptionExpert: "La nueva experiencia estándar (Para los que les gusta un reto justo)"
+	WorldDescriptionMaster: "Castigo extremo y nuevas recompensas (Para los realmente despiadados)"
 }
 
 Mods: {
