@@ -31,6 +31,11 @@ namespace TerrariaOverhaul.Common.Melee
 				return false;
 			}
 
+			// Must have sword-like use style
+			if (item.useStyle != ItemUseStyleID.Swing) {
+				return false;
+			}
+
 			return true;
 		}
 
