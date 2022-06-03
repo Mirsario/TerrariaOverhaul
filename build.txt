@@ -1,6 +1,6 @@
 ﻿author = Mirsario
-version = 5.0.0.11
-displayName = Terraria Overhaul - Journey's End Update
+version = 5.0.0.14
+displayName = Terraria Overhaul (v5.0 BETA 11B)
 homepage = https://github.com/Mirsario/TerrariaOverhaul
 hideCode = false
 hideResources = false
