@@ -5,11 +5,14 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.Melee
 {
 	public sealed class ItemProjectileMeleeManaChanges : GlobalItem
 	{
+		public static readonly ConfigEntry<bool> EnableProjectileSwordManaUsage = new(ConfigSide.Both, "Melee", nameof(EnableProjectileSwordManaUsage), () => true);
+		
 		public override bool AppliesToEntity(Item item, bool lateInstantiation)
 		{
 			if (!lateInstantiation) {
@@ -42,7 +45,7 @@ namespace TerrariaOverhaul.Common.Melee
 		public override void Load()
 		{
 			On.Terraria.Player.ItemCheck_PayMana += (orig, player, item, canUse) => {
-				if (item.TryGetGlobalItem(out ItemProjectileMeleeManaChanges _)) {
+				if (item.TryGetGlobalItem(out ItemProjectileMeleeManaChanges _) && EnableProjectileSwordManaUsage) {
 					return true;
 				}
 
@@ -86,7 +89,7 @@ namespace TerrariaOverhaul.Common.Melee
 
 		private static bool CanReallyShoot(Player player, Item item)
 		{
-			if (item.TryGetGlobalItem(out ItemProjectileMeleeManaChanges _)) {
+			if (item.TryGetGlobalItem(out ItemProjectileMeleeManaChanges _) && EnableProjectileSwordManaUsage) {
 				return player.CheckMana(item.mana, pay: true);
 			}
 
