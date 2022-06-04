@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Utilities
 
 			if (volume > 0f) {
 				if (sound == null) {
-					slot = SoundEngine.PlaySound(style with { Volume = volume }, position);
+					slot = SoundEngine.PlaySound(style, position);
 					return;
 				}
 
