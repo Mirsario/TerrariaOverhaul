@@ -103,7 +103,7 @@ namespace TerrariaOverhaul.Common.Awareness
 			// Sound
 			float manaRegenSoundVolume = manaRegenEffectIntensity * ManaRegenerationSoundVolume.Value;
 			
-			SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, ManaRegenSound, manaRegenEffectIntensity, CameraSystem.ScreenCenter);
+			SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, ManaRegenSound, manaRegenSoundVolume, CameraSystem.ScreenCenter);
 
 			// Dust
 			if (!Player.dead) {
