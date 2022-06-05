@@ -18,6 +18,11 @@ namespace TerrariaOverhaul.Common.Accessibility
 				return;
 			}
 
+			//TODO: Implement through APIs instead.
+			if (item.ModItem?.Mod is { Name: "ClickerClass" }) {
+				return;
+			}
+
 			item.autoReuse = true;
 			item.useTime += 2;
 			item.useAnimation += 2;
