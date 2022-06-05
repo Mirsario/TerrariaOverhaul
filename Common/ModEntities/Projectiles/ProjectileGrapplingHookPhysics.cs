@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -16,6 +17,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 		public const int GrapplingHookAIStyle = 7;
 
 		private static Dictionary<int, float>? vanillaHookRangesInTiles;
+		private static Func<Projectile, Tile, bool>? canTileBeLatchedOnFunc;
 
 		private float maxDist;
 		private bool noPulling;
@@ -27,6 +29,11 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public override void Load()
 		{
+			canTileBeLatchedOnFunc = typeof(Projectile)
+				.GetMethod("AI_007_GrapplingHooks_CanTileBeLatchedOnTo", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)?
+				.CreateDelegate<Func<Projectile, Tile, bool>>()
+				?? throw new InvalidOperationException($"Unable to get delegate for '{nameof(ProjectileGrapplingHookPhysics)}.{nameof(canTileBeLatchedOnFunc)}'");
+
 			On.Terraria.Player.GrappleMovement += (orig, player) => {
 				if (ShouldOverrideGrapplingHookPhysics(player, out _)) {
 					return;
@@ -127,7 +134,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 			// Check if the tile that this is latched to has disappeared.
 
-			if (!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) || !tile.HasTile || tile.IsActuated || (!Main.tileSolid[tile.TileType] && tile.TileType != TileID.MinecartTrack)) {
+			if (!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) && !CanTileBeLatchedOnto(proj, tile)) {
 				SetHooked(proj, false);
 				proj.Kill();
 
@@ -257,6 +264,19 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 			}
 
 			if (player.EnumerateGrapplingHooks().Any(tuple => GetHooked(tuple.projectile) && tuple.projectile != proj)) {
+				return false;
+			}
+
+			return true;
+		}
+
+		private static bool CanTileBeLatchedOnto(Projectile projectile, Tile tile)
+		{
+			if (!tile.HasTile || tile.IsActuated) {
+				return false;
+			}
+
+			if (tile.TileType != TileID.MinecartTrack && !canTileBeLatchedOnFunc(projectile, tile)) {
 				return false;
 			}
 
