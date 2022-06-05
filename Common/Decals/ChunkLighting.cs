@@ -13,9 +13,9 @@ namespace TerrariaOverhaul.Common.Decals
 	[Autoload(Side = ModSide.Client)]
 	public sealed class ChunkLighting : ChunkComponent
 	{
-		public static int LightingUpdateFrequency => 10;
+		private static uint lastLightingUpdateCount;
 
-		private static readonly object lightingUpdateLock = new();
+		public static int LightingUpdateFrequency => 10;
 
 		public RenderTarget2D? Texture { get; private set; }
 		public Surface<Color>? Colors { get; private set; }
@@ -28,58 +28,6 @@ namespace TerrariaOverhaul.Common.Decals
 				typeof(Main).GetProperty(nameof(Main.RenderTargetsRequired))!.GetMethod,
 				new Func<Func<bool>, bool>(orig => true)
 			);
-
-			On.Terraria.Lighting.LightTiles += (orig, firstX, lastX, firstY, lastY) => {
-				static void UpdateLighting()
-				{
-					const int Offset = 4;
-
-					Vector4Int loopArea;
-
-					loopArea.X = (int)Math.Floor(Main.screenPosition.X / 16f) - Offset;
-					loopArea.Y = (int)Math.Floor(Main.screenPosition.Y / 16f) - Offset;
-					loopArea.Z = loopArea.X + (int)Math.Ceiling(Main.screenWidth / 16f) + Offset * 2;
-					loopArea.W = loopArea.Y + (int)Math.Ceiling(Main.screenHeight / 16f) + Offset * 2;
-
-					var chunkLoopArea = new Vector4Int(
-						ChunkSystem.TileToChunkCoordinates(loopArea.X),
-						ChunkSystem.TileToChunkCoordinates(loopArea.Y),
-						ChunkSystem.TileToChunkCoordinates(loopArea.Z),
-						ChunkSystem.TileToChunkCoordinates(loopArea.W)
-					);
-
-					for (int chunkY = chunkLoopArea.Y; chunkY <= chunkLoopArea.W; chunkY++) {
-						for (int chunkX = chunkLoopArea.X; chunkX <= chunkLoopArea.Z; chunkX++) {
-							var chunk = ChunkSystem.GetOrCreateChunk(new Vector2Int(chunkX, chunkY));
-							var lighting = chunk.Components.Get<ChunkLighting>();
-
-							if (lighting.Texture == null) {
-								continue;
-							}
-
-							lighting.UpdateArea(
-								chunk,
-								new Vector4Int(
-									Math.Max(loopArea.X, chunk.TileRectangle.X),
-									Math.Max(loopArea.Y, chunk.TileRectangle.Y),
-									Math.Min(loopArea.Z, chunk.TileRectangle.Right - 1),
-									Math.Min(loopArea.W, chunk.TileRectangle.Bottom - 1)
-								)
-							);
-
-							lighting.ApplyColors();
-						}
-					}
-				}
-
-				if (Main.GameUpdateCount % LightingUpdateFrequency == 0) {
-					lock (lightingUpdateLock) {
-						UpdateLighting();
-					}
-				}
-
-				orig(firstX, lastX, firstY, lastY);
-			};
 		}
 
 		public override void OnInit(Chunk chunk)
@@ -111,6 +59,17 @@ namespace TerrariaOverhaul.Common.Decals
 			}
 		}
 
+		public override void PreGameDraw(Chunk chunk)
+		{
+			uint gameUpdateCount = Main.GameUpdateCount;
+
+			if (gameUpdateCount != lastLightingUpdateCount && gameUpdateCount % LightingUpdateFrequency == 0) {
+				UpdateLighting();
+
+				lastLightingUpdateCount = gameUpdateCount;
+			}
+		}
+
 		public void UpdateArea(Chunk chunk, Vector4Int area)
 		{
 			if (!IsReady) {
@@ -132,6 +91,48 @@ namespace TerrariaOverhaul.Common.Decals
 
 			lock (Texture!) {
 				Texture.SetData(Colors!.Data);
+			}
+		}
+
+		private static void UpdateLighting()
+		{
+			const int Offset = 4;
+
+			Vector4Int loopArea;
+
+			loopArea.X = (int)Math.Floor(Main.screenPosition.X / 16f) - Offset;
+			loopArea.Y = (int)Math.Floor(Main.screenPosition.Y / 16f) - Offset;
+			loopArea.Z = loopArea.X + (int)Math.Ceiling(Main.screenWidth / 16f) + Offset * 2;
+			loopArea.W = loopArea.Y + (int)Math.Ceiling(Main.screenHeight / 16f) + Offset * 2;
+
+			var chunkLoopArea = new Vector4Int(
+				ChunkSystem.TileToChunkCoordinates(loopArea.X),
+				ChunkSystem.TileToChunkCoordinates(loopArea.Y),
+				ChunkSystem.TileToChunkCoordinates(loopArea.Z),
+				ChunkSystem.TileToChunkCoordinates(loopArea.W)
+			);
+
+			for (int chunkY = chunkLoopArea.Y; chunkY <= chunkLoopArea.W; chunkY++) {
+				for (int chunkX = chunkLoopArea.X; chunkX <= chunkLoopArea.Z; chunkX++) {
+					var chunk = ChunkSystem.GetOrCreateChunk(new Vector2Int(chunkX, chunkY));
+					var lighting = chunk.Components.Get<ChunkLighting>();
+
+					if (lighting.Texture == null) {
+						continue;
+					}
+
+					lighting.UpdateArea(
+						chunk,
+						new Vector4Int(
+							Math.Max(loopArea.X, chunk.TileRectangle.X),
+							Math.Max(loopArea.Y, chunk.TileRectangle.Y),
+							Math.Min(loopArea.Z, chunk.TileRectangle.Right - 1),
+							Math.Min(loopArea.W, chunk.TileRectangle.Bottom - 1)
+						)
+					);
+
+					lighting.ApplyColors();
+				}
 			}
 		}
 	}
