@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Reflection;
-using Mono.Cecil.Cil;
-using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -12,7 +9,11 @@ namespace TerrariaOverhaul.Common.Melee
 	public sealed class ItemProjectileMeleeManaChanges : GlobalItem
 	{
 		public static readonly ConfigEntry<bool> EnableProjectileSwordManaUsage = new(ConfigSide.Both, "Melee", nameof(EnableProjectileSwordManaUsage), () => true);
-		
+
+		private bool useManaOnNextShoot;
+
+		public override bool InstancePerEntity => true;
+
 		public override bool AppliesToEntity(Item item, bool lateInstantiation)
 		{
 			if (!lateInstantiation) {
@@ -44,7 +45,8 @@ namespace TerrariaOverhaul.Common.Melee
 
 		public override void Load()
 		{
-			On.Terraria.Player.ItemCheck_PayMana += (orig, player, item, canUse) => {
+			On.Terraria.Player.ItemCheck_PayMana += static  (orig, player, item, canUse) => {
+				// Don't pay mana during use, it should instead happen during shooting.
 				if (item.TryGetGlobalItem(out ItemProjectileMeleeManaChanges _) && EnableProjectileSwordManaUsage) {
 					return true;
 				}
@@ -52,33 +54,12 @@ namespace TerrariaOverhaul.Common.Melee
 				return orig(player, item, canUse);
 			};
 
-			IL.Terraria.Player.ItemCheck_Shoot += context => {
-				var c = new ILCursor(context);
-				ILLabel? skipReturn = null;
+			On.Terraria.Player.ItemCheck_Shoot += static (orig, player, i, sItem, weaponDamage) => {
+				if (player.HeldItem?.TryGetGlobalItem(out ItemProjectileMeleeManaChanges instance) == true && EnableProjectileSwordManaUsage) {
+					instance.useManaOnNextShoot = true;
+				}
 
-				//TODO: This seems to fail in debug TML builds.
-				c.GotoNext(
-					MoveType.After,
-					i => i.MatchLdarg(0),
-					i => i.MatchLdarg(2),
-					i => i.MatchCall(typeof(CombinedHooks), nameof(CombinedHooks.CanShoot)),
-					i => i.MatchBrtrue(out skipReturn)
-				);
-
-				// Don't return if mana consumption succeeds
-
-				c.Index--; // Step back to before Brtrue
-
-				var returnLabel = c.DefineLabel();
-
-				c.Emit(OpCodes.Brfalse, returnLabel);
-				c.Emit(OpCodes.Ldarg_0);
-				c.Emit(OpCodes.Ldarg_2);
-				c.Emit(OpCodes.Call, typeof(ItemProjectileMeleeManaChanges).GetMethod(nameof(CanReallyShoot), BindingFlags.Static | BindingFlags.NonPublic));
-
-				c.Index++; // Step over back onto Brtrue, with Ret(urn) in front of us
-
-				c.MarkLabel(returnLabel);
+				orig(player, i, sItem, weaponDamage);
 			};
 		}
 
@@ -87,13 +68,13 @@ namespace TerrariaOverhaul.Common.Melee
 			item.mana = Math.Max(item.mana, 3 + item.useTime / 6);
 		}
 
-		private static bool CanReallyShoot(Player player, Item item)
+		public override bool CanShoot(Item item, Player player)
 		{
-			if (item.TryGetGlobalItem(out ItemProjectileMeleeManaChanges _) && EnableProjectileSwordManaUsage) {
+			if (useManaOnNextShoot) {
 				return player.CheckMana(item.mana, pay: true);
 			}
 
-			return true;
+			return base.CanShoot(item, player);
 		}
 	}
 }
