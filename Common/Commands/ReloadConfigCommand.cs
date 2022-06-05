@@ -26,8 +26,6 @@ namespace TerrariaOverhaul.Common.Commands
 			}
 
 			MessageUtils.NewText(resultMessage, color);
-
-			ConfigSystem.SaveConfig();
 		}
 	}
 }

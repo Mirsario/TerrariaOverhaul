@@ -4,7 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json.Linq;
+using Terraria;
+using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
@@ -36,10 +40,15 @@ namespace TerrariaOverhaul.Core.Configuration
 			public readonly Dictionary<string, IConfigEntry> EntriesByName = new();
 		}
 
+		public static readonly string ConfigDirectory = OverhaulMod.PersonalDirectory;
 		public static readonly string ConfigPath = Path.Combine(OverhaulMod.PersonalDirectory, "Config.json");
 
 		private static readonly Dictionary<string, IConfigEntry> entriesByName = new();
 		private static readonly Dictionary<string, CategoryData> categoriesByName = new();
+
+		private static FileSystemWatcher? configWatcher;
+		private static DateTime lastConfigWatcherWriteTime;
+		private static volatile int ignoreConfigWatcherCounter;
 
 		public override void OnModLoad()
 		{
@@ -51,8 +60,16 @@ namespace TerrariaOverhaul.Core.Configuration
 				entry.Initialize(Mod);
 			}
 
+			configWatcher = new FileSystemWatcher(ConfigDirectory) {
+				EnableRaisingEvents = true,
+				NotifyFilter = NotifyFilters.LastWrite,
+			};
+
+			configWatcher.Changed += OnConfigDirectoryFileUpdateChanged;
+
+			Logging.IgnoreExceptionContents(nameof(IOUtils.TryReadAllTextSafely)); // Don't log caught errors from loops in that method.
+
 			LoadConfig();
-			SaveConfig();
 		}
 
 		public override void Unload()
@@ -90,7 +107,7 @@ namespace TerrariaOverhaul.Core.Configuration
 
 		public static (LoadingResult result, string resultMessage) LoadConfig(bool resetOnError = true)
 		{
-			var result = LoadConfigInner(out var configVersion);
+			var result = LoadConfigInner(out var configVersion, out string? json);
 
 			if (configVersion == null && !result.HasFlag(LoadingResult.ErrorFlag)) {
 				result = LoadingResult.ModVersionMissing;
@@ -111,26 +128,29 @@ namespace TerrariaOverhaul.Core.Configuration
 				DebugSystem.Logger.Info(resultMessage);
 			}
 
+			SaveConfig(json);
+
 			return (result, resultMessage);
 		}
 
-		public static void SaveConfig()
+		public static void SaveConfig(string? oldJson = null)
 		{
-			var jObject = new JObject {
-				["Meta"] = new JObject {
-					["ModVersion"] = OverhaulMod.Instance.Version.ToString(),
-				}
-			};
+			try {
+				ignoreConfigWatcherCounter++;
 
-			foreach (var entry in entriesByName.Values.OrderBy(e => $"{e.Category}.{e.Name}")) {
-				if (!jObject.TryGetValue(entry.Category, out var categoryToken)) {
-					jObject[entry.Category] = categoryToken = new JObject();
+				if (oldJson == null) {
+					IOUtils.TryReadAllTextSafely(ConfigPath, out oldJson);
 				}
+				
+				string newJson = SaveConfigInner();
 
-				categoryToken[entry.Name] = JToken.FromObject(entry.LocalValue ?? entry.DefaultValue);
+				if (newJson != oldJson || oldJson == null) {
+					File.WriteAllText(ConfigPath, newJson);
+				}
 			}
-
-			File.WriteAllText(ConfigPath, jObject.ToString());
+			finally {
+				ignoreConfigWatcherCounter--;
+			}
 		}
 
 		public static void ResetConfig()
@@ -160,17 +180,36 @@ namespace TerrariaOverhaul.Core.Configuration
 			category.EntriesByName.Add(entry.Name, entry);
 		}
 
-		private static LoadingResult LoadConfigInner(out Version? configVersion)
+		private static string SaveConfigInner()
 		{
-			configVersion = null;
+			var jObject = new JObject {
+				["Meta"] = new JObject {
+					["ModVersion"] = OverhaulMod.Instance.Version.ToString(),
+				}
+			};
 
-			try {
-				if (!File.Exists(ConfigPath)) {
-					return LoadingResult.FileMissing;
+			foreach (var entry in entriesByName.Values.OrderBy(e => $"{e.Category}.{e.Name}")) {
+				if (!jObject.TryGetValue(entry.Category, out var categoryToken)) {
+					jObject[entry.Category] = categoryToken = new JObject();
 				}
 
-				string text = File.ReadAllText(ConfigPath);
-				var jsonObject = JObject.Parse(text);
+				categoryToken[entry.Name] = JToken.FromObject(entry.LocalValue ?? entry.DefaultValue);
+			}
+
+			return jObject.ToString();
+		}
+
+		private static LoadingResult LoadConfigInner(out Version? configVersion, out string? json)
+		{
+			configVersion = null;
+			json = null;
+
+			try {
+				if (!IOUtils.TryReadAllTextSafely(ConfigPath, out json)) {
+					return LoadingResult.FileMissing;
+				}
+				
+				var jsonObject = JObject.Parse(json);
 
 				if (jsonObject == null) {
 					return LoadingResult.FileBroken;
@@ -210,10 +249,42 @@ namespace TerrariaOverhaul.Core.Configuration
 					}
 				}
 
-				return hadErrors ? LoadingResult.HadErrors : LoadingResult.SuccessFlag;
+				return hadErrors ? LoadingResult.HadErrors : LoadingResult.Success;
 			}
 			catch {
 				return LoadingResult.FileBroken;
+			}
+		}
+
+		private static void OnConfigDirectoryFileUpdateChanged(object sender, FileSystemEventArgs e)
+		{
+			// Only listen to changes to the config file itself.
+			if (e.FullPath != ConfigPath || e.ChangeType != WatcherChangeTypes.Changed) {
+				return;
+			}
+
+			// Ignore changes to the config file if we're currently saving it, including cases triggered by refreshes.
+			if (ignoreConfigWatcherCounter > 0) {
+				return;
+			}
+
+			// Try to ignore repeating calls...
+			DateTime lastWriteTime = File.GetLastWriteTime(e.FullPath);
+
+			if (lastWriteTime > lastConfigWatcherWriteTime) {
+				lastConfigWatcherWriteTime = lastWriteTime.AddSeconds(1d);
+
+				Thread.Sleep(50); // Wait a bit, because the file is frequently still being written to here.
+
+				MessageUtils.NewText("Automatically reloading config file...", Color.Orange, logAsInfo: true);
+
+				LoadConfig();
+
+				if (!Main.dedServ) {
+					var sound = Common.Magic.MagicWeapon.MagicBlastSound;
+
+					SoundEngine.PlaySound(sound with { Volume = 0.33f });
+				}
 			}
 		}
 	}
