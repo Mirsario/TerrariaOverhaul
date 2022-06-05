@@ -61,9 +61,7 @@ Below is a step by step instruction for that. It only assumes that you know at l
 ### Getting the right tModLoader
 
 **THE EASY ROUTE:**
-> - Navigate to [`1.4_mergedtesting` Github Actions](https://github.com/tModLoader/tModLoader/actions?query=branch%3A1.4_mergedtesting).
-> - Click on the newest entry, Navigate down the page.
-> - Download 'Release Build'.
+> - Get [TModLoader from Steam](https://store.steampowered.com/app/1281930/tModLoader/).
 
 **THE HARD ROUTE:**
 > - You need Windows to build it.
@@ -71,9 +69,10 @@ Below is a step by step instruction for that. It only assumes that you know at l
 > During installation, check the `.NET desktop development` workload
 > - Install Git if you don't have it - [Git For Windows](https://git-scm.com/download/win).
 > - Ensure that you have .NET 6.0.1+ SDKs.
-> - Clone the 1.4_mergedtesting branch - `git clone https://github.com/tModLoader/tModLoader -b 1.4_mergedtesting`.
+> - Clone the branch you want, be it `1.4` (dev), `1.4-preview` (preview), or `1.4-stable` (stable):
+`git clone https://github.com/tModLoader/tModLoader -b branchname`.
 > - Run setup.bat and click Setup, pointing the tool to your latest vanilla terraria .exe.
-> - Run `solutions/buildRelease.bat`. This will build 1.4 tML into a 'tModLoaderDev' directory, find it next to Terraria's and use 'start-tModLoader.bat' to launch it.
+> - Run `solutions/buildRelease.bat`. This will build 1.4 tML into a `tModLoaderDev` directory, find it next to Terraria's and use 'start-tModLoader.bat' to launch it.
 
 ### Compiling the mod
 > - Clone the mod's 1.4 branch into `%userprofile%/Documents/My games/Terraria/tModLoader/ModSources`. Note that the directory was recently updated.
