@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items
+namespace TerrariaOverhaul.Common.Accessibility
 {
 	public class ItemAutoReuse : GlobalItem
 	{
