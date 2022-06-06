@@ -145,6 +145,8 @@ namespace TerrariaOverhaul.Core.Configuration
 				string newJson = SaveConfigInner();
 
 				if (newJson != oldJson || oldJson == null) {
+					lastConfigWatcherWriteTime = DateTime.Now.AddSeconds(0.5d); // Really ensure that this doesn't trigger an automatic config reload.
+
 					File.WriteAllText(ConfigPath, newJson);
 				}
 			}
@@ -272,7 +274,7 @@ namespace TerrariaOverhaul.Core.Configuration
 			DateTime lastWriteTime = File.GetLastWriteTime(e.FullPath);
 
 			if (lastWriteTime > lastConfigWatcherWriteTime) {
-				lastConfigWatcherWriteTime = lastWriteTime.AddSeconds(1d);
+				lastConfigWatcherWriteTime = lastWriteTime.AddSeconds(0.1d);
 
 				Thread.Sleep(50); // Wait a bit, because the file is frequently still being written to here.
 
@@ -283,7 +285,10 @@ namespace TerrariaOverhaul.Core.Configuration
 				if (!Main.dedServ) {
 					var sound = Common.Magic.MagicWeapon.MagicBlastSound;
 
-					SoundEngine.PlaySound(sound with { Volume = 0.33f });
+					try {
+						SoundEngine.PlaySound(sound with { Volume = 0.33f });
+					}
+					catch { }
 				}
 			}
 		}
