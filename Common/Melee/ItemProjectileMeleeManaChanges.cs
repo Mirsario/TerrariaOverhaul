@@ -24,6 +24,11 @@ namespace TerrariaOverhaul.Common.Melee
 			if (item.mana > 0) {
 				return false;
 			}
+			
+			// Check the config option
+			if (!EnableProjectileSwordManaUsage) {
+				return false;
+			}
 
 			// Must have actual melee damage
 			if (!item.CountsAsClass(DamageClass.Melee) || item.damage <= 0 || item.noMelee) {
@@ -65,6 +70,10 @@ namespace TerrariaOverhaul.Common.Melee
 
 		public override void SetDefaults(Item item)
 		{
+			if (!EnableProjectileSwordManaUsage) {
+				return;
+			}
+
 			item.mana = Math.Max(item.mana, 3 + item.useTime / 6);
 		}
 
