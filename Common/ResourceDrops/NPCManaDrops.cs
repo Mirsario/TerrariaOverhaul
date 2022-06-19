@@ -20,8 +20,8 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 
 		private int manaDropCooldown = ManaDropCooldownTime;
 		private int manaPickupsToDropInTotal;
-		private int manaPickupsDropped;
-
+		private Dictionary<int, int>? manaPickupsDroppedPerPlayer;
+			
 		public override bool InstancePerEntity => true;
 
 		public override void SetDefaults(NPC npc)
@@ -43,24 +43,24 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 		{
 			int expectedPickupAmount = CalculateExpectedDroppedManaPickupAmount(npc);
 
-			if (expectedPickupAmount <= manaPickupsDropped) {
+			if (expectedPickupAmount == 0) {
 				return;
 			}
 
-			bool localPlayerNeedsMana = Main.netMode != NetmodeID.Server && CanDropManaForPlayer(Main.LocalPlayer, npc.Center);
+			bool localPlayerNeedsMana = Main.netMode != NetmodeID.Server && CalculateManaDropAmountForPlayer(Main.LocalPlayer, npc.Center, expectedPickupAmount) > 0;
 
 			if (--manaDropCooldown <= 0) {
 				bool resetCooldown = false;
 
 				if (Main.netMode != NetmodeID.MultiplayerClient) {
-					if (DropAccumulatedMana(npc, manaPickupsDropped + 1)) {
+					if (DropAccumulatedMana(npc, expectedPickupAmount)) {
 						resetCooldown = true;
 					}
 				} else if (localPlayerNeedsMana) {
 					// Do nothing, just assume that the server dropped pickups for us, since we kinda need them.
 					// There is likely to be some desync, but not that much...
 					resetCooldown = true;
-					manaPickupsDropped = expectedPickupAmount;
+					(manaPickupsDroppedPerPlayer ??= new())[Main.myPlayer] = expectedPickupAmount;
 				}
 
 				if (resetCooldown) {
@@ -90,8 +90,50 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 
 		public int CalculateExpectedDroppedManaPickupAmount(NPC npc)
 		{
+			if (npc.life >= npc.lifeMax) {
+				return 0;
+			}
+			
 			float healthFactor = Math.Max(npc.life, 0) / (float)Math.Max(npc.lifeMax, 1);
 			int result = (int)MathF.Floor((1f - healthFactor) * manaPickupsToDropInTotal);
+
+			return result;
+		}
+
+		public int CalculateManaDropAmountForPlayer(Player player, Vector2 dropPosition, int currentExpectedAmount)
+		{
+			if (currentExpectedAmount <= 0) {
+				return 0;
+			}
+
+			float dropRange = DefaultManaDropRange; // Used both in culling players and checking for existing drops
+
+			int result = currentExpectedAmount;
+
+			// Cull based on how many resource drops were already given to this player
+			if (manaPickupsDroppedPerPlayer?.TryGetValue(player.whoAmI, out int manaPickupsDropped) == true) {
+				result -= manaPickupsDropped;
+
+				if (result <= 0) {
+					return 0;
+				}
+			}
+
+			// Ignore players that are too far away from the drop position
+			if (!player.WithinRange(dropPosition, dropRange)) {
+				return 0;
+			}
+
+			/*
+			if (result <= 0) {
+				return 0;
+			}
+
+			// Cull by the amount of drops nearby to the player
+			int existingDrops = ResourceDropUtils.CountItemsOfTypeWithinRange(ManaDropItemType, dropPosition, dropRange);
+
+			result = Math.Max(0, result - existingDrops);
+			*/
 
 			return result;
 		}
@@ -100,40 +142,34 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 		{
 			currentExpectedAmount ??= CalculateExpectedDroppedManaPickupAmount(npc);
 
-			int newAmount = currentExpectedAmount.Value - manaPickupsDropped;
-
-			if (newAmount <= 0) {
+			if (currentExpectedAmount.Value <= 0) {
 				return false;
 			}
 
+			int maxAmountToDrop = 0;
+			var dropPosition = npc.Center;
 			var dropsByPlayer = new Dictionary<Player, int>();
+			
+			manaPickupsDroppedPerPlayer ??= new();
 
 			foreach (var player in ActiveEntities.Players) {
-				if (CanDropManaForPlayer(player, npc.Center)) {
-					dropsByPlayer[player] = newAmount;
+				int personalDropCount = CalculateManaDropAmountForPlayer(player, dropPosition, currentExpectedAmount.Value);
+
+				if (personalDropCount > 0) {
+					dropsByPlayer[player] = personalDropCount;
+					maxAmountToDrop = Math.Max(maxAmountToDrop, personalDropCount);
+
+					int newTotalDropCount = personalDropCount;
+
+					if (manaPickupsDroppedPerPlayer.TryGetValue(player.whoAmI, out int existingTotalDropCount)) {
+						newTotalDropCount += existingTotalDropCount;
+					}
+
+					manaPickupsDroppedPerPlayer[player.whoAmI] = newTotalDropCount;
 				}
 			}
 
-			DropMana(npc, newAmount, dropsByPlayer);
-
-			manaPickupsDropped += newAmount;
-
-			return true;
-		}
-		
-		public static bool CanDropManaForPlayer(Player player, Vector2 dropPosition)
-		{
-			float dropRange = DefaultManaDropRange;
-
-			// Ignore players that are too far away from the drop position
-			if (!player.WithinRange(dropPosition, dropRange)) {
-				return false;
-			}
-
-			// Ignore players with full mana
-			if (player.statMana >= player.statManaMax2) {
-				return false;
-			}
+			DropMana(npc, maxAmountToDrop, dropsByPlayer);
 
 			return true;
 		}
