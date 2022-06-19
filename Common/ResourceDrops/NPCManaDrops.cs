@@ -124,6 +124,11 @@ namespace TerrariaOverhaul.Common.ResourceDrops
 				return 0;
 			}
 
+			// Cull by how many resource drops the player needs
+			int neededDrops = ResourceDropUtils.GetResourceDropsNeededByPlayer(player.statMana, player.statManaMax2, ManaPickupChanges.ManaPerPickup);
+
+			result = Math.Min(result, neededDrops);
+
 			/*
 			if (result <= 0) {
 				return 0;
