@@ -81,7 +81,7 @@ namespace TerrariaOverhaul.Common.Charging
 				il.Emit(OpCodes.Ldarg_0);
 				il.Emit(OpCodes.Ldloc, initialCheckSuccessLocalId);
 				il.EmitDelegate((Player player, bool initialCheckSuccess) => {
-					if (!initialCheckSuccess) {
+					if (!initialCheckSuccess || player.altFunctionUse != 0 || player.shieldRaised) {
 						return;
 					}
 
