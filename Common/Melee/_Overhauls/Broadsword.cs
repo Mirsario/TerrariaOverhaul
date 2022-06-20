@@ -18,7 +18,8 @@ namespace TerrariaOverhaul.Common.Melee
 	public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNPCHitSound
 	{
 		public static readonly SoundStyle SwordMediumSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2) {
-			PitchVariance = 0.1f,	
+			Volume = 0.8f,
+			PitchVariance = 0.1f,
 		};
 		public static readonly SoundStyle SwordHeavySwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2) {
 			PitchVariance = 0.1f,
