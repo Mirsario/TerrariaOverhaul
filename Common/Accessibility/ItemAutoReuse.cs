@@ -6,7 +6,7 @@ namespace TerrariaOverhaul.Common.Accessibility
 {
 	public class ItemAutoReuse : GlobalItem
 	{
-		public static readonly ConfigEntry<bool> ForceAutoReuse = new(ConfigSide.ClientOnly, "Accessibility", nameof(ForceAutoReuse), () => true);
+		public static readonly ConfigEntry<bool> ForceAutoReuse = new(ConfigSide.Both, "Accessibility", nameof(ForceAutoReuse), () => true);
 
 		public override void SetDefaults(Item item)
 		{
