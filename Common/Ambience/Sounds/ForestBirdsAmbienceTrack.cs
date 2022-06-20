@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Common.Ambience.Sounds
 		public override void Initialize()
 		{
 			Sound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/Forest/ForestBirds", SoundType.Ambient) {
-				Volume = 0.5f,
+				Volume = 0.38f,
 				IsLooped = true,
 			};
 
