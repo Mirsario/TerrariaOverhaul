@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 	public class MenuLink : MenuButton
 	{
 		public string Url { get; }
-		public bool PreferSteamBrowser { get; init; } = true; // Set to true for now, since firefox seems to show "Your firefox profile cannot be loaded" errors for some reason.
+		public bool PreferSteamBrowser { get; init; }
 		
 		public MenuLink(string text, string url) : base(text)
 		{
@@ -21,9 +21,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 				return;
 			}
 
-			Process.Start(new ProcessStartInfo(Url) {
-				UseShellExecute = true
-			});
+			Terraria.Utils.OpenToURL(Url);
 		}
 	}
 }
