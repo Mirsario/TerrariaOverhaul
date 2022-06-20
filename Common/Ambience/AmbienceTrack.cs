@@ -11,16 +11,23 @@ namespace TerrariaOverhaul.Common.Ambience
 {
 	public abstract class AmbienceTrack : ModType
 	{
+		private SlotId instanceReference;
+
 		public bool IsLooped { get; protected set; }
 		public SoundStyle? Sound { get; protected set; } = null!;
 		public float Volume { get; private set; }
-		public SlotId InstanceReference { get; private set; }
-
-		public virtual float VolumeChangeSpeed => 0.5f;
 
 		private bool ShouldBeActive => Volume > 0f && AmbienceSystem.EnableAmbientSounds;
 
+		public SlotId InstanceReference {
+			get => instanceReference;
+			private set => instanceReference = value;
+		}
+
+		public virtual float VolumeChangeSpeed => 0.5f;
+
 		public abstract void Initialize();
+		
 		public abstract float GetTargetVolume(Player localPlayer);
 
 		protected override void Register()
@@ -57,14 +64,7 @@ namespace TerrariaOverhaul.Common.Ambience
 				return;
 			}
 
-			if (soundInstance == null) {
-				if (Sound.HasValue) {
-					InstanceReference = SoundEngine.PlaySound(Sound.Value with { Volume = Volume }, CameraSystem.ScreenCenter);
-				}
-			} else {
-				soundInstance.Volume = Volume;
-				soundInstance.Position = CameraSystem.ScreenCenter;
-			}
+			SoundUtils.UpdateLoopingSound(ref instanceReference, Sound!.Value, Volume, CameraSystem.ScreenCenter);
 		}
 	}
 }
