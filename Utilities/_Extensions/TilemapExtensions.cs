@@ -14,7 +14,9 @@ namespace TerrariaOverhaul.Utilities
 		public static bool TryGet(this Tilemap tilemap, int x, int y, out Tile tile)
 		{
 			if (x >= 0 && y >= 0 && x < Main.maxTilesX && y < Main.maxTilesY) {
-				return (tile = tilemap[x, y]) != null;
+				tile = tilemap[x, y];
+
+				return true;
 			}
 
 			tile = default;

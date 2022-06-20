@@ -134,7 +134,7 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 			// Check if the tile that this is latched to has disappeared.
 
-			if (!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) && !CanTileBeLatchedOnto(proj, tile)) {
+			if (!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) || !CanTileBeLatchedOnto(proj, tile)) {
 				SetHooked(proj, false);
 				proj.Kill();
 
