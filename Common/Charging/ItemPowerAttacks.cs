@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Mono.Cecil;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -60,13 +61,27 @@ namespace TerrariaOverhaul.Common.Charging
 					i => i.MatchLdcI4(1)
 					// ...
 				);
-
 				il.HijackIncomingLabels();
+
+				int initialCheckSuccessLocalId = context.Body.Variables.Count;
+				
+				il.Body.Variables.Add(new VariableDefinition(context.Import(typeof(bool))));
 
 				il.Emit(OpCodes.Ldarg_0);
 				il.Emit(OpCodes.Ldloc, isButtonHeldLocalId);
 				il.EmitDelegate((Player player, bool isButtonHeld) => {
-					if (!isButtonHeld || player.altFunctionUse != 0) {
+					return isButtonHeld && player.altFunctionUse == 0;
+				});
+				il.Emit(OpCodes.Stloc, initialCheckSuccessLocalId);
+
+				// Move to right before the end of the method
+				il.GotoNext(MoveType.Before, i => i.Match(OpCodes.Ret));
+				il.HijackIncomingLabels();
+
+				il.Emit(OpCodes.Ldarg_0);
+				il.Emit(OpCodes.Ldloc, initialCheckSuccessLocalId);
+				il.EmitDelegate((Player player, bool initialCheckSuccess) => {
+					if (!initialCheckSuccess) {
 						return;
 					}
 
