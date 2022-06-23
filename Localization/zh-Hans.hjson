@@ -138,7 +138,7 @@ Mods: {
 			Zombified: "{PlayerName}成了只僵尸。"
 			ZombifiedScreenText: "你变成了一只僵尸..."
 			ZombifiedName: "僵尸{PlayerName}"
-			Lightning: "{PlayerName}遭天谴了！"
+			Lightning: "{PlayerName}遭了天谴！"
 		}
 		
 		ItemName: {
@@ -198,9 +198,9 @@ Mods: {
 			MusicDisc: "可在留声机处播放"
 			
 			//Tools
-			//Mop: "让你的房子里没有怪物内脏和眼球碎片的痕迹"
-			//StoneAxe: "木材说不定比这还要坚固"
-			//StonePickaxe: "用来敲泥土的话还挺不错！"
+			Mop: "让你的房子里没有怪物内脏和眼球碎片的痕迹"
+			StoneAxe: "连木头都比这要坚固"
+			StonePickaxe: "用来敲泥土的话还挺不错！"
 			
 			//Unused
 			//HarmlessRocket:
@@ -270,11 +270,11 @@ Mods: {
 		}
 		
 		BuffName: {
-			//ManaAbsorption: "Mana Absorption"
+			ManaAbsorption: "魔力吸取"
 		}
 		
 		BuffDescription: {
-			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
+			ManaAbsorption: "你的迅速步伐，使你从身边的一切汲取魔力\n基础魔力再生速度 x{Multiplier}"
 		}
 	}
 }
