@@ -8,47 +8,11 @@ Terraria Overhaul is a *huuuge* game mechanics changing mod for Terraria.
 You can read more about it at [this forum page](https://forums.terraria.org/index.php?threads/.60369/) (Might be outdated.)
 
 # What's the state of the rebuild?
-This version is around 50% done.
+This version is around 60%+ done.
 It's missing many features from the 1.3 version, but what's currently implemented is much superior to the old version.
-Here's a (always incomplete) summary of the implemented features/changes:
-- Movement:
-	- Physics changes.
-	- New & improved dodgerolls.
-	- Grappling hook swinging physics.
-	- Climbing.
-	- Bunnyhopping.
-	- Walljumps and wallrolls.
-	- Players facing the mouse cursor.
-	- Jump key buffering & auto-jump.
-- New & improved melee combat:
-	- New satisfying sound effects, screenshakes, all the wonderful things.
-	- New air combat - take the fight into the sky with repeated hits.
-	- Charged attacks.
-	- Killing Blows for broadswords.
-- Gun combat:
-	- New satisfying sound effects, muzzleflashes, screenshakes, visual recoil, all the wonderful things.
-	- New alt fires for some weapon types (soon most); if weapons don't have their own.
-	- Non-visual-only reloading removed forever.
-- Magic combat:
-	- New satisfying sound effects, screenshakes, visual recoil, all the wonderful things.
-	- Charged shots.
-	- New mana gameplay loops - rebalanced regeneration, drops of mana from enemies.
-- New & improved blood & gore.
-	- Heavily improved decals.
-	- Gore interactivity.
-- Ambience:
-	- Ambient sound loops.
-	- Heavily improved reverb & low-pass filtering effects.
-		- No longer exclusive to unofficial TML forks.
-		- Now dynamic, with even outside sounds sounding muted in doors.
-	- New footstep sounds.
-- Camera improvements.
-- Velocity-based rotation for players.
-- Random removal:
-	- Damage randomization removal.
-- Improved & even more dynamic crosshair.
 
-They still, however, make a big impact on the game's feel.
+[Click here to see a mostly-full comparison list for feature parity between v4.x and v5.0.](https://github.com/Mirsario/TerrariaOverhaul/issues/108)
+
 
 # How do I build this?
 
