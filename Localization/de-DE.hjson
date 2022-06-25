@@ -3,13 +3,13 @@ Mods: {
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
-					//DisplayName: "Enable Ambient Sounds"
-					//Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
+					DisplayName: "Aktiviert Umgebungsgeräusche"
+					Description: "Schaltet Umgebungsgeräusche (z.B. Vögel, Heuschrecken, Wind, Höhlengeräusche, etc.) um."
 				}
 				
 				EnablePlayerFootsteps: {
-					//DisplayName: "Enable Player Footsteps"
-					//Description: "Toggles player character footstep audio"
+					DisplayName: "Aktiviert Spielerfußstapfen"
+					Description: "Schaltet das Audio der Spielerfußstapfen um."
 				}
 			}
 			
