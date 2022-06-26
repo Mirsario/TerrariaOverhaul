@@ -149,7 +149,7 @@ Mods: {
 			Charcoal: "Holzkohle"
 			
 			//Placeables
-            Calendar: "Kalender"
+            		Calendar: "Kalender"
 			Gramophone: "Gramophon"
 			
 			//Consumables
