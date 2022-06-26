@@ -104,7 +104,7 @@ Mods: {
 			}
 
 			Winter: {
-                Name: "Winter"
+                		Name: "Winter"
 			}
 
 			SelectSeason: "Jahreszeit zum Spielbeginn:"
