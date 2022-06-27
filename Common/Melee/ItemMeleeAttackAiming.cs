@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Core.ItemComponents;
@@ -57,7 +58,13 @@ namespace TerrariaOverhaul.Common.Melee
 
 		public static float GetAttackRange(Item item, Player player)
 		{
-			float range = (item.Size * item.scale * 1.25f).Length();
+			// Some mods scale up items to increase range
+			float scale = item.scale;
+
+			ItemLoader.ModifyItemScale(item, player, ref scale);
+
+			// Do other range check
+			float range = (item.Size * scale * 1.25f).Length();
 
 			IModifyItemMeleeRange.Invoke(item, player, ref range);
 
