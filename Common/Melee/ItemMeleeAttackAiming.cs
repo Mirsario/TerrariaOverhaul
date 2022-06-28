@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.ModEntities.NPCs;
 using TerrariaOverhaul.Core.Debugging;
@@ -153,6 +154,10 @@ namespace TerrariaOverhaul.Common.Melee
 					}
 				}
 			}
+
+			bool dontAttackDummy = false;
+
+			ItemLoader.UseItemHitbox(item, player, ref itemRectangle, ref dontAttackDummy);
 
 			return itemRectangle;
 		}
