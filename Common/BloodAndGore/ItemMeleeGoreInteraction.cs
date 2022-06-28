@@ -19,16 +19,15 @@ namespace TerrariaOverhaul.Common.BloodAndGore
 				return;
 			}
 
-			float range = ItemMeleeAttackAiming.GetAttackRange(item, player);
-			float arcRadius = MathHelper.Pi * 0.5f;
-
-			const int MaxHits = 5;
-
-			int numHit = 0;
-
 			if (!item.TryGetGlobalItem(out ItemMeleeAttackAiming meleeAttackAiming)) {
 				return;
 			}
+
+			const int MaxHits = 5;
+
+			float range = ItemMeleeAttackAiming.GetAttackRange(item, player);
+			float arcRadius = MathHelper.Pi * 0.5f;
+			int numHit = 0;
 
 			for (int i = 0; i < Main.maxGore; i++) {
 				if (Main.gore[i] is not OverhaulGore gore || !gore.active || gore.Time < 30) {
