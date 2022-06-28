@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Tags;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Projectiles
@@ -14,6 +15,8 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 	// Could use more comments.
 	public class ProjectileGrapplingHookPhysics : GlobalProjectile
 	{
+		public static readonly ConfigEntry<bool> EnableGrapplingHookPhysics = new(ConfigSide.Both, "PlayerMovement", nameof(EnableGrapplingHookPhysics), () => true);
+		
 		public const int GrapplingHookAIStyle = 7;
 
 		private static Dictionary<int, float>? vanillaHookRangesInTiles;
@@ -250,6 +253,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 		public static bool ShouldOverrideGrapplingHookPhysics(Player? player, Projectile? proj)
 		{
+			if (!EnableGrapplingHookPhysics) {
+				return false;
+			}
+
 			if (player?.active != true) {
 				return false;
 			}
