@@ -55,7 +55,7 @@ namespace TerrariaOverhaul.Common.Melee
 
 			float range = GetAttackRange(item, player, itemRectangle);
 
-			if (!Main.dedServ && DebugSystem.EnableDebugRendering && itemRectangle) {
+			if (!Main.dedServ && DebugSystem.EnableDebugRendering) {
 				DebugSystem.DrawRectangle(itemRectangle, Color.Purple);
 			}
 
