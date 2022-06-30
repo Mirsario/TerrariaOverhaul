@@ -73,7 +73,6 @@ namespace TerrariaOverhaul.Common.Melee
 
 			float range = 0f;
 			var playerCenter = player.Center;
-			var hitboxCenter = itemHitbox.Center;
 
 			for (int i = 0; i < 4; i++) {
 				var corner = i switch {
@@ -88,7 +87,7 @@ namespace TerrariaOverhaul.Common.Melee
 				range = Math.Max(range, distanceToCorner);
 			}
 
-			//IModifyItemMeleeRange.Invoke(item, player, ref range);
+			IModifyItemMeleeRange.Invoke(item, player, ref range);
 
 			return range;
 		}
