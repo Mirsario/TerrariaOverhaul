@@ -180,6 +180,9 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 				player.velocity *= pull ? 0.1f : up ? 0.975f : 1f;
 			}
 
+			// Prevent hook from going farther than normal by clamping again
+			dist = MathHelper.Clamp(dist, 10f, hookRange - 32f);
+
 			float nextDistance = Vector2.Distance(playerCenter + player.velocity, projCenter);
 			float deltaDistance = nextDistance - dist;
 			var vect = projCenter - playerCenter;
