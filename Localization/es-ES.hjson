@@ -4,10 +4,10 @@ UI: {
 	Expert: "Ponme las pilas"
 	Master: "Soy la reencarnación de Cthulhu"
 	
-	WorldDescriptionCreative: "El modo Creativo / Accesible (Para los que quieren tener el control)"
-	WorldDescriptionNormal: "Menos daño de los enemigos, pero las mismas recompensas (Para los más relajados)"
+	WorldDescriptionCreative: "El modo creativo/accesible (Para los que quieren tener el control)"
+	WorldDescriptionNormal: "Menos daño de enemigos e mismas recompensas (Para los más relajados)"
 	WorldDescriptionExpert: "La nueva experiencia estándar (Para los que les gusta un reto justo)"
-	WorldDescriptionMaster: "Castigo extremo y nuevas recompensas (Para los realmente despiadados)"
+	WorldDescriptionMaster: "Castigo extremo y nuevas recompensas (Para los más despiadados)"
 }
 
 Mods: {
@@ -74,7 +74,7 @@ Mods: {
 					Description:
 					'''
 					El salto de pared es una nueva mecánica de movimiento que requiere equipo de escalada o zapatos de púa.
-					Se realiza golpeando una pared con la espalda mientras se mantiene el botón de subida con los botones de movimiento horizontal sueltos.
+					Se realiza golpeando una pared con la espalda mientras se mantiene el botón de subir con los botones de movimiento horizontal sueltos.
 					'''
 				}
 				
@@ -125,7 +125,7 @@ Mods: {
 
 			SelectSeason: "Elige la estación de inicio:"
 			CalendarCurrentSeason: "Ahora es {SeasonName}."
-			CalendarNextSeasonDays: "La estación de {SeasonName} llegará en {NumDays} día/s."
+			CalendarNextSeasonDays: "La estación de {SeasonName} llegará en {NumDays} día(s)."
 			CalendarNextSeasonTomorrow: "¡Mañana será {SeasonName}!"
 		}
 		
@@ -285,11 +285,11 @@ Mods: {
 		}
 		
 		BuffName: {
-			//ManaAbsorption: "Mana Absorption"
+			ManaAbsorption: "Absorción de maná"
 		}
 		
 		BuffDescription: {
-			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
+			ManaAbsorption: "Moviéndote con velocidad, absorbes energía de tu alrededor.\nMultiplicador de regeneración de maná base: x{Multiplier}"
 		}
 	}
 }
