@@ -129,6 +129,10 @@ namespace TerrariaOverhaul.Common.Charging
 				return false;
 			}
 
+			if (ItemLoader.CanUseItem(item, player)) {
+				return false;
+			}
+
 			if (!player.CheckMana(item)) {
 				return false;
 			}
