@@ -12,9 +12,11 @@ using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.Melee
 {
+	
 	public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNPCHitSound
 	{
 		public static readonly SoundStyle SwordMediumSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2) {
@@ -28,6 +30,8 @@ namespace TerrariaOverhaul.Common.Melee
 			Volume = 0.65f,
 			PitchVariance = 0.1f
 		};
+		
+		public static readonly ConfigEntry<bool> EnablePowerAttack = new(ConfigSide.Both, "Melee", nameof(EnablePowerAttack), () => true);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -73,6 +77,9 @@ namespace TerrariaOverhaul.Common.Melee
 			});
 
 			// Power Attacks
+			
+			if(EnablePowerAttack)
+			{
 			item.EnableComponent<ItemMeleePowerAttackEffects>();
 			item.EnableComponent<ItemPowerAttacks>(c => {
 				c.ChargeLengthMultiplier = 1.5f;
@@ -88,6 +95,8 @@ namespace TerrariaOverhaul.Common.Melee
 					c.ReplacesUseSound = true;
 				});
 			}
+			}
+
 
 			// Killing Blows
 			item.EnableComponent<ItemKillingBlows>();
