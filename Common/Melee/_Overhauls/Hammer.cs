@@ -19,6 +19,8 @@ namespace TerrariaOverhaul.Common.Melee
 			PitchVariance = 0.1f,
 		};
 
+		public static readonly ConfigEntry<bool> EnableHammerPowerAttack = new(ConfigSide.Both, "Melee", nameof(EnableHammerPowerAttack), () => true);
+
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
 			// Must have hammering capabilities
@@ -62,6 +64,8 @@ namespace TerrariaOverhaul.Common.Melee
 				c.AnimateLegs = true;
 			});
 
+			if(EnableHammerPowerAttack)
+			{
 			// Power Attacks
 			item.EnableComponent<ItemMeleePowerAttackEffects>();
 			item.EnableComponent<ItemPowerAttacks>(c => {
@@ -77,6 +81,7 @@ namespace TerrariaOverhaul.Common.Melee
 					c.Sound = HammerChargedSwing;
 					c.ReplacesUseSound = true;
 				});
+			}
 			}
 		}
 	}

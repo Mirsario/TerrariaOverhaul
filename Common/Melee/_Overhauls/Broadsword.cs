@@ -31,7 +31,7 @@ namespace TerrariaOverhaul.Common.Melee
 			PitchVariance = 0.1f
 		};
 		
-		public static readonly ConfigEntry<bool> EnablePowerAttack = new(ConfigSide.Both, "Melee", nameof(EnablePowerAttack), () => true);
+		public static readonly ConfigEntry<bool> EnableSwordPowerAttack = new(ConfigSide.Both, "Melee", nameof(EnableSwordPowerAttack), () => true);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -78,7 +78,7 @@ namespace TerrariaOverhaul.Common.Melee
 
 			// Power Attacks
 			
-			if(EnablePowerAttack)
+			if(EnableSwordPowerAttack)
 			{
 			item.EnableComponent<ItemMeleePowerAttackEffects>();
 			item.EnableComponent<ItemPowerAttacks>(c => {
