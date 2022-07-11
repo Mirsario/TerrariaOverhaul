@@ -5,13 +5,17 @@ UI: {
 	Master: "Soy la reencarnación de Cthulhu"
 	
 	WorldDescriptionCreative: "El modo creativo/accesible (Para los que quieren tener el control)"
-	WorldDescriptionNormal: "Menos daño de enemigos e mismas recompensas (Para los más relajados)"
+	WorldDescriptionNormal: "Menos daño de enemigos y mismas recompensas (Para los más relajados)"
 	WorldDescriptionExpert: "La nueva experiencia estándar (Para los que les gusta un reto justo)"
 	WorldDescriptionMaster: "Castigo extremo y nuevas recompensas (Para los más despiadados)"
 }
 
 Mods: {
 	TerrariaOverhaul: {
+		Notifications: {
+				AudioFilteringTestFailure: "Advertencia: Terraria Overhaul no ha podido activar los efectos de filtrado de audio. Asegúrate de que tus controladores de audio están actualizados."
+			}
+
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
@@ -127,6 +131,11 @@ Mods: {
 			CalendarCurrentSeason: "Ahora es {SeasonName}."
 			CalendarNextSeasonDays: "La estación de {SeasonName} llegará en {NumDays} día(s)."
 			CalendarNextSeasonTomorrow: "¡Mañana será {SeasonName}!"
+		}
+		
+		Banners: {
+			BannerBuffDescription: "El botín y las monedas se duplican en los siguientes casos:"
+			BannerItemDescription: "Los jugadores cercanos reciben el doble de botín y dineros de lo siguiente:"
 		}
 		
 		ItemOverhauls: {
