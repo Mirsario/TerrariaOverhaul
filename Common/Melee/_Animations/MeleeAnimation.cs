@@ -5,14 +5,21 @@ using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
 
+using TerrariaOverhaul.Core.Configuration;
+
 namespace TerrariaOverhaul.Common.Melee
 {
 	public abstract class MeleeAnimation : ItemComponent
 	{
+		public static readonly ConfigEntry<bool> EnableImprovedMeleeAnimations = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnableImprovedMeleeAnimations), () => true);
+
 		public abstract float GetItemRotation(Player player, Item item);
 
 		public override void UseItemFrame(Item item, Player player)
 		{
+			if (!EnableImprovedMeleeAnimations)
+				return;
+
 			if (!Enabled) {
 				return;
 			}
