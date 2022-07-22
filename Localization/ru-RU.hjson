@@ -73,7 +73,7 @@ Mods: {
 
 				EnableBunnyhopping: {
 					DisplayName: "Включить баннихоппинг"
-					Description: 
+					Description:
 						'''
 						Баннихоппинг - это небольшое горизонтальное ускорение, которое вы получаете при каждом прыжке.
 						Отключение этой опции отключит некоторые аксессуары.
@@ -87,7 +87,7 @@ Mods: {
 
 				EnableWallJumping: {
 					DisplayName: "Включить прыжки от стен"
-					Description: 
+					Description:
 						'''
 						Прыжки от стен - это новая механика движения, требующая альпинистские когти или шипы на ботинки.
 						Они осуществляются путем касания стены задней стороной персонажа, пока вы держите кнопку 'вверх', при этом не держа кнопки горизонтального движения.
@@ -96,7 +96,7 @@ Mods: {
 
 				EnableWallFlips: {
 					DisplayName: "Включить кувырки от стен"
-					Description: 
+					Description:
 						'''
 						Сальто от стен - это новая механика движения, которая не требует никаких аксессуаров.
 						Они осуществляются путем касания стены передней стороной персонажа с достаточной горизонтальной скоростью, пока вы держите кнопку горизонтального движения, противоположную от направления персонажа.
@@ -157,7 +157,7 @@ Mods: {
 
 				Broadsword: {
 					//KillingBlow: "Killing Blow!"
-					//KillingBlowInfo: 
+					//KillingBlowInfo:
 					//	'''
 					//	Charged strikes can deal Killing Blows to damaged enemies
 					//	Killing Blows double damage whenever that would finish the enemy
@@ -191,7 +191,7 @@ Mods: {
 		ItemTooltip: {
 			//BunnyPaw: "Increases bunnyhop speed boost"
 			//Charcoal: "It's still warm"
-			//Calendar: 
+			//Calendar:
 			//	'''
 			//	Counts amount of days left until the next season
 			//	Right click after placing to use it
@@ -212,7 +212,7 @@ Mods: {
 		}
 
 		BuffDescription: {
-			//ManaAbsorption: 
+			//ManaAbsorption:
 			//	'''
 			//	Moving with haste, you are absorbing energy from all around you
 			//	Base mana regeneration multiplier: x{Multiplier}

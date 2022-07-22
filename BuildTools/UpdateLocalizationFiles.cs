@@ -74,7 +74,7 @@ namespace TerrariaOverhaul.BuildTools
 						code.Write(linePrefix);
 					}
 
-					code.Write($"{jsonProperty.Name}: ");
+					code.Write($"{jsonProperty.Name}:");
 
 					Recursion(parameters, jsonProperty.Value);
 
@@ -82,7 +82,7 @@ namespace TerrariaOverhaul.BuildTools
 					break;
 				case JObject jsonObject:
 					if (!isRoot) {
-						code.WriteLine("{");
+						code.WriteLine(" {");
 						code.Indent();
 					}
 
@@ -120,9 +120,9 @@ namespace TerrariaOverhaul.BuildTools
 
 					if (!jsonValueText.Contains('\n')) {
 						if (jsonValue.Type == JTokenType.String) {
-							code.Write($@"""{jsonValueText}""");
+							code.Write($@" ""{jsonValueText}""");
 						} else {
-							code.Write(jsonValueText);
+							code.Write($" {jsonValueText}");
 						}
 
 						break;

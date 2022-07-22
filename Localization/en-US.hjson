@@ -73,7 +73,7 @@ Mods: {
 
 				EnableBunnyhopping: {
 					DisplayName: "Enable Bunnyhopping"
-					Description: 
+					Description:
 						'''
 						Bunnyhopping gives you a slight horizontal boost every time you jump.
 						Turning this off will disable certain accessories.
@@ -87,7 +87,7 @@ Mods: {
 
 				EnableWallJumping: {
 					DisplayName: "Enable Wall Jumping"
-					Description: 
+					Description:
 						'''
 						Wall jumping is a new movement mechanic that requires climbing gear or spike shoes.
 						It is done by hitting a wall with your back while holding the up button with horizontal movement buttons released.
@@ -96,7 +96,7 @@ Mods: {
 
 				EnableWallFlips: {
 					DisplayName: "Enable Wall Flips"
-					Description: 
+					Description:
 						'''
 						A wall flip is a new movement mechanic that does not require any accessories.
 						It is done by hitting a wall with your front with enough velocity while holding the horizontal movement opposite of the player's direction.
@@ -157,7 +157,7 @@ Mods: {
 
 				Broadsword: {
 					KillingBlow: "Killing Blow!"
-					KillingBlowInfo: 
+					KillingBlowInfo:
 						'''
 						Charged strikes can deal Killing Blows to damaged enemies
 						Killing Blows double damage whenever that would finish the enemy
@@ -191,7 +191,7 @@ Mods: {
 		ItemTooltip: {
 			BunnyPaw: "Increases bunnyhop speed boost"
 			Charcoal: "It's still warm"
-			Calendar: 
+			Calendar:
 				'''
 				Counts amount of days left until the next season
 				Right click after placing to use it
@@ -212,7 +212,7 @@ Mods: {
 		}
 
 		BuffDescription: {
-			ManaAbsorption: 
+			ManaAbsorption:
 				'''
 				Moving with haste, you are absorbing energy from all around you
 				Base mana regeneration multiplier: x{Multiplier}

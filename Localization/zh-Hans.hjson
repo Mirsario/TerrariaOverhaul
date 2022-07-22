@@ -83,7 +83,7 @@ Mods: {
 
 				EnableWallJumping: {
 					DisplayName: "开启蹬墙跳功能"
-					Description: 
+					Description:
 						'''
 						蹬墙跳是一种新的运动机制，需要装备有攀爬装备或钉鞋才能完成。
 						背对着冲向墙，在撞击墙壁的同时按住向上键，并放开水平方向移动按钮，即可完成此动作。
@@ -92,7 +92,7 @@ Mods: {
 
 				EnableWallFlips: {
 					DisplayName: "开启蹬墙空翻功能"
-					Description: 
+					Description:
 						'''
 						蹬墙空翻是一种新的运动机制，不需要任何额外饰品即可完成。
 						在以足够的速度撞击墙壁的瞬间，按下反向移动按键以改变运动方向，即可完成此动作。
@@ -153,7 +153,7 @@ Mods: {
 
 				Broadsword: {
 					KillingBlow: "致命一击！"
-					KillingBlowInfo: 
+					KillingBlowInfo:
 						'''
 						蓄力攻击可以对残血的敌人造成致命一击
 						致命一击会对敌人造成双倍伤害
@@ -187,7 +187,7 @@ Mods: {
 		ItemTooltip: {
 			BunnyPaw: "加强兔子蹦跳的速度提升效果"
 			Charcoal: "热乎着呢"
-			Calendar: 
+			Calendar:
 				'''
 				计算到达下一季的剩余天数
 				放置后右键点击即可使用
@@ -208,7 +208,7 @@ Mods: {
 		}
 
 		BuffDescription: {
-			ManaAbsorption: 
+			ManaAbsorption:
 				'''
 				你的迅速步伐，使你从身边的一切汲取魔力
 				基础魔力再生速度 x{Multiplier}

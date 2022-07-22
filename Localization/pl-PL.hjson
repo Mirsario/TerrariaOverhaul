@@ -83,7 +83,7 @@ Mods: {
 
 				EnableWallJumping: {
 					DisplayName: "Włącz skoki po ścianach"
-					Description: 
+					Description:
 						'''
 						Skakanie po ścianach to nowy system poruszania się który wymaga zestawu do wspinaczki lub kolców do butów.
 						Wykonaj je poprzez uderzenie w ścianę tyłem, trzymając przycisk w górę, i z puszczonymi przyciskami ruchu w poziomie.
@@ -92,7 +92,7 @@ Mods: {
 
 				EnableWallFlips: {
 					DisplayName: "Włącz Piruety ze Ścian"
-					Description: 
+					Description:
 						'''
 						Piruety ze ścian to nowy system poruszania się, nie wymaga akcesoriów.
 						Wykonaj je poprzez uderzenie w ścianę przodem z dość dużą prędkością, trzymając przycisk ruchu w przeciwną stronę.
@@ -153,7 +153,7 @@ Mods: {
 
 				Broadsword: {
 					KillingBlow: "Zabójczy Cios!"
-					KillingBlowInfo: 
+					KillingBlowInfo:
 						'''
 						Naładowane ataki mogą zadać Zabójcze Ciosy zranionym przeciwnikom
 						Zabójcze Ciosy zadają podwójne obrażenia, jeśli wykończyłyby przeciwnika
@@ -187,7 +187,7 @@ Mods: {
 		ItemTooltip: {
 			BunnyPaw: "Zwiększa bonus do prędkości bunnyhopingu"
 			Charcoal: "Ciągle ciepły"
-			Calendar: 
+			Calendar:
 				'''
 				Odlicza dni do następnej pory roku
 				Zawieś i kliknij prawym przyciskiem myszy aby użyć
@@ -208,7 +208,7 @@ Mods: {
 		}
 
 		BuffDescription: {
-			//ManaAbsorption: 
+			//ManaAbsorption:
 			//	'''
 			//	Moving with haste, you are absorbing energy from all around you
 			//	Base mana regeneration multiplier: x{Multiplier}

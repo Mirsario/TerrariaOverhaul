@@ -83,7 +83,7 @@ Mods: {
 
 				EnableWallJumping: {
 					DisplayName: "Ativar o Salto entre Paredes"
-					Description: 
+					Description:
 						'''
 						Salto entre paredes é uma nova mecânica que requer equipamento de escalada ou espeto para sapatos.
 						Feito atingindo uma parede com as costas segurando o botão 'para cima' com botões de movimento horizontal soltos.
@@ -92,7 +92,7 @@ Mods: {
 
 				EnableWallFlips: {
 					DisplayName: "Ativar Cambalhotas em Paredes"
-					Description: 
+					Description:
 						'''
 						Uma cambalhota na parede é uma nova mecânica de movimento que não requer qualquer acessório.
 						Feita atingindo uma parede de frente com velocidade o suficiente enquanto mantendo o movimento horizontal oposto a direção do jogador.
@@ -153,7 +153,7 @@ Mods: {
 
 				Broadsword: {
 					KillingBlow: "Golpe Mortal!"
-					KillingBlowInfo: 
+					KillingBlowInfo:
 						'''
 						Ataques carregados podem ser Golpes Mortais para inimigos machucados
 						Golpes mortais dobram seu dano sempre que acabam com o inimigo
@@ -187,7 +187,7 @@ Mods: {
 		ItemTooltip: {
 			BunnyPaw: "Aumento o impulso do saltitar"
 			Charcoal: "Ainda está quente"
-			Calendar: 
+			Calendar:
 				'''
 				Conta a quantidade de dias até a próxima estação
 				Clique com o botão direito após colocar para usar
@@ -208,7 +208,7 @@ Mods: {
 		}
 
 		BuffDescription: {
-			//ManaAbsorption: 
+			//ManaAbsorption:
 			//	'''
 			//	Moving with haste, you are absorbing energy from all around you
 			//	Base mana regeneration multiplier: x{Multiplier}
