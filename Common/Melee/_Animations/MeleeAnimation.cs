@@ -17,10 +17,7 @@ namespace TerrariaOverhaul.Common.Melee
 
 		public override void UseItemFrame(Item item, Player player)
 		{
-			if (!EnableImprovedMeleeAnimations)
-				return;
-
-			if (!Enabled) {
+			if (!Enabled || !EnableImprovedMeleeAnimations) {
 				return;
 			}
 

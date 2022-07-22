@@ -33,8 +33,9 @@ namespace TerrariaOverhaul.Common.Melee
 
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
-			if (!EnableMeleeSlashVisualization)
+			if (!EnableMeleeSlashVisualization) {
 				return;
+			}
 
 			// Wait for the texture to load
 			if (texture?.IsLoaded != true) {
