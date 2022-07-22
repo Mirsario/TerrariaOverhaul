@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+	<LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <OutDir>Libraries</OutDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Build.Utilities.Core" Version="17.1.0" />
+	<!-- Nuget packages do not always work here... -->
+	<Reference Include="Hjson" HintPath="Libraries\Hjson.dll" Private="true" />
+	<Reference Include="Newtonsoft.Json" HintPath="Libraries\Newtonsoft.Json.dll" Private="true" />
+  </ItemGroup>
+
+</Project>

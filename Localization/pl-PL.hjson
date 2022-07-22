@@ -1,96 +1,129 @@
+UI: {
+	//Creative: "Journey"
+	//Normal: "I'm Too Young to Mine"
+	//Expert: "Bone Me Plenty"
+	//Master: "I Am Cthulhu Incarnate"
+	//WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
+	//WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
+	//WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
+	//WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
+}
+
 Mods: {
 	TerrariaOverhaul: {
+		MainMenu: {
+			//Configuration: "Configuration"
+			//DiscordServer: "Discord Server"
+			//ForumPage: "Forum Page"
+			//WikiPage: "Overhaul Wiki"
+			//Github: "GitHub"
+
+			MusicPack: {
+				//Get: "Get the Music Pack"
+				//Enable: "Enable the Music Pack"
+			}
+		}
+
+		Notifications: {
+			//AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+		}
+
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
 					DisplayName: "Włącz Dźwięki Otoczenia"
 					Description: "Włącza dżwięki otoczenia takie jak ptaki, świerszcze czy szumy jaskiń."
 				}
-				
+
 				EnablePlayerFootsteps: {
 					DisplayName: "Włącz Kroki Gracza"
 					Description: "Włącza dźwięki kroków gracza"
 				}
 			}
-			
+
 			BloodAndGore: {
 				EnableDecals: {
 					DisplayName: "Włącz Ślady Krwi"
 					Description: "Włącza ślady krwi na blokach i płytkach."
 				}
 			}
-			
+
 			Camera: {
 				SmoothCamera: {
 					DisplayName: "Płynna Kamera"
 					Description: "Zmienia ruchy kamery dla lepszego poczucia prędkości."
 				}
-				
+
 				ScreenShakeStrength: {
 					DisplayName: "Siła Wstrząsów Ekranu"
 					Description: "Kontroluje siłę efektów wstrząsów na ekranie. Ustaw na zero by je całkowicie wyłączyć."
 				}
 			}
-			
+
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "Włącz Zmiany Ruchu w Pionie"
 					Description: "Włącza opór powietrza i (prawie) nieograniczoną prędkość spadania."
 				}
-				
+
 				EnableHorizontalAccelerationChanges: {
 					DisplayName: "Włącz Zmiany Ruchu w Poziomie"
 					Description: "Włącza zmiany ruchu w poziomie, maksymanlnej prędkości biegu i przyśpieszenia."
 				}
-				
+
 				EnableBunnyhopping: {
 					DisplayName: "Włącz Bunnyhopping"
 					Description: "Bunnyhopping daje niewielkie przyśpieszenie biegu za każdy wykonany skok. Wyłaczenie tego niweluje niektóre akcesoria."
 				}
-				
+
 				EnableClimbing: {
 					DisplayName: "Włącz Wspinaczkę"
 					Description: "Wspinaczka pozwala ci podciągnąć się krawędzi poprzez trzymanie przycisku w górę."
 				}
-				
+
 				EnableWallJumping: {
 					DisplayName: "Włącz skoki po ścianach"
-					Description:
+					Description: 
 						'''
 						Skakanie po ścianach to nowy system poruszania się który wymaga zestawu do wspinaczki lub kolców do butów.
 						Wykonaj je poprzez uderzenie w ścianę tyłem, trzymając przycisk w górę, i z puszczonymi przyciskami ruchu w poziomie.
 						'''
 				}
-				
+
 				EnableWallFlips: {
 					DisplayName: "Włącz Piruety ze Ścian"
-					Description:
+					Description: 
 						'''
 						Piruety ze ścian to nowy system poruszania się, nie wymaga akcesoriów.
 						Wykonaj je poprzez uderzenie w ścianę przodem z dość dużą prędkością, trzymając przycisk ruchu w przeciwną stronę.
 						'''
 				}
 			}
-			
+
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Zawsze Pokazuj Bronie Mierzone"
 					Description: "Włącz pokazywanie broni typu 'wyciąganego' gdy nie jest w użyciu."
 				}
-				
+
 				EnablePlayerHeadRotation: {
 					DisplayName: "Włącz Obrót Głowy Gracza"
 					Description: "Włącza podążanie głów graczy za kursorem."
 				}
-				
+
 				EnablePlayerTilting: {
 					DisplayName: "Włącz Pochylenie Gracza"
 					Description: "Włącza pochylanie się gracza wraz z jego prędkością. Sprawia że wygląda bardziej żywo."
 				}
 			}
 		}
-		
+
 		Seasons: {
+			SelectSeason: "Wybierz początkową porę roku:"
+			CalendarCurrentSeason: "Jest teraz {SeasonName}."
+			CalendarNextSeasonDays: "{SeasonName} nadejdzie za {NumDays} dni."
+			CalendarNextSeasonTomorrow: "Jutro nadchodzi {SeasonName}!"
+
 			Spring: {
 				Name: "Wiosna"
 			}
@@ -106,15 +139,18 @@ Mods: {
 			Winter: {
 				Name: "Zima"
 			}
-
-			SelectSeason: "Wybierz początkową porę roku:"
-			CalendarCurrentSeason: "Jest teraz {SeasonName}."
-			CalendarNextSeasonDays: "{SeasonName} nadejdzie za {NumDays} dni."
-			CalendarNextSeasonTomorrow: "Jutro nadchodzi {SeasonName}!"
 		}
-		
+
+		Banners: {
+			//BannerBuffDescription: "Doubled loot and coin drops from the following:"
+			//BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
+		}
+
 		ItemOverhauls: {
 			Melee: {
+				AirCombatInfo: "Atakowanie przeciwników w powietrzu wyrzuca cię w ich stronę"
+				VelocityBasedDamageInfo: "Obrażenia mogą być zwiększone poprzez prędkość, więc zryw w ich stronę jest zalecany"
+
 				Broadsword: {
 					KillingBlow: "Zabójczy Cios!"
 					KillingBlowInfo: 
@@ -123,157 +159,60 @@ Mods: {
 						Zabójcze Ciosy zadają podwójne obrażenia, jeśli wykończyłyby przeciwnika
 						'''
 				}
-				
-				AirCombatInfo: "Atakowanie przeciwników w powietrzu wyrzuca cię w ich stronę"
-				VelocityBasedDamageInfo: "Obrażenia mogą być zwiększone poprzez prędkość, więc zryw w ich stronę jest zalecany"
 			}
 		}
-		
+
 		CommonTooltips: {
 			ShowCombatInfo: "[Przytrzymaj {Key} by pokazać informacje bojowe]"
 			CombatInfo: "[Informacje Bojowe]"
 		}
-		
+
 		DeathText: {
 			Zombified: "I wtedy {PlayerName} stali się zombie."
 			ZombifiedScreenText: "Staliście się zombie..."
 			ZombifiedName: "Zombie {PlayerName}"
 			Lightning: "Gracza {PlayerName} uderzył piorun. Auć!"
 		}
-		
+
 		ItemName: {
-			//Accessories
 			BunnyPaw: "Królicza Łapka"
-			
-			//Materials
 			Charcoal: "Węgiel Drzewny"
-			
-			//Placeables
 			Calendar: "Kalendarz"
 			Gramophone: "Gramofon"
-			
-			//Consumables
-			MusicDisc: "Płyta Muzyczna"
-			
-			//Tools
 			Mop: "Mop"
 			StoneAxe: "Kamienny Topór"
 			StonePickaxe: "Kamienny Kilof"
-			
-			//Unused
-			HarmlessRocket: "Nieszkodliwa Rakieta"
-			HaxxCostume: "Ptasie Przebranie Jade"
-			ImpactBomb: "Bomba Kontaktowa"
-			ImpactDynamite: "Dynamit Kontaktowy"
-			ImpactGrenade: "Granat Kontaktowy"
-			LightningRod: "Piorunochron"
-			RedGel: "Czerwony Żel"
-			RepairKit1: "Prymitywny Zestaw Naprawczy"
-			RepairKit2: "Zestaw Naprawczy Goblina"
-			RepairTable: "Stół do Napraw"
-			RocketJumper: "Rakietowy Skoczek"
-			SleepingPotion: "Mikstura Snu"
-			SmokeDetector: "Czujnik Dymu"
-			SuperShotgun: "Super Strzelba"
-			WaterArrow: "Wodna Strzała"
 		}
 
 		ItemTooltip: {
-			//Accessories
 			BunnyPaw: "Zwiększa bonus do prędkości bunnyhopingu"
-			
-			//Materials
 			Charcoal: "Ciągle ciepły"
-			
-			//Placeables
-			Calendar:
+			Calendar: 
 				'''
 				Odlicza dni do następnej pory roku
 				Zawieś i kliknij prawym przyciskiem myszy aby użyć
 				'''
 			Gramophone: "Odtwarza płyty muzyczne"
-			
-			//Consumables
-			MusicDisc: "Może być odtworzona na gramofonie"
-			
-			//Tools
 			Mop: "Oczyszcza twój dom z krwi, flaków i rozszarpanych gałek ocznych"
 			StoneAxe: "Już drewno byłoby mocniejsze od tego"
 			StonePickaxe: "Świetne przeciwko ziemi!"
-			
-			//Unused
-			//HarmlessRocket:
-			//	'''
-			//	Nie zadaje obrażeń
-			//	Używana przez Rakietowego Skoczka
-			//	'''
-			//HaxxCostume: "Przedmiot wspierającego Overhaul"
-			//ImpactBomb:
-			//	'''
-			//	Mała eksplozja która niszczy niektóre płytki
-			//	[c/ff0000:Wybucha przy kontakcie]
-			//	'''
-			//ImpactDynamite:
-			//	'''
-			//	Duża eksplozja która niszczy większość płytek
-			//	[c/ff0000:Wybucha przy kontakcie]
-			//	'''
-			//ImpactGrenade:
-			//	'''
-			//	Mała eksplozja która nie niszczy płytek
-			//	Wybucha przy kontakcie
-			//	'''
-			//LightningRod:
-			//	'''
-			//	Przyciąga pioruny, ratując ci życie
-			//	[c/ff0000:Nie stawiać na niczym łatwopalnym]
-			//	'''
-			//OnyxCell:
-			//	'''
-			//	Używane przez Onyx Blaster 9000
-			//	Ekstremalnie Nielegalne
-			//	'''
-			//RedGel:
-			//	'''
-			//	Używany do tworzenia kontaktowych materiałów wybuchowych
-			//	[c/ff0000:BO CZERWONY JEST SZYBSZY!!!]
-			//	'''
-			//RepairKit1: "Używany do naprawy prymitywnych narzędzi i broni"
-			//RepairKit2: "Używany do naprawy zaawansowanych narzędzi i broni."
-			//RepairTable: "Postaw i kliknij prawym przyciskiem myszy by naprawić swoje przedmioty"
-			//RocketJumper:
-			//	'''
-			//	Strzela rakietami treningowymi, nie zadaje obrażeń
-			//	Idealne do trenowania rakietowych skoków!
-			//	'''
-			//SleepingPotion:
-			//	'''
-			//	Pozwala ci spać podczas dnia
-			//	Czas trwania 10 minut
-			//	'''
-			//SmokeDetector:
-			//	'''
-			//	Wysyła sygnał gdy wykryje w pobliżu ogień
-			//	Kliknij prawym przyciskiem myszy by przełączać tryby działania
-			//	'''
-			//SuperShotgun: "To dla nich koniec"
-			//WaterArrow: "Tworzy niewielki wybuch wodny, odrzucając wrogów"
 		}
-		
+
 		NPCName: {
 			AshSlime: "Grudka Popiołu"
 			AshZombie: "Chodzące Prochy"
-			FlyingPiranha: "Latająca Pirania"
-			FlyingShark: "Latający Rekin"
-			FlyingTree: "Latające Drzewo"
 		}
-		
+
 		BuffName: {
 			//ManaAbsorption: "Mana Absorption"
 		}
-		
+
 		BuffDescription: {
-			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
+			//ManaAbsorption: 
+			//	'''
+			//	Moving with haste, you are absorbing energy from all around you
+			//	Base mana regeneration multiplier: x{Multiplier}
+			//	'''
 		}
 	}
 }
