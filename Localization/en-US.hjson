@@ -3,7 +3,6 @@ UI: {
 	Normal: "I'm Too Young to Mine"
 	Expert: "Bone Me Plenty"
 	Master: "I Am Cthulhu Incarnate"
-	
 	WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
 	WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
 	WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
@@ -12,6 +11,19 @@ UI: {
 
 Mods: {
 	TerrariaOverhaul: {
+		MainMenu: {
+			Configuration: "Configuration"
+			DiscordServer: "Discord Server"
+			ForumPage: "Forum Page"
+			WikiPage: "Overhaul Wiki"
+			Github: "GitHub"
+
+			MusicPack: {
+				Get: "Get the Music Pack"
+				Enable: "Enable the Music Pack"
+			}
+		}
+
 		Notifications: {
 			AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
 		}
@@ -22,95 +34,100 @@ Mods: {
 					DisplayName: "Enable Ambient Sounds"
 					Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
 				}
-				
+
 				EnablePlayerFootsteps: {
 					DisplayName: "Enable Player Footsteps"
 					Description: "Toggles player character footstep audio"
 				}
 			}
-			
+
 			BloodAndGore: {
 				EnableDecals: {
 					DisplayName: "Enable Decals"
 					Description: "Toggles decals, also known as 'blood on tiles'."
 				}
 			}
-			
+
 			Camera: {
 				SmoothCamera: {
 					DisplayName: "Smooth Camera"
 					Description: "Interpolates the camera's movement to improve the feel of velocity."
 				}
-				
+
 				ScreenShakeStrength: {
 					DisplayName: "Screen Shake Strength"
 					Description: "Controls the strength of screen shaking effects. Set this to zero to disable screen shakes completely."
 				}
 			}
-			
+
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "Enable Vertical Acceleration Changes"
 					Description: "Toggle air friction and (almost) unlimited maximum fall speed."
 				}
-				
+
 				EnableHorizontalAccelerationChanges: {
 					DisplayName: "Enable Horizontal Acceleration Changes"
 					Description: "Toggle changes to horizontal friction, run max speed and acceleration."
 				}
-				
+
 				EnableBunnyhopping: {
 					DisplayName: "Enable Bunnyhopping"
-					Description:
+					Description: 
 						'''
 						Bunnyhopping gives you a slight horizontal boost every time you jump.
 						Turning this off will disable certain accessories.
 						'''
 				}
-				
+
 				EnableClimbing: {
 					DisplayName: "Enable Climbing"
 					Description: "Climbing lets you reach new heights by holding the up button."
 				}
-				
+
 				EnableWallJumping: {
 					DisplayName: "Enable Wall Jumping"
-					Description:
+					Description: 
 						'''
 						Wall jumping is a new movement mechanic that requires climbing gear or spike shoes.
 						It is done by hitting a wall with your back while holding the up button with horizontal movement buttons released.
 						'''
 				}
-				
+
 				EnableWallFlips: {
 					DisplayName: "Enable Wall Flips"
-					Description:
+					Description: 
 						'''
 						A wall flip is a new movement mechanic that does not require any accessories.
 						It is done by hitting a wall with your front with enough velocity while holding the horizontal movement opposite of the player's direction.
 						'''
 				}
 			}
-			
+
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Always Show Aimable Weapons"
 					Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
 				}
-				
+
 				EnablePlayerHeadRotation: {
 					DisplayName: "Enable Player Head Rotation"
 					Description: "Toggles player characters looking at their cursors."
 				}
-				
+
 				EnablePlayerTilting: {
 					DisplayName: "Enable Player Tilting"
 					Description: "Toggles player characters being slightly tilted based on their velocity. This makes them look a lot more alive."
 				}
 			}
 		}
-		
+
 		Seasons: {
+			SelectSeason: "Select starting season:"
+			CalendarCurrentSeason: "It's currently {SeasonName}."
+			CalendarNextSeasonDays: "{SeasonName} will arrive in {NumDays} days."
+			CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
+
 			Spring: {
 				Name: "Spring"
 			}
@@ -126,20 +143,18 @@ Mods: {
 			Winter: {
 				Name: "Winter"
 			}
-
-			SelectSeason: "Select starting season:"
-			CalendarCurrentSeason: "It's currently {SeasonName}."
-			CalendarNextSeasonDays: "{SeasonName} will arrive in {NumDays} days."
-			CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
 		}
-		
+
 		Banners: {
 			BannerBuffDescription: "Doubled loot and coin drops from the following:"
 			BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
 		}
-		
+
 		ItemOverhauls: {
 			Melee: {
+				AirCombatInfo: "Attacking enemies mid-air launches you towards them"
+				VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
+
 				Broadsword: {
 					KillingBlow: "Killing Blow!"
 					KillingBlowInfo: 
@@ -148,157 +163,60 @@ Mods: {
 						Killing Blows double damage whenever that would finish the enemy
 						'''
 				}
-				
-				AirCombatInfo: "Attacking enemies mid-air launches you towards them"
-				VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
 			}
 		}
-		
+
 		CommonTooltips: {
 			ShowCombatInfo: "[Hold {Key} to show combat information]"
 			CombatInfo: "[Combat Information]"
 		}
-		
+
 		DeathText: {
 			Zombified: "And then {PlayerName} was a zombie."
 			ZombifiedScreenText: "You became a zombie..."
 			ZombifiedName: "{PlayerName} the Zombie"
 			Lightning: "{PlayerName} was struck by lightning. Ouch!"
 		}
-		
+
 		ItemName: {
-			//Accessories
 			BunnyPaw: "Bunny Paw"
-			
-			//Materials
 			Charcoal: "Charcoal"
-			
-			//Placeables
 			Calendar: "Calendar"
 			Gramophone: "Gramophone"
-			
-			//Consumables
-			//MusicDisc: Music Disc
-			
-			//Tools
 			Mop: "Mop"
 			StoneAxe: "Stone Axe"
 			StonePickaxe: "Stone Pickaxe"
-			
-			//Unused
-			//HarmlessRocket: "Harmless Rocket"
-			//HaxxCostume: "Jade's Birb Disguise"
-			//ImpactBomb: "Impact Bomb"
-			//ImpactDynamite: "Impact Dynamite"
-			//ImpactGrenade: "Impact Grenade"
-			//LightningRod: "Lightning Rod"
-			//RedGel: "Red Gel"
-			//RepairKit1: "Primitive Repair Kit"
-			//RepairKit2: "Goblin Repair Kit"
-			//RepairTable: "Repair Table"
-			//RocketJumper: "Rocket Jumper"
-			//SleepingPotion: "Sleeping Potion"
-			//SmokeDetector: "Smoke Detector"
-			//SuperShotgun: "Super Shotgun"
-			//WaterArrow: "Water Arrow"
 		}
 
 		ItemTooltip: {
-			//Accessories
 			BunnyPaw: "Increases bunnyhop speed boost"
-			
-			//Materials
 			Charcoal: "It's still warm"
-			
-			//Placeables
-			Calendar:
+			Calendar: 
 				'''
 				Counts amount of days left until the next season
 				Right click after placing to use it
 				'''
 			Gramophone: "Plays music discs"
-			
-			//Consumables
-			//MusicDisc: Can be played in a gramophone
-			
-			//Tools
 			Mop: "Keeps your house clean of guts and shredded eyeballs"
 			StoneAxe: "Wood is probably stronger than this"
 			StonePickaxe: "Great against dirt!"
-			
-			//Unused
-			//HarmlessRocket:
-			//	'''
-			//	Deals no damage
-			//	Used by Rocket Jumper
-			//	'''
-			//HaxxCostume: "Overhaul contributor's item"
-			//ImpactBomb:
-			//	'''
-			//	A small explosion that will destroy tiles
-			//	[c/ff0000:Explodes on impact]
-			//	'''
-			//ImpactDynamite:
-			//	'''
-			//	A large explosion that will destroy most tiles
-			//	[c/ff0000:Explodes on impact]
-			//	'''
-			//ImpactGrenade:
-			//	'''
-			//	A small explosion that will not destroy tiles
-			//	Explodes on impact
-			//	'''
-			//LightningRod:
-			//	'''
-			//	Attracts lightning, saves your life
-			//	[c/ff0000:Place on non-flammable blocks]
-			//	'''
-			//OnyxCell:
-			//	'''
-			//	Used by Onyx Blaster 9000
-			//	Extremely illegal
-			//	'''
-			//RedGel:
-			//	'''
-			//	Can be used to make impact explosives
-			//	[c/ff0000:CAUSE RED GOEZ FASTA!!!]
-			//	'''
-			//RepairKit1: "Used for repair of some primitive weapons and tools"
-			//RepairKit2: "Used for repair of advanced weapons and tools."
-			//RepairTable: "Right click after placing to repair your items"
-			//RocketJumper:
-			//	'''
-			//	Fires training rockets that deal no damage
-			//	Great for rocket jump training!
-			//	'''
-			//SleepingPotion:
-			//	'''
-			//	Lets you sleep during daytime
-			//	10 minute duration
-			//	'''
-			//SmokeDetector:
-			//	'''
-			//	Sends a signal output whenever there's a fire near
-			//	Right click to toggle modes
-			//	'''
-			//SuperShotgun: "They're all doomed"
-			//WaterArrow: "Creates a small water explosion which knocks enemies back"
 		}
-		
+
 		NPCName: {
 			AshSlime: "Ash Clot"
 			AshZombie: "Walking Ashes"
-			//FlyingPiranha: "Flying Piranha"
-			//FlyingShark: "Flying Shark"
-			//FlyingTree: "Flying Tree"
 		}
-		
+
 		BuffName: {
 			ManaAbsorption: "Mana Absorption"
 		}
-		
+
 		BuffDescription: {
-			ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
+			ManaAbsorption: 
+				'''
+				Moving with haste, you are absorbing energy from all around you
+				Base mana regeneration multiplier: x{Multiplier}
+				'''
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace TerrariaOverhaul
 	{
 		public static readonly uint BetaNumber = 11;
 		public static readonly bool IsBeta = BetaNumber > 0;
-		public static readonly string VersionSuffix = $"(BETA {BetaNumber}D)";
+		public static readonly string VersionSuffix = $"(BETA {BetaNumber}E)";
 		public static readonly string PersonalDirectory = Path.Combine(Main.SavePath, "TerrariaOverhaul");
 		public static readonly Version MinimalTMLVersion = new("0.12");
 		public static readonly Assembly Assembly;

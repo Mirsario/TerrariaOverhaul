@@ -3,12 +3,15 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Players
 {
 	public sealed class PlayerMiningHelmetLighting : ModPlayer
 	{
+		public static readonly ConfigEntry<bool> EnableAimableFlashlights = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnableAimableFlashlights), () => true);
+		
 		public override void Load()
 		{
 			On.Terraria.Player.UpdateArmorLights += (orig, player) => {
@@ -28,6 +31,10 @@ namespace TerrariaOverhaul.Common.ModEntities.Players
 
 		public override void PostUpdate()
 		{
+			if (!EnableAimableFlashlights) {
+				return;
+			}
+
 			if (Player.armor[0] == null || Player.armor[0].headSlot != ArmorIDs.Head.MiningHelmet) {
 				return;
 			}

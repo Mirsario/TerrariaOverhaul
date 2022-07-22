@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Initializers;
 using Terraria.IO;
+using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays
 {
@@ -19,12 +20,12 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 		private static DateTime lastRefresh;
 		private static MusicPackState? cachedState;
 
-		public string TextWhenMissing { get; }
-		public string TextWhenDisabled { get; }
+		public Text TextWhenMissing { get; }
+		public Text TextWhenDisabled { get; }
 
 		public override bool IsActive => GetState() != MusicPackState.Enabled;
 
-		public MusicPackMenuButton(string textWhenMissing, string textWhenDisabled, string url) : base(textWhenMissing, url)
+		public MusicPackMenuButton(Text textWhenMissing, Text textWhenDisabled, string url) : base(textWhenMissing, url)
 		{
 			TextWhenMissing = textWhenMissing;
 			TextWhenDisabled = textWhenDisabled;

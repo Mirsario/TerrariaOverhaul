@@ -1,96 +1,129 @@
+UI: {
+	//Creative: "Journey"
+	//Normal: "I'm Too Young to Mine"
+	//Expert: "Bone Me Plenty"
+	//Master: "I Am Cthulhu Incarnate"
+	//WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
+	//WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
+	//WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
+	//WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
+}
+
 Mods: {
 	TerrariaOverhaul: {
+		MainMenu: {
+			//Configuration: "Configuration"
+			//DiscordServer: "Discord Server"
+			//ForumPage: "Forum Page"
+			//WikiPage: "Overhaul Wiki"
+			//Github: "GitHub"
+
+			MusicPack: {
+				//Get: "Get the Music Pack"
+				//Enable: "Enable the Music Pack"
+			}
+		}
+
+		Notifications: {
+			//AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+		}
+
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
 					DisplayName: "启用环境音效"
 					Description: "开关环境音效，如鸟、蟋蟀、风、洞穴声等"
 				}
-				
+
 				EnablePlayerFootsteps: {
 					DisplayName: "启用脚步声"
 					Description: "开关玩家角色的脚步声音"
 				}
 			}
-			
+
 			BloodAndGore: {
 				EnableDecals: {
 					DisplayName: "启用血迹糊砖效果"
 					Description: "开关留在方块上的血迹"
 				}
 			}
-			
+
 			Camera: {
 				SmoothCamera: {
 					DisplayName: "平滑镜头"
 					Description: "插值以平滑游戏镜头的运动，以改善整体动感。"
 				}
-				
+
 				ScreenShakeStrength: {
 					DisplayName: "屏幕震动强度"
 					Description: "控制屏幕震动效果的强度，要完全禁用屏幕抖动请设置为零。"
 				}
 			}
-			
+
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "应用垂直加速度更改"
 					Description: "开关空气阻力和（几乎）无限制的最大坠落速度。"
 				}
-				
+
 				EnableHorizontalAccelerationChanges: {
 					DisplayName: "应用水平加速度更改"
 					Description: "开关水平阻力、最大奔跑速度和加速度的更改。"
 				}
-				
+
 				EnableBunnyhopping: {
 					DisplayName: "开启兔子蹦跳"
 					Description: "兔子蹦跳指在每次跳跃时都会给你带来轻微的水平速度提升。若关闭这个功能，将禁用某些饰品。"
 				}
-				
+
 				EnableClimbing: {
 					DisplayName: "开启攀登功能"
 					Description: "此功能可以让你通过按住向上键来爬升至更高的高度。"
 				}
-				
+
 				EnableWallJumping: {
 					DisplayName: "开启蹬墙跳功能"
-					Description:
+					Description: 
 						'''
 						蹬墙跳是一种新的运动机制，需要装备有攀爬装备或钉鞋才能完成。
 						背对着冲向墙，在撞击墙壁的同时按住向上键，并放开水平方向移动按钮，即可完成此动作。
 						'''
 				}
-				
+
 				EnableWallFlips: {
 					DisplayName: "开启蹬墙空翻功能"
-					Description:
+					Description: 
 						'''
 						蹬墙空翻是一种新的运动机制，不需要任何额外饰品即可完成。
 						在以足够的速度撞击墙壁的瞬间，按下反向移动按键以改变运动方向，即可完成此动作。
 						'''
 				}
 			}
-			
+
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
 					DisplayName: "总是显示可瞄准的武器"
 					Description: "可瞄准武器在不使用时是否会被持握于玩家手中。"
 				}
-				
+
 				EnablePlayerHeadRotation: {
 					DisplayName: "启用玩家头部旋转"
 					Description: "玩家是否总是会看向鼠标光标位置。"
 				}
-				
+
 				EnablePlayerTilting: {
 					DisplayName: "启用玩家倾斜"
 					Description: "根据玩家的速度，玩家整体是否会略微倾斜，这将使他们看起来更有活力。"
 				}
 			}
 		}
-		
+
 		Seasons: {
+			SelectSeason: "选择起始季节："
+			CalendarCurrentSeason: "现在的季节为：{SeasonName}。"
+			CalendarNextSeasonDays: "将会在{NumDays}天后进入{SeasonName}。"
+			CalendarNextSeasonTomorrow: "将会在明天进入{SeasonName}！"
+
 			Spring: {
 				Name: "春季"
 			}
@@ -106,15 +139,18 @@ Mods: {
 			Winter: {
 				Name: "冬季"
 			}
-
-			SelectSeason: "选择起始季节："
-			CalendarCurrentSeason: "现在的季节为：{SeasonName}。"
-			CalendarNextSeasonDays: "将会在{NumDays}天后进入{SeasonName}。"
-			CalendarNextSeasonTomorrow: "将会在明天进入{SeasonName}！"
 		}
-		
+
+		Banners: {
+			//BannerBuffDescription: "Doubled loot and coin drops from the following:"
+			//BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
+		}
+
 		ItemOverhauls: {
 			Melee: {
+				AirCombatInfo: "冲向并打击半空中的敌人"
+				VelocityBasedDamageInfo: "伤害会随玩家的速度而上升，冲就完了"
+
 				Broadsword: {
 					KillingBlow: "致命一击！"
 					KillingBlowInfo: 
@@ -123,158 +159,60 @@ Mods: {
 						致命一击会对敌人造成双倍伤害
 						'''
 				}
-				
-				AirCombatInfo: "冲向并打击半空中的敌人"
-				VelocityBasedDamageInfo: "伤害会随玩家的速度而上升，冲就完了"
 			}
 		}
-		
+
 		CommonTooltips: {
 			ShowCombatInfo: "[按住{Key}键以显示战斗信息]"
 			CombatInfo: "[战斗信息]"
 		}
-		
+
 		DeathText: {
 			Zombified: "{PlayerName}成了只僵尸。"
 			ZombifiedScreenText: "你变成了一只僵尸..."
 			ZombifiedName: "僵尸{PlayerName}"
-			Lightning: "{PlayerName}遭天谴了！"
+			Lightning: "{PlayerName}遭了天谴！"
 		}
-		
+
 		ItemName: {
-			//Accessories
 			BunnyPaw: "兔爪"
-			
-			//Materials
 			Charcoal: "黑炭"
-			
-			//Placeables
 			Calendar: "日历"
 			Gramophone: "留声机"
-			
-			//Consumables
-			MusicDisc: "音乐光碟"
-			
-			//Tools
 			Mop: "扫帚"
 			StoneAxe: "石斧"
 			StonePickaxe: "石镐"
-			
-			//Unused
-			//HarmlessRocket: "无害火箭"
-			//HaxxCostume: "Jade的白桦伪装"
-			//ImpactBomb: "撞击炸弹"
-			//ImpactDynamite: "撞击炸药"
-			//ImpactGrenade: "撞击手榴弹"
-			//LightningRod: "避雷针"
-			//OnyxCell: "暗能爆弹"
-			//RedGel: "红凝胶"
-			//RepairKit1: "基础修理包"
-			//RepairKit2: "哥布林修理包"
-			//RepairTable: "修理台"
-			//RocketJumper: "爆发火箭筒"
-			//SleepingPotion: "安眠药水"。
-			//SmokeDetector: "烟雾检测器"
-			//SuperShotgun: "超级霰弹枪"
-			//WaterArrow: "水箭"。
 		}
 
 		ItemTooltip: {
-			//Accessories
 			BunnyPaw: "加强兔子蹦跳的速度提升效果"
-			
-			//Materials
 			Charcoal: "热乎着呢"
-			
-			//Placeables
-			Calendar:
+			Calendar: 
 				'''
 				计算到达下一季的剩余天数
 				放置后右键点击即可使用
 				'''
 			Gramophone: "播放音乐光碟"
-			
-			//Consumables
-			MusicDisc: "可在留声机处播放"
-			
-			//Tools
-			//Mop: "让你的房子里没有怪物内脏和眼球碎片的痕迹"
-			//StoneAxe: "木材说不定比这还要坚固"
-			//StonePickaxe: "用来敲泥土的话还挺不错！"
-			
-			//Unused
-			//HarmlessRocket:
-			//	'''
-			//	不造成任何伤害
-			//	用于爆发火箭筒
-			//	'''
-			//HaxxCostume: "大修模组贡献者的物品"
-			//ImpactBomb:
-			//	'''
-			//	造成小爆炸，会破坏物块
-			//	[c/ff0000:撞击时爆炸]
-			//	'''
-			//ImpactDynamite:
-			//	'''
-			//	造成巨大爆炸，会破坏大量物块
-			//	[c/ff0000:撞击时爆炸]
-			//	'''
-			//ImpactGrenade:
-			//	'''
-			//	造成小爆炸，不会破坏物块
-			//	撞击时爆炸
-			//	'''
-			//LightningRod:
-			//	'''
-			//	引雷，把你和你的房子从电闪雷鸣中救下来
-			//	[c/ff0000:请放置在不可燃方块上]
-			//	'''
-			//OnyxCell:
-			//	'''
-			//	用于玛瑙爆破抢
-			//	极端非法
-			//	'''
-			//RedGel:
-			//	'''
-			//	可用于制造撞击性炸药
-			//	[c/ff0000:CAUSE RED GOEZ FASTA!!!]
-			//	'''
-			//RepairKit1: "用于修理基础武器和工具"
-			//RepairKit2: "用于修理高级武器和工具"
-			//RepairTable: "放下后右键单机以修理物品"
-			//RocketJumper:
-			//	'''
-			//	发射无伤害的训练火箭弹
-			//	很适合练习火箭跳！
-			//	'''
-			//SleepingPotion:
-			//	'''
-			//	让你做白日梦
-			//	10分钟持续时间
-			//	'''
-			//SmokeDetector:
-			//	'''
-			//	每当附近有火灾时就会发出信号
-			//	右键单机以调节模式
-			//	'''
-			//SuperShotgun: "全 完 了"
-			//WaterArrow: "产生一个小型的水爆炸，将敌人击退"
+			Mop: "让你的房子里没有怪物内脏和眼球碎片的痕迹"
+			StoneAxe: "连木头都比这要坚固"
+			StonePickaxe: "用来敲泥土的话还挺不错！"
 		}
-		
+
 		NPCName: {
 			AshSlime: "块状凝灰"
 			AshZombie: "凝灰尸块"
-			FlyingPiranha: "飞天食人鲳"
-			FlyingShark: "飞鲨"
-			FlyingTree: "飞树"
 		}
-		
+
 		BuffName: {
-			//ManaAbsorption: "Mana Absorption"
+			ManaAbsorption: "魔力吸取"
 		}
-		
+
 		BuffDescription: {
-			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
+			ManaAbsorption: 
+				'''
+				你的迅速步伐，使你从身边的一切汲取魔力
+				基础魔力再生速度 x{Multiplier}
+				'''
 		}
 	}
 }

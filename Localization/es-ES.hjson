@@ -3,110 +3,131 @@ UI: {
 	Normal: "Soy demasiado joven para minar"
 	Expert: "Ponme las pilas"
 	Master: "Soy la reencarnación de Cthulhu"
-	
-	WorldDescriptionCreative: "El modo Creativo / Accesible (Para los que quieren tener el control)"
-	WorldDescriptionNormal: "Menos daño de los enemigos, pero las mismas recompensas (Para los más relajados)"
+	WorldDescriptionCreative: "El modo creativo/accesible (Para los que quieren tener el control)"
+	WorldDescriptionNormal: "Menos daño de enemigos y mismas recompensas (Para los más relajados)"
 	WorldDescriptionExpert: "La nueva experiencia estándar (Para los que les gusta un reto justo)"
-	WorldDescriptionMaster: "Castigo extremo y nuevas recompensas (Para los realmente despiadados)"
+	WorldDescriptionMaster: "Castigo extremo y nuevas recompensas (Para los más despiadados)"
 }
 
 Mods: {
 	TerrariaOverhaul: {
+		MainMenu: {
+			//Configuration: "Configuration"
+			//DiscordServer: "Discord Server"
+			//ForumPage: "Forum Page"
+			//WikiPage: "Overhaul Wiki"
+			//Github: "GitHub"
+
+			MusicPack: {
+				//Get: "Get the Music Pack"
+				//Enable: "Enable the Music Pack"
+			}
+		}
+
+		Notifications: {
+			AudioFilteringTestFailure: "Advertencia: Terraria Overhaul no ha podido activar los efectos de filtrado de audio. Asegúrate de que tus controladores de audio están actualizados."
+		}
+
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
 					DisplayName: "Activar sonidos ambientales"
 					Description: "Activa bucles de audio ambiental, como pájaros, grillos, viento, sonidos de cuevas, etc."
 				}
-				
+
 				EnablePlayerFootsteps: {
 					DisplayName: "Activar sonido de pisadas"
 					Description: "Activa el audio de las pisadas del personaje del jugador."
 				}
 			}
-			
+
 			BloodAndGore: {
 				EnableDecals: {
 					DisplayName: "Activar sangre"
 					Description: "Activa la sangre sobre bloques."
 				}
 			}
-			
+
 			Camera: {
 				SmoothCamera: {
 					DisplayName: "Cámara suave"
 					Description: "Interpola el movimiento de la cámara para mejorar la sensación de velocidad."
 				}
-				
+
 				ScreenShakeStrength: {
 					DisplayName: "Fuerza de vibración de la pantalla"
 					Description: "Controla la intensidad de los efectos de vibración de la pantalla. Ajústalo a cero para desactivar por completo las sacudidas de pantalla causadas por terremotos."
 				}
 			}
-			
+
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "Activar cambios de aceleración vertical"
 					Description: "Cambia la fricción con el aire y la velocidad máxima de caída."
 				}
-				
+
 				EnableHorizontalAccelerationChanges: {
 					DisplayName: "Activar cambios de aceleración horizontal"
 					Description: "Cambia la fricción horizontal, la velocidad máxima de carrera y la aceleración."
 				}
-				
+
 				EnableBunnyhopping: {
 					DisplayName: "Activar Salto de conejo"
-					Description:
-					'''
-					El Salto de conejo otorga un ligero impulso horizontal cada vez que se salta.
-					Si se desactiva, algunos accesorios no funcionarán.
-					'''
+					Description: 
+						'''
+						El Salto de conejo otorga un ligero impulso horizontal cada vez que se salta.
+						Si se desactiva, algunos accesorios no funcionarán.
+						'''
 				}
-				
+
 				EnableClimbing: {
 					DisplayName: "Activar escalada"
 					Description: "Escalar permite alcanzar nuevas alturas manteniendo pulsado el botón de subir."
 				}
-				
+
 				EnableWallJumping: {
 					DisplayName: "Activar Salto de pared"
-					Description:
-					'''
-					El salto de pared es una nueva mecánica de movimiento que requiere equipo de escalada o zapatos de púa.
-					Se realiza golpeando una pared con la espalda mientras se mantiene el botón de subida con los botones de movimiento horizontal sueltos.
-					'''
+					Description: 
+						'''
+						El salto de pared es una nueva mecánica de movimiento que requiere equipo de escalada o zapatos de púa.
+						Se realiza golpeando una pared con la espalda mientras se mantiene el botón de subir con los botones de movimiento horizontal sueltos.
+						'''
 				}
-				
+
 				EnableWallFlips: {
 					DisplayName: "Activar volteretas en paredes"
-					Description:
-					'''
-					Las volteretas de pared son una nueva mecánica de movimiento que no requiere ningún accesorio.
-					Se realizan golpeando una pared con la parte delantera con suficiente velocidad mientras se mantiene el movimiento horizontal en dirección contraria a la del jugador.
-					'''
+					Description: 
+						'''
+						Las volteretas de pared son una nueva mecánica de movimiento que no requiere ningún accesorio.
+						Se realizan golpeando una pared con la parte delantera con suficiente velocidad mientras se mantiene el movimiento horizontal en dirección contraria a la del jugador.
+						'''
 				}
 			}
-			
+
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Mostrar siempre armas que puedan apuntar"
 					Description: "Cambia el estilo del uso de las armas con 'retención' para que sean visibles mientras no disparen."
 				}
-				
+
 				EnablePlayerHeadRotation: {
 					DisplayName: "Activar rotación de la cabeza del jugador"
 					Description: "Permite que el personaje del jugador mire al cursor."
 				}
-				
+
 				EnablePlayerTilting: {
 					DisplayName: "Activar inclinación del jugador"
 					Description: "Permite que el personaje del jugador esté ligeramente inclinado en función de su velocidad. Aumenta su realismo."
 				}
 			}
 		}
-		
+
 		Seasons: {
+			SelectSeason: "Elige la estación de inicio:"
+			CalendarCurrentSeason: "Ahora es {SeasonName}."
+			CalendarNextSeasonDays: "La estación de {SeasonName} llegará en {NumDays} día(s)."
+			CalendarNextSeasonTomorrow: "¡Mañana será {SeasonName}!"
+
 			Spring: {
 				Name: "Primavera"
 			}
@@ -122,15 +143,18 @@ Mods: {
 			Winter: {
 				Name: "Invierno"
 			}
-
-			SelectSeason: "Elige la estación de inicio:"
-			CalendarCurrentSeason: "Ahora es {SeasonName}."
-			CalendarNextSeasonDays: "La estación de {SeasonName} llegará en {NumDays} día/s."
-			CalendarNextSeasonTomorrow: "¡Mañana será {SeasonName}!"
 		}
-		
+
+		Banners: {
+			BannerBuffDescription: "El botín y las monedas se duplican en los siguientes casos:"
+			BannerItemDescription: "Los jugadores cercanos reciben el doble de botín y dineros de lo siguiente:"
+		}
+
 		ItemOverhauls: {
 			Melee: {
+				AirCombatInfo: "Atacar a los enemigos en el aire te lanza hacia ellos"
+				VelocityBasedDamageInfo: "El daño puede aumentar con la velocidad del jugador, se recomienda correr"
+
 				Broadsword: {
 					KillingBlow: "¡Golpe crítico!"
 					KillingBlowInfo: 
@@ -139,157 +163,60 @@ Mods: {
 						Los golpes críticos duplican el daño siempre que acaben con el enemigo
 						'''
 				}
-				
-				AirCombatInfo: "Atacar a los enemigos en el aire te lanza hacia ellos"
-				VelocityBasedDamageInfo: "El daño puede aumentar con la velocidad del jugador, se recomienda correr"
 			}
 		}
-		
+
 		CommonTooltips: {
 			ShowCombatInfo: "[Mantén la tecla {Key} para mostrar información de combate]"
 			CombatInfo: "[Información de combate]"
 		}
-		
+
 		DeathText: {
 			Zombified: "Y entonces {PlayerName} se convirtió en un zombi."
 			ZombifiedScreenText: "Te has convertido en un zombi..."
 			ZombifiedName: "{PlayerName}, el Zombie"
 			Lightning: "{PlayerName} ha sido alcanzado por un rayo. ¡Au!"
 		}
-		
+
 		ItemName: {
-			//Accessories
 			BunnyPaw: "Pata de conejo"
-			
-			//Materials
 			Charcoal: "Carbón vegetal"
-			
-			//Placeables
 			Calendar: "Calendario"
 			Gramophone: "Gramófono"
-			
-			//Consumables
-			MusicDisc: "Disco de música"
-			
-			//Tools
 			Mop: "Mopa"
 			StoneAxe: "Hacha de piedra"
 			StonePickaxe: "Pico de piedra"
-			
-			//Unused
-			//HarmlessRocket: "Harmless Rocket"
-			//HaxxCostume: "Jade's Birb Disguise"
-			//ImpactBomb: "Impact Bomb"
-			//ImpactDynamite: "Impact Dynamite"
-			//ImpactGrenade: "Impact Grenade"
-			//LightningRod: "Lightning Rod"
-			//RedGel: "Red Gel"
-			//RepairKit1: "Primitive Repair Kit"
-			//RepairKit2: "Goblin Repair Kit"
-			//RepairTable: "Repair Table"
-			//RocketJumper: "Rocket Jumper"
-			//SleepingPotion: "Sleeping Potion"
-			//SmokeDetector: "Smoke Detector"
-			//SuperShotgun: "Super Shotgun"
-			//WaterArrow: "Water Arrow"
 		}
 
 		ItemTooltip: {
-			//Accessories
 			BunnyPaw: "Incrementa la velocidad de salto"
-			
-			//Materials
 			Charcoal: "Aún está caliente"
-			
-			//Placeables
-			Calendar:
+			Calendar: 
 				'''
 				Cuenta los días restantes para la siguiente estación
 				Haz clic derecho sobre él tras colocarlo para leerlo
 				'''
 			Gramophone: "Toca discos de música"
-			
-			//Consumables
-			MusicDisc: "Puede reproducirse en un gramófono"
-			
-			//Tools
 			Mop: "Mantiene tu hogar limpio de tripas y ojos triturados"
 			StoneAxe: "Probablemente menos resistente que la madera"
 			StonePickaxe: "¡Excelente contra la tierra!"
-			
-			//Unused
-			//HarmlessRocket:
-			//	'''
-			//	Deals no damage
-			//	Used by Rocket Jumper
-			//	'''
-			//HaxxCostume: "Overhaul contributor's item"
-			//ImpactBomb:
-			//	'''
-			//	A small explosion that will destroy tiles
-			//	[c/ff0000:Explodes on impact]
-			//	'''
-			//ImpactDynamite:
-			//	'''
-			//	A large explosion that will destroy most tiles
-			//	[c/ff0000:Explodes on impact]
-			//	'''
-			//ImpactGrenade:
-			//	'''
-			//	A small explosion that will not destroy tiles
-			//	Explodes on impact
-			//	'''
-			//LightningRod:
-			//	'''
-			//	Attracts lightning, saves your life
-			//	[c/ff0000:Place on non-flammable blocks]
-			//	'''
-			//OnyxCell:
-			//	'''
-			//	Used by Onyx Blaster 9000
-			//	Extremely illegal
-			//	'''
-			//RedGel:
-			//	'''
-			//	Can be used to make impact explosives
-			//	[c/ff0000:CAUSE RED GOEZ FASTA!!!]
-			//	'''
-			//RepairKit1: "Used for repair of some primitive weapons and tools"
-			//RepairKit2: "Used for repair of advanced weapons and tools."
-			//RepairTable: "Right click after placing to repair your items"
-			//RocketJumper:
-			//	'''
-			//	Fires training rockets that deal no damage
-			//	Great for rocket jump training!
-			//	'''
-			//SleepingPotion:
-			//	'''
-			//	Lets you sleep during daytime
-			//	10 minute duration
-			//	'''
-			//SmokeDetector:
-			//	'''
-			//	Sends a signal output whenever there's a fire near
-			//	Right click to toggle modes
-			//	'''
-			//SuperShotgun: "They're all doomed"
-			//WaterArrow: "Creates a small water explosion which knocks enemies back"
 		}
-		
+
 		NPCName: {
 			AshSlime: "Coágulo de cenizas"
 			AshZombie: "Cenizas andantes"
-			FlyingPiranha: "Piraña voladora"
-			FlyingShark: "Tiburón volador"
-			FlyingTree: "Árbol volador"
 		}
-		
+
 		BuffName: {
-			//ManaAbsorption: "Mana Absorption"
+			ManaAbsorption: "Absorción de maná"
 		}
-		
+
 		BuffDescription: {
-			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
+			//ManaAbsorption: 
+			//	'''
+			//	Moviéndote con velocidad, absorbes energía de tu alrededor
+			//	Multiplicador de regeneración de maná base: x{Multiplier}
+			//	'''
 		}
 	}
 }
