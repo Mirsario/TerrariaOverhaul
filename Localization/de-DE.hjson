@@ -62,12 +62,12 @@ Mods: {
 
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
-					DisplayName: "Passt die vertikale Beschleunigung an."
+					DisplayName: "Passt die vertikale Beschleunigung an"
 					//Description: "Toggle air friction and (almost) unlimited maximum fall speed."
 				}
 
 				EnableHorizontalAccelerationChanges: {
-					DisplayName: "Passt die horizontale Beschleunigung an."
+					DisplayName: "Passt die horizontale Beschleunigung an"
 					//Description: "Toggle changes to horizontal friction, run max speed and acceleration."
 				}
 
@@ -106,7 +106,7 @@ Mods: {
 
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
-					DisplayName: "Zielbare Waffen immer anzeigen."
+					DisplayName: "Zielbare Waffen immer anzeigen"
 					//Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
 				}
 
