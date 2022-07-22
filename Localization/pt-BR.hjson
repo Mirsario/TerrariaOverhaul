@@ -1,10 +1,9 @@
 UI: {
-	Journey: "Jornada"
+	//Creative: "Journey"
 	Normal: "Muito Jovem Para Minerar"
 	Expert: "Um Ossinho Não Dói"
 	Master: "Eu Sou A Encarnação de Cthulhu"
-
-	WorldDescriptionJourney: "O modo Criativo / Acessível (Para aqueles que querem estar no controle)"
+	//WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
 	WorldDescriptionNormal: "Menos danos de inimigos, mesmas recompensas (Para os descompromissados)"
 	WorldDescriptionExpert: "A nova experiência padrão (Para aqueles que gostam de um desafio justo)"
 	WorldDescriptionMaster: "Punição extrema e novas recompensas (Para os verdadeiramente desumanos)"
@@ -12,97 +11,119 @@ UI: {
 
 Mods: {
 	TerrariaOverhaul: {
+		MainMenu: {
+			//Configuration: "Configuration"
+			//DiscordServer: "Discord Server"
+			//ForumPage: "Forum Page"
+			//WikiPage: "Overhaul Wiki"
+			//Github: "GitHub"
+
+			MusicPack: {
+				//Get: "Get the Music Pack"
+				//Enable: "Enable the Music Pack"
+			}
+		}
+
+		Notifications: {
+			//AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+		}
+
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
 					DisplayName: "Ativar Ambientação Sonora"
 					Description: "Ativa repetição de audio de ambiência, como pássaros, gafanhotos, vento, sons de cavernas, etc."
 				}
-				
+
 				EnablePlayerFootsteps: {
 					DisplayName: "Ativar sons de passos"
 					Description: "Ativa audio de passos do personagem do jogador"
 				}
 			}
-			
+
 			BloodAndGore: {
 				EnableDecals: {
 					DisplayName: "Ativar manchas"
 					Description: "Ativa manchas, também conhecidas como 'sangue nos blocos'."
 				}
 			}
-			
+
 			Camera: {
 				SmoothCamera: {
 					DisplayName: "Câmera Suave"
 					Description: "Interpola o movimento da câmera para melhorar a sensação de velocidade."
 				}
-				
+
 				ScreenShakeStrength: {
 					DisplayName: "Intensidade do Chacoalhar da Tela"
 					Description: "Controla a intensidade dos efeitos de vibração da tela. Deixe em zero para desligar as vibrações por completo."
 				}
 			}
-			
+
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "Ativar mudanças na Aceleração Vertical"
 					Description: "Ativa fricção com ar e velocidade de queda (quase) infinita."
 				}
-				
+
 				EnableHorizontalAccelerationChanges: {
 					DisplayName: "Ativar mudanças na Aceleração Horizontal"
 					Description: "Ativa mudanças na fricção horizontal, velocidade de máxima e aceleração de corrida."
 				}
-				
+
 				EnableBunnyhopping: {
 					DisplayName: "Ativar Saltitar"
 					Description: "Saltitar da a você um pequeno impulso horizontal quando pular. Desligar isso irá desabilitar alguns acessórios."
 				}
-				
+
 				EnableClimbing: {
 					DisplayName: "Ativar Escalada"
 					Description: "Escalar faz com que você consiga alcançar lugares mais altos pressionando o botão de subir."
 				}
-				
+
 				EnableWallJumping: {
 					DisplayName: "Ativar o Salto entre Paredes"
-					Description:
+					Description: 
 						'''
 						Salto entre paredes é uma nova mecânica que requer equipamento de escalada ou espeto para sapatos.
 						Feito atingindo uma parede com as costas segurando o botão 'para cima' com botões de movimento horizontal soltos.
 						'''
 				}
-				
+
 				EnableWallFlips: {
 					DisplayName: "Ativar Cambalhotas em Paredes"
-					Description:
+					Description: 
 						'''
 						Uma cambalhota na parede é uma nova mecânica de movimento que não requer qualquer acessório.
 						Feita atingindo uma parede de frente com velocidade o suficiente enquanto mantendo o movimento horizontal oposto a direção do jogador.
 						'''
 				}
 			}
-			
+
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Sempre mostrar Armas com Mira"
 					Description: "Permite armas com o estilo de uso 'empunhando' serem visíveis quando não atirando."
 				}
-				
+
 				EnablePlayerHeadRotation: {
 					DisplayName: "Ativar Rotação da Cabeça do Jogador"
 					Description: "Faz com que o personagem do jogador olhe para o cursor."
 				}
-				
+
 				EnablePlayerTilting: {
 					DisplayName: "Ativar Inclinação do Jogador"
 					Description: "Faz com que o personagem do jogador fique ligeiramente inclinado baseado em sua velocidade. Isso faz com que eles pareçam muito mais vivos."
 				}
 			}
 		}
-		
+
 		Seasons: {
+			SelectSeason: "Escolher a estação inicial:"
+			CalendarCurrentSeason: "Atualmente é {SeasonName}."
+			CalendarNextSeasonDays: "{SeasonName} chegará em {NumDays} dias."
+			CalendarNextSeasonTomorrow: "{SeasonName} chegará amanhã!"
+
 			Spring: {
 				Name: "Primavera"
 			}
@@ -118,15 +139,18 @@ Mods: {
 			Winter: {
 				Name: "Inverno"
 			}
-
-			SelectSeason: "Escolher a estação inicial:"
-			CalendarCurrentSeason: "Atualmente é {SeasonName}."
-			CalendarNextSeasonDays: "{SeasonName} chegará em {NumDays} dias."
-			CalendarNextSeasonTomorrow: "{SeasonName} chegará amanhã!"
 		}
-		
+
+		Banners: {
+			//BannerBuffDescription: "Doubled loot and coin drops from the following:"
+			//BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
+		}
+
 		ItemOverhauls: {
 			Melee: {
+				AirCombatInfo: "Atacar inimigos no ar te lançara neles"
+				VelocityBasedDamageInfo: "O dano pode ser aumentado pela velocidade do jogador, é recomendado se impulsionar"
+
 				Broadsword: {
 					KillingBlow: "Golpe Mortal!"
 					KillingBlowInfo: 
@@ -135,157 +159,60 @@ Mods: {
 						Golpes mortais dobram seu dano sempre que acabam com o inimigo
 						'''
 				}
-				
-				AirCombatInfo: "Atacar inimigos no ar te lançara neles"
-				VelocityBasedDamageInfo: "O dano pode ser aumentado pela velocidade do jogador, é recomendado se impulsionar"
 			}
 		}
-		
+
 		CommonTooltips: {
 			ShowCombatInfo: "[Mantenha {Key} pressionado para mostrar informações de combate]"
 			CombatInfo: "[Informação de Combate]"
 		}
-		
+
 		DeathText: {
 			Zombified: "E então, {PlayerName} se tornou um zumbi."
 			ZombifiedScreenText: "Você virou um zumbi..."
 			ZombifiedName: "{PlayerName}, o Zumbi"
 			Lightning: "{PlayerName} foi atingido por um raio. Ai!"
 		}
-		
+
 		ItemName: {
-			//Accessories
 			BunnyPaw: "Pata de Coelho"
-			
-			//Materials
 			Charcoal: "Carvão Vegetal"
-			
-			//Placeables
 			Calendar: "Calendário"
 			Gramophone: "Gramofone"
-			
-			//Consumables
-			MusicDisc: "Disco de Vinil"
-			
-			//Tools
 			Mop: "Esfregão"
 			StoneAxe: "Machado de Pedra"
 			StonePickaxe: "Picareta de Pedra"
-			
-			//Unused
-			//HarmlessRocket: "Harmless Rocket"
-			//HaxxCostume: "Jade's Birb Disguise"
-			//ImpactBomb: "Impact Bomb"
-			//ImpactDynamite: "Impact Dynamite"
-			//ImpactGrenade: "Impact Grenade"
-			//LightningRod: "Lightning Rod"
-			//RedGel: "Red Gel"
-			//RepairKit1: "Primitive Repair Kit"
-			//RepairKit2: "Goblin Repair Kit"
-			//RepairTable: "Repair Table"
-			//RocketJumper: "Rocket Jumper"
-			//SleepingPotion: "Sleeping Potion"
-			//SmokeDetector: "Smoke Detector"
-			//SuperShotgun: "Super Shotgun"
-			//WaterArrow: "Water Arrow"
 		}
 
 		ItemTooltip: {
-			//Accessories
 			BunnyPaw: "Aumento o impulso do saltitar"
-			
-			//Materials
 			Charcoal: "Ainda está quente"
-			
-			//Placeables
-			Calendar:
+			Calendar: 
 				'''
 				Conta a quantidade de dias até a próxima estação
 				Clique com o botão direito após colocar para usar
 				'''
 			Gramophone: "Toca Discos de Vinil"
-			
-			//Consumables
-			MusicDisc: "Pode ser tocado em um gramofone"
-			
-			//Tools
 			Mop: "Mantém sua casa sem entranhas e olhos dilacerados"
 			StoneAxe: "Madeira provavelmente é mais forte que isso"
 			StonePickaxe: "Bom contra terra!"
-			
-			//Unused
-			//HarmlessRocket:
-			//	'''
-			//	Deals no damage
-			//	Used by Rocket Jumper
-			//	'''
-			//HaxxCostume: "Overhaul contributor's item"
-			//ImpactBomb:
-			//	'''
-			//	A small explosion that will destroy tiles
-			//	[c/ff0000:Explodes on impact]
-			//	'''
-			//ImpactDynamite:
-			//	'''
-			//	A large explosion that will destroy most tiles
-			//	[c/ff0000:Explodes on impact]
-			//	'''
-			//ImpactGrenade:
-			//	'''
-			//	A small explosion that will not destroy tiles
-			//	Explodes on impact
-			//	'''
-			//LightningRod:
-			//	'''
-			//	Attracts lightning, saves your life
-			//	[c/ff0000:Place on non-flammable blocks]
-			//	'''
-			//OnyxCell:
-			//	'''
-			//	Used by Onyx Blaster 9000
-			//	Extremely illegal
-			//	'''
-			//RedGel:
-			//	'''
-			//	Can be used to make impact explosives
-			//	[c/ff0000:CAUSE RED GOEZ FASTA!!!]
-			//	'''
-			//RepairKit1: "Used for repair of some primitive weapons and tools"
-			//RepairKit2: "Used for repair of advanced weapons and tools."
-			//RepairTable: "Right click after placing to repair your items"
-			//RocketJumper:
-			//	'''
-			//	Fires training rockets that deal no damage
-			//	Great for rocket jump training!
-			//	'''
-			//SleepingPotion:
-			//	'''
-			//	Lets you sleep during daytime
-			//	10 minute duration
-			//	'''
-			//SmokeDetector:
-			//	'''
-			//	Sends a signal output whenever there's a fire near
-			//	Right click to toggle modes
-			//	'''
-			//SuperShotgun: "They're all doomed"
-			//WaterArrow: "Creates a small water explosion which knocks enemies back"
 		}
-		
+
 		NPCName: {
 			AshSlime: "Amontoado de Cinzas"
 			AshZombie: "Cinzas Ambulantes"
-			FlyingPiranha: "Piranha Voadora"
-			FlyingShark: "Tubarão Voador"
-			FlyingTree: "Árvore Voadora"
 		}
-		
+
 		BuffName: {
 			//ManaAbsorption: "Mana Absorption"
 		}
-		
+
 		BuffDescription: {
-			//ManaAbsorption: "Moving with haste, you are absorbing energy from all around you\nBase mana regeneration multiplier: x{Multiplier}"
+			//ManaAbsorption: 
+			//	'''
+			//	Moving with haste, you are absorbing energy from all around you
+			//	Base mana regeneration multiplier: x{Multiplier}
+			//	'''
 		}
 	}
 }
