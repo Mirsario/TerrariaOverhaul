@@ -11,7 +11,6 @@ using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
-using Microsoft.Xna.Framework.Input;
 
 namespace TerrariaOverhaul.Common.Charging
 {
@@ -30,12 +29,8 @@ namespace TerrariaOverhaul.Common.Charging
 		public event Action<Item, Player, float, float>? OnChargeEnd;
 		public event CanStartPowerAttackDelegate? CanStartPowerAttack;
 
-		public static ModKeybind PreventChargingKey { get; private set; } = null!;
-
 		public override void Load()
 		{
-			PreventChargingKey = KeybindLoader.RegisterKeybind(Mod, "Hold to Prevent Item Charging", Keys.LeftAlt);
-
 			// AltFunctionUse hook doesn't fit, since it relies on 'ItemID.Sets.ItemsThatAllowRepeatedRightClick' for repeated uses.
 			// Also it's better to execute power attack code after all other mods are done with their AltFunctionUse hooks.
 			IL.Terraria.Player.ItemCheck_ManageRightClickFeatures += context => {
@@ -51,7 +46,7 @@ namespace TerrariaOverhaul.Common.Charging
 					i => i.MatchStloc(out _),
 					// if (!ItemID.Sets.ItemsThatAllowRepeatedRightClick[inventory[selectedItem].type] && !Main.mouseRightRelease)
 					i => i.MatchLdsfld(typeof(ItemID.Sets), nameof(ItemID.Sets.ItemsThatAllowRepeatedRightClick))
-				// ...
+					// ...
 				);
 
 				il.GotoNext(
@@ -64,12 +59,12 @@ namespace TerrariaOverhaul.Common.Charging
 					i => i.Match(OpCodes.Ldarg_0),
 					i => i.MatchLdfld(typeof(Player), nameof(Player.altFunctionUse)),
 					i => i.MatchLdcI4(1)
-				// ...
+					// ...
 				);
 				il.HijackIncomingLabels();
 
 				int initialCheckSuccessLocalId = context.Body.Variables.Count;
-
+				
 				il.Body.Variables.Add(new VariableDefinition(context.Import(typeof(bool))));
 
 				il.Emit(OpCodes.Ldarg_0);
@@ -124,10 +119,6 @@ namespace TerrariaOverhaul.Common.Charging
 
 		public bool AttemptPowerAttackStart(Item item, Player player)
 		{
-			if (PreventChargingKey.Current) {
-				return false;
-			}
-
 			if (!Enabled || !player.IsLocal()) {
 				return false;
 			}
@@ -149,7 +140,7 @@ namespace TerrariaOverhaul.Common.Charging
 			if (CanStartPowerAttack != null && CanStartPowerAttack.GetInvocationList().Any(func => !((CanStartPowerAttackDelegate)func)(item, player))) {
 				return false;
 			}
-
+			
 			int chargeLength = CombinedHooks.TotalAnimationTime(item.useAnimation * ChargeLengthMultiplier, player, item);
 
 			StartPowerAttack(item, player, chargeLength, itemCharging);
