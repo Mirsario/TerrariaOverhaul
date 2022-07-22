@@ -1,6 +1,6 @@
-﻿using System.Diagnostics;
-using Steamworks;
+﻿using Steamworks;
 using Terraria.Social;
+using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays
 {
@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 		public string Url { get; }
 		public bool PreferSteamBrowser { get; init; }
 		
-		public MenuLink(string text, string url) : base(text)
+		public MenuLink(Text text, string url) : base(text)
 		{
 			Url = url;
 		}

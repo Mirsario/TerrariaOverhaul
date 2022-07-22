@@ -1,10 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
+using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays
 {
 	public abstract class MenuButton : MenuLine
 	{
-		public MenuButton(string text) : base(text)
+		public MenuButton(Text text) : base(text)
 		{
 			ForcedColor ??= GetColor;
 		}

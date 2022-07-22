@@ -8,6 +8,7 @@ using ReLogic.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays
 {
@@ -40,23 +41,41 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 					throw new Exception($"{nameof(MainMenuOverlaySystem)}: IL Failure.");
 				}
 
-				cursor.EmitDelegate<Action>(() => DrawOverlay(Main.spriteBatch));
+				cursor.EmitDelegate(() => DrawOverlay(Main.spriteBatch));
 			};
 
+			const string MenuKey = "Mods.TerrariaOverhaul.MainMenu";
+			const string MusicPackLink = @"https://steamcommunity.com/sharedfiles/filedetails/?id=2440081576";
+
 			menuLines = new List<MenuLine> {
-				new MenuLine($"Terraria Overhaul v{OverhaulMod.Instance.Version} {OverhaulMod.VersionSuffix}"),
-				new PatreonMenuLink("patreon.com/Mirsario", @"https://patreon.com/Mirsario") {
+				// Version info
+				new MenuLine(Text.Literal($"Terraria Overhaul v{OverhaulMod.Instance.Version} {OverhaulMod.VersionSuffix}")),
+
+				// Patreon button
+				new PatreonMenuLink(Text.Literal("patreon.com/Mirsario"), @"https://patreon.com/Mirsario") {
 					ForcedColor = isHovered => Color.Lerp(Color.White, Main.DiscoColor, isHovered ? 0.5f : 0.75f)
 				},
-				new ConfigurationMenuButton("Configuration"),
-				new MusicPackMenuButton("Get the Music Pack", "Enable the Music Pack", @"https://steamcommunity.com/sharedfiles/filedetails/?id=2440081576") {
+				
+				// Configuration button
+				new ConfigurationMenuButton(Text.Localized($"{MenuKey}.Configuration")),
+				
+				// Music Pack buttons
+				new MusicPackMenuButton(Text.Localized($"{MenuKey}.MusicPack.Get"), Text.Localized($"{MenuKey}.MusicPack.Enable"), MusicPackLink) {
 					PreferSteamBrowser = true,
 					ForcedColor = isHovered => Color.Lerp(Color.White, Main.DiscoColor, isHovered ? 0.25f : 0.33f)
 				},
-				new MenuLink("Discord Server", @"https://discord.gg/RNGq9n8"),
-				//new MenuLink("Forum Page", @"https://forums.terraria.org/index.php?threads/60369"),
-				new MenuLink("Wiki Page", @"https://terrariamods.gamepedia.com/Terraria_Overhaul"),
-				new MenuLink("Github", @"https://github.com/Mirsario/TerrariaOverhaul/tree/1.4"),
+				
+				// Discord server
+				new MenuLink(Text.Localized($"{MenuKey}.DiscordServer"), @"https://discord.gg/RNGq9n8"),
+
+				// Forum page -- Hidden for now.
+				//new MenuLink(Text.Localized($"{MenuKey}.ForumPage"), @"https://forums.terraria.org/index.php?threads/60369"),
+				
+				// Wiki page
+				new MenuLink(Text.Localized($"{MenuKey}.WikiPage"), @"https://terrariamods.gamepedia.com/Terraria_Overhaul"),
+
+				// Github page
+				new MenuLink(Text.Localized($"{MenuKey}.Github"), @"https://github.com/Mirsario/TerrariaOverhaul"),
 			};
 		}
 

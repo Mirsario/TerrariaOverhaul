@@ -8,6 +8,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Input;
+using TerrariaOverhaul.Core.Localization;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays
@@ -15,7 +16,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 	public class MenuLine
 	{
 		public Vector2 Size { get; set; }
-		public string Text { get; set; }
+		public Text Text { get; set; }
 		public float Scale { get; set; } = 1f;
 		public Asset<DynamicSpriteFont> Font { get; set; } = FontAssets.MouseText;
 		public Func<bool, Color>? ForcedColor { get; set; }
@@ -24,7 +25,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 
 		public virtual bool IsActive => true;
 
-		public MenuLine(string text)
+		public MenuLine(Text text)
 		{
 			Text = text;
 			Size = Font.Value.MeasureString(Text) * Scale;

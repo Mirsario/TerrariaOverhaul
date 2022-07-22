@@ -169,15 +169,25 @@ namespace TerrariaOverhaul.Common.ModEntities.Projectiles
 
 			player.GoingDownWithGrapple = pull && dir.Y < 0f;
 
-			float dist = Vector2.Distance(playerCenter, projCenter);
+			// Prevent hooks from going farther than normal
+			float ClampDistance(float distance)
+				=> MathHelper.Clamp(distance, 0f, hookRange - 1f);
+
+			float dist = ClampDistance(Vector2.Distance(playerCenter, projCenter));
 			bool down = player.controlDown && maxDist < hookRange;
 			bool up = player.controlUp;
 
+			const float PullSpeed = 12.5f;
+			const float PullVelocity = 0.1f;
+			const float RaiseSpeed = 5f;
+			const float RaiseVelocity = 0.975f;
+			const float LowerSpeed = 5f;
+			const float LowerVelocity = 1f;
+
 			if (pull || ((up || down) && up != down)) {
-				dist += pull ? -12.5f : up ? -5f : 5f;
-				dist = MathHelper.Clamp(dist, 10f, hookRange - 32f);
-				maxDist = dist;
-				player.velocity *= pull ? 0.1f : up ? 0.975f : 1f;
+				maxDist = dist = ClampDistance(dist + (pull ? -PullSpeed : up ? -RaiseSpeed : LowerSpeed));
+
+				player.velocity *= pull ? PullVelocity : (up ? RaiseVelocity : LowerVelocity);
 			}
 
 			float nextDistance = Vector2.Distance(playerCenter + player.velocity, projCenter);

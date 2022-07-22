@@ -9,12 +9,14 @@ using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Melee
 {
+
 	public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNPCHitSound
 	{
 		public static readonly SoundStyle SwordMediumSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2) {
@@ -28,6 +30,8 @@ namespace TerrariaOverhaul.Common.Melee
 			Volume = 0.65f,
 			PitchVariance = 0.1f
 		};
+		
+		public static readonly ConfigEntry<bool> EnableBroadswordPowerAttacks = new(ConfigSide.Both, "Melee", nameof(EnableBroadswordPowerAttacks), () => true);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -73,20 +77,22 @@ namespace TerrariaOverhaul.Common.Melee
 			});
 
 			// Power Attacks
-			item.EnableComponent<ItemMeleePowerAttackEffects>();
-			item.EnableComponent<ItemPowerAttacks>(c => {
-				c.ChargeLengthMultiplier = 1.5f;
-				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
-				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
-				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
-				c.CommonStatMultipliers.ProjectileSpeedMultiplier = 1.5f;
-			});
-
-			if (!Main.dedServ) {
-				item.EnableComponent<ItemPowerAttackSounds>(c => {
-					c.Sound = SwordHeavySwing;
-					c.ReplacesUseSound = true;
+			if (EnableBroadswordPowerAttacks) {
+				item.EnableComponent<ItemMeleePowerAttackEffects>();
+				item.EnableComponent<ItemPowerAttacks>(c => {
+					c.ChargeLengthMultiplier = 1.5f;
+					c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
+					c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
+					c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
+					c.CommonStatMultipliers.ProjectileSpeedMultiplier = 1.5f;
 				});
+
+				if (!Main.dedServ) {
+					item.EnableComponent<ItemPowerAttackSounds>(c => {
+						c.Sound = SwordHeavySwing;
+						c.ReplacesUseSound = true;
+					});
+				}
 			}
 
 			// Killing Blows
