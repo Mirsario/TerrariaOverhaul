@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 
@@ -18,6 +19,8 @@ namespace TerrariaOverhaul.Common.Melee
 		public static readonly SoundStyle AxeChargedSwingSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2) {
 			PitchVariance = 0.1f,
 		};
+
+		public static readonly ConfigEntry<bool> EnableAxePowerAttacks = new(ConfigSide.Both, "Melee", nameof(EnableAxePowerAttacks), () => true);
 
 		public override bool ShouldApplyItemOverhaul(Item item)
 		{
@@ -62,20 +65,22 @@ namespace TerrariaOverhaul.Common.Melee
 			});
 
 			// Power Attacks
-			item.EnableComponent<ItemMeleePowerAttackEffects>();
-			item.EnableComponent<ItemPowerAttacks>(c => {
-				c.ChargeLengthMultiplier = 1.5f;
-				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
-				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
-				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
-				c.CommonStatMultipliers.ProjectileSpeedMultiplier = 1.5f;
-			});
-
-			if (!Main.dedServ) {
-				item.EnableComponent<ItemPowerAttackSounds>(c => {
-					c.Sound = AxeChargedSwingSound;
-					c.ReplacesUseSound = true;
+			if (EnableAxePowerAttacks) {
+				item.EnableComponent<ItemMeleePowerAttackEffects>();
+				item.EnableComponent<ItemPowerAttacks>(c => {
+					c.ChargeLengthMultiplier = 1.5f;
+					c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
+					c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
+					c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
+					c.CommonStatMultipliers.ProjectileSpeedMultiplier = 1.5f;
 				});
+
+				if (!Main.dedServ) {
+					item.EnableComponent<ItemPowerAttackSounds>(c => {
+						c.Sound = AxeChargedSwingSound;
+						c.ReplacesUseSound = true;
+					});
+				}
 			}
 		}
 	}

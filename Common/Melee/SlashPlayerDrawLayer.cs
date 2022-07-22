@@ -8,6 +8,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.TextureColors;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.Melee
 {
@@ -16,6 +17,8 @@ namespace TerrariaOverhaul.Common.Melee
 	{
 		private static readonly SpriteFrame TextureFrame = new(1, 3);
 		private static Asset<Texture2D>? texture;
+
+		public static readonly ConfigEntry<bool> EnableMeleeSlashVisualization = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnableMeleeSlashVisualization), () => true);
 
 		public override void Load()
 		{
@@ -30,6 +33,10 @@ namespace TerrariaOverhaul.Common.Melee
 
 		protected override void Draw(ref PlayerDrawSet drawInfo)
 		{
+			if (!EnableMeleeSlashVisualization) {
+				return;
+			}
+
 			// Wait for the texture to load
 			if (texture?.IsLoaded != true) {
 				return;
