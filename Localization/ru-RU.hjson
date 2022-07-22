@@ -183,6 +183,7 @@ Mods: {
 			//Charcoal: "Charcoal"
 			//Calendar: "Calendar"
 			//Gramophone: "Gramophone"
+			MusicDisc: "Музыкальный диск"
 			//Mop: "Mop"
 			//StoneAxe: "Stone Axe"
 			//StonePickaxe: "Stone Pickaxe"
@@ -197,6 +198,7 @@ Mods: {
 			//	Right click after placing to use it
 			//	'''
 			//Gramophone: "Plays music discs"
+			MusicDisc: "Может быть проигран в грамофоне"
 			//Mop: "Keeps your house clean of guts and shredded eyeballs"
 			//StoneAxe: "Wood is probably stronger than this"
 			//StonePickaxe: "Great against dirt!"

@@ -179,6 +179,7 @@ Mods: {
 			Charcoal: "Węgiel Drzewny"
 			Calendar: "Kalendarz"
 			Gramophone: "Gramofon"
+			MusicDisc: "Płyta Muzyczna"
 			Mop: "Mop"
 			StoneAxe: "Kamienny Topór"
 			StonePickaxe: "Kamienny Kilof"
@@ -193,6 +194,7 @@ Mods: {
 				Zawieś i kliknij prawym przyciskiem myszy aby użyć
 				'''
 			Gramophone: "Odtwarza płyty muzyczne"
+			MusicDisc: "Może być odtworzona na gramofonie"
 			Mop: "Oczyszcza twój dom z krwi, flaków i rozszarpanych gałek ocznych"
 			StoneAxe: "Już drewno byłoby mocniejsze od tego"
 			StonePickaxe: "Świetne przeciwko ziemi!"

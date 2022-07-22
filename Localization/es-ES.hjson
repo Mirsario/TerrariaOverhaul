@@ -183,6 +183,7 @@ Mods: {
 			Charcoal: "Carbón vegetal"
 			Calendar: "Calendario"
 			Gramophone: "Gramófono"
+			MusicDisc: "Disco de música"
 			Mop: "Mopa"
 			StoneAxe: "Hacha de piedra"
 			StonePickaxe: "Pico de piedra"
@@ -197,6 +198,7 @@ Mods: {
 				Haz clic derecho sobre él tras colocarlo para leerlo
 				'''
 			Gramophone: "Toca discos de música"
+			MusicDisc: "Puede reproducirse en un gramófono"
 			Mop: "Mantiene tu hogar limpio de tripas y ojos triturados"
 			StoneAxe: "Probablemente menos resistente que la madera"
 			StonePickaxe: "¡Excelente contra la tierra!"

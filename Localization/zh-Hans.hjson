@@ -179,6 +179,7 @@ Mods: {
 			Charcoal: "黑炭"
 			Calendar: "日历"
 			Gramophone: "留声机"
+			MusicDisc: "音乐光碟"
 			Mop: "扫帚"
 			StoneAxe: "石斧"
 			StonePickaxe: "石镐"
@@ -193,6 +194,7 @@ Mods: {
 				放置后右键点击即可使用
 				'''
 			Gramophone: "播放音乐光碟"
+			MusicDisc: "可在留声机处播放"
 			Mop: "让你的房子里没有怪物内脏和眼球碎片的痕迹"
 			StoneAxe: "连木头都比这要坚固"
 			StonePickaxe: "用来敲泥土的话还挺不错！"
