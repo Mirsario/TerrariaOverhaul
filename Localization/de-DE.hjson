@@ -31,12 +31,12 @@ Mods: {
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
-					//DisplayName: "Enable Ambient Sounds"
+					DisplayName: "Aktiviert Umgebungsgeräusche"
 					//Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
 				}
 
 				EnablePlayerFootsteps: {
-					//DisplayName: "Enable Player Footsteps"
+					DisplayName: "Aktiviert Spielerfußstapfen"
 					//Description: "Toggles player character footstep audio"
 				}
 			}
@@ -50,29 +50,29 @@ Mods: {
 
 			Camera: {
 				SmoothCamera: {
-					//DisplayName: "Smooth Camera"
+					DisplayName: "Glatter Kameraverlauf"
 					//Description: "Interpolates the camera's movement to improve the feel of velocity."
 				}
 
 				ScreenShakeStrength: {
-					//DisplayName: "Screen Shake Strength"
+					DisplayName: "Bildschirmrüttelstärke"
 					//Description: "Controls the strength of screen shaking effects. Set this to zero to disable screen shakes completely."
 				}
 			}
 
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
-					//DisplayName: "Enable Vertical Acceleration Changes"
+					DisplayName: "Passt die vertikale Beschleunigung an"
 					//Description: "Toggle air friction and (almost) unlimited maximum fall speed."
 				}
 
 				EnableHorizontalAccelerationChanges: {
-					//DisplayName: "Enable Horizontal Acceleration Changes"
+					DisplayName: "Passt die horizontale Beschleunigung an"
 					//Description: "Toggle changes to horizontal friction, run max speed and acceleration."
 				}
 
 				EnableBunnyhopping: {
-					//DisplayName: "Enable Bunnyhopping"
+					DisplayName: "Aktiviert Bunnyhopping"
 					//Description: 
 					//	'''
 					//	Bunnyhopping gives you a slight horizontal boost every time you jump.
@@ -81,12 +81,12 @@ Mods: {
 				}
 
 				EnableClimbing: {
-					//DisplayName: "Enable Climbing"
+					DisplayName: "Aktiviert Klettern"
 					//Description: "Climbing lets you reach new heights by holding the up button."
 				}
 
 				EnableWallJumping: {
-					//DisplayName: "Enable Wall Jumping"
+					DisplayName: "Aktiviert Wandsprünge"
 					//Description: 
 					//	'''
 					//	Wall jumping is a new movement mechanic that requires climbing gear or spike shoes.
@@ -95,7 +95,7 @@ Mods: {
 				}
 
 				EnableWallFlips: {
-					//DisplayName: "Enable Wall Flips"
+					DisplayName: "Aktiviert Wandsaltos"
 					//Description: 
 					//	'''
 					//	A wall flip is a new movement mechanic that does not require any accessories.
@@ -106,12 +106,12 @@ Mods: {
 
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
-					//DisplayName: "Always Show Aimable Weapons"
+					DisplayName: "Zielbare Waffen immer anzeigen"
 					//Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
 				}
 
 				EnablePlayerHeadRotation: {
-					//DisplayName: "Enable Player Head Rotation"
+					DisplayName: "Aktiviert Spielerkopfrotation"
 					//Description: "Toggles player characters looking at their cursors."
 				}
 
@@ -123,25 +123,25 @@ Mods: {
 		}
 
 		Seasons: {
-			//SelectSeason: "Select starting season:"
-			//CalendarCurrentSeason: "It's currently {SeasonName}."
-			//CalendarNextSeasonDays: "{SeasonName} will arrive in {NumDays} days."
-			//CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
+			SelectSeason: "Jahreszeit zum Spielbeginn:"
+			CalendarCurrentSeason: "Es ist momentan {SeasonName}."
+			CalendarNextSeasonDays: "Es ist in {NumDays} Tagen {SeasonName}."
+			CalendarNextSeasonTomorrow: "Morgen ist {SeasonName}!"
 
 			Spring: {
-				//Name: "Spring"
+				Name: "Frühling"
 			}
 
 			Summer: {
-				//Name: "Summer"
+				Name: "Sommer"
 			}
 
 			Autumn: {
-				//Name: "Autumn"
+				Name: "Herbst"
 			}
 
 			Winter: {
-				//Name: "Winter"
+				Name: "Winter"
 			}
 		}
 
@@ -172,20 +172,21 @@ Mods: {
 		}
 
 		DeathText: {
-			//Zombified: "And then {PlayerName} was a zombie."
-			//ZombifiedScreenText: "You became a zombie..."
-			//ZombifiedName: "{PlayerName} the Zombie"
-			//Lightning: "{PlayerName} was struck by lightning. Ouch!"
+			Zombified: "Und da war {PlayerName} ein Zombie."
+			ZombifiedScreenText: "Du wurdest Infiziert..."
+			ZombifiedName: "{PlayerName} der Zombie"
+			Lightning: "{PlayerName} wurde von einem Blitz getroffen. Aua!"
 		}
 
 		ItemName: {
-			//BunnyPaw: "Bunny Paw"
-			//Charcoal: "Charcoal"
-			//Calendar: "Calendar"
-			//Gramophone: "Gramophone"
-			//Mop: "Mop"
-			//StoneAxe: "Stone Axe"
-			//StonePickaxe: "Stone Pickaxe"
+			BunnyPaw: "Hasenpfote"
+			Charcoal: "Holzkohle"
+			Calendar: "Kalender"
+			Gramophone: "Gramophon"
+			MusicDisc: "Schallplatte"
+			Mop: "Mop"
+			StoneAxe: "Steinaxt"
+			StonePickaxe: "Steinspitzhacke"
 		}
 
 		ItemTooltip: {
