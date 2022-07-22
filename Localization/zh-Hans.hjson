@@ -1,5 +1,22 @@
 Mods: {
 	TerrariaOverhaul: {
+		MainMenu: {
+			//Configuration: "Configuration"
+			//DiscordServer: "Discord Server"
+			//ForumPage: "Forum Page"
+			//WikiPage: "Overhaul Wiki"
+			//Github: "GitHub"
+
+			MusicPack: {
+				//Get: "Get the Music Pack"
+				//Enable: "Enable the Music Pack"
+			}
+		}
+
+		Notifications: {
+			//AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+		}
+
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
