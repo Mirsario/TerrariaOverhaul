@@ -15,8 +15,6 @@ namespace TerrariaOverhaul.Common.Movement
 		public override void ResetEffects()
 		{
 			Boost = DefaultBoost;
-
-			Player.autoJump = true;
 		}
 
 		public override void PostItemCheck()

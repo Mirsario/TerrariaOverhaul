@@ -1,12 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
+using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays
 {
 	public class PatreonMenuLink : MenuLink
 	{
-		public PatreonMenuLink(string text, string url) : base(text, url) { }
+		public PatreonMenuLink(Text text, string url) : base(text, url) { }
 
 		public override void Draw(SpriteBatch sb, Vector2 position)
 		{
