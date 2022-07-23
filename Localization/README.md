@@ -18,9 +18,9 @@
 - **Translated:** `126` out of `126` (`0` missing!)
 
 ## es-ES
-- **Status:** ⚠️ Incomplete!
-- **Completion:** ***93.7%***
-- **Translated:** `118` out of `126` (`8` missing!)
+- **Status:** ✅ Full!
+- **Completion:** ***100.0%***
+- **Translated:** `126` out of `126` (`0` missing!)
 
 ## fr-FR
 - **Status:** ⚠️ Incomplete!
