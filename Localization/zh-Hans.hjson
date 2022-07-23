@@ -1,31 +1,31 @@
 UI: {
-	//Creative: "Journey"
-	//Normal: "I'm Too Young to Mine"
-	//Expert: "Bone Me Plenty"
-	//Master: "I Am Cthulhu Incarnate"
-	//WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
-	//WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
-	//WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
-	//WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
+	Creative: "旅途"
+	Normal: "我还年轻我不想挖矿"
+	Expert: "大力上我"
+	Master: "我是克苏鲁的化身"
+	WorldDescriptionCreative: "创造/无障碍模式（为想要掌控一切的人准备）"
+	WorldDescriptionNormal: "敌人伤害较少，但掉落相同（适合悠闲的人）"
+	WorldDescriptionExpert: "新的标准体验（为你提供公平的挑战）"
+	WorldDescriptionMaster: "极端惩罚以及新的奖励（致真正的无情者）"
 }
 
 Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
-			//Configuration: "Configuration"
-			//DiscordServer: "Discord Server"
-			//ForumPage: "Forum Page"
-			//WikiPage: "Overhaul Wiki"
-			//Github: "GitHub"
+			Configuration: "配置"
+			DiscordServer: "Discord服务器"
+			ForumPage: "论坛页面"
+			WikiPage: "Overhaul Wiki"
+			Github: "GitHub"
 
 			MusicPack: {
-				//Get: "Get the Music Pack"
-				//Enable: "Enable the Music Pack"
+				Get: "获取音乐包"
+				Enable: "开启音乐包"
 			}
 		}
 
 		Notifications: {
-			//AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+			AudioFilteringTestFailure: "警告：TerrariaOverhal无法激活音频过滤效果。请确保安装最新的音频驱动。"
 		}
 
 		Configuration: {
@@ -73,7 +73,11 @@ Mods: {
 
 				EnableBunnyhopping: {
 					DisplayName: "开启兔子蹦跳"
-					Description: "兔子蹦跳指在每次跳跃时都会给你带来轻微的水平速度提升。若关闭这个功能，将禁用某些饰品。"
+					Description:
+						'''
+						兔子蹦跳指在每次跳跃时都会给你带来轻微的水平速度提升。
+						关闭此功能，将禁用某些饰品。
+						'''
 				}
 
 				EnableClimbing: {
@@ -113,7 +117,7 @@ Mods: {
 
 				EnablePlayerTilting: {
 					DisplayName: "启用玩家倾斜"
-					Description: "根据玩家的速度，玩家整体是否会略微倾斜，这将使他们看起来更有活力。"
+					Description: "玩家是否会基于速度，向运动方向略微倾斜。这将使他们看起来更有活力。"
 				}
 			}
 		}
@@ -142,8 +146,8 @@ Mods: {
 		}
 
 		Banners: {
-			//BannerBuffDescription: "Doubled loot and coin drops from the following:"
-			//BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
+			BannerBuffDescription: "从以下生物中获得双倍战利品和钱币掉落："
+			BannerItemDescription: "附近的玩家从以下生物中获得双倍战利品和钱币掉落："
 		}
 
 		ItemOverhauls: {
