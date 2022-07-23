@@ -214,11 +214,11 @@ Mods: {
 		}
 
 		BuffDescription: {
-			//ManaAbsorption:
-			//	'''
-			//	Moving with haste, you are absorbing energy from all around you
-			//	Base mana regeneration multiplier: x{Multiplier}
-			//	'''
+			ManaAbsorption:
+				'''
+				Moviéndote rápido absorbes energía de lo que te rodea
+				Multiplicador de regeneración de maná base: x{Multiplier}
+				'''
 		}
 	}
 }
