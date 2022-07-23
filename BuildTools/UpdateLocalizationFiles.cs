@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using Hjson;
 using Microsoft.Build.Framework;
 using Newtonsoft.Json;
@@ -14,17 +16,23 @@ namespace TerrariaOverhaul.BuildTools
 	/// </summary>
 	public class UpdateLocalizationFiles : TaskBase
 	{
-		private class RecursionParameters
+		private class RecursionData
 		{
 			public CodeWriter Code { get; }
 			public JObject Translation { get; }
+			public int PresentTranslationCount { get; set; }
+			public int MissingTranslationCount { get; set; }
+			
+			public int TotalTranslationCount => PresentTranslationCount + MissingTranslationCount;
 
-			public RecursionParameters(CodeWriter code, JObject translation)
+			public RecursionData(CodeWriter code, JObject translation)
 			{
 				Code = code;
 				Translation = translation;
 			}
 		}
+		
+		public string ResultsOutputPath { get; set; } = string.Empty;
 
 		[Required]
 		public string MainFile { get; set; } = string.Empty;
@@ -35,15 +43,55 @@ namespace TerrariaOverhaul.BuildTools
 		protected override void Run()
 		{
 			var baseTranslation = ReadHjsonFile(MainFile);
+			var results = new Dictionary<string, RecursionData>();
 
 			foreach (string translationFilePath in LocalizationFiles) {
+				string cultureName = Path.GetFileNameWithoutExtension(translationFilePath);
+
 				var code = new CodeWriter();
 				var translation = ReadHjsonFile(translationFilePath);
-				var parameters = new RecursionParameters(code, translation);
+				var data = new RecursionData(code, translation);
 
-				Recursion(parameters, baseTranslation, isRoot: true);
+				Recursion(data, baseTranslation, isRoot: true);
 
 				File.WriteAllText(translationFilePath, code.ToString());
+
+				results[cultureName] = data;
+			}
+
+			if (!string.IsNullOrWhiteSpace(ResultsOutputPath)) {
+				string usedPath = Path.ChangeExtension(ResultsOutputPath, ".md");
+				var resultsText = new StringBuilder();
+
+				const string Header = "# Results of the last localization refresh";
+
+				resultsText.AppendLine(Header);
+				resultsText.AppendLine();
+
+				foreach (var pair in results) {
+					string cultureName = pair.Key;
+					var data = pair.Value;
+
+					string status = data.PresentTranslationCount != 0 ? (data.MissingTranslationCount == 0 ? "✅ Full!" : "⚠️ Incomplete!") : "❌ Not even started!";
+
+					resultsText.AppendLine($"## {cultureName}");
+					resultsText.AppendLine($"- **Status:** {status}");
+					resultsText.AppendLine($"- **Translated:** `{data.PresentTranslationCount}` out of `{data.TotalTranslationCount}` (`{data.MissingTranslationCount}` missing!)");
+					resultsText.AppendLine();
+				}
+
+				string finalizedResultsText = resultsText.ToString();
+
+				if (File.Exists(usedPath)) {
+					string existingText = File.ReadAllText(usedPath);
+					int headerIndex = existingText.IndexOf(Header);
+
+					if (headerIndex >= 0) {
+						finalizedResultsText = $"{existingText.Substring(0, headerIndex)}{finalizedResultsText}";
+					}
+				}
+
+				File.WriteAllText(usedPath, finalizedResultsText);
 			}
 		}
 
@@ -58,10 +106,10 @@ namespace TerrariaOverhaul.BuildTools
 			return jsonObject;
 		}
 
-		private static void Recursion(RecursionParameters parameters, JToken token, string? linePrefix = null, bool isRoot = false)
+		private static void Recursion(RecursionData data, JToken token, string? linePrefix = null, bool isRoot = false)
 		{
-			var code = parameters.Code;
-			var translation = parameters.Translation;
+			var code = data.Code;
+			var translation = data.Translation;
 			var translatedToken = translation.SelectToken(token.Path);
 
 			if (translatedToken == null) {
@@ -70,13 +118,19 @@ namespace TerrariaOverhaul.BuildTools
 
 			switch (token) {
 				case JProperty jsonProperty:
+					if (translatedToken == null) {
+						data.MissingTranslationCount++;
+					} else {
+						data.PresentTranslationCount++;
+					}
+
 					if (jsonProperty.Value.Type != JTokenType.Object) {
 						code.Write(linePrefix);
 					}
 
 					code.Write($"{jsonProperty.Name}:");
 
-					Recursion(parameters, jsonProperty.Value);
+					Recursion(data, jsonProperty.Value);
 
 					code.WriteLine();
 					break;
@@ -93,7 +147,7 @@ namespace TerrariaOverhaul.BuildTools
 					void RecurseProperties(JProperty[] properties, bool separateEntries = false)
 					{
 						for (int i = 0; i < properties.Length; i++) {
-							Recursion(parameters, properties[i], linePrefix);
+							Recursion(data, properties[i], linePrefix);
 
 							if (separateEntries && i != properties.Length - 1) {
 								code!.WriteLine();
