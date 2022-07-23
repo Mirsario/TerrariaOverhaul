@@ -12,15 +12,15 @@ UI: {
 Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
-			//Configuration: "Configuration"
-			//DiscordServer: "Discord Server"
-			//ForumPage: "Forum Page"
-			//WikiPage: "Overhaul Wiki"
-			//Github: "GitHub"
+			Configuration: "Configuración"
+			DiscordServer: "Servidor de Discord"
+			ForumPage: "Foro"
+			WikiPage: "Wiki de Overhaul"
+			Github: "GitHub"
 
 			MusicPack: {
-				//Get: "Get the Music Pack"
-				//Enable: "Enable the Music Pack"
+				Get: "Descargar paquete de música"
+				Enable: "Activar paquete de música"
 			}
 		}
 
@@ -214,11 +214,11 @@ Mods: {
 		}
 
 		BuffDescription: {
-			//ManaAbsorption:
-			//	'''
-			//	Moving with haste, you are absorbing energy from all around you
-			//	Base mana regeneration multiplier: x{Multiplier}
-			//	'''
+			ManaAbsorption:
+				'''
+				Moviéndote rápido absorbes energía de lo que te rodea
+				Multiplicador de regeneración de maná base: x{Multiplier}
+				'''
 		}
 	}
 }
