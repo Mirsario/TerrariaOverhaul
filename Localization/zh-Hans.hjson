@@ -25,7 +25,7 @@ Mods: {
 		}
 
 		Notifications: {
-			AudioFilteringTestFailure: "警告：TerrariaOverhal无法激活音频过滤效果。请确保安装最新的音频驱动。"
+			AudioFilteringTestFailure: "警告：TerrariaOverhaul无法激活音频过滤效果，请确保安装了最新的音频驱动。"
 		}
 
 		Configuration: {
@@ -51,7 +51,7 @@ Mods: {
 			Camera: {
 				SmoothCamera: {
 					DisplayName: "平滑镜头"
-					Description: "插值以平滑游戏镜头的运动，以改善整体动感。"
+					Description: "通过插值平滑游戏镜头的运动，以改善整体动感。"
 				}
 
 				ScreenShakeStrength: {
@@ -90,7 +90,7 @@ Mods: {
 					Description:
 						'''
 						蹬墙跳是一种新的运动机制，需要装备有攀爬装备或钉鞋才能完成。
-						背对着冲向墙，在撞击墙壁的同时按住向上键，并放开水平方向移动按钮，即可完成此动作。
+						背对着冲向墙，在撞击墙壁的同时按住向上键，放开水平方向移动按钮，即可完成此动作。
 						'''
 				}
 
@@ -156,10 +156,10 @@ Mods: {
 				VelocityBasedDamageInfo: "伤害会随玩家的速度而上升，冲就完了"
 
 				Broadsword: {
-					KillingBlow: "致命一击！"
+					KillingBlow: "致命！"
 					KillingBlowInfo:
 						'''
-						蓄力攻击可以对残血的敌人造成致命一击
+						蓄力攻击有几率对残血的敌人造成致命一击
 						致命一击会对敌人造成双倍伤害
 						'''
 				}
@@ -199,9 +199,9 @@ Mods: {
 				'''
 			Gramophone: "播放音乐光碟"
 			MusicDisc: "可在留声机处播放"
-			Mop: "让你的房子里没有怪物内脏和眼球碎片的痕迹"
-			StoneAxe: "连木头都比这要坚固"
-			StonePickaxe: "用来敲泥土的话还挺不错！"
+			Mop: "让你的房子里不再散落着怪物内脏和眼球碎片"
+			StoneAxe: "还不如拿根木棍"
+			StonePickaxe: "拿去敲泥土吧！"
 		}
 
 		NPCName: {
@@ -210,13 +210,13 @@ Mods: {
 		}
 
 		BuffName: {
-			ManaAbsorption: "魔力吸取"
+			ManaAbsorption: "魔力汲取"
 		}
 
 		BuffDescription: {
 			ManaAbsorption:
 				'''
-				你的迅速步伐，使你从身边的一切汲取魔力
+				你的迅速步伐，使你从周边一切汲取魔力
 				基础魔力再生速度 x{Multiplier}
 				'''
 		}
