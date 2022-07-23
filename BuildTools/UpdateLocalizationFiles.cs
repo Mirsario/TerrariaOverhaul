@@ -76,6 +76,7 @@ namespace TerrariaOverhaul.BuildTools
 
 					resultsText.AppendLine($"## {cultureName}");
 					resultsText.AppendLine($"- **Status:** {status}");
+					resultsText.AppendLine($"- **Completion:** ***{data.PresentTranslationCount / (float)data.TotalTranslationCount * 100f:0.0}%***");
 					resultsText.AppendLine($"- **Translated:** `{data.PresentTranslationCount}` out of `{data.TotalTranslationCount}` (`{data.MissingTranslationCount}` missing!)");
 					resultsText.AppendLine();
 				}
