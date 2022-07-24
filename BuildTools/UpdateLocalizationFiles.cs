@@ -119,13 +119,13 @@ namespace TerrariaOverhaul.BuildTools
 
 			switch (token) {
 				case JProperty jsonProperty:
-					if (translatedToken == null) {
-						data.MissingTranslationCount++;
-					} else {
-						data.PresentTranslationCount++;
-					}
-
 					if (jsonProperty.Value.Type != JTokenType.Object) {
+						if (translatedToken == null) {
+							data.MissingTranslationCount++;
+						} else {
+							data.PresentTranslationCount++;
+						}
+
 						code.Write(linePrefix);
 					}
 
