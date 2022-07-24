@@ -25,7 +25,7 @@ Mods: {
 		}
 
 		Notifications: {
-			AudioFilteringTestFailure: "Warnung: TerrariaOverhaul konnte seine Audiofiltereffekte nicht aktivieren. Stelle sicher, das deine Audiotreiber auf aktuellem Stand sind.."
+			AudioFilteringTestFailure: "Warnung: TerrariaOverhaul konnte seine Audiofiltereffekte nicht aktivieren. Stelle sicher, dass deine Audiotreiber auf aktuellem Stand sind.."
 		}
 
 		Configuration: {
