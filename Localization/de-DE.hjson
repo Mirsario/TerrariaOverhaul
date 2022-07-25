@@ -1,123 +1,123 @@
 UI: {
-	//Creative: "Journey"
-	//Normal: "I'm Too Young to Mine"
-	//Expert: "Bone Me Plenty"
-	//Master: "I Am Cthulhu Incarnate"
-	//WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
-	//WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
-	//WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
-	//WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
+	Creative: "Reise"
+	Normal: "Zu Jung zum Graben"
+	Expert: "Bis auf die Knochen"
+	Master: "Die Verkörperung von Cthulhu"
+	WorldDescriptionCreative: "Der Kreativ- / Zugänglichkeitsmodus (Für die, die in Kontrolle sein möchten)"
+	WorldDescriptionNormal: "Weniger Gegnerschaden, aber die selben Belohnungen (Für entspannte Spieler)"
+	WorldDescriptionExpert: "Das neue Standarderlebnis (Für die, die eine faire Herausforderung mögen)"
+	WorldDescriptionMaster: "Extreme Bestrafungen und neue Belohnungen (Für die wahrlich Rücksichtslosen)"
 }
 
 Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
-			//Configuration: "Configuration"
-			//DiscordServer: "Discord Server"
-			//ForumPage: "Forum Page"
-			//WikiPage: "Overhaul Wiki"
-			//Github: "GitHub"
+			Configuration: "Konfiguration"
+			DiscordServer: "Discordserver"
+			ForumPage: "Forumsseite"
+			WikiPage: "Overhaul Wiki"
+			Github: "GitHub"
 
 			MusicPack: {
-				//Get: "Get the Music Pack"
-				//Enable: "Enable the Music Pack"
+				Get: "Hol dir das Musikpaket"
+				Enable: "Musikpaket aktivieren"
 			}
 		}
 
 		Notifications: {
-			//AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+			AudioFilteringTestFailure: "Warnung: TerrariaOverhaul konnte seine Audiofiltereffekte nicht aktivieren. Stelle sicher, dass deine Audiotreiber auf aktuellem Stand sind.."
 		}
 
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
-					DisplayName: "Aktiviert Umgebungsgeräusche"
-					//Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
+					DisplayName: "Umgebungsgeräusche aktivieren"
+					Description: "Wiederholende Umgebungsgeräusche wie Vögel, Grillenzirpen, Wind, Höhlengeräusche, usw. anschalten."
 				}
 
 				EnablePlayerFootsteps: {
-					DisplayName: "Aktiviert Spielerfußstapfen"
-					//Description: "Toggles player character footstep audio"
+					DisplayName: "Spielerfußstapfen aktivieren"
+					Description: "Fußstapfengeräusche des Spielers aktivieren."
 				}
 			}
 
 			BloodAndGore: {
 				EnableDecals: {
-					//DisplayName: "Enable Decals"
-					//Description: "Toggles decals, also known as 'blood on tiles'."
+					DisplayName: "Blutflecken aktivieren"
+					Description: "Blutflecken auf Blöcken anschalten."
 				}
 			}
 
 			Camera: {
 				SmoothCamera: {
 					DisplayName: "Glatter Kameraverlauf"
-					//Description: "Interpolates the camera's movement to improve the feel of velocity."
+					Description: "Erweitert die Bewegung der Kamera, um das Geschwindigkeitsgefühl zu verbessern."
 				}
 
 				ScreenShakeStrength: {
 					DisplayName: "Bildschirmrüttelstärke"
-					//Description: "Controls the strength of screen shaking effects. Set this to zero to disable screen shakes completely."
+					Description: "Kontrolliert die Intensität von Bildschirmrütteleffekten. Setze es auf null, um Bildschirmrütteln vollständig zu deaktivieren."
 				}
 			}
 
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
-					DisplayName: "Passt die vertikale Beschleunigung an"
-					//Description: "Toggle air friction and (almost) unlimited maximum fall speed."
+					DisplayName: "Angepasste vertikale Beschleunigung aktivieren"
+					Description: "Luftreibung und (fast) unbegrenzte Fallgeschwindigkeit anschalten."
 				}
 
 				EnableHorizontalAccelerationChanges: {
-					DisplayName: "Passt die horizontale Beschleunigung an"
-					//Description: "Toggle changes to horizontal friction, run max speed and acceleration."
+					DisplayName: "Angepasste horizontale Beschleunigung aktivieren"
+					Description: "Änderungen an horizontaler Reibung sowie maximaler Lauf- und Beschleunigungsgeschwindigkeit anschalten."
 				}
 
 				EnableBunnyhopping: {
-					DisplayName: "Aktiviert Bunnyhopping"
-					//Description:
-					//	'''
-					//	Bunnyhopping gives you a slight horizontal boost every time you jump.
-					//	Turning this off will disable certain accessories.
-					//	'''
+					DisplayName: "Bunnyhopping aktivieren"
+					Description:
+						'''
+						Bunnyhopping gibt dir mit jedem Sprung einen horizontalen Schub.
+						Wenn es abgeschaltet ist sind bestimmte Accessoires deaktiviert.
+						'''
 				}
 
 				EnableClimbing: {
-					DisplayName: "Aktiviert Klettern"
-					//Description: "Climbing lets you reach new heights by holding the up button."
+					DisplayName: "Klettern aktivieren"
+					Description: "Klettern lässt dich durch das Drücken der Hoch-Taste neue Höhen erreichen."
 				}
 
 				EnableWallJumping: {
-					DisplayName: "Aktiviert Wandsprünge"
-					//Description:
-					//	'''
-					//	Wall jumping is a new movement mechanic that requires climbing gear or spike shoes.
-					//	It is done by hitting a wall with your back while holding the up button with horizontal movement buttons released.
-					//	'''
+					DisplayName: "Wandsprünge aktivieren"
+					Description:
+						'''
+						Das Wandspringen ist eine neue Bewegungsmechanik, die Kletterklauen oder Schuhspikes benötigt.
+						Stoße dazu mit dem Rücken auf eine Wand, während du die Hoch-Taste gedrückt hältst und die horizontalen Bewegungstasten loslässt.
+						'''
 				}
 
 				EnableWallFlips: {
-					DisplayName: "Aktiviert Wandsaltos"
-					//Description:
-					//	'''
-					//	A wall flip is a new movement mechanic that does not require any accessories.
-					//	It is done by hitting a wall with your front with enough velocity while holding the horizontal movement opposite of the player's direction.
-					//	'''
+					DisplayName: "Wandsaltos aktivieren"
+					Description:
+						'''
+						Der Wandsalto ist eine neue Bewegungsmechanik, die keine Accessoires benötigt.
+						Stoße dazu mit genug Geschwindigkeit auf eine Wand und halte die horizontale Bewegungstaste entgegen der Richtung des Spielers gedrückt.
+						'''
 				}
 			}
 
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Zielbare Waffen immer anzeigen"
-					//Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
+					Description: "Sichtbarkeit von herausgehaltenen Waffen wenn sie nicht benutzt werden anschalten."
 				}
 
 				EnablePlayerHeadRotation: {
-					DisplayName: "Aktiviert Spielerkopfrotation"
-					//Description: "Toggles player characters looking at their cursors."
+					DisplayName: "Spielerkopfrotation aktivieren"
+					Description: "Das der Kopf des Spielercharakters zum Mauszeiger schaut anschalten."
 				}
 
 				EnablePlayerTilting: {
-					//DisplayName: "Enable Player Tilting"
-					//Description: "Toggles player characters being slightly tilted based on their velocity. This makes them look a lot more alive."
+					DisplayName: "Spielerneigung aktivieren"
+					Description: "Das Neigen des Spielercharakters basierend auf dessen Geschwindigkeit anschalten. Dies lässt ihn lebendiger wirken."
 				}
 			}
 		}
@@ -146,34 +146,34 @@ Mods: {
 		}
 
 		Banners: {
-			//BannerBuffDescription: "Doubled loot and coin drops from the following:"
-			//BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
+			BannerBuffDescription: "Doppelte Beute und Münzen von:"
+			BannerItemDescription: "Spieler in der Nähe erhalten doppelte Beute und Münzen von:"
 		}
 
 		ItemOverhauls: {
 			Melee: {
-				//AirCombatInfo: "Attacking enemies mid-air launches you towards them"
-				//VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
+				AirCombatInfo: "Gegner in der Luft anzugreifen schleudert dich zu ihnen"
+				VelocityBasedDamageInfo: "Schaden kann durch Spielergeschwindigkeit erhöht werden, Sprinten ist empfohlen"
 
 				Broadsword: {
-					//KillingBlow: "Killing Blow!"
-					//KillingBlowInfo:
-					//	'''
-					//	Charged strikes can deal Killing Blows to damaged enemies
-					//	Killing Blows double damage whenever that would finish the enemy
-					//	'''
+					KillingBlow: "Gnadenstoß!"
+					KillingBlowInfo:
+						'''
+						Ein aufgeladener Schlag fügt verletzten Gegnern einen Gnadenstoß zu
+						Gnadenstöße fügen doppelten Schaden zu, wenn sie den Gegner erledigen würden
+						'''
 				}
 			}
 		}
 
 		CommonTooltips: {
-			//ShowCombatInfo: "[Hold {Key} to show combat information]"
-			//CombatInfo: "[Combat Information]"
+			ShowCombatInfo: "[Halte {Key} um Kampfinformationen anzuzeigen]"
+			CombatInfo: "[Kampfinformationen]"
 		}
 
 		DeathText: {
 			Zombified: "Und da war {PlayerName} ein Zombie."
-			ZombifiedScreenText: "Du wurdest Infiziert..."
+			ZombifiedScreenText: "Du wurdest infiziert..."
 			ZombifiedName: "{PlayerName} der Zombie"
 			Lightning: "{PlayerName} wurde von einem Blitz getroffen. Aua!"
 		}
@@ -182,43 +182,43 @@ Mods: {
 			BunnyPaw: "Hasenpfote"
 			Charcoal: "Holzkohle"
 			Calendar: "Kalender"
-			Gramophone: "Gramophon"
+			Gramophone: "Grammophon"
 			MusicDisc: "Schallplatte"
-			Mop: "Mop"
+			Mop: "Mopp"
 			StoneAxe: "Steinaxt"
 			StonePickaxe: "Steinspitzhacke"
 		}
 
 		ItemTooltip: {
-			//BunnyPaw: "Increases bunnyhop speed boost"
-			//Charcoal: "It's still warm"
-			//Calendar:
-			//	'''
-			//	Counts amount of days left until the next season
-			//	Right click after placing to use it
-			//	'''
-			//Gramophone: "Plays music discs"
-			//MusicDisc: "Can be played in a gramophone"
-			//Mop: "Keeps your house clean of guts and shredded eyeballs"
-			//StoneAxe: "Wood is probably stronger than this"
-			//StonePickaxe: "Great against dirt!"
+			BunnyPaw: "Erhöht den Geschwindigkeitsboost von Bunnyhopping"
+			Charcoal: "Ist immer noch warm"
+			Calendar:
+				'''
+				Zählt wie viele Tage bis zur nächsten Jahreszeit übrig sind
+				Rechtsklick nach dem Platzieren, um ihn zu benutzen
+				'''
+			Gramophone: "Spielt Schallplatten ab"
+			MusicDisc: "Kann mit einem Grammophon abgespielt werden"
+			Mop: "Hält dein Haus von Innereien und zerfetzen Augäpfeln sauber"
+			StoneAxe: "Holz ist wahrscheinlich stärker als das hier"
+			StonePickaxe: "Großartig gegen Dreck!"
 		}
 
 		NPCName: {
-			//AshSlime: "Ash Clot"
-			//AshZombie: "Walking Ashes"
+			AshSlime: "Ascheklumpen"
+			AshZombie: "Wandernde Asche"
 		}
 
 		BuffName: {
-			//ManaAbsorption: "Mana Absorption"
+			ManaAbsorption: "Manaaufnahme"
 		}
 
 		BuffDescription: {
-			//ManaAbsorption:
-			//	'''
-			//	Moving with haste, you are absorbing energy from all around you
-			//	Base mana regeneration multiplier: x{Multiplier}
-			//	'''
+			ManaAbsorption:
+				'''
+				Durch deine schnelle Bewegung nimmst du Energie von deiner Umgebung auf
+				Basismanawiederherstellung-Multiplikator: x{Multiplier}
+				'''
 		}
 	}
 }
