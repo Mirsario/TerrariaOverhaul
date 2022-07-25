@@ -1,224 +1,224 @@
 UI: {
-	//Creative: "Journey"
-	//Normal: "I'm Too Young to Mine"
-	//Expert: "Bone Me Plenty"
-	//Master: "I Am Cthulhu Incarnate"
-	//WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
-	//WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
-	//WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
-	//WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
+	Creative: "Promenade De Santé"
+	Normal: "Trop Jeune Pour Être Mineur"
+	Expert: "Bone Me Plenty"
+	Master: "Je Suis Cthulhu Incarné"
+	WorldDescriptionCreative: "Le mode créatif (Pour ceux qui veulent être en contrôle)"
+	WorldDescriptionNormal: "Moins de danger, autant de butin (Pour une expérience sans prise de tête)"
+	WorldDescriptionExpert: "Le nouveau standard (Pour ceux qui veulent un défi équilibré)"
+	WorldDescriptionMaster: "Agonie suprème et nouvelles récompenses (Pour les têtes-brulées)"
 }
 
 Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
-			//Configuration: "Configuration"
-			//DiscordServer: "Discord Server"
-			//ForumPage: "Forum Page"
-			//WikiPage: "Overhaul Wiki"
-			//Github: "GitHub"
+			Configuration: "Configuration"
+			DiscordServer: "Serveur Discord"
+			ForumPage: "Page du Forum"
+			WikiPage: "Overhaul Wiki"
+			Github: "GitHub"
 
 			MusicPack: {
-				//Get: "Get the Music Pack"
-				//Enable: "Enable the Music Pack"
+				Get: "Obtenir le Pack de Musique"
+				Enable: "Activer le Pack de Musique"
 			}
 		}
 
 		Notifications: {
-			//AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+			AudioFilteringTestFailure: "Alerte: Echec de l'activation du filtrage audio. Vérifiez que vos drivers audio sont mis à jour."
 		}
 
 		Configuration: {
 			Ambience: {
 				EnableAmbientSounds: {
-					//DisplayName: "Enable Ambient Sounds"
-					//Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
+					DisplayName: "Activer l'Ambiance Sonore"
+					Description: "Rajoute des sons ambiants comme des oiseaux, bruits de cave, grillons, du vent, etc."
 				}
 
 				EnablePlayerFootsteps: {
-					//DisplayName: "Enable Player Footsteps"
-					//Description: "Toggles player character footstep audio"
+					DisplayName: "Activer les Bruits de Pas"
+					Description: "Rajoute des bruits de pas du joueur."
 				}
 			}
 
 			BloodAndGore: {
 				EnableDecals: {
-					//DisplayName: "Enable Decals"
-					//Description: "Toggles decals, also known as 'blood on tiles'."
+					DisplayName: "Activer les Décalcs"
+					Description: "Rajoute des décalcs, autrement dit 'éclaboussures de sang'."
 				}
 			}
 
 			Camera: {
 				SmoothCamera: {
-					//DisplayName: "Smooth Camera"
-					//Description: "Interpolates the camera's movement to improve the feel of velocity."
+					DisplayName: "Camera Lisse"
+					Description: "Intercale le mouvement de camera pour améliorer la sensation de vitesse."
 				}
 
 				ScreenShakeStrength: {
-					//DisplayName: "Screen Shake Strength"
-					//Description: "Controls the strength of screen shaking effects. Set this to zero to disable screen shakes completely."
+					DisplayName: "Ampleur des Tremblements"
+					Description: "Contrôle l'ampleur du tremblement de l'écran. Mettre à zéro pour complètement désactiver."
 				}
 			}
 
 			PlayerMovement: {
 				EnableVerticalAccelerationChanges: {
-					//DisplayName: "Enable Vertical Acceleration Changes"
-					//Description: "Toggle air friction and (almost) unlimited maximum fall speed."
+					DisplayName: "Activer l'Accélération Verticale"
+					Description: "Rajoute la friction aérienne et quasi-infinie limite de vitesse de chute."
 				}
 
 				EnableHorizontalAccelerationChanges: {
-					//DisplayName: "Enable Horizontal Acceleration Changes"
-					//Description: "Toggle changes to horizontal friction, run max speed and acceleration."
+					DisplayName: "Activer l'Accélération Horizontale"
+					Description: "Modifie la friction horizontale, limite de vitesse de course et accélération."
 				}
 
 				EnableBunnyhopping: {
-					//DisplayName: "Enable Bunnyhopping"
-					//Description:
-					//	'''
-					//	Bunnyhopping gives you a slight horizontal boost every time you jump.
-					//	Turning this off will disable certain accessories.
-					//	'''
+					DisplayName: "Activer le Saut de Lapin"
+					Description:
+						'''
+						Le Saut de Lapin procure un léger boost latéral pour chaque saut consécutif.
+						Si désactivé, retire certains accessoires.
+						'''
 				}
 
 				EnableClimbing: {
-					//DisplayName: "Enable Climbing"
-					//Description: "Climbing lets you reach new heights by holding the up button."
+					DisplayName: "Activer l'Escalade"
+					Description: "Escalader permet de grimper en pressant la touche haut."
 				}
 
 				EnableWallJumping: {
-					//DisplayName: "Enable Wall Jumping"
-					//Description:
-					//	'''
-					//	Wall jumping is a new movement mechanic that requires climbing gear or spike shoes.
-					//	It is done by hitting a wall with your back while holding the up button with horizontal movement buttons released.
-					//	'''
+					DisplayName: "Activer le Saut Mural"
+					Description:
+						'''
+						Le Saut Mural est une nouvelle technique qui requiert les griffes d'escalade ou les chaussures à pointes.
+						Effectué en touchant un mur avec le dos tout en appuyant sur la touche haut sans presser une direction horizontale.
+						'''
 				}
 
 				EnableWallFlips: {
-					//DisplayName: "Enable Wall Flips"
-					//Description:
-					//	'''
-					//	A wall flip is a new movement mechanic that does not require any accessories.
-					//	It is done by hitting a wall with your front with enough velocity while holding the horizontal movement opposite of the player's direction.
-					//	'''
+					DisplayName: "Activer le Rebond Mural"
+					Description:
+						'''
+						Le Rebond Mural est une nouvelle technique qui ne requiert pas d'accessoires.
+						Effectué en touchant un mur de face avec suffisamment de vitesse tout en appuyant sur la direction opposée.
+						'''
 				}
 			}
 
 			PlayerVisuals: {
 				AlwaysShowAimableWeapons: {
-					//DisplayName: "Always Show Aimable Weapons"
-					//Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
+					DisplayName: "Toujours Montrer les Armes à Visée"
+					Description: "Montre les armes au repos en main."
 				}
 
 				EnablePlayerHeadRotation: {
-					//DisplayName: "Enable Player Head Rotation"
-					//Description: "Toggles player characters looking at their cursors."
+					DisplayName: "Activer la Rotation de la Tête"
+					Description: "L'avatar regarde en direction du curseur."
 				}
 
 				EnablePlayerTilting: {
-					//DisplayName: "Enable Player Tilting"
-					//Description: "Toggles player characters being slightly tilted based on their velocity. This makes them look a lot more alive."
+					DisplayName: "Activer le Tanguage"
+					Description: "L'avatar s'incline légèrement en fonction de sa vitesse. Rend l'avatar plus vivant."
 				}
 			}
 		}
 
 		Seasons: {
-			//SelectSeason: "Select starting season:"
-			//CalendarCurrentSeason: "It's currently {SeasonName}."
-			//CalendarNextSeasonDays: "{SeasonName} will arrive in {NumDays} days."
-			//CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
+			SelectSeason: "Choisir la saison de départ:"
+			CalendarCurrentSeason: "Actuellement en {SeasonName}."
+			CalendarNextSeasonDays: "On arrive en {SeasonName} dans {NumDays} jours."
+			CalendarNextSeasonTomorrow: "On arrive en {SeasonName} demain!"
 
 			Spring: {
-				//Name: "Spring"
+				Name: "Printemps"
 			}
 
 			Summer: {
-				//Name: "Summer"
+				Name: "Été"
 			}
 
 			Autumn: {
-				//Name: "Autumn"
+				Name: "Automne"
 			}
 
 			Winter: {
-				//Name: "Winter"
+				Name: "Hiver"
 			}
 		}
 
 		Banners: {
-			//BannerBuffDescription: "Doubled loot and coin drops from the following:"
-			//BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
+			BannerBuffDescription: "Butin doublé pour:"
+			BannerItemDescription: "Les joueurs à proximité recoivent le double de pièces et d'objets pour:"
 		}
 
 		ItemOverhauls: {
 			Melee: {
-				//AirCombatInfo: "Attacking enemies mid-air launches you towards them"
-				//VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
+				AirCombatInfo: "Attaquer des ennemis en l'air vous propulse vers eux"
+				VelocityBasedDamageInfo: "Les dégâts sont augmentés par la vélocité de l'avatar, une charge est conseillée"
 
 				Broadsword: {
-					//KillingBlow: "Killing Blow!"
-					//KillingBlowInfo:
-					//	'''
-					//	Charged strikes can deal Killing Blows to damaged enemies
-					//	Killing Blows double damage whenever that would finish the enemy
-					//	'''
+					KillingBlow: "Coup Mortel!"
+					KillingBlowInfo:
+						'''
+						Les attaques chargées infligent des Coups Mortels aux ennemis blessés
+						Les Coups Mortels doublent les dégâts si c'est fatal
+						'''
 				}
 			}
 		}
 
 		CommonTooltips: {
-			//ShowCombatInfo: "[Hold {Key} to show combat information]"
-			//CombatInfo: "[Combat Information]"
+			ShowCombatInfo: "[Presser {Key} pour afficher les informations de combat]"
+			CombatInfo: "[Informations de Combat]"
 		}
 
 		DeathText: {
-			//Zombified: "And then {PlayerName} was a zombie."
-			//ZombifiedScreenText: "You became a zombie..."
-			//ZombifiedName: "{PlayerName} the Zombie"
-			//Lightning: "{PlayerName} was struck by lightning. Ouch!"
+			Zombified: "C'est ainsi que {PlayerName} devint un zombie."
+			ZombifiedScreenText: "Vous êtes devenu un zombie..."
+			ZombifiedName: "{PlayerName} le Zombie"
+			Lightning: "{PlayerName} a été frappé par la foudre. Aïe!"
 		}
 
 		ItemName: {
-			//BunnyPaw: "Bunny Paw"
-			//Charcoal: "Charcoal"
-			//Calendar: "Calendar"
-			//Gramophone: "Gramophone"
-			//MusicDisc: "Music Disc"
-			//Mop: "Mop"
-			//StoneAxe: "Stone Axe"
-			//StonePickaxe: "Stone Pickaxe"
+			BunnyPaw: "Patte de Lapin"
+			Charcoal: "Charbon"
+			Calendar: "Calendrier"
+			Gramophone: "Gramophone"
+			MusicDisc: "Disque de Musique"
+			Mop: "Serpillière"
+			StoneAxe: "Hache en Pierre"
+			StonePickaxe: "Pioche en Pierre"
 		}
 
 		ItemTooltip: {
-			//BunnyPaw: "Increases bunnyhop speed boost"
-			//Charcoal: "It's still warm"
-			//Calendar:
-			//	'''
-			//	Counts amount of days left until the next season
-			//	Right click after placing to use it
-			//	'''
-			//Gramophone: "Plays music discs"
-			//MusicDisc: "Can be played in a gramophone"
-			//Mop: "Keeps your house clean of guts and shredded eyeballs"
-			//StoneAxe: "Wood is probably stronger than this"
-			//StonePickaxe: "Great against dirt!"
+			BunnyPaw: "Augmente le boost de vitesse de sauts de lapin."
+			Charcoal: "C'est encore chaud"
+			Calendar:
+				'''
+				Compte le nombre de jours restants jusqu'à la prochaine saison
+				Clic droit après placement pour l'utiliser
+				'''
+			Gramophone: "Joue les disques de musique"
+			MusicDisc: "Peut être joué dans un gramophone"
+			Mop: "Garde la maison propre des viscères et globes oculaires déchiquetés"
+			StoneAxe: "Du bois serait sûrement plus utile que ça"
+			StonePickaxe: "Super contre la terre!"
 		}
 
 		NPCName: {
-			//AshSlime: "Ash Clot"
-			//AshZombie: "Walking Ashes"
+			AshSlime: "Caillot de Cendres"
+			AshZombie: "Cendres Animées"
 		}
 
 		BuffName: {
-			//ManaAbsorption: "Mana Absorption"
+			ManaAbsorption: "Absorption de Mana"
 		}
 
 		BuffDescription: {
-			//ManaAbsorption:
-			//	'''
-			//	Moving with haste, you are absorbing energy from all around you
-			//	Base mana regeneration multiplier: x{Multiplier}
-			//	'''
+			ManaAbsorption:
+				'''
+				Vous déplaçant avec célérité, l'énergie s'agglomère autour de vous
+				Facteur de régénération du mana: x{Multiplier}
+				'''
 		}
 	}
 }
