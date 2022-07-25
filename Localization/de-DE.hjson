@@ -146,8 +146,8 @@ Mods: {
 		}
 
 		Banners: {
-			//BannerBuffDescription: "Doppelte Beute und Münzen von:"
-			//BannerItemDescription: "Spieler in der Nähe erhalten doppelte Beute und Münzen von:"
+			BannerBuffDescription: "Doppelte Beute und Münzen von:"
+			BannerItemDescription: "Spieler in der Nähe erhalten doppelte Beute und Münzen von:"
 		}
 
 		ItemOverhauls: {
