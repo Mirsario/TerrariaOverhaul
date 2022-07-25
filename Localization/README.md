@@ -8,9 +8,9 @@
 # Results of the last localization refresh
 
 ## de-DE
-- **Status:** ⚠️ Incomplete!
-- **Completion:** ***38.1%***
-- **Translated:** `32` out of `84` (`52` missing!)
+- **Status:** ✅ Full!
+- **Completion:** ***100.0%***
+- **Translated:** `84` out of `84` (`0` missing!)
 
 ## en-US
 - **Status:** ✅ Full!
