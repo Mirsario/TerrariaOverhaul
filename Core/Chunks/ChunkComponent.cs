@@ -2,20 +2,19 @@
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Components;
 
-namespace TerrariaOverhaul.Core.Chunks
+namespace TerrariaOverhaul.Core.Chunks;
+
+[GlobalComponent]
+public abstract class ChunkComponent : ModComponent<Chunk>
 {
-	[GlobalComponent]
-	public abstract class ChunkComponent : ModComponent<Chunk>
+	protected override void Register()
 	{
-		protected override void Register()
-		{
-			base.Register();
+		base.Register();
 
-			ModTypeLookup<ChunkComponent>.Register(this);
-		}
-
-		public virtual void PreGameDraw(Chunk chunk) { }
-
-		public virtual void PostDrawTiles(Chunk chunk, SpriteBatch sb) { }
+		ModTypeLookup<ChunkComponent>.Register(this);
 	}
+
+	public virtual void PreGameDraw(Chunk chunk) { }
+
+	public virtual void PostDrawTiles(Chunk chunk, SpriteBatch sb) { }
 }

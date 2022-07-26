@@ -4,90 +4,89 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Core.SimpleEntities
+namespace TerrariaOverhaul.Core.SimpleEntities;
+
+public class SimpleEntitySystem : ModSystem
 {
-	public class SimpleEntitySystem : ModSystem
+	private static Dictionary<Type, LinkedList<SimpleEntity>> entitiesByType = new();
+
+	public override void Load()
 	{
-		private static Dictionary<Type, LinkedList<SimpleEntity>> entitiesByType = new();
+		On.Terraria.Main.DrawPlayers_AfterProjectiles += (orig, self) => {
+			orig(self);
 
-		public override void Load()
-		{
-			On.Terraria.Main.DrawPlayers_AfterProjectiles += (orig, self) => {
-				orig(self);
+			DrawEntities();
+		};
+	}
 
-				DrawEntities();
-			};
-		}
+	public override void Unload()
+	{
+		entitiesByType?.Clear();
+	}
 
-		public override void Unload()
-		{
-			entitiesByType?.Clear();
-		}
+	public override void PreUpdateEntities() => UpdateEntities();
 
-		public override void PreUpdateEntities() => UpdateEntities();
+	public static IEnumerable<SimpleEntity> EnumerateEntities()
+	{
+		foreach (var entities in entitiesByType.Values) {
+			var node = entities.First;
 
-		public static IEnumerable<SimpleEntity> EnumerateEntities()
-		{
-			foreach (var entities in entitiesByType.Values) {
-				var node = entities.First;
+			while (node != null) {
+				var entity = node.Value;
 
-				while (node != null) {
-					var entity = node.Value;
+				if (entity.Destroyed) {
+					var next = node.Next;
 
-					if (entity.Destroyed) {
-						var next = node.Next;
+					entities.Remove(node);
 
-						entities.Remove(node);
+					node = next;
+				} else {
+					yield return entity;
 
-						node = next;
-					} else {
-						yield return entity;
-
-						node = node.Next;
-					}
+					node = node.Next;
 				}
 			}
 		}
+	}
 
-		internal static T InstantiateEntity<T>(Action<T>? preinitializer = null) where T : SimpleEntity
-		{
-			T instance = Activator.CreateInstance<T>();
+	internal static T InstantiateEntity<T>(Action<T>? preinitializer = null) where T : SimpleEntity
+	{
+		T instance = Activator.CreateInstance<T>();
 
-			preinitializer?.Invoke(instance);
+		preinitializer?.Invoke(instance);
 
-			instance.Init();
+		instance.Init();
 
-			if (!entitiesByType.TryGetValue(typeof(T), out var list)) {
-				entitiesByType[typeof(T)] = list = new LinkedList<SimpleEntity>();
-			}
-
-			list.AddLast(instance);
-
-			return instance;
+		if (!entitiesByType.TryGetValue(typeof(T), out var list)) {
+			entitiesByType[typeof(T)] = list = new LinkedList<SimpleEntity>();
 		}
 
-		private static void UpdateEntities()
-		{
-			if (!Main.dedServ && Main.gamePaused) {
-				return;
-			}
+		list.AddLast(instance);
 
-			foreach (var entity in EnumerateEntities()) {
-				entity.Update();
-			}
+		return instance;
+	}
+
+	private static void UpdateEntities()
+	{
+		if (!Main.dedServ && Main.gamePaused) {
+			return;
 		}
 
-		private static void DrawEntities()
-		{
-			var sb = Main.spriteBatch;
-
-			sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
-
-			foreach (var entity in EnumerateEntities()) {
-				entity.Draw(sb);
-			}
-
-			sb.End();
+		foreach (var entity in EnumerateEntities()) {
+			entity.Update();
 		}
+	}
+
+	private static void DrawEntities()
+	{
+		var sb = Main.spriteBatch;
+
+		sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
+
+		foreach (var entity in EnumerateEntities()) {
+			entity.Draw(sb);
+		}
+
+		sb.End();
 	}
 }

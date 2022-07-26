@@ -1,42 +1,41 @@
 ﻿using System.Collections.Generic;
 
-namespace TerrariaOverhaul.Core.Tags
+namespace TerrariaOverhaul.Core.Tags;
+
+// Horrible. Taken from an old 1.4_contenttags draft of TML. And made worse.
+
+/// <summary> This class stores lists of content Ids associated with the tag that it represents. </summary>
+public sealed class TagData
 {
-	// Horrible. Taken from an old 1.4_contenttags draft of TML. And made worse.
+	//private readonly bool[] idToValue; //Accessed for quick HasTag checks.
+	private readonly List<int> entryList;
+	private readonly IReadOnlyList<int> readonlyEntryList; //Accessed for GetEntriesWithTag.
 
-	/// <summary> This class stores lists of content Ids associated with the tag that it represents. </summary>
-	public sealed class TagData
+	internal TagData(int maxEntries)
 	{
-		//private readonly bool[] idToValue; //Accessed for quick HasTag checks.
-		private readonly List<int> entryList;
-		private readonly IReadOnlyList<int> readonlyEntryList; //Accessed for GetEntriesWithTag.
+		//idToValue = new bool[maxEntries];
+		entryList = new List<int>();
+		readonlyEntryList = entryList.AsReadOnly();
+	}
 
-		internal TagData(int maxEntries)
-		{
-			//idToValue = new bool[maxEntries];
-			entryList = new List<int>();
-			readonlyEntryList = entryList.AsReadOnly();
-		}
+	/// <summary> Returns whether or not the content piece with the Id has this tag. </summary>
+	/// <param name="id"> The content id. </param>
+	public bool Has(int id) => entryList.Contains(id); //idToValue[id];
 
-		/// <summary> Returns whether or not the content piece with the Id has this tag. </summary>
-		/// <param name="id"> The content id. </param>
-		public bool Has(int id) => entryList.Contains(id); //idToValue[id];
+	/// <summary> Returns a list of content Ids that have this tag. </summary>
+	public IReadOnlyList<int> GetEntries() => readonlyEntryList;
 
-		/// <summary> Returns a list of content Ids that have this tag. </summary>
-		public IReadOnlyList<int> GetEntries() => readonlyEntryList;
+	/// <summary> Sets whether or not the content piece with the provided Id has this tag. </summary>
+	/// <param name="id"> The content id. </param>
+	/// <param name="value"> Whether or not the tag should be present for the provided content id. </param>
+	public void Set(int id, bool value)
+	{
+		//idToValue[id] = value;
 
-		/// <summary> Sets whether or not the content piece with the provided Id has this tag. </summary>
-		/// <param name="id"> The content id. </param>
-		/// <param name="value"> Whether or not the tag should be present for the provided content id. </param>
-		public void Set(int id, bool value)
-		{
-			//idToValue[id] = value;
-
-			if (!value) {
-				entryList.Remove(id);
-			} else if (!entryList.Contains(id)) {
-				entryList.Add(id);
-			}
+		if (!value) {
+			entryList.Remove(id);
+		} else if (!entryList.Contains(id)) {
+			entryList.Add(id);
 		}
 	}
 }

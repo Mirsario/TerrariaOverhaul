@@ -3,20 +3,19 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Core.ItemComponents;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Components
+namespace TerrariaOverhaul.Common.ModEntities.Items.Components;
+
+[Autoload(Side = ModSide.Client)]
+public sealed class ItemUseVisualRecoil : ItemComponent
 {
-	[Autoload(Side = ModSide.Client)]
-	public sealed class ItemUseVisualRecoil : ItemComponent
+	public float Power { get; set; } = 1f;
+
+	public override bool? UseItem(Item item, Player player)
 	{
-		public float Power { get; set; } = 1f;
-
-		public override bool? UseItem(Item item, Player player)
-		{
-			if (Enabled && Power != 0f) {
-				player.GetModPlayer<PlayerHoldOutAnimation>().VisualRecoil += Power;
-			}
-
-			return base.UseItem(item, player);
+		if (Enabled && Power != 0f) {
+			player.GetModPlayer<PlayerHoldOutAnimation>().VisualRecoil += Power;
 		}
+
+		return base.UseItem(item, player);
 	}
 }

@@ -5,39 +5,38 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Decals;
 using TerrariaOverhaul.Common.Tags;
 
-namespace TerrariaOverhaul.Common.ModEntities.Projectiles
+namespace TerrariaOverhaul.Common.ModEntities.Projectiles;
+
+//TODO: Use conditional instancing when it's implemented for projectiles.
+[Autoload(Side = ModSide.Client)]
+public class ProjectileIncendiaryDecals : GlobalProjectile
 {
-	//TODO: Use conditional instancing when it's implemented for projectiles.
-	[Autoload(Side = ModSide.Client)]
-	public class ProjectileIncendiaryDecals : GlobalProjectile
+	public override bool InstancePerEntity => true;
+
+	public override void Kill(Projectile projectile, int timeLeft)
 	{
-		public override bool InstancePerEntity => true;
-
-		public override void Kill(Projectile projectile, int timeLeft)
-		{
-			if (!OverhaulProjectileTags.Incendiary.Has(projectile.type)) {
-				return;
-			}
-
-			AddDecals(projectile, 32, 0.2f);
+		if (!OverhaulProjectileTags.Incendiary.Has(projectile.type)) {
+			return;
 		}
 
-		public override void PostAI(Projectile projectile)
-		{
-			if (!OverhaulProjectileTags.Incendiary.Has(projectile.type) || Main.GameUpdateCount % 2 != 0) {
-				return;
-			}
+		AddDecals(projectile, 32, 0.2f);
+	}
 
-			AddDecals(projectile, 32, 0.015f);
+	public override void PostAI(Projectile projectile)
+	{
+		if (!OverhaulProjectileTags.Incendiary.Has(projectile.type) || Main.GameUpdateCount % 2 != 0) {
+			return;
 		}
 
-		private void AddDecals(Projectile projectile, int size, float alpha)
-		{
-			var rect = new Rectangle((int)projectile.Center.X, (int)projectile.Center.Y, 0, 0);
+		AddDecals(projectile, 32, 0.015f);
+	}
 
-			rect.Inflate(size, size);
+	private void AddDecals(Projectile projectile, int size, float alpha)
+	{
+		var rect = new Rectangle((int)projectile.Center.X, (int)projectile.Center.Y, 0, 0);
 
-			DecalSystem.AddDecals(Mod.Assets.Request<Texture2D>("Assets/Textures/ExplosionDecal").Value, rect, new Color(255, 255, 255, (byte)(alpha * 255f)));
-		}
+		rect.Inflate(size, size);
+
+		DecalSystem.AddDecals(Mod.Assets.Request<Texture2D>("Assets/Textures/ExplosionDecal").Value, rect, new Color(255, 255, 255, (byte)(alpha * 255f)));
 	}
 }

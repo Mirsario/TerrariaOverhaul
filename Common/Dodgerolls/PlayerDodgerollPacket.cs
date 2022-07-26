@@ -4,37 +4,36 @@ using Terraria.ID;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Dodgerolls
+namespace TerrariaOverhaul.Common.Dodgerolls;
+
+public sealed class PlayerDodgerollPacket : NetPacket
 {
-	public sealed class PlayerDodgerollPacket : NetPacket
+	public PlayerDodgerollPacket(Player player)
 	{
-		public PlayerDodgerollPacket(Player player)
-		{
-			var playerDodgerolls = player.GetModPlayer<PlayerDodgerolls>();
+		var playerDodgerolls = player.GetModPlayer<PlayerDodgerolls>();
 
-			Writer.TryWriteSenderPlayer(player);
+		Writer.TryWriteSenderPlayer(player);
 
-			Writer.Write(playerDodgerolls.WantedDodgerollDirection);
-			Writer.WriteVector2(player.velocity);
+		Writer.Write(playerDodgerolls.WantedDodgerollDirection);
+		Writer.WriteVector2(player.velocity);
+	}
+
+	public override void Read(BinaryReader reader, int sender)
+	{
+		if (!reader.TryReadSenderPlayer(sender, out var player)) {
+			return;
 		}
 
-		public override void Read(BinaryReader reader, int sender)
-		{
-			if (!reader.TryReadSenderPlayer(sender, out var player)) {
-				return;
-			}
+		var playerDodgerolls = player.GetModPlayer<PlayerDodgerolls>();
 
-			var playerDodgerolls = player.GetModPlayer<PlayerDodgerolls>();
+		playerDodgerolls.ForceDodgeroll = true;
+		playerDodgerolls.WantedDodgerollDirection = reader.ReadSByte();
 
-			playerDodgerolls.ForceDodgeroll = true;
-			playerDodgerolls.WantedDodgerollDirection = reader.ReadSByte();
+		player.velocity = reader.ReadVector2();
 
-			player.velocity = reader.ReadVector2();
-
-			// Resend
-			if (Main.netMode == NetmodeID.Server) {
-				MultiplayerSystem.SendPacket(new PlayerDodgerollPacket(player), ignoreClient: sender);
-			}
+		// Resend
+		if (Main.netMode == NetmodeID.Server) {
+			MultiplayerSystem.SendPacket(new PlayerDodgerollPacket(player), ignoreClient: sender);
 		}
 	}
 }

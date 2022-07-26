@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace TerrariaOverhaul.Utilities
+namespace TerrariaOverhaul.Utilities;
+
+public static class ModUtils
 {
-	public static class ModUtils
-	{
-		public static string? GetTypePath(Type type)
-			=> type.FullName?.Replace('.', '/');
-	}
+	public static string? GetTypePath(Type type)
+		=> type.FullName?.Replace('.', '/');
 }

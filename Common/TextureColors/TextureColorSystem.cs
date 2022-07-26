@@ -5,84 +5,83 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.TextureColors
+namespace TerrariaOverhaul.Common.TextureColors;
+
+/// <summary> This system provides information about average colors of texturse. </summary>
+[Autoload(Side = ModSide.Client)]
+public class TextureColorSystem : ModSystem
 {
-	/// <summary> This system provides information about average colors of texturse. </summary>
-	[Autoload(Side = ModSide.Client)]
-	public class TextureColorSystem : ModSystem
+	private readonly Dictionary<Asset<Texture2D>, Color> cache = new(); // Non-static to not trigger anything on servers.
+
+	public override void Unload()
 	{
-		private readonly Dictionary<Asset<Texture2D>, Color> cache = new(); // Non-static to not trigger anything on servers.
+		cache?.Clear();
+	}
 
-		public override void Unload()
-		{
-			cache?.Clear();
+	/// <summary> Returns an average color from a texture's pixel data. </summary>
+	public static Color GetAverageColor(Asset<Texture2D> texture)
+	{
+		var instance = ModContent.GetInstance<TextureColorSystem>() ?? throw new InvalidOperationException($"{nameof(TextureColorSystem)} has not been loaded.");
+
+		if (!instance.cache.TryGetValue(texture, out var color)) {
+			instance.cache[texture] = color = CalculateAverageColor(texture.Value);
 		}
 
-		/// <summary> Returns an average color from a texture's pixel data. </summary>
-		public static Color GetAverageColor(Asset<Texture2D> texture)
-		{
-			var instance = ModContent.GetInstance<TextureColorSystem>() ?? throw new InvalidOperationException($"{nameof(TextureColorSystem)} has not been loaded.");
+		return color;
+	}
 
-			if (!instance.cache.TryGetValue(texture, out var color)) {
-				instance.cache[texture] = color = CalculateAverageColor(texture.Value);
-			}
+	/// <summary> Calculates an average color from a texture's pixel data. </summary>
+	private static Color CalculateAverageColor(Texture2D tex, byte alphaTest = 64, Rectangle rect = default, HashSet<Color>? excludedColors = null)
+	{
+		bool hasRect = rect != default;
+		bool hasExcludedColors = excludedColors != null;
+		int texWidth = tex.Width;
 
-			return color;
-		}
+		var data = new Color[tex.Width * tex.Height];
 
-		/// <summary> Calculates an average color from a texture's pixel data. </summary>
-		private static Color CalculateAverageColor(Texture2D tex, byte alphaTest = 64, Rectangle rect = default, HashSet<Color>? excludedColors = null)
-		{
-			bool hasRect = rect != default;
-			bool hasExcludedColors = excludedColors != null;
-			int texWidth = tex.Width;
+		tex.GetData(data);
 
-			var data = new Color[tex.Width * tex.Height];
+		long[] values = new long[3];
+		long numFittingPixels = 0;
 
-			tex.GetData(data);
+		for (int i = 0; i < data.Length; i++) {
+			if (hasRect) {
+				int y = i / texWidth;
+				int x = i - (y * texWidth);
 
-			long[] values = new long[3];
-			long numFittingPixels = 0;
-
-			for (int i = 0; i < data.Length; i++) {
-				if (hasRect) {
-					int y = i / texWidth;
-					int x = i - (y * texWidth);
-
-					if (x < rect.X || y < rect.Y || x >= rect.X + rect.Width || y >= rect.Y + rect.Height) {
-						continue;
-					}
-				}
-
-				var col = data[i];
-
-				if (col.A >= alphaTest) {
-					if (hasExcludedColors && excludedColors!.Contains(col)) {
-						continue;
-					}
-
-					values[0] += col.R;
-					values[1] += col.G;
-					values[2] += col.B;
-
-					numFittingPixels++;
+				if (x < rect.X || y < rect.Y || x >= rect.X + rect.Width || y >= rect.Y + rect.Height) {
+					continue;
 				}
 			}
 
-			Color result;
+			var col = data[i];
 
-			if (numFittingPixels == 0) {
-				result = Color.Transparent;
-			} else {
-				result = new Color(
-					(byte)(values[0] / numFittingPixels),
-					(byte)(values[1] / numFittingPixels),
-					(byte)(values[2] / numFittingPixels),
-					255
-				);
+			if (col.A >= alphaTest) {
+				if (hasExcludedColors && excludedColors!.Contains(col)) {
+					continue;
+				}
+
+				values[0] += col.R;
+				values[1] += col.G;
+				values[2] += col.B;
+
+				numFittingPixels++;
 			}
-
-			return result;
 		}
+
+		Color result;
+
+		if (numFittingPixels == 0) {
+			result = Color.Transparent;
+		} else {
+			result = new Color(
+				(byte)(values[0] / numFittingPixels),
+				(byte)(values[1] / numFittingPixels),
+				(byte)(values[2] / numFittingPixels),
+				255
+			);
+		}
+
+		return result;
 	}
 }

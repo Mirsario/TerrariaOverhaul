@@ -2,20 +2,19 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Utilities
+namespace TerrariaOverhaul.Utilities;
+
+public static class RecipeExtensions
 {
-	public static class RecipeExtensions
+	public static void CreateRecipe(this ModItem modItem, Action<Recipe> setup)
+		=> CreateRecipe(modItem, 1, setup);
+
+	public static void CreateRecipe(this ModItem modItem, int amount, Action<Recipe> setup)
 	{
-		public static void CreateRecipe(this ModItem modItem, Action<Recipe> setup)
-			=> CreateRecipe(modItem, 1, setup);
+		var recipe = modItem.CreateRecipe(amount);
 
-		public static void CreateRecipe(this ModItem modItem, int amount, Action<Recipe> setup)
-		{
-			var recipe = modItem.CreateRecipe(amount);
+		setup(recipe);
 
-			setup(recipe);
-
-			recipe.Register();
-		}
+		recipe.Register();
 	}
 }

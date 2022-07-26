@@ -1,31 +1,30 @@
 ﻿using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.ModEntities.Players;
+
+public sealed class PlayerItemUse : ModPlayer
 {
-	public sealed class PlayerItemUse : ModPlayer
+	private bool forceItemUse;
+	private int altFunctionUse;
+
+	public override bool PreItemCheck()
 	{
-		private bool forceItemUse;
-		private int altFunctionUse;
+		if (forceItemUse) {
+			Player.controlUseItem = true;
+			Player.altFunctionUse = altFunctionUse;
+			Player.itemAnimation = 0;
+			Player.reuseDelay = 0;
+			Player.itemTime = 0;
 
-		public override bool PreItemCheck()
-		{
-			if (forceItemUse) {
-				Player.controlUseItem = true;
-				Player.altFunctionUse = altFunctionUse;
-				Player.itemAnimation = 0;
-				Player.reuseDelay = 0;
-				Player.itemTime = 0;
-
-				forceItemUse = false;
-			}
-
-			return true;
+			forceItemUse = false;
 		}
 
-		public void ForceItemUse(int altFunctionUse = 0)
-		{
-			forceItemUse = true;
-			this.altFunctionUse = altFunctionUse;
-		}
+		return true;
+	}
+
+	public void ForceItemUse(int altFunctionUse = 0)
+	{
+		forceItemUse = true;
+		this.altFunctionUse = altFunctionUse;
 	}
 }

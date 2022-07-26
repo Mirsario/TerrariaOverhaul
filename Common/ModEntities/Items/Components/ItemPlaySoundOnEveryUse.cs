@@ -4,22 +4,21 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.ItemComponents;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Components
+namespace TerrariaOverhaul.Common.ModEntities.Items.Components;
+
+[Autoload(Side = ModSide.Client)]
+public sealed class ItemPlaySoundOnEveryUse : ItemComponent
 {
-	[Autoload(Side = ModSide.Client)]
-	public sealed class ItemPlaySoundOnEveryUse : ItemComponent
+	public override bool? UseItem(Item item, Player player)
 	{
-		public override bool? UseItem(Item item, Player player)
-		{
-			if (Enabled) {
-				ItemID.Sets.SkipsInitialUseSound[item.type] = true;
+		if (Enabled) {
+			ItemID.Sets.SkipsInitialUseSound[item.type] = true;
 
-				if (item.UseSound.HasValue) {
-					SoundEngine.PlaySound(item.UseSound.Value, player.Center);
-				}
+			if (item.UseSound.HasValue) {
+				SoundEngine.PlaySound(item.UseSound.Value, player.Center);
 			}
-
-			return base.UseItem(item, player);
 		}
+
+		return base.UseItem(item, player);
 	}
 }

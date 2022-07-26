@@ -1,7 +1,6 @@
-﻿namespace TerrariaOverhaul.Core.PhysicalMaterials
+﻿namespace TerrariaOverhaul.Core.PhysicalMaterials;
+
+public interface IPhysicalMaterialProvider
 {
-	public interface IPhysicalMaterialProvider
-	{
-		PhysicalMaterial? PhysicalMaterial { get; }
-	}
+	PhysicalMaterial? PhysicalMaterial { get; }
 }

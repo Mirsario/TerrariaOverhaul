@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.BloodAndGore;
@@ -8,39 +7,38 @@ using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.ModEntities.Projectiles
+namespace TerrariaOverhaul.Common.ModEntities.Projectiles;
+
+public sealed class ProjectileArrowGore : GlobalProjectile
 {
-	public sealed class ProjectileArrowGore : GlobalProjectile
+	public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
 	{
-		public override bool AppliesToEntity(Projectile entity, bool lateInstantiation)
-		{
-			return OverhaulProjectileTags.WoodenArrow.Has(entity.type);
+		return OverhaulProjectileTags.WoodenArrow.Has(entity.type);
+	}
+
+	public override void Kill(Projectile projectile, int timeLeft)
+	{
+		if (Main.dedServ) {
+			return;
 		}
 
-		public override void Kill(Projectile projectile, int timeLeft)
+		var entitySource = projectile.GetSource_Death();
+
+		Gore SpawnGore<T>() where T : ModGore
 		{
-			if (Main.dedServ) {
-				return;
-			}
+			Vector2 position = projectile.oldPosition + projectile.Size * 0.5f;
+			Vector2 velocity = (projectile.RealVelocity() * -0.25f).RotatedByRandom(MathHelper.ToRadians(30f));
 
-			var entitySource = projectile.GetSource_Death();
+			return Gore.NewGoreDirect(entitySource, position, velocity, ModContent.GoreType<T>());
+		}
 
-			Gore SpawnGore<T>() where T : ModGore
-			{
-				Vector2 position = projectile.oldPosition + projectile.Size * 0.5f;
-				Vector2 velocity = (projectile.RealVelocity() * -0.25f).RotatedByRandom(MathHelper.ToRadians(30f));
+		var arrowHead = SpawnGore<ArrowHead>();
 
-				return Gore.NewGoreDirect(entitySource, position, velocity, ModContent.GoreType<T>());
-			}
+		SpawnGore<ArrowMiddle>();
+		SpawnGore<ArrowBack>();
 
-			var arrowHead = SpawnGore<ArrowHead>();
-
-			SpawnGore<ArrowMiddle>();
-			SpawnGore<ArrowBack>();
-
-			if (projectile.type == ProjectileID.FireArrow && arrowHead is OverhaulGore oGore) {
-				oGore.OnFire = true;
-			}
+		if (projectile.type == ProjectileID.FireArrow && arrowHead is OverhaulGore oGore) {
+			oGore.OnFire = true;
 		}
 	}
 }

@@ -1,12 +1,11 @@
 ﻿using Terraria.Audio;
 
-namespace TerrariaOverhaul.Common.Footsteps
-{
-	public interface IFootstepSoundProvider
-	{
-		SoundStyle? FootstepSound { get; }
+namespace TerrariaOverhaul.Common.Footsteps;
 
-		SoundStyle? JumpFootstepSound => FootstepSound;
-		SoundStyle? LandFootstepSound => FootstepSound;
-	}
+public interface IFootstepSoundProvider
+{
+	SoundStyle? FootstepSound { get; }
+
+	SoundStyle? JumpFootstepSound => FootstepSound;
+	SoundStyle? LandFootstepSound => FootstepSound;
 }

@@ -1,18 +1,17 @@
 ﻿using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.ModEntities.Players
+namespace TerrariaOverhaul.Common.ModEntities.Players;
+
+public sealed class PlayerItemRotation : ModPlayer
 {
-	public sealed class PlayerItemRotation : ModPlayer
+	public float? ForcedItemRotation;
+
+	public override void PostUpdate()
 	{
-		public float? ForcedItemRotation;
+		if (ForcedItemRotation.HasValue) {
+			Player.itemRotation = ForcedItemRotation.Value;
 
-		public override void PostUpdate()
-		{
-			if (ForcedItemRotation.HasValue) {
-				Player.itemRotation = ForcedItemRotation.Value;
-
-				ForcedItemRotation = null;
-			}
+			ForcedItemRotation = null;
 		}
 	}
 }

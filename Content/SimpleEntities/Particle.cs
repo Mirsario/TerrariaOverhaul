@@ -5,67 +5,66 @@ using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Content.SimpleEntities
+namespace TerrariaOverhaul.Content.SimpleEntities;
+
+public abstract class Particle : SimpleEntity
 {
-	public abstract class Particle : SimpleEntity
+	public const float MaxParticleDistance = 3000f;
+	public const float MaxParticleDistanceSqr = MaxParticleDistance * MaxParticleDistance;
+
+	public float alpha = 1f;
+	public float rotation;
+	public Vector2 position;
+	public Vector2 velocity;
+	public Vector2 velocityScale = Vector2.One;
+	public Vector2 scale = Vector2.One;
+	public Vector2 gravity = new(0f, 10f);
+	public Color color = Color.White;
+
+	public int LifeTime { get; private set; }
+
+	public virtual bool CollidesWithTiles => true;
+
+	public override void Update()
 	{
-		public const float MaxParticleDistance = 3000f;
-		public const float MaxParticleDistanceSqr = MaxParticleDistance * MaxParticleDistance;
+		if (Vector2.DistanceSquared(position, CameraSystem.ScreenCenter) >= MaxParticleDistanceSqr || position.HasNaNs()) {
+			Destroy();
 
-		public float alpha = 1f;
-		public float rotation;
-		public Vector2 position;
-		public Vector2 velocity;
-		public Vector2 velocityScale = Vector2.One;
-		public Vector2 scale = Vector2.One;
-		public Vector2 gravity = new(0f, 10f);
-		public Color color = Color.White;
+			return;
+		}
 
-		public int LifeTime { get; private set; }
+		velocity += gravity * TimeSystem.LogicDeltaTime;
 
-		public virtual bool CollidesWithTiles => true;
+		if (CollidesWithTiles && Main.tile.TryGet((int)(position.X / 16), (int)(position.Y / 16), out var tile)) {
+			if (tile.HasTile && Main.tileSolid[tile.TileType]) {
+				OnTileContact(tile, out bool destroy);
 
-		public override void Update()
-		{
-			if (Vector2.DistanceSquared(position, CameraSystem.ScreenCenter) >= MaxParticleDistanceSqr || position.HasNaNs()) {
-				Destroy();
+				if (destroy) {
+					Destroy();
 
-				return;
-			}
+					return;
+				}
+			} else if (tile.LiquidAmount > 0) {
+				OnLiquidContact(tile, out bool destroy);
 
-			velocity += gravity * TimeSystem.LogicDeltaTime;
-
-			if (CollidesWithTiles && Main.tile.TryGet((int)(position.X / 16), (int)(position.Y / 16), out var tile)) {
-				if (tile.HasTile && Main.tileSolid[tile.TileType]) {
-					OnTileContact(tile, out bool destroy);
-
-					if (destroy) {
-						Destroy();
-
-						return;
-					}
-				} else if (tile.LiquidAmount > 0) {
-					OnLiquidContact(tile, out bool destroy);
-
-					if (destroy) {
-						Destroy(true);
-						return;
-					}
+				if (destroy) {
+					Destroy(true);
+					return;
 				}
 			}
-
-			position += velocity * velocityScale * TimeSystem.LogicDeltaTime;
-			LifeTime++;
 		}
 
-		protected virtual void OnLiquidContact(Tile tile, out bool destroy)
-		{
-			destroy = false;
-		}
+		position += velocity * velocityScale * TimeSystem.LogicDeltaTime;
+		LifeTime++;
+	}
 
-		protected virtual void OnTileContact(Tile tile, out bool destroy)
-		{
-			destroy = true;
-		}
+	protected virtual void OnLiquidContact(Tile tile, out bool destroy)
+	{
+		destroy = false;
+	}
+
+	protected virtual void OnTileContact(Tile tile, out bool destroy)
+	{
+		destroy = true;
 	}
 }

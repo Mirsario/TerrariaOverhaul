@@ -3,48 +3,47 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.ModEntities.NPCs
+namespace TerrariaOverhaul.Common.ModEntities.NPCs;
+
+public class NPCAttackCooldowns : GlobalNPC
 {
-	public class NPCAttackCooldowns : GlobalNPC
+	private Color? defaultColor;
+
+	public int AttackCooldown { get; private set; }
+	public bool ShowDamagedEffect { get; private set; }
+
+	public override bool InstancePerEntity => true;
+
+	public override bool PreAI(NPC npc)
 	{
-		private Color? defaultColor;
+		if (AttackCooldown > 0) {
+			AttackCooldown--;
 
-		public int AttackCooldown { get; private set; }
-		public bool ShowDamagedEffect { get; private set; }
-
-		public override bool InstancePerEntity => true;
-
-		public override bool PreAI(NPC npc)
-		{
-			if (AttackCooldown > 0) {
-				AttackCooldown--;
-
-				if (AttackCooldown == 0 && ShowDamagedEffect) {
-					if (defaultColor.HasValue) {
-						npc.color = defaultColor.Value;
-					}
-
-					ShowDamagedEffect = false;
+			if (AttackCooldown == 0 && ShowDamagedEffect) {
+				if (defaultColor.HasValue) {
+					npc.color = defaultColor.Value;
 				}
-			}
 
-			return true;
+				ShowDamagedEffect = false;
+			}
 		}
 
-		public override bool? CanHitNPC(NPC npc, NPC target)
-			=> AttackCooldown > 0 ? false : (bool?)null;
-		public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
-			=> AttackCooldown <= 0;
+		return true;
+	}
 
-		public void SetAttackCooldown(NPC npc, int ticks, bool isDamage)
-		{
-			if (isDamage && !ShowDamagedEffect) {
-				defaultColor = npc.color;
-				npc.color = Color.Lerp(npc.color, Color.IndianRed, 0.5f);
-				ShowDamagedEffect |= isDamage;
-			}
+	public override bool? CanHitNPC(NPC npc, NPC target)
+		=> AttackCooldown > 0 ? false : (bool?)null;
+	public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
+		=> AttackCooldown <= 0;
 
-			AttackCooldown = Math.Max(ticks, AttackCooldown);
+	public void SetAttackCooldown(NPC npc, int ticks, bool isDamage)
+	{
+		if (isDamage && !ShowDamagedEffect) {
+			defaultColor = npc.color;
+			npc.color = Color.Lerp(npc.color, Color.IndianRed, 0.5f);
+			ShowDamagedEffect |= isDamage;
 		}
+
+		AttackCooldown = Math.Max(ticks, AttackCooldown);
 	}
 }

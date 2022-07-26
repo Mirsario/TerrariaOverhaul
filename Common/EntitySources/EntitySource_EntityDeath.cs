@@ -1,10 +1,9 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
 
-namespace TerrariaOverhaul.Common.EntitySources
+namespace TerrariaOverhaul.Common.EntitySources;
+
+public class EntitySource_EntityDeath : EntitySource_Parent
 {
-	public class EntitySource_EntityDeath : EntitySource_Parent
-	{
-		public EntitySource_EntityDeath(Entity entity) : base(entity) { }
-	}
+	public EntitySource_EntityDeath(Entity entity) : base(entity) { }
 }

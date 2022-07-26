@@ -2,21 +2,20 @@
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 
-namespace TerrariaOverhaul.Utilities
+namespace TerrariaOverhaul.Utilities;
+
+internal static class ILCursorExtensions
 {
-	internal static class ILCursorExtensions
+	public static ILCursor HijackIncomingLabels(this ILCursor cursor)
 	{
-		public static ILCursor HijackIncomingLabels(this ILCursor cursor)
-		{
-			var incomingLabels = cursor.IncomingLabels.ToArray();
+		var incomingLabels = cursor.IncomingLabels.ToArray();
 
-			cursor.Emit(OpCodes.Nop);
+		cursor.Emit(OpCodes.Nop);
 
-			foreach (var incomingLabel in incomingLabels) {
-				incomingLabel.Target = cursor.Prev;
-			}
-
-			return cursor;
+		foreach (var incomingLabel in incomingLabels) {
+			incomingLabel.Target = cursor.Prev;
 		}
+
+		return cursor;
 	}
 }

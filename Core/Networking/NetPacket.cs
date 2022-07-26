@@ -1,40 +1,39 @@
 ﻿using System;
 using System.IO;
 
-namespace TerrariaOverhaul.Core.Networking
+namespace TerrariaOverhaul.Core.Networking;
+
+public abstract class NetPacket : IDisposable
 {
-	public abstract class NetPacket : IDisposable
+	public int Id { get; internal set; }
+
+	protected BinaryWriter Writer { get; private set; }
+
+	private MemoryStream stream;
+
+	protected NetPacket()
 	{
-		public int Id { get; internal set; }
+		Id = MultiplayerSystem.GetPacket(GetType()).Id;
+		Writer = new BinaryWriter(stream = new MemoryStream());
+	}
 
-		protected BinaryWriter Writer { get; private set; }
+	public abstract void Read(BinaryReader reader, int sender);
 
-		private MemoryStream stream;
+	public void WriteAndDispose(BinaryWriter writer)
+	{
+		writer.Write(stream.ToArray());
 
-		protected NetPacket()
-		{
-			Id = MultiplayerSystem.GetPacket(GetType()).Id;
-			Writer = new BinaryWriter(stream = new MemoryStream());
-		}
+		Dispose();
+	}
 
-		public abstract void Read(BinaryReader reader, int sender);
+	public void Dispose()
+	{
+		GC.SuppressFinalize(this);
 
-		public void WriteAndDispose(BinaryWriter writer)
-		{
-			writer.Write(stream.ToArray());
+		Writer?.Dispose();
+		stream?.Dispose();
 
-			Dispose();
-		}
-
-		public void Dispose()
-		{
-			GC.SuppressFinalize(this);
-
-			Writer?.Dispose();
-			stream?.Dispose();
-
-			Writer = null!;
-			stream = null!;
-		}
+		Writer = null!;
+		stream = null!;
 	}
 }
