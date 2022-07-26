@@ -63,7 +63,7 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		/// <summary>
 		/// Completely disable all dashes whenever the player is staying still on the ground.
 		/// </summary>
-		public static readonly VelocityModifier DisableDashesForNonChargedAttacksWhenStill = new() {
+		public static readonly VelocityModifier DisableDashesForNonChargedAttacksWhenStill = new(nameof(DisableDashesForNonChargedAttacksWhenStill)) {
 			Predicate = new() { PowerAttack = false, OnGround = true, MoveDirection = 0 },
 			VelocityMultiplier = new Vector2(0f, 0f),
 		};
