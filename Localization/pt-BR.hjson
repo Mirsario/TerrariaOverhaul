@@ -1,9 +1,9 @@
 UI: {
-	//Creative: "Journey"
+	Creative: "Jornada"
 	Normal: "Muito Jovem Para Minerar"
 	Expert: "Um Ossinho Não Dói"
 	Master: "Eu Sou A Encarnação de Cthulhu"
-	//WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
+	WorldDescriptionCreative: "O modo Criativo / Acessível (Para aqueles que querem estar no controle)"
 	WorldDescriptionNormal: "Menos danos de inimigos, mesmas recompensas (Para os descompromissados)"
 	WorldDescriptionExpert: "A nova experiência padrão (Para aqueles que gostam de um desafio justo)"
 	WorldDescriptionMaster: "Punição extrema e novas recompensas (Para os verdadeiramente desumanos)"
@@ -12,20 +12,20 @@ UI: {
 Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
-			//Configuration: "Configuration"
-			//DiscordServer: "Discord Server"
-			//ForumPage: "Forum Page"
-			//WikiPage: "Overhaul Wiki"
-			//Github: "GitHub"
+			Configuration: "Configuração"
+			DiscordServer: "Servidor do Discord"
+			ForumPage: "Página nos Fóruns"
+			WikiPage: "Wiki do Overhaul"
+			Github: "GitHub"
 
 			MusicPack: {
-				//Get: "Get the Music Pack"
-				//Enable: "Enable the Music Pack"
+				Get: "Obter o Pacote de Música"
+				Enable: "Ativar o Pacote de Música"
 			}
 		}
 
 		Notifications: {
-			//AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+			AudioFilteringTestFailure: "Aviso: TerrariaOverhaul não conseguiu ativar seus efeitos de filtragem de áudio. Certifique-se de que seus drivers de áudio estejam atualizados."
 		}
 
 		Configuration: {
@@ -142,8 +142,8 @@ Mods: {
 		}
 
 		Banners: {
-			//BannerBuffDescription: "Doubled loot and coin drops from the following:"
-			//BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
+			BannerBuffDescription: "Espólios e moedas dobradas de:"
+			BannerItemDescription: "Jogadores próximos recebem espólios e moedas dobradas de:"
 		}
 
 		ItemOverhauls: {
@@ -206,15 +206,15 @@ Mods: {
 		}
 
 		BuffName: {
-			//ManaAbsorption: "Mana Absorption"
+			ManaAbsorption: "Absorção de Mana"
 		}
 
 		BuffDescription: {
-			//ManaAbsorption:
-			//	'''
-			//	Moving with haste, you are absorbing energy from all around you
-			//	Base mana regeneration multiplier: x{Multiplier}
-			//	'''
+			ManaAbsorption:
+				'''
+				Movendo-se com pressa, você está absorvendo energia ao seu redor
+				Multiplicador de regeneração de mana básica: x{Multiplier}
+				'''
 		}
 	}
 }
