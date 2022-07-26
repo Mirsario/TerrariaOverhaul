@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -29,45 +30,47 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		public Vector2 MaxVelocityMultiplier { get; init; }
 	}
 
-	private static readonly VelocityModifier[] commonModifiers;
+	private static readonly Dictionary<string, VelocityModifier> commonModifiers;
 
-	public static ReadOnlySpan<VelocityModifier> CommonModifiers => commonModifiers;
+	public static IReadOnlyDictionary<string, VelocityModifier> CommonModifiers => commonModifiers;
 
+	private Dictionary<string, VelocityModifier> dashVelocityModifiers = commonModifiers;
+	
 	public Vector2 DashVelocity { get; set; } = Vector2.One;
 	public Vector2 MaxDashVelocity { get; set; } = Vector2.One;
 	public Vector2 DefaultKeyVelocityMultiplier { get; set; } = Vector2.One * (2f / 3f);
-	public VelocityModifier[] DashVelocityModifiers { get; set; } = commonModifiers;
+
+	public IReadOnlyDictionary<string, VelocityModifier> DashVelocityModifiers => dashVelocityModifiers;
 
 	static ItemMeleeSwingVelocity()
 	{
-		commonModifiers = new VelocityModifier[] {
-			// Boost from power attacks
-			new() {
-				Predicate = new() { PowerAttack = true },
-				VelocityMultiplier = new Vector2(1.5f, 1.5f),
-				MaxVelocityMultiplier = new Vector2(1.5f, 1.5f), // More stackable
-			},
+		commonModifiers = new();; // Do not remove this duplicate semicolon. 
 
-			// Boost power attacks' vertical dashes even higher when on ground
-			new() {
-				Predicate = new() { PowerAttack = true, OnGround = true },
-				VelocityMultiplier = new Vector2(1.0f, 1.65f),
-			},
+		// Boost from power attacks
+		commonModifiers.Add("PowerAttackBoost", new() {
+			Predicate = new() { PowerAttack = true },
+			VelocityMultiplier = new Vector2(1.5f, 1.5f),
+			MaxVelocityMultiplier = new Vector2(1.5f, 1.5f), // More stackable
+		});
 
-			// Disable vertical dashes for non-charged attacks whenever the player is on ground.
-			// Also reduces horizontal movement.
-			new() {
-				Predicate = new() { PowerAttack = false, OnGround = true },
-				VelocityMultiplier = new Vector2(0.625f, 0.0f),
-			},
+		// Boost power attacks' vertical dashes even higher when on ground
+		commonModifiers.Add("PowerAttackVerticalGroundBoost", new() {
+			Predicate = new() { PowerAttack = true, OnGround = true },
+			VelocityMultiplier = new Vector2(1.0f, 1.65f),
+		});
 
-			// Disable upwards dashes whenever the player is falling down.
-			// Could be made more lenient.
-			new() {
-				Predicate = new() { PowerAttack = false, OnGround = false, MoveDirection = Direction2D.Down, AttackDirection = Direction2D.Up },
-				VelocityMultiplier = new Vector2(1.0f, 0.0f),
-			},
-		};
+		// Disable vertical dashes for non-charged attacks whenever the player is on ground.
+		commonModifiers.Add("DisableVerticalDashesForNonChargedAttacks", new() {
+			Predicate = new() { PowerAttack = false, OnGround = true },
+			VelocityMultiplier = new Vector2(0.625f, 0.0f),
+		});
+
+		// Disable upwards dashes whenever the player is falling down.
+		// Could be made more lenient.
+		commonModifiers.Add("DisableUpwardsDashesWhenFalling", new() {
+			Predicate = new() { PowerAttack = false, OnGround = false, MoveDirection = Direction2D.Down, AttackDirection = Direction2D.Up },
+			VelocityMultiplier = new Vector2(1.0f, 0.0f),
+		});
 	}
 
 	public override void UseAnimation(Item item, Player player)
@@ -107,7 +110,7 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 
 		var maxDashVelocityMultiplier = Vector2.One;
 
-		foreach (var modifier in DashVelocityModifiers) {
+		foreach (var modifier in DashVelocityModifiers.Values) {
 			var predicate = modifier.Predicate;
 			
 			if (!BoolCheck(predicate.OnGround, onGround)
@@ -169,5 +172,23 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		maxDashVelocity *= maxDashVelocityMultiplier;
 
 		player.AddLimitedVelocity(dashVelocity * attackDirection, maxDashVelocity);
+	}
+
+	public void AddVelocityModifier(string name, VelocityModifier modifier)
+	{
+		if (dashVelocityModifiers == commonModifiers) {
+			dashVelocityModifiers = new(dashVelocityModifiers);
+		}
+
+		dashVelocityModifiers.Add(name, modifier);
+	}
+
+	public void RemoveVelocityModifier(string name)
+	{
+		if (dashVelocityModifiers == commonModifiers) {
+			dashVelocityModifiers = new(dashVelocityModifiers);
+		}
+
+		dashVelocityModifiers.Remove(name);
 	}
 }
