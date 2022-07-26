@@ -29,7 +29,7 @@ public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNP
 		Volume = 0.65f,
 		PitchVariance = 0.1f
 	};
-	
+
 	public static readonly ConfigEntry<bool> EnableBroadswordPowerAttacks = new(ConfigSide.Both, "Melee", nameof(EnableBroadswordPowerAttacks), () => true);
 
 	public override bool ShouldApplyItemOverhaul(Item item)
@@ -69,6 +69,10 @@ public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNP
 		item.EnableComponent<ItemMeleeCooldownDisabler>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
+		item.EnableComponent<ItemMeleeSwingVelocity>(c => {
+			c.DashVelocity = new Vector2(2.5f, 5.0f);
+			c.MaxDashVelocity = new Vector2(0f, 7.5f);
+		});
 		// Animation
 		item.EnableComponent<QuickSlashMeleeAnimation>(c => {
 			c.FlipAttackEachSwing = true;
@@ -100,48 +104,6 @@ public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNP
 
 	public override void UseAnimation(Item item, Player player)
 	{
-		var powerAttacks = item.GetGlobalItem<ItemPowerAttacks>();
-
-		// Swing velocity
-
-		// TML Problem:
-		// Couldn't just use MeleeAttackAiming.AttackDirection here due to TML lacking proper tools for controlling execution orders.
-		// By chance, this global's hooks run before MeleeAttackAiming's.
-		// -- Mirsario
-		var attackDirection = player.LookDirection();
-
-		int totalAnimationTime = CombinedHooks.TotalAnimationTime(item.useAnimation, player, item);
-		var dashSpeed = new Vector2(
-			totalAnimationTime / 7f,
-			totalAnimationTime / 13f
-		);
-
-		if (powerAttacks.PowerAttack) {
-			dashSpeed.X *= 1.5f;
-			dashSpeed.Y *= 2.2f;
-
-			if (player.OnGround()) {
-				dashSpeed.Y *= 1.65f;
-			}
-		} else {
-			if (player.OnGround()) {
-				// Disable vertical dashes for non-charged attacks whenever the player is on ground.
-				// Also reduces horizontal movement.
-				dashSpeed.X *= 0.625f;
-				dashSpeed.Y = 0f;
-			} else if (attackDirection.Y < 0f && player.velocity.Y > 0f) {
-				// Disable upwards dashes whenever the player is falling down.
-				dashSpeed.Y = 0f;
-			}
-
-			// Disable horizontal dashes whenever the player is holding a directional key opposite to the direction of the dash.
-			if (Math.Sign(player.KeyDirection().X) == -Math.Sign(attackDirection.X)) {
-				dashSpeed.X = 0f;
-			}
-		}
-
-		player.AddLimitedVelocity(dashSpeed * attackDirection, new Vector2(dashSpeed.X, 12f));
-
 		// Slight screenshake for the swing.
 		if (!Main.dedServ) {
 			ScreenShakeSystem.New(3f, item.useAnimation / 120f);

@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Common.BloodAndGore;
@@ -59,6 +60,10 @@ public class Hammer : ItemOverhaul
 		item.EnableComponent<ItemMeleeCooldownDisabler>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
+		item.EnableComponent<ItemMeleeSwingVelocity>(c => {
+			c.DashVelocity = new Vector2(3.0f, 4.5f);
+			c.MaxDashVelocity = new Vector2(0.0f, 7.0f);
+		});
 		// Animation
 		item.EnableComponent<QuickSlashMeleeAnimation>(c => {
 			c.FlipAttackEachSwing = true;

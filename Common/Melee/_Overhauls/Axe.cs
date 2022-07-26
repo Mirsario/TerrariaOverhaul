@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Common.BloodAndGore;
@@ -57,6 +58,10 @@ public class Axe : ItemOverhaul
 		item.EnableComponent<ItemMeleeCooldownDisabler>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
+		item.EnableComponent<ItemMeleeSwingVelocity>(c => {
+			c.DashVelocity = new Vector2(2.0f, 5.5f);
+			c.MaxDashVelocity = new Vector2(0f, 8.0f);
+		});
 		// Animation
 		item.EnableComponent<QuickSlashMeleeAnimation>(c => {
 			c.FlipAttackEachSwing = true;
