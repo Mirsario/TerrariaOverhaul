@@ -135,7 +135,7 @@ public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNP
 			}
 
 			// Disable horizontal dashes whenever the player is holding a directional key opposite to the direction of the dash.
-			if (player.KeyDirection() == -Math.Sign(attackDirection.X)) {
+			if (Math.Sign(player.KeyDirection().X) == -Math.Sign(attackDirection.X)) {
 				dashSpeed.X = 0f;
 			}
 		}

@@ -72,7 +72,7 @@ public class QuickSlashMeleeAnimation : MeleeAnimation
 
 		var aiming = item.GetGlobalItem<ItemMeleeAttackAiming>();
 
-		if (player.velocity.Y == 0f && player.KeyDirection() == 0) {
+		if (player.velocity.Y == 0f && player.KeyDirection().X == 0f) {
 			if (Math.Abs(aiming.AttackDirection.X) > 0.5f) {
 				player.legFrame = (IsAttackFlipped ? PlayerFrames.Walk8 : PlayerFrames.Jump).ToRectangle();
 			} else {

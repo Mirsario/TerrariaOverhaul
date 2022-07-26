@@ -136,7 +136,7 @@ public sealed class PlayerMovement : ModPlayer
 				// Wind acceleration
 				if (Player.FindBuffIndex(BuffID.WindPushed) >= 0) {
 					if (Main.windSpeedCurrent >= 0f ? Player.velocity.X < Main.windSpeedCurrent : Player.velocity.X > Main.windSpeedCurrent) {
-						Player.velocity.X += Main.windSpeedCurrent / (Player.KeyDirection() == -Math.Sign(Main.windSpeedCurrent) ? 180f : 70f);
+						Player.velocity.X += Main.windSpeedCurrent / (Math.Sign(Player.KeyDirection().X) == -Math.Sign(Main.windSpeedCurrent) ? 180f : 70f);
 					}
 				}
 

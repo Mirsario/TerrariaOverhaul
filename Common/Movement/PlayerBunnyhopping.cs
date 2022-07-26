@@ -27,7 +27,7 @@ public sealed class PlayerBunnyhopping : ModPlayer
 		bool wasOnGround = Player.WasOnGround();
 
 		if (!onGround && wasOnGround && Player.velocity.Y < 0f) {
-			Player.velocity.X += Boost * Player.KeyDirection();
+			Player.velocity.X += Boost * Player.KeyDirection().X;
 		}
 	}
 }

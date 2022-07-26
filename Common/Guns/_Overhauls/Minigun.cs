@@ -108,7 +108,7 @@ public class Minigun : ItemOverhaul
 		var velocity = modifiedDirection * new Vector2(item.useTime / 15f, item.useTime / 2.875f);
 
 		// Disable horizontal velocity recoil whenever the player is holding a directional key opposite to the direction of the dash.
-		if (player.KeyDirection() == -Math.Sign(velocity.X)) {
+		if (Math.Sign(player.KeyDirection().X) == -Math.Sign(velocity.X)) {
 			velocity.X = 0f;
 		}
 
