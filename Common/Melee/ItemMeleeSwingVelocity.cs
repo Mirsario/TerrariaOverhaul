@@ -76,24 +76,23 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 			return;
 		}
 
-		var powerAttacks = item.GetGlobalItem<ItemPowerAttacks>();
+		const float AverageAnimationTime = 21f; // Comes from Platinum Broadsword.
 
-		// Swing velocity
-
+		var dashVelocity = DashVelocity;
+		int totalAnimationTime = CombinedHooks.TotalAnimationTime(item.useAnimation, player, item);
+		float animationMultiplier = 1f / (AverageAnimationTime / totalAnimationTime);
+		
 		// TML Problem:
 		// Couldn't just use MeleeAttackAiming.AttackDirection here due to TML lacking proper tools for controlling execution orders.
 		// By chance, this global's hooks run before MeleeAttackAiming's.
 		// -- Mirsario
 		var attackDirection = player.LookDirection();
-		var dashVelocity = DashVelocity;
-		int totalAnimationTime = CombinedHooks.TotalAnimationTime(item.useAnimation, player, item);
-		float animationMultiplier = 1f / (21f / totalAnimationTime);
 
 		dashVelocity *= animationMultiplier;
 
 		// Apply data-driven modifiers
 
-		bool powerAttack = powerAttacks.PowerAttack;
+		bool powerAttack = item.GetGlobalItem<ItemPowerAttacks>().PowerAttack;
 		bool onGround = player.OnGround();
 		var attackDirectionEnum = attackDirection.ToDirection2D();
 		var moveDirectionEnum = player.velocity.ToDirection2D();
@@ -168,8 +167,6 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		);
 
 		maxDashVelocity *= maxDashVelocityMultiplier;
-
-		Main.NewText($"Dash Velocity 3: {dashVelocity:0.00}");
 
 		player.AddLimitedVelocity(dashVelocity * attackDirection, maxDashVelocity);
 	}
