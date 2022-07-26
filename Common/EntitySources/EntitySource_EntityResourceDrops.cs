@@ -1,10 +1,9 @@
 ﻿using Terraria;
 using Terraria.DataStructures;
 
-namespace TerrariaOverhaul.Common.EntitySources
+namespace TerrariaOverhaul.Common.EntitySources;
+
+public class EntitySource_EntityResourceDrops : EntitySource_Parent
 {
-	public class EntitySource_EntityResourceDrops : EntitySource_Parent
-	{
-		public EntitySource_EntityResourceDrops(Entity entity) : base(entity) { }
-	}
+	public EntitySource_EntityResourceDrops(Entity entity) : base(entity) { }
 }

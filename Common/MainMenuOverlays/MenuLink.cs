@@ -2,26 +2,25 @@
 using Terraria.Social;
 using TerrariaOverhaul.Core.Localization;
 
-namespace TerrariaOverhaul.Common.MainMenuOverlays
+namespace TerrariaOverhaul.Common.MainMenuOverlays;
+
+public class MenuLink : MenuButton
 {
-	public class MenuLink : MenuButton
+	public string Url { get; }
+	public bool PreferSteamBrowser { get; init; }
+	
+	public MenuLink(Text text, string url) : base(text)
 	{
-		public string Url { get; }
-		public bool PreferSteamBrowser { get; init; }
-		
-		public MenuLink(Text text, string url) : base(text)
-		{
-			Url = url;
+		Url = url;
+	}
+
+	protected override void OnClicked()
+	{
+		if (PreferSteamBrowser && SocialAPI.Mode == SocialMode.Steam) {
+			SteamFriends.ActivateGameOverlayToWebPage(Url);
+			return;
 		}
 
-		protected override void OnClicked()
-		{
-			if (PreferSteamBrowser && SocialAPI.Mode == SocialMode.Steam) {
-				SteamFriends.ActivateGameOverlayToWebPage(Url);
-				return;
-			}
-
-			Terraria.Utils.OpenToURL(Url);
-		}
+		Terraria.Utils.OpenToURL(Url);
 	}
 }

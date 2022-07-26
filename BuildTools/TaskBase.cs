@@ -1,22 +1,21 @@
 ﻿using System;
 using Microsoft.Build.Utilities;
 
-namespace TerrariaOverhaul.BuildTools
-{
-	public abstract class TaskBase : Task
-	{
-		public sealed override bool Execute()
-		{
-			try {
-				Run();
-			}
-			catch (Exception e) {
-				Log.LogErrorFromException(e, true);
-			}
+namespace TerrariaOverhaul.BuildTools;
 
-			return !Log.HasLoggedErrors;
+public abstract class TaskBase : Task
+{
+	public sealed override bool Execute()
+	{
+		try {
+			Run();
+		}
+		catch (Exception e) {
+			Log.LogErrorFromException(e, true);
 		}
 
-		protected abstract void Run();
+		return !Log.HasLoggedErrors;
 	}
+
+	protected abstract void Run();
 }

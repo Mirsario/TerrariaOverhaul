@@ -4,21 +4,20 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
 using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyItemUseSound;
 
-namespace TerrariaOverhaul.Common.Hooks.Items
+namespace TerrariaOverhaul.Common.Hooks.Items;
+
+public interface IModifyItemUseSound
 {
-	public interface IModifyItemUseSound
+	public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyItemUseSound))));
+
+	void ModifyItemUseSound(Item item, Player player, ref SoundStyle? useSound);
+
+	public static void Invoke(Item item, Player player, ref SoundStyle? useSound)
 	{
-		public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyItemUseSound))));
+		(item.ModItem as Hook)?.ModifyItemUseSound(item, player, ref useSound);
 
-		void ModifyItemUseSound(Item item, Player player, ref SoundStyle? useSound);
-
-		public static void Invoke(Item item, Player player, ref SoundStyle? useSound)
-		{
-			(item.ModItem as Hook)?.ModifyItemUseSound(item, player, ref useSound);
-
-			foreach (Hook g in Hook.Enumerate(item)) {
-				g.ModifyItemUseSound(item, player, ref useSound);
-			}
+		foreach (Hook g in Hook.Enumerate(item)) {
+			g.ModifyItemUseSound(item, player, ref useSound);
 		}
 	}
 }

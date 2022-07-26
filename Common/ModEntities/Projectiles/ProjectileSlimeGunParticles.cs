@@ -5,20 +5,19 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Content.SimpleEntities;
 using TerrariaOverhaul.Core.SimpleEntities;
 
-namespace TerrariaOverhaul.Common.ModEntities.Projectiles
+namespace TerrariaOverhaul.Common.ModEntities.Projectiles;
+
+[Autoload(Side = ModSide.Client)]
+public sealed class ProjectileSlimeGunParticles : GlobalProjectile
 {
-	[Autoload(Side = ModSide.Client)]
-	public sealed class ProjectileSlimeGunParticles : GlobalProjectile
+	public override void AI(Projectile projectile)
 	{
-		public override void AI(Projectile projectile)
-		{
-			if (projectile.type == ProjectileID.SlimeGun) {
-				SimpleEntity.Instantiate<BloodParticle>(p => {
-					p.position = projectile.Center;
-					p.velocity = projectile.velocity * 60f + Main.rand.NextVector2Circular(20f, 20f);
-					p.color = new Color(0, 80, 255, 100);
-				});
-			}
+		if (projectile.type == ProjectileID.SlimeGun) {
+			SimpleEntity.Instantiate<BloodParticle>(p => {
+				p.position = projectile.Center;
+				p.velocity = projectile.velocity * 60f + Main.rand.NextVector2Circular(20f, 20f);
+				p.color = new Color(0, 80, 255, 100);
+			});
 		}
 	}
 }

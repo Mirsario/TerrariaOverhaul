@@ -10,51 +10,50 @@ using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 
-namespace TerrariaOverhaul.Common.Guns
+namespace TerrariaOverhaul.Common.Guns;
+
+public class Handgun : ItemOverhaul
 {
-	public class Handgun : ItemOverhaul
+	public static readonly SoundStyle HandgunFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire") {
+		Volume = 0.15f,
+		PitchVariance = 0.2f,
+	};
+
+	public override bool ShouldApplyItemOverhaul(Item item)
 	{
-		public static readonly SoundStyle HandgunFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire") {
-			Volume = 0.15f,
-			PitchVariance = 0.2f,
-		};
-
-		public override bool ShouldApplyItemOverhaul(Item item)
-		{
-			if (item.useAmmo != AmmoID.Bullet) {
-				return false;
-			}
-
-			if ((item.UseSound != SoundID.Item41 || item.useTime < 6) && (item.UseSound != SoundID.Item11 || item.useTime < 10)) {
-				return false;
-			}
-
-			return true;
+		if (item.useAmmo != AmmoID.Bullet) {
+			return false;
 		}
 
-		public override void SetDefaults(Item item)
-		{
-			base.SetDefaults(item);
+		if ((item.UseSound != SoundID.Item41 || item.useTime < 6) && (item.UseSound != SoundID.Item11 || item.useTime < 10)) {
+			return false;
+		}
 
-			item.UseSound = HandgunFireSound;
+		return true;
+	}
 
-			if (!Main.dedServ) {
-				item.EnableComponent<ItemAimRecoil>();
-				item.EnableComponent<ItemMuzzleflashes>();
-				item.EnableComponent<ItemCrosshairController>();
+	public override void SetDefaults(Item item)
+	{
+		base.SetDefaults(item);
 
-				item.EnableComponent<ItemUseVisualRecoil>(c => {
-					c.Power = 13f;
-				});
+		item.UseSound = HandgunFireSound;
 
-				item.EnableComponent<ItemUseScreenShake>(c => {
-					c.ScreenShake = new ScreenShake(4f, 0.2f);
-				});
+		if (!Main.dedServ) {
+			item.EnableComponent<ItemAimRecoil>();
+			item.EnableComponent<ItemMuzzleflashes>();
+			item.EnableComponent<ItemCrosshairController>();
 
-				item.EnableComponent<ItemBulletCasings>(c => {
-					c.CasingGoreType = ModContent.GoreType<BulletCasing>();
-				});
-			}
+			item.EnableComponent<ItemUseVisualRecoil>(c => {
+				c.Power = 13f;
+			});
+
+			item.EnableComponent<ItemUseScreenShake>(c => {
+				c.ScreenShake = new ScreenShake(4f, 0.2f);
+			});
+
+			item.EnableComponent<ItemBulletCasings>(c => {
+				c.CasingGoreType = ModContent.GoreType<BulletCasing>();
+			});
 		}
 	}
 }

@@ -1,75 +1,74 @@
 ﻿using System;
 using System.Text;
 
-namespace TerrariaOverhaul.BuildTools.Utilities
+namespace TerrariaOverhaul.BuildTools.Utilities;
+
+internal class CodeWriter
 {
-	internal class CodeWriter
+	private readonly StringBuilder stringBuilder = new();
+
+	private int indentation;
+	private string? indentationString;
+	private bool wroteLineStart;
+
+	public override string ToString()
 	{
-		private readonly StringBuilder stringBuilder = new();
+		return stringBuilder.ToString();
+	}
 
-		private int indentation;
-		private string? indentationString;
-		private bool wroteLineStart;
+	public void Indent()
+	{
+		indentation++;
+		RecalculateIndent();
+	}
 
-		public override string ToString()
-		{
-			return stringBuilder.ToString();
+	public void Unindent()
+	{
+		indentation--;
+
+		if (indentation < 0) {
+			throw new InvalidOperationException();
 		}
 
-		public void Indent()
-		{
-			indentation++;
-			RecalculateIndent();
+		RecalculateIndent();
+	}
+
+	public void Write(string? text)
+	{
+		if (!wroteLineStart) {
+			WriteLineStart();
 		}
 
-		public void Unindent()
-		{
-			indentation--;
+		stringBuilder.Append(text);
+	}
 
-			if (indentation < 0) {
-				throw new InvalidOperationException();
-			}
+	public void WriteLine()
+	{
+		stringBuilder.AppendLine();
 
-			RecalculateIndent();
+		wroteLineStart = false;
+	}
+
+	public void WriteLine(string? text)
+	{
+		if (!wroteLineStart) {
+			WriteLineStart();
 		}
 
-		public void Write(string? text)
-		{
-			if (!wroteLineStart) {
-				WriteLineStart();
-			}
+		stringBuilder.AppendLine(text);
 
-			stringBuilder.Append(text);
-		}
+		wroteLineStart = false;
+	}
 
-		public void WriteLine()
-		{
-			stringBuilder.AppendLine();
+	private void WriteLineStart()
+	{
+		stringBuilder.Append(indentationString);
 
-			wroteLineStart = false;
-		}
+		wroteLineStart = true;
+	}
 
-		public void WriteLine(string? text)
-		{
-			if (!wroteLineStart) {
-				WriteLineStart();
-			}
-
-			stringBuilder.AppendLine(text);
-
-			wroteLineStart = false;
-		}
-
-		private void WriteLineStart()
-		{
-			stringBuilder.Append(indentationString);
-
-			wroteLineStart = true;
-		}
-
-		private void RecalculateIndent()
-		{
-			indentationString = indentation > 0 ? new string('\t', indentation) : null;
-		}
+	private void RecalculateIndent()
+	{
+		indentationString = indentation > 0 ? new string('\t', indentation) : null;
 	}
 }

@@ -3,48 +3,47 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Content.Projectiles
+namespace TerrariaOverhaul.Content.Projectiles;
+
+public abstract class SpearProjectileBase : ModProjectile
 {
-	public abstract class SpearProjectileBase : ModProjectile
+	protected abstract float HoldoutRangeMin { get; }
+	protected abstract float HoldoutRangeMax { get; }
+
+	protected virtual int UseDuration(Player player) => player.itemAnimationMax;
+
+	public override void SetDefaults()
 	{
-		protected abstract float HoldoutRangeMin { get; }
-		protected abstract float HoldoutRangeMax { get; }
+		Projectile.penetrate = -1;
+		Projectile.aiStyle = ProjAIStyleID.Spear;
+		Projectile.friendly = true;
+		Projectile.tileCollide = false;
+		Projectile.ownerHitCheck = true;
+		Projectile.timeLeft = int.MaxValue;
+	}
 
-		protected virtual int UseDuration(Player player) => player.itemAnimationMax;
+	public override bool PreAI()
+	{
+		Player player = Main.player[Projectile.owner];
 
-		public override void SetDefaults()
-		{
-			Projectile.penetrate = -1;
-			Projectile.aiStyle = ProjAIStyleID.Spear;
-			Projectile.friendly = true;
-			Projectile.tileCollide = false;
-			Projectile.ownerHitCheck = true;
-			Projectile.timeLeft = int.MaxValue;
+		player.heldProj = Projectile.whoAmI;
+		player.itemTime = player.itemAnimation;
+
+		int realDuration = (int)(UseDuration(player) * player.GetTotalAttackSpeed<MeleeDamageClass>());
+
+		if (Projectile.timeLeft == int.MaxValue) {
+			Projectile.timeLeft = realDuration;
 		}
 
-		public override bool PreAI()
-		{
-			Player player = Main.player[Projectile.owner];
+		Projectile.velocity = Vector2.Normalize(Projectile.velocity);
 
-			player.heldProj = Projectile.whoAmI;
-			player.itemTime = player.itemAnimation;
+		float halfDuration = realDuration * 0.5f;
+		float progress = Projectile.timeLeft > halfDuration
+			? (realDuration - Projectile.timeLeft) / halfDuration
+			: Projectile.timeLeft / halfDuration;
 
-			int realDuration = (int)(UseDuration(player) * player.GetTotalAttackSpeed<MeleeDamageClass>());
+		Projectile.Center = player.MountedCenter + Vector2.SmoothStep(Projectile.velocity * HoldoutRangeMin, Projectile.velocity * HoldoutRangeMax, progress);
 
-			if (Projectile.timeLeft == int.MaxValue) {
-				Projectile.timeLeft = realDuration;
-			}
-
-			Projectile.velocity = Vector2.Normalize(Projectile.velocity);
-
-			float halfDuration = realDuration * 0.5f;
-			float progress = Projectile.timeLeft > halfDuration
-				? (realDuration - Projectile.timeLeft) / halfDuration
-				: Projectile.timeLeft / halfDuration;
-
-			Projectile.Center = player.MountedCenter + Vector2.SmoothStep(Projectile.velocity * HoldoutRangeMin, Projectile.velocity * HoldoutRangeMax, progress);
-
-			return false;
-		}
+		return false;
 	}
 }
