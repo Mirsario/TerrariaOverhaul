@@ -24,8 +24,15 @@ public static partial class PlayerExtensions
 	public static bool IsUnderwater(this Player player)
 		=> Collision.DrownCollision(player.position, player.width, player.height, player.gravDir);
 
-	public static int KeyDirection(this Player player)
-		=> player.controlLeft ? -1 : player.controlRight ? 1 : 0;
+	public static Vector2 KeyDirection(this Player player)
+	{
+		Vector2 result;
+		
+		result.X = (player.controlRight ? 1f : 0f) - (player.controlLeft ? 1f : 0f);
+		result.Y = (player.controlDown ? 1f : 0f) - (player.controlUp ? 1f : 0f);
+
+		return result;
+	}
 
 	public static Vector2 LookDirection(this Player player)
 		=> (player.GetModPlayer<PlayerDirectioning>().MouseWorld - player.Center).SafeNormalize(Vector2.UnitY);

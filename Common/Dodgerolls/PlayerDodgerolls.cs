@@ -135,7 +135,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 		bool isLocal = Player.IsLocal();
 
 		if (isLocal && !DodgeAttemptTimer.Active && DodgerollKey.JustPressed && !Player.mouseInterface) {
-			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), (sbyte)Player.KeyDirection());
+			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), (sbyte)Math.Sign(Player.KeyDirection().X));
 		}
 
 		if (!ForceDodgeroll) {

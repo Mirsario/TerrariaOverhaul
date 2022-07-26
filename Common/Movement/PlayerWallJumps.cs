@@ -59,7 +59,7 @@ public class PlayerWallJumps : ModPlayer
 			return;
 		}
 
-		if (Math.Abs(fastestSpeed) < MinSpeedForWallRoll && !ninjaJump || Player.direction != (ninjaJump ? -prevDirX : prevDirX) || Player.KeyDirection() != (ninjaJump ? 0 : -Player.direction)) {
+		if (Math.Abs(fastestSpeed) < MinSpeedForWallRoll && !ninjaJump || Player.direction != (ninjaJump ? -prevDirX : prevDirX) || Math.Sign(Player.KeyDirection().X) != (ninjaJump ? 0 : -Player.direction)) {
 			return;
 		}
 
