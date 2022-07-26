@@ -23,9 +23,9 @@
 - **Translated:** `84` out of `84` (`0` missing!)
 
 ## fr-FR
-- **Status:** ❌ Not even started!
-- **Completion:** ***0.0%***
-- **Translated:** `0` out of `84` (`84` missing!)
+- **Status:** ✅ Full!
+- **Completion:** ***100.0%***
+- **Translated:** `84` out of `84` (`0` missing!)
 
 ## it-IT
 - **Status:** ❌ Not even started!
