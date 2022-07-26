@@ -21,13 +21,16 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 	public static readonly SoundStyle SwordMediumSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2) {
 		Volume = 0.8f,
 		PitchVariance = 0.1f,
+		MaxInstances = 3,
 	};
 	public static readonly SoundStyle SwordHeavySwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2) {
 		PitchVariance = 0.1f,
+		MaxInstances = 3,
 	};
 	public static readonly SoundStyle SwordFleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2) {
 		Volume = 0.65f,
-		PitchVariance = 0.1f
+		PitchVariance = 0.1f,
+		MaxInstances = 3,
 	};
 
 	public static readonly ConfigEntry<bool> EnableBroadswordPowerAttacks = new(ConfigSide.Both, "Melee", nameof(EnableBroadswordPowerAttacks), () => true);
