@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNPCHitSound
+public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 {
 	public static readonly SoundStyle SwordMediumSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2) {
 		Volume = 0.8f,
@@ -160,12 +160,6 @@ public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNP
 		}
 
 		TooltipUtils.ShowCombatInformation(Mod, tooltips, GetCombatInfo);
-	}
-
-	public bool CanDoMeleeDamage(Item item, Player player)
-	{
-		// Damage will only be applied during the first half of the use. The second half is a cooldown, and the animations reflect that.
-		return player.itemAnimation >= player.itemAnimationMax / 2 && !item.GetGlobalItem<ItemCharging>().IsCharging;
 	}
 
 	void IModifyItemNPCHitSound.ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle? customHitSound, ref bool playNPCHitSound)
