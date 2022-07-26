@@ -53,6 +53,10 @@ public class Pickaxe : ItemOverhaul
 		item.EnableComponent<ItemMeleeSwingVelocity>(c => {
 			c.DashVelocity = new Vector2(0.5f, 0.5f);
 			c.MaxDashVelocity = new Vector2(0f, 5f);
+
+			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableVerticalDashesForNonChargedAttacks);
+			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableUpwardsDashesWhenFalling);
+			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableDashesForNonChargedAttacksWhenStill);
 		});
 		// Animation
 		item.EnableComponent<GenericMeleeAnimation>();

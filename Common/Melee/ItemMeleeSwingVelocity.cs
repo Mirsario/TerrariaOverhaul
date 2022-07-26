@@ -23,55 +23,59 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		public Direction2D? KeyDirection;
 	}
 
-	public readonly record struct VelocityModifier
+	public readonly record struct VelocityModifier(string Identifier)
 	{
-		public ContextMatch Predicate { get; init; }
-		public Vector2 VelocityMultiplier { get; init; }
-		public Vector2 MaxVelocityMultiplier { get; init; }
+		public ContextMatch Predicate { get; init; } = default;
+		public Vector2 VelocityMultiplier { get; init; } = default;
+		public Vector2 MaxVelocityMultiplier { get; init; } = default;
 	}
 
-	private static readonly Dictionary<string, VelocityModifier> commonModifiers;
+	public static class Modifiers
+	{
+		/// <summary> Boost from power attacks. </summary>
+		public static readonly VelocityModifier PowerAttackBoost = new(nameof(PowerAttackBoost)) {
+			Predicate = new() { PowerAttack = true },
+			VelocityMultiplier = new Vector2(1.5f, 1.5f),
+			MaxVelocityMultiplier = new Vector2(1.5f, 1.5f), // More stackable
+		};
+		
+		/// <summary> Boost power attacks' vertical dashes even higher when on ground. </summary>
+		public static readonly VelocityModifier PowerAttackVerticalGroundBoost = new(nameof(PowerAttackVerticalGroundBoost)) {
+			Predicate = new() { PowerAttack = true, OnGround = true },
+			VelocityMultiplier = new Vector2(1.0f, 1.65f),
+		};
 
-	public static IReadOnlyDictionary<string, VelocityModifier> CommonModifiers => commonModifiers;
+		/// <summary> Disable vertical dashes for non-charged attacks whenever the player is on ground. </summary>
+		public static readonly VelocityModifier DisableVerticalDashesForNonChargedAttacks = new(nameof(DisableVerticalDashesForNonChargedAttacks)) {
+			Predicate = new() { PowerAttack = false, OnGround = true },
+			VelocityMultiplier = new Vector2(1.0f, 0.0f),
+		};
 
-	private Dictionary<string, VelocityModifier> dashVelocityModifiers = commonModifiers;
+		/// <summary>
+		/// Disable upwards dashes whenever the player is falling down.
+		/// Could be made more lenient.
+		/// </summary>
+		public static readonly VelocityModifier DisableUpwardsDashesWhenFalling = new(nameof(DisableUpwardsDashesWhenFalling)) {
+			Predicate = new() { PowerAttack = false, OnGround = false, MoveDirection = Direction2D.Down, AttackDirection = Direction2D.Up },
+			VelocityMultiplier = new Vector2(1.0f, 0.0f),
+		};
+
+		/// <summary>
+		/// Completely disable all dashes whenever the player is staying still on the ground.
+		/// </summary>
+		public static readonly VelocityModifier DisableDashesForNonChargedAttacksWhenStill = new() {
+			Predicate = new() { PowerAttack = false, OnGround = true, MoveDirection = 0 },
+			VelocityMultiplier = new Vector2(0f, 0f),
+		};
+	}
+	
+	private Dictionary<string, VelocityModifier> dashVelocityModifiers = new();
 	
 	public Vector2 DashVelocity { get; set; } = Vector2.One;
 	public Vector2 MaxDashVelocity { get; set; } = Vector2.One;
 	public Vector2 DefaultKeyVelocityMultiplier { get; set; } = new Vector2(2f / 3f, 1f);
 
 	public IReadOnlyDictionary<string, VelocityModifier> DashVelocityModifiers => dashVelocityModifiers;
-
-	static ItemMeleeSwingVelocity()
-	{
-		commonModifiers = new();; // Do not remove this duplicate semicolon. 
-
-		// Boost from power attacks
-		commonModifiers.Add("PowerAttackBoost", new() {
-			Predicate = new() { PowerAttack = true },
-			VelocityMultiplier = new Vector2(1.5f, 1.5f),
-			MaxVelocityMultiplier = new Vector2(1.5f, 1.5f), // More stackable
-		});
-
-		// Boost power attacks' vertical dashes even higher when on ground
-		commonModifiers.Add("PowerAttackVerticalGroundBoost", new() {
-			Predicate = new() { PowerAttack = true, OnGround = true },
-			VelocityMultiplier = new Vector2(1.0f, 1.65f),
-		});
-
-		// Disable vertical dashes for non-charged attacks whenever the player is on ground.
-		commonModifiers.Add("DisableVerticalDashesForNonChargedAttacks", new() {
-			Predicate = new() { PowerAttack = false, OnGround = true },
-			VelocityMultiplier = new Vector2(1.0f, 0.0f),
-		});
-
-		// Disable upwards dashes whenever the player is falling down.
-		// Could be made more lenient.
-		commonModifiers.Add("DisableUpwardsDashesWhenFalling", new() {
-			Predicate = new() { PowerAttack = false, OnGround = false, MoveDirection = Direction2D.Down, AttackDirection = Direction2D.Up },
-			VelocityMultiplier = new Vector2(1.0f, 0.0f),
-		});
-	}
 
 	public override void UseAnimation(Item item, Player player)
 	{
@@ -173,22 +177,13 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 
 		player.AddLimitedVelocity(dashVelocity * attackDirection, maxDashVelocity);
 	}
-
-	public void AddVelocityModifier(string name, VelocityModifier modifier)
-	{
-		if (dashVelocityModifiers == commonModifiers) {
-			dashVelocityModifiers = new(dashVelocityModifiers);
-		}
-
-		dashVelocityModifiers.Add(name, modifier);
-	}
+	
+	public void AddVelocityModifier(in VelocityModifier modifier)
+		=> dashVelocityModifiers.Add(modifier.Identifier, modifier);
+	
+	public void RemoveVelocityModifier(in VelocityModifier modifier)
+		=> dashVelocityModifiers.Remove(modifier.Identifier);
 
 	public void RemoveVelocityModifier(string name)
-	{
-		if (dashVelocityModifiers == commonModifiers) {
-			dashVelocityModifiers = new(dashVelocityModifiers);
-		}
-
-		dashVelocityModifiers.Remove(name);
-	}
+		=> dashVelocityModifiers.Remove(name);
 }

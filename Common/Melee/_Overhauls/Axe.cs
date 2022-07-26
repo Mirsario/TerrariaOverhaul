@@ -61,6 +61,12 @@ public class Axe : ItemOverhaul
 		item.EnableComponent<ItemMeleeSwingVelocity>(c => {
 			c.DashVelocity = new Vector2(2.0f, 4.5f);
 			c.MaxDashVelocity = new Vector2(0f, 6.0f);
+
+			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackBoost);
+			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackVerticalGroundBoost);
+			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableVerticalDashesForNonChargedAttacks);
+			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableUpwardsDashesWhenFalling);
+			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableDashesForNonChargedAttacksWhenStill);
 		});
 		// Animation
 		item.EnableComponent<QuickSlashMeleeAnimation>(c => {
