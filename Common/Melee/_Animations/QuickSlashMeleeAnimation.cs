@@ -2,11 +2,16 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public class QuickSlashMeleeAnimation : MeleeAnimation
+/// <summary>
+/// Quick swing that lasts 1/2 of the use animation time.
+/// Affects gameplay.
+/// </summary>
+public class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage
 {
 	public bool IsAttackFlipped { get; set; }
 	public bool FlipAttackEachSwing { get; set; }
@@ -79,5 +84,15 @@ public class QuickSlashMeleeAnimation : MeleeAnimation
 				player.legFrame = PlayerFrames.Walk13.ToRectangle();
 			}
 		}
+	}
+
+	public bool CanDoMeleeDamage(Item item, Player player)
+	{
+		if (!Enabled) {
+			return true;
+		}
+
+		// Damage will only be applied during the first half of the use. The second half is a cooldown, and the animations reflect that.
+		return player.itemAnimation >= player.itemAnimationMax / 2 && !item.GetGlobalItem<ItemCharging>().IsCharging;
 	}
 }
