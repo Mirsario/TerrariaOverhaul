@@ -93,6 +93,6 @@ public class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage
 		}
 
 		// Damage will only be applied during the first half of the use. The second half is a cooldown, and the animations reflect that.
-		return player.itemAnimation >= player.itemAnimationMax / 2 && !item.GetGlobalItem<ItemCharging>().IsCharging;
+		return player.itemAnimation >= player.itemAnimationMax / 2;
 	}
 }

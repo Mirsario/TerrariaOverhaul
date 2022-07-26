@@ -17,10 +17,15 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 {
 	public delegate bool CanStartPowerAttackDelegate(Item item, Player player);
 
-	public float ChargeLengthMultiplier = 2f;
 	public CommonStatMultipliers CommonStatMultipliers = CommonStatMultipliers.Default;
 
+	private int useNum;
+
+	public uint ExtraUseCount { get; set; } = 0;
+	public uint ExtraReuseDelay { get; set; } = 10;
+	public float ChargeLengthMultiplier { get; set; } = 2f;
 	public bool PowerAttack { get; private set; }
+	public bool IsChargingPowerAttack { get; private set; }
 
 	public event Action<Item, Player>? OnStart;
 	public event Action<Item, Player, float>? OnChargeStart;
@@ -111,7 +116,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 
 	public override void HoldItem(Item item, Player player)
 	{
-		if (player.itemAnimation <= 1 && !item.GetGlobalItem<ItemCharging>().IsCharging) {
+		if (player.itemAnimation <= 1 && !IsChargingPowerAttack) {
 			PowerAttack = false;
 		}
 	}
@@ -155,6 +160,8 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 			MultiplayerSystem.SendPacket(new PowerAttackStartPacket(player, chargeLength));
 		}
 
+		IsChargingPowerAttack = true;
+
 		OnChargeStart?.Invoke(item, player, chargeLength);
 
 		itemCharging.StartCharge(
@@ -168,11 +175,17 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 			},
 			// End
 			(i, p, progress) => {
+				IsChargingPowerAttack = false;
+				useNum = 0;
+
 				i.GetGlobalItem<ItemPowerAttacks>().PowerAttack = true;
-
 				p.GetModPlayer<PlayerItemUse>().ForceItemUse();
-
+				
 				OnChargeEnd?.Invoke(i, p, chargeLength, progress);
+
+				if (ExtraUseCount > 0) {
+					StartReuseCharge(i);
+				}
 			},
 			// Allow turning
 			true
@@ -186,6 +199,22 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 		}
 	}
 
+	private void StartReuseCharge(Item item)
+	{
+		item.GetGlobalItem<ItemCharging>().StartCharge((int)ExtraReuseDelay, null, OnReuseChargeEnd, allowTurning: true);
+	}
+
+	private void OnReuseChargeEnd(Item item, Player player, float chargeProgress)
+	{
+		useNum++;
+
+		player.GetModPlayer<PlayerItemUse>().ForceItemUse();
+
+		if (useNum < ExtraUseCount) {
+			StartReuseCharge(item);
+		}
+	}
+
 	bool ICanDoMeleeDamage.CanDoMeleeDamage(Item item, Player player)
-		=> !item.TryGetGlobalItem<ItemCharging>(out var itemCharging) || !itemCharging.IsCharging;
+		=> !Enabled || !IsChargingPowerAttack;
 }

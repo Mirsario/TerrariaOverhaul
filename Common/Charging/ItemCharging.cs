@@ -26,7 +26,7 @@ public sealed class ItemCharging : ItemComponent, ICanTurnDuringItemUse, IHoldIt
 		}
 	}
 
-	public void StartCharge(int chargeTime, ChargeAction updateAction, ChargeAction endAction, bool? allowTurning = null)
+	public void StartCharge(int chargeTime, ChargeAction? updateAction, ChargeAction? endAction, bool? allowTurning = null)
 	{
 		IsCharging = true;
 		ChargeTime = 0;
@@ -39,14 +39,17 @@ public sealed class ItemCharging : ItemComponent, ICanTurnDuringItemUse, IHoldIt
 
 	public void StopCharge(Item item, Player player, bool skipAction = false)
 	{
-		if (!skipAction) {
-			endAction?.Invoke(item, player, ChargeProgress);
-		}
+		var delayedEndAction = endAction;
+		float chargeProgress = ChargeProgress;
 
 		IsCharging = false;
 		ChargeTime = ChargeTimeMax = 0;
 		updateAction = null;
 		endAction = null;
+
+		if (!skipAction) {
+			delayedEndAction?.Invoke(item, player, chargeProgress);
+		}
 	}
 
 	private void UpdateCharging(Item item, Player player)
