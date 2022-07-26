@@ -129,6 +129,15 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 			maxDashVelocityMultiplier *= modifier.MaxVelocityMultiplier;
 		}
 
+		// Calculate max velocity
+
+		var maxDashVelocity = new Vector2(
+			MaxDashVelocity.X == 0f ? Math.Max(MaxDashVelocity.X, Math.Abs(dashVelocity.X)) : MaxDashVelocity.X,
+			MaxDashVelocity.Y == 0f ? Math.Max(MaxDashVelocity.Y, Math.Abs(dashVelocity.Y)) : MaxDashVelocity.Y
+		);
+
+		maxDashVelocity *= maxDashVelocityMultiplier;
+
 		// Multiply by controls
 
 		const float ZeroedAreaFactor = 0.25f;
@@ -167,13 +176,6 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		dashVelocity *= controlMultipliers;
 
 		// Add the velocity
-
-		var maxDashVelocity = new Vector2(
-			MaxDashVelocity.X == 0f ? Math.Max(MaxDashVelocity.X, Math.Abs(dashVelocity.X)) : MaxDashVelocity.X,
-			MaxDashVelocity.Y == 0f ? Math.Max(MaxDashVelocity.Y, Math.Abs(dashVelocity.Y)) : MaxDashVelocity.Y
-		);
-
-		maxDashVelocity *= maxDashVelocityMultiplier;
 
 		player.AddLimitedVelocity(dashVelocity * attackDirection, maxDashVelocity);
 	}
