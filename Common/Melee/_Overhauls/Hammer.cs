@@ -61,8 +61,8 @@ public class Hammer : ItemOverhaul
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
 		item.EnableComponent<ItemMeleeSwingVelocity>(c => {
-			c.DashVelocity = new Vector2(3.0f, 4.5f);
-			c.MaxDashVelocity = new Vector2(0.0f, 7.0f);
+			c.DashVelocity = new Vector2(3.0f, 3.5f);
+			c.MaxDashVelocity = new Vector2(0.0f, 5.0f);
 		});
 		// Animation
 		item.EnableComponent<QuickSlashMeleeAnimation>(c => {

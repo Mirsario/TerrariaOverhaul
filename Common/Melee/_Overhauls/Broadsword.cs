@@ -70,8 +70,8 @@ public partial class Broadsword : ItemOverhaul, ICanDoMeleeDamage, IModifyItemNP
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
 		item.EnableComponent<ItemMeleeSwingVelocity>(c => {
-			c.DashVelocity = new Vector2(2.5f, 5.0f);
-			c.MaxDashVelocity = new Vector2(0f, 7.5f);
+			c.DashVelocity = new Vector2(2.5f, 4.0f);
+			c.MaxDashVelocity = new Vector2(0f, 5.5f);
 		});
 		// Animation
 		item.EnableComponent<QuickSlashMeleeAnimation>(c => {

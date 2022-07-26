@@ -38,7 +38,7 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 	
 	public Vector2 DashVelocity { get; set; } = Vector2.One;
 	public Vector2 MaxDashVelocity { get; set; } = Vector2.One;
-	public Vector2 DefaultKeyVelocityMultiplier { get; set; } = Vector2.One * (2f / 3f);
+	public Vector2 DefaultKeyVelocityMultiplier { get; set; } = new Vector2(2f / 3f, 1f);
 
 	public IReadOnlyDictionary<string, VelocityModifier> DashVelocityModifiers => dashVelocityModifiers;
 
@@ -62,7 +62,7 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		// Disable vertical dashes for non-charged attacks whenever the player is on ground.
 		commonModifiers.Add("DisableVerticalDashesForNonChargedAttacks", new() {
 			Predicate = new() { PowerAttack = false, OnGround = true },
-			VelocityMultiplier = new Vector2(0.625f, 0.0f),
+			VelocityMultiplier = new Vector2(1.0f, 0.0f),
 		});
 
 		// Disable upwards dashes whenever the player is falling down.
