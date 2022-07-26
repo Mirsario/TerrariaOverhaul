@@ -38,9 +38,9 @@
 - **Translated:** `64` out of `84` (`20` missing!)
 
 ## pt-BR
-- **Status:** ⚠️ Incomplete!
-- **Completion:** ***83.3%***
-- **Translated:** `70` out of `84` (`14` missing!)
+- **Status:** ✅ Full!
+- **Completion:** ***100.0%***
+- **Translated:** `84` out of `84` (`0` missing!)
 
 ## ru-RU
 - **Status:** ⚠️ Incomplete!
