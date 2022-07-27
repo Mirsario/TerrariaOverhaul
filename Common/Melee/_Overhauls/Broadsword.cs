@@ -91,15 +91,15 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 		if (EnableBroadswordPowerAttacks) {
 			item.EnableComponent<ItemMeleePowerAttackEffects>();
 			item.EnableComponent<ItemPowerAttacks>(c => {
-				c.ChargeLengthMultiplier = 1.75f;
-				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
-				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.33f;
-				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.33f;
+				c.ChargeLengthMultiplier = 1.6f;
+				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.25f;
+				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.25f;
+				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.25f;
 				c.CommonStatMultipliers.ProjectileSpeedMultiplier = 1.33f;
 
 				// Double slash!
 				c.ExtraUseCount = 1;
-				c.ExtraReuseDelay = 15;
+				c.ExtraReuseDelay = 17;
 			});
 
 			if (!Main.dedServ) {
