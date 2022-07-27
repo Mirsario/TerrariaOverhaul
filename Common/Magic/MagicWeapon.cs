@@ -61,9 +61,13 @@ public partial class MagicWeapon : ItemOverhaul
 
 		item.EnableComponent<ItemPowerAttacks>(c => {
 			c.ChargeLengthMultiplier = 2f;
-			c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.75f;
-			c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
+			c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.0f;
+			c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.0f;
 			c.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
+
+			// Triple barrage
+			c.ExtraUseCount = 2;
+			c.ExtraReuseDelay = 6;
 
 			c.OnChargeStart += (item, player, chargeLength) => {
 				if (Main.dedServ) {
