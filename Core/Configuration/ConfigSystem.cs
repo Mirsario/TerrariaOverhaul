@@ -60,12 +60,17 @@ public sealed class ConfigSystem : ModSystem
 			entry.Initialize(Mod);
 		}
 
-		configWatcher = new FileSystemWatcher(ConfigDirectory) {
-			EnableRaisingEvents = true,
-			NotifyFilter = NotifyFilters.LastWrite,
-		};
+		try {
+			configWatcher = new FileSystemWatcher(ConfigDirectory) {
+				EnableRaisingEvents = true,
+				NotifyFilter = NotifyFilters.LastWrite,
+			};
 
-		configWatcher.Changed += OnConfigDirectoryFileUpdateChanged;
+			configWatcher.Changed += OnConfigDirectoryFileUpdateChanged;
+		}
+		catch (Exception e) {
+			DebugSystem.Logger.Error($"Could not start a {nameof(FileSystemWatcher)} instance for the configuration file. Automatic config file reloading will be disabled.");
+		}
 
 		Logging.IgnoreExceptionContents(nameof(IOUtils.TryReadAllTextSafely)); // Don't log caught errors from loops in that method.
 
