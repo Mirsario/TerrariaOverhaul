@@ -5,6 +5,6 @@ homepage = https://github.com/Mirsario/TerrariaOverhaul
 hideCode = false
 hideResources = false
 includeSource = false
-buildIgnore = vs/*, *.csproj, *.sln, *.pidb, *.userprefs, *.user, *.bat, obj/*, bin/*, *.db, *.ignored, *Ignored/*, *ignored/*, *Old/*
+buildIgnore = vs/*, BuildTools/*, *.csproj, *.sln, *.pidb, *.userprefs, *.user, *.bat, obj/*, bin/*, *.db, *.ignored, *Ignored/*, *ignored/*, *Old/*
 includePDB = false
 noCompile = false
