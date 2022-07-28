@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Crosshairs;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;

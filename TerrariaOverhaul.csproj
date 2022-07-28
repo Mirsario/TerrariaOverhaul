@@ -43,11 +43,7 @@
 	<Target Name="UpdateLocalizationFiles" BeforeTargets="BeforeCompile">
 		<Message Text="Updating localization files..." Importance="high" />
 
-		<UpdateLocalizationFiles
-			ResultsOutputPath="Localization\README.md"
-			MainFile="Localization\en-US.hjson"
-			LocalizationFiles="@(LocalizationFiles)"
-		/>
+		<UpdateLocalizationFiles ResultsOutputPath="Localization\README.md" MainFile="Localization\en-US.hjson" LocalizationFiles="@(LocalizationFiles)" />
 	</Target>
 
 </Project>
