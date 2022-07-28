@@ -18,7 +18,7 @@ It's missing many features from the 1.3 version, but what's currently implemente
 Below is a step by step instruction for that. It only assumes that you know at least how to use command prompts, shells, or terminals. You should.
 
 - Get [TModLoader from Steam](https://store.steampowered.com/app/1281930/tModLoader).
-- [Install Git if you don't already have it](https://git-scm.com/download).
+- Get [Git from git-scm](https://git-scm.com/download). Most defaults suffice for installation.
 - Clone the mod's 1.4 branch into `%userprofile%/Documents/My games/Terraria/tModLoader/ModSources`.
 The git command for that would be `git clone https://github.com/Mirsario/TerrariaOverhaul -b 1.4`, where `1.4` is the branch you want to clone.
 - Head over to Mod Sources in-game and `Build & Reload` TerrariaOverhaul.
