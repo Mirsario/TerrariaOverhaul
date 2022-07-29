@@ -1,31 +1,31 @@
 UI: {
-	//Creative: "Journey"
-	//Normal: "I'm Too Young to Mine"
-	//Expert: "Bone Me Plenty"
-	//Master: "I Am Cthulhu Incarnate"
-	//WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
-	//WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
-	//WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
-	//WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
+	Creative: "Приключение"
+	Normal: "Шахты Меня Пугают"
+	Expert: "Обрати Меня в Нежить"
+	Master: "Я Воплощение Ктулху"
+	WorldDescriptionCreative: "Режим креатива или доступности (Для тех, кто хочет иметь полный контроль)"
+	WorldDescriptionNormal: "Меньше урона от врагов, но такие же награды (Для беззаботных и расслабленных)"
+	WorldDescriptionExpert: "Новый стандарт сложности (Для тех кто любит справедливые вызовы)"
+	WorldDescriptionMaster: "Жестокие наказания и новые награды (Для по-настоящему беспощадных)"
 }
 
 Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
-			//Configuration: "Configuration"
-			//DiscordServer: "Discord Server"
-			//ForumPage: "Forum Page"
-			//WikiPage: "Overhaul Wiki"
-			//Github: "GitHub"
+			Configuration: "Конфигурация"
+			DiscordServer: "Сервер Discord"
+			ForumPage: "Форум"
+			WikiPage: "Overhaul Вики"
+			Github: "GitHub"
 
 			MusicPack: {
-				//Get: "Get the Music Pack"
-				//Enable: "Enable the Music Pack"
+				Get: "Получить комплект Музыки"
+				Enable: "Включить комплект Музыки"
 			}
 		}
 
 		Notifications: {
-			//AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+			AudioFilteringTestFailure: "Внимание: TerrariaOverhaul не может активировать звуковые фильтры. Убедитесь что у вас обновлён/установлен аудиодрайвер."
 		}
 
 		Configuration: {
@@ -123,10 +123,10 @@ Mods: {
 		}
 
 		Seasons: {
-			SelectSeason: "Выберете стартовое время года:"
-			CalendarCurrentSeason: "В данный момент {SeasonName}."
-			//CalendarNextSeasonDays: "{SeasonName} will arrive in {NumDays} days."
-			//CalendarNextSeasonTomorrow: "{SeasonName} will arrive tomorrow!"
+			SelectSeason: "Выберите стартовое время года:"
+			CalendarCurrentSeason: "Сейчас у нас {SeasonName}"
+			CalendarNextSeasonDays: "{SeasonName} наступит через: {NumDays} дн."
+			CalendarNextSeasonTomorrow: "{SeasonName} наступит завтра!"
 
 			Spring: {
 				Name: "Весна"
@@ -152,73 +152,73 @@ Mods: {
 
 		ItemOverhauls: {
 			Melee: {
-				//AirCombatInfo: "Attacking enemies mid-air launches you towards them"
-				//VelocityBasedDamageInfo: "Damage can be increased by player velocity, dashing is recommended"
+				AirCombatInfo: "Атака по врагам в воздухе подталкивает вас к ним"
+				VelocityBasedDamageInfo: "Урон может быть увеличет от скорости передвижения, рекомендуется использовать рывок"
 
 				Broadsword: {
-					//KillingBlow: "Killing Blow!"
-					//KillingBlowInfo:
-					//	'''
-					//	Charged strikes can deal Killing Blows to damaged enemies
-					//	Killing Blows double damage whenever that would finish the enemy
-					//	'''
+					KillingBlow: "Смертельный удар!"
+					KillingBlowInfo:
+						'''
+						Сильные удары могут нанести смертельный удар по раненым врагам
+						Смертельный удар приумножает урон, при условии что это добьёт врага
+						'''
 				}
 			}
 		}
 
 		CommonTooltips: {
-			//ShowCombatInfo: "[Hold {Key} to show combat information]"
-			//CombatInfo: "[Combat Information]"
+			ShowCombatInfo: "[Зажмите {Key} для подробной информации]"
+			CombatInfo: "[Боевая Информация]"
 		}
 
 		DeathText: {
-			//Zombified: "And then {PlayerName} was a zombie."
-			//ZombifiedScreenText: "You became a zombie..."
-			//ZombifiedName: "{PlayerName} the Zombie"
-			//Lightning: "{PlayerName} was struck by lightning. Ouch!"
+			Zombified: "А потом {PlayerName} был зомби..."
+			ZombifiedScreenText: "Вы стали зомби..."
+			ZombifiedName: "{PlayerName} Зомби"
+			Lightning: "{PlayerName} был ударен молнией. Ауч!"
 		}
 
 		ItemName: {
-			//BunnyPaw: "Bunny Paw"
-			//Charcoal: "Charcoal"
-			//Calendar: "Calendar"
-			//Gramophone: "Gramophone"
+			BunnyPaw: "Кроличья лапка"
+			Charcoal: "Древесный Уголь"
+			Calendar: "Календарь"
+			Gramophone: "Граммофон"
 			MusicDisc: "Музыкальный диск"
-			//Mop: "Mop"
-			//StoneAxe: "Stone Axe"
-			//StonePickaxe: "Stone Pickaxe"
+			Mop: "Швабра"
+			StoneAxe: "Каменный Топор"
+			StonePickaxe: "Каменная Кирка"
 		}
 
 		ItemTooltip: {
-			//BunnyPaw: "Increases bunnyhop speed boost"
-			//Charcoal: "It's still warm"
-			//Calendar:
-			//	'''
-			//	Counts amount of days left until the next season
-			//	Right click after placing to use it
-			//	'''
-			//Gramophone: "Plays music discs"
-			MusicDisc: "Может быть проигран в грамофоне"
-			//Mop: "Keeps your house clean of guts and shredded eyeballs"
-			//StoneAxe: "Wood is probably stronger than this"
-			//StonePickaxe: "Great against dirt!"
+			BunnyPaw: "Увеличивает ускорение при баннихоппинге"
+			Charcoal: "Он всё ещё тёплый"
+			Calendar:
+				'''
+				Показывает количество дней до начала следующего сезона
+				Нажмите правой кнопкой мыши после после установки на стену
+				'''
+			Gramophone: "Проигрывает музыкальные диски"
+			MusicDisc: "Может быть проигран в граммофоне"
+			Mop: "Очищает ваш дом от кишок и разрубленных глазных яблок"
+			StoneAxe: "Возможно, дерево прочнее, чем это"
+			StonePickaxe: "Отлична против грязи! Наверное..."
 		}
 
 		NPCName: {
-			//AshSlime: "Ash Clot"
-			//AshZombie: "Walking Ashes"
+			AshSlime: "Пепельный Сгусток"
+			AshZombie: "Ходячий Пепел"
 		}
 
 		BuffName: {
-			//ManaAbsorption: "Mana Absorption"
+			ManaAbsorption: "Поглощение Маны"
 		}
 
 		BuffDescription: {
-			//ManaAbsorption:
-			//	'''
-			//	Moving with haste, you are absorbing energy from all around you
-			//	Base mana regeneration multiplier: x{Multiplier}
-			//	'''
+			ManaAbsorption:
+				'''
+				Быстро передвигаясь, вы поглощаете энергию из всего, что вокруг вас
+				Базовый множитель регенерации маны: x{Multiplier}
+				'''
 		}
 	}
 }
