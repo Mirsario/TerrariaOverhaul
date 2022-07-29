@@ -21,7 +21,7 @@ public sealed class PlayerBunnyrolls : ModPlayer, IPlayerOnBunnyhopHook
 			return;
 		}
 
-		boostMultiplier += 0.5f;
+		boostMultiplier += 1f / 3f;
 
 		if (!Main.dedServ) {
 			var playerCenter = Player.Center;
