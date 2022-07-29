@@ -14,4 +14,10 @@ public static class Vector2Extensions
 
 		return float.IsNaN(length) ? defaultValue : length;
 	}
+
+	public static Rectangle ToRectangle(this Vector2 vector, Vector2 size)
+		=> vector.ToRectangle((int)size.X, (int)size.Y);
+
+	public static Rectangle ToRectangle(this Vector2 vector, int width, int height)
+		=> new((int)vector.X, (int)vector.Y, width, height);
 }
