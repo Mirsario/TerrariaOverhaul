@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace TerrariaOverhaul.Core.ItemOverhauls
-{
-	[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
-	public sealed class ItemAttachmentAttribute : Attribute
-	{
-		public readonly IReadOnlyList<int> ItemIds;
+namespace TerrariaOverhaul.Core.ItemOverhauls;
 
-		public ItemAttachmentAttribute(params int[] itemIds)
-		{
-			ItemIds = Array.AsReadOnly(itemIds);
-		}
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
+public sealed class ItemAttachmentAttribute : Attribute
+{
+	public readonly IReadOnlyList<int> ItemIds;
+
+	public ItemAttachmentAttribute(params int[] itemIds)
+	{
+		ItemIds = Array.AsReadOnly(itemIds);
 	}
 }

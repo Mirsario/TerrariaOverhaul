@@ -3,34 +3,33 @@ using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using Terraria.ObjectData;
 
-namespace TerrariaOverhaul.Utilities
+namespace TerrariaOverhaul.Utilities;
+
+public static class ModTileExtensions
 {
-	public static class ModTileExtensions
+	public static void AddMapEntry(this ModTile modTile, Color color, string name)
 	{
-		public static void AddMapEntry(this ModTile modTile, Color color, string name)
-		{
-			var entryName = modTile.CreateMapEntryName();
+		var entryName = modTile.CreateMapEntryName();
 
-			entryName.SetDefault(name);
-			modTile.AddMapEntry(color, entryName);
-		}
+		entryName.SetDefault(name);
+		modTile.AddMapEntry(color, entryName);
+	}
 
-		public static void AddTileObjectData(this ModTile modTile, TileObjectData copyFrom, Action<TileObjectData> action)
-		{
-			TileObjectData.newTile.CopyFrom(copyFrom);
+	public static void AddTileObjectData(this ModTile modTile, TileObjectData copyFrom, Action<TileObjectData> action)
+	{
+		TileObjectData.newTile.CopyFrom(copyFrom);
 
-			action(TileObjectData.newTile);
+		action(TileObjectData.newTile);
 
-			TileObjectData.addTile(modTile.Type);
-		}
+		TileObjectData.addTile(modTile.Type);
+	}
 
-		public static void AddAlternate(this TileObjectData tileObjectData, int altStyleId, Action<TileObjectData> action)
-		{
-			TileObjectData.newAlternate.CopyFrom(tileObjectData);
+	public static void AddAlternate(this TileObjectData tileObjectData, int altStyleId, Action<TileObjectData> action)
+	{
+		TileObjectData.newAlternate.CopyFrom(tileObjectData);
 
-			action(TileObjectData.newAlternate);
+		action(TileObjectData.newAlternate);
 
-			TileObjectData.addAlternate(altStyleId);
-		}
+		TileObjectData.addAlternate(altStyleId);
 	}
 }

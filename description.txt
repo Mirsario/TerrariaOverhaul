@@ -11,3 +11,6 @@ https://github.com/Mirsario/TerrariaOverhaul#whats-the-state-of-the-rebuild
 
 Join Overhaul's Discord server at:
 https://discord.gg/RNGq9N8
+
+Contribute at:
+https://github.com/Mirsario/TerrariaOverhaul

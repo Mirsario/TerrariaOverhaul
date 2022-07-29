@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace TerrariaOverhaul.Core.Exceptions
+namespace TerrariaOverhaul.Core.Exceptions;
+
+public class PlainException : Exception
 {
-	public class PlainException : Exception
-	{
-		public PlainException(string message) : base(message) { }
-	}
+	public PlainException(string message) : base(message) { }
 }

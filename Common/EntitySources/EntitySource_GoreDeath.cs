@@ -1,9 +1,8 @@
 ﻿using Terraria;
 
-namespace TerrariaOverhaul.Common.EntitySources
+namespace TerrariaOverhaul.Common.EntitySources;
+
+public class EntitySource_GoreDeath : EntitySource_Gore
 {
-	public class EntitySource_GoreDeath : EntitySource_Gore
-	{
-		public EntitySource_GoreDeath(Gore gore) : base(gore) { }
-	}
+	public EntitySource_GoreDeath(Gore gore) : base(gore) { }
 }

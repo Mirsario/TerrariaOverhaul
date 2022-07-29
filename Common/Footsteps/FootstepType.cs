@@ -1,9 +1,8 @@
-﻿namespace TerrariaOverhaul.Common.Footsteps
+﻿namespace TerrariaOverhaul.Common.Footsteps;
+
+public enum FootstepType
 {
-	public enum FootstepType
-	{
-		Default,
-		Jump,
-		Land
-	}
+	Default,
+	Jump,
+	Land
 }

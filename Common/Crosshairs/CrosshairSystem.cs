@@ -9,153 +9,152 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Time;
 
-namespace TerrariaOverhaul.Common.Crosshairs
+namespace TerrariaOverhaul.Common.Crosshairs;
+
+[Autoload(Side = ModSide.Client)]
+public sealed class CrosshairSystem : ModSystem
 {
-	[Autoload(Side = ModSide.Client)]
-	public sealed class CrosshairSystem : ModSystem
+	private static Asset<Texture2D>? crosshairTexture;
+	private static SpriteFrame crosshairBaseFrame = new(4, 2);
+	private static float crosshairOffset;
+	private static float crosshairRotation;
+	private static Color crosshairColor;
+	private static List<CrosshairImpulse>? impulses;
+
+	public static bool ShowCrosshair {
+		get {
+			if (Main.dedServ || Main.gameMenu) {
+				return false;
+			}
+
+			var item = Main.LocalPlayer?.HeldItem;
+
+			if (item?.IsAir != false) {
+				return false;
+			}
+
+			if (!item.TryGetGlobalItem(out ItemCrosshairController itemCrosshair)) {
+				return false;
+			}
+
+			return itemCrosshair.Enabled;
+		}
+	}
+
+	public override void Load()
 	{
-		private static Asset<Texture2D>? crosshairTexture;
-		private static SpriteFrame crosshairBaseFrame = new(4, 2);
-		private static float crosshairOffset;
-		private static float crosshairRotation;
-		private static Color crosshairColor;
-		private static List<CrosshairImpulse>? impulses;
+		impulses = new List<CrosshairImpulse>();
+		crosshairTexture = Mod.Assets.Request<Texture2D>("Assets/Textures/UI/Crosshair");
+	}
 
-		public static bool ShowCrosshair {
-			get {
-				if (Main.dedServ || Main.gameMenu) {
-					return false;
-				}
+	public override void Unload()
+	{
+		impulses?.Clear();
 
-				var item = Main.LocalPlayer?.HeldItem;
+		impulses = null;
+		crosshairTexture = null;
+	}
 
-				if (item?.IsAir != false) {
-					return false;
-				}
+	public override void PostUpdateEverything()
+	{
+		if (impulses == null) {
+			return;
+		}
 
-				if (!item.TryGetGlobalItem(out ItemCrosshairController itemCrosshair)) {
-					return false;
-				}
+		float totalOffset = 0f;
+		float totalRot = 0f;
+		Color color = Main.cursorColor;
 
-				return itemCrosshair.Enabled;
+		for (int i = 0; i < impulses.Count; i++) {
+			var impulse = impulses[i];
+			float progress = impulse.time / impulse.timeMax;
+
+			if (impulse.reversed) {
+				progress = 1f - progress;
+			}
+
+			totalOffset += impulse.strength * progress;
+			totalRot += impulse.rotation * progress;
+
+			if (impulse.color.HasValue) {
+				var impulseColor = impulse.color.Value;
+
+				color = Color.Lerp(color, impulseColor, impulseColor.A * progress / 255f);
+			}
+
+			impulse.time -= TimeSystem.LogicDeltaTime;
+
+			if (impulse.time <= 0f) {
+				impulses.RemoveAt(i--);
+			} else {
+				impulses[i] = impulse;
 			}
 		}
 
-		public override void Load()
-		{
-			impulses = new List<CrosshairImpulse>();
-			crosshairTexture = Mod.Assets.Request<Texture2D>("Assets/Textures/UI/Crosshair");
+		crosshairOffset = totalOffset;
+		crosshairRotation = totalRot;
+		crosshairColor = color;
+	}
+
+	public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+	{
+		if (!ShowCrosshair || Main.LocalPlayer.mouseInterface || layers.Count == 0) {
+			return;
 		}
 
-		public override void Unload()
-		{
-			impulses?.Clear();
+		int cursorOrEndIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Cursor");
 
-			impulses = null;
-			crosshairTexture = null;
+		if (cursorOrEndIndex < 0) {
+			cursorOrEndIndex = layers.Count - 1;
 		}
 
-		public override void PostUpdateEverything()
-		{
-			if (impulses == null) {
-				return;
-			}
-
-			float totalOffset = 0f;
-			float totalRot = 0f;
-			Color color = Main.cursorColor;
-
-			for (int i = 0; i < impulses.Count; i++) {
-				var impulse = impulses[i];
-				float progress = impulse.time / impulse.timeMax;
-
-				if (impulse.reversed) {
-					progress = 1f - progress;
+		layers[cursorOrEndIndex] = new LegacyGameInterfaceLayer(
+			layers[cursorOrEndIndex].Name,
+			() => {
+				if (crosshairTexture?.Value is not Texture2D texture) {
+					return true;
 				}
+				
+				int offset = (int)Math.Ceiling(crosshairOffset);
 
-				totalOffset += impulse.strength * progress;
-				totalRot += impulse.rotation * progress;
+				for (int i = 0; i < 2; i++) {
+					bool outline = i == 1;
 
-				if (impulse.color.HasValue) {
-					var impulseColor = impulse.color.Value;
+					for (byte y = 0; y < 2; y++) {
+						for (byte x = 0; x < 2; x++) {
+							int xDir = x == 0 ? -1 : 1;
+							int yDir = y == 0 ? -1 : 1;
 
-					color = Color.Lerp(color, impulseColor, impulseColor.A * progress / 255f);
-				}
+							Vector2 vecOffset = new Vector2(offset * xDir, offset * yDir).RotatedBy(crosshairRotation);
+							var frame = crosshairBaseFrame.With((byte)(x + (outline ? 2 : 0)), y);
+							var srcRect = frame.GetSourceRectangle(texture);
+							var dstRect = new Rectangle(Main.mouseX + (int)vecOffset.X, Main.mouseY + (int)vecOffset.Y, srcRect.Width, srcRect.Height);
+							var origin = new Vector2((1 - x) * srcRect.Width, (1 - y) * srcRect.Height);
+							var color = outline ? Main.MouseBorderColor : crosshairColor;
 
-				impulse.time -= TimeSystem.LogicDeltaTime;
-
-				if (impulse.time <= 0f) {
-					impulses.RemoveAt(i--);
-				} else {
-					impulses[i] = impulse;
-				}
-			}
-
-			crosshairOffset = totalOffset;
-			crosshairRotation = totalRot;
-			crosshairColor = color;
-		}
-
-		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
-		{
-			if (!ShowCrosshair || Main.LocalPlayer.mouseInterface || layers.Count == 0) {
-				return;
-			}
-
-			int cursorOrEndIndex = layers.FindIndex(layer => layer.Name == "Vanilla: Cursor");
-
-			if (cursorOrEndIndex < 0) {
-				cursorOrEndIndex = layers.Count - 1;
-			}
-
-			layers[cursorOrEndIndex] = new LegacyGameInterfaceLayer(
-				layers[cursorOrEndIndex].Name,
-				() => {
-					if (crosshairTexture?.Value is not Texture2D texture) {
-						return true;
-					}
-					
-					int offset = (int)Math.Ceiling(crosshairOffset);
-
-					for (int i = 0; i < 2; i++) {
-						bool outline = i == 1;
-
-						for (byte y = 0; y < 2; y++) {
-							for (byte x = 0; x < 2; x++) {
-								int xDir = x == 0 ? -1 : 1;
-								int yDir = y == 0 ? -1 : 1;
-
-								Vector2 vecOffset = new Vector2(offset * xDir, offset * yDir).RotatedBy(crosshairRotation);
-								var frame = crosshairBaseFrame.With((byte)(x + (outline ? 2 : 0)), y);
-								var srcRect = frame.GetSourceRectangle(texture);
-								var dstRect = new Rectangle(Main.mouseX + (int)vecOffset.X, Main.mouseY + (int)vecOffset.Y, srcRect.Width, srcRect.Height);
-								var origin = new Vector2((1 - x) * srcRect.Width, (1 - y) * srcRect.Height);
-								var color = outline ? Main.MouseBorderColor : crosshairColor;
-
-								Main.spriteBatch.Draw(texture, dstRect, srcRect, color, crosshairRotation, origin, SpriteEffects.None, 0f);
-							}
+							Main.spriteBatch.Draw(texture, dstRect, srcRect, color, crosshairRotation, origin, SpriteEffects.None, 0f);
 						}
 					}
+				}
 
-					return true;
-				},
-				InterfaceScaleType.UI
-			);
+				return true;
+			},
+			InterfaceScaleType.UI
+		);
+	}
+
+	public static void AddImpulse(float strength, float timeInSeconds, float rotation = 0f, Color? color = null, bool reversed = false, bool autoRotation = false)
+		=> AddImpulse(new CrosshairImpulse(strength, timeInSeconds, rotation, color, reversed, autoRotation));
+
+	public static void AddImpulse(CrosshairImpulse impulse)
+	{
+		if (ShowCrosshair) {
+			impulses?.Add(impulse);
 		}
+	}
 
-		public static void AddImpulse(float strength, float timeInSeconds, float rotation = 0f, Color? color = null, bool reversed = false, bool autoRotation = false)
-			=> AddImpulse(new CrosshairImpulse(strength, timeInSeconds, rotation, color, reversed, autoRotation));
-
-		public static void AddImpulse(CrosshairImpulse impulse)
-		{
-			if (ShowCrosshair) {
-				impulses?.Add(impulse);
-			}
-		}
-
-		public static void ClearImpulses()
-		{
-			impulses?.Clear();
-		}
+	public static void ClearImpulses()
+	{
+		impulses?.Clear();
 	}
 }

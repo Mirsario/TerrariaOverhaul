@@ -4,60 +4,59 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Crosshairs;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 
-namespace TerrariaOverhaul.Common.Guns
+namespace TerrariaOverhaul.Common.Guns;
+
+public class AssaultRifle : ItemOverhaul
 {
-	public class AssaultRifle : ItemOverhaul
+	public static readonly SoundStyle AssaultRifleFireSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3) {
+		Volume = 0.125f,
+		PitchVariance = 0.2f,
+	};
+
+	public override bool ShouldApplyItemOverhaul(Item item)
 	{
-		public static readonly SoundStyle AssaultRifleFireSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3) {
-			Volume = 0.125f,
-			PitchVariance = 0.2f,
-		};
-
-		public override bool ShouldApplyItemOverhaul(Item item)
-		{
-			// Rifles always use bullets.
-			if (item.useAmmo != AmmoID.Bullet) {
-				return false;
-			}
-
-			// Require ClockworkAssaultRifle's sound. TODO: This should also somehow accept other sounds, and also avoid conflicting with handgun/minigun overhauls. Width/height ratios can help with the former.
-			if (item.UseSound != SoundID.Item31) {
-				return false;
-			}
-
-			return true;
+		// Rifles always use bullets.
+		if (item.useAmmo != AmmoID.Bullet) {
+			return false;
 		}
 
-		public override void SetDefaults(Item item)
-		{
-			base.SetDefaults(item);
+		// Require ClockworkAssaultRifle's sound. TODO: This should also somehow accept other sounds, and also avoid conflicting with handgun/minigun overhauls. Width/height ratios can help with the former.
+		if (item.UseSound != SoundID.Item31) {
+			return false;
+		}
 
-			item.UseSound = AssaultRifleFireSound;
+		return true;
+	}
 
-			if (!Main.dedServ) {
-				item.EnableComponent<ItemAimRecoil>();
-				item.EnableComponent<ItemMuzzleflashes>();
-				item.EnableComponent<ItemCrosshairController>();
-				item.EnableComponent<ItemPlaySoundOnEveryUse>();
+	public override void SetDefaults(Item item)
+	{
+		base.SetDefaults(item);
 
-				item.EnableComponent<ItemUseVisualRecoil>(c => {
-					c.Power = 10f;
-				});
+		item.UseSound = AssaultRifleFireSound;
 
-				item.EnableComponent<ItemUseScreenShake>(c => {
-					c.ScreenShake = new ScreenShake(4f, 0.2f);
-				});
+		if (!Main.dedServ) {
+			item.EnableComponent<ItemAimRecoil>();
+			item.EnableComponent<ItemMuzzleflashes>();
+			item.EnableComponent<ItemCrosshairController>();
+			item.EnableComponent<ItemPlaySoundOnEveryUse>();
 
-				item.EnableComponent<ItemBulletCasings>(c => {
-					c.CasingGoreType = ModContent.GoreType<BulletCasing>();
-				});
-			}
+			item.EnableComponent<ItemUseVisualRecoil>(c => {
+				c.Power = 10f;
+			});
+
+			item.EnableComponent<ItemUseScreenShake>(c => {
+				c.ScreenShake = new ScreenShake(4f, 0.2f);
+			});
+
+			item.EnableComponent<ItemBulletCasings>(c => {
+				c.CasingGoreType = ModContent.GoreType<BulletCasing>();
+			});
 		}
 	}
 }

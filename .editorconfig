@@ -29,6 +29,9 @@ dotnet_diagnostic.CS1998.severity = silent
 
 #### .NET Coding Conventions ####
 
+# File-scoped namespaces
+	csharp_style_namespace_declarations = file_scoped:warning
+
 # Organize usings
 	dotnet_separate_import_directive_groups = false
 	dotnet_sort_system_directives_first = true

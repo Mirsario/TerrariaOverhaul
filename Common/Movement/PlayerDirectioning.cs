@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
@@ -10,104 +9,103 @@ using TerrariaOverhaul.Utilities;
 using OnPlayerSittingHelper = On.Terraria.GameContent.PlayerSittingHelper;
 using OnPlayerSleepingHelper = On.Terraria.GameContent.PlayerSleepingHelper;
 
-namespace TerrariaOverhaul.Common.Movement
+namespace TerrariaOverhaul.Common.Movement;
+
+public sealed class PlayerDirectioning : ModPlayer
 {
-	public sealed class PlayerDirectioning : ModPlayer
+	private const int MouseWorldSyncFrequency = 12;
+
+	private static int skipSetDirectionCounter;
+
+	private Vector2 lastSyncedMouseWorld;
+
+	public int ForcedDirection { get; set; }
+	public Vector2 MouseWorld { get; set; }
+
+	public override void Load()
 	{
-		private const int MouseWorldSyncFrequency = 12;
+		On.Terraria.Player.HorizontalMovement += static (orig, player) => {
+			orig(player);
 
-		private static int skipSetDirectionCounter;
+			player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
+		};
 
-		private Vector2 lastSyncedMouseWorld;
+		On.Terraria.Player.ChangeDir += static (orig, player, dir) => {
+			orig(player, dir);
 
-		public int ForcedDirection { get; set; }
-		public Vector2 MouseWorld { get; set; }
+			player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
+		};
 
-		public override void Load()
-		{
-			On.Terraria.Player.HorizontalMovement += static (orig, player) => {
-				orig(player);
+		OnPlayerSleepingHelper.StartSleeping += static (OnPlayerSleepingHelper.orig_StartSleeping orig, ref PlayerSleepingHelper self, Player player, int x, int y) => {
+			try {
+				skipSetDirectionCounter++;
 
-				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
-			};
+				orig(ref self, player, x, y);
+			}
+			finally {
+				skipSetDirectionCounter--;
+			}
+		};
 
-			On.Terraria.Player.ChangeDir += static (orig, player, dir) => {
-				orig(player, dir);
+		OnPlayerSittingHelper.SitDown += static (OnPlayerSittingHelper.orig_SitDown orig, ref PlayerSittingHelper self, Player player, int x, int y) => {
+			try {
+				skipSetDirectionCounter++;
 
-				player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
-			};
+				orig(ref self, player, x, y);
+			}
+			finally {
+				skipSetDirectionCounter--;
+			}
+		};
+	}
 
-			OnPlayerSleepingHelper.StartSleeping += static (OnPlayerSleepingHelper.orig_StartSleeping orig, ref PlayerSleepingHelper self, Player player, int x, int y) => {
-				try {
-					skipSetDirectionCounter++;
+	public override void PreUpdate()
+		=> SetDirection(true);
 
-					orig(ref self, player, x, y);
-				}
-				finally {
-					skipSetDirectionCounter--;
-				}
-			};
+	public override void PostUpdate()
+		=> SetDirection();
 
-			OnPlayerSittingHelper.SitDown += static (OnPlayerSittingHelper.orig_SitDown orig, ref PlayerSittingHelper self, Player player, int x, int y) => {
-				try {
-					skipSetDirectionCounter++;
+	public override bool PreItemCheck()
+	{
+		SetDirection();
 
-					orig(ref self, player, x, y);
-				}
-				finally {
-					skipSetDirectionCounter--;
-				}
-			};
+		return true;
+	}
+
+	public void SetDirection()
+		=> SetDirection(false);
+
+	private void SetDirection(bool resetForcedDirection)
+	{
+		if (!Main.dedServ && Main.gameMenu) {
+			Player.direction = 1;
+
+			return;
 		}
 
-		public override void PreUpdate()
-			=> SetDirection(true);
+		if (Player.IsLocal() && Main.hasFocus) {
+			MouseWorld = Main.MouseWorld;
 
-		public override void PostUpdate()
-			=> SetDirection();
+			if (Main.netMode == NetmodeID.MultiplayerClient && Main.GameUpdateCount % MouseWorldSyncFrequency == 0 && lastSyncedMouseWorld != MouseWorld) {
+				MultiplayerSystem.SendPacket(new PlayerMousePositionPacket(Player));
 
-		public override bool PreItemCheck()
-		{
-			SetDirection();
-
-			return true;
+				lastSyncedMouseWorld = MouseWorld;
+			}
 		}
 
-		public void SetDirection()
-			=> SetDirection(false);
+		if (skipSetDirectionCounter > 0 || Player.sleeping.isSleeping || Player.sitting.isSitting) {
+			return;
+		}
 
-		private void SetDirection(bool resetForcedDirection)
-		{
-			if (!Main.dedServ && Main.gameMenu) {
-				Player.direction = 1;
+		if (!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || ICanTurnDuringItemUse.Invoke(Player.HeldItem, Player))) {
+			if (ForcedDirection != 0) {
+				Player.direction = ForcedDirection;
 
-				return;
-			}
-
-			if (Player.IsLocal() && Main.hasFocus) {
-				MouseWorld = Main.MouseWorld;
-
-				if (Main.netMode == NetmodeID.MultiplayerClient && Main.GameUpdateCount % MouseWorldSyncFrequency == 0 && lastSyncedMouseWorld != MouseWorld) {
-					MultiplayerSystem.SendPacket(new PlayerMousePositionPacket(Player));
-
-					lastSyncedMouseWorld = MouseWorld;
+				if (resetForcedDirection) {
+					ForcedDirection = 0;
 				}
-			}
-
-			if (skipSetDirectionCounter > 0 || Player.sleeping.isSleeping || Player.sitting.isSitting) {
-				return;
-			}
-
-			if (!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || ICanTurnDuringItemUse.Invoke(Player.HeldItem, Player))) {
-				if (ForcedDirection != 0) {
-					Player.direction = ForcedDirection;
-
-					if (resetForcedDirection) {
-						ForcedDirection = 0;
-					}
-				} else {
-					Player.direction = MouseWorld.X >= Player.Center.X ? 1 : -1;
-				}
+			} else {
+				Player.direction = MouseWorld.X >= Player.Center.X ? 1 : -1;
 			}
 		}
 	}

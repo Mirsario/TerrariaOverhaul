@@ -1,38 +1,37 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 
-namespace TerrariaOverhaul.Common.Crosshairs
+namespace TerrariaOverhaul.Common.Crosshairs;
+
+public struct CrosshairImpulse
 {
-	public struct CrosshairImpulse
+	public float time;
+	public float timeMax;
+	public float strength;
+	public float rotation;
+	public Color? color;
+	public bool reversed;
+
+	public CrosshairImpulse(float strength, float timeInSeconds, float rotation = 0f, Color? color = null, bool reversed = false, bool autoRotation = false)
 	{
-		public float time;
-		public float timeMax;
-		public float strength;
-		public float rotation;
-		public Color? color;
-		public bool reversed;
+		this.strength = strength;
+		this.color = color;
+		this.reversed = reversed;
 
-		public CrosshairImpulse(float strength, float timeInSeconds, float rotation = 0f, Color? color = null, bool reversed = false, bool autoRotation = false)
-		{
-			this.strength = strength;
-			this.color = color;
-			this.reversed = reversed;
+		time = timeMax = timeInSeconds;
 
-			time = timeMax = timeInSeconds;
-
-			if (autoRotation) {
-				if (timeInSeconds < 0.33f) {
-					this.rotation = MathHelper.PiOver2;
-				} else if (time < 1f) {
-					this.rotation = MathHelper.Pi;
-				} else {
-					this.rotation = MathHelper.TwoPi;
-				}
-
-				this.rotation *= -Main.LocalPlayer.direction;
+		if (autoRotation) {
+			if (timeInSeconds < 0.33f) {
+				this.rotation = MathHelper.PiOver2;
+			} else if (time < 1f) {
+				this.rotation = MathHelper.Pi;
 			} else {
-				this.rotation = rotation;
+				this.rotation = MathHelper.TwoPi;
 			}
+
+			this.rotation *= -Main.LocalPlayer.direction;
+		} else {
+			this.rotation = rotation;
 		}
 	}
 }

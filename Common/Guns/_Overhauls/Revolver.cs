@@ -6,97 +6,96 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Crosshairs;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 
-namespace TerrariaOverhaul.Common.Guns
+namespace TerrariaOverhaul.Common.Guns;
+
+[ItemAttachment(ItemID.Revolver, ItemID.TheUndertaker)]
+public class Revolver : ItemOverhaul
 {
-	[ItemAttachment(ItemID.Revolver, ItemID.TheUndertaker)]
-	public class Revolver : ItemOverhaul
+	//public static readonly SoundStyle RevolverFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Revolver/RevolverFire") {
+	public static readonly SoundStyle RevolverFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire") {
+		Volume = 0.15f,
+		PitchVariance = 0.2f,
+	};
+
+	public const float SpinAnimationLengthMultiplier = 2f;
+	public const int SpinShotCount = 6;
+
+	//TODO: Implement rules, be sure to differentiate from handguns somehow.
+	public override bool ShouldApplyItemOverhaul(Item item) => false;
+
+	public override void SetDefaults(Item item)
 	{
-		//public static readonly SoundStyle RevolverFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Revolver/RevolverFire") {
-		public static readonly SoundStyle RevolverFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire") {
-			Volume = 0.15f,
-			PitchVariance = 0.2f,
-		};
+		base.SetDefaults(item);
 
-		public const float SpinAnimationLengthMultiplier = 2f;
-		public const int SpinShotCount = 6;
+		item.UseSound = RevolverFireSound;
 
-		//TODO: Implement rules, be sure to differentiate from handguns somehow.
-		public override bool ShouldApplyItemOverhaul(Item item) => false;
+		if (!Main.dedServ) {
+			item.EnableComponent<ItemAimRecoil>();
+			item.EnableComponent<ItemMuzzleflashes>();
+			item.EnableComponent<ItemCrosshairController>();
+			item.EnableComponent<ItemPlaySoundOnEveryUse>();
 
-		public override void SetDefaults(Item item)
-		{
-			base.SetDefaults(item);
+			item.EnableComponent<ItemUseVisualRecoil>(c => {
+				c.Power = 13f;
+			});
 
-			item.UseSound = RevolverFireSound;
+			item.EnableComponent<ItemUseScreenShake>(c => {
+				c.ScreenShake = new ScreenShake(4f, 0.2f);
+			});
 
-			if (!Main.dedServ) {
-				item.EnableComponent<ItemAimRecoil>();
-				item.EnableComponent<ItemMuzzleflashes>();
-				item.EnableComponent<ItemCrosshairController>();
-				item.EnableComponent<ItemPlaySoundOnEveryUse>();
+			item.EnableComponent<ItemBulletCasings>(c => {
+				c.CasingGoreType = ModContent.GoreType<BulletCasing>();
+			});
+		}
+	}
 
-				item.EnableComponent<ItemUseVisualRecoil>(c => {
-					c.Power = 13f;
-				});
+	//TODO: Move all the following logic to a component
 
-				item.EnableComponent<ItemUseScreenShake>(c => {
-					c.ScreenShake = new ScreenShake(4f, 0.2f);
-				});
+	public override bool AltFunctionUse(Item item, Player player)
+	{
+		return true;
+	}
 
-				item.EnableComponent<ItemBulletCasings>(c => {
-					c.CasingGoreType = ModContent.GoreType<BulletCasing>();
-				});
-			}
+	public override float UseTimeMultiplier(Item item, Player player)
+	{
+		if (player.altFunctionUse == 2) {
+			return 1f / (SpinShotCount - 1);
 		}
 
-		//TODO: Move all the following logic to a component
+		return base.UseTimeMultiplier(item, player);
+	}
 
-		public override bool AltFunctionUse(Item item, Player player)
-		{
-			return true;
+	public override float UseSpeedMultiplier(Item item, Player player)
+	{
+		if (player.altFunctionUse == 2) {
+			return 0.6f;
 		}
 
-		public override float UseTimeMultiplier(Item item, Player player)
-		{
-			if (player.altFunctionUse == 2) {
-				return 1f / (SpinShotCount - 1);
-			}
+		return base.UseTimeMultiplier(item, player);
+	}
 
-			return base.UseTimeMultiplier(item, player);
+	public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
+	{
+		base.ModifyShootStats(item, player, ref position, ref velocity, ref type, ref damage, ref knockback);
+
+		if (player.altFunctionUse == 2) {
+			velocity = velocity.RotatedByRandom(MathHelper.ToRadians(12f));
+			damage = (int)(damage * 0.75f);
+		}
+	}
+
+	public override bool? UseItem(Item item, Player player)
+	{
+		if (player.altFunctionUse == 2) {
+			player.reuseDelay = Math.Max(player.reuseDelay, item.useAnimation * 2);
 		}
 
-		public override float UseSpeedMultiplier(Item item, Player player)
-		{
-			if (player.altFunctionUse == 2) {
-				return 0.6f;
-			}
-
-			return base.UseTimeMultiplier(item, player);
-		}
-
-		public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
-		{
-			base.ModifyShootStats(item, player, ref position, ref velocity, ref type, ref damage, ref knockback);
-
-			if (player.altFunctionUse == 2) {
-				velocity = velocity.RotatedByRandom(MathHelper.ToRadians(12f));
-				damage = (int)(damage * 0.75f);
-			}
-		}
-
-		public override bool? UseItem(Item item, Player player)
-		{
-			if (player.altFunctionUse == 2) {
-				player.reuseDelay = Math.Max(player.reuseDelay, item.useAnimation * 2);
-			}
-
-			return base.UseItem(item, player);
-		}
+		return base.UseItem(item, player);
 	}
 }

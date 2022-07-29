@@ -4,71 +4,70 @@ using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Crosshairs;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 
-namespace TerrariaOverhaul.Common.Guns
+namespace TerrariaOverhaul.Common.Guns;
+
+public class Flamethrower : ItemOverhaul
 {
-	public class Flamethrower : ItemOverhaul
+	private static readonly SoundStyle FireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Flamethrower/FlamethrowerFireLoop") {
+		IsLooped = true,
+		Volume = 0.15f,
+		PitchVariance = 0.2f,
+	};
+
+	private SlotId soundId;
+
+	public override bool ShouldApplyItemOverhaul(Item item)
+		=> item.useAmmo == AmmoID.Gel;
+
+	public override void SetDefaults(Item item)
 	{
-		private static readonly SoundStyle FireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Flamethrower/FlamethrowerFireLoop") {
-			IsLooped = true,
-			Volume = 0.15f,
-			PitchVariance = 0.2f,
-		};
+		base.SetDefaults(item);
 
-		private SlotId soundId;
+		item.UseSound = null;
 
-		public override bool ShouldApplyItemOverhaul(Item item)
-			=> item.useAmmo == AmmoID.Gel;
+		if (!Main.dedServ) {
+			item.EnableComponent<ItemAimRecoil>();
+			item.EnableComponent<ItemCrosshairController>();
 
-		public override void SetDefaults(Item item)
-		{
-			base.SetDefaults(item);
+			item.EnableComponent<ItemMuzzleflashes>(c => {
+				c.DefaultMuzzleflashLength = (uint)(item.useTime + 1);
+			});
 
-			item.UseSound = null;
+			item.EnableComponent<ItemUseVisualRecoil>(c => {
+				c.Power = 4f;
+			});
 
-			if (!Main.dedServ) {
-				item.EnableComponent<ItemAimRecoil>();
-				item.EnableComponent<ItemCrosshairController>();
+			item.EnableComponent<ItemUseScreenShake>(c => {
+				c.ScreenShake = new ScreenShake(3f, 0.2f);
+			});
+		}
+	}
 
-				item.EnableComponent<ItemMuzzleflashes>(c => {
-					c.DefaultMuzzleflashLength = (uint)(item.useTime + 1);
-				});
-
-				item.EnableComponent<ItemUseVisualRecoil>(c => {
-					c.Power = 4f;
-				});
-
-				item.EnableComponent<ItemUseScreenShake>(c => {
-					c.ScreenShake = new ScreenShake(3f, 0.2f);
-				});
-			}
+	public override bool? UseItem(Item item, Player player)
+	{
+		if (!soundId.IsValid || !SoundEngine.TryGetActiveSound(soundId, out _)) {
+			soundId = SoundEngine.PlaySound(FireSound, player.Center);
 		}
 
-		public override bool? UseItem(Item item, Player player)
-		{
-			if (!soundId.IsValid || !SoundEngine.TryGetActiveSound(soundId, out _)) {
-				soundId = SoundEngine.PlaySound(FireSound, player.Center);
-			}
+		return base.UseItem(item, player);
+	}
 
-			return base.UseItem(item, player);
-		}
+	public override void HoldItem(Item item, Player player)
+	{
+		base.HoldItem(item, player);
 
-		public override void HoldItem(Item item, Player player)
-		{
-			base.HoldItem(item, player);
+		if (SoundEngine.TryGetActiveSound(soundId, out var activeSound)) {
+			if (!player.ItemAnimationActive && player.itemTime <= 0) {
+				activeSound.Stop();
 
-			if (SoundEngine.TryGetActiveSound(soundId, out var activeSound)) {
-				if (!player.ItemAnimationActive && player.itemTime <= 0) {
-					activeSound.Stop();
-
-					soundId = SlotId.Invalid;
-				} else {
-					activeSound.Position = player.Center;
-				}
+				soundId = SlotId.Invalid;
+			} else {
+				activeSound.Position = player.Center;
 			}
 		}
 	}

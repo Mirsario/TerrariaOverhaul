@@ -1,7 +1,6 @@
-﻿namespace TerrariaOverhaul.Common.Seasons
-{
-	public class Autumn : Season
-	{
+﻿namespace TerrariaOverhaul.Common.Seasons;
 
-	}
+public class Autumn : Season
+{
+
 }

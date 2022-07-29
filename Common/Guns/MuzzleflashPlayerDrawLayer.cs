@@ -9,124 +9,123 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Guns
+namespace TerrariaOverhaul.Common.Guns;
+
+[Autoload(Side = ModSide.Client)]
+public class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
 {
-	[Autoload(Side = ModSide.Client)]
-	public class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
+	private static Asset<Texture2D>? texture;
+	private static Dictionary<int, Vector2>? gunBarrelEndPositions;
+
+	public override void Load()
 	{
-		private static Asset<Texture2D>? texture;
-		private static Dictionary<int, Vector2>? gunBarrelEndPositions;
+		texture = Mod.Assets.Request<Texture2D>($"{ModPathUtils.GetDirectory(GetType())}/Muzzleflash");
+		gunBarrelEndPositions ??= new();
+	}
 
-		public override void Load()
-		{
-			texture = Mod.Assets.Request<Texture2D>($"{ModPathUtils.GetDirectory(GetType())}/Muzzleflash");
-			gunBarrelEndPositions ??= new();
+	public override void Unload()
+	{
+		texture = null;
+		gunBarrelEndPositions = null;
+	}
+
+	public override Position GetDefaultPosition()
+		=> new AfterParent(PlayerDrawLayers.HeldItem);
+
+	public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
+		=> true;
+
+	protected override void Draw(ref PlayerDrawSet drawInfo)
+	{
+		if (texture?.Value is not Texture2D muzzleflashTexture) {
+			return;
 		}
 
-		public override void Unload()
-		{
-			texture = null;
-			gunBarrelEndPositions = null;
+		var player = drawInfo.drawPlayer;
+		var item = player.HeldItem;
+
+		if (item?.IsAir != false || !item.TryGetGlobalItem(out ItemMuzzleflashes muzzleflashes) || !muzzleflashes.MuzzleflashTimer.Active) {
+			return;
 		}
 
-		public override Position GetDefaultPosition()
-			=> new AfterParent(PlayerDrawLayers.HeldItem);
+		Main.instance.LoadItem(item.type);
 
-		public override bool GetDefaultVisibility(PlayerDrawSet drawInfo)
-			=> true;
+		var itemTexture = TextureAssets.Item[item.type].Value;
+		var gunBarrelEnd = GetGunBarrelEndPosition(item.type, itemTexture);
 
-		protected override void Draw(ref PlayerDrawSet drawInfo)
-		{
-			if (texture?.Value is not Texture2D muzzleflashTexture) {
-				return;
-			}
+		for (int i = 0; i < drawInfo.DrawDataCache.Count; i++) {
+			var data = drawInfo.DrawDataCache[i];
 
-			var player = drawInfo.drawPlayer;
-			var item = player.HeldItem;
+			if (data.texture == itemTexture) {
+				var gunPosition = data.position;
+				var gunFixedOrigin = player.direction > 0 ? data.origin : Vector2.UnitX * data.texture.Width - data.origin;
 
-			if (item?.IsAir != false || !item.TryGetGlobalItem(out ItemMuzzleflashes muzzleflashes) || !muzzleflashes.MuzzleflashTimer.Active) {
-				return;
-			}
-
-			Main.instance.LoadItem(item.type);
-
-			var itemTexture = TextureAssets.Item[item.type].Value;
-			var gunBarrelEnd = GetGunBarrelEndPosition(item.type, itemTexture);
-
-			for (int i = 0; i < drawInfo.DrawDataCache.Count; i++) {
-				var data = drawInfo.DrawDataCache[i];
-
-				if (data.texture == itemTexture) {
-					var gunPosition = data.position;
-					var gunFixedOrigin = player.direction > 0 ? data.origin : Vector2.UnitX * data.texture.Width - data.origin;
-
-					if (DebugSystem.EnableDebugRendering) {
-						DebugSystem.DrawCircle(gunPosition + Main.screenPosition, 4f, Color.White);
-					}
-
-					var originOffset = new Vector2(
-						(gunBarrelEnd.X - gunFixedOrigin.X) * player.direction,
-						-gunFixedOrigin.Y * player.direction + gunBarrelEnd.Y
-					) * item.scale;
-
-					var muzzleflashPosition = gunPosition + originOffset.RotatedBy(player.itemRotation);
-					var muzzleflashOrigin = new Vector2(player.direction < 0 ? muzzleflashTexture.Width : 0f, muzzleflashTexture.Height * 0.5f);
-
-					drawInfo.DrawDataCache.Insert(i++, new DrawData(muzzleflashTexture, muzzleflashPosition, null, muzzleflashes.MuzzleflashColor, player.itemRotation, muzzleflashOrigin, 1f, drawInfo.itemEffect, 0));
-
-					if (muzzleflashes.LightColor.LengthSquared() > 0f) {
-						Lighting.AddLight(muzzleflashPosition, muzzleflashes.LightColor);
-					}
-
-					break;
+				if (DebugSystem.EnableDebugRendering) {
+					DebugSystem.DrawCircle(gunPosition + Main.screenPosition, 4f, Color.White);
 				}
+
+				var originOffset = new Vector2(
+					(gunBarrelEnd.X - gunFixedOrigin.X) * player.direction,
+					-gunFixedOrigin.Y * player.direction + gunBarrelEnd.Y
+				) * item.scale;
+
+				var muzzleflashPosition = gunPosition + originOffset.RotatedBy(player.itemRotation);
+				var muzzleflashOrigin = new Vector2(player.direction < 0 ? muzzleflashTexture.Width : 0f, muzzleflashTexture.Height * 0.5f);
+
+				drawInfo.DrawDataCache.Insert(i++, new DrawData(muzzleflashTexture, muzzleflashPosition, null, muzzleflashes.MuzzleflashColor, player.itemRotation, muzzleflashOrigin, 1f, drawInfo.itemEffect, 0));
+
+				if (muzzleflashes.LightColor.LengthSquared() > 0f) {
+					Lighting.AddLight(muzzleflashPosition, muzzleflashes.LightColor);
+				}
+
+				break;
 			}
 		}
+	}
 
-		/// <summary> Tries to calculate the center of the end of a gun's barrel based on its texture. </summary>
-		private static Vector2 GetGunBarrelEndPosition(int type, Texture2D texture)
-		{
-			gunBarrelEndPositions ??= new();
+	/// <summary> Tries to calculate the center of the end of a gun's barrel based on its texture. </summary>
+	private static Vector2 GetGunBarrelEndPosition(int type, Texture2D texture)
+	{
+		gunBarrelEndPositions ??= new();
 
-			if (gunBarrelEndPositions.TryGetValue(type, out var result)) {
-				return result;
-			}
-
-			var surface = new Surface<Color>(texture.Width, texture.Height);
-
-			texture.GetData(surface.Data);
-
-			var columnPoints = new List<Vector2>();
-
-			for (int x = surface.Width - 1; x >= 0; x--) {
-				bool columnIsEmpty = true;
-
-				for (int y = 0; y < surface.Height; y++) {
-					if (surface[x, y].A > 0) {
-						columnIsEmpty = false;
-
-						columnPoints.Add(new Vector2(x, y));
-					}
-				}
-
-				if (!columnIsEmpty) {
-					break;
-				}
-			}
-
-			result = default;
-
-			if (columnPoints.Count > 0) {
-				foreach (var value in columnPoints) {
-					result += value;
-				}
-
-				result /= columnPoints.Count;
-			}
-
-			gunBarrelEndPositions[type] = result;
-
+		if (gunBarrelEndPositions.TryGetValue(type, out var result)) {
 			return result;
 		}
+
+		var surface = new Surface<Color>(texture.Width, texture.Height);
+
+		texture.GetData(surface.Data);
+
+		var columnPoints = new List<Vector2>();
+
+		for (int x = surface.Width - 1; x >= 0; x--) {
+			bool columnIsEmpty = true;
+
+			for (int y = 0; y < surface.Height; y++) {
+				if (surface[x, y].A > 0) {
+					columnIsEmpty = false;
+
+					columnPoints.Add(new Vector2(x, y));
+				}
+			}
+
+			if (!columnIsEmpty) {
+				break;
+			}
+		}
+
+		result = default;
+
+		if (columnPoints.Count > 0) {
+			foreach (var value in columnPoints) {
+				result += value;
+			}
+
+			result /= columnPoints.Count;
+		}
+
+		gunBarrelEndPositions[type] = result;
+
+		return result;
 	}
 }

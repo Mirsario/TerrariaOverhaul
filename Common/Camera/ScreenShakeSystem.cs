@@ -8,97 +8,96 @@ using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Camera
+namespace TerrariaOverhaul.Common.Camera;
+
+public sealed class ScreenShakeSystem : ModSystem
 {
-	public sealed class ScreenShakeSystem : ModSystem
+	public static readonly RangeConfigEntry<float> ScreenShakeStrength = new(ConfigSide.ClientOnly, "Camera", nameof(ScreenShakeStrength), 0f, 1f, () => 1f);
+
+	private static readonly Stopwatch Stopwatch = new();
+	private static readonly List<ScreenShake> ScreenShakes = new();
+
+	public override void PostUpdateEverything()
 	{
-		public static readonly RangeConfigEntry<float> ScreenShakeStrength = new(ConfigSide.ClientOnly, "Camera", nameof(ScreenShakeStrength), 0f, 1f, () => 1f);
+		if (Main.gamePaused && !Stopwatch.IsRunning) {
+			return;
+		}
 
-		private static readonly Stopwatch Stopwatch = new();
-		private static readonly List<ScreenShake> ScreenShakes = new();
+		float delta = (float)Stopwatch.Elapsed.TotalSeconds;
 
-		public override void PostUpdateEverything()
-		{
-			if (Main.gamePaused && !Stopwatch.IsRunning) {
-				return;
-			}
+		if (delta <= 0f) {
+			delta = TimeSystem.LogicDeltaTime;
+		}
 
-			float delta = (float)Stopwatch.Elapsed.TotalSeconds;
+		for (int i = 0; i < ScreenShakes.Count; i++) {
+			var shake = ScreenShakes[i];
 
-			if (delta <= 0f) {
-				delta = TimeSystem.LogicDeltaTime;
-			}
+			shake.Time -= delta;
 
-			for (int i = 0; i < ScreenShakes.Count; i++) {
-				var shake = ScreenShakes[i];
-
-				shake.Time -= delta;
-
-				if (shake.Time <= 0f) {
-					ScreenShakes.RemoveAt(i--);
-				} else {
-					ScreenShakes[i] = shake;
-				}
-			}
-
-			if (Main.gamePaused) {
-				Stopwatch.Reset();
+			if (shake.Time <= 0f) {
+				ScreenShakes.RemoveAt(i--);
 			} else {
-				Stopwatch.Restart();
+				ScreenShakes[i] = shake;
 			}
 		}
 
-		public static float GetPowerAtPoint(Vector2 point)
-		{
-			float power = 0f;
+		if (Main.gamePaused) {
+			Stopwatch.Reset();
+		} else {
+			Stopwatch.Restart();
+		}
+	}
 
-			for (int i = 0; i < ScreenShakes.Count; i++) {
-				var shake = ScreenShakes[i];
+	public static float GetPowerAtPoint(Vector2 point)
+	{
+		float power = 0f;
 
-				float maxPower;
+		for (int i = 0; i < ScreenShakes.Count; i++) {
+			var shake = ScreenShakes[i];
 
-				if (shake.PowerGradient != null) {
-					float progress = (shake.TimeMax - shake.Time) / shake.TimeMax;
+			float maxPower;
 
-					if (float.IsNaN(progress)) {
-						progress = 0f;
-					}
+			if (shake.PowerGradient != null) {
+				float progress = (shake.TimeMax - shake.Time) / shake.TimeMax;
 
-					maxPower = shake.PowerGradient.GetValue(progress);
-				} else {
-					maxPower = shake.Power;
+				if (float.IsNaN(progress)) {
+					progress = 0f;
 				}
 
-				if (shake.Position.HasValue) {
-					maxPower *= 1f - Math.Min(1f, Vector2.Distance(shake.Position.Value, point) / shake.Range);
-				}
-
-				power += maxPower * (shake.Time / shake.TimeMax);
+				maxPower = shake.PowerGradient.GetValue(progress);
+			} else {
+				maxPower = shake.Power;
 			}
 
-			return power * ScreenShakeStrength.Value;
+			if (shake.Position.HasValue) {
+				maxPower *= 1f - Math.Min(1f, Vector2.Distance(shake.Position.Value, point) / shake.Range);
+			}
+
+			power += maxPower * (shake.Time / shake.TimeMax);
 		}
 
-		public static void New(float power, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string? uniqueId = null)
-			=> New(new ScreenShake(power, time, position, range, uniqueId));
+		return power * ScreenShakeStrength.Value;
+	}
 
-		public static void New(Gradient<float> powerGradient, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string? uniqueId = null)
-			=> New(new ScreenShake(powerGradient, time, position, range, uniqueId));
+	public static void New(float power, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string? uniqueId = null)
+		=> New(new ScreenShake(power, time, position, range, uniqueId));
 
-		public static void New(ScreenShake screenShake)
-		{
-			if (screenShake.UniqueId == null) {
-				ScreenShakes.Add(screenShake);
-				return;
-			}
+	public static void New(Gradient<float> powerGradient, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string? uniqueId = null)
+		=> New(new ScreenShake(powerGradient, time, position, range, uniqueId));
 
-			int index = ScreenShakes.FindIndex(s => s.UniqueId == screenShake.UniqueId);
+	public static void New(ScreenShake screenShake)
+	{
+		if (screenShake.UniqueId == null) {
+			ScreenShakes.Add(screenShake);
+			return;
+		}
 
-			if (index >= 0) {
-				ScreenShakes[index] = screenShake;
-			} else {
-				ScreenShakes.Add(screenShake);
-			}
+		int index = ScreenShakes.FindIndex(s => s.UniqueId == screenShake.UniqueId);
+
+		if (index >= 0) {
+			ScreenShakes[index] = screenShake;
+		} else {
+			ScreenShakes.Add(screenShake);
 		}
 	}
 }

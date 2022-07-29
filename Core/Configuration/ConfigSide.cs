@@ -1,9 +1,8 @@
-﻿namespace TerrariaOverhaul.Core.Configuration
+﻿namespace TerrariaOverhaul.Core.Configuration;
+
+public enum ConfigSide
 {
-	public enum ConfigSide
-	{
-		Both,
-		ClientOnly,
-		ServerOnly
-	}
+	Both,
+	ClientOnly,
+	ServerOnly
 }

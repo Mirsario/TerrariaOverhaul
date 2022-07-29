@@ -8,8 +8,8 @@ The Work-in-Progress 5.0 version for Terraria 1.4 is a complete reimplementation
 - Magnitudes more overall quality assurance & polishing.
 - Near flawless compatibility with content mods, to be polished further soon.
 
-You can find out more about the state of the rebuild here:
-https://github.com/Mirsario/TerrariaOverhaul#whats-the-state-of-the-rebuild
+[url=https://github.com/Mirsario/TerrariaOverhaul/issues/108]Click here to find out more about state of the rebuild.[/url]
 
-Join Overhaul's Discord server at:
-https://discord.gg/RNGq9N8
+[url=https://discord.gg/RNGq9N8]Click here to join Overhaul's Discord server.[/url]
+
+[url=https://github.com/Mirsario/TerrariaOverhaul]Click here to open Overhaul's GitHub repository.[/url]
