@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.PlayerAnimations;
+namespace TerrariaOverhaul.Common.PlayerEffects;
 
 public sealed class PlayerBodyRotation : ModPlayer
 {

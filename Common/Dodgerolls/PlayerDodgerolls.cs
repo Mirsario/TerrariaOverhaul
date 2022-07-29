@@ -7,7 +7,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.Movement;
-using TerrariaOverhaul.Common.PlayerAnimations;
+using TerrariaOverhaul.Common.PlayerEffects;
 using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Core.Time;
