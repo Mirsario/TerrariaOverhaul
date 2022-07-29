@@ -14,7 +14,6 @@ public sealed class PlayerBunnyrolls : ModPlayer, IPlayerOnBunnyhopHook
 		Volume = 0.9f,
 		PitchVariance = 0.2f,
 	};
-	public static readonly SoundStyle BunnyrollRemoteSound = BunnyrollSound.WithVolumeScale(0.5f);
 	
 	public void OnBunnyhop(Player player, ref float boost, ref float boostMultiplier)
 	{
@@ -35,7 +34,7 @@ public sealed class PlayerBunnyrolls : ModPlayer, IPlayerOnBunnyhopHook
 				Gore.NewGorePerfect(entitySource, position, velocity, GoreID.Smoke1 + i);
 			}
 
-			SoundEngine.PlaySound(player.IsLocal() ? BunnyrollSound : BunnyrollRemoteSound, playerCenter);
+			SoundEngine.PlaySound(BunnyrollSound.WithVolumeScale(Player.IsLocal() ? 1f : 0.5f), playerCenter);
 		}
 	}
 }
