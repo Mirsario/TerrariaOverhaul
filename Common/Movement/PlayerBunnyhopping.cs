@@ -36,24 +36,8 @@ public sealed class PlayerBunnyhopping : ModPlayer
 		}
 
 		float boost = Boost;
-
-		if (Player.TryGetModPlayer(out PlayerDodgerolls dodgerolls) && dodgerolls.IsDodging) {
-			boost += 0.5f;
-
-			if (!Main.dedServ) {
-				var playerCenter = Player.Center;
-				var entitySource = Player.GetSource_FromThis();
-
-				for (int i = 0; i < 3; i++) {
-					var position = playerCenter + new Vector2(Main.rand.NextFloat(-4f, 4f), 0f);
-					var velocity = new Vector2((i - 1) * 0.9f, -0.1f);
-
-					Gore.NewGorePerfect(entitySource, position, velocity, GoreID.Smoke1 + i);
-				}
-
-				SoundEngine.PlaySound(SoundID.DoubleJump, playerCenter);
-			}
-		}
+		
+		IPlayerOnBunnyhopHook.Invoke(Player, ref boost);
 
 		Player.velocity.X += boost * Player.KeyDirection().X;
 	}

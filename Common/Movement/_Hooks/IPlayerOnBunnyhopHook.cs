@@ -13,7 +13,7 @@ public interface IPlayerOnBunnyhopHook
 
 	public static void Invoke(Player player, ref float boost)
 	{
-		foreach (Hook g in Hook.Enumerate(player.ModPlayers)) {
+		foreach (Hook g in Hook.Enumerate(player)) {
 			g.OnBunnyhop(player, ref boost);
 		}
 	}
