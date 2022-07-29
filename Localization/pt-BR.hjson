@@ -165,6 +165,9 @@ Mods: {
 		CommonTooltips: {
 			ShowCombatInfo: "[Mantenha {Key} pressionado para mostrar informações de combate]"
 			CombatInfo: "[Informação de Combate]"
+			//RightClickAudioCuesToggle: "Right click on item to toggle audio cues"
+			//RightClickAudioCuesEnabled: "Audio cues are now enabled"
+			//RightClickAudioCuesDisabled: "Audio cues are now disabled"
 		}
 
 		DeathText: {
@@ -186,7 +189,12 @@ Mods: {
 		}
 
 		ItemTooltip: {
-			BunnyPaw: "Aumento o impulso do saltitar"
+			//BunnyPaw:
+			//	'''
+			//	[c/fca9ea:Increases bunnyhops' speed boost with every successful consequent jump]
+			//	[c/fca9ea:Combine bunnyhops with dodgerolls for even higher multipliers]
+			//	[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
+			//	'''
 			Charcoal: "Ainda está quente"
 			Calendar:
 				'''
