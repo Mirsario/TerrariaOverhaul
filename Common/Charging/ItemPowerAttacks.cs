@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.ModEntities.Players;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;

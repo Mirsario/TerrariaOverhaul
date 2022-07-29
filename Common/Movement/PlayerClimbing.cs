@@ -5,7 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
-using TerrariaOverhaul.Common.ModEntities.Players;
+using TerrariaOverhaul.Common.PlayerEffects;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;
@@ -122,7 +122,7 @@ public sealed class PlayerClimbing : ModPlayer
 	private void UpdateClimbing()
 	{
 		var playerMovement = Player.GetModPlayer<PlayerMovement>();
-		var playerRotation = Player.GetModPlayer<PlayerRotation>();
+		var playerRotation = Player.GetModPlayer<PlayerBodyRotation>();
 		var playerAnimations = Player.GetModPlayer<PlayerAnimations>();
 		var playerDirectioning = Player.GetModPlayer<PlayerDirectioning>();
 

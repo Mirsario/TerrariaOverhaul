@@ -3,7 +3,7 @@ using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Crosshairs;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.ItemComponents;

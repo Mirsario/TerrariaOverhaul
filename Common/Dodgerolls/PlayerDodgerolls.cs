@@ -6,8 +6,8 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
-using TerrariaOverhaul.Common.ModEntities.Players;
 using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Common.PlayerEffects;
 using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Core.Time;
@@ -180,7 +180,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 		Player.eocHit = 1;
 
 		IsDodging = true;
-		DodgeStartRotation = Player.GetModPlayer<PlayerRotation>().Rotation;
+		DodgeStartRotation = Player.GetModPlayer<PlayerBodyRotation>().Rotation;
 		DodgeItemRotation = Player.itemRotation;
 		DodgeTime = 0f;
 		DodgeDirectionVisual = (sbyte)Player.direction;
@@ -215,7 +215,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 		bool onGround = Player.OnGround();
 		bool wasOnGround = Player.WasOnGround();
 
-		ref float rotation = ref Player.GetModPlayer<PlayerRotation>().Rotation;
+		ref float rotation = ref Player.GetModPlayer<PlayerBodyRotation>().Rotation;
 
 		// Attempt to initiate a dodgeroll if the player isn't doing one already.
 		if (!IsDodging && !TryStartDodgeroll()) {
@@ -252,7 +252,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 		if (!Main.dedServ) {
 			// Trail
-			Player.GetModPlayer<PlayerEffects>().ForceTrailEffect(2);
+			Player.GetModPlayer<PlayerTrailEffects>().ForceTrailEffect(2);
 		}
 
 		Player.pulley = false;

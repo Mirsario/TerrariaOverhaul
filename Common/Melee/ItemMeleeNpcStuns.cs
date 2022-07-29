@@ -1,5 +1,5 @@
 ﻿using Terraria;
-using TerrariaOverhaul.Common.ModEntities.NPCs;
+using TerrariaOverhaul.Common.Damage;
 using TerrariaOverhaul.Core.ItemComponents;
 
 namespace TerrariaOverhaul.Common.Melee;

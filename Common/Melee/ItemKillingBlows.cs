@@ -104,6 +104,10 @@ public sealed class ItemKillingBlows : ItemComponent
 		if (damage <= 0.0 || npc.life <= 0) {
 			return false;
 		}
+
+		if (NPCID.Sets.ProjectileNPC[npc.type]) {
+			return false;
+		}
 		
 		double multipliedDamage = damage * KillingBlowDamageMultiplier;
 

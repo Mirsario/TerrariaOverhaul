@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Crosshairs;
-using TerrariaOverhaul.Common.ModEntities.Items.Components;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 using TerrariaOverhaul.Core.Time;
