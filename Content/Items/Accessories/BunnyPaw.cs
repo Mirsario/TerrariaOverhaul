@@ -1,6 +1,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.Items.Accessories;
@@ -24,15 +25,12 @@ public class BunnyPaw : ModItem
 		r.AddTile(TileID.Sawmill);
 	});
 
-	//TODO: Reimplement.
-	/*public override void OnCraft(Recipe recipe)
+	public override void UpdateAccessory(Player player, bool hideVisual)
 	{
-		if(!Main.dedServ) {
-			SoundEngine.PlaySound(SoundID.NPCDeath16,Main.LocalPlayer.Center);
-			
-			SoundInstance.Create<OggSoundInstance,OggSoundInfo>("Gore",Main.LocalPlayer.Center,0.5f,playDelay:0.375f);
-			
-			Main.NewText(LocalizationSystem.GetText("AdditionalTooltips.OnBunnyPawCraft"));
+		if (!player.TryGetModPlayer(out PlayerBunnyhopCombos bunnyhopCombos)) {
+			return;
 		}
-	}*/
+
+		bunnyhopCombos.BoostBonusPerCombo += 0.0333f;
+	}
 }

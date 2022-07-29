@@ -20,12 +20,14 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 
 	private float lastHorizontalSpeedAbs;
 
-	public bool IsActive { get; set; }
+	public float BoostBonusPerCombo { get; set; } // Must be set by an accessory
+	public float MaxBoostBonus { get; set; }
 	public uint Combo { get; private set; }
 
 	public override void ResetEffects()
 	{
-		IsActive = false;
+		BoostBonusPerCombo = 0f;
+		MaxBoostBonus = 5f;
 	}
 
 	public override void PostItemCheck()
@@ -49,7 +51,7 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 
 	void IPlayerOnBunnyhopHook.OnBunnyhop(Player player, ref float boostAdd, ref float boostMultiplier)
 	{
-		if (!IsActive) {
+		if (BoostBonusPerCombo <= 0f) {
 			return;
 		}
 
@@ -57,7 +59,7 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 			return;
 		}
 
-		boostAdd += Combo * 0.05f;
+		boostAdd += Combo * BoostBonusPerCombo;
 		
 		Combo++;
 
