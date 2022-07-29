@@ -1,4 +1,5 @@
 using Terraria;
+using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Movement;
@@ -33,5 +34,22 @@ public class BunnyPaw : ModItem
 		}
 
 		bunnyhopCombos.BoostBonusPerCombo += 0.0333f;
+	}
+
+	public override void ModifyItemLoot(ItemLoot itemLoot)
+	{
+		var rule = ItemDropRule.Common(ModContent.ItemType<BunnyPaw>(), 100);
+
+		Main.ItemDropsDB.RegisterToMultipleNPCs(
+			rule,
+			NPCID.Bunny,
+			NPCID.BunnySlimed,
+			NPCID.BunnyXmas,
+			NPCID.CorruptBunny,
+			NPCID.CrimsonBunny,
+			NPCID.ExplosiveBunny,
+			NPCID.PartyBunny,
+			NPCID.TownBunny
+		);
 	}
 }
