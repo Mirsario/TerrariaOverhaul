@@ -6,6 +6,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.Items.Accessories;
 
+[AutoloadEquip(EquipType.Neck)]
 public class BunnyPaw : ModItem
 {
 	public override void SetDefaults()
