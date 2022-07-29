@@ -20,6 +20,7 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 	};
 
 	private float lastHorizontalSpeedAbs;
+	private uint numTicksPlayerWereSlowFor;
 
 	public float BoostBonusPerCombo { get; set; } // Must be set by an accessory
 	public float MaxBoostBonus { get; set; }
@@ -33,21 +34,9 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 
 	public override void PostItemCheck()
 	{
-		if (!Player.TryGetModPlayer(out PlayerBunnyhopping bunnyhopping)) {
-			return;
-		}
-		
-		if (bunnyhopping.NumTicksOnGround >= 3) {
+		if (!UpdateCombo()) {
 			EndCombo();
 		}
-
-		float newHorizontalSpeedAbs = Math.Abs(Player.velocity.X);
-
-		if (newHorizontalSpeedAbs < 4f && newHorizontalSpeedAbs + 3f < lastHorizontalSpeedAbs) {
-			EndCombo();
-		}
-
-		lastHorizontalSpeedAbs = newHorizontalSpeedAbs;
 	}
 
 	void IPlayerOnBunnyhopHook.OnBunnyhop(Player player, ref float boostAdd, ref float boostMultiplier)
@@ -102,5 +91,48 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 		}
 
 		Combo = 0;
+	}
+
+	private bool UpdateCombo()
+	{
+		float horizontalSpeed = Math.Abs(Player.velocity.X);
+		float horizontalSpeedDelta = lastHorizontalSpeedAbs - horizontalSpeed;
+
+		lastHorizontalSpeedAbs = horizontalSpeed;
+
+		bool isSlow = horizontalSpeed < 4f;
+
+		if (isSlow) {
+			numTicksPlayerWereSlowFor++;
+		} else {
+			numTicksPlayerWereSlowFor = 0;
+		}
+
+		// Cancelation checks
+
+		if (Player.TryGetModPlayer(out PlayerBunnyhopping bunnyhopping)) {
+			if (bunnyhopping.NumTicksOnGround >= 3) {
+				return false;
+			}
+		}
+
+		if (isSlow) {
+			// End combo immediately if slow while on the ground
+			if (Player.OnGround()) {
+				return false;
+			}
+
+			// End combo if have been slow for a bit while in the air.
+			if (numTicksPlayerWereSlowFor >= 60) {
+				return false;
+			}
+			
+			// End combo if the player's speed suddenly disappeared.
+			if (horizontalSpeedDelta < 0f && horizontalSpeed < 1f) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }
