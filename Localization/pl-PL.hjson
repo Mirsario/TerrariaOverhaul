@@ -1,31 +1,31 @@
 UI: {
-	//Creative: "Journey"
-	//Normal: "I'm Too Young to Mine"
-	//Expert: "Bone Me Plenty"
-	//Master: "I Am Cthulhu Incarnate"
-	//WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
-	//WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
-	//WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
-	//WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
+	Creative: "Podróż"
+	Normal: "Jestem Na To Za Młody"
+	Expert: "Daj Mi W Kość"
+	Master: "Jestem Wcieleniem Cthulhu"
+	WorldDescriptionCreative: "Tryb Kreatywności i Dostępności (Dla tych, co lubią mieć kontrolę)"
+	WorldDescriptionNormal: "Mniej otrzymanych obrażeń, ale te same nagrody (Dla wyluzowanych)"
+	WorldDescriptionExpert: "Nowy tryb standardowy (Dla tych którzy chcą uczciwego wyzwania)"
+	WorldDescriptionMaster: "Ekstremalne ryzyko ale i nowe nagrody (Dla najbardziej bezwzględnych)"
 }
 
 Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
-			//Configuration: "Configuration"
-			//DiscordServer: "Discord Server"
-			//ForumPage: "Forum Page"
-			//WikiPage: "Overhaul Wiki"
-			//Github: "GitHub"
+			Configuration: "Konfiguruj"
+			DiscordServer: "Serwer Discord"
+			ForumPage: "Strona Forum"
+			WikiPage: "Wiki Overhaul"
+			Github: "GitHub"
 
 			MusicPack: {
-				//Get: "Get the Music Pack"
-				//Enable: "Enable the Music Pack"
+				Get: "Zdobądź Paczkę Muzyki"
+				Enable: "Włącz Paczkę Muzyki"
 			}
 		}
 
 		Notifications: {
-			//AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate its audio filtering effects. Make sure that your audio drivers are up to date."
+			AudioFilteringTestFailure: "Uwaga: TerrariaOverhaul nie był w stanie aktywować efektów filtrowania dźwięku. Upewnij się że twoje sterowniki dźwięku są aktualne."
 		}
 
 		Configuration: {
@@ -82,7 +82,7 @@ Mods: {
 				}
 
 				EnableWallJumping: {
-					DisplayName: "Włącz skoki po ścianach"
+					DisplayName: "Włącz Skoki Po Ścianach"
 					Description:
 						'''
 						Skakanie po ścianach to nowy system poruszania się który wymaga zestawu do wspinaczki lub kolców do butów.
@@ -91,7 +91,7 @@ Mods: {
 				}
 
 				EnableWallFlips: {
-					DisplayName: "Włącz Piruety ze Ścian"
+					DisplayName: "Włącz Piruety Ze Ścian"
 					Description:
 						'''
 						Piruety ze ścian to nowy system poruszania się, nie wymaga akcesoriów.
@@ -142,8 +142,8 @@ Mods: {
 		}
 
 		Banners: {
-			//BannerBuffDescription: "Doubled loot and coin drops from the following:"
-			//BannerItemDescription: "Nearby players receive doubled loot and coin drops from the following:"
+			BannerBuffDescription: "Podwojone przedmioty i złoto upuszczane przez:"
+			BannerItemDescription: "Pobliscy gracze otrzymują podwojone przedmioty i złoto upuszczane przez:"
 		}
 
 		ItemOverhauls: {
@@ -187,7 +187,7 @@ Mods: {
 
 		ItemTooltip: {
 			BunnyPaw: "Zwiększa bonus do prędkości bunnyhopingu"
-			Charcoal: "Ciągle ciepły"
+			Charcoal: "Wciąż ciepły"
 			Calendar:
 				'''
 				Odlicza dni do następnej pory roku
@@ -206,15 +206,15 @@ Mods: {
 		}
 
 		BuffName: {
-			//ManaAbsorption: "Mana Absorption"
+			ManaAbsorption: "Absorbcja Many"
 		}
 
 		BuffDescription: {
-			//ManaAbsorption:
-			//	'''
-			//	Moving with haste, you are absorbing energy from all around you
-			//	Base mana regeneration multiplier: x{Multiplier}
-			//	'''
+			ManaAbsorption:
+				'''
+				Poruszając się szybciej, absorbujesz manę z otoczenia
+				Mnożnik regeneracji many: x{Multiplier}
+				'''
 		}
 	}
 }
