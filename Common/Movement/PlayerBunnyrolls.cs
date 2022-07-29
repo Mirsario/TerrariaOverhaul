@@ -15,13 +15,13 @@ public sealed class PlayerBunnyrolls : ModPlayer, IPlayerOnBunnyhopHook
 		PitchVariance = 0.2f,
 	};
 	
-	public void OnBunnyhop(Player player, ref float boost, ref float boostMultiplier)
+	public void OnBunnyhop(Player player, ref float boostAdd, ref float boostMultiplier)
 	{
 		if (!Player.TryGetModPlayer(out PlayerDodgerolls dodgerolls) || !dodgerolls.IsDodging) {
 			return;
 		}
-		
-		boost += 0.5f;
+
+		boostMultiplier += 0.5f;
 
 		if (!Main.dedServ) {
 			var playerCenter = Player.Center;

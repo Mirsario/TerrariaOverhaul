@@ -29,12 +29,14 @@ public sealed class PlayerBunnyhopping : ModPlayer
 		bool wasOnGround = Player.WasOnGround();
 		
 		if (!onGround && wasOnGround && NumTicksOnGround < 3) {
-			float boost = Boost;
+			float boostAdd = 0f;
 			float boostMultiplier = 1f;
 
-			IPlayerOnBunnyhopHook.Invoke(Player, ref boost, ref boostMultiplier);
+			IPlayerOnBunnyhopHook.Invoke(Player, ref boostAdd, ref boostMultiplier);
 
-			Player.velocity.X += Player.KeyDirection().X * boost * boostMultiplier;
+			float totalBoost = (Boost + boostAdd) * boostMultiplier;
+
+			Player.velocity.X += Player.KeyDirection().X * totalBoost;
 		}
 
 		if (onGround) {
