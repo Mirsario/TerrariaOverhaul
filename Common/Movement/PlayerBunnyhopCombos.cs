@@ -100,7 +100,7 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 
 		lastHorizontalSpeedAbs = horizontalSpeed;
 
-		bool isSlow = horizontalSpeed < 4f;
+		bool isSlow = horizontalSpeed < 3f;
 
 		if (isSlow) {
 			numTicksPlayerWereSlowFor++;
@@ -109,6 +109,10 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 		}
 
 		// Cancelation checks
+
+		if (Combo <= 0) {
+			return true;
+		}
 
 		if (Player.TryGetModPlayer(out PlayerBunnyhopping bunnyhopping)) {
 			if (bunnyhopping.NumTicksOnGround >= 3) {
@@ -128,7 +132,7 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 			}
 			
 			// End combo if the player's speed suddenly disappeared.
-			if (horizontalSpeedDelta < 0f && horizontalSpeed < 1f) {
+			if (horizontalSpeedDelta < -1f && horizontalSpeed < 1f) {
 				return false;
 			}
 		}
