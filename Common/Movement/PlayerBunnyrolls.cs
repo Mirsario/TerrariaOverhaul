@@ -4,11 +4,18 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Movement;
 
 public sealed class PlayerBunnyrolls : ModPlayer, IPlayerOnBunnyhopHook
 {
+	public static readonly SoundStyle BunnyrollSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/Bunnyroll") {
+		Volume = 0.9f,
+		PitchVariance = 0.2f,
+	};
+	public static readonly SoundStyle BunnyrollRemoteSound = BunnyrollSound.WithVolumeScale(0.5f);
+
 	public void OnBunnyhop(Player player, ref float boost)
 	{
 		if (!Player.TryGetModPlayer(out PlayerDodgerolls dodgerolls) || !dodgerolls.IsDodging) {
@@ -28,7 +35,7 @@ public sealed class PlayerBunnyrolls : ModPlayer, IPlayerOnBunnyhopHook
 				Gore.NewGorePerfect(entitySource, position, velocity, GoreID.Smoke1 + i);
 			}
 
-			SoundEngine.PlaySound(SoundID.DoubleJump, playerCenter);
+			SoundEngine.PlaySound(player.IsLocal() ? BunnyrollSound : BunnyrollRemoteSound, playerCenter);
 		}
 	}
 }
