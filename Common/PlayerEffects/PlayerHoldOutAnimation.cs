@@ -9,7 +9,7 @@ using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.PlayerAnimations;
+namespace TerrariaOverhaul.Common.PlayerEffects;
 
 public sealed class PlayerHoldOutAnimation : ModPlayer
 {

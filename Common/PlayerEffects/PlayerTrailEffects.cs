@@ -1,7 +1,7 @@
 ﻿using System;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.PlayerAnimations;
+namespace TerrariaOverhaul.Common.PlayerEffects;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class PlayerTrailEffects : ModPlayer
