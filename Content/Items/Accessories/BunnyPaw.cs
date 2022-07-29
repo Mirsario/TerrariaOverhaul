@@ -33,7 +33,7 @@ public class BunnyPaw : ModItem
 			return;
 		}
 
-		bunnyhopCombos.BoostBonusPerCombo += 0.0333f;
+		bunnyhopCombos.BoostBonusPerCombo += 0.035f;
 	}
 
 	public override void ModifyItemLoot(ItemLoot itemLoot)

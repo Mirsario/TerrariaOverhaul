@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Movement;
@@ -42,7 +43,7 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 
 		float newHorizontalSpeedAbs = Math.Abs(Player.velocity.X);
 
-		if (newHorizontalSpeedAbs + 1f < lastHorizontalSpeedAbs) {
+		if (newHorizontalSpeedAbs < 4f && newHorizontalSpeedAbs + 3f < lastHorizontalSpeedAbs) {
 			EndCombo();
 		}
 
@@ -55,21 +56,35 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 			return;
 		}
 
-		if (!Player.TryGetModPlayer(out PlayerBunnyhopping bunnyhopping)) {
+		Player.TryGetModPlayer(out PlayerDodgerolls dodgerolls);
+		
+		if (Math.Abs(player.velocity.X) <= 3f && !player.controlRight && !player.controlLeft && dodgerolls?.IsDodging != true) {
+			EndCombo();
 			return;
 		}
 
 		boostAdd += Combo * BoostBonusPerCombo;
-		
+
 		Combo++;
 
+		/*
+		if (dodgerolls?.IsDodging == true) {
+			Combo++;
+		}
+		*/
+
 		if (!Main.dedServ && Player.IsLocal()) {
-			if (Combo >= 1) {
-				CombatText.NewText(Player.Bottom.ToRectangle(1, 1), Color.HotPink, $"x{Combo}!");
+			float lerpStep = MathF.Min(1f, Combo / 30f);
+
+			/*if (Combo >= 1) {
+				var color = Color.Lerp(Color.White, Color.HotPink, lerpStep);
+
+				CombatText.NewText(Player.Bottom.ToRectangle(1, 1), color, $"x{Combo}!");
 			}
+			*/
 
 			var soundStyle = BunnyhopComboSound
-				.WithPitchOffset(MathHelper.Lerp(-1.0f, 0.5f, MathF.Min(1f, Combo / 30f)))
+				.WithPitchOffset(MathHelper.Lerp(-1.0f, 0.5f, lerpStep))
 				.WithVolumeScale(Player.IsLocal() ? 1f : 0.5f);
 
 			SoundEngine.PlaySound(soundStyle, Player.Center);
@@ -83,12 +98,7 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 		}
 
 		if (!Main.dedServ && Player.IsLocal()) {
-			var sound = Melee.ItemHitSoundReplacements.WoodenHitSound with {
-				Pitch = 0.5f,
-				PitchVariance = 0.1f,
-			};
-
-			SoundEngine.PlaySound(sound, Player.Center);
+			SoundEngine.PlaySound(BunnyhopComboBreakSound, Player.Center);
 		}
 
 		Combo = 0;
