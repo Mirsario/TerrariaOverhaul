@@ -5,7 +5,7 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
-using TerrariaOverhaul.Common.PlayerAnimations;
+using TerrariaOverhaul.Common.PlayerEffects;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;

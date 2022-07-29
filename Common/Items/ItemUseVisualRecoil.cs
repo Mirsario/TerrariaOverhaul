@@ -1,6 +1,6 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.PlayerAnimations;
+using TerrariaOverhaul.Common.PlayerEffects;
 using TerrariaOverhaul.Core.ItemComponents;
 
 namespace TerrariaOverhaul.Common.Items;
