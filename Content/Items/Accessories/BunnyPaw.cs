@@ -1,3 +1,4 @@
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
@@ -10,6 +11,23 @@ namespace TerrariaOverhaul.Content.Items.Accessories;
 [AutoloadEquip(EquipType.Neck)]
 public class BunnyPaw : ModItem
 {
+	public override void ModifyItemLoot(ItemLoot itemLoot)
+	{
+		var rule = ItemDropRule.Common(ModContent.ItemType<BunnyPaw>(), 100);
+
+		Main.ItemDropsDB.RegisterToMultipleNPCs(
+			rule,
+			NPCID.Bunny,
+			NPCID.BunnySlimed,
+			NPCID.BunnyXmas,
+			NPCID.CorruptBunny,
+			NPCID.CrimsonBunny,
+			NPCID.ExplosiveBunny,
+			NPCID.PartyBunny,
+			NPCID.TownBunny
+		);
+	}
+	
 	public override void SetDefaults()
 	{
 		// Accessory properties.
@@ -35,21 +53,24 @@ public class BunnyPaw : ModItem
 
 		bunnyhopCombos.BoostBonusPerCombo += 0.035f;
 	}
+	
+	public override bool CanRightClick()
+		=> true;
 
-	public override void ModifyItemLoot(ItemLoot itemLoot)
+	public override bool ConsumeItem(Player player)
+		=> false;
+
+	public override void RightClick(Player player)
 	{
-		var rule = ItemDropRule.Common(ModContent.ItemType<BunnyPaw>(), 100);
+		if (!player.TryGetModPlayer(out PlayerBunnyhopCombos bunnyhopCombos)) {
+			return;
+		}
 
-		Main.ItemDropsDB.RegisterToMultipleNPCs(
-			rule,
-			NPCID.Bunny,
-			NPCID.BunnySlimed,
-			NPCID.BunnyXmas,
-			NPCID.CorruptBunny,
-			NPCID.CrimsonBunny,
-			NPCID.ExplosiveBunny,
-			NPCID.PartyBunny,
-			NPCID.TownBunny
-		);
+		bool isNowEnabled = !bunnyhopCombos.AudioEnabled;
+		var color = new Color(138, 39, 48);
+
+		Main.NewText(OverhaulMod.Instance.GetTextValue($"CommonTooltips.RightClickAudioCues{(isNowEnabled ? "Enabled" : "Disabled")}"), color);
+
+		bunnyhopCombos.AudioEnabled = isNowEnabled;
 	}
 }

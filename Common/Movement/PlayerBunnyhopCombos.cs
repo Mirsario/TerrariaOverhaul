@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Utilities;
 
@@ -11,19 +12,21 @@ namespace TerrariaOverhaul.Common.Movement;
 public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 {
 	public static readonly SoundStyle BunnyhopComboSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/BunnyhopCombo") {
-		Volume = 0.3f,
-		PitchVariance = 0.2f,
+		Volume = 0.175f,
 	};
 	public static readonly SoundStyle BunnyhopComboBreakSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/BunnyhopComboBreak") {
 		Volume = 0.3f,
 		PitchVariance = 0.1f,
 	};
 
+	private const string AudioEnabledSaveKey = "BunnyhopComboAudioEnabled";
+
 	private float lastHorizontalSpeedAbs;
 	private uint numTicksPlayerWereSlowFor;
 
 	public float BoostBonusPerCombo { get; set; } // Must be set by an accessory
 	public float MaxBoostBonus { get; set; }
+	public bool AudioEnabled { get; set; } = true;
 	public uint Combo { get; private set; }
 
 	public override void ResetEffects()
@@ -36,6 +39,18 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 	{
 		if (!UpdateCombo()) {
 			EndCombo();
+		}
+	}
+
+	public override void SaveData(TagCompound tag)
+	{
+		tag[AudioEnabledSaveKey] = AudioEnabled;
+	}
+
+	public override void LoadData(TagCompound tag)
+	{
+		if (tag.ContainsKey(AudioEnabledSaveKey)) {
+			AudioEnabled = (bool)tag[AudioEnabledSaveKey];
 		}
 	}
 
@@ -72,11 +87,13 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 			}
 			*/
 
-			var soundStyle = BunnyhopComboSound
-				.WithPitchOffset(MathHelper.Lerp(-1.0f, 0.5f, lerpStep))
-				.WithVolumeScale(Player.IsLocal() ? 1f : 0.5f);
+			if (AudioEnabled) {
+				var soundStyle = BunnyhopComboSound
+					.WithPitchOffset(MathHelper.Lerp(-1.0f, 0.5f, lerpStep))
+					.WithVolumeScale(Player.IsLocal() ? 1f : 0.5f);
 
-			SoundEngine.PlaySound(soundStyle, Player.Center);
+				SoundEngine.PlaySound(soundStyle, Player.Center);
+			}
 		}
 	}
 
