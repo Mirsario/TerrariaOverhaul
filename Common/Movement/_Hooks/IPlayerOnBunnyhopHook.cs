@@ -9,12 +9,12 @@ public interface IPlayerOnBunnyhopHook
 {
 	public static readonly HookList<ModPlayer> Hook = PlayerLoader.AddModHook(new HookList<ModPlayer>(typeof(Hook).GetMethod(nameof(OnBunnyhop))));
 
-	void OnBunnyhop(Player player, ref float boost);
+	void OnBunnyhop(Player player, ref float boost, ref float boostMultiplier);
 
-	public static void Invoke(Player player, ref float boost)
+	public static void Invoke(Player player, ref float boost, ref float boostMultiplier)
 	{
 		foreach (Hook g in Hook.Enumerate(player)) {
-			g.OnBunnyhop(player, ref boost);
+			g.OnBunnyhop(player, ref boost, ref boostMultiplier);
 		}
 	}
 }

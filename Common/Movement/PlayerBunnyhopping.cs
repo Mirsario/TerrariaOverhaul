@@ -1,9 +1,5 @@
-﻿using Microsoft.Xna.Framework;
-using Terraria;
-using Terraria.Audio;
-using Terraria.ID;
+﻿using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 
@@ -15,6 +11,7 @@ public sealed class PlayerBunnyhopping : ModPlayer
 
 	public static float DefaultBoost => 0.8f;
 
+	public uint NumTicksOnGround { get; set; }
 	public float Boost { get; set; }
 
 	public override void ResetEffects()
@@ -22,23 +19,30 @@ public sealed class PlayerBunnyhopping : ModPlayer
 		Boost = DefaultBoost;
 	}
 
-	public override void PostItemCheck()
+	public override bool PreItemCheck()
 	{
 		if (!EnableBunnyhopping) {
-			return;
+			return base.PreItemCheck();
 		}
 
 		bool onGround = Player.OnGround();
 		bool wasOnGround = Player.WasOnGround();
+		
+		if (!onGround && wasOnGround && NumTicksOnGround < 3) {
+			float boost = Boost;
+			float boostMultiplier = 1f;
 
-		if (onGround || !wasOnGround || Player.velocity.Y >= 0f) {
-			return;
+			IPlayerOnBunnyhopHook.Invoke(Player, ref boost, ref boostMultiplier);
+
+			Player.velocity.X += Player.KeyDirection().X * boost * boostMultiplier;
 		}
 
-		float boost = Boost;
-		
-		IPlayerOnBunnyhopHook.Invoke(Player, ref boost);
+		if (onGround) {
+			NumTicksOnGround++;
+		} else {
+			NumTicksOnGround = 0;
+		}
 
-		Player.velocity.X += boost * Player.KeyDirection().X;
+		return base.PreItemCheck();
 	}
 }

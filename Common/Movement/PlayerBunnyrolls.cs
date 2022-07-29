@@ -15,8 +15,8 @@ public sealed class PlayerBunnyrolls : ModPlayer, IPlayerOnBunnyhopHook
 		PitchVariance = 0.2f,
 	};
 	public static readonly SoundStyle BunnyrollRemoteSound = BunnyrollSound.WithVolumeScale(0.5f);
-
-	public void OnBunnyhop(Player player, ref float boost)
+	
+	public void OnBunnyhop(Player player, ref float boost, ref float boostMultiplier)
 	{
 		if (!Player.TryGetModPlayer(out PlayerDodgerolls dodgerolls) || !dodgerolls.IsDodging) {
 			return;
