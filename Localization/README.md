@@ -34,8 +34,8 @@
 
 ## pl-PL
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***72.4%***
-- **Translated:** `63` out of `87` (`24` missing!)
+- **Completion:** ***95.4%***
+- **Translated:** `83` out of `87` (`4` missing!)
 
 ## pt-BR
 - **Status:** ⚠️ Incomplete!
