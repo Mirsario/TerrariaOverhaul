@@ -38,6 +38,9 @@ public sealed class ChunkLighting : ChunkComponent
 		Main.QueueMainThreadAction(() => {
 			Colors = new Surface<Color>(textureWidth, textureHeight);
 			Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+
+			Texture.InitializeWithColor(Color.Transparent); // Initialize with transparent data to prevent driver-specific issues.
+
 			IsReady = true;
 		});
 	}

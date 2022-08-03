@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Core.DataStructures;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Decals;
 
@@ -41,6 +42,8 @@ public sealed class ChunkDecals : ChunkComponent
 
 		Main.QueueMainThreadAction(() => {
 			texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+			
+			texture.InitializeWithColor(Color.Transparent); // Initialize with transparent data to prevent driver-specific issues.
 		});
 	}
 
@@ -60,8 +63,8 @@ public sealed class ChunkDecals : ChunkComponent
 	public override void PreGameDraw(Chunk chunk)
 	{
 		// Add pending decals
-
-		if (decalsToAdd == null || decalsToAdd.Count == 0) {
+		
+		if (decalsToAdd == null || decalsToAdd.Count == 0 || texture == null) {
 			return;
 		}
 
