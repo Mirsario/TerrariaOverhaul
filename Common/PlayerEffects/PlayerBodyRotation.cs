@@ -56,6 +56,9 @@ public sealed class PlayerBodyRotation : ModPlayer
 		if (!Player.mount.Active) {
 			Player.fullRotation = Rotation * Player.gravDir;
 		}
+		if (Player.mount.Active && !Player.mount.CanFly() && Player.OnGround()) {
+			Player.fullRotation = 0f;
+		}
 
 		Rotation = 0f;
 		RotationOffsetScale = 1f;
