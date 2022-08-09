@@ -179,7 +179,7 @@ public sealed class PlayerClimbing : ModPlayer
 			}
 
 			if (Player.controlUp) {
-				newVelocity.Y -= 1.5f;
+				newVelocity.Y = Math.Min(-3f, newVelocity.Y - 2f);
 			}
 
 			Player.velocity = newVelocity;
