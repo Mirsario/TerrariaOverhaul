@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -19,6 +21,7 @@ public sealed class PlayerClimbing : ModPlayer
 	public static readonly ConfigEntry<bool> EnableClimbing = new(ConfigSide.Both, "PlayerMovement", nameof(EnableClimbing), () => true);
 
 	private Vector2 climbStartPos;
+	private Vector2 climbStartVelocity;
 	private Vector2 climbEndPos;
 
 	public bool ForceClimb;
@@ -28,7 +31,7 @@ public sealed class PlayerClimbing : ModPlayer
 	public bool IsClimbing { get; private set; }
 
 	public bool HasClimbingGear => Player.EnumerateAccessories().Any(tuple => OverhaulItemTags.ClimbingClaws.Has(tuple.item.type));
-	public float ClimbTime => HasClimbingGear ? 0.125f : 0.25f;
+	public float ClimbTime => HasClimbingGear ? 0.133f : 0.175f;
 
 	public override bool PreItemCheck()
 	{
@@ -47,6 +50,13 @@ public sealed class PlayerClimbing : ModPlayer
 		ClimbProgress = 0f;
 		climbStartPos = Player.position = posFrom;
 		climbEndPos = posTo;
+
+		climbStartVelocity = new Vector2(
+			MathUtils.MaxAbs(Player.velocity.X, Player.oldVelocity.X),
+			MathUtils.MaxAbs(Player.velocity.Y, Player.oldVelocity.Y)
+		);
+
+		//climbEndPos.Y += climbStartVelocity.Y;
 
 		if (Main.netMode == NetmodeID.MultiplayerClient && Player.IsLocal()) {
 			MultiplayerSystem.SendPacket(new PlayerClimbStartPacket(Player, posFrom, posTo));
@@ -113,7 +123,7 @@ public sealed class PlayerClimbing : ModPlayer
 				continue;
 			}
 
-			StartClimbing(Player.position, new Vector2(pos.X * 16f + (Player.direction == 1 ? -4f : 0f), (pos.Y - 3) * 16f + 6));
+			StartClimbing(Player.position, new Vector2(pos.X * 16f + (Player.direction == 1 ? -4f : 0f), (pos.Y - 3) * 16f  + 6));
 			UpdateClimbing();
 			break;
 		}
@@ -132,22 +142,60 @@ public sealed class PlayerClimbing : ModPlayer
 		Player.fallStart = (int)(Player.position.Y / 16f);
 
 		// Force direction.
-		playerDirectioning.ForcedDirection = climbStartPos.X <= climbEndPos.X ? 1 : -1;
+		int climbDirection = climbStartPos.X <= climbEndPos.X ? 1 : -1;
+
+		playerDirectioning.ForcedDirection = climbDirection;
 
 		// Progress climbing.
 		ClimbProgress = MathUtils.StepTowards(ClimbProgress, 1f, 1f / ClimbTime * TimeSystem.LogicDeltaTime);
 
-		if (ClimbProgress >= 1f) {
-			IsClimbing = false;
-		} else {
-			playerAnimations.ForcedBodyFrame = ClimbProgress > 0.75f ? PlayerFrames.Use4 : ClimbProgress > 0.5f ? PlayerFrames.Use3 : ClimbProgress > 0.25f ? PlayerFrames.Use2 : PlayerFrames.Use1;
-			playerRotation.Rotation = ClimbProgress * 0.7f * Player.direction;
-			playerRotation.RotationOffsetScale = 0f;
-		}
-
 		Player.position.X = MathHelper.Lerp(climbStartPos.X, climbEndPos.X, ClimbProgress);
 		Player.position.Y = ClimbProgress < 0.75f ? MathHelper.Lerp(climbStartPos.Y, climbEndPos.Y, ClimbProgress / 0.75f) : climbEndPos.Y;
 		playerMovement.ForcedPosition = Player.position;
+
+		if (ClimbProgress >= 1f) {
+			// End climbing
+
+			IsClimbing = false;
+
+			// Try to restore original velocity for a better feel
+			var newVelocity = climbStartVelocity;
+
+			newVelocity *= HasClimbingGear ? 0.9f : 0.75f;
+
+			int xVelocityDirection = MathF.Sign(climbStartVelocity.X);
+			int xKeyDirection = MathF.Sign(Player.KeyDirection().X);
+
+			if (xVelocityDirection != climbDirection) {
+				newVelocity.X = 0f;
+			} else if (xVelocityDirection != xKeyDirection) {
+				newVelocity.X *= xKeyDirection == 0 ? 0.5f : 0f;
+			} else {
+				newVelocity.X += climbDirection;
+			}
+
+			if (climbStartVelocity.Y > -1f) {
+				newVelocity.Y = 0f;
+			}
+
+			if (Player.controlUp) {
+				newVelocity.Y -= 1.5f;
+			}
+
+			Player.velocity = newVelocity;
+
+			if (!Main.dedServ) {
+				SoundEngine.PlaySound(PlayerBunnyrolls.BunnyrollSound.WithVolumeScale(0.2f), Player.Center);
+			}
+
+			return;
+		}
+
+		// Set visuals
+
+		playerAnimations.ForcedBodyFrame = ClimbProgress > 0.75f ? PlayerFrames.Use4 : ClimbProgress > 0.5f ? PlayerFrames.Use3 : ClimbProgress > 0.25f ? PlayerFrames.Use2 : PlayerFrames.Use1;
+		playerRotation.Rotation = ClimbProgress * 0.7f * Player.direction;
+		playerRotation.RotationOffsetScale = 0f;
 
 		// Fix suffocating when climbing sand
 		Player.suffocating = false;
