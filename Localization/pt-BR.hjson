@@ -168,6 +168,10 @@ Mods: {
 			//RightClickAudioCuesToggle: "Right click on item to toggle audio cues"
 			//RightClickAudioCuesEnabled: "Audio cues are now enabled"
 			//RightClickAudioCuesDisabled: "Audio cues are now disabled"
+
+			GrapplingHooks: {
+				//ClassicPullTip: "Hold the grappling hook key for a classic pull"
+			}
 		}
 
 		DeathText: {

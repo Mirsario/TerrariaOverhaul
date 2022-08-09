@@ -172,6 +172,10 @@ Mods: {
 			RightClickAudioCuesToggle: "Кликните правой кнопкой на предмете чтобы переключить звуковые подсказки"
 			RightClickAudioCuesEnabled: "Звуковые подсказки теперь включены"
 			RightClickAudioCuesDisabled: "Звуковые подсказки теперь выключены"
+
+			GrapplingHooks: {
+				//ClassicPullTip: "Hold the grappling hook key for a classic pull"
+			}
 		}
 
 		DeathText: {
