@@ -38,6 +38,10 @@ public sealed class PlayerBodyRotation : ModPlayer
 				movementRotation = MathHelper.Clamp(Player.velocity.Y * Math.Sign(Player.velocity.X) * -0.015f, -0.4f, 0.4f);
 			}
 
+			if (Player.mount.Active) {
+				movementRotation *= 0.5f;
+			}
+
 			Rotation += movementRotation;
 
 			//TODO: If swimming, multiply by 4.
@@ -53,9 +57,7 @@ public sealed class PlayerBodyRotation : ModPlayer
 		}
 		*/
 
-		if (!Player.mount.Active) {
-			Player.fullRotation = Rotation * Player.gravDir;
-		}
+		Player.fullRotation = Rotation * Player.gravDir;
 
 		Rotation = 0f;
 		RotationOffsetScale = 1f;
