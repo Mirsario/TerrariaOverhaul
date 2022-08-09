@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Threading;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -69,7 +67,11 @@ public class AudioEffectsSystem : ModSystem
 	private static Action<SoundEffectInstance, float>? applyLowPassFilteringFunc;
 	private static FieldInfo? soundEffectBasedAudioTrackInstanceField;
 	private static string? audioErrorMessage;
+	
+#pragma warning disable CS0169
+#pragma warning disable IDE0044
 	private static bool isTestingAudioFiltering;
+#pragma warning restore
 
 	public static bool IsEnabled { get; private set; }
 	public static bool ReverbEnabled { get; private set; }
@@ -379,7 +381,7 @@ public class AudioEffectsSystem : ModSystem
 			return false;
 		}
 
-		FAudio.FAudio_GetDeviceDetails(audioHandle, 0, out var deviceDetails);
+		_ = FAudio.FAudio_GetDeviceDetails(audioHandle, 0, out var deviceDetails);
 
 		// Couldn't come up with anything better than this:
 		if (deviceDetails.OutputFormat.Format.nSamplesPerSec > 48000) {
