@@ -8,47 +8,47 @@
 # Results of the last localization refresh
 
 ## de-DE
-- **Status:** ✅ Full!
-- **Completion:** ***100.0%***
-- **Translated:** `84` out of `84` (`0` missing!)
+- **Status:** ⚠️ Incomplete!
+- **Completion:** ***95.4%***
+- **Translated:** `83` out of `87` (`4` missing!)
 
 ## en-US
 - **Status:** ✅ Full!
 - **Completion:** ***100.0%***
-- **Translated:** `84` out of `84` (`0` missing!)
+- **Translated:** `87` out of `87` (`0` missing!)
 
 ## es-ES
-- **Status:** ✅ Full!
-- **Completion:** ***100.0%***
-- **Translated:** `84` out of `84` (`0` missing!)
+- **Status:** ⚠️ Incomplete!
+- **Completion:** ***95.4%***
+- **Translated:** `83` out of `87` (`4` missing!)
 
 ## fr-FR
-- **Status:** ✅ Full!
-- **Completion:** ***100.0%***
-- **Translated:** `84` out of `84` (`0` missing!)
+- **Status:** ⚠️ Incomplete!
+- **Completion:** ***95.4%***
+- **Translated:** `83` out of `87` (`4` missing!)
 
 ## it-IT
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
-- **Translated:** `0` out of `84` (`84` missing!)
+- **Translated:** `0` out of `87` (`87` missing!)
 
 ## pl-PL
-- **Status:** ✅ Full!
-- **Completion:** ***100.0%***
-- **Translated:** `84` out of `84` (`0` missing!)
+- **Status:** ⚠️ Incomplete!
+- **Completion:** ***95.4%***
+- **Translated:** `83` out of `87` (`4` missing!)
 
 ## pt-BR
-- **Status:** ✅ Full!
-- **Completion:** ***100.0%***
-- **Translated:** `84` out of `84` (`0` missing!)
+- **Status:** ⚠️ Incomplete!
+- **Completion:** ***95.4%***
+- **Translated:** `83` out of `87` (`4` missing!)
 
 ## ru-RU
 - **Status:** ✅ Full!
 - **Completion:** ***100.0%***
-- **Translated:** `84` out of `84` (`0` missing!)
+- **Translated:** `87` out of `87` (`0` missing!)
 
 ## zh-Hans
-- **Status:** ✅ Full!
-- **Completion:** ***100.0%***
-- **Translated:** `84` out of `84` (`0` missing!)
+- **Status:** ⚠️ Incomplete!
+- **Completion:** ***95.4%***
+- **Translated:** `83` out of `87` (`4` missing!)
 
