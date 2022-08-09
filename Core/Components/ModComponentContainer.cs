@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Terraria.ModLoader;
 
@@ -59,14 +60,20 @@ public sealed class ModComponentContainer<TEntity, TComponent> : IReadOnlyList<T
 	}
 
 	public T Get<T>() where T : TComponent
+		=> TryGet(out T? result) ? result : throw new KeyNotFoundException($"Component of type '{typeof(T).Name}' does not exist in the current container.");
+
+	public bool TryGet<T>([NotNullWhen(true)] out T? result) where T : TComponent
 	{
 		foreach (var component in Components) {
-			if (component is T result) {
-				return result;
+			if (component is T t) {
+				result = t;
+				return true;
 			}
 		}
 
-		throw new KeyNotFoundException($"Component of type '{typeof(T).Name}' does not exist in the current container.");
+		result = default;
+
+		return false;
 	}
 
 	public IEnumerator<TComponent> GetEnumerator() => ComponentsReadOnly.GetEnumerator();

@@ -94,13 +94,17 @@ public sealed class ChunkDecals : ChunkComponent
 	{
 		// Render the RT in the world
 
+		if (!chunk.Components.TryGet(out ChunkLighting? lighting)) {
+			return;
+		}
+
 		var destination = chunk.WorldRectangle;
 
 		destination.x -= Main.screenPosition.X;
 		destination.y -= Main.screenPosition.Y;
 
 		var shader = DecalSystem.BloodShader?.Value;
-		var lightingBuffer = chunk.Components.Get<ChunkLighting>().Texture;
+		var lightingBuffer = lighting.Texture;
 
 		if (shader == null || texture == null || lightingBuffer == null || Main.instance.tileTarget == null) {
 			return;
