@@ -9,7 +9,7 @@ public class DecalTiles : GlobalTile
 {
 	public override bool TileFrame(int x, int y, int type, ref bool resetFrame, ref bool noBreak)
 	{
-		if (!WorldGen.gen && resetFrame) {
+		if (!WorldGen.gen && TileLoader.CloseDoorID(Main.tile[x, y]) >= 0) {
 			DecalSystem.ClearDecals(new Rectangle(x * 16, y * 16, 16, 16));
 		}
 
