@@ -50,7 +50,7 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 	public override void LoadData(TagCompound tag)
 	{
 		if (tag.ContainsKey(AudioEnabledSaveKey)) {
-			AudioEnabled = (bool)tag[AudioEnabledSaveKey];
+			AudioEnabled = tag.GetBool(AudioEnabledSaveKey);
 		}
 	}
 
