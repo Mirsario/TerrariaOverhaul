@@ -7,9 +7,18 @@ namespace TerrariaOverhaul.Common.Decals;
 [Autoload(Side = ModSide.Client)]
 public class DecalTiles : GlobalTile
 {
+	public override bool TileFrame(int x, int y, int type, ref bool resetFrame, ref bool noBreak)
+	{
+		if (!WorldGen.gen && resetFrame) {
+			DecalSystem.ClearDecals(new Rectangle(x * 16, y * 16, 16, 16));
+		}
+
+		return true;
+	}
+
 	public override void KillTile(int x, int y, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 	{
-		if (!WorldGen.gen && !noItem && !effectOnly) {
+		if (!WorldGen.gen && !fail && !effectOnly) {
 			DecalSystem.ClearDecals(new Rectangle(x * 16, y * 16, 16, 16));
 		}
 	}
