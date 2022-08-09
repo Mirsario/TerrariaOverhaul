@@ -68,7 +68,7 @@ public sealed class ConfigSystem : ModSystem
 
 			configWatcher.Changed += OnConfigDirectoryFileUpdateChanged;
 		}
-		catch (Exception e) {
+		catch {
 			DebugSystem.Logger.Error($"Could not start a {nameof(FileSystemWatcher)} instance for the configuration file. Automatic config file reloading will be disabled.");
 		}
 

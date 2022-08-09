@@ -10,7 +10,7 @@ public sealed class ItemBannerRework : GlobalItem
 {
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 	{
-		if (!BannerReworkSystem.BannerReworkEnabled || !item.consumable || item.createTile <= 0) {
+		if (!BannerReworkSystem.BannerReworkEnabled || !item.consumable || item.createTile <= -1) {
 			return;
 		}
 
