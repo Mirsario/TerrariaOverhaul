@@ -117,7 +117,10 @@ public sealed class ChunkLighting : ChunkComponent
 
 		for (int chunkY = chunkLoopArea.Y; chunkY <= chunkLoopArea.W; chunkY++) {
 			for (int chunkX = chunkLoopArea.X; chunkX <= chunkLoopArea.Z; chunkX++) {
-				var chunk = ChunkSystem.GetOrCreateChunk(new Vector2Int(chunkX, chunkY));
+				if (!ChunkSystem.TryGetChunk(new Vector2Int(chunkX, chunkY), out var chunk)) {
+					continue;
+				}
+
 				var lighting = chunk.Components.Get<ChunkLighting>();
 
 				if (lighting.Texture == null) {

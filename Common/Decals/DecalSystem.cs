@@ -67,11 +67,7 @@ public sealed class DecalSystem : ModSystem
 			for (int chunkX = chunkStart.X; chunkX <= chunkEnd.X; chunkX++) {
 				var chunkPoint = new Vector2Int(chunkX, chunkY);
 
-				Chunk chunk;
-
-				if (!ifChunkExists) {
-					chunk = ChunkSystem.GetOrCreateChunk(chunkPoint);
-				} else if (!ChunkSystem.TryGetChunk(chunkPoint, out chunk)) {
+				if (!(ifChunkExists ? ChunkSystem.TryGetChunk(chunkPoint, out Chunk chunk) : ChunkSystem.TryGetOrCreateChunk(chunkPoint, out chunk!))) {
 					continue;
 				}
 
