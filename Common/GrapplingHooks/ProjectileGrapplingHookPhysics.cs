@@ -293,7 +293,7 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 			return false;
 		}
 
-		if (tile.TileType != TileID.MinecartTrack && !canTileBeLatchedOnFunc(projectile, tile)) {
+		if (tile.TileType != TileID.MinecartTrack && !canTileBeLatchedOnFunc!(projectile, tile)) {
 			return false;
 		}
 

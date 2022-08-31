@@ -91,7 +91,7 @@ public class BloodParticle : Particle
 	{
 		destroy = true;
 
-		if (Main.rand.Next(50) == 0) {
+		if (Main.rand.NextBool(50)) {
 			SoundEngine.PlaySound(BloodDripSound, position);
 		}
 

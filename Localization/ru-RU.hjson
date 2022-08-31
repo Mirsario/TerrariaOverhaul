@@ -169,6 +169,13 @@ Mods: {
 		CommonTooltips: {
 			ShowCombatInfo: "[Зажмите {Key} для подробной информации]"
 			CombatInfo: "[Боевая Информация]"
+			RightClickAudioCuesToggle: "Кликните правой кнопкой на предмете чтобы переключить звуковые подсказки"
+			RightClickAudioCuesEnabled: "Звуковые подсказки теперь включены"
+			RightClickAudioCuesDisabled: "Звуковые подсказки теперь выключены"
+
+			GrapplingHooks: {
+				//ClassicPullTip: "Hold the grappling hook key for a classic pull"
+			}
 		}
 
 		DeathText: {
@@ -190,7 +197,12 @@ Mods: {
 		}
 
 		ItemTooltip: {
-			BunnyPaw: "Увеличивает ускорение при баннихоппинге"
+			BunnyPaw:
+				'''
+				[c/fca9ea:Увеличивает ускорение при баннихоппинге от каждого удачного последовательного прыжка]
+				[c/fca9ea:Объединяйте баннихопы с перекатами для ещё более высоких множителей]
+				[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
+				'''
 			Charcoal: "Он всё ещё тёплый"
 			Calendar:
 				'''

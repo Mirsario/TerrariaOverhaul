@@ -101,7 +101,7 @@ public class ProjectileExplosionImprovements : GlobalProjectile
 			}
 
 			// Explosions have a chance to set gore on fire.
-			if (entity is OverhaulGore goreExt && Main.rand.Next(5) == 0) {
+			if (entity is OverhaulGore goreExt && Main.rand.NextBool(5)) {
 				goreExt.OnFire = true;
 			}
 

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Core.DataStructures;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Decals;
 
@@ -41,6 +42,8 @@ public sealed class ChunkDecals : ChunkComponent
 
 		Main.QueueMainThreadAction(() => {
 			texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+			
+			texture.InitializeWithColor(Color.Transparent); // Initialize with transparent data to prevent driver-specific issues.
 		});
 	}
 
@@ -60,8 +63,8 @@ public sealed class ChunkDecals : ChunkComponent
 	public override void PreGameDraw(Chunk chunk)
 	{
 		// Add pending decals
-
-		if (decalsToAdd == null || decalsToAdd.Count == 0) {
+		
+		if (decalsToAdd == null || decalsToAdd.Count == 0 || texture == null) {
 			return;
 		}
 
@@ -91,13 +94,17 @@ public sealed class ChunkDecals : ChunkComponent
 	{
 		// Render the RT in the world
 
+		if (!chunk.Components.TryGet(out ChunkLighting? lighting)) {
+			return;
+		}
+
 		var destination = chunk.WorldRectangle;
 
 		destination.x -= Main.screenPosition.X;
 		destination.y -= Main.screenPosition.Y;
 
 		var shader = DecalSystem.BloodShader?.Value;
-		var lightingBuffer = chunk.Components.Get<ChunkLighting>().Texture;
+		var lightingBuffer = lighting.Texture;
 
 		if (shader == null || texture == null || lightingBuffer == null || Main.instance.tileTarget == null) {
 			return;

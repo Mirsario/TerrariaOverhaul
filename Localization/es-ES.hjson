@@ -169,6 +169,13 @@ Mods: {
 		CommonTooltips: {
 			ShowCombatInfo: "[Mantén la tecla {Key} para mostrar información de combate]"
 			CombatInfo: "[Información de combate]"
+			//RightClickAudioCuesToggle: "Right click on item to toggle audio cues"
+			//RightClickAudioCuesEnabled: "Audio cues are now enabled"
+			//RightClickAudioCuesDisabled: "Audio cues are now disabled"
+
+			GrapplingHooks: {
+				//ClassicPullTip: "Hold the grappling hook key for a classic pull"
+			}
 		}
 
 		DeathText: {
@@ -190,7 +197,12 @@ Mods: {
 		}
 
 		ItemTooltip: {
-			BunnyPaw: "Incrementa la velocidad de salto"
+			//BunnyPaw:
+			//	'''
+			//	[c/fca9ea:Increases bunnyhops' speed boost with every successful consequent jump]
+			//	[c/fca9ea:Combine bunnyhops with dodgerolls for even higher multipliers]
+			//	[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
+			//	'''
 			Charcoal: "Aún está caliente"
 			Calendar:
 				'''

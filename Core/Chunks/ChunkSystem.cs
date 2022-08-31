@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -13,6 +14,12 @@ public class ChunkSystem : ModSystem
 	public const int ChunkUpdateArea = 3;
 
 	private static Dictionary<long, Chunk>? chunks;
+
+	public static Vector2Int WorldSize => new(Main.maxTilesX, Main.maxTilesY);
+	public static Vector2Int WorldSizeInChunks => new(
+		(int)MathF.Ceiling(Main.maxTilesX / (float)Chunk.MaxChunkSize),
+		(int)MathF.Ceiling(Main.maxTilesY / (float)Chunk.MaxChunkSize)
+	);
 
 	public override void Load()
 	{
@@ -46,7 +53,7 @@ public class ChunkSystem : ModSystem
 
 		//sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.Default, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-		foreach (var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea, false)) {
+		foreach (var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea)) {
 			foreach (var component in chunk.Components) {
 				component.PostDrawTiles(chunk, sb);
 			}
@@ -70,23 +77,23 @@ public class ChunkSystem : ModSystem
 			return;
 		}
 
-		foreach (var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea, false)) {
+		foreach (var chunk in EnumerateChunksInArea(Main.LocalPlayer, ChunkUpdateArea)) {
 			foreach (var component in chunk.Components) {
 				component.PreGameDraw(chunk);
 			}
 		}
 	}
 
-	public static IEnumerable<Chunk> EnumerateChunksInArea(Player player, int areaSize, bool instantiate)
+	public static IEnumerable<Chunk> EnumerateChunksInArea(Player player, int areaSize)
 	{
 		if (player?.active != true) {
 			return Enumerable.Empty<Chunk>();
 		}
 
-		return EnumerateChunksInArea(player.position.ToTileCoordinates(), areaSize, instantiate);
+		return EnumerateChunksInArea(player.position.ToTileCoordinates(), areaSize);
 	}
 
-	public static IEnumerable<Chunk> EnumerateChunksInArea(Vector2Int tileCenter, int areaSize, bool instantiate)
+	public static IEnumerable<Chunk> EnumerateChunksInArea(Vector2Int tileCenter, int areaSize)
 	{
 		if (chunks == null) {
 			throw new InvalidOperationException("Chunks are not initialized.");
@@ -101,17 +108,9 @@ public class ChunkSystem : ModSystem
 
 		for (int y = yStart; y < yEnd; y++) {
 			for (int x = xStart; x < xEnd; x++) {
-				long encodedPosition = Chunk.PackPosition(x, y);
-
-				if (!chunks.TryGetValue(encodedPosition, out var chunk)) {
-					if (!instantiate) {
-						continue;
-					}
-
-					chunks[encodedPosition] = chunk = new Chunk(x, y);
+				if (TryGetChunk(new Vector2Int(x, y), out var chunk)) {
+					yield return chunk;
 				}
-
-				yield return chunk;
 			}
 		}
 	}
@@ -135,25 +134,39 @@ public class ChunkSystem : ModSystem
 	}
 
 	// GetOrCreate
-	public static Chunk GetOrCreateChunkAtWorldPosition(Vector2 worldPosition)
-		=> GetOrCreateChunkAtTilePosition(TileToChunkCoordinates(worldPosition.ToTileCoordinates()));
+	public static bool TryGetOrCreateChunkAtWorldPosition(Vector2 worldPosition, [NotNullWhen(true)] out Chunk? chunk)
+		=> TryGetOrCreateChunkAtTilePosition(TileToChunkCoordinates(worldPosition.ToTileCoordinates()), out chunk);
 
-	public static Chunk GetOrCreateChunkAtTilePosition(Vector2Int tilePosition)
-		=> GetOrCreateChunk(TileToChunkCoordinates(tilePosition));
+	public static bool TryGetOrCreateChunkAtTilePosition(Vector2Int tilePosition, [NotNullWhen(true)] out Chunk? chunk)
+		=> TryGetOrCreateChunk(TileToChunkCoordinates(tilePosition), out chunk);
 
-	public static Chunk GetOrCreateChunk(Vector2Int chunkPosition)
+	public static bool TryGetOrCreateChunk(Vector2Int chunkPosition, [NotNullWhen(true)] out Chunk? chunk)
 	{
 		if (chunks == null) {
 			throw new InvalidOperationException("Chunks are not initialized.");
 		}
 
-		long encodedPosition = Chunk.PackPosition(chunkPosition.X, chunkPosition.Y);
+		if (chunkPosition.X < 0 || chunkPosition.Y < 0) {
+			chunk = null;
 
-		if (!chunks.TryGetValue(encodedPosition, out var chunk)) {
-			chunks[encodedPosition] = chunk = new Chunk(chunkPosition.X, chunkPosition.Y);
+			return false;
 		}
 
-		return chunk;
+		var worldSizeInChunks = WorldSizeInChunks;
+
+		if (chunkPosition.X >= worldSizeInChunks.X || chunkPosition.Y >= worldSizeInChunks.Y) {
+			chunk = null;
+
+			return false;
+		}
+
+		long encodedPosition = Chunk.PackPosition(chunkPosition.X, chunkPosition.Y);
+
+		if (!chunks.TryGetValue(encodedPosition, out chunk)) {
+			chunks[encodedPosition] = chunk = new Chunk(chunkPosition.X, chunkPosition.Y);
+		}
+		
+		return true;
 	}
 
 	public static int TileToChunkCoordinates(int coordinate)

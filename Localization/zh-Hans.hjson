@@ -169,6 +169,13 @@ Mods: {
 		CommonTooltips: {
 			ShowCombatInfo: "[按住{Key}键以显示战斗信息]"
 			CombatInfo: "[战斗信息]"
+			//RightClickAudioCuesToggle: "Right click on item to toggle audio cues"
+			//RightClickAudioCuesEnabled: "Audio cues are now enabled"
+			//RightClickAudioCuesDisabled: "Audio cues are now disabled"
+
+			GrapplingHooks: {
+				//ClassicPullTip: "Hold the grappling hook key for a classic pull"
+			}
 		}
 
 		DeathText: {
@@ -190,7 +197,12 @@ Mods: {
 		}
 
 		ItemTooltip: {
-			BunnyPaw: "加强兔子蹦跳的速度提升效果"
+			//BunnyPaw:
+			//	'''
+			//	[c/fca9ea:Increases bunnyhops' speed boost with every successful consequent jump]
+			//	[c/fca9ea:Combine bunnyhops with dodgerolls for even higher multipliers]
+			//	[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
+			//	'''
 			Charcoal: "热乎着呢"
 			Calendar:
 				'''

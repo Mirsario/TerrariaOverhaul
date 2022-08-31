@@ -6,7 +6,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -67,6 +66,12 @@ public class AudioEffectsSystem : ModSystem
 	private static Action<SoundEffectInstance, float>? applyReverbFunc;
 	private static Action<SoundEffectInstance, float>? applyLowPassFilteringFunc;
 	private static FieldInfo? soundEffectBasedAudioTrackInstanceField;
+	private static string? audioErrorMessage;
+	
+#pragma warning disable CS0169
+#pragma warning disable IDE0044
+	private static bool isTestingAudioFiltering;
+#pragma warning restore
 
 	public static bool IsEnabled { get; private set; }
 	public static bool ReverbEnabled { get; private set; }
@@ -75,6 +80,10 @@ public class AudioEffectsSystem : ModSystem
 	public override void Load()
 	{
 		IsEnabled = false;
+		ReverbEnabled = false;
+		LowPassFilteringEnabled = false;
+
+		WorldGen.Hooks.OnWorldLoad += TryAnnounceErrorMessage;
 
 		if (!SoundEngine.IsAudioSupported) {
 			DebugSystem.Log($"Audio effects disabled: '{nameof(SoundEngine)}.{nameof(SoundEngine.IsAudioSupported)}' returned false.");
@@ -96,11 +105,11 @@ public class AudioEffectsSystem : ModSystem
 			DebugSystem.Log("Audio effects disabled: Internal FNA methods are missing.");
 			return;
 		}
+		
+		if (!TestAudioFiltering(out string? errorMessage)) {
+			audioErrorMessage = errorMessage;
 
-		if (!TestAudioFiltering(out var testException)) {
-			DebugSystem.Log($"Audio effects disabled: Audio Filtering Test failed! Exception of type {testException.GetType().Name} was thrown: '{testException.Message}'.");
-			
-			WorldGen.Hooks.OnWorldLoad += NotifyOfAudioErrors;
+			DebugSystem.Log($"Audio effects disabled: '{errorMessage}'.");
 			
 			return;
 		}
@@ -179,7 +188,7 @@ public class AudioEffectsSystem : ModSystem
 
 	public override void Unload()
 	{
-		WorldGen.Hooks.OnWorldLoad -= NotifyOfAudioErrors;
+		WorldGen.Hooks.OnWorldLoad -= TryAnnounceErrorMessage;
 	}
 
 	public override void PostUpdateEverything()
@@ -349,13 +358,50 @@ public class AudioEffectsSystem : ModSystem
 		return occludingTiles / (float)MaxOccludingTiles;
 	}
 
-	private static bool TestAudioFiltering([NotNullWhen(false)] out Exception? exception)
+	private static bool TestAudioFiltering([NotNullWhen(false)] out string? errorMessage)
 	{
+		if (Main.audioSystem is not LegacyAudioSystem { Engine: AudioEngine engine }) {
+			errorMessage = "Unable to get AudioEngine instance to test audio filtering.";
+
+			return false;
+		}
+
+		IntPtr audioHandle = IntPtr.Zero;
+		var audioHandleObj = typeof(AudioEngine)
+			.GetField("handle", BindingFlags.Instance | BindingFlags.NonPublic)?
+			.GetValue(engine);
+
+		if (audioHandleObj != null) {
+			audioHandle = (IntPtr)audioHandleObj;
+		}
+
+		if (audioHandle == IntPtr.Zero) {
+			errorMessage = "Unable to get audio engine handle to test audio filtering.";
+
+			return false;
+		}
+
+		_ = FAudio.FAudio_GetDeviceDetails(audioHandle, 0, out var deviceDetails);
+
+		// Couldn't come up with anything better than this:
+		if (deviceDetails.OutputFormat.Format.nSamplesPerSec > 48000) {
+			errorMessage = "Audio device is set to a frequency higher than 48000Hz - assuming that FAudio would crash.";
+
+			return false;
+		}
+
+		// These tests were useless, as the native exception cannot be caught in managed code.
+		// There isn't even an AccessViolationException -- Native code just kills the process on failure.
+		// See: https://github.com/tModLoader/FAudio/blob/master/src/FAudio.c?ts=4#L1442
+
+		/*
 		try {
+			isTestingAudioFiltering = true;
+
 			var testSound = ModContent.Request<SoundEffect>("Terraria/Sounds/Camera", AssetRequestMode.ImmediateLoad).Value;
 			using var testSoundInstance = testSound.CreateInstance();
 
-			testSoundInstance.Volume = 0f;
+			testSoundInstance.Volume = 0f; // Quiet!
 
 			// Apply
 			ApplyEffects(testSoundInstance, new AudioEffectParameters { LowPassFiltering = 0.5f, Reverb = 0.5f });
@@ -368,20 +414,27 @@ public class AudioEffectsSystem : ModSystem
 			testSoundInstance.Stop(true);
 		}
 		catch (Exception e) {
-			exception = e;
+			errorMessage = $"{e.GetType().Name} - {e.Message}";
 			
 			return false;
 		}
+		finally {
+			isTestingAudioFiltering = false;
+		}
+		*/
 
-		exception = null;
-		
+		errorMessage = null;
+
 		return true;
 	}
 
-	private static void NotifyOfAudioErrors()
+	private static void TryAnnounceErrorMessage()
 	{
-		Main.NewText(Language.GetTextValue($"Mods.{nameof(TerrariaOverhaul)}.Notifications.AudioFilteringTestFailure"), Color.MediumVioletRed);
-		
-		WorldGen.Hooks.OnWorldLoad -= NotifyOfAudioErrors;
+		if (audioErrorMessage != null) {
+			Main.NewText(Language.GetTextValue($"Mods.{nameof(TerrariaOverhaul)}.Notifications.AudioFilteringTestFailure"), Color.MediumVioletRed);
+			Main.NewText($@"""{audioErrorMessage}""", Color.PaleVioletRed);
+
+			audioErrorMessage = null;
+		}
 	}
 }

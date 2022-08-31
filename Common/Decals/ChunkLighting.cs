@@ -38,6 +38,9 @@ public sealed class ChunkLighting : ChunkComponent
 		Main.QueueMainThreadAction(() => {
 			Colors = new Surface<Color>(textureWidth, textureHeight);
 			Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+
+			Texture.InitializeWithColor(Color.Transparent); // Initialize with transparent data to prevent driver-specific issues.
+
 			IsReady = true;
 		});
 	}
@@ -114,7 +117,10 @@ public sealed class ChunkLighting : ChunkComponent
 
 		for (int chunkY = chunkLoopArea.Y; chunkY <= chunkLoopArea.W; chunkY++) {
 			for (int chunkX = chunkLoopArea.X; chunkX <= chunkLoopArea.Z; chunkX++) {
-				var chunk = ChunkSystem.GetOrCreateChunk(new Vector2Int(chunkX, chunkY));
+				if (!ChunkSystem.TryGetChunk(new Vector2Int(chunkX, chunkY), out var chunk)) {
+					continue;
+				}
+
 				var lighting = chunk.Components.Get<ChunkLighting>();
 
 				if (lighting.Texture == null) {

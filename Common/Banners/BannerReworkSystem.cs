@@ -10,7 +10,6 @@ namespace TerrariaOverhaul.Common.Banners;
 
 public sealed class BannerReworkSystem : ModSystem
 {
-	private static bool doubledLoot;
 	private static bool bannerDamageDisabled;
 	private static ItemID.BannerEffect[]? defaultBannerEffects;
 

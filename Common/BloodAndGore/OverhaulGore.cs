@@ -153,7 +153,7 @@ public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
 
 	public bool HitGore(Vector2 hitDirection, float powerScale = 1f, bool silent = false)
 	{
-		if (Main.dedServ || Time < 5 && Main.rand.Next(4) != 0) {
+		if (Main.dedServ || Time < 5 && !Main.rand.NextBool(4)) {
 			return false;
 		}
 
@@ -278,7 +278,7 @@ public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
 			Dust.NewDustPerfect(GetRandomPoint(), DustID.Torch, Scale: 2f).noGravity = true;
 		}
 
-		if (offsettedUpdateCount % 30 == 0 && Main.rand.Next(3) == 0) {
+		if (offsettedUpdateCount % 30 == 0 && Main.rand.NextBool(3)) {
 			HitGore(Vector2.Zero, silent: true);
 
 			if (!active) {
