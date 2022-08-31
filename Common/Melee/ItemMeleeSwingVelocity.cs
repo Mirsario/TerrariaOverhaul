@@ -74,12 +74,17 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 	public Vector2 DashVelocity { get; set; } = Vector2.One;
 	public Vector2 MaxDashVelocity { get; set; } = Vector2.One;
 	public Vector2 DefaultKeyVelocityMultiplier { get; set; } = new Vector2(2f / 3f, 1f);
+	public bool IsEnabledForExtraUses { get; set; }
 
 	public IReadOnlyDictionary<string, VelocityModifier> DashVelocityModifiers => dashVelocityModifiers;
 
 	public override void UseAnimation(Item item, Player player)
 	{
 		if (!Enabled) {
+			return;
+		}
+
+		if (!IsEnabledForExtraUses && item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.UseCounter > 1) {
 			return;
 		}
 
