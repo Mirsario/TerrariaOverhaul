@@ -57,7 +57,7 @@ public class Hammer : ItemOverhaul
 
 		item.EnableComponent<ItemMeleeGoreInteraction>();
 		item.EnableComponent<ItemMeleeNpcStuns>();
-		item.EnableComponent<ItemMeleeCooldownDisabler>();
+		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
 		item.EnableComponent<ItemMeleeSwingVelocity>(c => {
