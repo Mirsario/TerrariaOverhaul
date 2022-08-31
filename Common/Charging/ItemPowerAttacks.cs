@@ -19,11 +19,10 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 
 	public CommonStatMultipliers CommonStatMultipliers = CommonStatMultipliers.Default;
 
-	private int useNum;
-
-	public uint ExtraUseCount { get; set; } = 0;
+	public uint ExtraUseCount { get; set; }
 	public uint ExtraReuseDelay { get; set; } = 10;
 	public float ChargeLengthMultiplier { get; set; } = 2f;
+	public uint UseCounter { get; private set; }
 	public bool PowerAttack { get; private set; }
 	public bool IsChargingPowerAttack { get; private set; }
 
@@ -174,19 +173,14 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 				OnChargeUpdate?.Invoke(i, p, chargeLength, progress);
 			},
 			// End
-			(i, p, progress) => {
+			(ItemCharging.ChargeAction?)((i, p, progress) => {
 				IsChargingPowerAttack = false;
-				useNum = 0;
+				UseCounter = 0;
 
-				i.GetGlobalItem<ItemPowerAttacks>().PowerAttack = true;
-				p.GetModPlayer<PlayerItemUse>().ForceItemUse();
-				
-				OnChargeEnd?.Invoke(i, p, chargeLength, progress);
+				StartItemUse(item, player, progress);
 
-				if (ExtraUseCount > 0) {
-					StartReuseCharge(i);
-				}
-			},
+				OnChargeEnd?.Invoke(i, p, (float)chargeLength, progress);
+			}),
 			// Allow turning
 			true
 		);
@@ -201,16 +195,20 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 
 	private void StartReuseCharge(Item item)
 	{
-		item.GetGlobalItem<ItemCharging>().StartCharge((int)ExtraReuseDelay, null, OnReuseChargeEnd, allowTurning: true);
+		item.GetGlobalItem<ItemCharging>().StartCharge((int)ExtraReuseDelay, null, StartItemUse, allowTurning: true);
 	}
 
-	private void OnReuseChargeEnd(Item item, Player player, float chargeProgress)
+	private void StartItemUse(Item item, Player player, float chargeProgress)
 	{
-		useNum++;
+		UseCounter++;
+
+		bool isLastUse = UseCounter == 1 + ExtraUseCount;
+
+		item.GetGlobalItem<ItemPowerAttacks>().PowerAttack = true;
 
 		player.GetModPlayer<PlayerItemUse>().ForceItemUse();
 
-		if (useNum < ExtraUseCount) {
+		if (!isLastUse) {
 			StartReuseCharge(item);
 		}
 	}

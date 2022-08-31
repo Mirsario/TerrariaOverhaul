@@ -61,7 +61,7 @@ public class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage
 
 		var powerAttacks = item.GetGlobalItem<ItemPowerAttacks>();
 
-		if ((!powerAttacks.Enabled || !powerAttacks.PowerAttack) && item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
+		if ((!powerAttacks.Enabled || !powerAttacks.IsChargingPowerAttack) && item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
 			IsAttackFlipped = aiming.AttackId % 2 != 0;
 		}
 	}
