@@ -54,7 +54,7 @@ public class Axe : ItemOverhaul
 		item.EnableComponent<ItemMeleeGoreInteraction>();
 		item.EnableComponent<ItemMeleeAirCombat>();
 		item.EnableComponent<ItemMeleeNpcStuns>();
-		item.EnableComponent<ItemMeleeCooldownDisabler>();
+		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
 		// Animation

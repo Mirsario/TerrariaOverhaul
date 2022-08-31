@@ -46,7 +46,7 @@ public class Pickaxe : ItemOverhaul
 
 		item.EnableComponent<ItemMeleeGoreInteraction>();
 		item.EnableComponent<ItemMeleeNpcStuns>();
-		item.EnableComponent<ItemMeleeCooldownDisabler>();
+		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
 		// Animation
