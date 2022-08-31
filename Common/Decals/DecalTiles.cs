@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Decals;
 
@@ -18,15 +19,25 @@ public class DecalTiles : GlobalTile
 
 	public override void KillTile(int x, int y, int type, ref bool fail, ref bool effectOnly, ref bool noItem)
 	{
-		if (!WorldGen.gen && !fail && !effectOnly) {
+		if (!WorldGen.gen && !effectOnly) {
 			DecalSystem.ClearDecals(new Rectangle(x * 16, y * 16, 16, 16));
 		}
 	}
 
 	public override void PlaceInWorld(int x, int y, int type, Item item)
 	{
-		if (!WorldGen.gen) {
-			DecalSystem.ClearDecals(new Rectangle(x * 16, y * 16, 16, 16));
+		if (WorldGen.gen) {
+			return;
+		}
+
+		for (int yy = -1; yy <= 1; yy++) {
+			for (int xx = -1; xx <= 1; xx++) {
+				var point = new Point(x + xx, y + yy);
+
+				if (Main.tile.TryGet(point, out var tile) && tile.HasTile && TileCheckUtils.CheckSurrounded(point.X, point.Y)) {
+					DecalSystem.ClearDecals(new Rectangle(point.X * 16, point.Y * 16, 16, 16));
+				}
+			}
 		}
 	}
 }
