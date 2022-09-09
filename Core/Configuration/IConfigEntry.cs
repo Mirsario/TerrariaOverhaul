@@ -5,12 +5,14 @@ namespace TerrariaOverhaul.Core.Configuration;
 
 public interface IConfigEntry
 {
-	public Type ValueType { get; }
-	public string Name { get; }
-	public string Category { get; }
-	public object? Value { get; set; }
-	public object? LocalValue { get; set; }
-	public object DefaultValue { get; }
+	Type ValueType { get; }
+	string Name { get; }
+	string Category { get; }
+	object? Value { get; set; }
+	object? LocalValue { get; set; }
+	object? RemoteValue { get; set; }
+	object DefaultValue { get; }
+	ConfigSide Side { get; }
 
 	void Initialize(Mod mod);
 }
