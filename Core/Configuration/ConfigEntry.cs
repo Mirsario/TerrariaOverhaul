@@ -56,6 +56,10 @@ public class ConfigEntry<T> : IConfigEntry
 		get => LocalValue;
 		set => LocalValue = (T?)value;
 	}
+	object? IConfigEntry.RemoteValue {
+		get => RemoteValue;
+		set => RemoteValue = (T?)value;
+	}
 	object IConfigEntry.DefaultValue => DefaultValue!;
 
 	public ConfigEntry(ConfigSide side, string category, string name, Func<T> defaultValueGetter)
