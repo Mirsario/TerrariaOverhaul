@@ -73,6 +73,7 @@ public sealed partial class ConfigSystem : ModSystem
 		}
 
 		SaveConfig(json);
+		EnqueueSynchronization();
 
 		return (result, resultMessage);
 	}
