@@ -1,12 +1,16 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.Damage;
 
 public class NPCAttackCooldowns : GlobalNPC
 {
+	private static int DefaultEnemyAttackCooldown => 5;
+	private static int DefaultBossAttackCooldown => 5;
+
 	private Color? defaultColor;
 
 	public int AttackCooldown { get; private set; }
@@ -33,8 +37,15 @@ public class NPCAttackCooldowns : GlobalNPC
 
 	public override bool? CanHitNPC(NPC npc, NPC target)
 		=> AttackCooldown > 0 ? false : null;
+
 	public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
 		=> AttackCooldown <= 0;
+
+	public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+		=> ApplyDefaultCooldown(npc);
+
+	public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
+		=> ApplyDefaultCooldown(npc);
 
 	public void SetAttackCooldown(NPC npc, int ticks, bool isDamage)
 	{
@@ -48,5 +59,13 @@ public class NPCAttackCooldowns : GlobalNPC
 		}
 
 		AttackCooldown = Math.Max(ticks, AttackCooldown);
+	}
+
+	private void ApplyDefaultCooldown(NPC npc)
+	{
+		bool isBoss = npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type];
+		int cooldown = isBoss ? DefaultBossAttackCooldown : DefaultEnemyAttackCooldown;
+
+		SetAttackCooldown(npc, cooldown, true);
 	}
 }
