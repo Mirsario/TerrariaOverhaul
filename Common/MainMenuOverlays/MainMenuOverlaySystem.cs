@@ -66,7 +66,7 @@ public sealed class MainMenuOverlaySystem : ModSystem
 			},
 			
 			// Discord server
-			new MenuLink(Text.Localized($"{MenuKey}.DiscordServer"), @"https://discord.gg/RNGq9n8"),
+			new MenuLink(Text.Localized($"{MenuKey}.DiscordServer"), @"https://discord.gg/RNGq9N8"),
 
 			// Forum page -- Hidden for now.
 			//new MenuLink(Text.Localized($"{MenuKey}.ForumPage"), @"https://forums.terraria.org/index.php?threads/60369"),
