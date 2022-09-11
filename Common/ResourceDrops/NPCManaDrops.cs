@@ -8,6 +8,8 @@ using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Content.Dusts;
 using TerrariaOverhaul.Utilities;
 
+#pragma warning disable CA1822 // Mark members as static
+
 namespace TerrariaOverhaul.Common.ResourceDrops;
 
 public sealed class NPCManaDrops : GlobalNPC
@@ -19,6 +21,7 @@ public sealed class NPCManaDrops : GlobalNPC
 	private int manaDropCooldown = ManaDropCooldownTime;
 	private int manaPickupsToDropInTotal;
 	private int numTimesManaPickupDropsWereAttempted;
+	private bool hasSegments;
 	
 	public override bool InstancePerEntity => true;
 
@@ -39,6 +42,16 @@ public sealed class NPCManaDrops : GlobalNPC
 
 	public override void PostAI(NPC npc)
 	{
+		var mainNpc = npc.GetMainSegment();
+
+		if (mainNpc != npc) {
+			if (mainNpc.TryGetGlobalNPC(out NPCManaDrops npcManaDrops)) {
+				npcManaDrops.hasSegments = true;
+			}
+
+			return;
+		}
+
 		int expectedPickupAmount = CalculateExpectedDroppedManaPickupAmount(npc);
 
 		if (expectedPickupAmount <= numTimesManaPickupDropsWereAttempted) {
@@ -146,6 +159,12 @@ public sealed class NPCManaDrops : GlobalNPC
 
 	public bool DropAccumulatedMana(NPC npc, int? currentExpectedAmount = null, int? maxDrops = null)
 	{
+		var mainNpc = npc.GetMainSegment();
+
+		if (npc != mainNpc) {
+			return false;
+		}
+
 		currentExpectedAmount ??= CalculateExpectedDroppedManaPickupAmount(npc);
 
 		if (currentExpectedAmount.Value <= 0) {
