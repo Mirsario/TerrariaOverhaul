@@ -97,6 +97,12 @@ public sealed class PlayerMovement : ModPlayer
 				var playerMovement = player.GetModPlayer<PlayerMovement>();
 
 				player.gravity *= MathHelper.Lerp(1f, 0.1f, MathHelper.Clamp(player.jump / (float)Math.Max(playerMovement.maxPlayerJump, 1), 0f, 1f));
+				
+				// Workaround for an issue of wings activating too late with the new jump arc.
+				// This makes them activate almost immediately.
+				if (player.wingsLogic > 0) {
+					player.jump = 1;
+				}
 			});
 		};
 	}
