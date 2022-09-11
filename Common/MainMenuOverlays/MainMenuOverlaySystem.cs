@@ -53,7 +53,7 @@ namespace TerrariaOverhaul.Common.MainMenuOverlays
 					PreferSteamBrowser = true,
 					ForcedColor = isHovered => Color.Lerp(Color.White, Main.DiscoColor, isHovered ? 0.25f : 0.33f)
 				},
-				new MenuLink("Discord Server", @"https://discord.gg/RNGq9n8"),
+				new MenuLink("Discord Server", @"https://discord.gg/RNGq9N8"),
 				//new MenuLink("Forum Page", @"https://forums.terraria.org/index.php?threads/60369"),
 				new MenuLink("Wiki Page", @"https://terrariamods.gamepedia.com/Terraria_Overhaul"),
 				new MenuLink("Github", @"https://github.com/Mirsario/TerrariaOverhaul/tree/1.4"),
