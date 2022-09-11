@@ -39,8 +39,11 @@ public class NPCAttackCooldowns : GlobalNPC
 	public void SetAttackCooldown(NPC npc, int ticks, bool isDamage)
 	{
 		if (isDamage && !ShowDamagedEffect) {
+			bool isBoss = npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type];
+			float blend = isBoss ? 0.33f : 0.5f;
+
 			defaultColor = npc.color;
-			npc.color = Color.Lerp(npc.color, Color.IndianRed, 0.5f);
+			npc.color = Color.Lerp(npc.color, new Color(0.9f, 0.0f, 0.0f), blend);
 			ShowDamagedEffect |= isDamage;
 		}
 
