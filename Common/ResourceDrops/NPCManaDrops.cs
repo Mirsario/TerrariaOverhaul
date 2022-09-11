@@ -81,12 +81,13 @@ public sealed class NPCManaDrops : GlobalNPC
 		}
 
 		if (!Main.dedServ && localPlayerNeedsMana) {
+			var glowingNpc = hasSegments ? npc.GetRandomSegment() : npc;
 			float lightPulse = (float)Math.Sin(Main.GameUpdateCount / 60f * 10f) * 0.5f + 0.5f;
 
-			Lighting.AddLight(npc.Center, Color.Lerp(Color.BlueViolet, Color.LightSkyBlue, lightPulse).ToVector3());
+			Lighting.AddLight(glowingNpc.Center, Color.Lerp(Color.BlueViolet, Color.LightSkyBlue, lightPulse).ToVector3());
 
 			if (Main.GameUpdateCount % 2 == 0) {
-				Vector2 point = npc.getRect().GetRandomPoint();
+				Vector2 point = glowingNpc.getRect().GetRandomPoint();
 
 				Dust.NewDustPerfect(point, ModContent.DustType<ManaDust>(), Vector2.Zero);
 			}
@@ -178,7 +179,8 @@ public sealed class NPCManaDrops : GlobalNPC
 		}
 
 		int maxAmountDropped = 0;
-		var dropPosition = npc.Center;
+		var droppingNpc = hasSegments ? npc.GetRandomSegment() : npc;
+		var dropPosition = droppingNpc.Center;
 		var dropsByPlayer = new Dictionary<Player, int>();
 		
 		foreach (var player in ActiveEntities.Players) {
@@ -190,7 +192,7 @@ public sealed class NPCManaDrops : GlobalNPC
 			}
 		}
 
-		DropMana(npc, maxAmountDropped, dropsByPlayer);
+		DropMana(droppingNpc, maxAmountDropped, dropsByPlayer);
 
 		return true;
 	}
