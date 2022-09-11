@@ -1,6 +1,8 @@
 ﻿using System;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
@@ -10,8 +12,22 @@ public class NPCBleeding : GlobalNPC
 	public override bool PreAI(NPC npc)
 	{
 		// Bleed on low health.
-		if (!Main.dedServ && npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % 5 == 0) {
-			NPCBloodAndGore.Bleed(npc, 1);
+
+		if (npc.GetMainSegment() == npc) {
+			float bleedingRate = 12f;
+
+			if (npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type]) {
+				bleedingRate *= 2f;
+			}
+
+			int bleedEveryXTick = (int)Math.Ceiling(60 / bleedingRate);
+
+			if (npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % bleedEveryXTick == 0) {
+				// TODO: Optimize this via a skip of enumeration?
+				var bleedingNpc = npc.GetRandomSegment();
+
+				NPCBloodAndGore.Bleed(bleedingNpc, 1);
+			}
 		}
 
 		return true;
@@ -20,10 +36,8 @@ public class NPCBleeding : GlobalNPC
 	public override void OnKill(NPC npc)
 	{
 		// Add extra blood on death.
-		if (!Main.dedServ) {
-			int count = (int)Math.Sqrt(npc.width * npc.height) / 12;
+		int count = (int)Math.Sqrt(npc.width * npc.height) / 12;
 
-			NPCBloodAndGore.Bleed(npc, count);
-		}
+		NPCBloodAndGore.Bleed(npc, count);
 	}
 }
