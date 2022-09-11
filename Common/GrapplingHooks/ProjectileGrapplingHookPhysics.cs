@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.GrapplingHooks;
@@ -19,7 +20,9 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 
 	public const int GrapplingHookAIStyle = 7;
 
-	private static Dictionary<int, float>? vanillaHookRangesInTiles;
+
+	private static HashSet<int>? grapplingTypesWarnedAbout;
+	private static Dictionary<int, float>? vanillaHookRangesInPixels;
 	private static Func<Projectile, Tile, bool>? canTileBeLatchedOnFunc;
 
 	private float maxDist;
@@ -53,51 +56,51 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 		};
 
 		// Vanilla's data for this is hardcoded and not accessible. These stats are from the wiki.
-		vanillaHookRangesInTiles = new Dictionary<int, float> {
+		vanillaHookRangesInPixels = new Dictionary<int, float> {
 			// PHM Singlehooks
-			{ ProjectileID.Hook,             18.750f },
-			{ ProjectileID.GemHookAmethyst,     18.750f },
-			{ ProjectileID.SquirrelHook,        19.000f },
-			{ ProjectileID.GemHookTopaz,        20.625f },
-			{ ProjectileID.GemHookSapphire,     22.500f },
-			{ ProjectileID.GemHookEmerald,      24.375f },
-			{ ProjectileID.GemHookRuby,         26.250f },
-			{ ProjectileID.AmberHook,           27.500f },
-			{ ProjectileID.GemHookDiamond,      29.125f },
-			// PHM Multihooks
-			{ ProjectileID.Web,                  15.625f },
-			{ ProjectileID.SkeletronHand,       21.875f },
-			{ ProjectileID.SlimeHook,           18.750f },
-			{ ProjectileID.FishHook,            25.000f },
-			{ ProjectileID.IvyWhip,             28.000f },
-			{ ProjectileID.BatHook,             31.250f },
-			{ ProjectileID.CandyCaneHook,       25.000f },
-			// HM Singlehooks
-			{ ProjectileID.DualHookBlue,     27.500f },
-			{ ProjectileID.DualHookRed,         27.500f },
-			{ ProjectileID.QueenSlimeHook,      30.000f },
-			{ ProjectileID.StaticHook,          37.500f },
-			// HM Multihooks
-			{ ProjectileID.ThornHook,            30.000f },
-			{ ProjectileID.IlluminantHook,      30.000f },
-			{ ProjectileID.WormHook,            30.000f },
-			{ ProjectileID.TendonHook,          30.000f },
-			{ ProjectileID.AntiGravityHook,     31.250f },
-			{ ProjectileID.WoodHook,            34.375f },
-			{ ProjectileID.ChristmasHook,       34.375f },
-			{ ProjectileID.LunarHookNebula,     34.375f },
-			{ ProjectileID.LunarHookSolar,      34.375f },
-			{ ProjectileID.LunarHookStardust,   34.375f },
-			{ ProjectileID.LunarHookVortex,     34.375f },
+			{ ProjectileID.Hook,                300f }, // ID 13
+			{ ProjectileID.SquirrelHook,        300f },	// ID 865
+			{ ProjectileID.GemHookAmethyst,     300f }, // ID 230
+			{ ProjectileID.GemHookTopaz,        330f },	// ID 231
+			{ ProjectileID.GemHookSapphire,     360f },	// ID 232
+			{ ProjectileID.GemHookEmerald,      390f },	// ID 233
+			{ ProjectileID.GemHookRuby,         420f },	// ID 234
+			{ ProjectileID.AmberHook,           420f },	// ID 753
+			{ ProjectileID.GemHookDiamond,      466f },	// ID 235
+			// PHM Multihooks					
+			{ ProjectileID.Web,                 375f },	// ID 165
+			{ ProjectileID.SkeletronHand,       350f },	// ID 256
+			{ ProjectileID.SlimeHook,           300f },	// ID 396
+			{ ProjectileID.FishHook,            400f },	// ID 372
+			{ ProjectileID.IvyWhip,             400f },	// ID 32
+			{ ProjectileID.BatHook,             500f },	// ID 315
+			{ ProjectileID.CandyCaneHook,       400f },	// ID 331
+			// HM Singlehooks					
+			{ ProjectileID.DualHookBlue,        440f },	// ID 73
+			{ ProjectileID.DualHookRed,         440f },	// ID 74
+			{ ProjectileID.QueenSlimeHook,      500f },	// ID 935
+			{ ProjectileID.StaticHook,          600f },	// ID 652
+			// HM Multihooks					
+			{ ProjectileID.TendonHook,          480f },	// ID 486
+			{ ProjectileID.ThornHook,           480f }, // ID 487
+			{ ProjectileID.IlluminantHook,      480f },	// ID 488
+			{ ProjectileID.WormHook,            480f },	// ID 489
+			{ ProjectileID.AntiGravityHook,     500f },	// ID 446
+			{ ProjectileID.WoodHook,            550f },	// ID 322
+			{ ProjectileID.ChristmasHook,       550f },	// ID 332
+			{ ProjectileID.LunarHookSolar,      550f },	// ID 646
+			{ ProjectileID.LunarHookVortex,     550f },	// ID 647
+			{ ProjectileID.LunarHookNebula,     550f },	// ID 648
+			{ ProjectileID.LunarHookStardust,   550f },	// ID 649
 		};
 	}
 
 	public override void Unload()
 	{
-		if (vanillaHookRangesInTiles != null) {
-			vanillaHookRangesInTiles.Clear();
+		if (vanillaHookRangesInPixels != null) {
+			vanillaHookRangesInPixels.Clear();
 
-			vanillaHookRangesInTiles = null;
+			vanillaHookRangesInPixels = null;
 		}
 	}
 
@@ -114,13 +117,24 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 
 	public void ProjectileGrappleMovement(Player player, Projectile proj)
 	{
-		if (vanillaHookRangesInTiles == null) {
+		if (vanillaHookRangesInPixels == null) {
 			throw new InvalidOperationException($"'{nameof(ProjectileGrappleMovement)}' called before '{nameof(Load)}'.");
 		}
 
 		var playerCenter = player.Center;
 		var projCenter = proj.Center;
-		float hookRange = proj.ModProjectile?.GrappleRange() ?? (vanillaHookRangesInTiles.TryGetValue(proj.type, out float vanillaRangeInTiles) ? vanillaRangeInTiles * 16f : 512f);
+		float hookRange;
+
+		if (proj.ModProjectile != null) {
+			hookRange = proj.ModProjectile.GrappleRange();
+		} else if (!vanillaHookRangesInPixels.TryGetValue(proj.type, out hookRange)) {
+			// Fallback, not intended to be ran.
+			hookRange = 512f;
+
+			if ((grapplingTypesWarnedAbout ??= new()).Add(proj.type)) {
+				DebugSystem.Logger.Warn($"Vanilla grappling hook '{proj.Name}' (ID: {proj.type}) does not have a hook range assigned. Please report this.");
+			}
+		}
 
 		if (player.dead) {
 			proj.Kill();
