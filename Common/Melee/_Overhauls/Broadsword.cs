@@ -62,9 +62,11 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 
 		// Components
 
-		item.EnableComponent<ItemMeleeGoreInteraction>();
-		if (ItemMeleeAirCombat.EnableAirCombat)
+		if (ItemMeleeAirCombat.EnableAirCombat) {
 			item.EnableComponent<ItemMeleeAirCombat>();
+		}
+
+		item.EnableComponent<ItemMeleeGoreInteraction>();
 		item.EnableComponent<ItemMeleeNpcStuns>();
 		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
