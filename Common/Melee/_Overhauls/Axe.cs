@@ -52,12 +52,16 @@ public class Axe : ItemOverhaul
 
 		// Components
 
+		if (ItemMeleeAirCombat.EnableAirCombat) {
+			item.EnableComponent<ItemMeleeAirCombat>();
+		}
+
 		item.EnableComponent<ItemMeleeGoreInteraction>();
-		item.EnableComponent<ItemMeleeAirCombat>();
 		item.EnableComponent<ItemMeleeNpcStuns>();
 		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
+
 		item.EnableComponent<ItemMeleeSwingVelocity>(c => {
 			c.DashVelocity = new Vector2(2.0f, 4.5f);
 			c.MaxDashVelocity = new Vector2(0f, 6.0f);

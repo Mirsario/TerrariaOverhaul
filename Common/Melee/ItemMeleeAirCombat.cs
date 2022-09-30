@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
 
@@ -9,6 +10,8 @@ namespace TerrariaOverhaul.Common.Melee;
 
 public sealed class ItemMeleeAirCombat : ItemComponent
 {
+	public static readonly ConfigEntry<bool> EnableAirCombat = new(ConfigSide.Both, "Melee", nameof(EnableAirCombat), () => true);
+	
 	public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 	{
 		if (!Enabled || !item.TryGetGlobalItem<ItemMeleeAttackAiming>(out var meleeAttackAiming)) {
