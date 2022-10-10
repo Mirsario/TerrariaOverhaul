@@ -43,9 +43,9 @@
 - **Translated:** `83` out of `88` (`5` missing!)
 
 ## ru-RU
-- **Status:** ⚠️ Incomplete!
-- **Completion:** ***98.9%***
-- **Translated:** `87` out of `88` (`1` missing!)
+- **Status:** ✅ Full!
+- **Completion:** ***100.0%***
+- **Translated:** `88` out of `88` (`0` missing!)
 
 ## zh-Hans
 - **Status:** ⚠️ Incomplete!
