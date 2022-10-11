@@ -11,8 +11,6 @@ public sealed class TimeSystem : ModSystem
 	public const float FullDayLength = (float)(Main.nightLength + Main.dayLength);
 	public const float DayLength = 54000f;
 	public const float NightLength = 32400f;
-	public const int LogicFramerate = 60;
-	public const float LogicDeltaTime = 1f / LogicFramerate;
 
 	public static readonly DateTime FirstLoadDate = DateTime.Now;
 	public static readonly Gradient<float> DayGradient = new(
@@ -32,9 +30,10 @@ public sealed class TimeSystem : ModSystem
 		(FullDayLength, 0.875f)
 	);
 
-
 	public static DateTime Date { get; } = DateTime.Now;
-	public static DateTime LastLoadDate { get; private set; }
+	public static int LogicFramerate { get; } = 60;
+	public static float LogicDeltaTime { get; } = 1f / LogicFramerate;
+	public static float RenderDeltaTime { get; private set; } = 1f / LogicFramerate;
 	public static Stopwatch? GlobalStopwatch { get; private set; }
 	public static bool AprilFools { get; private set; }
 	public static bool AustraliaDay { get; private set; }
@@ -62,9 +61,13 @@ public sealed class TimeSystem : ModSystem
 		// From 27th December to 5th January, inclusively.
 		NewYear = (Date.Month == 12 && Date.Day >= 27) || (Date.Month == 1 && Date.Day <= 5);
 
-		LastLoadDate = DateTime.Now;
-
 		GlobalStopwatch = Stopwatch.StartNew();
+
+		On.Terraria.Main.DoDraw += (orig, main, gameTime) => {
+			RenderDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+			orig(main, gameTime);
+		};
 	}
 
 	public override void Unload()
