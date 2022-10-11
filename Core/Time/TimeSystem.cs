@@ -63,11 +63,14 @@ public sealed class TimeSystem : ModSystem
 
 		GlobalStopwatch = Stopwatch.StartNew();
 
-		On.Terraria.Main.DoDraw += (orig, main, gameTime) => {
-			RenderDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+		// Hooking of potentially executing draw methods has to be done on the main thread.
+		Main.QueueMainThreadAction(() => {
+			On.Terraria.Main.DoDraw += (orig, main, gameTime) => {
+				RenderDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-			orig(main, gameTime);
-		};
+				orig(main, gameTime);
+			};
+		});
 	}
 
 	public override void Unload()
