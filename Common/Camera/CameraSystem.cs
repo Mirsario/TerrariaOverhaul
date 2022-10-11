@@ -13,6 +13,7 @@ namespace TerrariaOverhaul.Common.Camera;
 //TODO: Split into multiple systems tbh.
 public sealed class CameraSystem : ModSystem
 {
+	/*
 	private struct FocusInfo
 	{
 		public Vector2 position;
@@ -33,18 +34,18 @@ public sealed class CameraSystem : ModSystem
 	private static Vector2 cameraSubFrameOffset;
 	private static Vector2 oldCameraPos;
 	private static Vector2 oldCameraOffset;
+	*/
 
 	public static Vector2 ScreenSize => new(Main.screenWidth, Main.screenHeight);
 	public static Vector2 ScreenHalf => new(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f);
 	public static Rectangle ScreenRect => new((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
-	public static Rectangle ScreenRectExtra => new((int)Main.screenPosition.X - Main.offScreenRange, (int)Main.screenPosition.Y - Main.offScreenRange, Main.screenWidth + Main.offScreenRange * 2, Main.screenHeight + Main.offScreenRange * 2);
-	public static Rectangle ScreenRectExtraHalf => new((int)Main.screenPosition.X - Main.offScreenRange / 2, (int)Main.screenPosition.Y - Main.offScreenRange / 2, Main.screenWidth + Main.offScreenRange, Main.screenHeight + Main.offScreenRange);
-	public static Vector2 MouseWorld => Main.MouseWorld - cameraShakeOffset;
+	public static Vector2 MouseWorld => Main.MouseWorld;
 	public static Vector2 ScreenCenter {
 		get => new(Main.screenPosition.X + Main.screenWidth * 0.5f, Main.screenPosition.Y + Main.screenHeight * 0.5f);
 		set => Main.screenPosition = new Vector2(value.X - Main.screenWidth * 0.5f, value.Y - Main.screenHeight * 0.5f);
 	}
 
+	/*
 	private bool noOffsetUpdating;
 
 	public override void ModifyScreenPosition()
@@ -222,4 +223,5 @@ public sealed class CameraSystem : ModSystem
 		position = entity.position,
 		velocity = entity.velocity
 	};
+	*/
 }
