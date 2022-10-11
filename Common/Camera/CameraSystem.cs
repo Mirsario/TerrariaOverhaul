@@ -20,8 +20,6 @@ public sealed class CameraSystem : ModSystem
 		public Vector2 velocity;
 	}
 
-	public static readonly ConfigEntry<bool> SmoothCamera = new(ConfigSide.ClientOnly, "Camera", nameof(SmoothCamera), () => true);
-
 	private static FocusInfo? focus;
 	private static uint cameraUpdatePrevUpdateCount;
 	private static float originalZoom;
