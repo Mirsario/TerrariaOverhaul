@@ -37,7 +37,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public static ModKeybind DodgerollKey { get; private set; } = null!;
 
 	public static float DodgeTimeMax => 0.37f;
-	public static uint DefaultDodgeTirednessTime => (int)(TimeSystem.LogicFramerate * 1.5f);
+	public static uint DefaultDodgeTirednessTime => (uint)(TimeSystem.LogicFramerate * 1.5f);
 	public static uint DefaultDodgeCooldownTime => DefaultDodgeTirednessTime * 2;
 	public static int DefaultDodgeMaxCharges => 2;
 
