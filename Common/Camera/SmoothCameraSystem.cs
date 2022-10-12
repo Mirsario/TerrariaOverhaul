@@ -7,29 +7,22 @@ using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.Camera;
 
+[Autoload(Side = ModSide.Client)]
 public sealed class SmoothCameraSystem : ModSystem
 {
 	public static readonly ConfigEntry<bool> SmoothCamera = new(ConfigSide.ClientOnly, "Camera", nameof(SmoothCamera), () => true);
 
-	private static Vector2 lastPositionRemainder;
-
 	public override void Load()
 	{
-		On.Terraria.Main.DoDraw_UpdateCameraPosition += orig => {
-			var oldPosition = Main.screenPosition + lastPositionRemainder;
+		CameraSystem.RegisterCameraModifier(100, innerAction => {
+			var oldPosition = Main.screenPosition;
 
-			orig();
+			innerAction();
 
 			var newPosition = Main.screenPosition;
 
 			Main.screenPosition = Damp(oldPosition, newPosition, 0.025f, TimeSystem.RenderDeltaTime);
-
-			var flooredPosition = new Vector2(MathF.Floor(Main.screenPosition.X), MathF.Floor(Main.screenPosition.Y));
-
-			lastPositionRemainder = Main.screenPosition - flooredPosition;
-
-			Main.screenPosition = flooredPosition;
-		};
+		});
 	}
 
 	public static float Damp(float source, float destination, float smoothing, float dt)
