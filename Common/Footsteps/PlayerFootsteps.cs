@@ -38,11 +38,11 @@ public sealed class PlayerFootsteps : ModPlayer
 		}
 
 		if (footstepType.HasValue && (footstepType.Value != FootstepType.Default || stepState == 1 && (legFrame == 16 || legFrame == 17) || stepState == 0 && (legFrame == 9 || legFrame == 10))) {
-			double time = TimeSystem.GlobalTime;
+			double time = TimeSystem.LogicTime;
 
 			if (time - lastFootstepTime > FootstepCooldown && FootstepSystem.Footstep(Player, footstepType.Value)) {
 				stepState = (byte)(stepState == 0 ? 1 : 0);
-				lastFootstepTime = TimeSystem.GlobalTime;
+				lastFootstepTime = TimeSystem.LogicTime;
 			}
 		}
 

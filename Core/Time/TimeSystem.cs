@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
@@ -31,18 +32,23 @@ public sealed class TimeSystem : ModSystem
 	);
 
 	public static DateTime Date { get; } = DateTime.Now;
+	// Logic time
+	public static float LogicTime { get; private set; }
+	public static float LogicDeltaTime { get; } = 1f / 60f;
 	public static int LogicFramerate { get; } = 60;
-	public static float LogicDeltaTime { get; } = 1f / LogicFramerate;
-	public static float RenderDeltaTime { get; private set; } = 1f / LogicFramerate;
+	// Render time
+	public static float RenderTime { get; private set; }
+	public static float RenderDeltaTime { get; private set; } = 1f / 60f;
+	// Etc
 	public static Stopwatch? GlobalStopwatch { get; private set; }
+	public static ulong UpdateCount { get; private set; }
+	// Events
 	public static bool AprilFools { get; private set; }
 	public static bool AustraliaDay { get; private set; }
 	public static bool ProgrammersDay { get; private set; }
 	public static bool Halloween { get; private set; }
 	public static bool Christmas { get; private set; }
 	public static bool NewYear { get; private set; }
-	public static ulong UpdateCount { get; private set; }
-	public static double GlobalTime { get; private set; }
 
 	public static float RealTime => (float)(Main.time + (Main.dayTime ? 0d : Main.dayLength));
 
@@ -64,13 +70,27 @@ public sealed class TimeSystem : ModSystem
 		GlobalStopwatch = Stopwatch.StartNew();
 
 		// Hooking of potentially executing draw methods has to be done on the main thread.
-		Main.QueueMainThreadAction(() => {
-			On.Terraria.Main.DoDraw += (orig, main, gameTime) => {
-				RenderDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+		Main.QueueMainThreadAction(static () => {
+			On.Terraria.Main.DoUpdate += OnDoUpdate;
 
-				orig(main, gameTime);
-			};
+			On.Terraria.Main.DoDraw += OnDoDraw;
 		});
+	}
+
+	private static void OnDoDraw(On.Terraria.Main.orig_DoDraw orig, Main main, GameTime gameTime)
+	{
+		RenderTime = (float)gameTime.TotalGameTime.TotalSeconds;
+		RenderDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+		orig(main, gameTime);
+	}
+
+	private static void OnDoUpdate(On.Terraria.Main.orig_DoUpdate orig, Main main, ref GameTime gameTime)
+	{
+		LogicTime = (float)gameTime.TotalGameTime.TotalSeconds;
+		//LogicDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+		orig(main, ref gameTime);
 	}
 
 	public override void Unload()
@@ -83,6 +103,5 @@ public sealed class TimeSystem : ModSystem
 	public override void PostUpdateEverything()
 	{
 		UpdateCount++;
-		GlobalTime += LogicDeltaTime;
 	}
 }
