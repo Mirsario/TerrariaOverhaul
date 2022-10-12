@@ -51,7 +51,7 @@ public class RocketLauncher : ItemOverhaul
 			});
 
 			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(8f, 0.4f);
+				c.ScreenShake = new ScreenShake(0.6f, 0.25f);
 			});
 		}
 	}

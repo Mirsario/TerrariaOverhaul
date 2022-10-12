@@ -47,7 +47,7 @@ public class Shotgun : ItemOverhaul
 			});
 
 			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(10f, 0.25f);
+				c.ScreenShake = new ScreenShake(0.8f, 0.2f);
 			});
 
 			item.EnableComponent<ItemBulletCasings>(c => {
