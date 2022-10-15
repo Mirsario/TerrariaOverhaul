@@ -25,6 +25,8 @@ public abstract class ResourcePickupChanges : GlobalItem
 
 	public abstract override bool AppliesToEntity(Item item, bool lateInstantiation);
 
+	public abstract void PlayPickupSound(Item item, Player player);
+
 	public override GlobalItem Clone(Item item, Item itemClone)
 	{
 		return base.Clone(item, itemClone);
@@ -68,7 +70,7 @@ public abstract class ResourcePickupChanges : GlobalItem
 		OnPickupReal(item, player);
 
 		if (!Main.dedServ) {
-			SoundEngine.PlaySound(SoundID.Item30, player.Center);
+			PlayPickupSound(item, player);
 		}
 
 		item.active = false;

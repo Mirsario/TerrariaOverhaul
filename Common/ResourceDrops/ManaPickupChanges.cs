@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Utilities;
 
@@ -43,6 +44,17 @@ public sealed class ManaPickupChanges : ResourcePickupChanges
 		player.statMana = Math.Min(player.statMana + bonus, player.statManaMax2);
 
 		player.ManaEffect(bonus);
+	}
+
+	public override void PlayPickupSound(Item item, Player player)
+	{
+		var sound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Pickups/ManaPickup") {
+			Volume = 0.275f,
+			PitchVariance = 0.15f,
+			MaxInstances = 3,
+		};
+
+		SoundEngine.PlaySound(sound, !player.IsLocal() ? player.Center : null);
 	}
 
 	public override float GetPickupRange(Item item, Player player)

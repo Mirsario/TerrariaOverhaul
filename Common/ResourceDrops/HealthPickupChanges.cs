@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Utilities;
 
@@ -48,6 +49,17 @@ public sealed class HealthPickupChanges : ResourcePickupChanges
 		player.statLife = Math.Min(player.statLife + bonus, player.statLifeMax2);
 
 		player.HealEffect(bonus);
+	}
+
+	public override void PlayPickupSound(Item item, Player player)
+	{
+		var sound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Pickups/LifePickup") {
+			Volume = 0.33f,
+			PitchVariance = 0.15f,
+			MaxInstances = 3,
+		};
+
+		SoundEngine.PlaySound(sound, !player.IsLocal() ? player.Center : null);
 	}
 
 	public override void PostUpdate(Item item)
