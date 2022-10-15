@@ -27,6 +27,8 @@ public sealed class ManaPickupChanges : ResourcePickupChanges
 
 	public override void PostUpdate(Item item)
 	{
+		item.type = ItemID.Star; // Disable halloween & christmas styling
+
 		base.PostUpdate(item);
 
 		if (!Main.dedServ) {

@@ -52,6 +52,8 @@ public sealed class HealthPickupChanges : ResourcePickupChanges
 
 	public override void PostUpdate(Item item)
 	{
+		item.type = ItemID.Heart; // Disable halloween & christmas styling
+
 		base.PostUpdate(item);
 
 		if (!Main.dedServ) {
