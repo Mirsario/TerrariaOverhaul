@@ -89,8 +89,10 @@ public sealed class NPCHealthDrops : GlobalNPC
 
 	public static void DropHealth(NPC npc, int maxAmount, Dictionary<Player, int>? perPlayerAmount = null)
 	{
+		// Amount of time to occupy the slot for. The extra '60' doesn't affect actual behavior of the pickup.
+		int maxExpectedLifeTime = HealthPickupChanges.MaxLifeTime + 60;
 		var entitySource = new EntitySource_EntityResourceDrops(npc);
 
-		ResourceDropUtils.DropResource(entitySource, npc.Center, HealthDropItemType, maxAmount, HealthPickupChanges.MaxLifeTime + 60, perPlayerAmount);
+		ResourceDropUtils.DropResource(entitySource, npc.Center, HealthDropItemType, maxAmount, maxExpectedLifeTime, perPlayerAmount);
 	}
 }
