@@ -199,8 +199,10 @@ public sealed class NPCManaDrops : GlobalNPC
 
 	public static void DropMana(NPC npc, int maxAmount, Dictionary<Player, int>? perPlayerAmount = null)
 	{
+		// Amount of time to occupy the slot for. The extra '60' doesn't affect actual behavior of the pickup.
+		int maxExpectedLifeTime = ManaPickupChanges.MaxLifeTime + 60;
 		var entitySource = new EntitySource_EntityResourceDrops(npc);
 
-		ResourceDropUtils.DropResource(entitySource, npc.Center, ManaDropItemType, maxAmount, ManaPickupChanges.MaxLifeTime + 60, perPlayerAmount);
+		ResourceDropUtils.DropResource(entitySource, npc.Center, ManaDropItemType, maxAmount, maxExpectedLifeTime, perPlayerAmount);
 	}
 }
