@@ -1,9 +1,10 @@
 ﻿using Terraria;
 using Terraria.Audio;
+using TerrariaOverhaul.Core.Tags;
 
 namespace TerrariaOverhaul.Common.Ambience;
 
-public sealed class EvilDroneLoopAmbienceTrack : AmbienceTrack
+public sealed class EvilDroneLoopAmbience : AmbienceTrack
 {
 	public override void Initialize()
 	{
@@ -11,14 +12,8 @@ public sealed class EvilDroneLoopAmbienceTrack : AmbienceTrack
 			Volume = 0.5f,
 			IsLooped = true,
 		};
-	}
-
-	public override float GetTargetVolume(Player localPlayer)
-	{
-		if (!localPlayer.ZoneCorrupt && !localPlayer.ZoneCrimson && !localPlayer.ZoneMeteor && !localPlayer.ZoneDungeon) {
-			return 0f;
-		}
-
-		return 1f;
+		Conditions = new TagCondition[] {
+			new(TagCondition.ConditionType.Any, "Corruption", "Crimson", "Meteor", "Dungeon"),
+		};
 	}
 }

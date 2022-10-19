@@ -1,10 +1,11 @@
-﻿using Terraria;
+﻿using System;
+using Terraria;
 using Terraria.Audio;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Ambience;
 
-public sealed class CaveLoopAmbienceTrack : AmbienceTrack
+public sealed class CaveLoopAmbience : AmbienceTrack
 {
 	public override void Initialize()
 	{
@@ -12,14 +13,9 @@ public sealed class CaveLoopAmbienceTrack : AmbienceTrack
 			Volume = 0.2f,
 			IsLooped = true,
 		};
-	}
 
-	public override float GetTargetVolume(Player localPlayer)
-	{
-		float result = 1f;
-
-		result *= WorldLocationUtils.UnderSurfaceGradient.GetValue(localPlayer.Center.ToTileCoordinates().Y);
-
-		return result;
+		VolumeMultipliers = new VolumeMultiplier.Function[] {
+			VolumeMultiplier.UnderSurfaceAltitude,
+		};
 	}
 }
