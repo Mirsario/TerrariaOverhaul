@@ -69,7 +69,7 @@ public class NPCDirectionalKnockback : GlobalNPC
 
 				return false;
 			});
-			cursor.Emit(OpCodes.Brtrue_S, skipKnockbackLabel);
+			cursor.Emit(OpCodes.Brtrue_S, skipKnockbackLabel!);
 		};
 	}
 
