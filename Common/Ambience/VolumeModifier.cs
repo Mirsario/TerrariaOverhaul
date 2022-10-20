@@ -1,5 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Time;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
@@ -20,10 +24,10 @@ public sealed class VolumeMultiplier
 	// Time
 
 	public static float DayTime(in Context context)
-		=> TimeSystem.DayGradient.GetValue(TimeSystem.RealTime);
+		=> TimeGradients.Day.GetValue(TimeOfDay.InTicks);
 
 	public static float NightTime(in Context context)
-		=> TimeSystem.NightGradient.GetValue(TimeSystem.RealTime);
+		=> TimeGradients.Night.GetValue(TimeOfDay.InTicks);
 
 	// Altitude
 
