@@ -9,7 +9,7 @@ public sealed class ForestCricketsAmbience : AmbienceTrack
 	public override void Initialize()
 	{
 		Sound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/Forest/ForestCrickets", SoundType.Ambient) {
-			Volume = 1.0f,
+			Volume = 0.13f,
 			IsLooped = true,
 		};
 

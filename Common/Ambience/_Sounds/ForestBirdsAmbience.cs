@@ -9,7 +9,7 @@ public sealed class ForestBirdsAmbience : AmbienceTrack
 	public override void Initialize()
 	{
 		Sound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/Forest/ForestBirds", SoundType.Ambient) {
-			Volume = 0.38f,
+			Volume = 0.55f,
 			IsLooped = true,
 		};
 		Conditions = new TagCondition[] {
