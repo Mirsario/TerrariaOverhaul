@@ -19,6 +19,7 @@ public sealed class ForestBirdsAmbience : AmbienceTrack
 			VolumeMultiplier.DayTime,
 			VolumeMultiplier.SurfaceAltitude,
 			VolumeMultiplier.NotRainWeather,
+			VolumeMultiplier.TreesAround,
 		};
 
 		AudioEffectsSystem.EnableSoundStyleWallOcclusion(Sound);

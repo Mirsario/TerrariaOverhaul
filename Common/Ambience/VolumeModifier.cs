@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Ambience;
 
-public sealed class VolumeMultiplier
+public sealed class VolumeMultiplier : ModSystem
 {
 	public struct Context
 	{
@@ -20,6 +20,13 @@ public sealed class VolumeMultiplier
 	}
 
 	public delegate float Function(in Context context);
+
+	private static int treeCount;
+
+	public override void TileCountsAvailable(ReadOnlySpan<int> tileCounts)
+	{
+		treeCount = tileCounts[TileID.Trees];
+	}
 
 	// Time
 
@@ -49,5 +56,13 @@ public sealed class VolumeMultiplier
 		=> MathHelper.Clamp(Main.maxRaining * 2f, 0f, 1f);
 
 	public static float NotRainWeather(in Context context)
-		=> MathHelper.Clamp(1f - (Main.maxRaining * 2f), 0f, 1f);
+		=> 1f - RainWeather(in context);
+
+	// Nature
+
+	public static float TreesAround(in Context context)
+		=> MathHelper.Clamp(treeCount / 300f, 0f, 1f);
+
+	public static float TreesNotAround(in Context context)
+		=> 1f - TreesAround(in context);
 }
