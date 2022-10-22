@@ -43,7 +43,7 @@ public class NPCDamageAudio : GlobalNPC
 
 			cursor.Emit(OpCodes.Ldarg_0);
 			cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || PlayHitSound(npc));
-			cursor.Emit(OpCodes.Brfalse, onCheckFailureLabel);
+			cursor.Emit(OpCodes.Brfalse, onCheckFailureLabel!);
 		};
 
 		// Hook for making the PlayDeathSound method control whether or not to play the original death sound.
@@ -65,7 +65,7 @@ public class NPCDamageAudio : GlobalNPC
 
 			cursor.Emit(OpCodes.Ldarg_0);
 			cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || PlayDeathSound(npc));
-			cursor.Emit(OpCodes.Brfalse, onCheckFailureLabel);
+			cursor.Emit(OpCodes.Brfalse, onCheckFailureLabel!);
 		};
 	}
 

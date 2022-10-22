@@ -25,7 +25,7 @@ public sealed class ChunkLighting : ChunkComponent
 	{
 		// This fixes tileTarget not being available in many cases. And other dumb issues.
 		HookEndpointManager.Add<Func<Func<bool>, bool>>(
-			typeof(Main).GetProperty(nameof(Main.RenderTargetsRequired))!.GetMethod,
+			typeof(Main).GetProperty(nameof(Main.RenderTargetsRequired))!.GetMethod!,
 			new Func<Func<bool>, bool>(orig => true)
 		);
 	}

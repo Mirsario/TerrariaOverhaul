@@ -20,21 +20,21 @@ public sealed class ItemMeleeCooldownReplacement : ItemComponent
 			var il = new ILCursor(context);
 			bool debugAssembly = typeof(Main).Assembly.GetCustomAttribute<AssemblyConfigurationAttribute>()?.Configuration?.Contains("Debug") == true;
 
-			ILLabel continueLabel = null!;
-			ILLabel checkSkipLabel = null!;
-			ILLabel tempLabel = null!;
+			ILLabel? continueLabel = null;
+			ILLabel? checkSkipLabel = null;
+			ILLabel? tempLabel = null;
 			int npcIdLocalId = 0;
 
 			// if (!Main.npc[i].active || Main.npc[i].immune[whoAmI] != 0 || attackCD != 0)
 			il.GotoNext(
 				MoveType.Before,
-				new Func<Instruction, bool>?[] {
+				new Func<Instruction, bool>[] {
 				//il.CreateDebugInstructionPredicates(new Expression<Func<Instruction, bool>>?[] {
 					// ...
 					i => i.MatchBr(out continueLabel),
 
 					// !Main.npc[i].active
-					debugAssembly ? i => i.MatchNop() : null,
+					debugAssembly ? i => i.MatchNop() : null!,
 					i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
 					i => i.MatchLdloc(out npcIdLocalId),
 					i => i.MatchLdelemRef(),
@@ -50,7 +50,7 @@ public sealed class ItemMeleeCooldownReplacement : ItemComponent
 					i => i.MatchLdfld(typeof(Entity), nameof(Entity.whoAmI)),
 					i => i.MatchLdelemI4(),
 					//i => i.MatchBrtrue(checkSkipLabel),
-					i => i.MatchBrtrue(out tempLabel) && tempLabel.Target.Offset == checkSkipLabel.Target.Offset,
+					i => i.MatchBrtrue(out tempLabel) && tempLabel.Target!.Offset == checkSkipLabel!.Target!.Offset,
 
 					// attackCD != 0
 					i => i.MatchLdarg(0),
@@ -82,12 +82,12 @@ public sealed class ItemMeleeCooldownReplacement : ItemComponent
 			// If the result is true - Skip over original checks if true is returned
 			il.Emit(OpCodes.Ldloc, callResultLocalId);
 			il.Emit(OpCodes.Ldc_I4_1);
-			il.Emit(OpCodes.Beq, checkSkipLabel);
+			il.Emit(OpCodes.Beq, checkSkipLabel!);
 
 			// If the result is false - 'continue;' in the loop.
 			il.Emit(OpCodes.Ldloc, callResultLocalId);
 			il.Emit(OpCodes.Ldc_I4_0);
-			il.Emit(OpCodes.Beq, continueLabel);
+			il.Emit(OpCodes.Beq, continueLabel!);
 
 			// On null - the original checks get to run.
 		};

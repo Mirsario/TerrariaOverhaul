@@ -4,6 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Input;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -12,7 +13,9 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Music;
 using TerrariaOverhaul.Core.Debugging;
+using TerrariaOverhaul.Core.Input;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
@@ -149,39 +152,7 @@ public class AudioEffectsSystem : ModSystem
 			});
 		};
 
-		// Update volume of music.
-		IL.Terraria.Main.UpdateAudio += context => {
-			var il = new ILCursor(context);
-
-			int volumeLocalId = 0;
-			int iLocalId = 0;
-
-			// Match 'float num2 = musicFade[i] * musicVolume * num;'
-			il.GotoNext(
-				MoveType.After,
-				i => i.MatchLdsfld(typeof(Main), nameof(Main.musicFade)),
-				i => i.MatchLdloc(out iLocalId),
-				i => i.Match(OpCodes.Ldelem_R4),
-				i => i.MatchLdsfld(typeof(Main), nameof(Main.musicVolume)),
-				i => i.Match(OpCodes.Mul),
-				i => i.MatchLdloc(out _),
-				i => i.Match(OpCodes.Mul),
-				i => i.MatchStloc(out volumeLocalId)
-			);
-
-			// Go into the start of the switch case. *Into* is to avoid dealing with jumps.
-			il.GotoNext(
-				MoveType.After,
-				i => i.MatchLdloc(iLocalId)
-			);
-
-			// Emit code that pops 'i', modifies the local, and loads 'i' again.
-			il.Emit(OpCodes.Pop);
-			il.Emit(OpCodes.Ldloc, volumeLocalId);
-			il.EmitDelegate<Func<float, float>>(volume => volume * musicParameters.Volume);
-			il.Emit(OpCodes.Stloc, volumeLocalId);
-			il.Emit(OpCodes.Ldloc, iLocalId);
-		};
+		MusicControlSystem.OnTrackUpdate += OnMusicTrackUpdate;
 
 		DebugSystem.Log("Audio effects enabled.");
 	}
@@ -356,6 +327,11 @@ public class AudioEffectsSystem : ModSystem
 		);
 
 		return occludingTiles / (float)MaxOccludingTiles;
+	}
+
+	private static void OnMusicTrackUpdate(bool isActiveTrack, int trackIndex, ref float musicVolume, ref float musicFade)
+	{
+		musicVolume *= musicParameters.Volume;
 	}
 
 	private static bool TestAudioFiltering([NotNullWhen(false)] out string? errorMessage)

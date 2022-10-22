@@ -9,27 +9,7 @@ namespace TerrariaOverhaul.Core.Time;
 
 public sealed class TimeSystem : ModSystem
 {
-	public const float FullDayLength = (float)(Main.nightLength + Main.dayLength);
-	public const float DayLength = 54000f;
-	public const float NightLength = 32400f;
-
 	public static readonly DateTime FirstLoadDate = DateTime.Now;
-	public static readonly Gradient<float> DayGradient = new(
-		(0f, 0.125f),
-		(14000f, 1f),
-		(39000f, 1f),
-		(49000f, 0f),
-		(80000f, 0f),
-		(FullDayLength, 0.125f)
-	);
-	public static readonly Gradient<float> NightGradient = new(
-		(0f, 0.875f),
-		(14000f, 0f),
-		(39000f, 0f),
-		(49000f, 1f),
-		(80000f, 1f),
-		(FullDayLength, 0.875f)
-	);
 
 	public static DateTime Date { get; } = DateTime.Now;
 	// Logic time
@@ -49,8 +29,6 @@ public sealed class TimeSystem : ModSystem
 	public static bool Halloween { get; private set; }
 	public static bool Christmas { get; private set; }
 	public static bool NewYear { get; private set; }
-
-	public static float RealTime => (float)(Main.time + (Main.dayTime ? 0d : Main.dayLength));
 
 	public override void Load()
 	{
