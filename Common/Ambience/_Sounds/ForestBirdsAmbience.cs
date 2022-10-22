@@ -1,6 +1,5 @@
 ﻿using Terraria.Audio;
 using TerrariaOverhaul.Common.AudioEffects;
-using TerrariaOverhaul.Core.Tags;
 
 namespace TerrariaOverhaul.Common.Ambience;
 
@@ -9,17 +8,17 @@ public sealed class ForestBirdsAmbience : AmbienceTrack
 	public override void Initialize()
 	{
 		Sound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Ambience/Forest/ForestBirds", SoundType.Ambient) {
-			Volume = 0.55f,
+			Volume = 0.45f,
 			IsLooped = true,
 		};
-		Conditions = new TagCondition[] {
-			new(TagCondition.ConditionType.All, "Purity"),
-		};
-		VolumeMultipliers = new VolumeMultiplier.Function[] {
-			VolumeMultiplier.DayTime,
-			VolumeMultiplier.SurfaceAltitude,
-			VolumeMultiplier.NotRainWeather,
-			VolumeMultiplier.TreesAround,
+		Signals = new SignalContainer[] {
+			// Biomes
+			new(SignalFlags.Inverse, "Corruption", "Crimson", "Jungle", "Desert", "Tundra"),
+			// Etc.
+			new("DayTime"),
+			new("SurfaceAltitude"),
+			new("NotRainWeather"),
+			new("TreesAround"),
 		};
 
 		AudioEffectsSystem.EnableSoundStyleWallOcclusion(Sound);

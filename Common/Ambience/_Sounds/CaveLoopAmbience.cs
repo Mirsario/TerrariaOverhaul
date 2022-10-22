@@ -1,7 +1,4 @@
-﻿using System;
-using Terraria;
-using Terraria.Audio;
-using TerrariaOverhaul.Utilities;
+﻿using Terraria.Audio;
 
 namespace TerrariaOverhaul.Common.Ambience;
 
@@ -13,9 +10,8 @@ public sealed class CaveLoopAmbience : AmbienceTrack
 			Volume = 0.2f,
 			IsLooped = true,
 		};
-
-		VolumeMultipliers = new VolumeMultiplier.Function[] {
-			VolumeMultiplier.UnderSurfaceAltitude,
+		Signals = new SignalContainer[] {
+			new("UnderSurfaceAltitude"),
 		};
 	}
 }

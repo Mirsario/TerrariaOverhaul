@@ -16,7 +16,7 @@ public sealed class TagSystem : ModSystem
 	public static int GetTagIdForString(string name)
 	{
 		if (!tagIdsByString.TryGetValue(name, out int id)) {
-			tagIdsByString[name] = id = tagIdsByString.Count;
+			tagIdsByString[name] = id = tagIdsByString.Count + 1;
 		}
 
 		return id;

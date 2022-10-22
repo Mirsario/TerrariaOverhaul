@@ -1,11 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
-using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
@@ -17,9 +15,8 @@ public abstract class AmbienceTrack : ModType
 	private SoundStyle sound;
 	private SlotId instanceReference;
 
+	public SignalContainer[] Signals { get; protected set; } = Array.Empty<SignalContainer>();
 	public bool IsLooped { get; protected set; }
-	public TagCondition[] Conditions { get; protected set; } = Array.Empty<TagCondition>();
-	public VolumeMultiplier.Function[] VolumeMultipliers { get; protected set; } = Array.Empty<VolumeMultiplier.Function>();
 	public float VolumeChangeSpeed { get; protected set; } = 0.5f;
 	public float Volume { get; private set; }
 
@@ -40,25 +37,37 @@ public abstract class AmbienceTrack : ModType
 
 	public abstract void Initialize();
 
-	public float GetTargetVolume(Player localPlayer)
+	public float GetTargetVolume()
 	{
-		// Conditions
-
-		if (!CheckConditions()) {
-			return 0f;
-		}
-
-		// Multipliers
-
-		var context = new VolumeMultiplier.Context {
-			Player = localPlayer,
-			PlayerTilePosition = localPlayer.Center * TileUtils.PixelSizeInUnits,
-		};
-
 		float volume = 1f;
 
-		for (int i = 0; i < VolumeMultipliers.Length; i++) {
-			float multiplier = VolumeMultipliers[i](in context);
+		for (int i = 0; i < Signals.Length; i++) {
+			ref readonly var container = ref Signals[i];
+			var flags = container.Flags;
+			var signals = container.Signals;
+
+			float multiplier = 0f;
+
+			for (int j = 0; j < signals.Length; j++) {
+				float value = EnvironmentSystem.GetSignal(signals[j]);
+
+				if ((flags & SignalFlags.Inverse) != 0) {
+					value = 1f - value;
+				}
+
+				if (j == 0) {
+					multiplier = value;
+				}
+
+				// dumb
+				if ((flags & SignalFlags.Max) != 0) {
+					multiplier = Math.Max(multiplier, value);
+				} else if ((flags & SignalFlags.Min) != 0) {
+					multiplier = Math.Min(multiplier, value);
+				} else {
+					multiplier *= value;
+				}
+			}
 
 			if (multiplier == 0f) {
 				return 0f;
@@ -83,7 +92,7 @@ public abstract class AmbienceTrack : ModType
 
 	internal void Update()
 	{
-		float targetVolume = GetTargetVolume(Main.LocalPlayer);
+		float targetVolume = GetTargetVolume();
 
 		Volume = MathUtils.StepTowards(Volume, targetVolume, VolumeChangeSpeed * TimeSystem.LogicDeltaTime);
 
@@ -105,16 +114,5 @@ public abstract class AmbienceTrack : ModType
 		}
 
 		SoundUtils.UpdateLoopingSound(ref instanceReference, Sound, Volume, CameraSystem.ScreenCenter);
-	}
-
-	private bool CheckConditions()
-	{
-		for (int i = 0; i < Conditions.Length; i++) {
-			if (!Conditions[i].Check()) {
-				return false;
-			}
-		}
-
-		return true;
 	}
 }
