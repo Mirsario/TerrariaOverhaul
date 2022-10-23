@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -64,6 +65,10 @@ public class UpdateLocalizationFiles : TaskBase
 			var resultsText = new StringBuilder();
 
 			const string Header = "# Results of the last localization refresh";
+
+			// Prevent commas from being used in place of periods.
+			// We don't want that to appear in PRs.
+			CultureInfo.CurrentCulture = new CultureInfo("en-US");
 
 			resultsText.AppendLine(Header);
 			resultsText.AppendLine();
