@@ -38,11 +38,6 @@
 		<None Remove=".gitignore" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Content Include="Content\Bosses\EoCTail.png" />
-	  <Content Include="Content\Bosses\EoCRework.png" />
-	</ItemGroup>
-
 	<UsingTask TaskName="UpdateLocalizationFiles" AssemblyFile="$(BuildToolsAssemblyFile)" />
 
 	<Target Name="UpdateLocalizationFiles" BeforeTargets="BeforeCompile">
