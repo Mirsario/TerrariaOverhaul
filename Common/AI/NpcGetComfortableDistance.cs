@@ -10,8 +10,6 @@ namespace TerrariaOverhaul.Common.AI;
 // TO-DO: Smooth out movement;
 public class NpcGetComfortableDistance : GlobalNPC
 {
-	public override bool InstancePerEntity => true;
-
 	private float prefferedDistanceX;
 	private float prefferedDistanceY;
 
@@ -24,7 +22,7 @@ public class NpcGetComfortableDistance : GlobalNPC
 	private bool needsToUpdatePosition;
 	private Vector2 currentTargetPosition;
 
-	public void UpdateTargetPosition() => needsToUpdatePosition = true;
+	public override bool InstancePerEntity => true;
 
 	public override void SetDefaults(NPC npc)
 	{
@@ -42,18 +40,6 @@ public class NpcGetComfortableDistance : GlobalNPC
 	public override bool AppliesToEntity(NPC entity, bool lateInstantiation) =>
 		lateInstantiation && entity.type == ModContent.NPCType<EoCRework>();
 
-	public void SetPrefferedDistance(float prefferedDistanceX, float prefferedDistanceY, float maxDistanceFactor = 1.5f)
-	{
-		this.prefferedDistanceX = prefferedDistanceX;
-		this.prefferedDistanceY = prefferedDistanceY;
-		this.maxDistanceFactor = maxDistanceFactor;
-	}
-
-	public void SetMovementSpeed(float newHorizontal = 1.0f, float newVertical = 1.0f)
-	{
-		horizontalSpeed = newHorizontal;
-		verticalSpeed = newVertical;
-	}
 	public override void AI(NPC npc)
 	{
 		if (!npc.HasValidTarget) {
@@ -62,11 +48,11 @@ public class NpcGetComfortableDistance : GlobalNPC
 
 		var target = npc.GetTarget();
 
-		if(target == null) {
+		if (target == null) {
 			return;
 		}
 
-		if(needsToUpdatePosition) {
+		if (needsToUpdatePosition) {
 			needsToUpdatePosition = false;
 			currentTargetPosition = target.Center;
 		}
@@ -121,5 +107,23 @@ public class NpcGetComfortableDistance : GlobalNPC
 		}
 
 		speedMultiplier = Math.Clamp(speedMultiplier, 0.05f, 5f);
+	}
+
+	public void UpdateTargetPosition()
+	{
+		needsToUpdatePosition = true;
+	}
+
+	public void SetPrefferedDistance(float prefferedDistanceX, float prefferedDistanceY, float maxDistanceFactor = 1.5f)
+	{
+		this.prefferedDistanceX = prefferedDistanceX;
+		this.prefferedDistanceY = prefferedDistanceY;
+		this.maxDistanceFactor = maxDistanceFactor;
+	}
+
+	public void SetMovementSpeed(float newHorizontal = 1.0f, float newVertical = 1.0f)
+	{
+		horizontalSpeed = newHorizontal;
+		verticalSpeed = newVertical;
 	}
 }

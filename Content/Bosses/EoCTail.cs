@@ -7,43 +7,11 @@ namespace TerrariaOverhaul.Content.Bosses;
 
 public class EoCTail : ModNPC
 {
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Eye of Cthulhu");
-	}
-
-	public override void SetDefaults()
-	{
-		// Copying some stuff from vanilla EoC for convinience
-		NPC.CloneDefaults(NPCID.EyeofCthulhu);
-		NPC.width = NPC.height = 32;
-		NPC.aiStyle = -1;
-
-		// Combat
-		SegmentDistance = 5;
-		defaultDamage = NPC.damage;
-	}
-
 	private int defaultDamage;
 
-	public int freezeTime;
-	public bool shouldFreeze;
-
-	private int MissCounter {
-		get => (int)Parent.ai[3];
-		set => Parent.ai[3] = value;
-	}
-
-	public bool hasHitAtLeastOne;
-
-	private float SegmentDistance {
-		get => NPC.ai[0];
-		set => NPC.ai[0] = value;
-	}
-
-	private bool IsExtending => NPC.ai[1] > 0;
-
-	public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position) => false;
+	public int FreezeTime { get; set; }
+	public bool ShouldFreeze { get; set; }
+	public bool HasHitAtLeastOne { get; set; }
 
 	public NPC ParentSegment {
 		get {
@@ -65,6 +33,35 @@ public class EoCTail : ModNPC
 		}
 	}
 
+	private bool IsExtending => NPC.ai[1] > 0;
+
+	private float SegmentDistance {
+		get => NPC.ai[0];
+		set => NPC.ai[0] = value;
+	}
+
+	private int MissCounter {
+		get => (int)Parent.ai[3];
+		set => Parent.ai[3] = value;
+	}
+
+	public override void SetStaticDefaults()
+	{
+		DisplayName.SetDefault("Eye of Cthulhu");
+	}
+
+	public override void SetDefaults()
+	{
+		// Copying some stuff from vanilla EoC for convinience
+		NPC.CloneDefaults(NPCID.EyeofCthulhu);
+		NPC.width = NPC.height = 32;
+		NPC.aiStyle = -1;
+
+		// Combat
+		SegmentDistance = 5;
+		defaultDamage = NPC.damage;
+	}
+
 	public override void AI()
 	{
 		if (ParentSegment == null || !ParentSegment.active || Parent == null || !Parent.active) {
@@ -73,8 +70,8 @@ public class EoCTail : ModNPC
 			return;
 		}
 
-		if (freezeTime > 0) {
-			freezeTime--;
+		if (FreezeTime > 0) {
+			FreezeTime--;
 			return;
 		}
 
@@ -83,17 +80,17 @@ public class EoCTail : ModNPC
 		if (IsExtending) {
 			if (NPC.ai[1] == EoCRework.WhipAttackTime) {
 				NPC.damage = defaultDamage;
-				hasHitAtLeastOne = false;
+				HasHitAtLeastOne = false;
 			}
 
-			if (MissCounter >= 3 && shouldFreeze && SegmentDistance >= 32) {
-				freezeTime = 640;
-				shouldFreeze = false;
+			if (MissCounter >= 3 && ShouldFreeze && SegmentDistance >= 32) {
+				FreezeTime = 640;
+				ShouldFreeze = false;
 				NPC.damage = 0;
-				hasHitAtLeastOne = true;
+				HasHitAtLeastOne = true;
 			}
 
-			if (--NPC.ai[1] <= 0 && !hasHitAtLeastOne && ParentSegment == Parent) {
+			if (--NPC.ai[1] <= 0 && !HasHitAtLeastOne && ParentSegment == Parent) {
 				MissCounter++;
 			}
 
@@ -109,7 +106,7 @@ public class EoCTail : ModNPC
 
 	public override void ModifyHitPlayer(Player target, ref int damage, ref bool crit)
 	{
-		hasHitAtLeastOne = true;
+		HasHitAtLeastOne = true;
 	}
 
 	public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
@@ -121,4 +118,7 @@ public class EoCTail : ModNPC
 	{
 		damage = (int)(damage * 5.0f);
 	}
+
+	public override bool? DrawHealthBar(byte hbPosition, ref float scale, ref Vector2 position)
+		=> false;
 }

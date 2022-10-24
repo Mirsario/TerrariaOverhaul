@@ -23,6 +23,10 @@ public class EoCRework : ModNPC
 	private int phase;
 	private List<NPC> tailSegments;
 
+	private uint timeSinceLastUpdate;
+	private int spinTime;
+	private bool shouldGetStuck;
+
 	public override string BossHeadTexture => "Terraria/Content/Images/NPC_Head_Boss_20";
 
 	public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
@@ -76,12 +80,6 @@ public class EoCRework : ModNPC
 		return base.PreAI();
 	}
 
-	private uint timeSinceLastUpdate;
-
-	private int spinTime;
-
-	private bool shouldGetStuck;
-
 	public override void AI()
 	{
 		// animation
@@ -106,8 +104,8 @@ public class EoCRework : ModNPC
 			}
 
 			// if at least one segment landed a hit, assume every other did as well
-			if(tailSegments.Count(x => (x.ModNPC as EoCTail).hasHitAtLeastOne) > 0) {
-				tailSegments.ForEach(x => (x.ModNPC as EoCTail).hasHitAtLeastOne = true);
+			if(tailSegments.Count(x => (x.ModNPC as EoCTail).HasHitAtLeastOne) > 0) {
+				tailSegments.ForEach(x => (x.ModNPC as EoCTail).HasHitAtLeastOne = true);
 			}
 
 		} else {
@@ -156,7 +154,7 @@ public class EoCRework : ModNPC
 						segment.ai[1] = WhipAttackTime + additional;
 
 						if (segment.ModNPC is EoCTail tail) {
-							tail.shouldFreeze = true;
+							tail.ShouldFreeze = true;
 						}
 					}
 				} else {
@@ -175,7 +173,9 @@ public class EoCRework : ModNPC
 		}
 	}
 
-	public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor) => false;
+	public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
+		=> false;
+
 	public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 	{
 		// draw eye itself
