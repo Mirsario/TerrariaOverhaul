@@ -16,28 +16,17 @@ public class EoCRework : ModNPC
 {
 	public const int WhipAttackTime = 90;
 
+	private readonly List<EoCTail> tailSegments = new();
+
 	private int currentFrame;
 	private int frameCounter;
 	private int shootCount;
-	private bool initialized;
 	private int phase;
-	private List<NPC> tailSegments;
-
-	private uint timeSinceLastUpdate;
 	private int spinTime;
+	private uint timeSinceLastUpdate;
 	private bool shouldGetStuck;
 
 	public override string BossHeadTexture => "Terraria/Content/Images/NPC_Head_Boss_20";
-
-	public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
-	{
-		damage = (int)(damage * 0.25f);
-	}
-
-	public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-	{
-		damage = (int)(damage * 0.25f);
-	}
 
 	public override void SetStaticDefaults()
 	{
@@ -47,46 +36,61 @@ public class EoCRework : ModNPC
 
 	public override void SetDefaults()
 	{
-		// Copying some stuff from vanilla EoC for convinience
-		NPC.CloneDefaults(NPCID.EyeofCthulhu);
+		// Common
+		NPC.boss = true;
+		NPC.value = 30000f;
+		NPC.npcSlots = 5f;
 		NPC.aiStyle = -1;
+		NPC.SpawnWithHigherTime(30);
+		// Physical properties
+		NPC.width = 100;
+		NPC.height = 110;
+		NPC.noGravity = true;
+		NPC.noTileCollide = true;
 		// Combat
-		NPC.damage = 0;
-		tailSegments = new List<NPC>();
+		NPC.damage = 0; // No contact damage.
+		NPC.defense = 12;
+		NPC.lifeMax = 2800;
+		NPC.knockBackResist = 0f;
+		// Audio
+		NPC.HitSound = SoundID.NPCHit1;
+		NPC.DeathSound = SoundID.NPCDeath1;
 	}
 
-	public override bool PreAI()
+	public override void OnSpawn(IEntitySource source)
 	{
-		if (!initialized) {
-			initialized = true;
+		int latest = NPC.whoAmI;
+		var tailSource = NPC.GetSource_FromThis();
 
-			int latest = NPC.whoAmI;
-			for (int i = 0; i < 20; i++) {
-				IEntitySource source = NPC.GetSource_FromAI();
-				int tailID = NPC.NewNPC(source, (int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<EoCTail>());
-				NPC tailSegment = Main.npc[tailID];
-				tailSegment.realLife = NPC.whoAmI;
-				tailSegment.ai[3] = latest;
-				latest = tailID;
+		//TODO: Handle running into the NPC limit by self-destructing?
+		for (int i = 0; i < 20; i++) {
+			NPC tailNPC = NPC.NewNPCDirect(tailSource, (int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<EoCTail>());
 
-				tailSegments.Add(tailSegment);
+			if (tailNPC.ModNPC is not EoCTail tail || tailNPC.whoAmI is < 0 or >= Main.maxNPCs) {
+				continue;
 			}
 
-			NPC.TryGetGlobalNPC(out NpcGetComfortableDistance comfortableDistance);
-			comfortableDistance?.SetPrefferedDistance(240, 240, 1.5f);
-			comfortableDistance?.SetMovementSpeed(2.5f, 1.5f);
+			tailNPC.realLife = NPC.whoAmI;
+			tailNPC.ai[3] = latest;
+			latest = tailNPC.whoAmI;
+
+			tailSegments.Add(tail);
 		}
 
-		return base.PreAI();
+		NPC.TryGetGlobalNPC(out NpcGetComfortableDistance comfortableDistance);
+
+		comfortableDistance?.SetPreferredDistance(new Vector2(240f, 240f), 1.5f);
+		comfortableDistance?.SetMovementSpeed(2.5f, 1.5f);
 	}
 
 	public override void AI()
 	{
-		// animation
+		// Animation
 		if (++frameCounter > 5) {
 			if (++currentFrame >= Main.npcFrameCount[NPCID.EyeofCthulhu] / 2 + 3 * phase) {
 				currentFrame = 3 * phase;
 			}
+
 			frameCounter = 0;
 		}
 
@@ -94,31 +98,30 @@ public class EoCRework : ModNPC
 		if (spinTime > 0) {
 			spinTime--;
 
-			// if missed whip attack 3 times by now, get stuck midway through the attack
+			// If missed whip attack 3 times by now, get stuck midway through the attack
 			if (shouldGetStuck) {
-				if(NPC.rotation <= NPC.GetGlobalNPC<NpcStareAtTargets>().StareAngle + MathHelper.Pi) {
+				if (NPC.rotation <= NPC.GetGlobalNPC<NpcStareAtTargets>().StareAngle + MathHelper.Pi) {
 					NPC.rotation += 0.06f;
 				}
 			} else {
 				NPC.rotation += 0.06f;
 			}
 
-			// if at least one segment landed a hit, assume every other did as well
-			if(tailSegments.Count(x => (x.ModNPC as EoCTail).HasHitAtLeastOne) > 0) {
-				tailSegments.ForEach(x => (x.ModNPC as EoCTail).HasHitAtLeastOne = true);
+			// If at least one segment landed a hit, assume every other did as well
+			if (tailSegments.Any(t => t.HasHitAtLeastOne)) {
+				tailSegments.ForEach(t => t.HasHitAtLeastOne = true);
 			}
-
 		} else {
-			// reset miss related effect
+			// Reset miss related effect
 			shouldGetStuck = false;
 
-			// look at the average position of every applicable target
+			// Look at the average position of every applicable target
 			NPC.rotation = Utils.AngleLerp(NPC.rotation, NPC.GetGlobalNPC<NpcStareAtTargets>().StareAngle, 0.15f);
 		}
 
 		NPC.TargetClosest();
 
-		// probably quite confusing part cuz it sucks
+		// Probably quite confusing part cuz it sucks
 		if (++timeSinceLastUpdate > 120) {
 
 			// if we aren't stuck, try to adjust it's own position every 4-ish seconds
@@ -131,12 +134,12 @@ public class EoCRework : ModNPC
 
 			// 1 second after updating our position, try to perform an attack
 			if (timeSinceLastUpdate > 180) {
-				// if we did more than 3 shots by now, do whip attack
+				// If we did more than 3 shots by now, do whip attack
 				if (++shootCount > 3) {
 					shootCount = 0;
 					timeSinceLastUpdate = 0;
 
-					// additional time, basically just a band aid to make sure the tail stays in place after getting "stuck"
+					// Additional time, basically just a band aid to make sure the tail stays in place after getting "stuck"
 					int additional = 0;
 
 					if (NPC.ai[3] >= 3) {
@@ -149,28 +152,40 @@ public class EoCRework : ModNPC
 					spinTime = WhipAttackTime + additional;
 
 					// make sure every segment spins
-					foreach (NPC segment in tailSegments) {
-
-						segment.ai[1] = WhipAttackTime + additional;
-
-						if (segment.ModNPC is EoCTail tail) {
-							tail.ShouldFreeze = true;
-						}
+					foreach (EoCTail tail in tailSegments) {
+						tail.NPC.ai[1] = WhipAttackTime + additional;
+						tail.ShouldFreeze = true;
 					}
 				} else {
 					timeSinceLastUpdate = 0;
 					// shoot servants;
 					IEntitySource source = NPC.GetSource_FromAI();
+					var target = NPC.GetTarget();
 
-					for (int i = 0; i < Main.rand.Next(3, 6); i++) {
-						int servant = NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.ServantofCthulhu);
-						var targetPos = NPC.GetTarget().Center + new Vector2(Main.rand.Next(-80, 80), Main.rand.Next(-80, 80));
-						var velocity = (targetPos - NPC.Center).SafeNormalize(-Vector2.UnitY) * (float)Main.rand.Next(6, 12);
-						Main.npc[servant].velocity = velocity;
+					if (target != null) {
+						var targetPosition = target.Center;
+
+						for (int i = 0; i < Main.rand.Next(3, 6); i++) {
+							int servant = NPC.NewNPC(source, (int)NPC.Center.X, (int)NPC.Center.Y, NPCID.ServantofCthulhu);
+							var offsetTargetPosition = targetPosition + Main.rand.NextVector2Circular(80f, 80f);
+							var velocity = (offsetTargetPosition - NPC.Center).SafeNormalize(-Vector2.UnitY) * Main.rand.NextFloat(6f, 12f);
+
+							Main.npc[servant].velocity = velocity;
+						}
 					}
 				}
 			}
 		}
+	}
+
+	public override void ModifyHitByItem(Player player, Item item, ref int damage, ref float knockback, ref bool crit)
+	{
+		damage = (int)(damage * 0.25f);
+	}
+
+	public override void ModifyHitByProjectile(Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+	{
+		damage = (int)(damage * 0.25f);
 	}
 
 	public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
@@ -180,8 +195,8 @@ public class EoCRework : ModNPC
 	{
 		// draw eye itself
 		var texture = TextureAssets.Npc[NPCID.EyeofCthulhu].Value;
-		var frameCount = Main.npcFrameCount[NPCID.EyeofCthulhu];
-		var frameHeight = texture.Height / frameCount;
+		int frameCount = Main.npcFrameCount[NPCID.EyeofCthulhu];
+		int frameHeight = texture.Height / frameCount;
 		var sourceRect = new Rectangle(0, frameHeight * currentFrame, texture.Width, frameHeight);
 		var origin = new Vector2(texture.Width, frameHeight) * 0.5f;
 

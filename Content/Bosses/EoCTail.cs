@@ -13,7 +13,7 @@ public class EoCTail : ModNPC
 	public bool ShouldFreeze { get; set; }
 	public bool HasHitAtLeastOne { get; set; }
 
-	public NPC ParentSegment {
+	public NPC? ParentSegment {
 		get {
 			if (NPC.ai[3] >= 0 && NPC.ai[3] < Main.maxNPCs) {
 				return Main.npc[(int)NPC.ai[3]];
@@ -23,7 +23,7 @@ public class EoCTail : ModNPC
 		}
 	}
 
-	public NPC Parent {
+	public NPC? Parent {
 		get {
 			if (NPC.realLife >= 0 && NPC.realLife < Main.maxNPCs) {
 				return Main.npc[NPC.realLife];
@@ -41,8 +41,12 @@ public class EoCTail : ModNPC
 	}
 
 	private int MissCounter {
-		get => (int)Parent.ai[3];
-		set => Parent.ai[3] = value;
+		get => (int)(Parent?.ai[3] ?? 0f);
+		set {
+			if (Parent != null) {
+				Parent.ai[3] = value;
+			}
+		}
 	}
 
 	public override void SetStaticDefaults()

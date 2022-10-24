@@ -10,35 +10,27 @@ namespace TerrariaOverhaul.Common.AI;
 // TO-DO: Smooth out movement;
 public class NpcGetComfortableDistance : GlobalNPC
 {
-	private float prefferedDistanceX;
-	private float prefferedDistanceY;
-
-	private float horizontalSpeed;
-	private float verticalSpeed;
-	private float speedMultiplier;
-	private float maxDistanceFactor;
+	// Configuration
+	private Vector2 preferredDistance = Vector2.One * 320f;
+	private float horizontalSpeed = 1f;
+	private float verticalSpeed = 1f;
+	private float speedMultiplier = 1f;
+	private float maxDistanceFactor = 1.5f;
+	// Etc.
 	private bool needsAcceleration;
-
-	private bool needsToUpdatePosition;
 	private Vector2 currentTargetPosition;
+	private bool needsToUpdatePosition = true;
 
 	public override bool InstancePerEntity => true;
 
+	//TODO: Better way of handling which NPCs should do this
+	public override bool AppliesToEntity(NPC entity, bool lateInstantiation)
+		=> lateInstantiation && entity.type == ModContent.NPCType<EoCRework>();
+
 	public override void SetDefaults(NPC npc)
 	{
-		//Universal
-		horizontalSpeed = 1.0f;
-		verticalSpeed = 1.0f;
-		prefferedDistanceX = 320.0f;
-		prefferedDistanceY = 320.0f;
-		maxDistanceFactor = 1.5f;
-		speedMultiplier = 1.0f;
 		needsToUpdatePosition = true;
 	}
-
-	// TO-DO: Better way of handling which NPCs should do this
-	public override bool AppliesToEntity(NPC entity, bool lateInstantiation) =>
-		lateInstantiation && entity.type == ModContent.NPCType<EoCRework>();
 
 	public override void AI(NPC npc)
 	{
@@ -59,20 +51,18 @@ public class NpcGetComfortableDistance : GlobalNPC
 
 		needsAcceleration = false;
 
-		var currentDistanceX = Math.Abs(currentTargetPosition.X - npc.Center.X);
-		var currentDistanceY = Math.Abs(currentTargetPosition.Y - npc.Center.Y);
+		var currentDistance = Vector2Utils.Abs(currentTargetPosition - npc.Center);
 
 		npc.velocity *= 0.98f;
 
-		if (prefferedDistanceX != 0) {
+		if (preferredDistance.X != 0f) {
+			int directionMultiplier = 0;
 
-			var directionMultiplier = 0;
-
-			if (currentDistanceX < prefferedDistanceX) {
+			if (currentDistance.X < preferredDistance.X) {
 				directionMultiplier = -1;
 			}
 
-			if (currentDistanceX > prefferedDistanceX * maxDistanceFactor) {
+			if (currentDistance.X > preferredDistance.X * maxDistanceFactor) {
 				directionMultiplier = 1;
 			}
 
@@ -81,15 +71,14 @@ public class NpcGetComfortableDistance : GlobalNPC
 			needsAcceleration = directionMultiplier != 0;
 		}
 
-		if (prefferedDistanceY != 0) {
+		if (preferredDistance.Y != 0f) {
+			int directionMultiplier = 0;
 
-			var directionMultiplier = 0;
-
-			if (currentDistanceY < prefferedDistanceY) {
+			if (currentDistance.Y < preferredDistance.Y) {
 				directionMultiplier = -1;
 			}
 
-			if (currentDistanceY > prefferedDistanceY * maxDistanceFactor) {
+			if (currentDistance.Y > preferredDistance.Y * maxDistanceFactor) {
 				directionMultiplier = 1;
 			}
 
@@ -114,10 +103,9 @@ public class NpcGetComfortableDistance : GlobalNPC
 		needsToUpdatePosition = true;
 	}
 
-	public void SetPrefferedDistance(float prefferedDistanceX, float prefferedDistanceY, float maxDistanceFactor = 1.5f)
+	public void SetPreferredDistance(Vector2 preferredDistance, float maxDistanceFactor = 1.5f)
 	{
-		this.prefferedDistanceX = prefferedDistanceX;
-		this.prefferedDistanceY = prefferedDistanceY;
+		this.preferredDistance = preferredDistance;
 		this.maxDistanceFactor = maxDistanceFactor;
 	}
 

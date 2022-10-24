@@ -21,4 +21,7 @@ public static class Vector2Utils
 
 	public static Vector2 Ceiling(Vector2 value)
 		=> new((float)Math.Ceiling(value.X), (float)Math.Ceiling(value.Y));
+
+	public static Vector2 Abs(Vector2 value)
+		=> new(MathF.Abs(value.X), MathF.Abs(value.Y));
 }
