@@ -25,7 +25,7 @@ public class NpcGetComfortableDistance : GlobalNPC
 
 	//TODO: Better way of handling which NPCs should do this
 	public override bool AppliesToEntity(NPC entity, bool lateInstantiation)
-		=> lateInstantiation && entity.type == ModContent.NPCType<EoCRework>();
+		=> lateInstantiation && entity.type == ModContent.NPCType<EyeOfCthulhu>();
 
 	public override void SetDefaults(NPC npc)
 	{

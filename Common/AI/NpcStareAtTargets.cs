@@ -25,7 +25,7 @@ public class NpcStareAtTargets : GlobalNPC
 	public override bool InstancePerEntity => true;
 
 	public override bool AppliesToEntity(NPC entity, bool lateInstantiation)
-		=> lateInstantiation && entity.type == ModContent.NPCType<EoCRework>();
+		=> lateInstantiation && entity.type == ModContent.NPCType<EyeOfCthulhu>();
 
 	public override void SetDefaults(NPC npc)
 	{

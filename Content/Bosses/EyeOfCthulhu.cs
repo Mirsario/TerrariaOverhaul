@@ -12,11 +12,11 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.Bosses;
 
-public class EoCRework : ModNPC
+public class EyeOfCthulhu : ModNPC
 {
 	public const int WhipAttackTime = 90;
 
-	private readonly List<EoCTail> tailSegments = new();
+	private readonly List<EyeOfCthulhuTail> tailSegments = new();
 
 	private int currentFrame;
 	private int frameCounter;
@@ -64,9 +64,9 @@ public class EoCRework : ModNPC
 
 		//TODO: Handle running into the NPC limit by self-destructing?
 		for (int i = 0; i < 20; i++) {
-			NPC tailNPC = NPC.NewNPCDirect(tailSource, (int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<EoCTail>());
+			NPC tailNPC = NPC.NewNPCDirect(tailSource, (int)NPC.position.X, (int)NPC.position.Y, ModContent.NPCType<EyeOfCthulhuTail>());
 
-			if (tailNPC.ModNPC is not EoCTail tail || tailNPC.whoAmI is < 0 or >= Main.maxNPCs) {
+			if (tailNPC.ModNPC is not EyeOfCthulhuTail tail || tailNPC.whoAmI is < 0 or >= Main.maxNPCs) {
 				continue;
 			}
 
@@ -152,7 +152,7 @@ public class EoCRework : ModNPC
 					spinTime = WhipAttackTime + additional;
 
 					// make sure every segment spins
-					foreach (EoCTail tail in tailSegments) {
+					foreach (EyeOfCthulhuTail tail in tailSegments) {
 						tail.NPC.ai[1] = WhipAttackTime + additional;
 						tail.ShouldFreeze = true;
 					}

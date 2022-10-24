@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Bosses;
 
-public class EoCTail : ModNPC
+public class EyeOfCthulhuTail : ModNPC
 {
 	private int defaultDamage;
 
@@ -82,7 +82,7 @@ public class EoCTail : ModNPC
 		SegmentDistance -= 0.5f;
 
 		if (IsExtending) {
-			if (NPC.ai[1] == EoCRework.WhipAttackTime) {
+			if (NPC.ai[1] == EyeOfCthulhu.WhipAttackTime) {
 				NPC.damage = defaultDamage;
 				HasHitAtLeastOne = false;
 			}
