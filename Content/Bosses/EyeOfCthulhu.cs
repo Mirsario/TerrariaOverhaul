@@ -17,6 +17,8 @@ public class EyeOfCthulhu : ModNPC
 	public const int WhipAttackTime = 90;
 
 	private readonly List<EyeOfCthulhuTail> tailSegments = new();
+	private readonly Vector2Int frameCount = new(3, 1);
+	private readonly Vector2 textureOrigin = new(80, 140);
 
 	private int currentFrame;
 	private int frameCounter;
@@ -85,15 +87,6 @@ public class EyeOfCthulhu : ModNPC
 
 	public override void AI()
 	{
-		// Animation
-		if (++frameCounter > 5) {
-			if (++currentFrame >= Main.npcFrameCount[NPCID.EyeofCthulhu] / 2 + 3 * phase) {
-				currentFrame = 3 * phase;
-			}
-
-			frameCounter = 0;
-		}
-
 		// Whip attack
 		if (spinTime > 0) {
 			spinTime--;
@@ -123,8 +116,7 @@ public class EyeOfCthulhu : ModNPC
 
 		// Probably quite confusing part cuz it sucks
 		if (++timeSinceLastUpdate > 120) {
-
-			// if we aren't stuck, try to adjust it's own position every 4-ish seconds
+			// If we aren't stuck, try to adjust it's own position every 4-ish seconds
 			if (!shouldGetStuck) {
 				NPC.GetGlobalNPC<NpcGetComfortableDistance>().UpdateTargetPosition();
 			} else {
@@ -189,17 +181,23 @@ public class EyeOfCthulhu : ModNPC
 	}
 
 	public override bool PreDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
-		=> false;
-
-	public override void PostDraw(SpriteBatch spriteBatch, Vector2 screenPos, Color drawColor)
 	{
-		// draw eye itself
-		var texture = TextureAssets.Npc[NPCID.EyeofCthulhu].Value;
-		int frameCount = Main.npcFrameCount[NPCID.EyeofCthulhu];
-		int frameHeight = texture.Height / frameCount;
-		var sourceRect = new Rectangle(0, frameHeight * currentFrame, texture.Width, frameHeight);
-		var origin = new Vector2(texture.Width, frameHeight) * 0.5f;
+		// Animation
+		currentFrame = (int)Main.GameUpdateCount / 10 % 3;
 
-		Main.EntitySpriteDraw(texture, NPC.Center - Main.screenPosition, sourceRect, drawColor, NPC.rotation - MathHelper.PiOver2, origin, Vector2.One, SpriteEffects.None, 1);
+		// Draw the eye itself
+
+		Vector2Int frame;
+
+		frame.Y = currentFrame / frameCount.X;
+		frame.X = currentFrame - frame.Y;
+
+		var texture = TextureAssets.Npc[NPC.type].Value; // Will be an empty texture in case it's not loaded!
+		var frameSize = ((Vector2Int)texture.Size()) / frameCount; 
+		var sourceRect = new Rectangle(frame.X * frameSize.X, frame.Y * frameSize.Y, frameSize.X, frameSize.Y);
+
+		Main.EntitySpriteDraw(texture, NPC.Center - Main.screenPosition, sourceRect, drawColor, NPC.rotation - MathHelper.PiOver2, textureOrigin, Vector2.One, SpriteEffects.None, 1);
+
+		return false;
 	}
 }
