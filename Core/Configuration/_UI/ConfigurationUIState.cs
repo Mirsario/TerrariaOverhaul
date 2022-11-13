@@ -117,33 +117,33 @@ public class ConfigurationUIState : UIState
 			Width = StyleDimension.FromPercent(1f),
 			Height = StyleDimension.FromPixelsAndPercent(-48f, 1f),
 			Top = StyleDimension.FromPixels(48f),
+			PaddingLeft = 15f,
+			PaddingRight = 15f,
 			PaddingBottom = 15f
 		};
 
 		mainPanel.Append(panelGridContainer);
 
 		var panelGrid = new UIGrid() {
-			Width = StyleDimension.FromPercent(0.95f),
+			Width = StyleDimension.FromPixelsAndPercent(-20, 1f),
 			Height = StyleDimension.FromPercent(1f),
-			HAlign = 0.5f,
 			ListPadding = 15f,
-			PaddingLeft = 15f,
 			PaddingRight = 15f
 		};
 
 		panelGridContainer.Append(panelGrid);
 
-		var panelGridScrollbar = new UIScrollbar() /*{
-			Height = StyleDimension.FromPixelsAndPercent(-8f, 1f),
-			Left = StyleDimension.FromPixelsAndPercent(-2f, 1f),
-			VAlign = 0.5f
-		}*/;
+		var panelGridScrollbar = new UIScrollbar() {
+			HAlign = 1f,
+			VAlign = 0.5f,
+			Height = StyleDimension.FromPixelsAndPercent(-8f, 1f)
+		};
 
 		panelGrid.SetScrollbar(panelGridScrollbar);
-		// PanelGridContainer.Append(PanelGridScrollbar);
+		panelGridContainer.Append(panelGridScrollbar);
 
 		for (int i = 1; i <= 25; i++) {
-			panelGrid.Add(new ConfigPanel(/* thumbnail image path */));
+			panelGrid.Add(new ConfigPanel("TerrariaOverhaul/Core/Configuration/_UI/Thumbnail"));
 		}
 
 		#endregion

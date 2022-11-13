@@ -38,6 +38,13 @@
 		<None Remove=".gitignore" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Content Include="Core\Configuration\_UI\AltUIPanelBackground.png" />
+	  <Content Include="Core\Configuration\_UI\AltUIPanelBorder.png" />
+	  <Content Include="Core\Configuration\_UI\ThumbnailBorder.png" />
+	  <Content Include="Core\Configuration\_UI\Thumbnail.png" />
+	</ItemGroup>
+
 	<UsingTask TaskName="UpdateLocalizationFiles" AssemblyFile="$(BuildToolsAssemblyFile)" />
 
 	<Target Name="UpdateLocalizationFiles" BeforeTargets="BeforeCompile">
