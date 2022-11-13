@@ -1,11 +1,7 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Security.Policy;
-using Terraria;
+﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Core.Configuration.ConfigurationUI;
 using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays;

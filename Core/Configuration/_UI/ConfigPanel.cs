@@ -4,11 +4,11 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
 
-namespace TerrariaOverhaul.Core.Configuration.ConfigurationUI;
+namespace TerrariaOverhaul.Core.Configuration;
 
 public class ConfigPanel : UIPanel
 {
-	public ConfigPanel(string ThumbnailTexture) : base()
+	public ConfigPanel(string thumbnailTexture) : base()
 	{
 		Width = StyleDimension.FromPixels(144f);
 		Height = StyleDimension.FromPixels(180f);
@@ -17,7 +17,7 @@ public class ConfigPanel : UIPanel
 
 		SetPadding(0f);
 
-		UIPanel PanelThumbnailContainer = new() {
+		var panelThumbnailContainer = new UIPanel() {
 			Width = StyleDimension.FromPixels(104f),
 			Height = StyleDimension.FromPixels(104f),
 			HAlign = 0.5f,
@@ -26,18 +26,18 @@ public class ConfigPanel : UIPanel
 			BorderColor = Color.Red * 0.5f
 		};
 
-		PanelThumbnailContainer.SetPadding(0f);
+		panelThumbnailContainer.SetPadding(0f);
 
-		Append(PanelThumbnailContainer);
+		Append(panelThumbnailContainer);
 
-		UIImage PanelThumbnailBorder = new(/* border image path */) {
+		var panelThumbnailBorder = new UIImage(/* border image path */) {
 			HAlign = 0f,
 			VAlign = 0f
 		};
 
-		PanelThumbnailContainer.Append(PanelThumbnailBorder);
+		panelThumbnailContainer.Append(panelThumbnailBorder);
 
-		/*UIImage PanelThumbnail = new(ModContent.Request<Texture2D>(ThumbnailTexture)) {
+		/*var panelThumbnail = new UIImage(ModContent.Request<Texture2D>(thumbnailTexture)) {
 			Width = StyleDimension.FromPixels(96f),
 			Height = StyleDimension.FromPixels(96f),
 			ScaleToFit = true,
@@ -46,18 +46,17 @@ public class ConfigPanel : UIPanel
 			VAlign = 0.5f
 		};
 
-		PanelThumbnailBorder.Append(PanelThumbnail);*/
+		panelThumbnailBorder.Append(panelThumbnail);*/
 
-
-		/*UIElement PanelTitleContainer = new() {
+		/*var panelTitleContainer = new UIElement() {
 			Width = StyleDimension.FromPercent(1f),
 			Height = StyleDimension.FromPixels(68f),
 			VAlign = 1f
 		};
 
-		Append(PanelTitleContainer);
+		Append(panelTitleContainer);
 
-		UIText PanelTitle = new("Quandale Dingle Here") {
+		var panelTitle = new UIText("Quandale Dingle Here") {
 			IsWrapped = true,
 			Width = StyleDimension.FromPercent(1f),
 			Height = StyleDimension.FromPercent(1f),
@@ -68,6 +67,6 @@ public class ConfigPanel : UIPanel
 			PaddingRight = 20f,
 		};
 
-		PanelTitleContainer.Append(PanelTitle);*/
+		panelTitleContainer.Append(panelTitle);*/
 	}
 }
