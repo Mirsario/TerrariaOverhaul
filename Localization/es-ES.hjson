@@ -29,7 +29,17 @@ Mods: {
 		}
 
 		Configuration: {
+			Accessibility: {
+				Category: {
+					//DisplayName: "Accessibility"
+				}
+			}
+
 			Ambience: {
+				Category: {
+					//DisplayName: "Ambience"
+				}
+
 				EnableAmbientSounds: {
 					DisplayName: "Activar sonidos ambientales"
 					Description: "Activa bucles de audio ambiental, como pájaros, grillos, viento, sonidos de cuevas, etc."
@@ -41,7 +51,23 @@ Mods: {
 				}
 			}
 
+			Awareness: {
+				Category: {
+					//DisplayName: "Awareness"
+				}
+			}
+
+			Banners: {
+				Category: {
+					//DisplayName: "Banners"
+				}
+			}
+
 			BloodAndGore: {
+				Category: {
+					//DisplayName: "Blood and Gore"
+				}
+
 				EnableDecals: {
 					DisplayName: "Activar sangre"
 					Description: "Activa la sangre sobre bloques."
@@ -49,6 +75,10 @@ Mods: {
 			}
 
 			Camera: {
+				Category: {
+					//DisplayName: "Camera"
+				}
+
 				SmoothCamera: {
 					DisplayName: "Cámara suave"
 					Description: "Interpola el movimiento de la cámara para mejorar la sensación de velocidad."
@@ -60,7 +90,35 @@ Mods: {
 				}
 			}
 
+			Enemies: {
+				Category: {
+					//DisplayName: "Enemies"
+				}
+			}
+
+			Guns: {
+				Category: {
+					//DisplayName: "Guns"
+				}
+			}
+
+			Melee: {
+				Category: {
+					//DisplayName: "Melee"
+				}
+			}
+
+			Music: {
+				Category: {
+					//DisplayName: "Music"
+				}
+			}
+
 			PlayerMovement: {
+				Category: {
+					//DisplayName: "Player Movement"
+				}
+
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "Activar cambios de aceleración vertical"
 					Description: "Cambia la fricción con el aire y la velocidad máxima de caída."
@@ -105,6 +163,10 @@ Mods: {
 			}
 
 			PlayerVisuals: {
+				Category: {
+					//DisplayName: "Player Visuals"
+				}
+
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Mostrar siempre armas que puedan apuntar"
 					Description: "Cambia el estilo del uso de las armas con 'retención' para que sean visibles mientras no disparen."

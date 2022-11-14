@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria.GameContent.UI.Elements;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Interface;
@@ -19,7 +20,7 @@ public class ConfigPanel : UIPanel
 	public UIImage ThumbnailBorder { get; }
 	public UIText Title { get; }
 
-	public ConfigPanel(string title, Asset<Texture2D> thumbnailTexture, Asset<Texture2D>? borderTexture = null) : base()
+	public ConfigPanel(LocalizedText title, Asset<Texture2D> thumbnailTexture, Asset<Texture2D>? borderTexture = null) : base()
 	{
 		borderTexture ??= defaultBorderTexture ??= ModContent.Request<Texture2D>($"{GetType().GetFullDirectory()}/ThumbnailBorder");
 

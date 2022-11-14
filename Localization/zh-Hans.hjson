@@ -29,7 +29,17 @@ Mods: {
 		}
 
 		Configuration: {
+			Accessibility: {
+				Category: {
+					//DisplayName: "Accessibility"
+				}
+			}
+
 			Ambience: {
+				Category: {
+					//DisplayName: "Ambience"
+				}
+
 				EnableAmbientSounds: {
 					DisplayName: "启用环境音效"
 					Description: "开关环境音效，如鸟、蟋蟀、风、洞穴声等"
@@ -41,7 +51,23 @@ Mods: {
 				}
 			}
 
+			Awareness: {
+				Category: {
+					//DisplayName: "Awareness"
+				}
+			}
+
+			Banners: {
+				Category: {
+					//DisplayName: "Banners"
+				}
+			}
+
 			BloodAndGore: {
+				Category: {
+					//DisplayName: "Blood and Gore"
+				}
+
 				EnableDecals: {
 					DisplayName: "启用血迹糊砖效果"
 					Description: "开关留在方块上的血迹"
@@ -49,6 +75,10 @@ Mods: {
 			}
 
 			Camera: {
+				Category: {
+					//DisplayName: "Camera"
+				}
+
 				SmoothCamera: {
 					DisplayName: "平滑镜头"
 					Description: "通过插值平滑游戏镜头的运动，以改善整体动感。"
@@ -60,7 +90,35 @@ Mods: {
 				}
 			}
 
+			Enemies: {
+				Category: {
+					//DisplayName: "Enemies"
+				}
+			}
+
+			Guns: {
+				Category: {
+					//DisplayName: "Guns"
+				}
+			}
+
+			Melee: {
+				Category: {
+					//DisplayName: "Melee"
+				}
+			}
+
+			Music: {
+				Category: {
+					//DisplayName: "Music"
+				}
+			}
+
 			PlayerMovement: {
+				Category: {
+					//DisplayName: "Player Movement"
+				}
+
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "应用垂直加速度更改"
 					Description: "开关空气阻力和（几乎）无限制的最大坠落速度。"
@@ -105,6 +163,10 @@ Mods: {
 			}
 
 			PlayerVisuals: {
+				Category: {
+					//DisplayName: "Player Visuals"
+				}
+
 				AlwaysShowAimableWeapons: {
 					DisplayName: "总是显示可瞄准的武器"
 					Description: "可瞄准武器在不使用时是否会被持握于玩家手中。"

@@ -29,7 +29,17 @@ Mods: {
 		}
 
 		Configuration: {
+			Accessibility: {
+				Category: {
+					//DisplayName: "Accessibility"
+				}
+			}
+
 			Ambience: {
+				Category: {
+					//DisplayName: "Ambience"
+				}
+
 				EnableAmbientSounds: {
 					DisplayName: "Włącz Dźwięki Otoczenia"
 					Description: "Włącza dżwięki otoczenia takie jak ptaki, świerszcze czy szumy jaskiń."
@@ -41,7 +51,23 @@ Mods: {
 				}
 			}
 
+			Awareness: {
+				Category: {
+					//DisplayName: "Awareness"
+				}
+			}
+
+			Banners: {
+				Category: {
+					//DisplayName: "Banners"
+				}
+			}
+
 			BloodAndGore: {
+				Category: {
+					//DisplayName: "Blood and Gore"
+				}
+
 				EnableDecals: {
 					DisplayName: "Włącz Ślady Krwi"
 					Description: "Włącza ślady krwi na blokach i płytkach."
@@ -49,6 +75,10 @@ Mods: {
 			}
 
 			Camera: {
+				Category: {
+					//DisplayName: "Camera"
+				}
+
 				SmoothCamera: {
 					DisplayName: "Płynna Kamera"
 					Description: "Zmienia ruchy kamery dla lepszego poczucia prędkości."
@@ -60,7 +90,35 @@ Mods: {
 				}
 			}
 
+			Enemies: {
+				Category: {
+					//DisplayName: "Enemies"
+				}
+			}
+
+			Guns: {
+				Category: {
+					//DisplayName: "Guns"
+				}
+			}
+
+			Melee: {
+				Category: {
+					//DisplayName: "Melee"
+				}
+			}
+
+			Music: {
+				Category: {
+					//DisplayName: "Music"
+				}
+			}
+
 			PlayerMovement: {
+				Category: {
+					//DisplayName: "Player Movement"
+				}
+
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "Włącz Zmiany Ruchu w Pionie"
 					Description: "Włącza opór powietrza i (prawie) nieograniczoną prędkość spadania."
@@ -101,6 +159,10 @@ Mods: {
 			}
 
 			PlayerVisuals: {
+				Category: {
+					//DisplayName: "Player Visuals"
+				}
+
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Zawsze Pokazuj Bronie Mierzone"
 					Description: "Włącz pokazywanie broni typu 'wyciąganego' gdy nie jest w użyciu."

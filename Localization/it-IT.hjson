@@ -29,7 +29,17 @@ Mods: {
 		}
 
 		Configuration: {
+			Accessibility: {
+				Category: {
+					//DisplayName: "Accessibility"
+				}
+			}
+
 			Ambience: {
+				Category: {
+					//DisplayName: "Ambience"
+				}
+
 				EnableAmbientSounds: {
 					//DisplayName: "Enable Ambient Sounds"
 					//Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
@@ -41,7 +51,23 @@ Mods: {
 				}
 			}
 
+			Awareness: {
+				Category: {
+					//DisplayName: "Awareness"
+				}
+			}
+
+			Banners: {
+				Category: {
+					//DisplayName: "Banners"
+				}
+			}
+
 			BloodAndGore: {
+				Category: {
+					//DisplayName: "Blood and Gore"
+				}
+
 				EnableDecals: {
 					//DisplayName: "Enable Decals"
 					//Description: "Toggles decals, also known as 'blood on tiles'."
@@ -49,6 +75,10 @@ Mods: {
 			}
 
 			Camera: {
+				Category: {
+					//DisplayName: "Camera"
+				}
+
 				SmoothCamera: {
 					//DisplayName: "Smooth Camera"
 					//Description: "Interpolates the camera's movement to improve the feel of velocity."
@@ -60,7 +90,35 @@ Mods: {
 				}
 			}
 
+			Enemies: {
+				Category: {
+					//DisplayName: "Enemies"
+				}
+			}
+
+			Guns: {
+				Category: {
+					//DisplayName: "Guns"
+				}
+			}
+
+			Melee: {
+				Category: {
+					//DisplayName: "Melee"
+				}
+			}
+
+			Music: {
+				Category: {
+					//DisplayName: "Music"
+				}
+			}
+
 			PlayerMovement: {
+				Category: {
+					//DisplayName: "Player Movement"
+				}
+
 				EnableVerticalAccelerationChanges: {
 					//DisplayName: "Enable Vertical Acceleration Changes"
 					//Description: "Toggle air friction and (almost) unlimited maximum fall speed."
@@ -105,6 +163,10 @@ Mods: {
 			}
 
 			PlayerVisuals: {
+				Category: {
+					//DisplayName: "Player Visuals"
+				}
+
 				AlwaysShowAimableWeapons: {
 					//DisplayName: "Always Show Aimable Weapons"
 					//Description: "Toggle weapons with the 'holding out' use style being visible when not firing."

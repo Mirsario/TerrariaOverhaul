@@ -143,7 +143,9 @@ public class ConfigurationUIState : UIState
 		var configCategories = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s);
 
 		foreach (string category in configCategories) {
-			panelGrid.Add(new ConfigPanel(category, thumbnailPlaceholder));
+			var localizedCategoryName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.Category.DisplayName");
+
+			panelGrid.Add(new ConfigPanel(localizedCategoryName, thumbnailPlaceholder));
 		}
 	}
 

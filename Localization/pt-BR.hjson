@@ -29,7 +29,17 @@ Mods: {
 		}
 
 		Configuration: {
+			Accessibility: {
+				Category: {
+					//DisplayName: "Accessibility"
+				}
+			}
+
 			Ambience: {
+				Category: {
+					//DisplayName: "Ambience"
+				}
+
 				EnableAmbientSounds: {
 					DisplayName: "Ativar Ambientação Sonora"
 					Description: "Ativa repetição de audio de ambiência, como pássaros, gafanhotos, vento, sons de cavernas, etc."
@@ -41,7 +51,23 @@ Mods: {
 				}
 			}
 
+			Awareness: {
+				Category: {
+					//DisplayName: "Awareness"
+				}
+			}
+
+			Banners: {
+				Category: {
+					//DisplayName: "Banners"
+				}
+			}
+
 			BloodAndGore: {
+				Category: {
+					//DisplayName: "Blood and Gore"
+				}
+
 				EnableDecals: {
 					DisplayName: "Ativar manchas"
 					Description: "Ativa manchas, também conhecidas como 'sangue nos blocos'."
@@ -49,6 +75,10 @@ Mods: {
 			}
 
 			Camera: {
+				Category: {
+					//DisplayName: "Camera"
+				}
+
 				SmoothCamera: {
 					DisplayName: "Câmera Suave"
 					Description: "Interpola o movimento da câmera para melhorar a sensação de velocidade."
@@ -60,7 +90,35 @@ Mods: {
 				}
 			}
 
+			Enemies: {
+				Category: {
+					//DisplayName: "Enemies"
+				}
+			}
+
+			Guns: {
+				Category: {
+					//DisplayName: "Guns"
+				}
+			}
+
+			Melee: {
+				Category: {
+					//DisplayName: "Melee"
+				}
+			}
+
+			Music: {
+				Category: {
+					//DisplayName: "Music"
+				}
+			}
+
 			PlayerMovement: {
+				Category: {
+					//DisplayName: "Player Movement"
+				}
+
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "Ativar mudanças na Aceleração Vertical"
 					Description: "Ativa fricção com ar e velocidade de queda (quase) infinita."
@@ -101,6 +159,10 @@ Mods: {
 			}
 
 			PlayerVisuals: {
+				Category: {
+					//DisplayName: "Player Visuals"
+				}
+
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Sempre mostrar Armas com Mira"
 					Description: "Permite armas com o estilo de uso 'empunhando' serem visíveis quando não atirando."
