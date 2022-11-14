@@ -5,8 +5,9 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Interface;
+using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Core.Configuration;
+namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class ConfigPanel : UIPanel
 {
@@ -20,7 +21,7 @@ public class ConfigPanel : UIPanel
 
 	public ConfigPanel(string title, Asset<Texture2D> thumbnailTexture, Asset<Texture2D>? borderTexture = null) : base()
 	{
-		borderTexture ??= defaultBorderTexture ??= ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Core/Configuration/_UI/ThumbnailBorder");
+		borderTexture ??= defaultBorderTexture ??= ModContent.Request<Texture2D>($"{GetType().GetFullDirectory()}/ThumbnailBorder");
 
 		thumbnailTexture.Wait?.Invoke();
 		borderTexture.Wait?.Invoke();

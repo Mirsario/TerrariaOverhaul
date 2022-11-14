@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.IO;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
@@ -10,8 +11,9 @@ using Terraria.ModLoader;
 using Terraria.ModLoader.UI.Elements;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Interface;
+using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Core.Configuration;
+namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class ConfigurationUIState : UIState
 {
@@ -135,7 +137,7 @@ public class ConfigurationUIState : UIState
 			panelGrid.SetScrollbar(e);
 		}));
 
-		var thumbnailPlaceholder = ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Core/Configuration/_UI/Thumbnail");
+		var thumbnailPlaceholder = ModContent.Request<Texture2D>($"{GetType().GetFullDirectory()}/Thumbnail");
 
 		for (int i = 1; i <= 25; i++) {
 			panelGrid.Add(new ConfigPanel("Quandale Dingle Here", thumbnailPlaceholder).With(e => {

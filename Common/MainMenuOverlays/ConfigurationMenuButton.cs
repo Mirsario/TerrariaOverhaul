@@ -1,7 +1,7 @@
 ﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Common.ConfigurationScreen;
 using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays;
