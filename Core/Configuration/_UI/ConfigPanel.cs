@@ -1,15 +1,29 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.UI;
+using TerrariaOverhaul.Core.Interface;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Core.Configuration;
 
-public class ConfigPanel : UIPanel
+[Autoload(Side = ModSide.Client)]
+public class ConfigPanel : UIPanel, ILoadable
 {
-	public ConfigPanel(string thumbnailTexture) : base()
+	private static Asset<Texture2D> defaultBorderTexture = null!;
+
+	public UIText Title { get; }
+	public UIImage Thumbnail { get; }
+	public UIImage ThumbnailBorder { get; }
+	public UIPanel ThumbnailContainer { get; }
+	public UIElement Container { get; }
+
+	public ConfigPanel(string title, Asset<Texture2D> thumbnailTexture, Asset<Texture2D>? borderTexture = null) : base()
 	{
+		// Self
+
 		Width = StyleDimension.FromPixels(144f);
 		Height = StyleDimension.FromPixels(180f);
 		BorderColor = Color.Black;
@@ -17,56 +31,55 @@ public class ConfigPanel : UIPanel
 
 		SetPadding(0f);
 
-		var panelThumbnailContainer = new UIPanel() {
-			Width = StyleDimension.FromPixels(104f),
-			Height = StyleDimension.FromPixels(104f),
-			HAlign = 0.5f,
-			VAlign = 0.1f,
-			BackgroundColor = Color.Red * 0.5f,
-			BorderColor = Color.Red * 0.5f
-		};
+		// Elements
 
-		panelThumbnailContainer.SetPadding(0f);
+		ThumbnailContainer = this.AddElement(new UIPanel().With(static e => {
+			e.Width = StyleDimension.FromPixels(104f);
+			e.Height = StyleDimension.FromPixels(104f);
+			e.HAlign = 0.5f;
+			e.VAlign = 0.1f;
+			e.BackgroundColor = Color.Red * 0.5f;
+			e.BorderColor = Color.Red * 0.5f;
 
-		Append(panelThumbnailContainer);
+			e.SetPadding(0f);
+		}));
 
-		var panelThumbnailBorder = new UIImage(/* border image path */) {
-			HAlign = 0f,
-			VAlign = 0f
-		};
+		ThumbnailBorder = ThumbnailContainer.AddElement(new UIImage(borderTexture ?? defaultBorderTexture).With(static e => {
+			e.HAlign = 0f;
+			e.VAlign = 0f;
+		}));
 
-		panelThumbnailContainer.Append(panelThumbnailBorder);
+		Thumbnail = ThumbnailBorder.AddElement(new UIImage(thumbnailTexture).With(static e => {
+			e.Width = StyleDimension.FromPixels(96f);
+			e.Height = StyleDimension.FromPixels(96f);
+			e.ScaleToFit = true;
+			e.AllowResizingDimensions = true;
+			e.HAlign = 0.5f;
+			e.VAlign = 0.5f;
+		}));
 
-		/*var panelThumbnail = new UIImage(ModContent.Request<Texture2D>(thumbnailTexture)) {
-			Width = StyleDimension.FromPixels(96f),
-			Height = StyleDimension.FromPixels(96f),
-			ScaleToFit = true,
-			AllowResizingDimensions = true,
-			HAlign = 0.5f,
-			VAlign = 0.5f
-		};
+		Container = this.AddElement(new UIElement().With(static e => {
+			e.Width = StyleDimension.FromPercent(1f);
+			e.Height = StyleDimension.FromPixels(68f);
+			e.VAlign = 1f;
+		}));
 
-		panelThumbnailBorder.Append(panelThumbnail);*/
-
-		/*var panelTitleContainer = new UIElement() {
-			Width = StyleDimension.FromPercent(1f),
-			Height = StyleDimension.FromPixels(68f),
-			VAlign = 1f
-		};
-
-		Append(panelTitleContainer);
-
-		var panelTitle = new UIText("Quandale Dingle Here") {
-			IsWrapped = true,
-			Width = StyleDimension.FromPercent(1f),
-			Height = StyleDimension.FromPercent(1f),
-			Top = StyleDimension.FromPixels(14f),
-			HAlign = 0f,
-			VAlign = 0.5f,
-			PaddingLeft = 20f,
-			PaddingRight = 20f,
-		};
-
-		panelTitleContainer.Append(panelTitle);*/
+		Title = Container.AddElement(new UIText(title).With(static e => {
+			e.IsWrapped = true;
+			e.Width = StyleDimension.FromPercent(1f);
+			e.Height = StyleDimension.FromPercent(1f);
+			e.Top = StyleDimension.FromPixels(14f);
+			e.HAlign = 0f;
+			e.VAlign = 0.5f;
+			e.PaddingLeft = 20f;
+			e.PaddingRight = 20f;
+		}));
 	}
+
+	void ILoadable.Load(Mod mod)
+	{
+		defaultBorderTexture = TextureUtils.GetPlaceholderTexture();
+	}
+
+	void ILoadable.Unload() { }
 }

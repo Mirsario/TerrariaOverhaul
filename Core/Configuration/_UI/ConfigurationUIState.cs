@@ -6,147 +6,142 @@ using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.Localization;
+using Terraria.ModLoader;
 using Terraria.ModLoader.UI.Elements;
 using Terraria.UI;
+using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Core.Configuration;
 
 public class ConfigurationUIState : UIState
 {
-	// Elements
-	private UIImageButton searchButton = null!;
-	private UISearchBar searchBar = null!;
-	private UIPanel searchBarPanel = null!;
 	// Search
 	private string? searchString;
 	// Etc.
 	private bool clickedSearchBar;
 	private bool clickedSomething;
 
+	// Main
+	public UIPanel MainPanel { get; private set; } = null!;
+	public UIElement ContentArea { get; private set; } = null!;
+	public UITextPanel<LocalizedText> ExitButton { get; private set; } = null!;
+	// Search
+	public UIImageButton SearchButton { get; private set; } = null!;
+	public UISearchBar SearchBar { get; private set; } = null!;
+	public UIPanel SearchBarPanel { get; private set; } = null!;
+	// Panels
+
 	public override void OnInitialize()
 	{
-		#region Main Elements
+		// Main Elements
 
-		var contentArea = new UIElement {
-			Width = StyleDimension.FromPixels(800f),
-			Top = StyleDimension.FromPixels(220f),
-			Height = StyleDimension.FromPixelsAndPercent(-220f, 1f),
-			HAlign = 0.5f
-		};
+		ContentArea = this.AddElement(new UIElement().With(e => {
+			e.Width = StyleDimension.FromPixels(800f);
+			e.Top = StyleDimension.FromPixels(220f);
+			e.Height = StyleDimension.FromPixelsAndPercent(-220f, 1f);
+			e.HAlign = 0.5f;
+		}));
 
-		Append(contentArea);
+		ExitButton = ContentArea.AddElement(new UITextPanel<LocalizedText>(Language.GetText("UI.Back"), 0.7f, large: true).With(e => {
+			e.Width = StyleDimension.FromPixelsAndPercent(-10f, 0.5f);
+			e.Height = StyleDimension.FromPixels(50f);
+			e.VAlign = 1f;
+			e.HAlign = 0.5f;
+			e.Top = StyleDimension.FromPixels(-25f);
 
-		var exitButton = new UITextPanel<LocalizedText>(Language.GetText("UI.Back"), 0.7f, large: true) {
-			Width = StyleDimension.FromPixelsAndPercent(-10f, 0.5f),
-			Height = StyleDimension.FromPixels(50f),
-			VAlign = 1f,
-			HAlign = 0.5f,
-			Top = StyleDimension.FromPixels(-25f)
-		};
+			e.OnMouseOver += FadedMouseOver;
+			e.OnMouseOut += FadedMouseOut;
+			e.OnMouseDown += Click_GoBack;
 
-		exitButton.OnMouseOver += FadedMouseOver;
-		exitButton.OnMouseOut += FadedMouseOut;
-		exitButton.OnMouseDown += Click_GoBack;
-		exitButton.SetSnapPoint("ExitButton", 0);
-		contentArea.Append(exitButton);
+			e.SetSnapPoint("ExitButton", 0);
+		}));
 
-		var mainPanel = new UIPanel {
-			Width = StyleDimension.FromPercent(1f),
-			Height = StyleDimension.FromPixelsAndPercent(-90f, 1f),
-			BackgroundColor = new Color(33, 43, 79) * 0.8f
-		};
+		MainPanel = ContentArea.AddElement(new UIPanel().With(e => {
+			e.Width = StyleDimension.FromPercent(1f);
+			e.Height = StyleDimension.FromPixelsAndPercent(-90f, 1f);
+			e.BackgroundColor = new Color(33, 43, 79) * 0.8f;
 
-		mainPanel.SetPadding(0f);
-		contentArea.Append(mainPanel);
+			e.SetPadding(0f);
+		}));
 
-		#endregion
+		// Search Bar
 
-		#region Search Bar
+		var searchBarSection = MainPanel.AddElement(new UIElement().With(e => {
+			e.Width = StyleDimension.FromPercent(1f);
+			e.Height = StyleDimension.FromPixels(24f);
+			e.Top = StyleDimension.FromPixels(12f);
+			e.VAlign = 0f;
 
-		var searchBarSection = new UIElement {
-			Width = StyleDimension.FromPercent(1f),
-			Height = StyleDimension.FromPixels(24f),
-			Top = StyleDimension.FromPixels(12f),
-			VAlign = 0f,
-		};
+			e.SetPadding(0f);
+		}));
 
-		searchBarSection.SetPadding(0f);
-		mainPanel.Append(searchBarSection);
+		SearchBarPanel = searchBarSection.AddElement(new UIPanel().With(e => {
+			e.Width = StyleDimension.FromPercent(0.95f);
+			e.Height = StyleDimension.FromPercent(1f);
+			e.HAlign = 0.5f;
+			e.VAlign = 0.5f;
+			e.BorderColor = new Color(73, 94, 171);
+			e.BackgroundColor = new Color(73, 94, 171);
 
-		searchBarPanel = new() {
-			Width = StyleDimension.FromPercent(0.95f),
-			Height = StyleDimension.FromPercent(1f),
-			HAlign = 0.5f,
-			VAlign = 0.5f,
-			BorderColor = new Color(73, 94, 171),
-			BackgroundColor = new Color(73, 94, 171)
-		};
+			e.SetPadding(0f);
+		}));
 
-		searchBarPanel.SetPadding(0f);
-		searchBarSection.Append(searchBarPanel);
+		SearchBar = SearchBarPanel.AddElement(new UISearchBar(Language.GetText("Search"), 0.8f).With(e => {
+			e.Width = StyleDimension.FromPercent(1f);
+			e.Height = StyleDimension.FromPercent(1f);
+			e.HAlign = 0f;
+			e.VAlign = 0.5f;
 
-		searchBar = new(Language.GetText("Search"), 0.8f) {
-			Width = StyleDimension.FromPercent(1f),
-			Height = StyleDimension.FromPercent(1f),
-			HAlign = 0f,
-			VAlign = 0.5f,
-		};
+			e.OnClick += Click_SearchArea;
+			e.OnContentsChanged += OnSearchContentsChanged;
+			e.OnStartTakingInput += OnStartTakingInput;
+			e.OnEndTakingInput += OnEndTakingInput;
 
-		searchBar.OnClick += Click_SearchArea;
-		searchBar.OnContentsChanged += OnSearchContentsChanged;
-		searchBar.OnStartTakingInput += OnStartTakingInput;
-		searchBar.OnEndTakingInput += OnEndTakingInput;
-		searchBarPanel.Append(searchBar);
-		searchBar.SetContents(null, forced: true);
+			e.SetContents(null, forced: true);
+		}));
 
-		var searchCancelButton = new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/SearchCancel")) {
-			HAlign = 1f,
-			VAlign = 0.5f,
-			Left = StyleDimension.FromPixels(-2f)
-		};
+		var searchCancelButton = SearchBar.AddElement(new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/SearchCancel")).With(e => {
+			e.HAlign = 1f;
+			e.VAlign = 0.5f;
+			e.Left = StyleDimension.FromPixels(-2f);
 
-		searchCancelButton.OnMouseOver += SearchCancelButton_OnMouseOver;
-		searchCancelButton.OnClick += SearchCancelButton_OnClick;
-		searchBar.Append(searchCancelButton);
+			e.OnMouseOver += SearchCancelButton_OnMouseOver;
+			e.OnClick += SearchCancelButton_OnClick;
+		}));
 
-		#endregion
+		// Panel Grid
 
-		#region Panel Grid
+		var panelGridContainer = MainPanel.AddElement(new UIElement().With(e => {
+			e.Width = StyleDimension.FromPercent(1f);
+			e.Height = StyleDimension.FromPixelsAndPercent(-48f, 1f);
+			e.Top = StyleDimension.FromPixels(48f);
+			e.PaddingBottom = 15f;
+		}));
 
-		var panelGridContainer = new UIElement() {
-			Width = StyleDimension.FromPercent(1f),
-			Height = StyleDimension.FromPixelsAndPercent(-48f, 1f),
-			Top = StyleDimension.FromPixels(48f),
-			PaddingBottom = 15f
-		};
+		var panelGrid = panelGridContainer.AddElement(new UIGrid().With(e => {
+			e.Width = StyleDimension.FromPercent(0.95f);
+			e.Height = StyleDimension.FromPercent(1f);
+			e.HAlign = 0.5f;
+			e.ListPadding = 15f;
+			e.PaddingLeft = 15f;
+			e.PaddingRight = 15f;
+		}));
 
-		mainPanel.Append(panelGridContainer);
+		var panelGridScrollbar = panelGridContainer.AddElement(new UIScrollbar().With(e => {
+			e.Height = StyleDimension.FromPixelsAndPercent(-8f, 1f);
+			e.Left = StyleDimension.FromPixelsAndPercent(-2f, 1f);
+			e.VAlign = 0.5f;
 
-		var panelGrid = new UIGrid() {
-			Width = StyleDimension.FromPercent(0.95f),
-			Height = StyleDimension.FromPercent(1f),
-			HAlign = 0.5f,
-			ListPadding = 15f,
-			PaddingLeft = 15f,
-			PaddingRight = 15f
-		};
+			panelGrid.SetScrollbar(e);
+		}));
 
-		panelGridContainer.Append(panelGrid);
-
-		var panelGridScrollbar = new UIScrollbar() /*{
-			Height = StyleDimension.FromPixelsAndPercent(-8f, 1f),
-			Left = StyleDimension.FromPixelsAndPercent(-2f, 1f),
-			VAlign = 0.5f
-		}*/;
-
-		panelGrid.SetScrollbar(panelGridScrollbar);
-		// PanelGridContainer.Append(PanelGridScrollbar);
+		var placeholderTexture = ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/NoTexture");
 
 		for (int i = 1; i <= 25; i++) {
-			panelGrid.Add(new ConfigPanel(/* thumbnail image path */));
+			panelGrid.Add(new ConfigPanel("Quandale Dingle Here", placeholderTexture).With(e => {
+				;
+			}));
 		}
-
-		#endregion
 	}
 
 	private void Click_GoBack(UIMouseEvent evt, UIElement listeningElement)
@@ -172,12 +167,12 @@ public class ConfigurationUIState : UIState
 
 	private void Click_SearchArea(UIMouseEvent evt, UIElement listeningElement)
 	{
-		if (searchBar == null) {
+		if (SearchBar == null) {
 			return;
 		}
 
-		if (listeningElement == searchBar || listeningElement == searchButton || listeningElement == searchBarPanel) {
-			searchBar.ToggleTakingText();
+		if (listeningElement == SearchBar || listeningElement == SearchButton || listeningElement == SearchBarPanel) {
+			SearchBar.ToggleTakingText();
 
 			clickedSearchBar = true;
 		}
@@ -190,19 +185,19 @@ public class ConfigurationUIState : UIState
 
 	private void OnStartTakingInput()
 	{
-		searchBarPanel.BorderColor = Main.OurFavoriteColor;
+		SearchBarPanel.BorderColor = Main.OurFavoriteColor;
 	}
 
 	private void OnEndTakingInput()
 	{
-		searchBarPanel.BorderColor = new Color(73, 94, 171);
+		SearchBarPanel.BorderColor = new Color(73, 94, 171);
 	}
 
 	private void OnFinishedSettingName(string name)
 	{
 		string contents = name.Trim();
 
-		searchBar.SetContents(contents);
+		SearchBar.SetContents(contents);
 		GoBackHere();
 	}
 
@@ -210,15 +205,15 @@ public class ConfigurationUIState : UIState
 	{
 		UserInterface.ActiveInstance.SetState(this);
 
-		if (searchBar.IsWritingText) {
-			searchBar.ToggleTakingText();
+		if (SearchBar.IsWritingText) {
+			SearchBar.ToggleTakingText();
 		}
 	}
 
 	private void SearchCancelButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
 	{
-		if (searchBar.HasContents) {
-			searchBar.SetContents(null, forced: true);
+		if (SearchBar.HasContents) {
+			SearchBar.SetContents(null, forced: true);
 			SoundEngine.PlaySound(SoundID.MenuClose);
 		} else {
 			SoundEngine.PlaySound(SoundID.MenuTick);
@@ -243,12 +238,12 @@ public class ConfigurationUIState : UIState
 
 	public override void Update(GameTime gameTime)
 	{
-		if (clickedSomething && !clickedSearchBar && searchBar.IsWritingText) {
-			searchBar.ToggleTakingText();
+		if (clickedSomething && !clickedSearchBar && SearchBar.IsWritingText) {
+			SearchBar.ToggleTakingText();
 		}
 
 		if (Main.keyState.IsKeyDown(Keys.Escape) && !Main.oldKeyState.IsKeyDown(Keys.Escape)) {
-			if (searchBar.IsWritingText) {
+			if (SearchBar.IsWritingText) {
 				GoBackHere();
 			} else {
 				SoundEngine.PlaySound(SoundID.MenuClose);
