@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -139,7 +140,7 @@ public class ConfigurationUIState : UIState
 		}));
 
 		var thumbnailPlaceholder = ModContent.Request<Texture2D>($"{GetType().GetFullDirectory()}/Thumbnail");
-		var configCategories = ConfigSystem.CategoriesByName.Keys;
+		var configCategories = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s);
 
 		foreach (string category in configCategories) {
 			panelGrid.Add(new ConfigPanel(category, thumbnailPlaceholder));
