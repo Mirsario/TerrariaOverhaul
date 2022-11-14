@@ -10,6 +10,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI.Elements;
 using Terraria.UI;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Interface;
 using TerrariaOverhaul.Utilities;
 
@@ -138,11 +139,10 @@ public class ConfigurationUIState : UIState
 		}));
 
 		var thumbnailPlaceholder = ModContent.Request<Texture2D>($"{GetType().GetFullDirectory()}/Thumbnail");
+		var configCategories = ConfigSystem.CategoriesByName.Keys;
 
-		for (int i = 1; i <= 25; i++) {
-			panelGrid.Add(new ConfigPanel("Quandale Dingle Here", thumbnailPlaceholder).With(e => {
-				;
-			}));
+		foreach (string category in configCategories) {
+			panelGrid.Add(new ConfigPanel(category, thumbnailPlaceholder));
 		}
 	}
 

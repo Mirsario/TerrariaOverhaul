@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Core.Configuration;
 
 public sealed partial class ConfigSystem : ModSystem
 {
-	private class CategoryData
+	public class CategoryData
 	{
 		public readonly Dictionary<string, IConfigEntry> EntriesByName = new();
 	}
@@ -29,6 +29,7 @@ public sealed partial class ConfigSystem : ModSystem
 	private static volatile int ignoreConfigWatcherCounter;
 
 	public static IReadOnlyDictionary<string, IConfigEntry> EntriesByName { get; } = new ReadOnlyDictionary<string, IConfigEntry>(entriesByName);
+	public static IReadOnlyDictionary<string, CategoryData> CategoriesByName { get; } = new ReadOnlyDictionary<string, CategoryData>(categoriesByName);
 
 	public override void OnModLoad()
 	{
