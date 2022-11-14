@@ -115,30 +115,30 @@ public class ConfigurationUIState : UIState
 			e.Width = StyleDimension.FromPercent(1f);
 			e.Height = StyleDimension.FromPixelsAndPercent(-48f, 1f);
 			e.Top = StyleDimension.FromPixels(48f);
+			e.PaddingLeft = 15f;
+			e.PaddingRight = 15f;
 			e.PaddingBottom = 15f;
 		}));
 
 		var panelGrid = panelGridContainer.AddElement(new UIGrid().With(e => {
-			e.Width = StyleDimension.FromPercent(0.95f);
+			e.Width = StyleDimension.FromPixelsAndPercent(-20, 1f);
 			e.Height = StyleDimension.FromPercent(1f);
-			e.HAlign = 0.5f;
 			e.ListPadding = 15f;
-			e.PaddingLeft = 15f;
 			e.PaddingRight = 15f;
 		}));
 
 		var panelGridScrollbar = panelGridContainer.AddElement(new UIScrollbar().With(e => {
-			e.Height = StyleDimension.FromPixelsAndPercent(-8f, 1f);
-			e.Left = StyleDimension.FromPixelsAndPercent(-2f, 1f);
+			e.HAlign = 1f;
 			e.VAlign = 0.5f;
+			e.Height = StyleDimension.FromPixelsAndPercent(-8f, 1f);
 
 			panelGrid.SetScrollbar(e);
 		}));
 
-		var placeholderTexture = ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/NoTexture");
+		var thumbnailPlaceholder = ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Core/Configuration/_UI/Thumbnail");
 
 		for (int i = 1; i <= 25; i++) {
-			panelGrid.Add(new ConfigPanel("Quandale Dingle Here", placeholderTexture).With(e => {
+			panelGrid.Add(new ConfigPanel("Quandale Dingle Here", thumbnailPlaceholder).With(e => {
 				;
 			}));
 		}
