@@ -9,7 +9,6 @@ public struct ScreenShake
 {
 	public const float DefaultRange = 512f;
 
-
 	internal float startTime = 0f;
 	internal float endTime = 0f;
 
