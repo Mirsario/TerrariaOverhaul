@@ -22,7 +22,7 @@ public class SlashPlayerDrawLayer : PlayerDrawLayer
 
 	public override void Load()
 	{
-		texture = Mod.Assets.Request<Texture2D>($"{ModPathUtils.GetDirectory(GetType())}/Slash");
+		texture = Mod.Assets.Request<Texture2D>($"{GetType().GetDirectory()}/Slash");
 	}
 
 	public override Position GetDefaultPosition()

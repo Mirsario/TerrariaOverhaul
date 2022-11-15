@@ -19,7 +19,7 @@ public class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
 
 	public override void Load()
 	{
-		texture = Mod.Assets.Request<Texture2D>($"{ModPathUtils.GetDirectory(GetType())}/Muzzleflash");
+		texture = Mod.Assets.Request<Texture2D>($"{GetType().GetDirectory()}/Muzzleflash");
 		gunBarrelEndPositions ??= new();
 	}
 
