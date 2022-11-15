@@ -61,7 +61,7 @@ public class ConfigurationUIState : UIState
 		}));
 
 		MainPanel = ContentArea.AddElement(new UIPanel().With(e => {
-			e.Width = StyleDimension.FromPercent(1f);
+			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixelsAndPercent(-90f, 1f);
 			e.BackgroundColor = new Color(33, 43, 79) * 0.8f;
 
@@ -71,7 +71,7 @@ public class ConfigurationUIState : UIState
 		// Search Bar
 
 		var searchBarSection = MainPanel.AddElement(new UIElement().With(e => {
-			e.Width = StyleDimension.FromPercent(1f);
+			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixels(24f);
 			e.Top = StyleDimension.FromPixels(12f);
 			e.VAlign = 0f;
@@ -81,7 +81,7 @@ public class ConfigurationUIState : UIState
 
 		SearchBarPanel = searchBarSection.AddElement(new UIPanel().With(e => {
 			e.Width = StyleDimension.FromPercent(0.95f);
-			e.Height = StyleDimension.FromPercent(1f);
+			e.Height = StyleDimension.Fill;
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
 			e.BorderColor = new Color(73, 94, 171);
@@ -91,8 +91,8 @@ public class ConfigurationUIState : UIState
 		}));
 
 		SearchBar = SearchBarPanel.AddElement(new UISearchBar(Language.GetText("Search"), 0.8f).With(e => {
-			e.Width = StyleDimension.FromPercent(1f);
-			e.Height = StyleDimension.FromPercent(1f);
+			e.Width = StyleDimension.Fill;
+			e.Height = StyleDimension.Fill;
 			e.HAlign = 0f;
 			e.VAlign = 0.5f;
 
@@ -116,7 +116,7 @@ public class ConfigurationUIState : UIState
 		// Panel Grid
 
 		var panelGridContainer = MainPanel.AddElement(new UIElement().With(e => {
-			e.Width = StyleDimension.FromPercent(1f);
+			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixelsAndPercent(-48f, 1f);
 			e.Top = StyleDimension.FromPixels(48f);
 			e.PaddingLeft = 15f;
@@ -126,7 +126,7 @@ public class ConfigurationUIState : UIState
 
 		var panelGrid = panelGridContainer.AddElement(new UIGrid().With(e => {
 			e.Width = StyleDimension.FromPixelsAndPercent(-20, 1f);
-			e.Height = StyleDimension.FromPercent(1f);
+			e.Height = StyleDimension.Fill;
 			e.ListPadding = 15f;
 			e.PaddingRight = 15f;
 		}));
