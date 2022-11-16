@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -144,9 +145,31 @@ public class ConfigurationUIState : UIState
 
 		foreach (string category in configCategories) {
 			var localizedCategoryName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.Category.DisplayName");
+			var ConfigPanel = new ConfigPanel(localizedCategoryName, thumbnailPlaceholder);
 
-			panelGrid.Add(new ConfigPanel(localizedCategoryName, thumbnailPlaceholder));
+			panelGrid.Add(ConfigPanel);
+
+			ConfigPanel.OnClick += ConfigPanel_OnClick;
 		}
+	}
+
+	private void ConfigPanel_OnClick(UIMouseEvent evt, UIElement listeningElement)
+	{
+		var ModalBackground = this.AddElement(new UIPanel().With(e => {
+			e.Width = StyleDimension.Fill;
+			e.Height = StyleDimension.Fill;
+			e.BackgroundColor = Color.Black * 0.85f;
+			e.BorderColor = Color.Black * 0.85f;
+		}));
+
+		var ModalPanel = ModalBackground.AddElement(new UIPanel().With(e => {
+			e.Width = StyleDimension.FromPercent(0.45f);
+			e.Height = StyleDimension.FromPercent(0.45f);
+			e.HAlign = 0.5f;
+			e.VAlign = 0.5f;
+			e.BorderColor = Color.Black;
+			e.BackgroundColor = new Color(73, 94, 171);
+		}));
 	}
 
 	private void Click_GoBack(UIMouseEvent evt, UIElement listeningElement)

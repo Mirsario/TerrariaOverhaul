@@ -18,10 +18,15 @@ public class ConfigPanel : UIPanel
 	public UIImage Thumbnail { get; }
 	public UIImage ThumbnailBorder { get; }
 	public UIElement TitleContainer { get; }
-	public UIText Title { get; }
+	public UIElement TitleConstraint { get; }
+	public ScrollingUIText Title { get; }
+
+	public LocalizedText titleText;
 
 	public ConfigPanel(LocalizedText title, Asset<Texture2D> thumbnailTexture, Asset<Texture2D>? borderTexture = null) : base()
 	{
+		titleText = title;
+
 		borderTexture ??= defaultBorderTexture ??= ModContent.Request<Texture2D>($"{GetType().GetFullDirectory()}/ThumbnailBorder");
 
 		thumbnailTexture.Wait?.Invoke();
@@ -30,15 +35,18 @@ public class ConfigPanel : UIPanel
 		// Self
 
 		Width = StyleDimension.FromPixels(135f);
-		Height = StyleDimension.FromPixels(190f);
+		Height = StyleDimension.FromPixels(165f);
 		BorderColor = Color.Black;
 		BackgroundColor = new Color(73, 94, 171);
+
+		SetPadding(0f);
 
 		// Thumbnail
 
 		ThumbnailContainer = this.AddElement(new UIElement().With(e => {
 			e.Width = StyleDimension.FromPixels(112);
 			e.Height = StyleDimension.FromPixels(112f);
+			e.Top = StyleDimension.FromPixels(12f);
 			e.HAlign = 0.5f;
 		}));
 
@@ -57,16 +65,24 @@ public class ConfigPanel : UIPanel
 		// Title
 
 		TitleContainer = this.AddElement(new UIElement().With(e => {
-			e.Width = StyleDimension.Fill;
-			e.Height = StyleDimension.FromPixels(54f);
+			e.Width = StyleDimension.FromPixelsAndPercent(-12f, 1f);
+			e.Height = StyleDimension.FromPixels(45f);
+			e.HAlign = 0.5f;
 			e.VAlign = 1f;
-			e.PaddingTop = 9f;
 		}));
 
-		Title = TitleContainer.AddElement(new UIText(title).With(e => {
+		TitleConstraint = TitleContainer.AddElement(new UIElement().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.Fill;
-			e.IsWrapped = true;
+			e.OverflowHidden = true;
 		}));
+
+		Title = TitleConstraint.AddElement(new ScrollingUIText(title).With(e => {
+			e.HAlign = 0.5f;
+			e.VAlign = 0.5f;
+			e.scrollStopAssistElement = this;
+		}));
+
+		Title.noScroll = Title.GetOuterDimensions().Width < 125f;
 	}
 }
