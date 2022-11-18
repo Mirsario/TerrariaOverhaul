@@ -30,11 +30,11 @@ public class ConfigurationUIState : UIState
 	public UIPanel MainPanel { get; private set; } = null!;
 	public UIElement ContentArea { get; private set; } = null!;
 	public UITextPanel<LocalizedText> ExitButton { get; private set; } = null!;
+	public UIElement GridPage { get; private set; } = null!;
 	// Search
 	public UIImageButton SearchButton { get; private set; } = null!;
 	public UISearchBar SearchBar { get; private set; } = null!;
 	public UIPanel SearchBarPanel { get; private set; } = null!;
-	// Panels
 
 	public override void OnInitialize()
 	{
@@ -69,9 +69,14 @@ public class ConfigurationUIState : UIState
 			e.SetPadding(0f);
 		}));
 
+		GridPage = MainPanel.AddElement(new UIElement().With(e => {
+			e.Width = StyleDimension.Fill;
+			e.Height = StyleDimension.Fill;
+		}));
+
 		// Search Bar
 
-		var searchBarSection = MainPanel.AddElement(new UIElement().With(e => {
+		var searchBarSection = GridPage.AddElement(new UIElement().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixels(24f);
 			e.Top = StyleDimension.FromPixels(12f);
@@ -116,7 +121,7 @@ public class ConfigurationUIState : UIState
 
 		// Panel Grid
 
-		var panelGridContainer = MainPanel.AddElement(new UIElement().With(e => {
+		var panelGridContainer = GridPage.AddElement(new UIElement().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixelsAndPercent(-48f, 1f);
 			e.Top = StyleDimension.FromPixels(48f);
@@ -155,21 +160,10 @@ public class ConfigurationUIState : UIState
 
 	private void ConfigPanel_OnClick(UIMouseEvent evt, UIElement listeningElement)
 	{
-		var ModalBackground = this.AddElement(new UIPanel().With(e => {
-			e.Width = StyleDimension.Fill;
-			e.Height = StyleDimension.Fill;
-			e.BackgroundColor = Color.Black * 0.85f;
-			e.BorderColor = Color.Black * 0.85f;
-		}));
+		GridPage.Remove();
 
-		var ModalPanel = ModalBackground.AddElement(new UIPanel().With(e => {
-			e.Width = StyleDimension.FromPercent(0.45f);
-			e.Height = StyleDimension.FromPercent(0.45f);
-			e.HAlign = 0.5f;
-			e.VAlign = 0.5f;
-			e.BorderColor = Color.Black;
-			e.BackgroundColor = new Color(73, 94, 171);
-		}));
+		var panel = (ConfigPanel)listeningElement;
+		MainPanel.AddElement(new SettingsPanel(panel.titleText));
 	}
 
 	private void Click_GoBack(UIMouseEvent evt, UIElement listeningElement)

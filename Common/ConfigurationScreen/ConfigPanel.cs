@@ -83,6 +83,9 @@ public class ConfigPanel : UIPanel
 			e.scrollStopAssistElement = this;
 		}));
 
-		Title.noScroll = Title.GetOuterDimensions().Width < 125f;
+		if (Title.GetOuterDimensions().Width > 100f && Title.GetOuterDimensions().Width < 150f) {
+			Title.SetText(title, 0.8f, false);
+			Title.noScroll = true;
+		}
 	}
 }
