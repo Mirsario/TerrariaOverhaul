@@ -145,16 +145,22 @@ public class ConfigurationUIState : UIState
 			panelGrid.SetScrollbar(e);
 		}));
 
-		var thumbnailPlaceholder = ModContent.Request<Texture2D>($"{GetType().GetFullDirectory()}/Thumbnail");
+		string assetLocation = $"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config";
+
+		var thumbnailPlaceholder = ModContent.Request<Texture2D>($"{assetLocation}/NoPreview");
 		var configCategories = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s);
 
 		foreach (string category in configCategories) {
 			var localizedCategoryName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.Category.DisplayName");
-			var ConfigPanel = new ConfigPanel(localizedCategoryName, thumbnailPlaceholder);
 
-			panelGrid.Add(ConfigPanel);
+			string thumbnailPath = $"{assetLocation}/{category}/Category";
+			var thumbnailTexture = ModContent.HasAsset(thumbnailPath) ? ModContent.Request<Texture2D>(thumbnailPath) : thumbnailPlaceholder;
+			
+			var configPanel = new ConfigPanel(localizedCategoryName, thumbnailTexture);
 
-			ConfigPanel.OnClick += ConfigPanel_OnClick;
+			panelGrid.Add(configPanel);
+
+			configPanel.OnClick += ConfigPanel_OnClick;
 		}
 	}
 

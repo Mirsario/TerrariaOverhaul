@@ -27,7 +27,7 @@ public class ConfigPanel : UIPanel
 	{
 		titleText = title;
 
-		borderTexture ??= defaultBorderTexture ??= ModContent.Request<Texture2D>($"{GetType().GetFullDirectory()}/ThumbnailBorder");
+		borderTexture ??= defaultBorderTexture ??= ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/ThumbnailBorder");
 
 		thumbnailTexture.Wait?.Invoke();
 		borderTexture.Wait?.Invoke();
