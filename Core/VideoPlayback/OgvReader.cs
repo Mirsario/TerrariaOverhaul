@@ -62,7 +62,6 @@ public sealed class OgvReader : IAssetReader, ILoadable
 		var unmanagedStream = new UnmanagedMemoryStream((byte*)dataPtr, numBytes, numBytes, FileAccess.ReadWrite);
 
 		stream.CopyTo(unmanagedStream, numBytes);
-		unmanagedStream.Flush(); // The XML description about this doing nothing is a lie.
 		unmanagedStream.Seek(0L, SeekOrigin.Begin);
 
 		// Keep track of streams and the data pointers.
@@ -139,8 +138,6 @@ public sealed class OgvReader : IAssetReader, ILoadable
 		int numBytes = (int)((nint)nmemb * (nint)size);
 		var span = new Span<byte>((void*)ptr, numBytes);
 		int numRead = stream.Read(span);
-
-		stream.Flush(); // The XML description about this doing nothing is a lie.
 
 		return (IntPtr)numRead;
 	}
