@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
@@ -154,9 +155,19 @@ public class ConfigurationUIState : UIState
 			var localizedCategoryName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.Category.DisplayName");
 
 			string thumbnailPath = $"{assetLocation}/{category}/Category";
-			var thumbnailTexture = ModContent.HasAsset(thumbnailPath) ? ModContent.Request<Texture2D>(thumbnailPath) : thumbnailPlaceholder;
-			
-			var configPanel = new ConfigPanel(localizedCategoryName, thumbnailTexture);
+			string thumbnailVideoPath = $"{thumbnailPath}Video";
+
+			ConfigPanel configPanel;
+
+			if (ModContent.HasAsset(thumbnailVideoPath)) {
+				var thumbnailVideo = ModContent.Request<Video>(thumbnailVideoPath);
+
+				configPanel = new ConfigPanel(localizedCategoryName, thumbnailVideo);
+			} else {
+				var thumbnailTexture = ModContent.HasAsset(thumbnailPath) ? ModContent.Request<Texture2D>(thumbnailPath) : thumbnailPlaceholder;
+
+				configPanel = new ConfigPanel(localizedCategoryName, thumbnailTexture);
+			}
 
 			panelGrid.Add(configPanel);
 
