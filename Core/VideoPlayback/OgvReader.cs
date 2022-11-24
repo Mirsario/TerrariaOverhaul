@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
+using Ionic.Zlib;
 using Microsoft.Xna.Framework.Media;
 using ReLogic.Content;
 using ReLogic.Content.Readers;
@@ -50,18 +51,26 @@ public sealed class OgvReader : IAssetReader, ILoadable
 
 		await mainThreadCtx;
 
-		int numBytes = (int)(stream.Length - stream.Position);
-		var result = CreateVideo(stream, numBytes);
+		var result = CreateVideo(stream);
 
 		return (result as T)!;
 	}
 
-	private unsafe Video CreateVideo(Stream stream, int numBytes)
+	private unsafe Video CreateVideo(Stream stream)
 	{
+		// This is created only to get a length without accessing stream.Length,
+		// because 'stream' may be 'DeflateStream', and that doesn't implement it.
+		// Could be avoided.
+		using var memoryStream = new MemoryStream();
+
+		stream.CopyTo(memoryStream);
+
+		int numBytes = (int)memoryStream.Position;
 		var dataPtr = Marshal.AllocHGlobal(numBytes);
 		var unmanagedStream = new UnmanagedMemoryStream((byte*)dataPtr, numBytes, numBytes, FileAccess.ReadWrite);
 
-		stream.CopyTo(unmanagedStream, numBytes);
+		memoryStream.Seek(0, SeekOrigin.Begin);
+		memoryStream.CopyTo(unmanagedStream, numBytes);
 		unmanagedStream.Seek(0L, SeekOrigin.Begin);
 
 		// Keep track of streams and the data pointers.
