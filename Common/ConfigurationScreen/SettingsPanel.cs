@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using Terraria;
+using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -15,49 +17,65 @@ public class SettingsPanel : UIPanel
 {
 	public UIPanel OptionRowsPanel { get; }
 
-	public SettingsPanel(LocalizedText title) : base()
+	public SettingsPanel() : base()
 	{
 		// Self
 
 		Width = StyleDimension.Fill;
 		Height = StyleDimension.Fill;
 
-		SetPadding(0f);
+		SetPadding(12f);
 
 		// Main
 
 		var optionRowsContainer = this.AddElement(new UIElement().With(e => {
-			e.Width = StyleDimension.FromPercent(0.7f);
-			e.Height = StyleDimension.Fill;
+			e.Width = StyleDimension.Fill;
+			e.Height = StyleDimension.FromPercent(0.7f);
 		}));
 
 		var panelGrid = optionRowsContainer.AddElement(new UIGrid().With(e => {
-			e.Width = StyleDimension.FromPixelsAndPercent(-20, 1f);
+			e.Width = StyleDimension.FromPixelsAndPercent(-20f, 1f);
 			e.Height = StyleDimension.Fill;
 			e.ListPadding = 6f;
 
-			e.SetPadding(12f);
+			e.PaddingRight = 12f;
 		}));
 
 		var panelGridScrollbar = optionRowsContainer.AddElement(new UIScrollbar().With(e => {
 			e.HAlign = 1f;
 			e.VAlign = 0.5f;
-			e.Height = StyleDimension.FromPixelsAndPercent(-36f, 1f);
+			e.Height = StyleDimension.FromPixelsAndPercent(-8f, 1f);
 
 			panelGrid.SetScrollbar(e);
 		}));
 
-		for (int i = 0; i < 40; i++) {
-			panelGrid.Add(new UIPanel() {
-				Width = StyleDimension.Fill,
-				Height = StyleDimension.FromPixels(40f),
-			});
+		for (int i = 0; i < 17; i++) {
+			panelGrid.Add(new UIPanel().With(e => {
+				e.Width = StyleDimension.Fill;
+				e.Height = StyleDimension.FromPixels(40f);
+				e.BackgroundColor = new Color(73, 94, 171);
+			}));
 		}
 
+		// Bottom panel
+
 		var descriptionPanel = this.AddElement(new UIPanel().With(e => {
-			e.Width = StyleDimension.FromPixelsAndPercent(-27, 0.3f);
-			e.Height = StyleDimension.FromPixelsAndPercent(-24, 1f);
-			e.Left = StyleDimension.FromPixelsAndPercent(15f, 0.7f);
+			e.Width = StyleDimension.Fill;
+			e.Height = StyleDimension.FromPixelsAndPercent(-12f, 0.3f);
+			e.HAlign = 0.5f;
+			e.VAlign = 1f;
+			e.BackgroundColor = new Color(73, 94, 171);
+		}));
+
+		var optionIconContainer = descriptionPanel.AddElement(new UIElement().With(e => {
+			e.Height = StyleDimension.Fill;
+			e.Width = StyleDimension.FromPixels(129f);
+		}));
+
+		var unselectedIconBorder = optionIconContainer.AddElement(new UIImage(ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/UnselectedIconBorder")));
+
+		var unselectedIconImage = unselectedIconBorder.AddElement(new UIImage(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Icon_Locked")).With(e => {
+			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
 		}));
 	}

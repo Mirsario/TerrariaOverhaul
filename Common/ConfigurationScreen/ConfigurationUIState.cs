@@ -178,9 +178,7 @@ public class ConfigurationUIState : UIState
 	private void ConfigPanel_OnClick(UIMouseEvent evt, UIElement listeningElement)
 	{
 		GridPage.Remove();
-
-		var panel = (ConfigPanel)listeningElement;
-		MainPanel.AddElement(new SettingsPanel(panel.titleText));
+		MainPanel.AddElement(new SettingsPanel());
 	}
 
 	private void Click_GoBack(UIMouseEvent evt, UIElement listeningElement)
