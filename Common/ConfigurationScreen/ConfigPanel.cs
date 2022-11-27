@@ -44,6 +44,7 @@ public class ConfigPanel : UIPanel
 		Height = StyleDimension.FromPixels(165f);
 		BorderColor = Color.Black;
 		BackgroundColor = new Color(73, 94, 171);
+		BorderColor = new Color(42, 54, 99);
 
 		SetPadding(0f);
 

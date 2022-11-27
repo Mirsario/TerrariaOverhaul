@@ -26,12 +26,14 @@ public class ConfigurationUIState : UIState
 	// Etc.
 	private bool clickedSearchBar;
 	private bool clickedSomething;
+	private bool inCategoryMenu = true;
 
 	// Main
 	public UIPanel MainPanel { get; private set; } = null!;
 	public UIElement ContentArea { get; private set; } = null!;
 	public UITextPanel<LocalizedText> ExitButton { get; private set; } = null!;
-	public UIElement GridPage { get; private set; } = null!;
+	public UIElement ContentContainer { get; private set; } = null!;
+	public UIElement PanelGridContainer { get; private set; } = null!;
 	// Search
 	public UIImageButton SearchButton { get; private set; } = null!;
 	public UISearchBar SearchBar { get; private set; } = null!;
@@ -70,14 +72,18 @@ public class ConfigurationUIState : UIState
 			e.SetPadding(0f);
 		}));
 
-		GridPage = MainPanel.AddElement(new UIElement().With(e => {
+		ContentContainer = MainPanel.AddElement(new UIElement().With(e => {
 			e.Width = StyleDimension.Fill;
-			e.Height = StyleDimension.Fill;
+			e.Height = StyleDimension.FromPixelsAndPercent(-48f, 1f);
+			e.Top = StyleDimension.FromPixels(48f);
+			e.PaddingLeft = 15f;
+			e.PaddingRight = 15f;
+			e.PaddingBottom = 15f;
 		}));
 
 		// Search Bar
 
-		var searchBarSection = GridPage.AddElement(new UIElement().With(e => {
+		var searchBarSection = MainPanel.AddElement(new UIElement().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixels(24f);
 			e.Top = StyleDimension.FromPixels(12f);
@@ -122,23 +128,19 @@ public class ConfigurationUIState : UIState
 
 		// Panel Grid
 
-		var panelGridContainer = GridPage.AddElement(new UIElement().With(e => {
+		PanelGridContainer = ContentContainer.AddElement(new UIElement().With(e => {
 			e.Width = StyleDimension.Fill;
-			e.Height = StyleDimension.FromPixelsAndPercent(-48f, 1f);
-			e.Top = StyleDimension.FromPixels(48f);
-			e.PaddingLeft = 15f;
-			e.PaddingRight = 15f;
-			e.PaddingBottom = 15f;
+			e.Height = StyleDimension.Fill;
 		}));
 
-		var panelGrid = panelGridContainer.AddElement(new UIGrid().With(e => {
+		var panelGrid = PanelGridContainer.AddElement(new UIGrid().With(e => {
 			e.Width = StyleDimension.FromPixelsAndPercent(-20, 1f);
 			e.Height = StyleDimension.Fill;
 			e.ListPadding = 15f;
 			e.PaddingRight = 15f;
 		}));
 
-		var panelGridScrollbar = panelGridContainer.AddElement(new UIScrollbar().With(e => {
+		var panelGridScrollbar = PanelGridContainer.AddElement(new UIScrollbar().With(e => {
 			e.HAlign = 1f;
 			e.VAlign = 0.5f;
 			e.Height = StyleDimension.FromPixelsAndPercent(-8f, 1f);
@@ -177,14 +179,29 @@ public class ConfigurationUIState : UIState
 
 	private void ConfigPanel_OnClick(UIMouseEvent evt, UIElement listeningElement)
 	{
-		GridPage.Remove();
-		MainPanel.AddElement(new SettingsPanel());
+		PanelGridContainer.Remove();
+		ContentContainer.AddElement(new SettingsPanel());
+
+		inCategoryMenu = false;
 	}
 
 	private void Click_GoBack(UIMouseEvent evt, UIElement listeningElement)
 	{
+		BackButtonLogic();
+	}
+
+	private void BackButtonLogic()
+	{
 		SoundEngine.PlaySound(SoundID.MenuClose);
-		Main.menuMode = MenuID.Title;
+
+		if (inCategoryMenu) {
+			Main.menuMode = MenuID.Title;
+		} else {
+			ContentContainer.RemoveAllChildren();
+			ContentContainer.Append(PanelGridContainer);
+
+			inCategoryMenu = true;
+		}
 	}
 
 	private void FadedMouseOver(UIMouseEvent evt, UIElement listeningElement)
@@ -283,8 +300,7 @@ public class ConfigurationUIState : UIState
 			if (SearchBar.IsWritingText) {
 				GoBackHere();
 			} else {
-				SoundEngine.PlaySound(SoundID.MenuClose);
-				Main.menuMode = MenuID.Title;
+				BackButtonLogic();
 			}
 		}
 	}
