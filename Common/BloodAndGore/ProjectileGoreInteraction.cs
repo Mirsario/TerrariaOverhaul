@@ -12,7 +12,7 @@ public class ProjectileGoreInteraction : GlobalProjectile
 
 	public override bool InstancePerEntity => true;
 
-	public override void AI(Projectile projectile)
+	public override bool PreAI(Projectile projectile)
 	{
 		// Reset dontHitGore every X ticks when the projectile's flying somewhere
 		if (DontHitGore && projectile.position != projectile.oldPosition && projectile.timeLeft % 3 == 0) {
@@ -21,7 +21,7 @@ public class ProjectileGoreInteraction : GlobalProjectile
 
 		// Skip gore enumeration when there's nothing to do.
 		if (DontHitGore) {
-			return;
+			return true;
 		}
 
 		bool incendiary = OverhaulProjectileTags.Incendiary.Has(projectile.type);
@@ -61,5 +61,7 @@ public class ProjectileGoreInteraction : GlobalProjectile
 
 			break;
 		}
+
+		return true;
 	}
 }
