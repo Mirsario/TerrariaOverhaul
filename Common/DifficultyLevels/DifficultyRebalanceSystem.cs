@@ -6,7 +6,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Difficulties;
+namespace TerrariaOverhaul.Common.DifficultyLevels;
 
 internal sealed class DifficultyRebalanceSystem : ModSystem
 {

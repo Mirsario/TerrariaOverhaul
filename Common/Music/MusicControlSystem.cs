@@ -53,17 +53,25 @@ public sealed class MusicControlSystem : ModSystem
 			i => i.MatchLdloc(out iLocalId), // i
 			i => i.MatchLdloc(out volumeLocalId), // totalVolume
 			i => i.MatchLdloca(out fadeLocalId), // tempFade
-			i => i.MatchCallvirt(typeof(IAudioSystem), nameof(IAudioSystem.UpdateCommonTrack)),
+			i => i.MatchCallvirt(typeof(IAudioSystem), nameof(IAudioSystem.UpdateCommonTrack))
+		);
+
+		// Grab the skipping label. This is separate because of possibility of a debug no-op.
+		il.GotoNext(
+			MoveType.Before,
 			i => i.MatchBr(out skipLabel)
 		);
 
 		// Match 'if (i == curMusic)' above the previous line
+
 		il.GotoPrev(
 			MoveType.Before,
 			i => i.MatchLdloc(out iLocalId),
-			i => i.MatchLdsfld(typeof(Main), nameof(Main.curMusic)),
-			i => i.MatchBneUn(out _)
+			i => i.MatchLdsfld(typeof(Main), nameof(Main.curMusic))//,
+			//i => i.MatchBneUn(out _)
 		);
+
+		il.HijackIncomingLabels();
 
 		// Insert our code
 		il.Emit(OpCodes.Ldsfld, typeof(Main).GetField(nameof(Main.audioSystem))!);
