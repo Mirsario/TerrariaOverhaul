@@ -30,7 +30,7 @@ internal sealed class DifficultyRebalanceSystem : ModSystem
 			GameModeData.CreativeMode
 		};
 
-		if (EnableDifficultyChanges) {
+		if (shouldBeEnabled) {
 			ModifyDifficultyLevels(presets);
 		}
 
