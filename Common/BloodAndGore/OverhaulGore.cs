@@ -20,6 +20,8 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
+// Messy inheritance OOP.
+// It would be much preferred to split both data and logic, keeping only an index to data here.
 [Autoload(Side = ModSide.Client)]
 public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
 {
