@@ -4,7 +4,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.DifficultyLevels;
 
@@ -12,8 +11,15 @@ internal sealed class DifficultyRebalanceSystem : ModSystem
 {
 	public static readonly ConfigEntry<bool> EnableDifficultyChanges = new(ConfigSide.Both, "DifficultyLevels", nameof(EnableDifficultyChanges), () => true);
 
+	private static bool isEnabled;
+
 	public override void PreUpdateEntities()
-	{	
+	{
+		bool shouldBeEnabled = EnableDifficultyChanges;
+
+		if (isEnabled == shouldBeEnabled) {
+			return;
+		}
 
 		// This will unfortunately reset any changes from other mods
 
@@ -33,7 +39,7 @@ internal sealed class DifficultyRebalanceSystem : ModSystem
 		}
 
 		Main.GameMode = Main.GameMode;
-
+		isEnabled = shouldBeEnabled;
 	}
 
 	private static void ModifyDifficultyLevels(Span<GameModeData> presets)
