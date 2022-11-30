@@ -3,16 +3,20 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.DifficultyLevels;
 
 internal sealed class DifficultyRebalanceSystem : ModSystem
 {
-	private bool isEnabled;
-	private bool shouldBeEnabled = true; // TODO: Don't be lazy and replace with config entries
+	public static readonly ConfigEntry<bool> EnableDifficultyChanges = new(ConfigSide.Both, "DifficultyLevels", nameof(EnableDifficultyChanges), () => true);
+
+	private static bool isEnabled;
 
 	public override void PreUpdateEntities()
 	{
+		bool shouldBeEnabled = EnableDifficultyChanges;
+
 		if (isEnabled == shouldBeEnabled) {
 			return;
 		}
