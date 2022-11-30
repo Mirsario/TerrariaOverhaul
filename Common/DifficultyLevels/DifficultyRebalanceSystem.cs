@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Common.DifficultyLevels;
 
 internal sealed class DifficultyRebalanceSystem : ModSystem
 {
-	public static readonly ConfigEntry<bool> EnableDifficultyChanges = new(ConfigSide.Both, "Difficulties", nameof(EnableDifficultyChanges), () => true); // Hope It's Done
+	public static readonly ConfigEntry<bool> EnableDifficultyChanges = new(ConfigSide.Both, "DifficultyLevels", nameof(EnableDifficultyChanges), () => true);
 
 	public override void PreUpdateEntities()
 	{	
