@@ -31,7 +31,9 @@ public sealed class SmoothCameraSystem : ModSystem
 			var newPosition = Main.screenPosition;
 
 #if DEBUG
+			/*
 			CameraSmoothness.Value = InputSystem.GetKey(Keys.K) ? 0f : 1f;
+			*/
 #endif
 
 			if (CameraSmoothness > 0f) {

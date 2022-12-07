@@ -22,7 +22,6 @@ public sealed class ScreenShakeSystem : ModSystem
 	private static readonly List<ScreenShake> screenShakes = new();
 
 	private static FastNoiseLite? noise;
-	//private static Vector2 lastAppliedScreenShakeOffset;
 
 	public override void Load()
 	{
@@ -50,12 +49,12 @@ public sealed class ScreenShakeSystem : ModSystem
 
 			Main.screenPosition += screenShakeOffset;
 
-			//lastAppliedScreenShakeOffset = screenShakeOffset;
-
 #if DEBUG
+			/*
 			if (InputSystem.GetKey(Microsoft.Xna.Framework.Input.Keys.Tab)) {
 				New(2f, 0.5f);
 			}
+			*/
 #endif
 
 			// Render debug
