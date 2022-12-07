@@ -47,6 +47,10 @@ public sealed class CameraSystem : ModSystem
 
 		Main.QueueMainThreadAction(() => {
 			On.Terraria.Main.DoDraw_UpdateCameraPosition += orig => {
+				if (Main.gameMenu) {
+					return;
+				}
+
 				int i = 0;
 				
 				void ModifierRecursion()
