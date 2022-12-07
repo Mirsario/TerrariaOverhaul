@@ -35,7 +35,7 @@ public sealed class SmoothCameraSystem : ModSystem
 #endif
 
 			if (CameraSmoothness > 0f) {
-				const float BaseSmoothness = 0.02f;
+				const float BaseSmoothness = 0.01f;
 
 				Main.screenPosition = Damp(oldPosition.Value, newPosition, CameraSmoothness * BaseSmoothness, TimeSystem.RenderDeltaTime);
 			}

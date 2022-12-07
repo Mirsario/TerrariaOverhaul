@@ -38,7 +38,7 @@ public sealed class ScreenShakeSystem : ModSystem
 				return;
 			}
 
-			const float BaseScreenShakePower = 48f;
+			const float BaseScreenShakePower = 40f;
 
 			var samplingPosition = Main.LocalPlayer?.Center ?? CameraSystem.ScreenCenter;
 			float screenShakePower = GetPowerAtPoint(samplingPosition);
@@ -88,7 +88,7 @@ public sealed class ScreenShakeSystem : ModSystem
 
 
 		// Basic 2D
-		const float FrequencyScale = 12.0f;
+		const float FrequencyScale = 14.0f;
 
 		noise.SetFrequency(FrequencyScale);
 		noise.SetNoiseType(FastNoiseLite.NoiseType.Perlin);
