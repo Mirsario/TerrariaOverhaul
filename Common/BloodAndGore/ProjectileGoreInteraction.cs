@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Tags;
 
@@ -8,24 +9,45 @@ namespace TerrariaOverhaul.Common.BloodAndGore;
 [Autoload(Side = ModSide.Client)]
 public class ProjectileGoreInteraction : GlobalProjectile
 {
-	public bool DontHitGore { get; set; }
+	public enum FireProperties : byte
+	{
+		None,
+		Incendiary,
+		Extinguisher
+	}
+
+	private bool dontHitGore;
+
+	public float HitPower { get; set; } = 1f;
+	public float HitEffectMultiplier { get; set; } = 1f;
+	public bool DisableGoreHitCooldown { get; set; }
+	public bool DisableGoreHitAudio { get; set; }
+	public FireProperties FireInteraction { get; set; }
 
 	public override bool InstancePerEntity => true;
 
-	public override void AI(Projectile projectile)
+	public override void OnSpawn(Projectile projectile, IEntitySource source)
+	{
+		base.OnSpawn(projectile, source);
+
+		if (OverhaulProjectileTags.Incendiary.Has(projectile.type)) {
+			FireInteraction = FireProperties.Incendiary;
+		} else if (OverhaulProjectileTags.Extinguisher.Has(projectile.type)) {
+			FireInteraction = FireProperties.Extinguisher;
+		}
+	}
+
+	public override bool PreAI(Projectile projectile)
 	{
 		// Reset dontHitGore every X ticks when the projectile's flying somewhere
-		if (DontHitGore && projectile.position != projectile.oldPosition && projectile.timeLeft % 3 == 0) {
-			DontHitGore = false;
+		if (dontHitGore && projectile.position != projectile.oldPosition && projectile.timeLeft % 3 == 0) {
+			dontHitGore = false;
 		}
 
 		// Skip gore enumeration when there's nothing to do.
-		if (DontHitGore) {
-			return;
+		if (dontHitGore) {
+			return true;
 		}
-
-		bool incendiary = OverhaulProjectileTags.Incendiary.Has(projectile.type);
-		bool extinguisher = !incendiary && OverhaulProjectileTags.Extinguisher.Has(projectile.type);
 
 		for (int i = 0; i < Main.maxGore; i++) {
 			var gore = Main.gore[i];
@@ -45,21 +67,27 @@ public class ProjectileGoreInteraction : GlobalProjectile
 			}
 
 			// Interact
-			float hitPower = 1f;
-
-			if (incendiary) {
+			if (FireInteraction == FireProperties.Extinguisher) {
+				goreExt.OnFire = false;
+			} else if (FireInteraction == FireProperties.Incendiary) {
 				goreExt.OnFire = true;
 
 				continue;
-			} else if (extinguisher) {
-				goreExt.OnFire = false;
-
-				hitPower = 5f;
 			}
 
-			DontHitGore = goreExt.HitGore(projectile.velocity.SafeNormalize(default), hitPower);
+			bool hasHitGore = goreExt.HitGore(
+				projectile.velocity.SafeNormalize(default),
+				powerScale: HitPower,
+				effectMultiplier: HitEffectMultiplier,
+				silent: DisableGoreHitAudio
+			);
 
-			break;
+			if (hasHitGore && !DisableGoreHitCooldown) {
+				dontHitGore = true;
+				break;
+			}
 		}
+
+		return true;
 	}
 }
