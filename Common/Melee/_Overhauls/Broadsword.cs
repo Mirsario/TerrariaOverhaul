@@ -113,7 +113,15 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 	{
 		// Slight screenshake for the swing.
 		if (!Main.dedServ) {
-			ScreenShakeSystem.New(3f, item.useAnimation / 120f);
+			float intensity = 0.3f;
+			float time = 0.15f;
+
+			if (item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.PowerAttack) {
+				intensity = 0.75f;
+				time = 0.25f;
+			}
+
+			ScreenShakeSystem.New(intensity, time);
 		}
 	}
 

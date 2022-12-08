@@ -117,11 +117,7 @@ public class ProjectileExplosionImprovements : GlobalProjectile
 				float distance = Vector2.Distance(Main.LocalPlayer.Center, center);
 
 				// Screenshake
-				float screenshakePower = MathUtils.DistancePower(distance, maxPower * 10f) * 15f;
-
-				if (screenshakePower > 0f) {
-					ScreenShakeSystem.New(screenshakePower, 0.5f);
-				}
+				ScreenShakeSystem.New(1f, 1f, center, 2048f);
 
 				// Low-pass filtering
 				int lowPassFilteringTime = (int)(TimeSystem.LogicFramerate * 5f * MathUtils.DistancePower(distance, maxPower * 3f));

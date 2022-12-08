@@ -73,8 +73,8 @@ public partial class MagicWeapon : ItemOverhaul
 				ScreenShakeSystem.New(
 					new Gradient<float>(
 						(0.0f, 0.0f),
-						(0.5f, 0.1f),
-						(1.0f, 15.0f)
+						(0.25f, 0.025f),
+						(1.0f, 0.2f)
 					),
 					chargeLength / TimeSystem.LogicFramerate
 				);
@@ -94,7 +94,7 @@ public partial class MagicWeapon : ItemOverhaul
 			});
 
 			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(4f, 0.2f);
+				c.ScreenShake = new ScreenShake(0.5f, 0.2f);
 			});
 		}
 	}
