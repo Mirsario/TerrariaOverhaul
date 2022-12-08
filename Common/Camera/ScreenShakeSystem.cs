@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Graphics;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Debugging;
-using TerrariaOverhaul.Core.Input;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
