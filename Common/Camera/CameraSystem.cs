@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.Camera;
 
@@ -13,6 +15,10 @@ public sealed class CameraSystem : ModSystem
 {
 	public delegate void CameraModifierDelegate(Action innerAction);
 
+	// Not ideal, but the game has no entity interpolation for camera smoothness to not make the local player spazz out.
+	// That can be implemented in the future, but current experiments were not fruitful, due to bad timings.
+	public static readonly ConfigEntry<bool> LimitCameraUpdateRate = new(ConfigSide.ClientOnly, "Camera", nameof(LimitCameraUpdateRate), () => true);
+	
 	private readonly static SortedList<int, CameraModifierDelegate> cameraModifiers = new();
 
 	private static Vector2 lastPositionRemainder;
@@ -48,6 +54,7 @@ public sealed class CameraSystem : ModSystem
 		Main.QueueMainThreadAction(() => {
 			On.Terraria.Main.DoDraw_UpdateCameraPosition += orig => {
 				if (Main.gameMenu) {
+					orig();
 					return;
 				}
 
@@ -59,7 +66,7 @@ public sealed class CameraSystem : ModSystem
 
 					if (iCopy < cameraModifiers.Count) {
 						cameraModifiers.Values[iCopy](ModifierRecursion);
-					} else {
+					} else if (!LimitCameraUpdateRate || !TimeSystem.RenderOnlyFrame) {
 						orig();
 					}
 				}

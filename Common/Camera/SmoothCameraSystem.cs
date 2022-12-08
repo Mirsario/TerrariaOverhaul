@@ -39,7 +39,9 @@ public sealed class SmoothCameraSystem : ModSystem
 			if (CameraSmoothness > 0f) {
 				const float BaseSmoothness = 0.01f;
 
-				Main.screenPosition = Damp(oldPosition.Value, newPosition, CameraSmoothness * BaseSmoothness, TimeSystem.RenderDeltaTime);
+				float deltaTime = CameraSystem.LimitCameraUpdateRate ? TimeSystem.LogicDeltaTime : TimeSystem.RenderDeltaTime;
+
+				Main.screenPosition = Damp(oldPosition.Value, newPosition, CameraSmoothness * BaseSmoothness, deltaTime);
 			}
 
 			oldPosition = Main.screenPosition;
