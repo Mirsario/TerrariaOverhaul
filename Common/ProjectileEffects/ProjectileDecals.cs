@@ -22,6 +22,7 @@ public sealed class ProjectileDecals : GlobalProjectile
 		public Asset<Texture2D>? Texture { get; init; }
 	}
 
+	public static Data? IcePreset { get; private set; }
 	public static Data? BulletPreset { get; private set; }
 	public static Data? ExplosionPreset { get; private set; }
 	public static Data? IncendiaryPreset { get; private set; }
@@ -41,6 +42,12 @@ public sealed class ProjectileDecals : GlobalProjectile
 			Size = new Vector2Int(8, 8),
 		};
 
+		IcePreset = new() {
+			Texture = Mod.Assets.Request<Texture2D>("Assets/Textures/Decals/IceDecal"),
+			Color = Color.White.WithAlpha(64),
+			Size = new Vector2Int(16, 16),
+		};
+
 		ExplosionPreset = new() {
 			Texture = Mod.Assets.Request<Texture2D>("Assets/Textures/Decals/ExplosionDecal"),
 			Color = Color.White.WithAlpha(48),
@@ -55,6 +62,10 @@ public sealed class ProjectileDecals : GlobalProjectile
 	{
 		if (OverhaulProjectileTags.Bullet.Has(projectile.type)) {
 			OnTileCollision = BulletPreset;
+		}
+
+		if (OverhaulProjectileTags.Ice.Has(projectile.type)) {
+			OnTileCollision = IcePreset;
 		}
 
 		if (OverhaulProjectileTags.Explosive.Has(projectile.type)) {

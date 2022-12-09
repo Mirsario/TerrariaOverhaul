@@ -14,6 +14,9 @@ public sealed class OverhaulProjectileTags : ILoadable
 	/// <summary> Projectiles with this tag extinguish fires and interact with incendiary projectiles. </summary>
 	public static readonly TagData Extinguisher = ContentTags.Get<Group>(nameof(Extinguisher));
 
+	/// <summary> Ice related, leaves ice decals. </summary>
+	public static readonly TagData Ice = ContentTags.Get<Group>(nameof(Ice));
+
 	/// <summary> Grappling hooks with this tag won't have Overhaul's physics improvements. </summary>
 	public static readonly TagData NoGrapplingHookSwinging = ContentTags.Get<Group>(nameof(NoGrapplingHookSwinging));
 
@@ -58,6 +61,32 @@ public sealed class OverhaulProjectileTags : ILoadable
 			ProjectileID.Meteor2,
 			ProjectileID.Meteor3,
 			ProjectileID.Flare
+		);
+
+		Ice.SetMultiple(
+			ProjectileID.CultistBossIceMist,
+			ProjectileID.IceBolt,
+			ProjectileID.IceBlock,
+			ProjectileID.IceBoomerang,
+			ProjectileID.IceSpike,
+			ProjectileID.IcewaterSpit,
+			ProjectileID.IceSickle,
+			ProjectileID.BallofFrost,
+			ProjectileID.FrostArrow,
+			ProjectileID.FrostBeam,
+			ProjectileID.FrostBlastFriendly,
+			ProjectileID.FrostBlastHostile,
+			ProjectileID.FrostBoltStaff,
+			ProjectileID.FrostBoltSword,
+			ProjectileID.FrostburnArrow,
+			ProjectileID.FrostDaggerfish,
+			ProjectileID.FrostHydra,
+			ProjectileID.FrostShard,
+			ProjectileID.FrostWave,
+			ProjectileID.BabySnowman,
+			ProjectileID.NorthPoleSnowflake,
+			ProjectileID.SnowBallFriendly,
+			ProjectileID.SnowBallHostile
 		);
 
 		Extinguisher.SetMultiple(
