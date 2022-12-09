@@ -24,8 +24,8 @@ public class NPCHitScreenShake : GlobalNPC
 			OnHitShake = new(0.50f, 0.30f, range: BaseShakeRange, uniqueId: "BossHit");
 			OnDeathShake = new(1.00f, 1.00f, range: BaseShakeRange * 3f, uniqueId: "BossDeath");
 		} else {
-			OnHitShake = new(0.17f, 0.30f, range: BaseShakeRange, uniqueId: "NpcHit");
-			OnDeathShake = new(0.30f, 1.00f, range: BaseShakeRange, uniqueId: "NpcDeath");
+			OnHitShake = new(0.17f, 0.15f, range: BaseShakeRange, uniqueId: "NpcHit");
+			OnDeathShake = new(0.30f, 0.30f, range: BaseShakeRange, uniqueId: "NpcDeath");
 		}
 	}
 
