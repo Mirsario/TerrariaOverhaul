@@ -135,13 +135,6 @@ public class ProjectileExplosionImprovements : GlobalProjectile
 					);
 				}
 			}
-
-			// Decal
-			var rect = new Rectangle((int)projectile.Center.X, (int)projectile.Center.Y, 0, 0);
-
-			rect.Inflate(64, 64);
-
-			DecalSystem.AddDecals(Mod.Assets.Request<Texture2D>("Assets/Textures/ExplosionDecal").Value, rect, new Color(255, 255, 255, (int)Math.Min(maxPower, 128)));
 		}
 	}
 }

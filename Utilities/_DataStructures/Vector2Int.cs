@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities;
@@ -33,10 +34,18 @@ public struct Vector2Int
 	public override string ToString()
 		=> $"X: {X}, Y: {Y}";
 
+	// Functions
+
+	public static Vector2Int Max(Vector2Int a, Vector2Int b)
+		=> new(Math.Max(a.X, b.X), Math.Max(a.Y, b.Y));
+
+	public static Vector2Int Min(Vector2Int a, Vector2Int b)
+		=> new(Math.Min(a.X, b.X), Math.Min(a.Y, b.Y));
+
 	// Operations
 
 	// int
-	
+
 	public static Vector2Int operator *(Vector2Int a, int d) => new(a.X * d, a.Y * d);
 	
 	public static Vector2Int operator *(int d, Vector2Int a) => new(a.X * d, a.Y * d);
