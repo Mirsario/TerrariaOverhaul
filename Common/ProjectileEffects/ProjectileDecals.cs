@@ -22,6 +22,7 @@ public sealed class ProjectileDecals : GlobalProjectile
 		public Asset<Texture2D>? Texture { get; init; }
 	}
 
+	public static Data? BulletPreset { get; private set; }
 	public static Data? ExplosionPreset { get; private set; }
 	public static Data? IncendiaryPreset { get; private set; }
 
@@ -35,6 +36,11 @@ public sealed class ProjectileDecals : GlobalProjectile
 
 	public override void Load()
 	{
+		BulletPreset = new() {
+			Texture = Mod.Assets.Request<Texture2D>("Assets/Textures/Decals/BulletDecal"),
+			Size = new Vector2Int(8, 8),
+		};
+
 		ExplosionPreset = new() {
 			Texture = Mod.Assets.Request<Texture2D>("Assets/Textures/Decals/ExplosionDecal"),
 			Color = Color.White.WithAlpha(48),
@@ -47,6 +53,10 @@ public sealed class ProjectileDecals : GlobalProjectile
 
 	public override void SetDefaults(Projectile projectile)
 	{
+		if (OverhaulProjectileTags.Bullet.Has(projectile.type)) {
+			OnTileCollision = BulletPreset;
+		}
+
 		if (OverhaulProjectileTags.Explosive.Has(projectile.type)) {
 			OnDestroy = ExplosionPreset;
 		}
