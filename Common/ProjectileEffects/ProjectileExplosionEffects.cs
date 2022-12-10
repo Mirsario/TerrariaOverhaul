@@ -108,6 +108,10 @@ public sealed class ProjectileExplosionEffects : GlobalProjectile
 
 	private void ApplySplashEffects<T>(T entity, Action<T, Vector2> applyVelocityFunction, Rectangle entityAabb, Vector2 center, float range, float rangeSquared, float knockback)
 	{
+		if (entity is Gore { sticky: false }) {
+			return;
+		}
+
 		float sqrDistance = Vector2.DistanceSquared(entityAabb.GetCorner(center), center);
 
 		if (sqrDistance >= rangeSquared) {
