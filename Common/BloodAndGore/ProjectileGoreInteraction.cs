@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Tags;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
@@ -56,11 +57,6 @@ public class ProjectileGoreInteraction : GlobalProjectile
 				continue;
 			}
 
-			// For now, only bleeding gores are considered hittable.
-			if (!goreExt.BleedColor.HasValue) {
-				continue;
-			}
-
 			// Intersection check
 			if (!projectile.getRect().Intersects(new Rectangle((int)gore.position.X, (int)gore.position.Y, (int)goreExt.Width, (int)goreExt.Height))) {
 				continue;
@@ -75,12 +71,18 @@ public class ProjectileGoreInteraction : GlobalProjectile
 				continue;
 			}
 
-			bool hasHitGore = goreExt.HitGore(
-				projectile.velocity.SafeNormalize(default),
-				powerScale: HitPower,
-				effectMultiplier: HitEffectMultiplier,
-				silent: DisableGoreHitAudio
-			);
+			bool isFlesh = goreExt.BleedColor.HasValue;
+			float hitPower = HitPower;
+			float damageScale = hitPower;
+			float velocityScale = hitPower;
+
+			if (!isFlesh) {
+				damageScale = 0f;
+			}
+
+			goreExt.ApplyForce(projectile.velocity.SafeNormalize(-Vector2.UnitY) * velocityScale);
+
+			bool hasHitGore = goreExt.Damage(damageScale, HitEffectMultiplier, DisableGoreHitAudio);
 
 			if (hasHitGore && !DisableGoreHitCooldown) {
 				dontHitGore = true;

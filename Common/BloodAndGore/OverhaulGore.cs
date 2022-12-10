@@ -153,14 +153,45 @@ public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
 
 	public Vector2 GetRandomPoint() => position + Main.rand.NextVector2Square(Size.X, Size.Y);
 
-	public bool HitGore(Vector2 hitDirection, float powerScale = 1f, float effectMultiplier = 1f, bool silent = false)
+	public void ApplyForce(float velocityScale = 1f)
 	{
-		if (Main.dedServ || Time < 5 && !Main.rand.NextBool(4)) {
+		Vector2 velocity = new Vector2(Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-2f, -0.5f));
+
+		velocity *= velocityScale;
+
+		this.velocity += velocity;
+	}
+
+	public void ApplyForce(Vector2 velocity, bool randomized = true)
+	{
+		if (randomized) {
+			float rotation = velocity != default ? velocity.ToRotation() : 0f;
+			float length = velocity.SafeLength(0f);
+
+			rotation = MathHelper.Lerp(rotation, -MathHelper.PiOver2, 0.75f);
+			rotation += Main.rand.NextFloat(-1f, 1f) * MathHelper.ToRadians(45f);
+
+			velocity = new Vector2(length, 0f).RotatedBy(rotation);
+		}
+
+		this.velocity += velocity;
+	}
+
+	public bool Damage(float damageScale = 1f, float effectMultiplier = 1f, bool silent = false)
+	{
+		if (Main.dedServ) {
 			return false;
 		}
 
-		velocity += new Vector2(hitDirection.X == 0f ? hitDirection.X : Main.rand.NextFloat(-1f, 1f), Main.rand.NextFloat(-2f, -0.5f)) * powerScale;
-		Health -= Main.rand.NextFloat(0.4f, 1.1f) * powerScale;
+		if (Time < 5 && !Main.rand.NextBool(4)) {
+			return false;
+		}
+
+		if (!BleedColor.HasValue) {
+			damageScale *= 0.1f;
+		}
+
+		Health -= Main.rand.NextFloat(0.4f, 1.1f) * damageScale;
 
 		if (Health <= 0f) {
 			Destroy(silent: silent, effectMultiplier: effectMultiplier);
@@ -281,7 +312,7 @@ public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
 		}
 
 		if (offsettedUpdateCount % 30 == 0 && Main.rand.NextBool(3)) {
-			HitGore(Vector2.Zero, silent: true);
+			Damage(silent: true);
 
 			if (!active) {
 				return;
