@@ -21,7 +21,7 @@ public class NPCHitScreenShake : GlobalNPC
 		const float BaseShakeRange = 256f * 5;
 
 		if (npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type]) {
-			OnHitShake = new(0.50f, 0.30f, range: BaseShakeRange, uniqueId: "BossHit");
+			OnHitShake = new(0.25f, 0.30f, range: BaseShakeRange, uniqueId: "BossHit");
 			OnDeathShake = new(1.00f, 1.00f, range: BaseShakeRange * 3f, uniqueId: "BossDeath");
 		} else {
 			OnHitShake = new(0.17f, 0.15f, range: BaseShakeRange, uniqueId: "NpcHit");

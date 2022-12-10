@@ -94,7 +94,7 @@ public partial class MagicWeapon : ItemOverhaul
 			});
 
 			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.5f, 0.2f);
+				c.ScreenShake = new ScreenShake(0.3f, 0.2f);
 			});
 		}
 	}

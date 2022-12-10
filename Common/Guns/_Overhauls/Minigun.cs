@@ -68,7 +68,7 @@ public class Minigun : ItemOverhaul
 			});
 
 			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.33f, 0.2f);
+				c.ScreenShake = new ScreenShake(0.15f, 0.2f);
 			});
 
 			item.EnableComponent<ItemBulletCasings>(c => {
