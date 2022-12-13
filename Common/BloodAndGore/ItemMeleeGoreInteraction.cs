@@ -15,6 +15,10 @@ public sealed class ItemMeleeGoreInteraction : ItemComponent
 			return;
 		}
 
+		if (item.noMelee) {
+			return;
+		}
+
 		if (player.itemAnimation < player.itemAnimationMax - 1 || !ICanDoMeleeDamage.Invoke(item, player)) {
 			return;
 		}
