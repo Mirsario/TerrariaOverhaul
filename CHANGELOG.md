@@ -1,4 +1,4 @@
-# 5.0 BETA 12
+# 5.0 BETA 12 (WORK IN PROGRESS)
 
 ## Additions
 - Added Bunnyhop + Dodgeroll combination - [#139](https://github.com/Mirsario/TerrariaOverhaul/pull/139).
