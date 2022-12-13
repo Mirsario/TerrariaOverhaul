@@ -64,6 +64,11 @@ public class SlashPlayerDrawLayer : PlayerDrawLayer
 
 		var item = player.HeldItem;
 
+		// Ignore weapons that don't have melee damage
+		if (item.noMelee) {
+			return;
+		}
+
 		if (!item.TryGetGlobalItem<ItemMeleeAttackAiming>(out var meleeAiming) || !meleeAiming.Enabled) {
 			return;
 		}
