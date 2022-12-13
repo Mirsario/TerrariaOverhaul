@@ -1,4 +1,28 @@
-# 5.0 BETA 12 (WORK IN PROGRESS)
+# Navigation
+- [5.0 BETA 12](#50-beta-12)
+- [5.0 BETA 11F](#50-beta-11f)
+	- [5.0 BETA 11E](#50-beta-11e)
+	- [5.0 BETA 11D](#50-beta-11d)
+	- [5.0 BETA 11C](#50-beta-11c)
+	- [5.0 BETA 11B](#50-beta-11b)
+	- [5.0 BETA 11](#50-beta-11)
+- [5.0 BETA 10](#50-beta-10)
+- [5.0 BETA 9 FIX 1](#50-beta-9-fix-1)
+	- [5.0 BETA 9](#50-beta-9)
+- [5.0 BETA 8](#50-beta-8)
+- [5.0 BETA 7](#50-beta-7)
+- [5.0 BETA 6](#50-beta-6)
+- [5.0 BETA 5 FIX 1](#50-beta-5-fix-1)
+	- [5.0 BETA 5](#50-beta-5)
+- [5.0 BETA 4](#50-beta-4)
+- [5.0 BETA 3](#50-beta-3)
+- [5.0 BETA 2 FIX 1](#50-beta-2-fix-1)
+	- [5.0 BETA 2](#50-beta-2)
+- [5.0 BETA 1](#50-beta-1)
+
+# 5.0 BETA 12
+
+## ***THIS UPDATE IS A WORK IN PROGRESS***
 
 ## Additions
 - Added Bunnyhop + Dodgeroll combination - [#139](https://github.com/Mirsario/TerrariaOverhaul/pull/139).
