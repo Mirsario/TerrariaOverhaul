@@ -1,3 +1,52 @@
+# 5.0 BETA 12
+
+## Additions
+- Added Bunnyhop + Dodgeroll combination - [#139](https://github.com/Mirsario/TerrariaOverhaul/pull/139).
+- Main menu overlays are now localizable.
+- Ledge climbing will now preserve player velocity, is now a tone more fluid.
+- Added a tooltip to grappling hooks that hints that the grapple key can be held down for a classic pull.
+- Added a feature of music playback position synchronization.
+- Reimplemented boss death music pausing.
+- Added tiny screenshakes for enemies getting hurt and killed.
+- Reimplemented GoreStay from 1.3. Toggleable.
+- Improved gore interaction, added splash force to bullet impacts.
+- Added bullet & ice decals.
+- Added a tiny toggleable tweak that causes the OS cursor to be displayed when interface is disabled.
+
+## Changes
+- Rewrote and improved everything about the camera features - [#168](https://github.com/Mirsario/TerrariaOverhaul/pull/168).
+- Heavily improved melee swing velocity - [#137](https://github.com/Mirsario/TerrariaOverhaul/pull/137) (and many commits after that.)
+- Added Bunnyhop Combos, reworked Bunny Paw - [#140](https://github.com/Mirsario/TerrariaOverhaul/pull/140).
+- New health & mana pickup sounds - Closes [#113](https://github.com/Mirsario/TerrariaOverhaul/issues/113).
+- Heavily improved life & mana pickup visuals.
+- Ambience: Improved bird & cricket audio.
+- Ambience: Bird audio is now tied to the amount of nearby trees.
+- Ambience: All booleans that dictated presence of ambience tracks are now replaced with smooth floating point factors.
+- Increased the Mop's effectivity against gore.
+- Made the mop use a texture for decal clearing. Now more effective, too.
+- Decals will now be cleared from doors when they open.
+- Decals will now be cleared from tiles that become surrounded (Might be inconssistent.)
+
+## Fixes
+- Fixed a rare load-time threading error.
+- Fixed the Mop and a few other weapons not interacting with gore & gibs.
+- Fixed explosions accelerating their own particles into bottom right direction.
+
+## Configuration
+- PR [#157](https://github.com/Mirsario/TerrariaOverhaul/pull/157) by **BAMcSH** - Added bool config to toggle air combat functionality.
+- PR [#166](https://github.com/Mirsario/TerrariaOverhaul/pull/166) by **Hoabs** - Added config option to enable/disable difficulty tweaks.
+- Added `Enemies.EnableEnemyLunges` option.
+
+## Localization
+- Localization files in the GitHub repository will now be refreshed based on English strings automatically on mod rebuild, making the development and localization contribution processes a lot more convenient.
+- Brazilian Portuguese - PR [#135](https://github.com/Mirsario/TerrariaOverhaul/pull/135) by Pixelnando.
+- Chinese - PRs [#112](https://github.com/Mirsario/TerrariaOverhaul/pull/112), [#130](https://github.com/Mirsario/TerrariaOverhaul/pull/130), [#131](https://github.com/Mirsario/TerrariaOverhaul/pull/131) by **Cyrillia** & **ZHAI10086**.
+- French - PR [#134](https://github.com/Mirsario/TerrariaOverhaul/pull/134) by **orian34**.
+- German - PRs [#115](https://github.com/Mirsario/TerrariaOverhaul/pull/115) and [#133](https://github.com/Mirsario/TerrariaOverhaul/pull/133) by **Foxx-l** and **CriddleZap**.
+- Polish - PRs [#141](https://github.com/Mirsario/TerrariaOverhaul/pull/141) and [#142](https://github.com/Mirsario/TerrariaOverhaul/pull/142) by *J00niper**.
+- Russian - PRs [#138](https://github.com/Mirsario/TerrariaOverhaul/pull/138) and [#158](https://github.com/Mirsario/TerrariaOverhaul/pull/158) by **Snoop1CatZ69** and **Blueberryy**.
+- Spanish - PRs [#120](https://github.com/Mirsario/TerrariaOverhaul/pull/120) and [#132](https://github.com/Mirsario/TerrariaOverhaul/pull/132) by **Wolf-Igmc4**.
+
 # 5.0 BETA 11F
 
 ## Additions
