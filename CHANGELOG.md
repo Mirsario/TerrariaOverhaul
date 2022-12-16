@@ -54,7 +54,15 @@
 - Decals will now be cleared from doors when they open.
 - Decals will now be cleared from tiles that become surrounded (Might be inconssistent.)
 
+### Compatibility
+- Fixed slashes appearing for `noMelee` weapons.
+- Fixed melee animations not checking for `useStyle` in realtime.
+- Fixed melee gore interaction not checking for `noMelee` boolean.
+- Fixed HoldOut animations lingering on weapons that swap animation types.
+
 ### Fixes
+- Fixed [#101](https://github.com/Mirsario/TerrariaOverhaul/issues/101) - Binoculars & other camera offsets do not work.
+- Fixed [#119](https://github.com/Mirsario/TerrariaOverhaul/issues/119) - Smooth Camera doesn't handle teleports, reveals map areas.
 - Fixed a rare load-time threading error.
 - Fixed the Mop and a few other weapons not interacting with gore & gibs.
 - Fixed explosions accelerating their own particles into bottom right direction.
