@@ -55,6 +55,7 @@
 - Decals will now be cleared from tiles that become surrounded (Might be inconssistent.)
 
 ### Compatibility
+- Improved compatibility friendliness of grappling hook physics code.
 - Fixed slashes appearing for `noMelee` weapons.
 - Fixed melee animations not checking for `useStyle` in realtime.
 - Fixed melee gore interaction not checking for `noMelee` boolean.
@@ -66,6 +67,7 @@
 - Fixed a rare load-time threading error.
 - Fixed the Mop and a few other weapons not interacting with gore & gibs.
 - Fixed explosions accelerating their own particles into bottom right direction.
+- Fixed some vanilla grappling hooks not emitting lights and other effects after latching onto a tile.
 
 ### Configuration
 - PR [#157](https://github.com/Mirsario/TerrariaOverhaul/pull/157) by **BAMcSH** - Added bool config to toggle air combat functionality.
