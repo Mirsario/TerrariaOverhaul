@@ -1,5 +1,7 @@
 ﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
@@ -58,14 +60,6 @@ public sealed class ItemProjectileMeleeManaChanges : GlobalItem
 
 			return orig(player, item, canUse);
 		};
-
-		On.Terraria.Player.ItemCheck_Shoot += static (orig, player, i, sItem, weaponDamage) => {
-			if (player.HeldItem?.TryGetGlobalItem(out ItemProjectileMeleeManaChanges instance) == true && EnableProjectileSwordManaUsage) {
-				instance.useManaOnNextShoot = true;
-			}
-
-			orig(player, i, sItem, weaponDamage);
-		};
 	}
 
 	public override void SetDefaults(Item item)
@@ -74,15 +68,28 @@ public sealed class ItemProjectileMeleeManaChanges : GlobalItem
 			return;
 		}
 
-		item.mana = Math.Max(item.mana, 3 + item.useTime / 6);
+		item.mana = Math.Max(item.mana, 3 + item.useTime / 5);
 	}
 
 	public override bool CanShoot(Item item, Player player)
 	{
-		if (useManaOnNextShoot) {
-			return player.CheckMana(item.mana, pay: true);
+		if (player.CheckMana(item.mana, pay: false)) {
+			useManaOnNextShoot = true;
+			
+			return true;
 		}
 
-		return base.CanShoot(item, player);
+		return false;
+	}
+
+	public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
+	{
+		if (useManaOnNextShoot) {
+			player.CheckMana(item, pay: true);
+
+			useManaOnNextShoot = false;
+		}
+
+		return true;
 	}
 }

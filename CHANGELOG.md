@@ -60,6 +60,7 @@
 - Fixed melee animations not checking for `useStyle` in realtime.
 - Fixed melee gore interaction not checking for `noMelee` boolean.
 - Fixed HoldOut animations lingering on weapons that swap animation types.
+- Fixed melee mana experiments breaking "AltUse shoot" weapons, like Thorium's `Valadium Slicer`.
 
 ### Fixes
 - Fixed [#101](https://github.com/Mirsario/TerrariaOverhaul/issues/101) - Binoculars & other camera offsets do not work.
