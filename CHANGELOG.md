@@ -79,7 +79,7 @@
 - Localization files in the GitHub repository will now be refreshed based on English strings automatically on mod rebuild, making the development and localization contribution processes a lot more convenient.
 - Main menu overlays are now localizable.
 - Brazilian Portuguese - PR [#135](https://github.com/Mirsario/TerrariaOverhaul/pull/135) by **Pixelnando**.
-- Chinese - PRs [#112](https://github.com/Mirsario/TerrariaOverhaul/pull/112), [#130](https://github.com/Mirsario/TerrariaOverhaul/pull/130), [#131](https://github.com/Mirsario/TerrariaOverhaul/pull/131) by **Cyrillia** & **ZHAI10086**.
+- Chinese - PRs [#112](https://github.com/Mirsario/TerrariaOverhaul/pull/112), [#131](https://github.com/Mirsario/TerrariaOverhaul/pull/131) and [#170](https://github.com/Mirsario/TerrariaOverhaul/pull/170) by **Cyrillia**, PR [#130](https://github.com/Mirsario/TerrariaOverhaul/pull/130) by **ZHAI10086**.
 - French - PR [#134](https://github.com/Mirsario/TerrariaOverhaul/pull/134) by **orian34**.
 - German - PRs [#115](https://github.com/Mirsario/TerrariaOverhaul/pull/115) and [#133](https://github.com/Mirsario/TerrariaOverhaul/pull/133) by **Foxx-l** and **CriddleZap**.
 - Polish - PRs [#141](https://github.com/Mirsario/TerrariaOverhaul/pull/141) and [#142](https://github.com/Mirsario/TerrariaOverhaul/pull/142) by **J00niper**.
