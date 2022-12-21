@@ -13,8 +13,8 @@ Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
 			Configuration: "配置"
-			DiscordServer: "Discord服务器"
-			ForumPage: "论坛页面"
+			DiscordServer: "Discord 服务器"
+			ForumPage: "官方论坛页面"
 			WikiPage: "Overhaul Wiki"
 			Github: "GitHub"
 
@@ -72,11 +72,11 @@ Mods: {
 				}
 
 				EnableBunnyhopping: {
-					DisplayName: "开启兔子蹦跳"
+					DisplayName: "开启连跳加速"
 					Description:
 						'''
-						兔子蹦跳指在每次跳跃时都会给你带来轻微的水平速度提升。
-						关闭此功能，将禁用某些饰品。
+						连跳(兔子跳)会在每次跳跃时给你带来轻微的水平速度提升。
+						关闭此功能将禁用某些饰品的效果。
 						'''
 				}
 
@@ -90,7 +90,7 @@ Mods: {
 					Description:
 						'''
 						蹬墙跳是一种新的运动机制，需要装备有攀爬装备或钉鞋才能完成。
-						背对着冲向墙，在撞击墙壁的同时按住向上键，放开水平方向移动按钮，即可完成此动作。
+						背对着冲向墙，在触碰墙面的同时按住向上键，同时抬起水平方向移动键，即可完成此动作。
 						'''
 				}
 
@@ -99,7 +99,7 @@ Mods: {
 					Description:
 						'''
 						蹬墙空翻是一种新的运动机制，不需要任何额外饰品即可完成。
-						在以足够的速度撞击墙壁的瞬间，按下反向移动按键以改变运动方向，即可完成此动作。
+						在以足够的速度撞击墙壁的瞬间，按下反向移动键以改变运动方向，即可完成此动作。
 						'''
 				}
 			}
@@ -169,12 +169,12 @@ Mods: {
 		CommonTooltips: {
 			ShowCombatInfo: "[按住{Key}键以显示战斗信息]"
 			CombatInfo: "[战斗信息]"
-			//RightClickAudioCuesToggle: "Right click on item to toggle audio cues"
-			//RightClickAudioCuesEnabled: "Audio cues are now enabled"
-			//RightClickAudioCuesDisabled: "Audio cues are now disabled"
+			RightClickAudioCuesToggle: "右键点击以开关音效提示"
+			RightClickAudioCuesEnabled: "音效提示已开启"
+			RightClickAudioCuesDisabled: "音效提示已关闭"
 
 			GrapplingHooks: {
-				//ClassicPullTip: "Hold the grappling hook key for a classic pull"
+				ClassicPullTip: "按住钩爪键使用以像原版一样将玩家拉动"
 			}
 		}
 
@@ -197,16 +197,16 @@ Mods: {
 		}
 
 		ItemTooltip: {
-			//BunnyPaw:
-			//	'''
-			//	[c/fca9ea:Increases bunnyhops' speed boost with every successful consequent jump]
-			//	[c/fca9ea:Combine bunnyhops with dodgerolls for even higher multipliers]
-			//	[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
-			//	'''
+			BunnyPaw:
+				'''
+				[c/fca9ea:每次成功的连续跳跃，都会增加连跳所提供的加速度大小]
+				[c/fca9ea:将连跳和翻滚结合以获得更高的加速度提升乘数]
+				[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
+				'''
 			Charcoal: "热乎着呢"
 			Calendar:
 				'''
-				计算到达下一季的剩余天数
+				计算到达下一季度的剩余天数
 				放置后右键点击即可使用
 				'''
 			Gramophone: "播放音乐光碟"
@@ -228,7 +228,7 @@ Mods: {
 		BuffDescription: {
 			ManaAbsorption:
 				'''
-				你的迅速步伐，使你从周边一切汲取魔力
+				你的轻快步伐，使你从周边一切汲取魔力
 				基础魔力再生速度 x{Multiplier}
 				'''
 		}
