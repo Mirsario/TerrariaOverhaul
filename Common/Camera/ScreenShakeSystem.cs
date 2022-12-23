@@ -34,7 +34,7 @@ public sealed class ScreenShakeSystem : ModSystem
 				return;
 			}
 
-			const float BaseScreenShakePower = 40f;
+			const float BaseScreenShakePower = 25f;
 
 			var samplingPosition = Main.LocalPlayer?.Center ?? CameraSystem.ScreenCenter;
 			float screenShakePower = GetPowerAtPoint(samplingPosition);
