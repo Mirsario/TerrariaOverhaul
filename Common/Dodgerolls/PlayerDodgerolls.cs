@@ -31,9 +31,6 @@ public sealed class PlayerDodgerolls : ModPlayer
 		PitchVariance = 0.125f
 	};
 
-	private static int debuffTiredness;
-	private static int debuffCooldown;
-
 	public static ModKeybind DodgerollKey { get; private set; } = null!;
 
 	public static float DodgeTimeMax => 0.37f;
@@ -65,12 +62,6 @@ public sealed class PlayerDodgerolls : ModPlayer
 		AudioEffectsSystem.IgnoreSoundStyle(RechargedSound);
 
 		DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
-	}
-
-	public override void SetStaticDefaults()
-	{
-		debuffTiredness = ModContent.BuffType<DodgeTiredness>();
-		debuffCooldown = ModContent.BuffType<DodgeCooldown>();
 	}
 
 	public override void Initialize()
