@@ -95,12 +95,14 @@ public sealed class ItemKillingBlows : ItemComponent
 		if (npc.life - multipliedDamage <= 0.0d) {
 			damage = multipliedDamage;
 
-			if (Main.netMode == NetmodeID.MultiplayerClient) {
+			if (Main.netMode != NetmodeID.Server) {
 				var effectsPosition = (Vector2Int)npc.Center;
 
 				CreateEffects(effectsPosition);
 
-				MultiplayerSystem.SendPacket(new KillingBlowEffectsPacket(Main.LocalPlayer, effectsPosition));
+				if (Main.netMode == NetmodeID.MultiplayerClient) {
+					MultiplayerSystem.SendPacket(new KillingBlowEffectsPacket(Main.LocalPlayer, effectsPosition));
+				}
 			}
 
 			killingBlowCount++;
