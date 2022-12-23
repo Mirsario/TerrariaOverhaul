@@ -15,7 +15,7 @@ public sealed class ItemMeleeAirCombat : ItemComponent
 	public Vector2 MinAddedSpeed { get; set; } = Vector2.One * 2.0f;
 	public Vector2 MaxAddedSpeed { get; set; } = Vector2.One * 9.0f;
 	public Vector2 HardVelocityCap { get; set; } = new Vector2(18.0f, 18.0f);
-	public Vector2 FixedVelocityBonus { get; set; } = new Vector2(0.0f, -1.0f);
+	public Vector2 FixedVelocityBonus { get; set; } = new Vector2(0.0f, -1.5f);
 	public MovementModifier MovementModifier { get; set; } = new() { GravityScale = 0.1f };
 	public float MovementModifierLengthMultiplier { get; set; } = 0.5f;
 
