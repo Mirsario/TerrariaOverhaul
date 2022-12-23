@@ -48,6 +48,11 @@
 	- Now uses player movement input in place of attack direction. This is much more predictable, natural, and leaves the player in control.
 	- No longer reduces knockback done to enemies while mid air, which had to be done due to the aforementioned knockback stacking.
 	- The above changes result in the players now being able to keep themselves above enemies even by striking downwards, or even push themselves away from the enemies they're attacking. Experiment!
+- Reworked and rebalanced melee velocity-based damage:
+	- Reduced world view bloat: hitting enemies no longer creates separate "combat text" lines.
+	- Added a visual buff that shows the current effectiveness factor and the damage multiplier.
+	- Rebalanced to straightforward and slightly nerf melee. Damage mltiplier now capped in `[1.0, 2.0]` range, mapped to player speed range of `[0.9, 12.0]`, all subject to changes.
+	- Improved damage text coloring.
 - Added Bunnyhop Combos, reworked Bunny Paw - [#140](https://github.com/Mirsario/TerrariaOverhaul/pull/140).
 - New health & mana pickup sounds - Closes [#113](https://github.com/Mirsario/TerrariaOverhaul/issues/113).
 - Heavily improved life & mana pickup visuals.

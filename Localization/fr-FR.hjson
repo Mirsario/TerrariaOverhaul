@@ -222,10 +222,16 @@ Mods: {
 		}
 
 		BuffName: {
+			//HackAndSlash: "Hack and Slash"
 			ManaAbsorption: "Absorption de Mana"
 		}
 
 		BuffDescription: {
+			//HackAndSlash:
+			//	'''
+			//	The faster you move, the harder you strike
+			//	Melee damage multiplier: x{Multiplier}
+			//	'''
 			ManaAbsorption:
 				'''
 				Vous déplaçant avec célérité, l'énergie s'agglomère autour de vous

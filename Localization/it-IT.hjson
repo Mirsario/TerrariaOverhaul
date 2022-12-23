@@ -222,10 +222,16 @@ Mods: {
 		}
 
 		BuffName: {
+			//HackAndSlash: "Hack and Slash"
 			//ManaAbsorption: "Mana Absorption"
 		}
 
 		BuffDescription: {
+			//HackAndSlash:
+			//	'''
+			//	The faster you move, the harder you strike
+			//	Melee damage multiplier: x{Multiplier}
+			//	'''
 			//ManaAbsorption:
 			//	'''
 			//	Moving with haste, you are absorbing energy from all around you

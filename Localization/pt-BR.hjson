@@ -218,10 +218,16 @@ Mods: {
 		}
 
 		BuffName: {
+			//HackAndSlash: "Hack and Slash"
 			ManaAbsorption: "Absorção de Mana"
 		}
 
 		BuffDescription: {
+			//HackAndSlash:
+			//	'''
+			//	The faster you move, the harder you strike
+			//	Melee damage multiplier: x{Multiplier}
+			//	'''
 			ManaAbsorption:
 				'''
 				Movendo-se com pressa, você está absorvendo energia ao seu redor

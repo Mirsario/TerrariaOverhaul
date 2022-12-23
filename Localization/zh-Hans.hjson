@@ -222,10 +222,16 @@ Mods: {
 		}
 
 		BuffName: {
+			//HackAndSlash: "Hack and Slash"
 			ManaAbsorption: "魔力汲取"
 		}
 
 		BuffDescription: {
+			//HackAndSlash:
+			//	'''
+			//	The faster you move, the harder you strike
+			//	Melee damage multiplier: x{Multiplier}
+			//	'''
 			ManaAbsorption:
 				'''
 				你的轻快步伐，使你从周边一切汲取魔力
