@@ -42,10 +42,14 @@
 
 ### Changes
 - Rewrote and improved everything about the camera features - [#168](https://github.com/Mirsario/TerrariaOverhaul/pull/168).
-- Heavily improved melee swing velocity - [#137](https://github.com/Mirsario/TerrariaOverhaul/pull/137) (and many commits after that.)
+- Heavily improved melee swing velocity, now respects player movement input - [#137](https://github.com/Mirsario/TerrariaOverhaul/pull/137) (and many commits after that.)
+- Enemy velocity no longer stacks indefinitely from knockback. Fixes shotguns launching demon eyes to space.
+- Melee air combat completely reworked:
+	- Now uses player movement input in place of attack direction. This is much more predictable, natural, and leaves the player in control.
+	- No longer reduces knockback done to enemies while mid air, which had to be done due to the aforementioned knockback stacking.
+	- The above changes result in the players now being able to keep themselves above enemies even by striking downwards, or even push themselves away from the enemies they're attacking. Experiment!
 - Added Bunnyhop Combos, reworked Bunny Paw - [#140](https://github.com/Mirsario/TerrariaOverhaul/pull/140).
 - New health & mana pickup sounds - Closes [#113](https://github.com/Mirsario/TerrariaOverhaul/issues/113).
-- Enemy velocity no longer stacks indefinitely from knockback. Fixes shotguns launching demon eyes to space.
 - Heavily improved life & mana pickup visuals.
 - Ambience: Improved bird & cricket audio.
 - Ambience: Bird audio is now tied to the amount of nearby trees.
