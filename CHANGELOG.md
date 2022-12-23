@@ -51,6 +51,7 @@
 - Added Bunnyhop Combos, reworked Bunny Paw - [#140](https://github.com/Mirsario/TerrariaOverhaul/pull/140).
 - New health & mana pickup sounds - Closes [#113](https://github.com/Mirsario/TerrariaOverhaul/issues/113).
 - Heavily improved life & mana pickup visuals.
+- Broadswords' Killing Blows can no longer occur more than once per swing.
 - Ambience: Improved bird & cricket audio.
 - Ambience: Bird audio is now tied to the amount of nearby trees.
 - Ambience: All booleans that dictated presence of ambience tracks are now replaced with smooth floating point factors.

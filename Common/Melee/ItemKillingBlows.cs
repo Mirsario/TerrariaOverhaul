@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
@@ -17,17 +16,18 @@ public sealed class ItemKillingBlows : ItemComponent
 {
 	private delegate void NPCDamageModifier(NPC npc, ref double damage);
 
-	public static readonly float KillingBlowDamageMultiplier = 1.5f;
 	public static readonly SoundStyle KillingBlowSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/KillingBlow", 2) {
 		Volume = 0.6f,
 		PitchVariance = 0.1f,
 	};
 
-	// Super questionable shenanigans are this feature's MP synchronization.
-	private static readonly List<int> netNpcsWithPendingKillingBlows = new();
-
 	[ThreadStatic]
 	private static Player? playerCurrentlySwingingWeapons;
+
+	private int killingBlowCount;
+
+	public int MaxKillingBlowsPerUse { get; set; } = 1;
+	public float DamageMultiplier { get; set; } = 1.5f;
 
 	public override void Load()
 	{
@@ -69,59 +69,66 @@ public sealed class ItemKillingBlows : ItemComponent
 		};
 	}
 
-	internal static void EnqueueNPCForKillingBlowHit(int npcId)
+	public override void HoldStyle(Item item, Player player, Rectangle heldItemFrame)
 	{
-		netNpcsWithPendingKillingBlows.Add(npcId);
-	}
-
-	private static void CheckForKillingBlow(NPC npc, ref double damage)
-	{
-		bool sync = false;
-
-		if (Main.netMode == NetmodeID.SinglePlayer || !netNpcsWithPendingKillingBlows.Remove(npc.whoAmI)) {
-			if (playerCurrentlySwingingWeapons is not Player { HeldItem: Item item } player) {
-				return;
-			}
-
-			if (!item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) || !item.TryGetGlobalItem(out ItemKillingBlows killingBlows)) {
-				return;
-			}
-
-			if (!powerAttacks.Enabled || !killingBlows.Enabled || !powerAttacks.PowerAttack) {
-				return;
-			}
-
-			sync = true;
-		}
-
-		if (DoKillingBlow(npc, ref damage) && sync) {
-			MultiplayerSystem.SendPacket(new KillingBlowPacket(Main.LocalPlayer, npc));
+		if (Enabled && !player.ItemAnimationActive) {
+			killingBlowCount = 0;
 		}
 	}
 
-	private static bool DoKillingBlow(NPC npc, ref double damage)
+	private void KillingBlow(NPC npc, ref double damage)
 	{
+		if (killingBlowCount >= MaxKillingBlowsPerUse) {
+			return;
+		}
+
 		if (damage <= 0.0 || npc.life <= 0) {
-			return false;
+			return;
 		}
 
 		if (NPCID.Sets.ProjectileNPC[npc.type]) {
-			return false;
+			return;
 		}
-		
-		double multipliedDamage = damage * KillingBlowDamageMultiplier;
+
+		double multipliedDamage = damage * DamageMultiplier;
 
 		if (npc.life - multipliedDamage <= 0.0d) {
 			damage = multipliedDamage;
 
-			if (!Main.dedServ) {
-				SoundEngine.PlaySound(KillingBlowSound, npc.Center);
-				CombatText.NewText(npc.getRect(), Color.MediumVioletRed, "Killing Blow!", true);
+			if (Main.netMode == NetmodeID.MultiplayerClient) {
+				var effectsPosition = (Vector2Int)npc.Center;
+
+				CreateEffects(effectsPosition);
+
+				MultiplayerSystem.SendPacket(new KillingBlowEffectsPacket(Main.LocalPlayer, effectsPosition));
 			}
 
-			return true;
+			killingBlowCount++;
+		}
+	}
+
+	internal static void CreateEffects(Vector2Int position)
+	{
+		if (!Main.dedServ) {
+			SoundEngine.PlaySound(KillingBlowSound, position);
+			CombatText.NewText(new Rectangle(position.X, position.Y, 0, 0), Color.MediumVioletRed, "Killing Blow!", true);
+		}
+	}
+
+	private static void CheckForKillingBlow(NPC npc, ref double damage)
+	{
+		if (playerCurrentlySwingingWeapons is not Player { HeldItem: Item item } player || !player.IsLocal()) {
+			return;
 		}
 
-		return false;
+		if (!item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) || !item.TryGetGlobalItem(out ItemKillingBlows killingBlows)) {
+			return;
+		}
+
+		if (!powerAttacks.Enabled || !killingBlows.Enabled || !powerAttacks.PowerAttack) {
+			return;
+		}
+
+		killingBlows.KillingBlow(npc, ref damage);
 	}
 }
