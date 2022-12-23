@@ -117,6 +117,6 @@ public class Minigun : ItemOverhaul
 			velocity.Y = 0f;
 		}
 
-		player.AddLimitedVelocity(velocity, new Vector2(3f, 5f));
+		VelocityUtils.AddLimitedVelocity(player, velocity, new Vector2(3f, 5f));
 	}
 }

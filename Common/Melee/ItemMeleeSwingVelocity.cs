@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
 
@@ -140,44 +141,11 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 
 		// Multiply by controls
 
-		const float ZeroedAreaFactor = 0.25f;
-
-		float? CalculateControlMultiplier(int axis, float keyAxisValue)
-		{
-			if (axis != 0 && axis != 1) {
-				throw new ArgumentOutOfRangeException(nameof(axis));
-			}
-
-			if (keyAxisValue == 0f) {
-				return null;
-			}
-
-			float otherAxis = 1f - Math.Abs(keyAxisValue);
-			Vector2 adjustedKeyDirection = axis == 0
-				? new Vector2(keyAxisValue, otherAxis)
-				: new Vector2(otherAxis, keyAxisValue);
-
-			adjustedKeyDirection = Vector2.Normalize(adjustedKeyDirection);
-
-			float dotProduct = Vector2.Dot(attackDirection, adjustedKeyDirection);
-			float controlMultiplier = (dotProduct + 1f) * 0.5f;
-
-			controlMultiplier = (controlMultiplier - ZeroedAreaFactor) / (1f - ZeroedAreaFactor);
-			controlMultiplier = MathHelper.Clamp(controlMultiplier, 0f, 1f);
-
-			return controlMultiplier;
-		}
-
-		Vector2 controlMultipliers;
-		
-		controlMultipliers.X = CalculateControlMultiplier(0, keyDirection.X) ?? DefaultKeyVelocityMultiplier.X;
-		controlMultipliers.Y = CalculateControlMultiplier(1, keyDirection.Y) ?? DefaultKeyVelocityMultiplier.Y;
-
-		dashVelocity *= controlMultipliers;
+		dashVelocity *= VelocityUtils.CalculateDirectionalInputModifierForVelocity(attackDirection, keyDirection, DefaultKeyVelocityMultiplier);
 
 		// Add the velocity
 
-		player.AddLimitedVelocity(dashVelocity * attackDirection, maxDashVelocity);
+		VelocityUtils.AddLimitedVelocity(player, dashVelocity * attackDirection, maxDashVelocity);
 	}
 	
 	public void AddVelocityModifier(in VelocityModifier modifier)

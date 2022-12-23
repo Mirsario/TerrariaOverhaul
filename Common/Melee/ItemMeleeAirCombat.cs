@@ -58,7 +58,7 @@ public sealed class ItemMeleeAirCombat : ItemComponent
 
 			var maxVelocity = Vector2.Min(Vector2.One * 9f, new Vector2(Math.Abs(dashVelocity.X), Math.Abs(dashVelocity.Y)));
 
-			player.AddLimitedVelocity(dashVelocity, maxVelocity);
+			VelocityUtils.AddLimitedVelocity(player, dashVelocity, maxVelocity);
 		}
 
 		movement.SetMovementModifier($"{nameof(ItemMeleeAirCombat)}/{nameof(OnHitNPC)}", player.itemAnimationMax / 2, modifier);
