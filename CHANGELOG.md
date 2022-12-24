@@ -3,7 +3,7 @@
 
 | Version									| Release Date |
 | ----------------------------------------- | ------------ |
-| [5.0 BETA 12](#50-beta-12)				| TBA		   |
+| [5.0 BETA 12](#50-beta-12)				| `2022.12.24` |
 | [5.0 BETA 11**F**](#50-beta-11f)			| `2022.09.11` |
 | [5.0 BETA 11**E**](#50-beta-11e)			| `2022.06.30` |
 | [5.0 BETA 11**D**](#50-beta-11d)			| `2022.06.20` |
@@ -25,8 +25,6 @@
 | [5.0 BETA 1](#50-beta-1)					| `2021.02.27` |
 
 # 5.0 BETA 12
-
-### ***THIS UPDATE IS A WORK IN PROGRESS***
 
 ### Additions
 - Added "Critical Judgement" - A brand new counter mechanic that rewards players with a critical strike in a short time window after they avoid damage with a dodgeroll. It also turns your eye into a LED light.
