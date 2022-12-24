@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
-using Microsoft.Xna.Framework.Input;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -15,7 +14,6 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Music;
 using TerrariaOverhaul.Core.Debugging;
-using TerrariaOverhaul.Core.Input;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 

@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using MonoMod.RuntimeDetour.HookGen;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -338,7 +337,6 @@ public sealed class PlayerDodgerolls : ModPlayer
 		var il = new ILCursor(context);
 
 		ILLabel? skipHitLabel = null;
-		int npcIndexLocalId = -1;
 
 		// Match the last 'if (!Main.player[myPlayer2].CanParryAgainst(Main.player[myPlayer2].Hitbox, base.Hitbox, velocity))'.
 		il.GotoNext(

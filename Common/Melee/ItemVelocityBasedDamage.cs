@@ -1,8 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.GameContent;
-using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.CombatTexts;
 using TerrariaOverhaul.Content.Buffs;
