@@ -27,7 +27,7 @@ public class AssaultRifle : ItemOverhaul
 		}
 
 		// Require ClockworkAssaultRifle's sound. TODO: This should also somehow accept other sounds, and also avoid conflicting with handgun/minigun overhauls. Width/height ratios can help with the former.
-		if (item.UseSound != SoundID.Item31) {
+		if (item.UseSound != SoundID.Item31 && (item.UseSound != SoundID.Item41 || item.useTime >= 6) && (item.UseSound != SoundID.Item11 || item.useTime >= 10)) {
 			return false;
 		}
 

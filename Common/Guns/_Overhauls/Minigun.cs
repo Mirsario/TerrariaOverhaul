@@ -42,7 +42,12 @@ public class Minigun : ItemOverhaul
 		}
 
 		// Exclude slow firing guns.
-		if (item.useTime >= 10) {
+		if (item.useTime + item.reuseDelay >= 10) {
+			return false;
+		}
+
+		// Exclude burst fire guns.
+		if (item.useTime < item.useAnimation) {
 			return false;
 		}
 
