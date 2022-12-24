@@ -29,8 +29,8 @@
 ### ***THIS UPDATE IS A WORK IN PROGRESS***
 
 ### Additions
+- Added "Critical Judgement" - A brand new counter mechanic that rewards players with a critical strike in a short time window after they avoid damage with a dodgeroll. It also turns your eye into a LED light.
 - Added Bunnyhop + Dodgeroll combination - [#139](https://github.com/Mirsario/TerrariaOverhaul/pull/139).
-- Ledge climbing will now preserve player velocity, is now a tone more fluid.
 - Added a tooltip to grappling hooks that hints that the grapple key can be held down for a classic pull.
 - Added a feature of music playback position synchronization.
 - Reimplemented boss death music pausing.
@@ -53,6 +53,7 @@
 	- Added a visual buff that shows the current effectiveness factor and the damage multiplier.
 	- Rebalanced to straightforward and slightly nerf melee. Damage mltiplier now capped in `[1.0, 2.0]` range, mapped to player speed range of `[0.9, 12.0]`, all subject to changes.
 	- Improved damage text coloring.
+- Ledge climbing will now preserve player velocity, is now a tone more fluid.
 - Added Bunnyhop Combos, reworked Bunny Paw - [#140](https://github.com/Mirsario/TerrariaOverhaul/pull/140).
 - New health & mana pickup sounds - Closes [#113](https://github.com/Mirsario/TerrariaOverhaul/issues/113).
 - Heavily improved life & mana pickup visuals.

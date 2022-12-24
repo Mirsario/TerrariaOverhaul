@@ -1,6 +1,9 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using MonoMod.RuntimeDetour.HookGen;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -12,6 +15,8 @@ using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
+
+#pragma warning disable IDE0060 // Remove unused parameter
 
 namespace TerrariaOverhaul.Common.Dodgerolls;
 
@@ -62,6 +67,9 @@ public sealed class PlayerDodgerolls : ModPlayer
 		AudioEffectsSystem.IgnoreSoundStyle(RechargedSound);
 
 		DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
+
+		IL.Terraria.Player.Update_NPCCollision += PlayerNpcCollisionInjection;
+		IL.Terraria.Projectile.Damage += ProjectileDamageInjection;
 	}
 
 	public override void Initialize()
@@ -83,12 +91,6 @@ public sealed class PlayerDodgerolls : ModPlayer
 	}
 
 	// CanX
-	public override bool CanBeHitByNPC(NPC npc, ref int cooldownSlot)
-		=> !IsDodging;
-
-	public override bool CanBeHitByProjectile(Projectile proj)
-		=> !IsDodging;
-
 	public override bool CanUseItem(Item item)
 		=> !IsDodging;
 
@@ -125,7 +127,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 	{
 		bool isLocal = Player.IsLocal();
 
-		if (isLocal && !DodgeAttemptTimer.Active && DodgerollKey.JustPressed && !Player.mouseInterface) {
+		if (isLocal && !DodgeAttemptTimer.Active && DodgerollKey.JustPressed && (!Player.mouseInterface || !Main.playerInventory)) {
 			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), (sbyte)Math.Sign(Player.KeyDirection().X));
 		}
 
@@ -271,5 +273,102 @@ public sealed class PlayerDodgerolls : ModPlayer
 		} else {
 			Player.runAcceleration = 0f;
 		}
+	}
+
+	private void OnDodgeEntity(Player player, Entity entity)
+	{
+		if (!Main.dedServ && !player.HasBuff<CriticalJudgement>()) {
+			/*
+			SoundEngine.PlaySound(new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Anime") {
+				Pitch = 0.10f,
+				Volume = 0.20f,
+			});
+			*/
+		}
+
+		player.AddBuff(ModContent.BuffType<CriticalJudgement>(), 90);
+	}
+
+	private static bool LateCanBeHitByEntity(Player player, Entity entity)
+	{
+		if (player.TryGetModPlayer(out PlayerDodgerolls dodgerolls) && dodgerolls.IsDodging) {
+			dodgerolls.OnDodgeEntity(player, entity);
+
+			return false;
+		}
+
+		return true;
+	}
+
+	private static void PlayerNpcCollisionInjection(ILContext context)
+	{
+		var il = new ILCursor(context);
+
+		ILLabel? continueLabel = null;
+		int npcIndexLocalId = -1;
+
+		// Go to the bottom.
+		il.Index = context.Instrs.Count - 1;
+
+		// Match the last 'if (npcTypeNoAggro[Main.npc[i].type])'.
+		il.GotoPrev(
+			MoveType.After,
+			i => i.MatchLdarg(0),
+			i => i.MatchLdfld(typeof(Player), nameof(Terraria.Player.npcTypeNoAggro)),
+			i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
+			i => i.MatchLdloc(out npcIndexLocalId),
+			i => i.MatchLdelemRef(),
+			i => i.MatchLdfld(typeof(NPC), nameof(NPC.type)),
+			i => i.MatchLdelemU1(),
+			i => i.MatchBrtrue(out continueLabel)
+		);
+
+		il.HijackIncomingLabels();
+
+		il.Emit(OpCodes.Ldarg_0);
+		il.Emit(OpCodes.Ldsfld, typeof(Main).GetField(nameof(Main.npc)));
+		il.Emit(OpCodes.Ldloc, npcIndexLocalId);
+		il.Emit(OpCodes.Ldelem_Ref);
+		il.EmitDelegate((Player player, NPC npc) => LateCanBeHitByEntity(player, npc));
+		il.Emit(OpCodes.Brfalse, continueLabel);
+	}
+
+	private static void ProjectileDamageInjection(ILContext context)
+	{
+		var il = new ILCursor(context);
+
+		ILLabel? skipHitLabel = null;
+		int npcIndexLocalId = -1;
+
+		// Match the last 'if (!Main.player[myPlayer2].CanParryAgainst(Main.player[myPlayer2].Hitbox, base.Hitbox, velocity))'.
+		il.GotoNext(
+			MoveType.After,
+			i => i.MatchCallvirt(typeof(Player), nameof(Player.CanParryAgainst)),
+			i => i.MatchBrtrue(out skipHitLabel)
+		);
+
+		il.HijackIncomingLabels();
+
+		int emitLocation = il.Index;
+
+		// Find player local
+		int playerIndexLocalId = -1;
+
+		il.GotoPrev(
+			i => i.MatchLdsfld(typeof(Main), nameof(Main.player)),
+			i => i.MatchLdloc(out playerIndexLocalId),
+			i => i.MatchLdelemRef()
+		);
+
+		// Go back and emit
+
+		il.Index = emitLocation;
+
+		il.Emit(OpCodes.Ldloc, playerIndexLocalId);
+		il.Emit(OpCodes.Ldsfld, typeof(Main).GetField(nameof(Main.player)));
+		il.Emit(OpCodes.Ldelem_Ref);
+		il.Emit(OpCodes.Ldarg_0);
+		il.EmitDelegate((Player player, Projectile projectile) => LateCanBeHitByEntity(player, projectile));
+		il.Emit(OpCodes.Brfalse, skipHitLabel);
 	}
 }
