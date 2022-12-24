@@ -55,6 +55,10 @@ public class Hammer : ItemOverhaul
 
 		// Components
 
+		if (ItemMeleeAirCombat.EnableAirCombat) {
+			item.EnableComponent<ItemMeleeAirCombat>();
+		}
+
 		item.EnableComponent<ItemMeleeGoreInteraction>();
 		item.EnableComponent<ItemMeleeNpcStuns>();
 		item.EnableComponent<ItemMeleeCooldownReplacement>();
