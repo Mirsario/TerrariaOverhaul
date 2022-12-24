@@ -35,6 +35,9 @@ public class Gradient<T> : Gradient
 			Time = time;
 			Value = value;
 		}
+
+		public static implicit operator GradientKey((float time, T value) tuple)
+			=> new(tuple.time, tuple.value);
 	}
 
 	public static Func<T, T, float, T>? LerpFunc { protected get; set; }
@@ -46,7 +49,10 @@ public class Gradient<T> : Gradient
 		set => keys = value ?? throw new ArgumentNullException(nameof(value));
 	}
 
-	public Gradient(params (float position, T value)[] values)
+	public Gradient(params GradientKey[] values)
+		: this((ReadOnlySpan<GradientKey>)values) { }
+
+	public Gradient(ReadOnlySpan<GradientKey> values)
 	{
 		if (LerpFunc == null) {
 			throw new NotSupportedException($"Gradient<{typeof(T).Name}>.{nameof(Gradient<float>.LerpFunc)} is not defined.");
@@ -58,11 +64,7 @@ public class Gradient<T> : Gradient
 
 		keys = new GradientKey[values.Length];
 
-		for (int i = 0; i < keys.Length; i++) {
-			var (position, value) = values[i];
-
-			keys[i] = new GradientKey(position, value);
-		}
+		values.CopyTo(keys);
 	}
 
 	public T GetValue(float time)
