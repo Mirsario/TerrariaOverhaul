@@ -79,6 +79,7 @@
 - Fixed [#101](https://github.com/Mirsario/TerrariaOverhaul/issues/101) - Binoculars & other camera offsets do not work.
 - Fixed [#119](https://github.com/Mirsario/TerrariaOverhaul/issues/119) - Smooth Camera doesn't handle teleports, reveals map areas.
 - Fixed [#159](https://github.com/Mirsario/TerrariaOverhaul/issues/159) - Enemies that pick up spare coins drop too many coins when killed near a banner.
+- Fixed journey mode using wrong difficulty values.
 - Fixed a rare load-time threading error.
 - Fixed the Mop and a few other weapons not interacting with gore & gibs.
 - Fixed explosions accelerating their own particles into bottom right direction.
