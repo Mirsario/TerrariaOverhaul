@@ -48,7 +48,7 @@ public class Handgun : ItemOverhaul
 			});
 
 			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.5f, 0.15f);
+				c.ScreenShake = new ScreenShake(0.45f, 0.15f);
 			});
 
 			item.EnableComponent<ItemBulletCasings>(c => {
