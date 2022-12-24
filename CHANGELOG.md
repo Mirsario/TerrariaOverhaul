@@ -48,6 +48,7 @@
 	- Now uses player movement input in place of attack direction. This is much more predictable, natural, and leaves the player in control.
 	- No longer reduces knockback done to enemies while mid air, which had to be done due to the aforementioned knockback stacking.
 	- The above changes result in the players now being able to keep themselves above enemies even by striking downwards, or even push themselves away from the enemies they're attacking. Experiment!
+	- Now enabled on hammers, not sure why it wasn't.
 - Reworked and rebalanced melee velocity-based damage:
 	- Reduced world view bloat: hitting enemies no longer creates separate "combat text" lines.
 	- Added a visual buff that shows the current effectiveness factor and the damage multiplier.
