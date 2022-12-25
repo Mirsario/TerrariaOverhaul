@@ -325,11 +325,11 @@ public sealed class PlayerDodgerolls : ModPlayer
 		il.HijackIncomingLabels();
 
 		il.Emit(OpCodes.Ldarg_0);
-		il.Emit(OpCodes.Ldsfld, typeof(Main).GetField(nameof(Main.npc)));
+		il.Emit(OpCodes.Ldsfld, typeof(Main).GetField(nameof(Main.npc))!);
 		il.Emit(OpCodes.Ldloc, npcIndexLocalId);
 		il.Emit(OpCodes.Ldelem_Ref);
 		il.EmitDelegate((Player player, NPC npc) => LateCanBeHitByEntity(player, npc));
-		il.Emit(OpCodes.Brfalse, continueLabel);
+		il.Emit(OpCodes.Brfalse, continueLabel!);
 	}
 
 	private static void ProjectileDamageInjection(ILContext context)
@@ -362,11 +362,11 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 		il.Index = emitLocation;
 
+		il.Emit(OpCodes.Ldsfld, typeof(Main).GetField(nameof(Main.player))!);
 		il.Emit(OpCodes.Ldloc, playerIndexLocalId);
-		il.Emit(OpCodes.Ldsfld, typeof(Main).GetField(nameof(Main.player)));
 		il.Emit(OpCodes.Ldelem_Ref);
 		il.Emit(OpCodes.Ldarg_0);
 		il.EmitDelegate((Player player, Projectile projectile) => LateCanBeHitByEntity(player, projectile));
-		il.Emit(OpCodes.Brfalse, skipHitLabel);
+		il.Emit(OpCodes.Brfalse, skipHitLabel!);
 	}
 }
