@@ -17,6 +17,9 @@ public class RangeConfigEntry<T> : ConfigEntry<T> where T : IComparable<T>
 
 		MinValue = minValue;
 		MaxValue = maxValue;
+		// Re-run a part of the original constructor. Inheritance is lovely, isn't it?
+		RemoteValue = DefaultValue;
+		LocalValue = DefaultValue;
 	}
 
 	protected override T? ModifySetValue(T? value)
