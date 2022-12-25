@@ -13,14 +13,35 @@ internal sealed class DifficultyRebalanceSystem : ModSystem
 
 	private static bool isEnabled;
 
+	public override void Load()
+	{
+		UpdateDifficultyLevels();
+	}
+
+	public override void Unload()
+	{
+		// Reset everything to vanilla
+		if (isEnabled) {
+			UpdateDifficultyLevels(false);
+		}
+	}
+
 	public override void PreUpdateEntities()
+	{
+		UpdateDifficultyLevels();
+	}
+
+	private static void UpdateDifficultyLevels()
 	{
 		bool shouldBeEnabled = EnableDifficultyChanges;
 
-		if (isEnabled == shouldBeEnabled) {
-			return;
+		if (isEnabled != shouldBeEnabled) {
+			UpdateDifficultyLevels(shouldBeEnabled);
 		}
+	}
 
+	private static void UpdateDifficultyLevels(bool shouldBeEnabled)
+	{
 		// This will unfortunately reset any changes from other mods
 
 		Span<GameModeData> presets = new GameModeData[4] {
@@ -38,7 +59,7 @@ internal sealed class DifficultyRebalanceSystem : ModSystem
 			Main.RegisteredGameModes[i] = presets[i];
 		}
 
-		Main.GameMode = Main.GameMode;
+		Main.GameMode = Main.GameMode; // Reloads some cache
 		isEnabled = shouldBeEnabled;
 	}
 
