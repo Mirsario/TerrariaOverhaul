@@ -217,6 +217,7 @@ public sealed partial class ConfigSystem : ModSystem
 					};
 
 					if (configEntryResetPredicates.Any(p => p(loadingEntryContext))) {
+						entry.LocalValue = entry.DefaultValue;
 						continue;
 					}
 
