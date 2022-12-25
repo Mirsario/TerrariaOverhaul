@@ -27,6 +27,9 @@
 
 # 5.0 BETA 12B
 
+### Changes
+- Increased minimal Journey player damage scale from 0.33 to 0.625 (half of `I'm Too Young To Mine`.)
+
 ### Fixes
 - (!) Fixed a bad typo in IL injection code resulting in projectile-to-player damage failure. Oopsie doopsie.
 - (!) Fixed [#171](https://github.com/Mirsario/TerrariaOverhaul/issues/171) - Ranged config entries having wrong default values.
