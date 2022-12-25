@@ -3,6 +3,7 @@
 
 | Version									| Release Date |
 | ----------------------------------------- | ------------ |
+| [5.0 BETA 12**B**](#50-beta-12b)			| `2022.12.25` |
 | [5.0 BETA 12](#50-beta-12)				| `2022.12.24` |
 | [5.0 BETA 11**F**](#50-beta-11f)			| `2022.09.11` |
 | [5.0 BETA 11**E**](#50-beta-11e)			| `2022.06.30` |
@@ -23,6 +24,11 @@
 | [5.0 BETA 2 **FIX 1**](#50-beta-2-fix-1)	| `2021.03.14` |
 | [5.0 BETA 2](#50-beta-2)					| `2021.03.06` |
 | [5.0 BETA 1](#50-beta-1)					| `2021.02.27` |
+
+# 5.0 BETA 12B
+
+### Fixes
+- (!) Fixed a bad typo in IL injection code resulting in projectile-to-player damage failure. Oopsie doopsie.
 
 # 5.0 BETA 12
 
