@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -14,11 +15,33 @@ namespace TerrariaOverhaul.Core.Configuration;
 
 public sealed partial class ConfigSystem : ModSystem
 {
+	public struct ConfigFileInfo
+	{
+		public Version? ModVersion;
+		public string? Json;
+	}
+
+	public struct LoadingEntryContext
+	{
+		public ConfigFileInfo FileInfo;
+		public IConfigEntry Entry;
+		public object? Value;
+	}
+
+	public static readonly string ConfigDirectory = OverhaulMod.PersonalDirectory;
+	public static readonly string ConfigPath = Path.Combine(OverhaulMod.PersonalDirectory, "Config.json");
+
+	private static readonly List<Predicate<LoadingEntryContext>> configEntryResetPredicates = new();
+
+	private static FileSystemWatcher? configWatcher;
+	private static DateTime lastConfigWatcherWriteTime;
+	private static volatile int ignoreConfigWatcherCounter;
+
 	// Overengineering at its finest
 	[Flags]
 	public enum LoadingResult : byte
 	{
-		SuccessFlag = 1,	// 00000001
+		SuccessFlag = 1,    // 00000001
 		WarningFlag = 2,    // 00000010
 		ErrorFlag = 4,      // 00000100
 
@@ -47,13 +70,31 @@ public sealed partial class ConfigSystem : ModSystem
 		}
 
 		Logging.IgnoreExceptionContents(nameof(IOUtils.TryReadAllTextSafely)); // Don't log caught errors from loops in that method.
+
+		// Legacy config handling
+
+		// Reset ranged options saved prior to 'v5.0-beta-12b', as their default values were bugged.
+		RegisterEntryResetPredicate(context => context is {
+			Entry: RangeConfigEntry<float>,
+			FileInfo.ModVersion: {
+				Major: <= 5,
+				Minor: <= 0,
+				Build: <= 0,
+				Revision: <= 24,
+			}
+		});
+	}
+
+	public static void RegisterEntryResetPredicate(Predicate<LoadingEntryContext> predicate)
+	{
+		configEntryResetPredicates.Add(predicate);
 	}
 
 	public static (LoadingResult result, string resultMessage) LoadConfig(bool resetOnError = true)
 	{
-		var result = LoadConfigInner(out var configVersion, out string? json);
+		var result = LoadConfigInner(out var configInfo);
 
-		if (configVersion == null && !result.HasFlag(LoadingResult.ErrorFlag)) {
+		if (configInfo.ModVersion == null && !result.HasFlag(LoadingResult.ErrorFlag)) {
 			result = LoadingResult.ModVersionMissing;
 		}
 
@@ -72,7 +113,7 @@ public sealed partial class ConfigSystem : ModSystem
 			DebugSystem.Logger.Info(resultMessage);
 		}
 
-		SaveConfig(json);
+		SaveConfig(configInfo.Json);
 		EnqueueSynchronization();
 
 		return (result, resultMessage);
@@ -86,7 +127,7 @@ public sealed partial class ConfigSystem : ModSystem
 			if (oldJson == null) {
 				IOUtils.TryReadAllTextSafely(ConfigPath, out oldJson);
 			}
-			
+
 			string newJson = SaveConfigInner();
 
 			if (newJson != oldJson || oldJson == null) {
@@ -128,17 +169,16 @@ public sealed partial class ConfigSystem : ModSystem
 		return jObject.ToString();
 	}
 
-	private static LoadingResult LoadConfigInner(out Version? configVersion, out string? json)
+	private static LoadingResult LoadConfigInner(out ConfigFileInfo configFileInfo)
 	{
-		configVersion = null;
-		json = null;
+		configFileInfo = new ConfigFileInfo();
 
 		try {
-			if (!IOUtils.TryReadAllTextSafely(ConfigPath, out json)) {
+			if (!IOUtils.TryReadAllTextSafely(ConfigPath, out configFileInfo.Json)) {
 				return LoadingResult.FileMissing;
 			}
-			
-			var jsonObject = JObject.Parse(json);
+
+			var jsonObject = JObject.Parse(configFileInfo.Json);
 
 			if (jsonObject == null) {
 				return LoadingResult.FileBroken;
@@ -147,7 +187,7 @@ public sealed partial class ConfigSystem : ModSystem
 			if (jsonObject.TryGetValue("Meta", out var metaToken) && metaToken is JObject metaObject) {
 				if (metaObject.TryGetValue("ModVersion", out var modVersionToken) && modVersionToken is JValue { Value: string modVersionString }) {
 					if (Version.TryParse(modVersionString, out var version)) {
-						configVersion = version;
+						configFileInfo.ModVersion = version;
 					}
 				}
 			}
@@ -169,6 +209,16 @@ public sealed partial class ConfigSystem : ModSystem
 					}
 
 					object? value = entryPair.Value?.ToObject(entry.ValueType);
+
+					var loadingEntryContext = new LoadingEntryContext {
+						FileInfo = configFileInfo,
+						Entry = entry,
+						Value = value,
+					};
+
+					if (configEntryResetPredicates.Any(p => p(loadingEntryContext))) {
+						continue;
+					}
 
 					if (value != null) {
 						entry.LocalValue = value;
