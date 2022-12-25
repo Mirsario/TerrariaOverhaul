@@ -18,15 +18,28 @@ public sealed class DecalSystem : ModSystem
 	public static readonly ConfigEntry<bool> EnableDecals = new(ConfigSide.ClientOnly, "BloodAndGore", nameof(EnableDecals), () => true);
 
 	public static Asset<Effect>? BloodShader { get; private set; }
+	public static BlendState SubtractiveBlendState { get; private set; } = null!;
 
 	public override void Load()
 	{
 		BloodShader = Mod.Assets.Request<Effect>("Assets/Shaders/Blood");
+
+		SubtractiveBlendState = new() {
+			ColorSourceBlend = Blend.One,
+			ColorDestinationBlend = Blend.One,
+			ColorBlendFunction = BlendFunction.ReverseSubtract,
+			AlphaSourceBlend = Blend.One,
+			AlphaDestinationBlend = Blend.One,
+			AlphaBlendFunction = BlendFunction.ReverseSubtract,
+		};
 	}
 
 	public static void ClearDecals(Rectangle dest)
 		=> AddDecals(dest, Color.Transparent, true, BlendState.Opaque);
-	
+
+	public static void ClearDecals(Texture2D texture, Rectangle dest, Color color)
+		=> AddDecals(texture, dest, color, true, SubtractiveBlendState);
+
 	public static void AddDecals(Rectangle dest, Color color, bool ifChunkExists = false, BlendState? blendState = null)
 		=> AddDecals(TextureAssets.BlackTile.Value, dest, color, ifChunkExists, blendState);
 

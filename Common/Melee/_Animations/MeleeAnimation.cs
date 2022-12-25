@@ -6,6 +6,7 @@ using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
 
 using TerrariaOverhaul.Core.Configuration;
+using Terraria.ID;
 
 namespace TerrariaOverhaul.Common.Melee;
 
@@ -18,6 +19,10 @@ public abstract class MeleeAnimation : ItemComponent
 	public override void UseItemFrame(Item item, Player player)
 	{
 		if (!Enabled || !EnableImprovedMeleeAnimations) {
+			return;
+		}
+
+		if (item.useStyle != ItemUseStyleID.Swing) {
 			return;
 		}
 

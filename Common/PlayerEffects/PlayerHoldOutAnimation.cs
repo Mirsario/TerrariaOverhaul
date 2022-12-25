@@ -98,7 +98,19 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 
 	private static bool ShouldForceUseAnim(Item item)
 	{
-		return item.useStyle == ItemUseStyleID.Shoot && !item.noUseGraphic;
+		if (item.noUseGraphic) {
+			return false;
+		}
+
+		if (item.useStyle != ItemUseStyleID.Shoot) {
+			return false;
+		}
+
+		if (ContentSamples.ItemsByType.TryGetValue(item.type, out var itemSample) && itemSample.useStyle != item.useStyle) {
+			return false;
+		}
+
+		return true;
 	}
 
 	private static float ConvertRotation(float rotation, Player player)

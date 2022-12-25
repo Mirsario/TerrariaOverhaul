@@ -284,10 +284,22 @@ Mods: {
 		}
 
 		BuffName: {
+			//CriticalJudgement: "Critical Judgement"
+			//HackAndSlash: "Hack and Slash"
 			ManaAbsorption: "Absorption de Mana"
 		}
 
 		BuffDescription: {
+			//CriticalJudgement:
+			//	'''
+			//	Their assault was proven futile
+			//	Unleash your judgement with a critical strike
+			//	'''
+			//HackAndSlash:
+			//	'''
+			//	The faster you move, the harder you strike
+			//	Melee damage multiplier: x{Multiplier}
+			//	'''
 			ManaAbsorption:
 				'''
 				Vous déplaçant avec célérité, l'énergie s'agglomère autour de vous

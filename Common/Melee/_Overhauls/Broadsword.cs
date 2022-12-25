@@ -76,7 +76,7 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 			c.MaxDashVelocity = new Vector2(0f, 5.5f);
 
 			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackBoost);
-			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackVerticalGroundBoost);
+			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackGroundBoost);
 			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableVerticalDashesForNonChargedAttacks);
 			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableUpwardsDashesWhenFalling);
 		});
@@ -113,7 +113,15 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 	{
 		// Slight screenshake for the swing.
 		if (!Main.dedServ) {
-			ScreenShakeSystem.New(3f, item.useAnimation / 120f);
+			float intensity = 0.3f;
+			float time = 0.15f;
+
+			if (item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.PowerAttack) {
+				intensity = 0.75f;
+				time = 0.25f;
+			}
+
+			ScreenShakeSystem.New(intensity, time);
 		}
 	}
 

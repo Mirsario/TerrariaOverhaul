@@ -15,25 +15,6 @@ namespace TerrariaOverhaul.Common.Movement;
 
 public sealed class PlayerMovement : ModPlayer
 {
-	public struct MovementModifier
-	{
-		public static readonly MovementModifier Default = new() {
-			GravityScale = 1f,
-			RunAccelerationScale = 1f,
-			MaxRunSpeedScale = 1f
-		};
-
-		public float GravityScale;
-		public float RunAccelerationScale;
-		public float MaxRunSpeedScale;
-
-		public void Apply(Player player)
-		{
-			player.gravity *= GravityScale;
-			player.runAcceleration *= RunAccelerationScale;
-		}
-	}
-
 	public static readonly int VelocityRecordSize = 5;
 
 	public static readonly ConfigEntry<bool> EnableVerticalAccelerationChanges = new(ConfigSide.Both, "PlayerMovement", nameof(EnableVerticalAccelerationChanges), () => true);

@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
 
@@ -40,9 +41,9 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		};
 		
 		/// <summary> Boost power attacks' vertical dashes even higher when on ground. </summary>
-		public static readonly VelocityModifier PowerAttackVerticalGroundBoost = new(nameof(PowerAttackVerticalGroundBoost)) {
+		public static readonly VelocityModifier PowerAttackGroundBoost = new(nameof(PowerAttackGroundBoost)) {
 			Predicate = new() { PowerAttack = true, OnGround = true },
-			VelocityMultiplier = new Vector2(1.0f, 1.65f),
+			VelocityMultiplier = new Vector2(1.35f, 1.25f),
 		};
 
 		/// <summary> Disable vertical dashes for non-charged attacks whenever the player is on ground. </summary>
@@ -69,7 +70,7 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		};
 	}
 	
-	private Dictionary<string, VelocityModifier> dashVelocityModifiers = new();
+	private readonly Dictionary<string, VelocityModifier> dashVelocityModifiers = new();
 	
 	public Vector2 DashVelocity { get; set; } = Vector2.One;
 	public Vector2 MaxDashVelocity { get; set; } = Vector2.One;
@@ -131,53 +132,20 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 
 		// Calculate max velocity
 
-		var maxDashVelocity = new Vector2(
-			MaxDashVelocity.X == 0f ? Math.Max(MaxDashVelocity.X, Math.Abs(dashVelocity.X)) : MaxDashVelocity.X,
-			MaxDashVelocity.Y == 0f ? Math.Max(MaxDashVelocity.Y, Math.Abs(dashVelocity.Y)) : MaxDashVelocity.Y
-		);
+		var maxDashVelocity = MaxDashVelocity * maxDashVelocityMultiplier;
 
-		maxDashVelocity *= maxDashVelocityMultiplier;
+		maxDashVelocity = new Vector2(
+			maxDashVelocity.X == 0f ? Math.Max(maxDashVelocity.X, Math.Abs(dashVelocity.X)) : maxDashVelocity.X,
+			maxDashVelocity.Y == 0f ? Math.Max(maxDashVelocity.Y, Math.Abs(dashVelocity.Y)) : maxDashVelocity.Y
+		);
 
 		// Multiply by controls
 
-		const float ZeroedAreaFactor = 0.25f;
-
-		float? CalculateControlMultiplier(int axis, float keyAxisValue)
-		{
-			if (axis != 0 && axis != 1) {
-				throw new ArgumentOutOfRangeException(nameof(axis));
-			}
-
-			if (keyAxisValue == 0f) {
-				return null;
-			}
-
-			float otherAxis = 1f - Math.Abs(keyAxisValue);
-			Vector2 adjustedKeyDirection = axis == 0
-				? new Vector2(keyAxisValue, otherAxis)
-				: new Vector2(otherAxis, keyAxisValue);
-
-			adjustedKeyDirection = Vector2.Normalize(adjustedKeyDirection);
-
-			float dotProduct = Vector2.Dot(attackDirection, adjustedKeyDirection);
-			float controlMultiplier = (dotProduct + 1f) * 0.5f;
-
-			controlMultiplier = (controlMultiplier - ZeroedAreaFactor) / (1f - ZeroedAreaFactor);
-			controlMultiplier = MathHelper.Clamp(controlMultiplier, 0f, 1f);
-
-			return controlMultiplier;
-		}
-
-		Vector2 controlMultipliers;
-		
-		controlMultipliers.X = CalculateControlMultiplier(0, keyDirection.X) ?? DefaultKeyVelocityMultiplier.X;
-		controlMultipliers.Y = CalculateControlMultiplier(1, keyDirection.Y) ?? DefaultKeyVelocityMultiplier.Y;
-
-		dashVelocity *= controlMultipliers;
+		dashVelocity *= VelocityUtils.CalculateDirectionalInputModifierForVelocity(attackDirection, keyDirection, DefaultKeyVelocityMultiplier);
 
 		// Add the velocity
 
-		player.AddLimitedVelocity(dashVelocity * attackDirection, maxDashVelocity);
+		VelocityUtils.AddLimitedVelocity(player, dashVelocity * attackDirection, maxDashVelocity);
 	}
 	
 	public void AddVelocityModifier(in VelocityModifier modifier)

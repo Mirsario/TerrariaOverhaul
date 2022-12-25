@@ -28,6 +28,9 @@ public sealed class BannerReworkSystem : ModSystem
 		On.Terraria.NPC.NPCLoot_DropMoney += (orig, npc, closestPlayer) => {
 			orig(npc, closestPlayer);
 
+			// Prevent picked up coins from being doubled too.
+			npc.extraValue = 0;
+
 			if (ShouldDoubleLoot(npc)) {
 				orig(npc, closestPlayer);
 			}

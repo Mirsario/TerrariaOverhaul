@@ -68,7 +68,7 @@ public class Minigun : ItemOverhaul
 			});
 
 			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(5f, 0.25f);
+				c.ScreenShake = new ScreenShake(0.15f, 0.2f);
 			});
 
 			item.EnableComponent<ItemBulletCasings>(c => {
@@ -117,6 +117,6 @@ public class Minigun : ItemOverhaul
 			velocity.Y = 0f;
 		}
 
-		player.AddLimitedVelocity(velocity, new Vector2(3f, 5f));
+		VelocityUtils.AddLimitedVelocity(player, velocity, new Vector2(3f, 5f));
 	}
 }

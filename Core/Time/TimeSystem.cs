@@ -3,13 +3,14 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Core.Time;
 
 public sealed class TimeSystem : ModSystem
 {
 	public static readonly DateTime FirstLoadDate = DateTime.Now;
+
+	private static uint lastRenderUpdateCount;
 
 	public static DateTime Date { get; } = DateTime.Now;
 	// Logic time
@@ -22,6 +23,7 @@ public sealed class TimeSystem : ModSystem
 	// Etc
 	public static Stopwatch? GlobalStopwatch { get; private set; }
 	public static ulong UpdateCount { get; private set; }
+	public static bool RenderOnlyFrame { get; private set; }
 	// Events
 	public static bool AprilFools { get; private set; }
 	public static bool AustraliaDay { get; private set; }
@@ -57,10 +59,17 @@ public sealed class TimeSystem : ModSystem
 
 	private static void OnDoDraw(On.Terraria.Main.orig_DoDraw orig, Main main, GameTime gameTime)
 	{
+		uint updateCount = Main.GameUpdateCount;
+
+		RenderOnlyFrame = updateCount == lastRenderUpdateCount;
+		lastRenderUpdateCount = updateCount;
+
 		RenderTime = (float)gameTime.TotalGameTime.TotalSeconds;
 		RenderDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
 		orig(main, gameTime);
+
+		RenderOnlyFrame = false;
 	}
 
 	private static void OnDoUpdate(On.Terraria.Main.orig_DoUpdate orig, Main main, ref GameTime gameTime)

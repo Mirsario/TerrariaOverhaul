@@ -8,8 +8,20 @@ The Work-in-Progress 5.0 version for Terraria 1.4 is a complete reimplementation
 - Magnitudes more overall quality assurance & polishing.
 - Near flawless compatibility with content mods, to be polished further soon.
 
-[url=https://github.com/Mirsario/TerrariaOverhaul/issues/108]Click here to find out more about state of the rebuild.[/url]
+[h1]F.A.Q.[/h1]
 
-[url=https://discord.gg/RNGq9N8]Click here to join Overhaul's Discord server.[/url]
+[b]How do I configure the mod?[/b]
+[quote]If clicking 'Configuration' in top left of main menu doesn't help you - Head over to the following path:
+[b]On Windows:[/b] [i][u]%userprofile%/Documents/My games/Terraria/tModLoader/TerrariaOverhaul[/u][/i]
+[b]On Linux:[/b] [i][u]~/.local/share/Terraria/tModLoader/TerrariaOverhaul[/u][/i]
+[b]On MacOS:[/b] [i][u]~/Library/Application support/Terraria/tModLoader/TerrariaOverhaul[/u][/i]
+(Where [i][u]tModLoader[/u][/i] may be [i][u]tModLoader-preview[/u][/i] if you're using a preview TML version.)
+and manually edit the [i][u]Config.json[/u][/i] file. Overhaul will automatically import configuration when it's saved.
 
-[url=https://github.com/Mirsario/TerrariaOverhaul]Click here to open Overhaul's GitHub repository.[/url]
+Work is currently being done towards having a rich in-game configuration screen.
+[/quote]
+
+[h1]Links[/h1]
+- [url=https://discord.gg/RNGq9N8]Chat and ask questions on our [b]Discord Server[/b] 💬[/url]
+- [url=https://patreon.com/Mirsario]Show your support on [b]Patreon[/b] ❤️[/url]
+- [url=https://github.com/MIrsario/TerrariaOverhaul]Contribute on [b]GitHub[/b] ⚙️[/url]

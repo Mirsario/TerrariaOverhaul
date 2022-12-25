@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Reflection;
 using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -18,12 +20,10 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 {
 	public static readonly ConfigEntry<bool> EnableGrapplingHookPhysics = new(ConfigSide.Both, "PlayerMovement", nameof(EnableGrapplingHookPhysics), () => true);
 
-	public const int GrapplingHookAIStyle = 7;
-
+	public const int GrapplingHookAIStyle = ProjAIStyleID.Hook;
 
 	private static HashSet<int>? grapplingTypesWarnedAbout;
 	private static Dictionary<int, float>? vanillaHookRangesInPixels;
-	private static Func<Projectile, Tile, bool>? canTileBeLatchedOnFunc;
 
 	private float maxDist;
 	private bool noPulling;
@@ -35,24 +35,29 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 
 	public override void Load()
 	{
-		canTileBeLatchedOnFunc = typeof(Projectile)
-			.GetMethod("AI_007_GrapplingHooks_CanTileBeLatchedOnTo", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)?
-			.CreateDelegate<Func<Projectile, Tile, bool>>()
-			?? throw new InvalidOperationException($"Unable to get delegate for '{nameof(ProjectileGrapplingHookPhysics)}.{nameof(canTileBeLatchedOnFunc)}'");
+		IL.Terraria.Player.Update += PlayerUpdateInjection;
+		IL.Terraria.Player.GrappleMovement += PlayerGrappleMovementInjection;
 
-		On.Terraria.Player.GrappleMovement += (orig, player) => {
-			if (ShouldOverrideGrapplingHookPhysics(player, out _)) {
-				return;
-			}
-
-			orig(player);
-		};
 		On.Terraria.Player.JumpMovement += (orig, player) => {
 			if (ShouldOverrideGrapplingHookPhysics(player, out _)) {
 				PlayerJumpOffGrapplingHook(player);
 			}
 
 			orig(player);
+		};
+
+		On.Terraria.Projectile.AI_007_GrapplingHooks += static (orig, projectile) => {
+			orig(projectile);
+
+			if (!ShouldOverrideGrapplingHookPhysics(projectile, out var player)) {
+				return;
+			}
+
+			if (!projectile.TryGetGlobalProjectile(out ProjectileGrapplingHookPhysics physics)) {
+				return;
+			}
+
+			physics.ProjectileGrappleMovement(player, projectile);
 		};
 
 		// Vanilla's data for this is hardcoded and not accessible. These stats are from the wiki.
@@ -104,17 +109,6 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 		}
 	}
 
-	public override bool PreAI(Projectile projectile)
-	{
-		if (ShouldOverrideGrapplingHookPhysics(projectile, out var player)) {
-			ProjectileGrappleMovement(player, projectile);
-
-			return false;
-		}
-
-		return true;
-	}
-
 	public void ProjectileGrappleMovement(Player player, Projectile proj)
 	{
 		if (vanillaHookRangesInPixels == null) {
@@ -136,41 +130,11 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 			}
 		}
 
-		if (player.dead) {
-			proj.Kill();
-			SetHooked(proj, false);
-
-			return;
-		}
-
 		var mountedCenter = player.MountedCenter;
 		var mountedOffset = mountedCenter - projCenter;
 
 		proj.rotation = (float)Math.Atan2(mountedOffset.Y, mountedOffset.X) - 1.57f;
 		proj.velocity = Vector2.Zero;
-
-		// Check if the tile that this is latched to has disappeared.
-
-		if (!Main.tile.TryGet(projCenter.ToTileCoordinates16(), out var tile) || !CanTileBeLatchedOnto(proj, tile)) {
-			SetHooked(proj, false);
-			proj.Kill();
-
-			return;
-		}
-
-		// Dismount if currently using a mount
-		if (player.mount.Active) {
-			player.mount.Dismount(player);
-		}
-
-		// Reset movement, but not jumps.
-		player.RefreshMovementAbilities();
-
-		player.rocketFrame = false;
-		player.canRocket = false;
-		player.rocketRelease = false;
-		player.fallStart = (int)(playerCenter.Y / 16f);
-		player.sandStorm = false;
 
 		// If the grappling button is ever released - never allow pulling in again.
 		if (!player.controlHook) {
@@ -261,31 +225,36 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 	public static void SetHooked(Projectile proj, bool newValue)
 		=> proj.ai[0] = newValue ? 2f : 0f;
 
-	public static bool ShouldOverrideGrapplingHookPhysics(Player player, out Projectile? projectile)
+	public static bool ShouldOverrideGrapplingHookPhysics(Player? player)
+		=> ShouldOverrideGrapplingHookPhysics(player, out _);
+
+	public static bool ShouldOverrideGrapplingHookPhysics(Player? player, [NotNullWhen(true)] out Projectile? projectile)
 	{
-		projectile = player != null ? Main.projectile.FirstOrDefault(p => p != null && p.active && p.aiStyle == GrapplingHookAIStyle && p.owner == player.whoAmI && GetHooked(p)) : null;
+		int firstGrapple = player?.grappling[0] ?? -1;
+		
+		projectile = firstGrapple >= 0 ? Main.projectile[firstGrapple] : null;
 
 		return ShouldOverrideGrapplingHookPhysics(player, projectile);
 	}
 
-	public static bool ShouldOverrideGrapplingHookPhysics(Projectile? proj, out Player player)
+	public static bool ShouldOverrideGrapplingHookPhysics(Projectile? projectile, [NotNullWhen(true)] out Player? player)
 	{
-		player = proj?.GetOwner()!;
+		player = projectile?.GetOwner()!;
 
-		return ShouldOverrideGrapplingHookPhysics(player, proj);
+		return ShouldOverrideGrapplingHookPhysics(player, projectile);
 	}
 
-	public static bool ShouldOverrideGrapplingHookPhysics(Player? player, Projectile? proj)
+	public static bool ShouldOverrideGrapplingHookPhysics([NotNullWhen(true)] Player? player, [NotNullWhen(true)] Projectile? proj)
 	{
 		if (!EnableGrapplingHookPhysics) {
 			return false;
 		}
 
-		if (player?.active != true) {
+		if (player?.active != true || proj?.active != true) {
 			return false;
 		}
 
-		if (proj?.active != true || proj.aiStyle != GrapplingHookAIStyle || !GetHooked(proj) || OverhaulProjectileTags.NoGrapplingHookSwinging.Has(proj.type)) {
+		if (proj.aiStyle != GrapplingHookAIStyle || !GetHooked(proj) || OverhaulProjectileTags.NoGrapplingHookSwinging.Has(proj.type)) {
 			return false;
 		}
 
@@ -301,16 +270,77 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 		return true;
 	}
 
-	private static bool CanTileBeLatchedOnto(Projectile projectile, Tile tile)
+	private static void PlayerGrappleMovementInjection(ILContext context)
 	{
-		if (!tile.HasTile || tile.IsActuated) {
-			return false;
-		}
+		var il = new ILCursor(context);
 
-		if (tile.TileType != TileID.MinecartTrack && !canTileBeLatchedOnFunc!(projectile, tile)) {
-			return false;
-		}
+		// Match 'GoingDownWithGrapple = true;' to prepare the code emitting location.
+		il.GotoNext(
+			MoveType.After,
+			i => i.MatchStfld(typeof(Player), nameof(Player.GoingDownWithGrapple))
+		);
 
-		return true;
+		il.HijackIncomingLabels();
+
+		int codeInsertionLocation = il.Index;
+
+		// Match 'if (controlJump)' to mark a label.
+		var skipVanillaCodeLabel = il.DefineLabel();
+
+		il.GotoNext(
+			MoveType.Before,
+			i => i.MatchLdarg(0),
+			i => i.MatchLdfld(typeof(Player), nameof(Player.controlJump)),
+			i => i.MatchBrfalse(out _)
+		);
+
+		il.MarkLabel(skipVanillaCodeLabel);
+
+		// Go back and emit actual code, now that we know that all matches succeeded.
+
+		il.Index = codeInsertionLocation;
+
+		il.Emit(OpCodes.Ldarg_0);
+		il.EmitDelegate<Func<Player, bool>>(ShouldOverrideGrapplingHookPhysics);
+		il.Emit(OpCodes.Brtrue, skipVanillaCodeLabel);
+	}
+
+	private static void PlayerUpdateInjection(ILContext context)
+	{
+		var il = new ILCursor(context);
+
+		// Match 'WingAirLogicTweaks();' call as it's the nearest unique thing.
+		il.GotoNext(
+			MoveType.Before,
+			i => i.MatchLdarg(0),
+			i => i.MatchCall(typeof(Player), "WingAirLogicTweaks")
+		);
+
+		// Going back up, match a part of 'else if (grappling[0] == -1 && !tongued)'.
+		var checkPredicates = new Func<Instruction, bool>[] {
+			i => i.MatchLdarg(0),
+			i => i.MatchLdfld(typeof(Player), nameof(Player.grappling)),
+			i => i.MatchLdcI4(0),
+			i => i.MatchLdelemI4(),
+			i => i.MatchLdcI4(-1),
+			i => i.MatchBneUn(out _)
+		};
+
+		il.GotoPrev(MoveType.Before, checkPredicates);
+
+		// Emit code that skips over this check whenever we override physics.
+
+		var skipThisCheckLabel = il.DefineLabel();
+		
+		il.HijackIncomingLabels();
+
+		il.Emit(OpCodes.Ldarg_0);
+		il.EmitDelegate<Func<Player, bool>>(ShouldOverrideGrapplingHookPhysics);
+		il.Emit(OpCodes.Brtrue, skipThisCheckLabel);
+
+		// Go forward and mark the label at the next right after.
+		il.Index += checkPredicates.Length;
+
+		il.MarkLabel(skipThisCheckLabel);
 	}
 }

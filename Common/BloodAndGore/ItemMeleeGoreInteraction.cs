@@ -15,6 +15,10 @@ public sealed class ItemMeleeGoreInteraction : ItemComponent
 			return;
 		}
 
+		if (item.noMelee) {
+			return;
+		}
+
 		if (player.itemAnimation < player.itemAnimationMax - 1 || !ICanDoMeleeDamage.Invoke(item, player)) {
 			return;
 		}
@@ -35,10 +39,14 @@ public sealed class ItemMeleeGoreInteraction : ItemComponent
 			}
 
 			if (CollisionUtils.CheckRectangleVsArcCollision(gore.AABBRectangle, player.Center, meleeAttackAiming.AttackAngle, arcRadius, range)) {
-				gore.HitGore(meleeAttackAiming.AttackDirection);
+				gore.ApplyForce(meleeAttackAiming.AttackDirection);
 
-				if (++numHit >= MaxHits) {
-					break;
+				if (gore.Damage()) {
+					numHit++;
+
+					if (numHit >= MaxHits) {
+						break;
+					}
 				}
 			}
 		}

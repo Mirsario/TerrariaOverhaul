@@ -3,16 +3,20 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Configuration;
 
-namespace TerrariaOverhaul.Common.Difficulties;
+namespace TerrariaOverhaul.Common.DifficultyLevels;
 
 internal sealed class DifficultyRebalanceSystem : ModSystem
 {
-	private bool isEnabled;
-	private bool shouldBeEnabled = true; // TODO: Don't be lazy and replace with config entries
+	public static readonly ConfigEntry<bool> EnableDifficultyChanges = new(ConfigSide.Both, "DifficultyLevels", nameof(EnableDifficultyChanges), () => true);
+
+	private static bool isEnabled;
 
 	public override void PreUpdateEntities()
 	{
+		bool shouldBeEnabled = EnableDifficultyChanges;
+
 		if (isEnabled == shouldBeEnabled) {
 			return;
 		}
@@ -61,7 +65,8 @@ internal sealed class DifficultyRebalanceSystem : ModSystem
 		ref var expert = ref presets[GameModeID.Expert];
 		ref var master = ref presets[GameModeID.Master];
 
-		journey.EnemyDamageMultiplier = normal.EnemyDamageMultiplier = 1.25f; // From 1.0
+		journey.EnemyDamageMultiplier = 0.33f; // From 1.0. Since Journey can configure its enemy difficulty, this is the lowest value it can choose.
+		normal.EnemyDamageMultiplier = 1.25f; // From 1.0
 		expert.EnemyDamageMultiplier = 2.0f; // From 2.0
 		master.EnemyDamageMultiplier = 3.25f; // From 3.0
 	}
