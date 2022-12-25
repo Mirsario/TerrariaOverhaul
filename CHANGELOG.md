@@ -30,6 +30,7 @@
 ### Fixes
 - (!) Fixed a bad typo in IL injection code resulting in projectile-to-player damage failure. Oopsie doopsie.
 - (!) Fixed [#171](https://github.com/Mirsario/TerrariaOverhaul/issues/171) - Ranged config entries having wrong default values.
+- (!) Fixed a big difficulty-agnostic balance issue introduced by the Journey fix.
 - To address the aftermath of the above issue properly, floating point number config values will be reset to their proper default values.
 - Ensured correct unloading of difficulty rebalance systems.
 

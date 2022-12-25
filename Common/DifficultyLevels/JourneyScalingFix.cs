@@ -67,6 +67,10 @@ internal sealed class JourneyScalingFix : ILoadable
 
 	private static void ModifyGameModeData(ref GameModeData gameMode)
 	{
+		if (!gameMode.IsJourneyMode) {
+			return;
+		}
+
 		var power = CreativePowerManager.Instance.GetPower<DifficultySliderPower>();
 
 		if (power.GetIsUnlocked()) {
