@@ -170,7 +170,7 @@ Mods: {
 			RightClickAudioCuesDisabled: "Wskazówki audio są wyłączone"
 
 			GrapplingHooks: {
-				//ClassicPullTip: "Hold the grappling hook key for a classic pull"
+				ClassicPullTip: "Przytrzymaj klawisz haka dla klasycznego przyciągnięcia"
 			}
 		}
 
