@@ -218,7 +218,7 @@ Mods: {
 		}
 
 		BuffName: {
-			CriticalJudgement: "Krytyczne Myślenie"
+			CriticalJudgement: "Krytyczny Osąd"
 			HackAndSlash: "Hack and Slash"
 			ManaAbsorption: "Absorbcja Many"
 		}
@@ -227,7 +227,7 @@ Mods: {
 			CriticalJudgement:
 				'''
 				Ich atak okazał się daremny
-				Wyzwól swoje skupienie ciosem krytycznym
+				Wyzwól swój wyrok ciosem krytycznym
 				'''
 			HackAndSlash:
 				'''
