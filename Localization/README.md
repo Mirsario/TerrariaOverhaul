@@ -33,9 +33,9 @@
 - **Translated:** `0` out of `92` (`92` missing!)
 
 ## pl-PL
-- **Status:** ⚠️ Incomplete!
-- **Completion:** ***90.2%***
-- **Translated:** `83` out of `92` (`9` missing!)
+- **Status:** ✅ Full!
+- **Completion:** ***100.0%***
+- **Translated:** `92` out of `92` (`0` missing!)
 
 ## pt-BR
 - **Status:** ⚠️ Incomplete!
