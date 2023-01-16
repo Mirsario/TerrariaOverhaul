@@ -24,7 +24,6 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 
 	private static HashSet<int>? grapplingTypesWarnedAbout;
 	private static Dictionary<int, float>? vanillaHookRangesInPixels;
-	private static Func<Projectile, Tile, bool>? canTileBeLatchedOnFunc;
 
 	private float maxDist;
 	private bool noPulling;
@@ -265,19 +264,6 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 		}
 
 		if (player.EnumerateGrapplingHooks().Any(tuple => GetHooked(tuple.projectile) && tuple.projectile != proj)) {
-			return false;
-		}
-
-		return true;
-	}
-
-	private static bool CanTileBeLatchedOnto(Projectile projectile, Tile tile)
-	{
-		if (!tile.HasTile || tile.IsActuated) {
-			return false;
-		}
-
-		if (tile.TileType != TileID.MinecartTrack && !canTileBeLatchedOnFunc!(projectile, tile)) {
 			return false;
 		}
 

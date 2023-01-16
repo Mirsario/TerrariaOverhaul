@@ -18,15 +18,8 @@ public sealed partial class ConfigSystem : ModSystem
 		public readonly Dictionary<string, IConfigEntry> EntriesByName = new();
 	}
 
-	public static readonly string ConfigDirectory = OverhaulMod.PersonalDirectory;
-	public static readonly string ConfigPath = Path.Combine(OverhaulMod.PersonalDirectory, "Config.json");
-
 	private static readonly Dictionary<string, IConfigEntry> entriesByName = new();
 	private static readonly Dictionary<string, CategoryData> categoriesByName = new();
-
-	private static FileSystemWatcher? configWatcher;
-	private static DateTime lastConfigWatcherWriteTime;
-	private static volatile int ignoreConfigWatcherCounter;
 
 	public static IReadOnlyDictionary<string, IConfigEntry> EntriesByName { get; } = new ReadOnlyDictionary<string, IConfigEntry>(entriesByName);
 

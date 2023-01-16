@@ -4,10 +4,11 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Movement;
 
 namespace TerrariaOverhaul.Common.Damage;
 
-public class NPCDirectionalKnockback : GlobalNPC
+public sealed class NPCDirectionalKnockback : GlobalNPC
 {
 	private Vector2? knockbackDirection;
 
@@ -58,17 +59,7 @@ public class NPCDirectionalKnockback : GlobalNPC
 
 			cursor.Emit(OpCodes.Ldarg_0); // Load 'this'.
 			cursor.Emit(OpCodes.Ldloc, totalKnockbackLocalId); // Load the local with total knockback.
-			cursor.EmitDelegate<Func<NPC, float, bool>>((npc, totalKnockback) => {
-				if (npc.TryGetGlobalNPC(out NPCDirectionalKnockback npcKnockback) && npcKnockback.knockbackDirection.HasValue) {
-					npc.velocity += npcKnockback.knockbackDirection.Value * totalKnockback;
-
-					npcKnockback.knockbackDirection = null;
-
-					return true;
-				}
-
-				return false;
-			});
+			cursor.EmitDelegate(ApplyKnockbackOverride);
 			cursor.Emit(OpCodes.Brtrue_S, skipKnockbackLabel!);
 		};
 	}
@@ -76,5 +67,21 @@ public class NPCDirectionalKnockback : GlobalNPC
 	public void SetNextKnockbackDirection(Vector2 direction)
 	{
 		knockbackDirection = direction;
+	}
+
+	private static bool ApplyKnockbackOverride(NPC npc, float totalKnockback)
+	{
+		if (npc.TryGetGlobalNPC(out NPCDirectionalKnockback npcKnockback) && npcKnockback.knockbackDirection.HasValue) {
+			Vector2 knockback = npcKnockback.knockbackDirection.Value * totalKnockback;
+			Vector2 maxVelocity = Vector2.UnitX * MathF.Abs(totalKnockback);
+
+			VelocityUtils.AddLimitedVelocity(npc, knockback, maxVelocity);
+
+			npcKnockback.knockbackDirection = null;
+
+			return true;
+		}
+
+		return false;
 	}
 }

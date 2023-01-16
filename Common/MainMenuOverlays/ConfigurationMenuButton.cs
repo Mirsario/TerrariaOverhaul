@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.IO;
-using System.Security.Policy;
+﻿using System.IO;
 using Terraria;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Localization;

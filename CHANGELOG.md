@@ -3,7 +3,8 @@
 
 | Version									| Release Date |
 | ----------------------------------------- | ------------ |
-| [5.0 BETA 12](#50-beta-12)				| TBA		   |
+| [5.0 BETA 12**B**](#50-beta-12b)			| `2022.12.25` |
+| [5.0 BETA 12](#50-beta-12)				| `2022.12.24` |
 | [5.0 BETA 11**F**](#50-beta-11f)			| `2022.09.11` |
 | [5.0 BETA 11**E**](#50-beta-11e)			| `2022.06.30` |
 | [5.0 BETA 11**D**](#50-beta-11d)			| `2022.06.20` |
@@ -24,13 +25,23 @@
 | [5.0 BETA 2](#50-beta-2)					| `2021.03.06` |
 | [5.0 BETA 1](#50-beta-1)					| `2021.02.27` |
 
+# 5.0 BETA 12B
+
+### Changes
+- Increased minimal Journey player damage scale from 0.33 to 0.625 (half of `I'm Too Young To Mine`.)
+
+### Fixes
+- (!) Fixed a bad typo in IL injection code resulting in projectile-to-player damage failure. Oopsie doopsie.
+- (!) Fixed a big difficulty-agnostic balance issue introduced by the Journey fix.
+- (!) Fixed [#171](https://github.com/Mirsario/TerrariaOverhaul/issues/171) - Ranged config entries having wrong default values.
+- To address the aftermath of the above issue properly, floating point number config values will be reset to their proper default values.
+- Ensured correct unloading of difficulty rebalance systems.
+
 # 5.0 BETA 12
 
-### ***THIS UPDATE IS A WORK IN PROGRESS***
-
 ### Additions
+- Added "Critical Judgement" - A brand new counter mechanic that rewards players with a critical strike in a short time window after they avoid damage with a dodgeroll. It also turns your eye into a LED light.
 - Added Bunnyhop + Dodgeroll combination - [#139](https://github.com/Mirsario/TerrariaOverhaul/pull/139).
-- Ledge climbing will now preserve player velocity, is now a tone more fluid.
 - Added a tooltip to grappling hooks that hints that the grapple key can be held down for a classic pull.
 - Added a feature of music playback position synchronization.
 - Reimplemented boss death music pausing.
@@ -42,10 +53,23 @@
 
 ### Changes
 - Rewrote and improved everything about the camera features - [#168](https://github.com/Mirsario/TerrariaOverhaul/pull/168).
-- Heavily improved melee swing velocity - [#137](https://github.com/Mirsario/TerrariaOverhaul/pull/137) (and many commits after that.)
+- Heavily improved melee swing velocity, now respects player movement input - [#137](https://github.com/Mirsario/TerrariaOverhaul/pull/137) (and many commits after that.)
+- Enemy velocity no longer stacks indefinitely from knockback. Fixes shotguns launching demon eyes to space.
+- Melee air combat completely reworked:
+	- Now uses player movement input in place of attack direction. This is much more predictable, natural, and leaves the player in control.
+	- No longer reduces knockback done to enemies while mid air, which had to be done due to the aforementioned knockback stacking.
+	- The above changes result in the players now being able to keep themselves above enemies even by striking downwards, or even push themselves away from the enemies they're attacking. Experiment!
+	- Now enabled on hammers, not sure why it wasn't.
+- Reworked and rebalanced melee velocity-based damage:
+	- Reduced world view bloat: hitting enemies no longer creates separate "combat text" lines.
+	- Added a visual buff that shows the current effectiveness factor and the damage multiplier.
+	- Rebalanced to straightforward and slightly nerf melee. Damage mltiplier now capped in `[1.0, 2.0]` range, mapped to player speed range of `[0.9, 12.0]`, all subject to changes.
+	- Improved damage text coloring.
+- Ledge climbing will now preserve player velocity, is now a tone more fluid.
 - Added Bunnyhop Combos, reworked Bunny Paw - [#140](https://github.com/Mirsario/TerrariaOverhaul/pull/140).
 - New health & mana pickup sounds - Closes [#113](https://github.com/Mirsario/TerrariaOverhaul/issues/113).
 - Heavily improved life & mana pickup visuals.
+- Broadswords' Killing Blows can no longer occur more than once per swing.
 - Ambience: Improved bird & cricket audio.
 - Ambience: Bird audio is now tied to the amount of nearby trees.
 - Ambience: All booleans that dictated presence of ambience tracks are now replaced with smooth floating point factors.
@@ -65,6 +89,8 @@
 ### Fixes
 - Fixed [#101](https://github.com/Mirsario/TerrariaOverhaul/issues/101) - Binoculars & other camera offsets do not work.
 - Fixed [#119](https://github.com/Mirsario/TerrariaOverhaul/issues/119) - Smooth Camera doesn't handle teleports, reveals map areas.
+- Fixed [#159](https://github.com/Mirsario/TerrariaOverhaul/issues/159) - Enemies that pick up spare coins drop too many coins when killed near a banner.
+- Fixed journey mode using wrong difficulty values.
 - Fixed a rare load-time threading error.
 - Fixed the Mop and a few other weapons not interacting with gore & gibs.
 - Fixed explosions accelerating their own particles into bottom right direction.
@@ -79,7 +105,7 @@
 - Localization files in the GitHub repository will now be refreshed based on English strings automatically on mod rebuild, making the development and localization contribution processes a lot more convenient.
 - Main menu overlays are now localizable.
 - Brazilian Portuguese - PR [#135](https://github.com/Mirsario/TerrariaOverhaul/pull/135) by **Pixelnando**.
-- Chinese - PRs [#112](https://github.com/Mirsario/TerrariaOverhaul/pull/112), [#130](https://github.com/Mirsario/TerrariaOverhaul/pull/130), [#131](https://github.com/Mirsario/TerrariaOverhaul/pull/131) by **Cyrillia** & **ZHAI10086**.
+- Chinese - PRs [#112](https://github.com/Mirsario/TerrariaOverhaul/pull/112), [#131](https://github.com/Mirsario/TerrariaOverhaul/pull/131) and [#170](https://github.com/Mirsario/TerrariaOverhaul/pull/170) by **Cyrillia**, PR [#130](https://github.com/Mirsario/TerrariaOverhaul/pull/130) by **ZHAI10086**.
 - French - PR [#134](https://github.com/Mirsario/TerrariaOverhaul/pull/134) by **orian34**.
 - German - PRs [#115](https://github.com/Mirsario/TerrariaOverhaul/pull/115) and [#133](https://github.com/Mirsario/TerrariaOverhaul/pull/133) by **Foxx-l** and **CriddleZap**.
 - Polish - PRs [#141](https://github.com/Mirsario/TerrariaOverhaul/pull/141) and [#142](https://github.com/Mirsario/TerrariaOverhaul/pull/142) by **J00niper**.
