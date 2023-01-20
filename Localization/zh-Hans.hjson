@@ -25,7 +25,7 @@ Mods: {
 		}
 
 		Notifications: {
-			AudioFilteringTestFailure: "警告：TerrariaOverhaul无法激活音频过滤效果，请确保安装了最新的音频驱动。"
+			AudioFilteringTestFailure: "警告：TerrariaOverhaul无法激活音频滤镜效果，请确保安装了最新的音频驱动。"
 		}
 
 		Configuration: {
@@ -222,22 +222,22 @@ Mods: {
 		}
 
 		BuffName: {
-			//CriticalJudgement: "Critical Judgement"
-			//HackAndSlash: "Hack and Slash"
+			CriticalJudgement: "致命判决"
+			HackAndSlash: "砍杀"
 			ManaAbsorption: "魔力汲取"
 		}
 
 		BuffDescription: {
-			//CriticalJudgement:
-			//	'''
-			//	Their assault was proven futile
-			//	Unleash your judgement with a critical strike
-			//	'''
-			//HackAndSlash:
-			//	'''
-			//	The faster you move, the harder you strike
-			//	Melee damage multiplier: x{Multiplier}
-			//	'''
+			CriticalJudgement:
+				'''
+				敌人的攻击皆为徒劳
+				以暴击降下你的审判
+				'''
+			HackAndSlash:
+				'''
+				移动得越快，砍杀就越狠
+				近战伤害乘数 x{Multiplier}
+				'''
 			ManaAbsorption:
 				'''
 				你的轻快步伐，使你从周边一切汲取魔力
