@@ -28,6 +28,9 @@
 
 # Work In Progress
 
+### Fixes
+- Fixed another typo in Journey mode scaling fixes, this time resulting in lowest stats being used when Master difficulty values are selected in Journey mode's customization.
+
 ### Localization
 - Chinese - PR [#173](https://github.com/Mirsario/TerrariaOverhaul/pull/173) by **Cyrillia**.
 - Polish - PR [#141](https://github.com/Mirsario/TerrariaOverhaul/pull/172) by **J00niper**.
