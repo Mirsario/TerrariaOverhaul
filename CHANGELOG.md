@@ -31,6 +31,7 @@
 ### Changes
 - Reduced mages' Mana Absorption passive's max multiplier from 11.0 to 5.0, with its required speed reduced from 30.0 to 15.0. The reason for this is that 5.0 is usually the maximum multiplier that people could reach, and there's little need in suggesting that they try to go even faster.
 - Improved coloring of melee damage text and the Hack and Slash passive: removed green shades since people thought that they were sometimes healing enemies, widened white shades' range.
+- Slightly slowed down Mana Absorption passive's icon pulse rate.
 
 ### Fixes
 - Fixed another typo in Journey mode scaling fixes, this time resulting in lowest stats being used when Master difficulty values are selected in Journey mode's customization.
