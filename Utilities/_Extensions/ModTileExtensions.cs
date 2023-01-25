@@ -7,14 +7,6 @@ namespace TerrariaOverhaul.Utilities;
 
 public static class ModTileExtensions
 {
-	public static void AddMapEntry(this ModTile modTile, Color color, string name)
-	{
-		var entryName = modTile.CreateMapEntryName();
-
-		entryName.SetDefault(name);
-		modTile.AddMapEntry(color, entryName);
-	}
-
 	public static void AddTileObjectData(this ModTile modTile, TileObjectData copyFrom, Action<TileObjectData> action)
 	{
 		TileObjectData.newTile.CopyFrom(copyFrom);

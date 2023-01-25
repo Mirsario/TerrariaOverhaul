@@ -26,7 +26,7 @@ public class Gramophone : ModTile
 			//n.HookPostPlaceMyPlayer = new PlacementHook(ModTileEntityExt.AfterPlacement<GramophoneEntity>, -1, 0, false);
 		});
 
-		this.AddMapEntry(Color.Gold, "Gramophone");
+		AddMapEntry(Color.Gold, CreateMapEntryName());
 	}
 
 	public override void MouseOver(int x, int y)
