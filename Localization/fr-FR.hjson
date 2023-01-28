@@ -29,7 +29,27 @@ Mods: {
 		}
 
 		Configuration: {
+			Accessibility: {
+				Category: {
+					//DisplayName: "Accessibility"
+				}
+
+				ForceAutoReuse: {
+					//DisplayName: "Force Auto-reuse"
+					//Description:
+					//	'''
+					//	When enabled, almost every item in the game will be able to be used repeatedly by holding down the use button.
+					//	Tiny rebalancing measures take place to prevent unintended "60 times a second" usages.
+					//	Prevents carpal tunnel syndrome, recommended by 10 out of 10 doctors.
+					//	'''
+				}
+			}
+
 			Ambience: {
+				Category: {
+					//DisplayName: "Ambience"
+				}
+
 				EnableAmbientSounds: {
 					DisplayName: "Activer l'Ambiance Sonore"
 					Description: "Rajoute des sons ambiants comme des oiseaux, bruits de cave, grillons, du vent, etc."
@@ -41,17 +61,84 @@ Mods: {
 				}
 			}
 
+			Awareness: {
+				Category: {
+					//DisplayName: "Awareness"
+				}
+
+				LowHealthFilteringIntensity: {
+					//DisplayName: "Low Health Filtering Intensity"
+					//Description: "Controls the intensity of low pass audio filtering (muffling) that occurs when you are low on health."
+				}
+
+				LowHealthSoundVolume: {
+					//DisplayName: "Low Health Sound Volume"
+					//Description: "Controls the volume of the sound that plays when you are low on health."
+				}
+
+				LowManaSoundVolume: {
+					//DisplayName: "Low Mana Sound Volume"
+					//Description: "Controls the volume of the sound that plays when you are low on mana."
+				}
+
+				ManaRegenerationSoundVolume: {
+					//DisplayName: "Mana Regeneration Sound Volume"
+					//Description: "Controls the volume of the sound that plays when mana is regenerating."
+				}
+			}
+
+			Banners: {
+				Category: {
+					//DisplayName: "Banners"
+				}
+
+				BannerReworkEnabled: {
+					//DisplayName: "Banner Rework Enabled"
+					//Description:
+					//	'''
+					//	The banner rework removes banners' effects of lowering enemies' health and damage, instead replacing that with double loot and coin drops.
+					//	Both the drop chance and drop quantity are affected.
+					//	'''
+				}
+			}
+
 			BloodAndGore: {
+				Category: {
+					//DisplayName: "Blood and Gore"
+				}
+
 				EnableDecals: {
 					DisplayName: "Activer les Décalcs"
 					Description: "Rajoute des décalcs, autrement dit 'éclaboussures de sang'."
 				}
+
+				EnableGoreStay: {
+					//DisplayName: "Enable Gore Stay"
+					//Description: "When enabled, gore (or more specifically 'gibs') will not disappear after ~10 seconds."
+				}
 			}
 
 			Camera: {
-				SmoothCamera: {
-					DisplayName: "Camera Lisse"
-					Description: "Intercale le mouvement de camera pour améliorer la sensation de vitesse."
+				Category: {
+					//DisplayName: "Camera"
+				}
+
+				CameraSmoothness: {
+					//DisplayName: "Camera Smoothness"
+					//Description:
+					//	'''
+					//	How much damping to apply to the camera's movement to improve the feel of velocity.
+					//	Set this to zero to disable the feature completely.
+					//	'''
+				}
+
+				LimitCameraUpdateRate: {
+					//DisplayName: "Limit Camera Update Rate"
+					//Description:
+					//	'''
+					//	When enabled, the camera update rate is locked to 60hz to prevent the player character spazzing out on high refresh rate monitors.
+					//	It's currently best that you leave this on.
+					//	'''
 				}
 
 				ScreenShakeStrength: {
@@ -60,7 +147,119 @@ Mods: {
 				}
 			}
 
+			DifficultyLevels: {
+				Category: {
+					//DisplayName: "Difficulty Levels"
+				}
+
+				EnableDifficultyChanges: {
+					//DisplayName: "Enable Difficulty Changes"
+					//Description: "Toggles the mod's changes to difficulty levels as a whole."
+				}
+			}
+
+			Enemies: {
+				Category: {
+					//DisplayName: "Enemies"
+				}
+
+				EnableEnemyLunges: {
+					//DisplayName: "Enable Enemy Lunges"
+					//Description: "When enabled, walking enemies may lunge at you when they get close."
+				}
+			}
+
+			Guns: {
+				Category: {
+					//DisplayName: "Guns"
+				}
+
+				EnableAimingRecoil: {
+					//DisplayName: "Enable Aiming Recoil (Experimental)"
+					//Description:
+					//	'''
+					//	When enabled, guns may offset the player's cursor when fired.
+					//	Experimental feature, disabled by default.
+					//	'''
+				}
+			}
+
+			Melee: {
+				Category: {
+					//DisplayName: "Melee"
+				}
+
+				EnableAirCombat: {
+					//DisplayName: "Enable Air Combat"
+					//Description:
+					//	'''
+					//	Toggles melee air combat, which allows you to accelerate yourself in any direction using movement keys every time you hit an enemy mid-air.
+					//	Use your foes as stepladders; Chain attacks on flying enemies; Gain greater momentum to fall-strike ground brutes.
+					//	'''
+				}
+
+				EnableProjectileSwordManaUsage: {
+					//DisplayName: "Enable Projectile Sword Mana Usage"
+					//Description:
+					//	'''
+					//	Experimental.
+					//	When enabled, broadswords that shoot projectiles will use a bit of mana.
+					//	Mages' mana regeneration and mana drop rules still apply, so this isn't very significant.
+					//	'''
+				}
+
+				EnableSwingVelocity: {
+					//DisplayName: "Enable Swing Velocity"
+					//Description:
+					//	'''
+					//	When enabled, swinging a melee weapon can accelerate you towards the direction of the swing.
+					//	This can be further controlled using movement keys, as you'll never be thrown forward when you're holding back movement.
+					//	Use together with power attacks to significantly boost your jumps and damage. 
+					//	'''
+				}
+
+				EnableAxePowerAttacks: {
+					//DisplayName: "Enable Axe Power Attacks"
+					//Description: "Toggles the ability to perform charged power attacks with axes via right clicking."
+				}
+
+				EnableBroadswordPowerAttacks: {
+					//DisplayName: "Enable Broadsword Power Attacks"
+					//Description: "Toggles the ability to perform charged power attacks with broadswords via right clicking."
+				}
+
+				EnableHammerPowerAttacks: {
+					//DisplayName: "Enable Hammer Power Attacks"
+					//Description: "Toggles the ability to perform charged power attacks with hammers via right clicking."
+				}
+			}
+
+			Music: {
+				Category: {
+					//DisplayName: "Music"
+				}
+
+				EnableMusicPlaybackPositionPreservation: {
+					//DisplayName: "Enable Music Playback Position Preservation"
+					//Description:
+					//	'''
+					//	When enabled, music tracks will always pause in place of stopping.
+					//	This means that whenever you come back to a biome you've already been at, its music will resume playing where it has been whenever you left it.
+					//	Greatly improves game feel, since you won't be stuck hearing music tracks' intros when moving around the world.
+					//	'''
+				}
+			}
+
 			PlayerMovement: {
+				Category: {
+					//DisplayName: "Player Movement"
+				}
+
+				EnableAutoJump: {
+					//DisplayName: "Enable Auto Jump"
+					//Description: "When enabled, players will always be able to hold down the space key to jump repeatedly."
+				}
+
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "Activer l'Accélération Verticale"
 					Description: "Rajoute la friction aérienne et quasi-infinie limite de vitesse de chute."
@@ -85,6 +284,16 @@ Mods: {
 					Description: "Escalader permet de grimper en pressant la touche haut."
 				}
 
+				EnableGrapplingHookPhysics: {
+					//DisplayName: "Enable Grappling Hook Physics"
+					//Description:
+					//	'''
+					//	When enabled, grappling hooks' behavior will be changed to allow swinging around on them using movement keys.
+					//	NOTE: The grappling hook button can be held down to execute a vanilla-like pull, so you don't need to choose between the two behaviors and can combine them.
+					//	NOTE: This feature does not apply to every hook in the game, also multihooks revert to vanilla behavior whenever more than one hook is connected.
+					//	'''
+				}
+
 				EnableWallJumping: {
 					DisplayName: "Activer le Saut Mural"
 					Description:
@@ -105,9 +314,36 @@ Mods: {
 			}
 
 			PlayerVisuals: {
+				Category: {
+					//DisplayName: "Player Visuals"
+				}
+
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Toujours Montrer les Armes à Visée"
 					Description: "Montre les armes au repos en main."
+				}
+
+				EnableAimableFlashlights: {
+					//DisplayName: "Enable Aimable Flashlights"
+					//Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
+				}
+
+				EnableImprovedMeleeAnimations: {
+					//DisplayName: "Enable Improved Melee Animations"
+					//Description:
+					//	'''
+					//	When enabled, melee weapon swing animations will be changed to a more immediate swing, with alternating directions.
+					//	This is best kept on, as it best mimics the timing and direction of melee damage collision. 
+					//	'''
+				}
+
+				EnableMeleeSlashVisualization: {
+					//DisplayName: "Enable Melee Slash Visualization"
+					//Description:
+					//	'''
+					//	When enabled, a circular slash sprite will appear when swinging melee weapons.
+					//	This is best kept on, as it best mimics the range and collision arc of the weapon. 
+					//	'''
 				}
 
 				EnablePlayerHeadRotation: {
@@ -118,6 +354,21 @@ Mods: {
 				EnablePlayerTilting: {
 					DisplayName: "Activer le Tanguage"
 					Description: "L'avatar s'incline légèrement en fonction de sa vitesse. Rend l'avatar plus vivant."
+				}
+			}
+
+			Tweaks: {
+				Category: {
+					//DisplayName: "Tweaks"
+				}
+
+				DisplaySystemCursorWithDisabledUI: {
+					//DisplayName: "Display System Cursor With Disabled UI"
+					//Description:
+					//	'''
+					//	When enabled, the operational system's cursor will be enabled when game interface is disabled using the F11 hotkey.
+					//	This is a tiny utility change that eases recording gameplay footage without UI, as recording software can disable capture of the OS cursor.
+					//	'''
 				}
 			}
 		}
