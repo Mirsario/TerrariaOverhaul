@@ -30,9 +30,8 @@ Mods: {
 
 		Configuration: {
 			Accessibility: {
-				Category: {
-					//DisplayName: "Accessibility"
-				}
+				//DisplayName: "Accessibility"
+				//Description: "Overhaul contains a few simple changes that allow everyone to experience the game in a more comfortable way."
 
 				ForceAutoReuse: {
 					//DisplayName: "Force Auto-reuse"
@@ -46,9 +45,8 @@ Mods: {
 			}
 
 			Ambience: {
-				Category: {
-					//DisplayName: "Ambience"
-				}
+				//DisplayName: "Ambience"
+				//Description: "Overhaul contains many features that help make the game's world feel more immersive."
 
 				EnableAmbientSounds: {
 					DisplayName: "Activar sonidos ambientales"
@@ -62,9 +60,12 @@ Mods: {
 			}
 
 			Awareness: {
-				Category: {
-					//DisplayName: "Awareness"
-				}
+				//DisplayName: "Awareness"
+				//Description:
+				//	'''
+				//	Overhaul implements multiple features that help increase players' awareness of their characters' state,
+				//	also improving immersion in the process.
+				//	'''
 
 				LowHealthFilteringIntensity: {
 					//DisplayName: "Low Health Filtering Intensity"
@@ -88,9 +89,8 @@ Mods: {
 			}
 
 			Banners: {
-				Category: {
-					//DisplayName: "Banners"
-				}
+				//DisplayName: "Banners"
+				//Description: "Overhaul changes the way banners work, so that they don't end up making enemies feeling too weak."
 
 				BannerReworkEnabled: {
 					//DisplayName: "Banner Rework Enabled"
@@ -103,9 +103,12 @@ Mods: {
 			}
 
 			BloodAndGore: {
-				Category: {
-					//DisplayName: "Blood and Gore"
-				}
+				//DisplayName: "Blood and Gore"
+				//Description:
+				//	'''
+				//	Overhaul improves violence-related audio, visuals, and interactivity,
+				//	vastly increasing the overall satisfaction level of the game's combat.
+				//	'''
 
 				EnableDecals: {
 					DisplayName: "Activar sangre"
@@ -119,9 +122,8 @@ Mods: {
 			}
 
 			Camera: {
-				Category: {
-					//DisplayName: "Camera"
-				}
+				//DisplayName: "Camera"
+				//Description: "Overhaul implements many camera features that highly improve how the game presents itself."
 
 				CameraSmoothness: {
 					//DisplayName: "Camera Smoothness"
@@ -148,9 +150,14 @@ Mods: {
 			}
 
 			DifficultyLevels: {
-				Category: {
-					//DisplayName: "Difficulty Levels"
-				}
+				//DisplayName: "Difficulty Levels"
+				//Description:
+				//	'''
+				//	Overhaul reimplements game modes as actual difficulty levels, fulfilling the following goals:
+				//	- Equalization of most stats, removal of bullet sponges from high difficulties and glass enemies from low ones;
+				//	- (WIP) Removal of mode-exclusivity on content and AI behaviors, less ableism;
+				//	- (WIP) Focus on variation in concepts such as reaction windows rather than "more damage and health";
+				//	'''
 
 				EnableDifficultyChanges: {
 					//DisplayName: "Enable Difficulty Changes"
@@ -159,9 +166,8 @@ Mods: {
 			}
 
 			Enemies: {
-				Category: {
-					//DisplayName: "Enemies"
-				}
+				//DisplayName: "Enemies"
+				//Description: "Overhaul contains a few additions to the game's enemies' behavior that aim to make fighting them a little bit more fun."
 
 				EnableEnemyLunges: {
 					//DisplayName: "Enable Enemy Lunges"
@@ -170,9 +176,8 @@ Mods: {
 			}
 
 			Guns: {
-				Category: {
-					//DisplayName: "Guns"
-				}
+				//DisplayName: "Guns"
+				//Description: "Overhaul heavily focuses on improving gameplay and feel of the game's firearms."
 
 				EnableAimingRecoil: {
 					//DisplayName: "Enable Aiming Recoil (Experimental)"
@@ -185,9 +190,8 @@ Mods: {
 			}
 
 			Melee: {
-				Category: {
-					//DisplayName: "Melee"
-				}
+				//DisplayName: "Melee"
+				//Description: "Overhaul completely reimagines the feel and flow of the game's melee weapons, allowing you to hack and slash like never before!"
 
 				EnableAirCombat: {
 					//DisplayName: "Enable Air Combat"
@@ -235,9 +239,12 @@ Mods: {
 			}
 
 			Music: {
-				Category: {
-					//DisplayName: "Music"
-				}
+				//DisplayName: "Music"
+				//Description:
+				//	'''
+				//	Overhaul contains a few improvements to the game's music playback behavior.
+				//	There's also a whole remastered soundtrack made for it - Click the button in top left to get it!
+				//	'''
 
 				EnableMusicPlaybackPositionPreservation: {
 					//DisplayName: "Enable Music Playback Position Preservation"
@@ -251,9 +258,8 @@ Mods: {
 			}
 
 			PlayerMovement: {
-				Category: {
-					//DisplayName: "Player Movement"
-				}
+				//DisplayName: "Player Movement"
+				//Description: "Overhaul greatly improves and refreshes almost every aspect of moving around, which you do a lot of."
 
 				EnableAutoJump: {
 					//DisplayName: "Enable Auto Jump"
@@ -314,9 +320,8 @@ Mods: {
 			}
 
 			PlayerVisuals: {
-				Category: {
-					//DisplayName: "Player Visuals"
-				}
+				//DisplayName: "Player Visuals"
+				//Description: "Overhaul contains a few improvements to player characters' visual appearance, so that the game feels more responsive."
 
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Mostrar siempre armas que puedan apuntar"
@@ -358,9 +363,8 @@ Mods: {
 			}
 
 			Tweaks: {
-				Category: {
-					//DisplayName: "Tweaks"
-				}
+				//DisplayName: "Tweaks"
+				//Description: "This category contains tiny technical utilities that you're unlikely to care about."
 
 				DisplaySystemCursorWithDisabledUI: {
 					//DisplayName: "Display System Cursor With Disabled UI"
