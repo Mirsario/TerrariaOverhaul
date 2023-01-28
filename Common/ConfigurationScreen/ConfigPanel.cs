@@ -100,12 +100,12 @@ public class ConfigPanel : UIPanel
 		Title = TitleConstraint.AddElement(new ScrollingUIText(title).With(e => {
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
-			e.scrollStopAssistElement = this;
+			e.ScrollStopAssistElement = this;
 		}));
 
 		if (Title.GetOuterDimensions().Width > 100f && Title.GetOuterDimensions().Width < 150f) {
 			Title.SetText(title, 0.8f, false);
-			Title.noScroll = true;
+			Title.NoScroll = true;
 		}
 	}
 }
