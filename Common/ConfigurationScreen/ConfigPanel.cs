@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class ConfigPanel : UIPanel
+public class ConfigPanel : UIPanelExt
 {
 	private static Asset<Texture2D>? defaultBorderTexture;
 
@@ -47,6 +47,8 @@ public class ConfigPanel : UIPanel
 		BorderColor = Color.Black;
 		BackgroundColor = new Color(73, 94, 171);
 		BorderColor = new Color(42, 54, 99);
+		BorderColorHover = Color.Gold;
+		BorderColorActive = Color.White;
 
 		SetPadding(0f);
 

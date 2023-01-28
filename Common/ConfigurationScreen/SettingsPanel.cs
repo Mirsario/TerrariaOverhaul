@@ -119,11 +119,13 @@ public class SettingsPanel : UIElement
 		var localizedName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{configEntry.Category}.{entryName}.DisplayName");
 		var localizedDescription = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{configEntry.Category}.{entryName}.Description");
 
-		var panel = OptionRowsGrid.AddElement(new UIPanel().With(e => {
+		var panel = OptionRowsGrid.AddElement(new UIPanelExt().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixels(40f);
-			e.BackgroundColor = new Color(73, 94, 171);
-			e.BorderColor = new Color(42, 54, 99);
+			e.BackgroundColor = ColorUtils.FromHexRgba(0x495EAB_FF);
+			e.BorderColor = ColorUtils.FromHexRgba(0x2A3663_FF);
+			e.BorderColorHover = Color.Gold;
+			e.BorderColorActive = Color.White;
 
 			e.OnMouseOver += (_, _) => UpdateDescription(localizedDescription);
 			e.OnMouseOut += (_, _) => ResetDescription();
@@ -153,6 +155,6 @@ public class SettingsPanel : UIElement
 
 	private void ResetDescription()
 	{
-		DescriptionText.SetText(LocalizedText.Empty);
+		DescriptionText.SetText(LocalizedText.Empty, 1.0f, false);
 	}
 }
