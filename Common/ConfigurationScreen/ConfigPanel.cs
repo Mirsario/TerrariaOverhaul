@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
 using ReLogic.Content;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -49,6 +49,7 @@ public class ConfigPanel : UIPanelExt
 		BorderColor = new Color(42, 54, 99);
 		BorderColorHover = Color.Gold;
 		BorderColorActive = Color.White;
+		HoverSound = SoundID.MenuTick;
 
 		SetPadding(0f);
 

@@ -72,7 +72,7 @@ public sealed partial class ConfigSystem : ModSystem
 						ranStaticConstructor = true;
 					}
 
-					RegisterEntry((IConfigEntry)field.GetValue(null));
+					RegisterEntry((IConfigEntry)field.GetValue(null)!);
 				}
 			}
 		}

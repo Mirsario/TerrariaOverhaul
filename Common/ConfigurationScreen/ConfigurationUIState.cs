@@ -176,6 +176,8 @@ public class ConfigurationUIState : UIState
 
 	private void SwitchToCategorySettings(string category)
 	{
+		SoundEngine.PlaySound(in SoundID.MenuOpen);
+
 		PanelGridContainer.Remove();
 
 		ContentContainer.AddElement(new SettingsPanel().With(e => {
