@@ -94,6 +94,8 @@ public class SettingsPanel : UIElement
 			e.MaxWidth = e.Width = new StyleDimension(4f, 1f);
 		}));
 
+		ResetDescription();
+
 		// Bottom Panel - Icon
 
 		OptionIconContainer = BottomPanel.AddElement(new UIElement().With(e => {
@@ -154,6 +156,8 @@ public class SettingsPanel : UIElement
 
 	private void ResetDescription()
 	{
-		DescriptionText.SetText(LocalizedText.Empty, 1.0f, false);
+		var descriptionTip = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.HoverForDescriptionTip");
+
+		DescriptionText.SetText($"[c/{Color.LightGoldenrodYellow.ToHexRGB()}:{descriptionTip}]", 1.0f, false);
 	}
 }
