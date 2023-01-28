@@ -151,7 +151,7 @@ public class ConfigurationUIState : UIState
 		var configCategories = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s);
 
 		foreach (string category in configCategories) {
-			var localizedCategoryName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.Category.DisplayName");
+			var localizedCategoryName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.DisplayName");
 
 			string thumbnailPath = $"{assetLocation}/{category}/Category";
 			string thumbnailVideoPath = $"{thumbnailPath}Video";
