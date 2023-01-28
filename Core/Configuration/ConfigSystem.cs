@@ -59,10 +59,20 @@ public sealed partial class ConfigSystem : ModSystem
 					continue;
 				}
 
-				var fields = type.GetFields(ReflectionUtils.AnyBindingFlags); // This will include backing fields of properties.
+				var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+				bool ranStaticConstructor = false;
 
-				if (fields.Any(f => f.FieldType.GetInterfaces().Contains(typeof(IConfigEntry)))) {
-					RuntimeHelpers.RunClassConstructor(type.TypeHandle);
+				foreach (var field in fields) {
+					if (!typeof(IConfigEntry).IsAssignableFrom(field.FieldType)) {
+						continue;
+					}
+
+					if (!ranStaticConstructor) {
+						RuntimeHelpers.RunClassConstructor(type.TypeHandle);
+						ranStaticConstructor = true;
+					}
+
+					RegisterEntry((IConfigEntry)field.GetValue(null));
 				}
 			}
 		}
@@ -79,10 +89,19 @@ public sealed partial class ConfigSystem : ModSystem
 	{
 		entriesByName.Add(entry.Name, entry);
 
-		if (!categoriesByName.TryGetValue(entry.Category, out var category)) {
-			categoriesByName[entry.Category] = category = new();
+		void AddToCategory(string category)
+		{
+			if (!categoriesByName.TryGetValue(category, out var categoryData)) {
+				categoriesByName[category] = categoryData = new();
+			}
+
+			categoryData.EntriesByName.Add(entry.Name, entry);
 		}
 
-		category.EntriesByName.Add(entry.Name, entry);
+		AddToCategory(entry.Category);
+
+		foreach (string extraCategory in entry.ExtraCategories) {
+			AddToCategory(extraCategory);
+		}
 	}
 }

@@ -15,6 +15,7 @@ public class ConfigEntry<T> : IConfigEntry
 	public string Name { get; }
 	public string Category { get; }
 	public ConfigSide Side { get; }
+	public string[] ExtraCategories { get; set; } = Array.Empty<string>();
 	public ModTranslation? DisplayName { get; internal set; }
 	public ModTranslation? Description { get; internal set; }
 	public Mod? Mod { get; private set; }
@@ -70,8 +71,6 @@ public class ConfigEntry<T> : IConfigEntry
 		this.defaultValueGetter = defaultValueGetter;
 		RemoteValue = DefaultValue;
 		LocalValue = DefaultValue;
-
-		ConfigSystem.RegisterEntry(this);
 	}
 
 	protected virtual T? ModifyGetValue(T? value) => value;
