@@ -142,12 +142,11 @@ public class SettingsPanel : UIElement
 
 		DescriptionText.Recalculate();
 
-		var textDimensions = DescriptionText.GetOuterDimensions();
-		var panelDimensions = BottomPanel.GetOuterDimensions();
+		var textDimensions = DescriptionText.GetDimensions();
+		var panelDimensions = BottomPanel.GetDimensions();
 
 		if (textDimensions.Height >= panelDimensions.Height) {
-			float difference = textDimensions.Height - panelDimensions.Height;
-			float scale = 1f - (MathF.Ceiling(difference / 10f) * 0.05f);
+			float scale = Math.Max(0.75f, panelDimensions.Height / textDimensions.Height);
 
 			DescriptionText.SetText(text, scale, false);
 		}
