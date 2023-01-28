@@ -12,7 +12,10 @@ namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class SettingsPanel : UIElement
 {
-	public UIPanel OptionRowsPanel { get; }
+	public UIGrid OptionRowsGrid { get; }
+	public UIElement OptionRowsContainer { get; }
+	public UIPanel OptionRowsGridContainer { get; }
+	public UIScrollbar OptionRowsScrollbar { get; }
 
 	public SettingsPanel() : base()
 	{
@@ -23,40 +26,31 @@ public class SettingsPanel : UIElement
 
 		// Main
 
-		var optionRowsContainer = this.AddElement(new UIElement().With(e => {
+		OptionRowsContainer = this.AddElement(new UIElement().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPercent(0.7f);
 		}));
 
-		var optionRowsGridContainer = optionRowsContainer.AddElement(new UIPanel().With(e => {
+		OptionRowsGridContainer = OptionRowsContainer.AddElement(new UIPanel().With(e => {
 			e.Width = StyleDimension.FromPixelsAndPercent(-32f, 1f);
 			e.Height = StyleDimension.Fill;
 			e.BackgroundColor = new Color(54, 68, 128);
 			e.BorderColor = new Color(54, 68, 128);
 		}));
 
-		var optionRows = optionRowsGridContainer.AddElement(new UIGrid().With(e => {
+		OptionRowsGrid = OptionRowsGridContainer.AddElement(new UIGrid().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.Fill;
 			e.ListPadding = 6f;
 		}));
 
-		var optionRowsScrollbar = optionRowsContainer.AddElement(new UIScrollbar().With(e => {
+		OptionRowsScrollbar = OptionRowsContainer.AddElement(new UIScrollbar().With(e => {
 			e.HAlign = 1f;
 			e.VAlign = 0.5f;
 			e.Height = StyleDimension.FromPixelsAndPercent(-8f, 1f);
 
-			optionRows.SetScrollbar(e);
+			OptionRowsGrid.SetScrollbar(e);
 		}));
-
-		for (int i = 0; i < 17; i++) {
-			optionRows.Add(new UIPanel().With(e => {
-				e.Width = StyleDimension.Fill;
-				e.Height = StyleDimension.FromPixels(40f);
-				e.BackgroundColor = new Color(73, 94, 171);
-				e.BorderColor = new Color(42, 54, 99);
-			}));
-		}
 
 		// Bottom panel
 
@@ -86,5 +80,19 @@ public class SettingsPanel : UIElement
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
 		}));
+	}
+
+	public UIPanel AddOptionRow()
+	{
+		var panel = new UIPanel().With(e => {
+			e.Width = StyleDimension.Fill;
+			e.Height = StyleDimension.FromPixels(40f);
+			e.BackgroundColor = new Color(73, 94, 171);
+			e.BorderColor = new Color(42, 54, 99);
+		});
+
+		OptionRowsGrid.Add(panel);
+
+		return panel;
 	}
 }

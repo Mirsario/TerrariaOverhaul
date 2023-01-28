@@ -170,14 +170,27 @@ public class ConfigurationUIState : UIState
 
 			panelGrid.Add(configPanel);
 
-			configPanel.OnClick += ConfigPanel_OnClick;
+			configPanel.OnClick += (_, _) => SwitchToCategorySettings(category);
 		}
 	}
 
-	private void ConfigPanel_OnClick(UIMouseEvent evt, UIElement listeningElement)
+	private void SwitchToCategorySettings(string category)
 	{
 		PanelGridContainer.Remove();
-		ContentContainer.AddElement(new SettingsPanel());
+
+		ContentContainer.AddElement(new SettingsPanel().With(e => {
+			var categoryData = ConfigSystem.CategoriesByName[category];
+
+			foreach (var configEntry in categoryData.EntriesByName.Values) {
+				var panel = e.AddOptionRow();
+				string entryName = configEntry.Name;
+				var localizedEntryName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.{entryName}.DisplayName");
+
+				panel.AddElement(new UIText(localizedEntryName).With(uiText => {
+
+				}));
+			}
+		}));
 
 		inCategoryMenu = false;
 	}
