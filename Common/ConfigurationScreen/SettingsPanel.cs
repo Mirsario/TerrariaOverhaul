@@ -1,10 +1,13 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria.GameContent.UI.Elements;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI.Elements;
 using Terraria.UI;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Interface;
 using TerrariaOverhaul.Utilities;
 
@@ -21,10 +24,19 @@ public class SettingsPanel : UIElement
 	private static Asset<Texture2D> UnselectedIconBorderTexture
 		=> unselectedIconBorderTexture ??= ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/UnselectedIconBorder").EnsureLoaded();
 
+	// Rows
 	public UIGrid OptionRowsGrid { get; }
 	public UIElement OptionRowsContainer { get; }
 	public UIPanel OptionRowsGridContainer { get; }
 	public UIScrollbar OptionRowsScrollbar { get; }
+	// Bottom Panel
+	public UIPanel BottomPanel { get; }
+	// Bottom Panel - Description
+	public UIText DescriptionText { get; }
+	// Bottom Panel - Icon
+	public UIElement OptionIconContainer { get; }
+	public UIImage UnselectedIconBorder { get; }
+	public UIImage UnselectedIconImage { get; }
 
 	public SettingsPanel() : base()
 	{
@@ -63,7 +75,7 @@ public class SettingsPanel : UIElement
 
 		// Bottom panel
 
-		var descriptionPanel = this.AddElement(new UIPanel().With(e => {
+		BottomPanel = this.AddElement(new UIPanel().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixelsAndPercent(-12f, 0.3f);
 			e.HAlign = 0.5f;
@@ -72,34 +84,75 @@ public class SettingsPanel : UIElement
 			e.BorderColor = new Color(42, 54, 99);
 		}));
 
-		var optionIconContainer = descriptionPanel.AddElement(new UIElement().With(e => {
+		// Bottom panel - Description
+
+		DescriptionText = BottomPanel.AddElement(new UIText(LocalizedText.Empty, textScale: 0.9f).With(e => {
+			e.IsWrapped = true;
+			(e.HAlign, e.VAlign) = (0.0f, 0.0f);
+			(e.PaddingLeft, e.PaddingTop) = (116f, 8f);
+			(e.TextOriginX, e.TextOriginY) = (0.0f, 0.0f);
+			e.MaxWidth = e.Width = new StyleDimension(4f, 1f);
+		}));
+
+		// Bottom Panel - Icon
+
+		OptionIconContainer = BottomPanel.AddElement(new UIElement().With(e => {
 			e.Height = StyleDimension.FromPixels(112f);
 			e.Width = StyleDimension.FromPixels(112f);
 			e.VAlign = 0.5f;
 		}));
 
-		var unselectedIconBorder = optionIconContainer.AddElement(new UIImage(UnselectedIconBorderTexture).With(e => {
+		UnselectedIconBorder = OptionIconContainer.AddElement(new UIImage(UnselectedIconBorderTexture).With(e => {
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
 		}));
 
-		var unselectedIconImage = optionIconContainer.AddElement(new UIImage(IconLockedTexture).With(e => {
+		UnselectedIconImage = OptionIconContainer.AddElement(new UIImage(IconLockedTexture).With(e => {
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
 		}));
 	}
 
-	public UIPanel AddOptionRow()
+	public void AddOption(IConfigEntry configEntry)
 	{
-		var panel = new UIPanel().With(e => {
+		string entryName = configEntry.Name;
+		var localizedName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{configEntry.Category}.{entryName}.DisplayName");
+		var localizedDescription = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{configEntry.Category}.{entryName}.Description");
+
+		var panel = OptionRowsGrid.AddElement(new UIPanel().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixels(40f);
 			e.BackgroundColor = new Color(73, 94, 171);
 			e.BorderColor = new Color(42, 54, 99);
-		});
 
-		OptionRowsGrid.Add(panel);
+			e.OnMouseOver += (_, _) => UpdateDescription(localizedDescription);
+			e.OnMouseOut += (_, _) => ResetDescription();
 
-		return panel;
+			var text = e.AddElement(new ScrollingUIText(localizedName).With(uiText => {
+
+			}));
+		}));
+	}
+
+	private void UpdateDescription(LocalizedText text)
+	{
+		DescriptionText.SetText(text, 1.0f, false);
+
+		DescriptionText.Recalculate();
+
+		var textDimensions = DescriptionText.GetOuterDimensions();
+		var panelDimensions = BottomPanel.GetOuterDimensions();
+
+		if (textDimensions.Height >= panelDimensions.Height) {
+			float difference = textDimensions.Height - panelDimensions.Height;
+			float scale = 1f - (MathF.Ceiling(difference / 10f) * 0.05f);
+
+			DescriptionText.SetText(text, scale, false);
+		}
+	}
+
+	private void ResetDescription()
+	{
+		DescriptionText.SetText(LocalizedText.Empty);
 	}
 }

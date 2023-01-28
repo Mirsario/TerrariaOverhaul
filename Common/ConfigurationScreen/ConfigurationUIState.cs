@@ -182,13 +182,7 @@ public class ConfigurationUIState : UIState
 			var categoryData = ConfigSystem.CategoriesByName[category];
 
 			foreach (var configEntry in categoryData.EntriesByName.Values) {
-				var panel = e.AddOptionRow();
-				string entryName = configEntry.Name;
-				var localizedEntryName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.{entryName}.DisplayName");
-
-				panel.AddElement(new UIText(localizedEntryName).With(uiText => {
-
-				}));
+				e.AddOption(configEntry);
 			}
 		}));
 
