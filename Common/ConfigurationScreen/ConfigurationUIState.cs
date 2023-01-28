@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -15,7 +13,6 @@ using Terraria.ModLoader.UI.Elements;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Interface;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 

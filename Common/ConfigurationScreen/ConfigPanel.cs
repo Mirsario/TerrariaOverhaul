@@ -16,14 +16,14 @@ public class ConfigPanel : UIPanel
 {
 	private static Asset<Texture2D> defaultBorderTexture = null!;
 
+	public LocalizedText titleText;
+
 	public UIElement ThumbnailContainer { get; }
 	public UIElement Thumbnail { get; }
 	public UIImage ThumbnailBorder { get; }
 	public UIElement TitleContainer { get; }
 	public UIElement TitleConstraint { get; }
 	public ScrollingUIText Title { get; }
-
-	public LocalizedText titleText;
 
 	public ConfigPanel(LocalizedText title, Asset<Texture2D> thumbnailTexture, Asset<Texture2D>? borderTexture = null)
 		: this(title, (object)thumbnailTexture, borderTexture) { }

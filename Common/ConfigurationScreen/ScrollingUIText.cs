@@ -14,6 +14,7 @@ public class ScrollingUIText : UIText
 
 	public UIElement? scrollStopAssistElement;
 	public bool noScroll = false;
+
 	private bool isScrolling = true;
 	private bool canScroll;
 	private bool scrollingLeft;
