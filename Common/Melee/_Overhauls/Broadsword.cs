@@ -66,20 +66,24 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 			item.EnableComponent<ItemMeleeAirCombat>();
 		}
 
+		if (ItemMeleeSwingVelocity.EnableSwingVelocity) {
+			item.EnableComponent<ItemMeleeSwingVelocity>(c => {
+				c.DashVelocity = new Vector2(2.5f, 4.0f);
+				c.MaxDashVelocity = new Vector2(0f, 5.5f);
+
+				c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackBoost);
+				c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackGroundBoost);
+				c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableVerticalDashesForNonChargedAttacks);
+				c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableUpwardsDashesWhenFalling);
+			});
+		}
+
 		item.EnableComponent<ItemMeleeGoreInteraction>();
 		item.EnableComponent<ItemMeleeNpcStuns>();
 		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
-		item.EnableComponent<ItemMeleeSwingVelocity>(c => {
-			c.DashVelocity = new Vector2(2.5f, 4.0f);
-			c.MaxDashVelocity = new Vector2(0f, 5.5f);
 
-			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackBoost);
-			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackGroundBoost);
-			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableVerticalDashesForNonChargedAttacks);
-			c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableUpwardsDashesWhenFalling);
-		});
 		// Animation
 		item.EnableComponent<QuickSlashMeleeAnimation>(c => {
 			c.FlipAttackEachSwing = true;

@@ -6,21 +6,24 @@ using TerrariaOverhaul.Common.CombatTexts;
 using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
+using static TerrariaOverhaul.Utilities.ColorUtils;
 
 namespace TerrariaOverhaul.Common.Melee;
 
 public sealed class ItemVelocityBasedDamage : ItemComponent
 {
 	private static readonly Gradient<Color> damageScaleColor = new(
-		(0.000f, Color.White),
-		(0.125f, Color.LightGreen),
-		(0.250f, Color.Green),
-		(0.375f, Color.YellowGreen),
-		(0.500f, Color.Yellow),
-		(0.625f, Color.Gold),
-		(0.750f, Color.Orange),
-		(0.875f, Color.OrangeRed),
-		(1.000f, Color.Red)
+		(0.000f, FromHexRgba(0x_c8cdda_ff)),
+		(0.100f, FromHexRgba(0x_dbe5fd_ff)),
+		(0.200f, FromHexRgba(0x_ffffff_ff)),
+		(0.300f, FromHexRgba(0x_ffee6e_ff)),
+		(0.400f, FromHexRgba(0x_ffc100_ff)),
+		(0.500f, FromHexRgba(0x_ff9a00_ff)),
+		(0.600f, FromHexRgba(0x_ff781b_ff)),
+		(0.700f, FromHexRgba(0x_ff551f_ff)),
+		(0.800f, FromHexRgba(0x_ff3333_ff)),
+		(0.900f, FromHexRgba(0x_e51842_ff)),
+		(1.000f, FromHexRgba(0x_c11153_ff))
 	);
 
 	private static int visualBuffType;

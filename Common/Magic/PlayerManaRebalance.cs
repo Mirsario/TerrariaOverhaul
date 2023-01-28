@@ -12,8 +12,9 @@ public class PlayerManaRebalance : ModPlayer
 {
 	public static float BaseManaRegen => 7f; //20f
 	public static float ManaRegenBonusMultiplier => 0.4f; // 'Mana Regeneration Band' adds whooping 25 regen per second. This exists to battle disbalance from values like that.
-	public static float MaxRegenVelocity => 30f;
-	public static float MaxRegenVelocityMultiplier => 10f;
+	public static float MinRegenVelocity => 1f;
+	public static float MaxRegenVelocity => 15f;
+	public static float MaxRegenVelocityMultiplier => 5f;
 
 	private static bool IsEnabled => true;
 
@@ -58,8 +59,8 @@ public class PlayerManaRebalance : ModPlayer
 
 					// Instead of the above, let's do the opposite and speed up mana regen from MOVING!
 					if (p.velocity != Vector2.Zero) {
-						instance.VelocityManaRegenIntensity = Math.Min(p.velocity.Length() / MaxRegenVelocity, 1f);
-						instance.VelocityManaRegenMultiplier = 1f + instance.VelocityManaRegenIntensity * MaxRegenVelocityMultiplier;
+						instance.VelocityManaRegenIntensity = Math.Min(1f, Math.Max(0f, p.velocity.Length() - MinRegenVelocity) / (MinRegenVelocity + MaxRegenVelocity));
+						instance.VelocityManaRegenMultiplier = 1f + instance.VelocityManaRegenIntensity * (MaxRegenVelocityMultiplier - 1f);
 
 						manaRegen *= instance.VelocityManaRegenMultiplier;
 						

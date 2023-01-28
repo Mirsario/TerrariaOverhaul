@@ -34,8 +34,8 @@
 
 ## pl-PL
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***79.8%***
-- **Translated:** `83` out of `104` (`21` missing!)
+- **Completion:** ***88.5%***
+- **Translated:** `92` out of `104` (`12` missing!)
 
 ## pt-BR
 - **Status:** ⚠️ Incomplete!
@@ -49,6 +49,6 @@
 
 ## zh-Hans
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***84.6%***
-- **Translated:** `88` out of `104` (`16` missing!)
+- **Completion:** ***88.5%***
+- **Translated:** `92` out of `104` (`12` missing!)
 

@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
 
@@ -69,7 +70,9 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 			VelocityMultiplier = new Vector2(0f, 0f),
 		};
 	}
-	
+
+	public static readonly ConfigEntry<bool> EnableSwingVelocity = new(ConfigSide.Both, "Melee", nameof(EnableSwingVelocity), () => true);
+
 	private readonly Dictionary<string, VelocityModifier> dashVelocityModifiers = new();
 	
 	public Vector2 DashVelocity { get; set; } = Vector2.One;

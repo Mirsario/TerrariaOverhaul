@@ -67,6 +67,10 @@ internal sealed class JourneyScalingFix : ILoadable
 
 	private static void ModifyGameModeData(ref GameModeData gameMode)
 	{
+		if (!gameMode.IsJourneyMode) {
+			return;
+		}
+
 		var power = CreativePowerManager.Instance.GetPower<DifficultySliderPower>();
 
 		if (power.GetIsUnlocked()) {
@@ -76,7 +80,7 @@ internal sealed class JourneyScalingFix : ILoadable
 			int higherDifficultyIndex = (int)MathF.Ceiling(multipliedValue);
 
 			if (lowerDifficultyIndex == higherDifficultyIndex) {
-				gameMode = Main.RegisteredGameModes[lowerDifficultyIndex];
+				gameMode = Main.RegisteredGameModes[DifficultyIndexToId(lowerDifficultyIndex)];
 			} else {
 				var gameModeA = Main.RegisteredGameModes[DifficultyIndexToId(lowerDifficultyIndex)];
 				var gameModeB = Main.RegisteredGameModes[DifficultyIndexToId(higherDifficultyIndex)];

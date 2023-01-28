@@ -64,7 +64,7 @@ public class ManaAbsorption : ModBuff
 
 		// Draw an alternate color texture with pulsing opacity
 		if (alternateTexture?.IsLoaded == true) {
-			float pulse01 = MathF.Sin(pulse * 10f) * 0.5f + 0.5f;
+			float pulse01 = MathF.Sin(pulse * 7.5f) * 0.5f + 0.5f;
 			var alternateFrameColor = new Color(pulse01, pulse01, pulse01, pulse01);
 
 			Main.spriteBatch.Draw(alternateTexture.Value, drawParams.Position, alternateFrameColor);

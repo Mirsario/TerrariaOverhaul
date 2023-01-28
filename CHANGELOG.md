@@ -3,6 +3,8 @@
 
 | Version									| Release Date |
 | ----------------------------------------- | ------------ |
+| [Work In Progress](#work-in-progress)		| `TBA`        |
+| [5.0 BETA 12**B**](#50-beta-12b)			| `2022.12.25` |
 | [5.0 BETA 12](#50-beta-12)				| `2022.12.24` |
 | [5.0 BETA 11**F**](#50-beta-11f)			| `2022.09.11` |
 | [5.0 BETA 11**E**](#50-beta-11e)			| `2022.06.30` |
@@ -23,6 +25,35 @@
 | [5.0 BETA 2 **FIX 1**](#50-beta-2-fix-1)	| `2021.03.14` |
 | [5.0 BETA 2](#50-beta-2)					| `2021.03.06` |
 | [5.0 BETA 1](#50-beta-1)					| `2021.02.27` |
+
+# Work In Progress
+
+### Changes
+- Reduced mages' Mana Absorption passive's max multiplier from 11.0 to 5.0, with its required speed reduced from 30.0 to 15.0. The reason for this is that 5.0 is usually the maximum multiplier that people could reach, and there's little need in suggesting that they try to go even faster.
+- Improved coloring of melee damage text and the Hack and Slash passive: removed green shades since people thought that they were sometimes healing enemies, widened white shades' range.
+- Slightly slowed down Mana Absorption passive's icon pulse rate.
+
+### Fixes
+- Fixed another typo in Journey mode scaling fixes, this time resulting in lowest stats being used when Master difficulty values are selected in Journey mode's customization.
+
+### Configuration
+- Added `Melee.EnableSwingVelocity` option.
+
+### Localization
+- Chinese - PR [#173](https://github.com/Mirsario/TerrariaOverhaul/pull/173) by **Cyrillia**.
+- Polish - PR [#141](https://github.com/Mirsario/TerrariaOverhaul/pull/172) by **J00niper**.
+
+# 5.0 BETA 12B
+
+### Changes
+- Increased minimal Journey player damage scale from 0.33 to 0.625 (half of `I'm Too Young To Mine`.)
+
+### Fixes
+- (!) Fixed a bad typo in IL injection code resulting in projectile-to-player damage failure. Oopsie doopsie.
+- (!) Fixed a big difficulty-agnostic balance issue introduced by the Journey fix.
+- (!) Fixed [#171](https://github.com/Mirsario/TerrariaOverhaul/issues/171) - Ranged config entries having wrong default values.
+- To address the aftermath of the above issue properly, floating point number config values will be reset to their proper default values.
+- Ensured correct unloading of difficulty rebalance systems.
 
 # 5.0 BETA 12
 

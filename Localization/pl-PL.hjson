@@ -227,12 +227,12 @@ Mods: {
 		CommonTooltips: {
 			ShowCombatInfo: "[Przytrzymaj {Key} by pokazać informacje bojowe]"
 			CombatInfo: "[Informacje Bojowe]"
-			//RightClickAudioCuesToggle: "Right click on item to toggle audio cues"
-			//RightClickAudioCuesEnabled: "Audio cues are now enabled"
-			//RightClickAudioCuesDisabled: "Audio cues are now disabled"
+			RightClickAudioCuesToggle: "Naciśnij prawym przyciskiem myszy na przedmiot aby przełączać wskazówki audio"
+			RightClickAudioCuesEnabled: "Wskazówki audio są włączone"
+			RightClickAudioCuesDisabled: "Wskazówki audio są wyłączone"
 
 			GrapplingHooks: {
-				//ClassicPullTip: "Hold the grappling hook key for a classic pull"
+				ClassicPullTip: "Przytrzymaj klawisz haka dla klasycznego przyciągnięcia"
 			}
 		}
 
@@ -255,12 +255,12 @@ Mods: {
 		}
 
 		ItemTooltip: {
-			//BunnyPaw:
-			//	'''
-			//	[c/fca9ea:Increases bunnyhops' speed boost with every successful consequent jump]
-			//	[c/fca9ea:Combine bunnyhops with dodgerolls for even higher multipliers]
-			//	[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
-			//	'''
+			BunnyPaw:
+				'''
+				[c/fca9ea:Zwiększa bonus prędkości bunnyhoppingu z każdym kolejnym udanym skokiem]
+				[c/fca9ea:Połącz bunnyhopping z unikiem dla jeszcze lepszego efektu]
+				[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
+				'''
 			Charcoal: "Wciąż ciepły"
 			Calendar:
 				'''
@@ -280,22 +280,22 @@ Mods: {
 		}
 
 		BuffName: {
-			//CriticalJudgement: "Critical Judgement"
-			//HackAndSlash: "Hack and Slash"
+			CriticalJudgement: "Krytyczny Osąd"
+			HackAndSlash: "Hack and Slash"
 			ManaAbsorption: "Absorbcja Many"
 		}
 
 		BuffDescription: {
-			//CriticalJudgement:
-			//	'''
-			//	Their assault was proven futile
-			//	Unleash your judgement with a critical strike
-			//	'''
-			//HackAndSlash:
-			//	'''
-			//	The faster you move, the harder you strike
-			//	Melee damage multiplier: x{Multiplier}
-			//	'''
+			CriticalJudgement:
+				'''
+				Ich atak okazał się daremny
+				Wyzwól swój wyrok ciosem krytycznym
+				'''
+			HackAndSlash:
+				'''
+				Im szybciej się poruszasz, tym mocniej uderzasz
+				Mnożnik obrażeń w zwarciu: x{Multiplier}
+				'''
 			ManaAbsorption:
 				'''
 				Poruszając się szybciej, absorbujesz manę z otoczenia

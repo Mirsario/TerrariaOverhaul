@@ -31,7 +31,7 @@ public class Calendar : ModTile
 			n.LavaDeath = true;
 		});
 
-		this.AddMapEntry(Color.IndianRed, "Calendar");
+		AddMapEntry(Color.IndianRed, CreateMapEntryName());
 	}
 
 	/*public override bool RightClick(int x, int y)
