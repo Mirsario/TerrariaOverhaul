@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Media;
@@ -8,12 +9,16 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Interface;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class ConfigPanel : UIPanel
 {
-	private static Asset<Texture2D> defaultBorderTexture = null!;
+	private static Asset<Texture2D>? defaultBorderTexture;
+
+	private static Asset<Texture2D> DefaultBorderTexture
+		=> defaultBorderTexture ??= ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/ThumbnailBorder").EnsureLoaded();
 
 	public LocalizedText titleText;
 
@@ -33,9 +38,7 @@ public class ConfigPanel : UIPanel
 	private ConfigPanel(LocalizedText title, object thumbnailAsset, Asset<Texture2D>? borderTexture = null) : base()
 	{
 		titleText = title;
-
-		borderTexture ??= defaultBorderTexture ??= ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/ThumbnailBorder");
-		borderTexture.Wait?.Invoke();
+		borderTexture ??= DefaultBorderTexture;
 
 		// Self
 

@@ -1,17 +1,26 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
+using ReLogic.Content;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ModLoader;
 using Terraria.ModLoader.UI.Elements;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Interface;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class SettingsPanel : UIElement
 {
+	private static Asset<Texture2D>? iconLockedTexture;
+	private static Asset<Texture2D>? unselectedIconBorderTexture;
+
+	private static Asset<Texture2D> IconLockedTexture
+		=> iconLockedTexture ??= ModContent.Request<Texture2D>("Terraria/Images/UI/Bestiary/Icon_Locked").EnsureLoaded();
+
+	private static Asset<Texture2D> UnselectedIconBorderTexture
+		=> unselectedIconBorderTexture ??= ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/UnselectedIconBorder").EnsureLoaded();
+
 	public UIGrid OptionRowsGrid { get; }
 	public UIElement OptionRowsContainer { get; }
 	public UIPanel OptionRowsGridContainer { get; }
@@ -63,20 +72,18 @@ public class SettingsPanel : UIElement
 			e.BorderColor = new Color(42, 54, 99);
 		}));
 
-		Console.WriteLine(descriptionPanel.GetOuterDimensions().Height);
-
 		var optionIconContainer = descriptionPanel.AddElement(new UIElement().With(e => {
 			e.Height = StyleDimension.FromPixels(112f);
 			e.Width = StyleDimension.FromPixels(112f);
 			e.VAlign = 0.5f;
 		}));
 
-		var unselectedIconBorder = optionIconContainer.AddElement(new UIImage(ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/UnselectedIconBorder")).With(e => {
+		var unselectedIconBorder = optionIconContainer.AddElement(new UIImage(UnselectedIconBorderTexture).With(e => {
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
 		}));
 
-		var unselectedIconImage = optionIconContainer.AddElement(new UIImage(Main.Assets.Request<Texture2D>("Images/UI/Bestiary/Icon_Locked")).With(e => {
+		var unselectedIconImage = optionIconContainer.AddElement(new UIImage(IconLockedTexture).With(e => {
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
 		}));
