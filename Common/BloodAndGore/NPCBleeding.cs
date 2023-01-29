@@ -1,5 +1,6 @@
 ﻿using System;
 using Terraria;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
@@ -13,7 +14,7 @@ public class NPCBleeding : GlobalNPC
 	{
 		// Bleed on low health.
 
-		if (npc.GetMainSegment() == npc) {
+		if (ChildSafety.Disabled && npc.GetMainSegment() == npc) {
 			float bleedingRate = 12f;
 
 			if (npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type]) {
@@ -35,6 +36,10 @@ public class NPCBleeding : GlobalNPC
 
 	public override void OnKill(NPC npc)
 	{
+		if (!ChildSafety.Disabled) {
+			return;
+		}
+
 		// Add extra blood on death.
 		int count = (int)Math.Sqrt(npc.width * npc.height) / 12;
 

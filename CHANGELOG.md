@@ -38,6 +38,7 @@
 - Fixed another typo in Journey mode scaling fixes, this time resulting in lowest stats being used when Master difficulty values are selected in Journey mode's customization.
 - Fixed bows using extreme screenshake intensity values.
 - Fixed enemies bleeding more than intended due to some code accidentally getting duplicated. The removal of that also fixes the fix to worms bleeding excessively. Oops.
+- Fixed blood spawning in place of cloudy dust when Blood & Gore is disabled in vanilla settings.
 - Prevented a seemingly impossible concurrency error in decal code from ever happening. This game has no concurrency, and yet this was reported.
 
 ### Configuration

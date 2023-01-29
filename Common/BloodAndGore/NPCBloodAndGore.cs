@@ -37,7 +37,13 @@ public class NPCBloodAndGore : GlobalNPC
 
 		// Replace specific dusts with new blood particles.
 		On.Terraria.Dust.NewDust += (orig, position, width, height, type, speedX, speedY, alpha, color, scale) => {
-			if (disableReplacementsSubscriptions > 0) {
+			bool skipOverride = disableReplacementsSubscriptions > 0;
+
+			if (!skipOverride) {
+				skipOverride = !ChildSafety.Disabled && type >= 0 && type <= ChildSafety.SafeDust.Length && !ChildSafety.SafeDust[type];
+			}
+
+			if (skipOverride) {
 				return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
 			}
 
