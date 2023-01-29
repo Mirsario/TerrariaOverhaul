@@ -13,6 +13,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Music;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
@@ -47,6 +48,8 @@ public class AudioEffectsSystem : ModSystem
 
 	private const int FullAudioUpdateThreshold = 4;
 
+	public static readonly ConfigEntry<bool> EnableAudioFiltering = new(ConfigSide.ClientOnly, "Ambience", nameof(EnableAudioFiltering), () => true);
+
 	private static readonly List<AudioEffectsModifier> Modifiers = new();
 	private static readonly List<SoundInstanceData> TrackedSoundInstances = new();
 	private static readonly HashSet<SoundStyle> SoundStylesToIgnore = new() {
@@ -78,13 +81,18 @@ public class AudioEffectsSystem : ModSystem
 	public static bool ReverbEnabled { get; private set; }
 	public static bool LowPassFilteringEnabled { get; private set; }
 
-	public override void Load()
+	public override void OnModLoad()
 	{
 		IsEnabled = false;
 		ReverbEnabled = false;
 		LowPassFilteringEnabled = false;
 
 		WorldGen.Hooks.OnWorldLoad += TryAnnounceErrorMessage;
+
+		if (!EnableAudioFiltering) {
+			DebugSystem.Log($"Audio effects disabled: '{EnableAudioFiltering.Category}.{EnableAudioFiltering.Name}' is 'false'.");
+			return;
+		}
 
 		if (!SoundEngine.IsAudioSupported) {
 			DebugSystem.Log($"Audio effects disabled: '{nameof(SoundEngine)}.{nameof(SoundEngine.IsAudioSupported)}' returned false.");

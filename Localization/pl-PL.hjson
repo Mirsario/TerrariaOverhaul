@@ -53,6 +53,15 @@ Mods: {
 					Description: "Włącza dżwięki otoczenia takie jak ptaki, świerszcze czy szumy jaskiń."
 				}
 
+				EnableAudioFiltering: {
+					//DisplayName: "Enable Audio Filtering"
+					//Description:
+					//	'''
+					//	Toggles low pass filtering and reverberation effects as a whole.
+					//	Disable this if your game is crashing every time you enter a world.
+					//	'''
+				}
+
 				EnablePlayerFootsteps: {
 					DisplayName: "Włącz Kroki Gracza"
 					Description: "Włącza dźwięki kroków gracza"

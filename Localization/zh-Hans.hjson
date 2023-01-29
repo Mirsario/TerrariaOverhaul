@@ -53,6 +53,15 @@ Mods: {
 					Description: "开关环境音效，如鸟、蟋蟀、风、洞穴声等"
 				}
 
+				EnableAudioFiltering: {
+					//DisplayName: "Enable Audio Filtering"
+					//Description:
+					//	'''
+					//	Toggles low pass filtering and reverberation effects as a whole.
+					//	Disable this if your game is crashing every time you enter a world.
+					//	'''
+				}
+
 				EnablePlayerFootsteps: {
 					DisplayName: "启用脚步声"
 					Description: "开关玩家角色的脚步声音"

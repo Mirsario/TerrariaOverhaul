@@ -47,6 +47,7 @@
 
 ### Configuration
 - Added `Melee.EnableSwingVelocity` option.
+- Added `Ambience.EnableAudioFiltering` option. Set that to `false` if your game is crashing when entering a world.
 
 ### Localization
 - Chinese - PR [#173](https://github.com/Mirsario/TerrariaOverhaul/pull/173) by **Cyrillia**.
