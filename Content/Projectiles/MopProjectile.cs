@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using TerrariaOverhaul.Common.BloodAndGore;
+using TerrariaOverhaul.Common.Decals;
 using TerrariaOverhaul.Common.ProjectileEffects;
 using TerrariaOverhaul.Utilities;
 
@@ -18,7 +19,8 @@ public class MopProjectile : SpearProjectileBase
 		DecalPreset = new() {
 			Texture = Mod.Assets.Request<Texture2D>("Assets/Textures/Decals/CleaningDecal"),
 			Size = new Vector2Int(48, 48),
-			IsClearing = true,
+			DecalStyle = DecalStyle.Subtractive,
+			IfChunkExists = true,
 		};
 	}
 

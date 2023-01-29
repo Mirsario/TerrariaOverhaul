@@ -95,7 +95,7 @@ public class BloodParticle : Particle
 			SoundEngine.PlaySound(BloodDripSound, position);
 		}
 
-		DecalSystem.AddDecals(position + velocity.SafeNormalize(default) * Main.rand.NextFloat(5f), color);
+		DecalSystem.AddDecals(DecalStyle.Default, position + velocity.SafeNormalize(default) * Main.rand.NextFloat(5f), color);
 	}
 
 	protected override void OnDestroyed(bool allowEffects)
