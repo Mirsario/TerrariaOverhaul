@@ -12,15 +12,18 @@ public partial class Bow : ItemOverhaul
 {
 	public static readonly SoundStyle BowFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowFire", 4) {
 		Volume = 0.375f,
-		PitchVariance = 0.2f
+		PitchVariance = 0.2f,
+		MaxInstances = 3,
 	};
 	public static readonly SoundStyle BowChargeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowCharge", 4) {
 		Volume = 0.375f,
-		PitchVariance = 0.2f
+		PitchVariance = 0.2f,
+		MaxInstances = 3,
 	};
 	public static readonly SoundStyle BowEmptySound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowEmpty") {
 		Volume = 0.375f,
-		PitchVariance = 0.2f
+		PitchVariance = 0.2f,
+		MaxInstances = 3,
 	};
 
 	public override bool ShouldApplyItemOverhaul(Item item)

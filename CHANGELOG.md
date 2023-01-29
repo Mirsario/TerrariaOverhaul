@@ -31,6 +31,7 @@
 ### Changes
 - Reduced mages' Mana Absorption passive's max multiplier from 11.0 to 5.0, with its required speed reduced from 30.0 to 15.0. The reason for this is that 5.0 is usually the maximum multiplier that people could reach, and there's little need in suggesting that they try to go even faster.
 - Improved coloring of melee damage text and the Hack and Slash passive: removed green shades since people thought that they were sometimes healing enemies, widened white shades' range.
+- Fast-firing bows' audio will now stack instead of being abruptly reset all the time.
 - Slightly slowed down Mana Absorption passive's icon pulse rate.
 - Optimized decal addition code to perfection, minimized reallocations and GC stress.
 
