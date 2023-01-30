@@ -31,7 +31,7 @@ public sealed class ChunkDecals : ChunkComponent
 
 	private struct DecalStyleData
 	{
-		public uint NumDecalsToDraw;
+		public uint NumDecalsToDraw = 0;
 		public DecalInfo[] DecalsToDraw = new DecalInfo[MinDecalBufferSize];
 
 		public DecalStyleData() { }

@@ -6,7 +6,7 @@
 		<AssemblyName>TerrariaOverhaul</AssemblyName>
 		<TargetFramework>net6.0</TargetFramework>
 		<PlatformTarget>AnyCPU</PlatformTarget>
-		<LangVersion>latest</LangVersion>
+		<LangVersion>10.0</LangVersion>
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 	
