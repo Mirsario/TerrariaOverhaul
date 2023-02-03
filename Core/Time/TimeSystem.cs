@@ -21,6 +21,7 @@ public sealed class TimeSystem : ModSystem
 	public static float RenderTime { get; private set; }
 	public static float RenderDeltaTime { get; private set; } = 1f / 60f;
 	// Etc
+	public static TimeSpan CurrentTimeSpan => GlobalStopwatch?.Elapsed ?? TimeSpan.Zero;
 	public static Stopwatch? GlobalStopwatch { get; private set; }
 	public static ulong UpdateCount { get; private set; }
 	public static bool RenderOnlyFrame { get; private set; }

@@ -39,7 +39,6 @@
 - Improved coloring of melee damage text and the Hack and Slash passive: removed green shades since people thought that they were sometimes healing enemies, widened white shades' range.
 - Fast-firing bows' audio will now stack instead of being abruptly reset all the time.
 - Slightly slowed down Mana Absorption passive's icon pulse rate.
-- Optimized decal addition code to perfection, minimized reallocations and GC stress.
 
 ### Fixes
 - Fixed another typo in Journey mode scaling fixes, this time resulting in lowest stats being used when Master difficulty values are selected in Journey mode's customization.
@@ -49,6 +48,10 @@
 - Prevented a seemingly impossible concurrency error in decal code from ever happening. This game has no concurrency, and yet this was reported.
 - Fixed a rare `IndexOutOfRangeException` that could occur when dodgerolling while on a grappling hook.
 - Fixed many screenshakes being global (positionless) in multiplayer.
+
+### Optimizations
+- Optimized decal addition code to perfection, minimized reallocations and GC stress.
+- Crosshair impulse registration no longer causes any heap allocations.
 
 ### Configuration
 - Added `Melee.EnableSwingVelocity` option.
