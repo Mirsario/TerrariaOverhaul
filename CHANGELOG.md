@@ -29,7 +29,8 @@
 
 # Work In Progress
 
-* Nothing yet *
+### Additions
+- Crosshairs will now appear on almost all projectile-firing items, no longer requiring them to be tied to an "Item Overhaul".
 
 # 5.0 BETA 12C
 
