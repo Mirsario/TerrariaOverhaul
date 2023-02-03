@@ -116,12 +116,14 @@ public static class ActiveEntities
 	private static EntityArrayWrapper<Dust> dusts = new(Main.dust, Main.maxDust);
 	private static EntityArrayWrapper<Item> items = new(Main.item, Main.maxItems);
 	private static EntityArrayWrapper<Player> players = new(Main.player, Main.maxPlayers);
+	private static EntityArrayWrapper<Projectile> projectiles = new(Main.projectile, Main.maxProjectiles);
 
 	public static EntityEnumerator<NPC> NPCs => npcs.GetEnumerator();
 	public static EntityEnumerator<Gore> Gores => gores.GetEnumerator();
 	public static EntityEnumerator<Dust> Dusts => dusts.GetEnumerator();
 	public static EntityEnumerator<Item> Items => items.GetEnumerator();
 	public static EntityEnumerator<Player> Players => players.GetEnumerator();
+	public static EntityEnumerator<Projectile> Projectiles => projectiles.GetEnumerator();
 
 	// This should be inlined as just the return value.
 	[MethodImpl(OptimizationFlags)]
