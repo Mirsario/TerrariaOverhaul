@@ -44,8 +44,6 @@ public class GrenadeLauncher : ItemOverhaul
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
 			item.EnableComponent<ItemMuzzleflashes>();
-			item.EnableComponent<ItemCrosshairController>();
-
 			item.EnableComponent<ItemUseVisualRecoil>(c => {
 				c.Power = 18f;
 			});

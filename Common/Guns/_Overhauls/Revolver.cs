@@ -38,7 +38,6 @@ public class Revolver : ItemOverhaul
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
 			item.EnableComponent<ItemMuzzleflashes>();
-			item.EnableComponent<ItemCrosshairController>();
 			item.EnableComponent<ItemPlaySoundOnEveryUse>();
 
 			item.EnableComponent<ItemUseVisualRecoil>(c => {

@@ -84,8 +84,6 @@ public partial class MagicWeapon : ItemOverhaul
 		});
 
 		if (!Main.dedServ) {
-			item.EnableComponent<ItemCrosshairController>();
-
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
 				c.Sound = ChargeSound;
 				c.CancelPlaybackOnEnd = true;

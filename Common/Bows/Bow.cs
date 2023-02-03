@@ -58,8 +58,6 @@ public partial class Bow : ItemOverhaul
 			item.EnableComponent<ItemUseScreenShake>(c => {
 				c.ScreenShake = new ScreenShake(0.3f, 0.2f);
 			});
-
-			item.EnableComponent<ItemCrosshairController>();
 		}
 	}
 }

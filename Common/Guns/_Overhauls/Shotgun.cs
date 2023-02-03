@@ -39,9 +39,6 @@ public class Shotgun : ItemOverhaul
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
 			item.EnableComponent<ItemMuzzleflashes>();
-			item.EnableComponent<ItemCrosshairController>();
-			item.EnableComponent<ItemCrosshairController>();
-
 			item.EnableComponent<ItemUseVisualRecoil>(c => {
 				c.Power = 25f;
 			});

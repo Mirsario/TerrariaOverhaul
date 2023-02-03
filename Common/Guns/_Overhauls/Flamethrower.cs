@@ -32,8 +32,6 @@ public class Flamethrower : ItemOverhaul
 
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
-			item.EnableComponent<ItemCrosshairController>();
-
 			item.EnableComponent<ItemMuzzleflashes>(c => {
 				c.DefaultMuzzleflashLength = (uint)(item.useTime + 1);
 			});
