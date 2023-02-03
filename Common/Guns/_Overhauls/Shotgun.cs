@@ -39,10 +39,6 @@ public class Shotgun : ItemOverhaul
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
 			item.EnableComponent<ItemMuzzleflashes>();
-			item.EnableComponent<ItemUseVisualRecoil>(c => {
-				c.Power = 25f;
-			});
-
 			item.EnableComponent<ItemUseScreenShake>(c => {
 				c.ScreenShake = new ScreenShake(0.8f, 0.2f);
 			});

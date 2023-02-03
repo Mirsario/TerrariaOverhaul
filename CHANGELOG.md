@@ -30,7 +30,9 @@
 # Work In Progress
 
 ### Additions
-- Crosshairs will now appear on almost all projectile-firing items, no longer requiring them to be tied to an "Item Overhaul".
+- Multiple features have been decoupled from "Item Overhauls", and will now appear on all fitting items in the game, instead of only applying to thought-ahead categories of items ("shotguns", "bows", etc.):
+	- Crosshairs - The aiming reticle, but a great feedback booster more importantly.
+	- "Visual Recoil" - The slight offset in weapon's rotation after it's used.
 
 # 5.0 BETA 12C
 

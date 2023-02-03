@@ -62,10 +62,6 @@ public class Minigun : ItemOverhaul
 			item.EnableComponent<ItemMuzzleflashes>();
 			item.EnableComponent<ItemPlaySoundOnEveryUse>();
 
-			item.EnableComponent<ItemUseVisualRecoil>(c => {
-				c.Power = 5f;
-			});
-
 			item.EnableComponent<ItemUseScreenShake>(c => {
 				c.ScreenShake = new ScreenShake(0.15f, 0.2f);
 			});

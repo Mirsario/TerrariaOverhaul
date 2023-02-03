@@ -44,9 +44,6 @@ public class RocketLauncher : ItemOverhaul
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
 			item.EnableComponent<ItemMuzzleflashes>();
-			item.EnableComponent<ItemUseVisualRecoil>(c => {
-				c.Power = 6f;
-			});
 
 			item.EnableComponent<ItemUseScreenShake>(c => {
 				c.ScreenShake = new ScreenShake(0.6f, 0.25f);

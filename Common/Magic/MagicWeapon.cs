@@ -89,10 +89,6 @@ public partial class MagicWeapon : ItemOverhaul
 				c.CancelPlaybackOnEnd = true;
 			});
 
-			item.EnableComponent<ItemUseVisualRecoil>(c => {
-				c.Power = 10f;
-			});
-
 			item.EnableComponent<ItemUseScreenShake>(c => {
 				c.ScreenShake = new ScreenShake(0.3f, 0.2f);
 			});
