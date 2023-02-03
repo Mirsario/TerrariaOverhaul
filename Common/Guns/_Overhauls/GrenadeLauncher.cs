@@ -43,7 +43,6 @@ public class GrenadeLauncher : ItemOverhaul
 
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
-			item.EnableComponent<ItemMuzzleflashes>();
 		}
 	}
 }

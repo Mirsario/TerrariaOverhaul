@@ -14,20 +14,7 @@ namespace TerrariaOverhaul.Common.Guns;
 [Autoload(Side = ModSide.Client)]
 public class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
 {
-	private static Asset<Texture2D>? texture;
-	private static Dictionary<int, Vector2>? gunBarrelEndPositions;
-
-	public override void Load()
-	{
-		texture = Mod.Assets.Request<Texture2D>($"{GetType().GetDirectory()}/Muzzleflash");
-		gunBarrelEndPositions ??= new();
-	}
-
-	public override void Unload()
-	{
-		texture = null;
-		gunBarrelEndPositions = null;
-	}
+	private static Dictionary<int, Vector2>? weaponBarrelEndPositions;
 
 	public override Position GetDefaultPosition()
 		=> new AfterParent(PlayerDrawLayers.HeldItem);
@@ -37,58 +24,81 @@ public class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
 
 	protected override void Draw(ref PlayerDrawSet drawInfo)
 	{
-		if (texture?.Value is not Texture2D muzzleflashTexture) {
-			return;
-		}
-
 		var player = drawInfo.drawPlayer;
 		var item = player.HeldItem;
 
-		if (item?.IsAir != false || !item.TryGetGlobalItem(out ItemMuzzleflashes muzzleflashes) || !muzzleflashes.MuzzleflashTimer.Active) {
+		// Return if no muzzleflash is currently active.
+		if (item?.IsAir != false || !item.TryGetGlobalItem(out ItemMuzzleflashes muzzleflashes) || !muzzleflashes.IsVisible) {
 			return;
 		}
 
+		// Make sure that the item texture is loaded.
 		Main.instance.LoadItem(item.type);
 
 		var itemTexture = TextureAssets.Item[item.type].Value;
-		var gunBarrelEnd = GetGunBarrelEndPosition(item.type, itemTexture);
+		var weaponBarrelEnd = GetWeaponBarrelEndPosition(item.type, itemTexture);
 
-		for (int i = 0; i < drawInfo.DrawDataCache.Count; i++) {
-			var data = drawInfo.DrawDataCache[i];
+		// Find the DrawData of the held item.
+		if (drawInfo.DrawDataCache.FindIndex(d => d.texture == itemTexture) is not (>= 0 and int itemDrawDataIndex)) {
+			return;
+		}
 
-			if (data.texture == itemTexture) {
-				var gunPosition = data.position;
-				var gunFixedOrigin = player.direction > 0 ? data.origin : Vector2.UnitX * data.texture.Width - data.origin;
+		var weaponData = drawInfo.DrawDataCache[itemDrawDataIndex];
+		var weaponPosition = weaponData.position;
+		var weaponFixedOrigin = player.direction > 0 ? weaponData.origin : Vector2.UnitX * weaponData.texture.Width - weaponData.origin;
 
-				if (DebugSystem.EnableDebugRendering) {
-					DebugSystem.DrawCircle(gunPosition + Main.screenPosition, 4f, Color.White);
-				}
+		if (DebugSystem.EnableDebugRendering) {
+			DebugSystem.DrawCircle(weaponPosition + Main.screenPosition, 4f, Color.White);
+		}
 
-				var originOffset = new Vector2(
-					(gunBarrelEnd.X - gunFixedOrigin.X) * player.direction,
-					-gunFixedOrigin.Y * player.direction + gunBarrelEnd.Y
-				) * item.scale;
+		var originOffset = new Vector2(
+			(weaponBarrelEnd.X - weaponFixedOrigin.X) * player.direction,
+			-weaponFixedOrigin.Y * player.direction + weaponBarrelEnd.Y
+		) * item.scale;
 
-				var muzzleflashPosition = gunPosition + originOffset.RotatedBy(player.itemRotation);
-				var muzzleflashOrigin = new Vector2(player.direction < 0 ? muzzleflashTexture.Width : 0f, muzzleflashTexture.Height * 0.5f);
+		var muzzleflashPosition = weaponPosition + originOffset.RotatedBy(player.itemRotation);
 
-				drawInfo.DrawDataCache.Insert(i++, new DrawData(muzzleflashTexture, muzzleflashPosition, null, muzzleflashes.MuzzleflashColor, player.itemRotation, muzzleflashOrigin, 1f, drawInfo.itemEffect, 0));
+		var style = muzzleflashes.CurrentStyle;
+		var colors = muzzleflashes.Colors;
+		var segmentFrames = style.SegmentFrames;
+		int segmentInsertionIndex = itemDrawDataIndex;
 
-				if (muzzleflashes.LightColor.LengthSquared() > 0f) {
-					Lighting.AddLight(muzzleflashPosition, muzzleflashes.LightColor);
-				}
+		int colorIndex = 0;
+		float animationProgress = muzzleflashes.AnimationProgress;
 
-				break;
+		// Render segments
+		for (int i = 0; i < segmentFrames.Length; i++) {
+			float fadeoutPoint = (i + 1) / (float)segmentFrames.Length;
+
+			if (animationProgress >= fadeoutPoint) {
+				continue;
 			}
+
+			if (style.Texture.Value is not Texture2D texture) {
+				continue;
+			}
+
+			var frame = segmentFrames[i];
+			var srcRect = frame.GetSourceRectangle(texture);
+			var color = colors[colorIndex++];
+
+			var muzzleflashOrigin = new Vector2(player.direction < 0 ? srcRect.Width : 0f, srcRect.Height * 0.5f);
+			var flashData = new DrawData(texture, muzzleflashPosition, srcRect, color, player.itemRotation, muzzleflashOrigin, 1f, drawInfo.itemEffect, 0);
+
+			drawInfo.DrawDataCache.Insert(segmentInsertionIndex++, flashData);
+		}
+
+		if (muzzleflashes.LightColor.LengthSquared() > 0f) {
+			Lighting.AddLight(muzzleflashPosition, muzzleflashes.LightColor);
 		}
 	}
 
-	/// <summary> Tries to calculate the center of the end of a gun's barrel based on its texture. </summary>
-	private static Vector2 GetGunBarrelEndPosition(int type, Texture2D texture)
+	/// <summary> Tries to calculate the center of the end of a weapon's barrel based on its texture. </summary>
+	private static Vector2 GetWeaponBarrelEndPosition(int type, Texture2D texture)
 	{
-		gunBarrelEndPositions ??= new();
+		weaponBarrelEndPositions ??= new();
 
-		if (gunBarrelEndPositions.TryGetValue(type, out var result)) {
+		if (weaponBarrelEndPositions.TryGetValue(type, out var result)) {
 			return result;
 		}
 
@@ -124,7 +134,7 @@ public class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
 			result /= columnPoints.Count;
 		}
 
-		gunBarrelEndPositions[type] = result;
+		weaponBarrelEndPositions[type] = result;
 
 		return result;
 	}

@@ -41,7 +41,6 @@ public sealed class VortexBeater : ItemOverhaul
 
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
-			item.EnableComponent<ItemMuzzleflashes>();
 			item.EnableComponent<ItemCrosshairController>(c => {
 				c.UseItemEffects = new CrosshairEffects {
 					Offset = (7.0f, 0.25f),

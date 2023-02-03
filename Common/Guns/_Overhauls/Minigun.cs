@@ -59,7 +59,6 @@ public class Minigun : ItemOverhaul
 
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
-			item.EnableComponent<ItemMuzzleflashes>();
 			item.EnableComponent<ItemPlaySoundOnEveryUse>();
 
 			item.EnableComponent<ItemBulletCasings>(c => {

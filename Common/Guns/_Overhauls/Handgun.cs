@@ -40,8 +40,6 @@ public class Handgun : ItemOverhaul
 
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
-			item.EnableComponent<ItemMuzzleflashes>();
-
 			item.EnableComponent<ItemBulletCasings>(c => {
 				c.CasingGoreType = ModContent.GoreType<BulletCasing>();
 			});

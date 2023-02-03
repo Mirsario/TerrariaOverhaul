@@ -43,7 +43,6 @@ public class RocketLauncher : ItemOverhaul
 
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
-			item.EnableComponent<ItemMuzzleflashes>();
 		}
 	}
 }

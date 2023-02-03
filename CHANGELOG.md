@@ -30,10 +30,13 @@
 # Work In Progress
 
 ### Additions
-- Multiple features have been decoupled from "Item Overhauls", and will now appear on all fitting items in the game, instead of only applying to thought-ahead categories of items ("shotguns", "bows", etc.):
+- Multiple features have been decoupled from "Item Overhauls", and will now appear on all fitting items in the game (including other mods' content), instead of only applying to thought-ahead categories of items ("shotguns", "bows", etc.):
 	- Crosshairs - The aiming reticle, but a great feedback booster more importantly.
-	- "Visual Recoil" - The slight offset in weapon's rotation after it's used.
+	- Visual Recoil - The slight offset in weapon's rotation after it's used.
+	- Muzzleflashes - The weapons' fire breath.
 	- Screen-shake - Self-explanatory.
+- Weapon muzzleflashes are now automatically colored based on the shot projectile (or used ammunition).
+- Added two new alternated muzzleflash variations, and two frames of animation.
 
 # 5.0 BETA 12C
 
