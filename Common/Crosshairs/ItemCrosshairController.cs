@@ -33,7 +33,9 @@ public sealed class ItemCrosshairController : ItemComponent
 			return true;
 		}
 
-		Enabled |= CheckItem(ContentSamples.ItemsByType.TryGetValue(item.type, out var baseItem) ? baseItem : item);
+		if (!Enabled && CheckItem(ContentSamples.ItemsByType.TryGetValue(item.type, out var baseItem) ? baseItem : item)) {
+			SetEnabled(item, true);
+		}
 	}
 
 	public override bool? UseItem(Item item, Player player)
