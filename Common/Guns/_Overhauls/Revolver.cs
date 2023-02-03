@@ -40,10 +40,6 @@ public class Revolver : ItemOverhaul
 			item.EnableComponent<ItemMuzzleflashes>();
 			item.EnableComponent<ItemPlaySoundOnEveryUse>();
 
-			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.5f, 0.2f);
-			});
-
 			item.EnableComponent<ItemBulletCasings>(c => {
 				c.CasingGoreType = ModContent.GoreType<BulletCasing>();
 			});

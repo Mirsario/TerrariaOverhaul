@@ -39,9 +39,6 @@ public class Shotgun : ItemOverhaul
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
 			item.EnableComponent<ItemMuzzleflashes>();
-			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.8f, 0.2f);
-			});
 
 			item.EnableComponent<ItemBulletCasings>(c => {
 				c.CasingGoreType = ModContent.GoreType<ShellCasing>();

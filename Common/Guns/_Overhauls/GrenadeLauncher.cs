@@ -44,10 +44,6 @@ public class GrenadeLauncher : ItemOverhaul
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
 			item.EnableComponent<ItemMuzzleflashes>();
-
-			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(8f, 0.4f);
-			});
 		}
 	}
 }

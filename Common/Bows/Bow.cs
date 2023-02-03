@@ -55,9 +55,6 @@ public partial class Bow : ItemOverhaul
 		}
 
 		if (!Main.dedServ) {
-			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.3f, 0.2f);
-			});
 		}
 	}
 }

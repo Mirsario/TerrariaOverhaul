@@ -35,10 +35,6 @@ public class Flamethrower : ItemOverhaul
 			item.EnableComponent<ItemMuzzleflashes>(c => {
 				c.DefaultMuzzleflashLength = (uint)(item.useTime + 1);
 			});
-
-			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.2f, 0.2f);
-			});
 		}
 	}
 

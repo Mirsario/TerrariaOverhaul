@@ -33,6 +33,7 @@
 - Multiple features have been decoupled from "Item Overhauls", and will now appear on all fitting items in the game, instead of only applying to thought-ahead categories of items ("shotguns", "bows", etc.):
 	- Crosshairs - The aiming reticle, but a great feedback booster more importantly.
 	- "Visual Recoil" - The slight offset in weapon's rotation after it's used.
+	- Screen-shake - Self-explanatory.
 
 # 5.0 BETA 12C
 

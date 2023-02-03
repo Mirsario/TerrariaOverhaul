@@ -45,10 +45,6 @@ public class AssaultRifle : ItemOverhaul
 			item.EnableComponent<ItemMuzzleflashes>();
 			item.EnableComponent<ItemPlaySoundOnEveryUse>();
 
-			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.45f, 0.2f);
-			});
-
 			item.EnableComponent<ItemBulletCasings>(c => {
 				c.CasingGoreType = ModContent.GoreType<BulletCasing>();
 			});
