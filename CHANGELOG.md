@@ -42,6 +42,7 @@
 - Fixed blood spawning in place of cloudy dust when Blood & Gore is disabled in vanilla settings.
 - Prevented a seemingly impossible concurrency error in decal code from ever happening. This game has no concurrency, and yet this was reported.
 - Fixed a rare `IndexOutOfRangeException` that could occur when dodgerolling while on a grappling hook.
+- Fixed many screenshakes being global (positionless) in multiplayer.
 
 ### Configuration
 - Added `Melee.EnableSwingVelocity` option.

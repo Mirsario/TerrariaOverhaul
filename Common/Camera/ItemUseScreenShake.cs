@@ -14,11 +14,7 @@ public sealed class ItemUseScreenShake : ItemComponent
 		if (Enabled) {
 			var screenShake = ScreenShake;
 
-			if (screenShake.Power > 0f && screenShake.Length > 0f) {
-				screenShake.Position = player.Center;
-
-				ScreenShakeSystem.New(screenShake);
-			}
+			ScreenShakeSystem.New(screenShake, player.Center);
 		}
 
 		return base.UseItem(item, player);

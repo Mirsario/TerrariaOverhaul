@@ -59,6 +59,12 @@ public partial class MagicWeapon : ItemOverhaul
 			item.UseSound = MagicBlastSound;
 		}
 
+		var chargeScreenShakePowerGradient = new Gradient<float>(
+			(0.0f, 0.0f),
+			(0.25f, 0.025f),
+			(1.0f, 0.2f)
+		);
+
 		item.EnableComponent<ItemPowerAttacks>(c => {
 			c.ChargeLengthMultiplier = 2f;
 			c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.75f;
@@ -66,17 +72,13 @@ public partial class MagicWeapon : ItemOverhaul
 			c.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
 
 			c.OnChargeStart += (item, player, chargeLength) => {
-				if (Main.dedServ) {
+				if (Main.dedServ || !player.IsLocal()) {
 					return;
 				}
 
 				ScreenShakeSystem.New(
-					new Gradient<float>(
-						(0.0f, 0.0f),
-						(0.25f, 0.025f),
-						(1.0f, 0.2f)
-					),
-					chargeLength / TimeSystem.LogicFramerate
+					new ScreenShake(chargeScreenShakePowerGradient, chargeLength * TimeSystem.LogicDeltaTime),
+					null
 				);
 			};
 		});
