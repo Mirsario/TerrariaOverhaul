@@ -17,7 +17,7 @@ public sealed class ItemCrosshairController : ItemComponent
 	public override void OnEnabled(Item item)
 	{
 		// Should be filled prior to ItemsByType
-		if (!ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out var projectile)) {
+		if (!ContentSampleUtils.TryGetProjectile(item.shoot, out var projectile)) {
 			return;
 		}
 
@@ -75,7 +75,7 @@ public sealed class ItemCrosshairController : ItemComponent
 			return true;
 		}
 
-		if (!Enabled && CheckItem(ContentSamples.ItemsByType.TryGetValue(item.type, out var baseItem) ? baseItem : item)) {
+		if (!Enabled && CheckItem(ContentSampleUtils.TryGetItem(item.type, out var baseItem) ? baseItem : item)) {
 			SetEnabled(item, true);
 		}
 	}

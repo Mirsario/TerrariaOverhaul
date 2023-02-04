@@ -8,6 +8,7 @@ using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Guns;
 
@@ -24,7 +25,7 @@ public class GrenadeLauncher : ItemOverhaul
 			return false;
 		}
 
-		if (!ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out var proj)) {
+		if (!ContentSampleUtils.TryGetProjectile(item.shoot, out var proj)) {
 			return false;
 		}
 

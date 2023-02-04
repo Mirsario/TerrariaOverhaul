@@ -49,10 +49,9 @@ public sealed class ItemUseScreenShake : ItemComponent
 				return false;
 			}
 
-			// Should be filled prior to ItemsByType
-			var projectile = ContentSamples.ProjectilesByType[item.shoot];
-
 			// Ignore spears
+			var projectile = ContentSampleUtils.GetProjectile(item.shoot);
+
 			if (projectile.aiStyle == ProjAIStyleID.Spear) {
 				return false;
 			}
@@ -60,7 +59,7 @@ public sealed class ItemUseScreenShake : ItemComponent
 			return true;
 		}
 
-		if (!Enabled && CheckItem(ContentSamples.ItemsByType.TryGetValue(item.type, out var baseItem) ? baseItem : item)) {
+		if (!Enabled && CheckItem(ContentSampleUtils.TryGetItem(item.type, out var baseItem) ? baseItem : item)) {
 			SetEnabled(item, true);
 		}
 	}

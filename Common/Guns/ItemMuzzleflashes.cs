@@ -103,12 +103,13 @@ public sealed class ItemMuzzleflashes : ItemComponent
 			}
 
 			// Only apply to items that fire projectiles.
-			if (item.shoot <= ProjectileID.None
-			|| !ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out var shotProjectile)) {
+			if (item.shoot <= ProjectileID.None || item.shoot >= ProjectileLoader.ProjectileCount) {
 				return false;
 			}
 
 			/*
+			var shotProjectile = ContentSampleUtils.GetProjectile(item.shoot);
+
 			// Ignore items that shoot projectiles that don't glow.
 			if (shotProjectile.light <= 0f) {
 				return false;
@@ -150,7 +151,7 @@ public sealed class ItemMuzzleflashes : ItemComponent
 			return true;
 		}
 
-		if (!Enabled && CheckItem(ContentSamples.ItemsByType.TryGetValue(item.type, out var baseItem) ? baseItem : item)) {
+		if (!Enabled && CheckItem(ContentSampleUtils.TryGetItem(item.type, out var baseItem) ? baseItem : item)) {
 			SetEnabled(item, true);
 		}
 	}
@@ -162,7 +163,7 @@ public sealed class ItemMuzzleflashes : ItemComponent
 
 	public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
 	{
-		if (!ContentSamples.ProjectilesByType.TryGetValue(type, out var projectile)) {
+		if (!ContentSampleUtils.TryGetProjectile(type, out var projectile)) {
 			return true;
 		}
 

@@ -4,6 +4,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.PlayerEffects;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Items;
 
@@ -46,7 +47,7 @@ public sealed class ItemUseVisualRecoil : ItemComponent
 			return true;
 		}
 
-		if (!Enabled && CheckItem(ContentSamples.ItemsByType.TryGetValue(item.type, out var baseItem) ? baseItem : item)) {
+		if (!Enabled && CheckItem(ContentSampleUtils.TryGetItem(item.type, out var baseItem) ? baseItem : item)) {
 			SetEnabled(item, true);
 		}
 	}
