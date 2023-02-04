@@ -37,7 +37,7 @@ public sealed class ItemCrosshairController : ItemComponent
 			case ProjAIStyleID.Yoyo:
 			case ProjAIStyleID.Spear:
 				return;
-			case int _ when item.useAnimation >= 20:
+			case int _ when item.useAnimation + item.reuseDelay >= 25:
 				UseAnimationEffects = new CrosshairEffects {
 					Offset = (9.0f, 1.0f),
 					Rotation = (
@@ -105,7 +105,7 @@ public sealed class ItemCrosshairController : ItemComponent
 		}
 
 		if (UseAnimationEffects is CrosshairEffects effects) {
-			int useAnimation = CombinedHooks.TotalAnimationTime(item.useAnimation, player, item);
+			int useAnimation = CombinedHooks.TotalAnimationTime(item.useAnimation, player, item) + item.reuseDelay;
 			float useAnimationInSeconds = useAnimation * TimeSystem.LogicDeltaTime;
 
 			effects.Rotation.Value *= -player.direction;
