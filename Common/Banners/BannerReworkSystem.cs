@@ -17,7 +17,7 @@ public sealed class BannerReworkSystem : ModSystem
 
 	public override void Load()
 	{
-		On.Terraria.NPC.NPCLoot_DropItems += (orig, npc, closestPlayer) => {
+		On_NPC.NPCLoot_DropItems += (orig, npc, closestPlayer) => {
 			orig(npc, closestPlayer);
 
 			if (ShouldDoubleLoot(npc)) {
@@ -25,7 +25,7 @@ public sealed class BannerReworkSystem : ModSystem
 			}
 		};
 		
-		On.Terraria.NPC.NPCLoot_DropMoney += (orig, npc, closestPlayer) => {
+		On_NPC.NPCLoot_DropMoney += (orig, npc, closestPlayer) => {
 			orig(npc, closestPlayer);
 
 			// Prevent picked up coins from being doubled too.

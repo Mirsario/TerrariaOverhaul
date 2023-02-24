@@ -13,50 +13,39 @@ public sealed class ItemMeleeCooldownReplacement : ItemComponent
 	public override void Load()
 	{
 		// Disable attackCD for melee whenever this component is present on the held item and enabled.
-		IL.Terraria.Player.ItemCheck_MeleeHitNPCs += context => {
+		IL_Player.ItemCheck_MeleeHitNPCs += context => {
 			var il = new ILCursor(context);
 			bool debugAssembly = OverhaulMod.TMLAssembly.IsDebugAssembly();
 
+			// Match:
+			// for (int i = 0; i < 200; i++)
+			// To get labels and 'i'.
+
+			int npcIdLocalId = 0;
 			ILLabel? continueLabel = null;
+
+			il.GotoNext(
+				i => i.MatchLdcI4(0),
+				i => i.MatchStloc(out npcIdLocalId),
+				i => i.MatchBr(out continueLabel)
+			);
+
+			// Match:
+			// NPC npc = Main.npc[i];
+			// To get the local.
+
+			int npcLocalId = 0;
+
+			il.GotoNext(
+				i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
+				i => i.MatchLdloc(npcIdLocalId),
+				i => i.MatchLdelemRef(),
+				i => i.MatchStloc(out npcLocalId)
+			);
+
+			/*
 			ILLabel? checkSkipLabel = null;
 			ILLabel? tempLabel = null;
-			int npcIdLocalId = 0;
-
-			// if (!Main.npc[i].active || Main.npc[i].immune[whoAmI] != 0 || attackCD != 0)
-			il.GotoNext(
-				MoveType.Before,
-				new Func<Instruction, bool>[] {
-				//il.CreateDebugInstructionPredicates(new Expression<Func<Instruction, bool>>?[] {
-					// ...
-					i => i.MatchBr(out continueLabel),
-
-					// !Main.npc[i].active
-					debugAssembly ? i => i.MatchNop() : null!,
-					i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
-					i => i.MatchLdloc(out npcIdLocalId),
-					i => i.MatchLdelemRef(),
-					i => i.MatchLdfld(typeof(Entity), nameof(Entity.active)),
-					i => i.MatchBrfalse(out checkSkipLabel),
-
-					// Main.npc[i].immune[whoAmI] != 0
-					i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
-					i => i.MatchLdloc(npcIdLocalId),
-					i => i.MatchLdelemRef(),
-					i => i.MatchLdfld(typeof(NPC), nameof(NPC.immune)),
-					i => i.MatchLdarg(0),
-					i => i.MatchLdfld(typeof(Entity), nameof(Entity.whoAmI)),
-					i => i.MatchLdelemI4(),
-					//i => i.MatchBrtrue(checkSkipLabel),
-					i => i.MatchBrtrue(out tempLabel) && tempLabel.Target!.Offset == checkSkipLabel!.Target!.Offset,
-
-					// attackCD != 0
-					i => i.MatchLdarg(0),
-					i => i.MatchLdfld(typeof(Player), nameof(Player.attackCD)),
-					// ...
-				//})
-				}
-				.Where(p => p != null).ToArray()
-			);
 
 			il.HijackIncomingLabels();
 
@@ -87,6 +76,7 @@ public sealed class ItemMeleeCooldownReplacement : ItemComponent
 			il.Emit(OpCodes.Beq, continueLabel!);
 
 			// On null - the original checks get to run.
+			*/
 		};
 	}
 

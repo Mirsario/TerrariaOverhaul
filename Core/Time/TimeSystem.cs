@@ -52,13 +52,13 @@ public sealed class TimeSystem : ModSystem
 
 		// Hooking of potentially executing draw methods has to be done on the main thread.
 		Main.QueueMainThreadAction(static () => {
-			On.Terraria.Main.DoUpdate += OnDoUpdate;
+			On_Main.DoUpdate += OnDoUpdate;
 
-			On.Terraria.Main.DoDraw += OnDoDraw;
+			On_Main.DoDraw += OnDoDraw;
 		});
 	}
 
-	private static void OnDoDraw(On.Terraria.Main.orig_DoDraw orig, Main main, GameTime gameTime)
+	private static void OnDoDraw(On_Main.orig_DoDraw orig, Main main, GameTime gameTime)
 	{
 		uint updateCount = Main.GameUpdateCount;
 
@@ -73,7 +73,7 @@ public sealed class TimeSystem : ModSystem
 		RenderOnlyFrame = false;
 	}
 
-	private static void OnDoUpdate(On.Terraria.Main.orig_DoUpdate orig, Main main, ref GameTime gameTime)
+	private static void OnDoUpdate(On_Main.orig_DoUpdate orig, Main main, ref GameTime gameTime)
 	{
 		LogicTime = (float)gameTime.TotalGameTime.TotalSeconds;
 		//LogicDeltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;

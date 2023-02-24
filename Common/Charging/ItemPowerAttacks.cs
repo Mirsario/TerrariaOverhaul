@@ -32,7 +32,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 	{
 		// AltFunctionUse hook doesn't fit, since it relies on 'ItemID.Sets.ItemsThatAllowRepeatedRightClick' for repeated uses.
 		// Also it's better to execute power attack code after all other mods are done with their AltFunctionUse hooks.
-		IL.Terraria.Player.ItemCheck_ManageRightClickFeatures += context => {
+		IL_Player.ItemCheck_ManageRightClickFeatures += context => {
 			var il = new ILCursor(context);
 
 			int isButtonHeldLocalId = -1;

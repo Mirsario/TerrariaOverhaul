@@ -35,8 +35,8 @@ public class NPCAttackCooldowns : GlobalNPC
 		return true;
 	}
 
-	public override bool? CanHitNPC(NPC npc, NPC target)
-		=> AttackCooldown > 0 ? false : null;
+	public override bool CanHitNPC(NPC npc, NPC target)
+		=> AttackCooldown <= 0;
 
 	public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
 		=> AttackCooldown <= 0;

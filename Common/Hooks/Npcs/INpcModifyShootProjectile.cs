@@ -27,7 +27,7 @@ public sealed class NpcOnShootProjectileImplementation : ILoadable
 {
 	public void Load(Mod mod)
 	{
-		On.Terraria.Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float += (orig, entitySource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1) => {
+		On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += (orig, entitySource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1, ai2) => {
 			if (entitySource is EntitySource_Parent parentSource && parentSource.Entity is NPC parentNpc) {
 				var position = new Vector2(x, y);
 				var velocity = new Vector2(speedX, speedY);
@@ -37,7 +37,7 @@ public sealed class NpcOnShootProjectileImplementation : ILoadable
 				(x, y, speedX, speedY) = (position.X, position.Y, velocity.X, velocity.Y);
 			}
 
-			return orig(entitySource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1);
+			return orig(entitySource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1, ai2);
 		};
 	}
 

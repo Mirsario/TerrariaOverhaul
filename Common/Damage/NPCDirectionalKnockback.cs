@@ -16,7 +16,7 @@ public sealed class NPCDirectionalKnockback : GlobalNPC
 
 	public override void Load()
 	{
-		IL.Terraria.NPC.StrikeNPC += context => {
+		IL_NPC.StrikeNPC += context => {
 			var cursor = new ILCursor(context);
 
 			// Match 'if (knockBack > 0f && knockBackResist > 0f)' to get the address to which it jumps on failure.
@@ -28,7 +28,7 @@ public sealed class NPCDirectionalKnockback : GlobalNPC
 				i => i.MatchLdcR4(0f),
 				i => i.MatchBleUn(out skipKnockbackLabel)
 			)) {
-				throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL.Terraria.NPC.StrikeNPC Failure at match 1.");
+				throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL_NPC.StrikeNPC Failure at match 1.");
 			}
 
 			// Match 'float num4 = knockBack * knockBackResist' to get the number of the 'num4' local.
@@ -42,7 +42,7 @@ public sealed class NPCDirectionalKnockback : GlobalNPC
 				i => i.Match(OpCodes.Mul),
 				i => i.MatchStloc(out totalKnockbackLocalId)
 			)) {
-				throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL.Terraria.NPC.StrikeNPC Failure at match 2.");
+				throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL_NPC.StrikeNPC Failure at match 2.");
 			}
 
 			// Match 'int num9 = (int)num * 10;' to place code after it.
@@ -54,7 +54,7 @@ public sealed class NPCDirectionalKnockback : GlobalNPC
 				i => i.Match(OpCodes.Mul),
 				i => i.Match(OpCodes.Stloc_S)
 			)) {
-				throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL.Terraria.NPC.StrikeNPC Failure at match 3.");
+				throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL_NPC.StrikeNPC Failure at match 3.");
 			}
 
 			cursor.Emit(OpCodes.Ldarg_0); // Load 'this'.

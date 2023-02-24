@@ -35,10 +35,10 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 
 	public override void Load()
 	{
-		IL.Terraria.Player.Update += PlayerUpdateInjection;
-		IL.Terraria.Player.GrappleMovement += PlayerGrappleMovementInjection;
+		IL_Player.Update += PlayerUpdateInjection;
+		IL_Player.GrappleMovement += PlayerGrappleMovementInjection;
 
-		On.Terraria.Player.JumpMovement += (orig, player) => {
+		On_Player.JumpMovement += (orig, player) => {
 			if (ShouldOverrideGrapplingHookPhysics(player, out _)) {
 				PlayerJumpOffGrapplingHook(player);
 			}
@@ -46,7 +46,7 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 			orig(player);
 		};
 
-		On.Terraria.Projectile.AI_007_GrapplingHooks += static (orig, projectile) => {
+		On_Projectile.AI_007_GrapplingHooks += static (orig, projectile) => {
 			orig(projectile);
 
 			if (!ShouldOverrideGrapplingHookPhysics(projectile, out var player)) {

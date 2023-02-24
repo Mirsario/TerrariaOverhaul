@@ -67,8 +67,8 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 		DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
 
-		IL.Terraria.Player.Update_NPCCollision += PlayerNpcCollisionInjection;
-		IL.Terraria.Projectile.Damage += ProjectileDamageInjection;
+		IL_Player.Update_NPCCollision += PlayerNpcCollisionInjection;
+		IL_Projectile.Damage += ProjectileDamageInjection;
 	}
 
 	public override void Initialize()

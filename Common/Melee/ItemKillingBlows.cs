@@ -32,7 +32,7 @@ public sealed class ItemKillingBlows : ItemComponent
 	public override void Load()
 	{
 		// Stores context.
-		On.Terraria.Player.ItemCheck_MeleeHitNPCs += (orig, player, sItem, itemRectangle, originalDamage, knockback) => {
+		On_Player.ItemCheck_MeleeHitNPCs += (orig, player, sItem, itemRectangle, originalDamage, knockback) => {
 			playerCurrentlySwingingWeapons = player;
 
 			try {
@@ -44,7 +44,7 @@ public sealed class ItemKillingBlows : ItemComponent
 		};
 
 		// This IL edit implements killing blows. They have to run after all damage modifications, as it needs to check the final damage.
-		IL.Terraria.NPC.StrikeNPC += context => {
+		IL_NPC.StrikeNPC += context => {
 			var cursor = new ILCursor(context);
 
 			int damageLocalId = 0;

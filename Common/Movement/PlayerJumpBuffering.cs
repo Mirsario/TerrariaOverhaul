@@ -11,7 +11,7 @@ public sealed class PlayerJumpBuffering : ModPlayer
 
 	public override void Load()
 	{
-		On.Terraria.Player.JumpMovement += JumpMovement;
+		On_Player.JumpMovement += JumpMovement;
 	}
 
 	public override void PostUpdate()
@@ -26,7 +26,7 @@ public sealed class PlayerJumpBuffering : ModPlayer
 		}
 	}
 
-	private static void JumpMovement(On.Terraria.Player.orig_JumpMovement orig, Player player)
+	private static void JumpMovement(On_Player.orig_JumpMovement orig, Player player)
 	{
 		var modPlayer = player.GetModPlayer<PlayerJumpBuffering>();
 		bool forceJump = !player.controlJump && modPlayer.JumpKeyBuffer > 0f && player.velocity.Y == 0f;

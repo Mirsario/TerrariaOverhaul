@@ -14,9 +14,9 @@ public class GoreSystem : ModSystem
 
 	public override void Load()
 	{
-		On.Terraria.Gore.Update += GoreUpdate;
+		On_Gore.Update += GoreUpdate;
 
-		On.Terraria.Gore.NewGore_IEntitySource_Vector2_Vector2_int_float += (orig, entitySource, position, velocity, type, scale) => {
+		On_Gore.NewGore_IEntitySource_Vector2_Vector2_int_float += (orig, entitySource, position, velocity, type, scale) => {
 			// Disable gore spawn, if requested.
 			if (disableGoreSubscriptions > 0) {
 				return Main.maxGore;
@@ -87,7 +87,7 @@ public class GoreSystem : ModSystem
 		return result;
 	}
 
-	private static void GoreUpdate(On.Terraria.Gore.orig_Update orig, Gore gore)
+	private static void GoreUpdate(On_Gore.orig_Update orig, Gore gore)
 	{
 		orig(gore);
 

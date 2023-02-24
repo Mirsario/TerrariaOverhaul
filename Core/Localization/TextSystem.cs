@@ -15,7 +15,7 @@ public sealed class TextSystem : ModSystem
 
 	public override void Load()
 	{
-		const string MethodName = nameof(LocalizationLoader.RefreshModLanguage);
+		const string MethodName = nameof(LocalizationLoader.LoadModTranslations);
 
 		var method = typeof(LocalizationLoader).GetMethod(MethodName, BindingFlags.Public | BindingFlags.Static);
 
