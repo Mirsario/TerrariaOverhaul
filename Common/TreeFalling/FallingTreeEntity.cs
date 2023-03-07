@@ -31,6 +31,8 @@ public sealed class FallingTreeEntity : SimpleEntity
 	// 
 	public List<ItemCapture>? CapturedItems;
 	public List<DustCapture>? CapturedDusts;
+	//
+	public Vector2Int? TileToDestroy;
 
 	public override void Init()
 	{
@@ -78,6 +80,12 @@ public sealed class FallingTreeEntity : SimpleEntity
 			var soundPosition = Position + new Vector2(0f, -TreeHeight * TileUtils.TileSizeInPixels * 0.5f).RotatedBy(Rotation);
 
 			SoundEngine.PlaySound(in TreeGroundHitSound, soundPosition);
+		}
+
+		if (TileToDestroy is Vector2Int tileLocation) {
+			WorldGen.KillTile(tileLocation.X, tileLocation.Y);
+
+			TileToDestroy = null;
 		}
 
 		if (IsTextureDisposable && Texture is { IsDisposed: false }) {

@@ -23,7 +23,9 @@ public sealed class TreeFallingSystem : ModSystem
 	private struct TreeCreationData
 	{
 		public int TreeHeight;
+		public bool BottomIsStump;
 		public Vector2Int BasePosition;
+		public Vector2Int BottomPosition;
 		public Vector2Int AabbMin;
 		public Vector2Int AabbMax;
 		public Vector2Int TextureAabbMin;
@@ -39,6 +41,7 @@ public sealed class TreeFallingSystem : ModSystem
 	private const int MinimalTreeHeight = 3;
 
 	public static readonly ConfigEntry<bool> EnableTreeFallingAnimations = new(ConfigSide.Both, "Aesthetics", nameof(EnableTreeFallingAnimations), () => true);
+	public static readonly ConfigEntry<bool> DestroyStumpsAfterTreeFalls = new(ConfigSide.Both, "Aesthetics", nameof(DestroyStumpsAfterTreeFalls), () => true);
 
 	private static bool isTreeBeingDestroyed;
 
@@ -59,13 +62,17 @@ public sealed class TreeFallingSystem : ModSystem
 		}
 
 		// Ensure that this is a middle of a tree
-		var bottomPosition = basePosition + Vector2Int.UnitY;
-		var bottomTile = Main.tile[bottomPosition.X, bottomPosition.Y];
+		data.BottomPosition = basePosition + Vector2Int.UnitY;
+		
+		var bottomTile = Main.tile[data.BottomPosition.X, data.BottomPosition.Y];
 
 		if (!bottomTile.HasUnactuatedTile || !(IsTreeTile(bottomTile) || Main.tileSolid[bottomTile.TileType])) {
 			data = default;
 			return false;
 		}
+
+		// Check if bottom is a stump
+		data.BottomIsStump = !Main.tile.TryGet(data.BottomPosition + Vector2Int.UnitY, out var underBottom) || !IsTreeTile(underBottom);
 
 		// Get all adjacent tree tiles above this one
 		data.TreeTilePositions = GetAdjacentTreeParts(basePosition);
@@ -105,8 +112,9 @@ public sealed class TreeFallingSystem : ModSystem
 	{
 		// Create tree entity
 		int treeHeight = data.TreeHeight;
-		var position = (data.BasePosition + new Vector2(0.5f, data.TextureAabbMaxOffset.Y)) * TileUtils.TileSizeInPixels;
-		
+		var entityPosition = (data.BasePosition + new Vector2(0.5f, data.TextureAabbMaxOffset.Y)) * TileUtils.TileSizeInPixels;
+		var tileToDestroy = data.BottomIsStump && DestroyStumpsAfterTreeFalls ? data.BottomPosition : (Vector2Int?)null;
+
 		var texture = data.Texture;
 		var textureOrigin = new Vector2(
 			(data.BasePosition.X - data.TextureAabbMin.X + 0.5f) * TileUtils.TileSizeInPixels,
@@ -119,7 +127,8 @@ public sealed class TreeFallingSystem : ModSystem
 		// Create tree entity
 		SimpleEntity.Instantiate<FallingTreeEntity>(e => {
 			e.TreeHeight = treeHeight;
-			e.Position = position;
+			e.Position = entityPosition;
+			e.TileToDestroy = tileToDestroy;
 
 			e.Texture = texture;
 			e.TextureOrigin = textureOrigin;
