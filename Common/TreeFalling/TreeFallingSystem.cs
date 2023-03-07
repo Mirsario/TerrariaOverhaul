@@ -23,7 +23,7 @@ public sealed class TreeFallingSystem : ModSystem
 	private struct TreeCreationData
 	{
 		public int TreeHeight;
-		public bool BottomIsStump;
+		public bool DestroyStump;
 		public Vector2Int BasePosition;
 		public Vector2Int BottomPosition;
 		public Vector2Int AabbMin;
@@ -44,6 +44,7 @@ public sealed class TreeFallingSystem : ModSystem
 	public static readonly ConfigEntry<bool> DestroyStumpsAfterTreeFalls = new(ConfigSide.Both, "Aesthetics", nameof(DestroyStumpsAfterTreeFalls), () => true);
 
 	private static bool isTreeBeingDestroyed;
+	private static bool isTreeHitRedirectedFromStump;
 
 	public override void Load()
 	{
@@ -56,27 +57,26 @@ public sealed class TreeFallingSystem : ModSystem
 
 		data.BasePosition = basePosition;
 
-		if (!IsTreeTile(baseTile)) {
+		if (!IsATreeTile(baseTile)) {
 			data = default;
 			return false;
 		}
 
 		// Ensure that this is a middle of a tree
 		data.BottomPosition = basePosition + Vector2Int.UnitY;
-		
+
 		var bottomTile = Main.tile[data.BottomPosition.X, data.BottomPosition.Y];
 
-		if (!bottomTile.HasUnactuatedTile || !(IsTreeTile(bottomTile) || Main.tileSolid[bottomTile.TileType])) {
+		if (!bottomTile.HasUnactuatedTile || !(IsATreeTile(bottomTile) || Main.tileSolid[bottomTile.TileType])) {
 			data = default;
 			return false;
 		}
 
-		// Check if bottom is a stump
-		data.BottomIsStump = !Main.tile.TryGet(data.BottomPosition + Vector2Int.UnitY, out var underBottom) || !IsTreeTile(underBottom);
+		data.DestroyStump = IsATreeRoot(data.BottomPosition) && isTreeHitRedirectedFromStump && DestroyStumpsAfterTreeFalls;
 
 		// Get all adjacent tree tiles above this one
 		data.TreeTilePositions = GetAdjacentTreeParts(basePosition);
-		
+
 		var treeTilePositionsSpan = CollectionsMarshal.AsSpan(data.TreeTilePositions);
 
 		// Calculate tilespace AABBs
@@ -98,7 +98,7 @@ public sealed class TreeFallingSystem : ModSystem
 
 		// Create tree texture
 		var sizeInTiles = data.TextureAabbMax - data.TextureAabbMin + Vector2Int.One;
-		
+
 		data.Texture = TileSnapshotSystem.CreateSpecificTilesSnapshot(sizeInTiles, data.TextureAabbMin, treeTilePositionsSpan);
 
 		// Assign defaults to remaining fields
@@ -113,7 +113,7 @@ public sealed class TreeFallingSystem : ModSystem
 		// Create tree entity
 		int treeHeight = data.TreeHeight;
 		var entityPosition = (data.BasePosition + new Vector2(0.5f, data.TextureAabbMaxOffset.Y)) * TileUtils.TileSizeInPixels;
-		var tileToDestroy = data.BottomIsStump && DestroyStumpsAfterTreeFalls ? data.BottomPosition : (Vector2Int?)null;
+		var tileToDestroy = data.DestroyStump ? data.BottomPosition : (Vector2Int?)null;
 
 		var texture = data.Texture;
 		var textureOrigin = new Vector2(
@@ -144,7 +144,7 @@ public sealed class TreeFallingSystem : ModSystem
 		var tilePositions = new List<Vector2Int>();
 
 		static bool TileCheck(Tile tile)
-			=> tile.HasUnactuatedTile && IsTreeTile(tile);
+			=> tile.HasUnactuatedTile && IsATreeTile(tile);
 
 		for (var checkPosition = basePosition; checkPosition.Y >= 0; checkPosition.Y--) {
 			var checkTile = Main.tile[checkPosition.X, checkPosition.Y];
@@ -180,8 +180,28 @@ public sealed class TreeFallingSystem : ModSystem
 		}
 	}
 
-	private static bool IsTreeTile(Tile tile)
+	private static bool IsATreeTile(Tile tile)
 		=> TileID.Sets.IsATreeTrunk[tile.TileType];
+
+	private static bool IsATreeRoot(Vector2Int position)
+		=> IsATreeTile(Main.tile.Get(position)) && (!Main.tile.TryGet(position + Vector2Int.UnitY, out var lowerTile) || !IsATreeTile(lowerTile));
+
+	private static bool IsATreeStump(Vector2Int position, bool requireSpace = false)
+	{
+		if (!IsATreeRoot(position)) {
+			return false;
+		}
+
+		if (!Main.tile.TryGet(position - Vector2Int.UnitY, out var upperTile) && requireSpace) {
+			return false;
+		}
+
+		if (IsATreeTile(upperTile)) {
+			return false;
+		}
+
+		return true;
+	}
 
 	private static void KillTileInjection(On_WorldGen.orig_KillTile original, int x, int y, bool fail, bool effectOnly, bool noItem)
 	{
@@ -191,14 +211,33 @@ public sealed class TreeFallingSystem : ModSystem
 		void Original()
 			=> original(x, y, fail, effectOnly, noItem);
 
-		if (Main.dedServ || fail || WorldGen.gen || WorldGen.generatingWorld || !EnableTreeFallingAnimations || !Program.IsMainThread) {
+		if (Main.dedServ || WorldGen.gen || WorldGen.generatingWorld || !EnableTreeFallingAnimations || !Program.IsMainThread) {
+			Original();
+			return;
+		}
+
+		// Redirect damage to the top if a stump is hit.
+		if (IsATreeRoot(tilePosition) && !IsATreeStump(tilePosition) && tilePosition.Y > 0 && !isTreeBeingDestroyed) {
+			try {
+				isTreeHitRedirectedFromStump = true;
+
+				WorldGen.KillTile(tilePosition.X, tilePosition.Y - 1, fail, effectOnly, noItem);
+			}
+			finally {
+				isTreeHitRedirectedFromStump = false;
+			}
+
+			return;
+		}
+
+		if (fail) {
 			Original();
 			return;
 		}
 
 		if (isTreeBeingDestroyed) {
 			// Suspend captures for non-tree tiles being broken
-			bool suspendCaptures = !IsTreeTile(Main.tile[x, y]);
+			bool suspendCaptures = !IsATreeTile(Main.tile[x, y]);
 
 			using (suspendCaptures ? ItemCapturing.Suspend() : default)
 			using (suspendCaptures ? DustCapturing.Suspend() : default) {
