@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using TerrariaOverhaul.Core.EntityCapturing;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Time;
@@ -12,6 +13,15 @@ namespace TerrariaOverhaul.Common.TreeFalling;
 
 public sealed class FallingTreeEntity : SimpleEntity
 {
+	public static readonly SoundStyle TreeFallingSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Aesthetics/Trees/TreeFalling", 2) {
+		Volume = 0.5f,
+		PitchVariance = 0.2f,
+	};
+	public static readonly SoundStyle TreeGroundHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Aesthetics/Trees/TreeGroundHit", 2) {
+		Volume = 0.5f,
+		PitchVariance = 0.2f,
+	};
+
 	public int TreeHeight;
 	public float Rotation;
 	public Vector2 Position;
@@ -24,10 +34,16 @@ public sealed class FallingTreeEntity : SimpleEntity
 
 	public override void Init()
 	{
-		// Lame design.
+		if (Main.dedServ) {
+			return;
+		}
+
+		// Lame initialization design.
 		if (Texture == null) {
 			throw new InvalidOperationException($"{nameof(Texture)} property must be assigned during pre-initialization.");
 		}
+
+		SoundEngine.PlaySound(in TreeFallingSound, Position);
 	}
 
 	public override void Update()
@@ -55,7 +71,14 @@ public sealed class FallingTreeEntity : SimpleEntity
 	protected override void OnDestroyed(bool allowEffects)
 	{
 		InstantiateItems();
-		InstantiateDusts();
+
+		if (allowEffects) {
+			InstantiateDusts();
+
+			var soundPosition = Position + new Vector2(0f, -TreeHeight * TileUtils.TileSizeInPixels * 0.5f).RotatedBy(Rotation);
+
+			SoundEngine.PlaySound(in TreeGroundHitSound, soundPosition);
+		}
 
 		if (IsTextureDisposable && Texture is { IsDisposed: false }) {
 			Texture.Dispose();
