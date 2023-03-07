@@ -113,7 +113,8 @@ public sealed class TreeFallingSystem : ModSystem
 		// Create tree entity
 		int treeHeight = data.TreeHeight;
 		var entityPosition = (data.BasePosition + new Vector2(0.5f, data.TextureAabbMaxOffset.Y)) * TileUtils.TileSizeInPixels;
-		var tileToDestroy = data.DestroyStump ? data.BottomPosition : (Vector2Int?)null;
+		var bottomPosition = data.BottomPosition;
+		bool destroyBottomTile = data.DestroyStump;
 
 		var texture = data.Texture;
 		var textureOrigin = new Vector2(
@@ -128,7 +129,8 @@ public sealed class TreeFallingSystem : ModSystem
 		SimpleEntity.Instantiate<FallingTreeEntity>(e => {
 			e.TreeHeight = treeHeight;
 			e.Position = entityPosition;
-			e.TileToDestroy = tileToDestroy;
+			e.BottomTilePosition = bottomPosition;
+			e.DestroyBottomTile = destroyBottomTile;
 
 			e.Texture = texture;
 			e.TextureOrigin = textureOrigin;

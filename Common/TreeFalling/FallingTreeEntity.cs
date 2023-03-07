@@ -24,7 +24,9 @@ public sealed class FallingTreeEntity : SimpleEntity
 
 	public int TreeHeight;
 	public float Rotation;
+	public Vector2 Gravity = Vector2.UnitY * 15f * TileUtils.TileSizeInPixels;
 	public Vector2 Position;
+	public Vector2 Velocity;
 	public Vector2 TextureOrigin;
 	public RenderTarget2D? Texture;
 	public bool IsTextureDisposable = true;
@@ -32,7 +34,8 @@ public sealed class FallingTreeEntity : SimpleEntity
 	public List<ItemCapture>? CapturedItems;
 	public List<DustCapture>? CapturedDusts;
 	//
-	public Vector2Int? TileToDestroy;
+	public Vector2Int BottomTilePosition;
+	public bool DestroyBottomTile;
 
 	public override void Init()
 	{
@@ -50,9 +53,16 @@ public sealed class FallingTreeEntity : SimpleEntity
 
 	public override void Update()
 	{
-		if (TileCollisionCheck() || MathF.Abs(Rotation) >= MathHelper.Pi) {
+		if (TileCollisionCheck()) {
 			Destroy(allowEffects: true);
+			return;
 		}
+
+		if (MathF.Abs(Rotation) >= MathHelper.PiOver4 || (Main.tile.TryGet(BottomTilePosition, out var tile) && !tile.HasUnactuatedTile)) {
+			Velocity += Gravity * TimeSystem.LogicDeltaTime;
+		}
+
+		Position += Velocity * TimeSystem.LogicDeltaTime;
 
 		float rotationSpeed = MathHelper.Lerp(2.5f, 110f, MathUtils.Clamp01(MathF.Abs(Rotation / MathHelper.PiOver2)));
 
@@ -82,10 +92,10 @@ public sealed class FallingTreeEntity : SimpleEntity
 			SoundEngine.PlaySound(in TreeGroundHitSound, soundPosition);
 		}
 
-		if (TileToDestroy is Vector2Int tileLocation) {
-			WorldGen.KillTile(tileLocation.X, tileLocation.Y);
+		if (DestroyBottomTile) {
+			WorldGen.KillTile(BottomTilePosition.X, BottomTilePosition.Y);
 
-			TileToDestroy = null;
+			DestroyBottomTile = false;
 		}
 
 		if (IsTextureDisposable && Texture is { IsDisposed: false }) {
