@@ -1,11 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.EntityCapturing;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Tiles;
 using TerrariaOverhaul.Utilities;
@@ -16,6 +20,24 @@ namespace TerrariaOverhaul.Common.TreeFalling;
 [Autoload(Side = ModSide.Client)]
 public sealed class TreeFallingSystem : ModSystem
 {
+	private struct TreeCreationData
+	{
+		public int TreeHeight;
+		public Vector2Int BasePosition;
+		public Vector2Int AabbMin;
+		public Vector2Int AabbMax;
+		public Vector2Int TextureAabbMin;
+		public Vector2Int TextureAabbMax;
+		public Vector2Int TextureAabbMinOffset;
+		public Vector2Int TextureAabbMaxOffset;
+		public List<Vector2Int> TreeTilePositions;
+		public RenderTarget2D Texture;
+		public List<ItemCapture>? CapturedItems;
+		public List<DustCapture>? CapturedDusts;
+	}
+
+	private const int MinimalTreeHeight = 3;
+
 	public static readonly ConfigEntry<bool> EnableTreeFallingAnimations = new(ConfigSide.Both, "Aesthetics", nameof(EnableTreeFallingAnimations), () => true);
 
 	private static bool isTreeBeingDestroyed;
@@ -25,45 +47,86 @@ public sealed class TreeFallingSystem : ModSystem
 		On_WorldGen.KillTile += KillTileInjection;
 	}
 
-	private static void OnTreeDestroyed(Tile tile, Vector2Int tilePosition)
+	private static bool PrepareForTreeCreation(Vector2Int basePosition, [NotNullWhen(true)] out TreeCreationData data)
 	{
+		var baseTile = Main.tile[basePosition.X, basePosition.Y];
+
+		data.BasePosition = basePosition;
+
+		if (!IsTreeTile(baseTile)) {
+			data = default;
+			return false;
+		}
+
 		// Ensure that this is a middle of a tree
-		var bottomPosition = tilePosition + Vector2Int.UnitY;
+		var bottomPosition = basePosition + Vector2Int.UnitY;
 		var bottomTile = Main.tile[bottomPosition.X, bottomPosition.Y];
 
 		if (!bottomTile.HasUnactuatedTile || !(IsTreeTile(bottomTile) || Main.tileSolid[bottomTile.TileType])) {
-			return;
+			data = default;
+			return false;
 		}
 
 		// Get all adjacent tree tiles above this one
-		var adjacentTreeParts = GetAdjacentTreeParts(tilePosition);
-		var adjacentTreePartsSpan = CollectionsMarshal.AsSpan(adjacentTreeParts);
+		data.TreeTilePositions = GetAdjacentTreeParts(basePosition);
+		
+		var treeTilePositionsSpan = CollectionsMarshal.AsSpan(data.TreeTilePositions);
 
-		// Calculate tilespace AABB
-		CalculateTilesAabb(adjacentTreePartsSpan, out var aabbMin, out var aabbMax);
+		// Calculate tilespace AABBs
+		CalculateTilesAabb(treeTilePositionsSpan, out data.AabbMin, out data.AabbMax);
 
-		int treeHeight = aabbMax.Y - aabbMin.Y + 1;
-		var aabbMinOffset = new Vector2Int(2, 4);
-		var aabbMaxOffset = new Vector2Int(2, 1);
+		data.TextureAabbMinOffset = new Vector2Int(2, 4);
+		data.TextureAabbMaxOffset = new Vector2Int(2, 1);
 
-		aabbMin -= aabbMinOffset;
-		aabbMax += aabbMaxOffset;
+		data.TextureAabbMin = data.AabbMin - data.TextureAabbMinOffset;
+		data.TextureAabbMax = data.AabbMax + data.TextureAabbMaxOffset;
+
+		// Check tree height
+		data.TreeHeight = data.AabbMax.Y - data.AabbMin.Y + 1;
+
+		if (data.TreeHeight < MinimalTreeHeight) {
+			data = default;
+			return false;
+		}
 
 		// Create tree texture
-		var sizeInTiles = aabbMax - aabbMin + Vector2Int.One;
-		var snapshotTexture = TileSnapshotSystem.CreateSpecificTilesSnapshot(sizeInTiles, aabbMin, adjacentTreePartsSpan);
+		var sizeInTiles = data.TextureAabbMax - data.TextureAabbMin + Vector2Int.One;
+		
+		data.Texture = TileSnapshotSystem.CreateSpecificTilesSnapshot(sizeInTiles, data.TextureAabbMin, treeTilePositionsSpan);
+
+		// Assign defaults to remaining fields
+		data.CapturedItems = default;
+		data.CapturedDusts = default;
+
+		return true;
+	}
+
+	private static void CreateFallingTree(in TreeCreationData data)
+	{
+		// Create tree entity
+		int treeHeight = data.TreeHeight;
+		var position = (data.BasePosition + new Vector2(0.5f, data.TextureAabbMaxOffset.Y)) * TileUtils.TileSizeInPixels;
+		
+		var texture = data.Texture;
+		var textureOrigin = new Vector2(
+			(data.BasePosition.X - data.TextureAabbMin.X + 0.5f) * TileUtils.TileSizeInPixels,
+			texture.Height - (data.TextureAabbMaxOffset.Y * TileUtils.TileSizeInPixels)
+		);
+
+		var capturedLoot = data.CapturedItems;
+		var capturedDusts = data.CapturedDusts;
 
 		// Create tree entity
 		SimpleEntity.Instantiate<FallingTreeEntity>(e => {
-			e.Position = (tilePosition + new Vector2(0.5f, aabbMaxOffset.Y)) * TileUtils.TileSizeInPixels;
 			e.TreeHeight = treeHeight;
+			e.Position = position;
 
+			e.Texture = texture;
+			e.TextureOrigin = textureOrigin;
 			e.IsTextureDisposable = true;
-			e.Texture = snapshotTexture;
-			e.TextureOrigin = new Vector2(
-				(tilePosition.X - aabbMin.X + 0.5f) * TileUtils.TileSizeInPixels,
-				snapshotTexture.Height - (aabbMaxOffset.Y * TileUtils.TileSizeInPixels)
-			);
+
+			e.CapturedItems = capturedLoot;
+			e.CapturedDusts = capturedDusts;
 		});
 	}
 
@@ -113,18 +176,45 @@ public sealed class TreeFallingSystem : ModSystem
 
 	private static void KillTileInjection(On_WorldGen.orig_KillTile original, int x, int y, bool fail, bool effectOnly, bool noItem)
 	{
-		var tile = Main.tile[x, y];
 		var tilePosition = new Vector2Int(x, y);
-		bool wasTreeBeingDestroyed = isTreeBeingDestroyed;
 
-		if (!Main.dedServ && !fail && EnableTreeFallingAnimations && IsTreeTile(tile) && !isTreeBeingDestroyed) {
-			OnTreeDestroyed(tile, tilePosition);
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		void Original()
+			=> original(x, y, fail, effectOnly, noItem);
 
-			isTreeBeingDestroyed = true;
+		if (Main.dedServ || fail || WorldGen.gen || WorldGen.generatingWorld || !EnableTreeFallingAnimations || !Program.IsMainThread) {
+			Original();
+			return;
 		}
 
-		original(x, y, fail, effectOnly, noItem);
+		if (isTreeBeingDestroyed) {
+			// Suspend captures for non-tree tiles being broken
+			bool suspendCaptures = !IsTreeTile(Main.tile[x, y]);
 
-		isTreeBeingDestroyed = wasTreeBeingDestroyed;
+			using (suspendCaptures ? ItemCapturing.Suspend() : default)
+			using (suspendCaptures ? DustCapturing.Suspend() : default) {
+				Original();
+				return;
+			}
+		}
+
+		if (!PrepareForTreeCreation(tilePosition, out var data)) {
+			Original();
+			return;
+		}
+
+		using (ItemCapturing.Capture(out data.CapturedItems))
+		using (DustCapturing.Capture(out data.CapturedDusts)) {
+			try {
+				isTreeBeingDestroyed = true;
+
+				Original();
+			}
+			finally {
+				isTreeBeingDestroyed = false;
+			}
+		}
+
+		CreateFallingTree(in data);
 	}
 }
