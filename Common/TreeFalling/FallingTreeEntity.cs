@@ -24,7 +24,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 
 	public int TreeHeight;
 	public float Rotation;
-	public Vector2 Gravity = Vector2.UnitY * 15f * TileUtils.TileSizeInPixels;
+	public Vector2 Gravity = Vector2.UnitY * 30f * TileUtils.TileSizeInPixels;
 	public Vector2 Position;
 	public Vector2 Velocity;
 	public Vector2 TextureOrigin;
@@ -58,13 +58,18 @@ public sealed class FallingTreeEntity : SimpleEntity
 			return;
 		}
 
-		if (MathF.Abs(Rotation) >= MathHelper.PiOver4 || (Main.tile.TryGet(BottomTilePosition, out var tile) && !tile.HasUnactuatedTile)) {
+		const float AngleToDetachAt = 75f;
+
+		if (MathF.Abs(Rotation) >= MathHelper.ToRadians(AngleToDetachAt) || (Main.tile.TryGet(BottomTilePosition, out var tile) && !tile.HasUnactuatedTile)) {
 			Velocity += Gravity * TimeSystem.LogicDeltaTime;
 		}
 
 		Position += Velocity * TimeSystem.LogicDeltaTime;
 
-		float rotationSpeed = MathHelper.Lerp(2.5f, 110f, MathUtils.Clamp01(MathF.Abs(Rotation / MathHelper.PiOver2)));
+		const float MinRotationSpeed = 2.5f;
+		const float MaxRotationSpeed = 110.0f;
+
+		float rotationSpeed = MathHelper.Lerp(MinRotationSpeed, MaxRotationSpeed, MathUtils.Clamp01(MathF.Abs(Rotation / MathHelper.PiOver2)));
 
 		Rotation += MathHelper.ToRadians(rotationSpeed * TimeSystem.LogicDeltaTime);
 	}
