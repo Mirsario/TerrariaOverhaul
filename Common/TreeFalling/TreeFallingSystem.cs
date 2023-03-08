@@ -25,7 +25,8 @@ public sealed class TreeFallingSystem : ModSystem
 	private struct TreeCreationData
 	{
 		public int TreeHeight;
-		public bool DestroyStump;
+		public bool DestroyBottomTile;
+		public Direction1D FallDirection;
 		public Vector2Int BasePosition;
 		public Vector2Int BottomPosition;
 		public Vector2Int AabbMin;
@@ -34,8 +35,8 @@ public sealed class TreeFallingSystem : ModSystem
 		public Vector2Int TextureAabbMax;
 		public Vector2Int TextureAabbMinOffset;
 		public Vector2Int TextureAabbMaxOffset;
-		public List<Vector2Int> TreeTilePositions;
 		public RenderTarget2D Texture;
+		public List<Vector2Int> TreeTilePositions;
 		public List<ItemCapture>? CapturedItems;
 		public List<DustCapture>? CapturedDusts;
 	}
@@ -47,6 +48,7 @@ public sealed class TreeFallingSystem : ModSystem
 
 	private static bool isTreeBeingDestroyed;
 	private static bool isTreeHitRedirectedFromStump;
+	private static Player? playerCurrentlyUsingTools;
 
 	public override void Load()
 	{
@@ -75,8 +77,6 @@ public sealed class TreeFallingSystem : ModSystem
 			return false;
 		}
 
-		data.DestroyStump = IsATreeRoot(data.BottomPosition) && isTreeHitRedirectedFromStump && DestroyStumpsAfterTreeFalls;
-
 		// Get all adjacent tree tiles above this one
 		data.TreeTilePositions = GetAdjacentTreeParts(basePosition);
 
@@ -99,6 +99,12 @@ public sealed class TreeFallingSystem : ModSystem
 			return false;
 		}
 
+		// Get fall direction
+		data.FallDirection = GetTreeFallDirection(basePosition);
+
+		// Set if the bottom tile should be removed after the tree falls
+		data.DestroyBottomTile = IsATreeRoot(data.BottomPosition) && isTreeHitRedirectedFromStump && DestroyStumpsAfterTreeFalls;
+
 		// Create tree texture
 		var sizeInTiles = data.TextureAabbMax - data.TextureAabbMin + Vector2Int.One;
 
@@ -111,36 +117,34 @@ public sealed class TreeFallingSystem : ModSystem
 		return true;
 	}
 
-	private static void CreateFallingTree(in TreeCreationData data)
+	private static Direction1D GetTreeFallDirection(Vector2Int basePosition)
+	{
+		if (playerCurrentlyUsingTools is Player toolingPlayer) {
+			return toolingPlayer.direction >= 0 ? Direction1D.Right : Direction1D.Left;
+		}
+
+		return basePosition.X % 2 == 0 ? Direction1D.Right : Direction1D.Left;
+	}
+
+	private static void CreateFallingTree(TreeCreationData data)
 	{
 		// Create tree entity
-		int treeHeight = data.TreeHeight;
-		var entityPosition = (data.BasePosition + new Vector2(0.5f, data.TextureAabbMaxOffset.Y)) * TileUtils.TileSizeInPixels;
-		var bottomPosition = data.BottomPosition;
-		bool destroyBottomTile = data.DestroyStump;
-
-		var texture = data.Texture;
-		var textureOrigin = new Vector2(
-			(data.BasePosition.X - data.TextureAabbMin.X + 0.5f) * TileUtils.TileSizeInPixels,
-			texture.Height - (data.TextureAabbMaxOffset.Y * TileUtils.TileSizeInPixels)
-		);
-
-		var capturedLoot = data.CapturedItems;
-		var capturedDusts = data.CapturedDusts;
-
-		// Create tree entity
 		SimpleEntity.Instantiate<FallingTreeEntity>(e => {
-			e.TreeHeight = treeHeight;
-			e.Position = entityPosition;
-			e.BottomTilePosition = bottomPosition;
-			e.DestroyBottomTile = destroyBottomTile;
+			e.TreeHeight = data.TreeHeight;
+			e.Position = (data.BasePosition + new Vector2(0.5f, data.TextureAabbMaxOffset.Y)) * TileUtils.TileSizeInPixels;
+			e.BottomTilePosition = data.BottomPosition;
+			e.DestroyBottomTile = data.DestroyBottomTile;
+			e.FallDirection = data.FallDirection;
 
-			e.Texture = texture;
-			e.TextureOrigin = textureOrigin;
+			e.Texture = data.Texture;
+			e.TextureOrigin = new Vector2(
+				(data.BasePosition.X - data.TextureAabbMin.X + 0.5f) * TileUtils.TileSizeInPixels,
+				data.Texture.Height - (data.TextureAabbMaxOffset.Y * TileUtils.TileSizeInPixels)
+			);
 			e.IsTextureDisposable = true;
 
-			e.CapturedItems = capturedLoot;
-			e.CapturedDusts = capturedDusts;
+			e.CapturedItems = data.CapturedItems;
+			e.CapturedDusts = data.CapturedDusts;
 		});
 	}
 
@@ -213,11 +217,11 @@ public sealed class TreeFallingSystem : ModSystem
 		var tilePosition = new Vector2Int(x, y);
 
 		// Redirect damage to the top if a non-stump tree root is hit.
-		if (IsATreeRoot(tilePosition) && !IsATreeStump(tilePosition) && tilePosition.Y > 0 && !isTreeBeingDestroyed) {
+		if (!isTreeHitRedirectedFromStump && !isTreeBeingDestroyed && IsATreeRoot(tilePosition) && !IsATreeStump(tilePosition) && tilePosition.Y > 0) {
 			try {
 				isTreeHitRedirectedFromStump = true;
 
-				original(player, selectedItem, out canHitWalls, x, y - 1);
+				ActuallyUseMiningToolDetour(original, player, selectedItem, out canHitWalls, x, y - 1);
 			}
 			finally {
 				isTreeHitRedirectedFromStump = false;
@@ -226,7 +230,17 @@ public sealed class TreeFallingSystem : ModSystem
 			return;
 		}
 
-		original(player, selectedItem, out canHitWalls, x, y);
+		// Save the player currently executing this method to easily detect the direction that trees should fall towards.
+		var playerPreviouslyUsingTools = playerCurrentlyUsingTools;
+
+		try {
+			playerCurrentlyUsingTools = player;
+
+			original(player, selectedItem, out canHitWalls, x, y);
+		}
+		finally {
+			playerCurrentlyUsingTools = playerPreviouslyUsingTools;
+		}
 	}
 
 	private static void KillTileDetour(On_WorldGen.orig_KillTile original, int x, int y, bool fail, bool effectOnly, bool noItem)
@@ -270,6 +284,6 @@ public sealed class TreeFallingSystem : ModSystem
 			}
 		}
 
-		CreateFallingTree(in data);
+		CreateFallingTree(data);
 	}
 }

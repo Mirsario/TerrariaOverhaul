@@ -24,6 +24,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 
 	public int TreeHeight;
 	public float Rotation;
+	public Direction1D FallDirection = Direction1D.Right;
 	public Vector2 Gravity = Vector2.UnitY * 30f * TileUtils.TileSizeInPixels;
 	public Vector2 Position;
 	public Vector2 Velocity;
@@ -71,7 +72,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 
 		float rotationSpeed = MathHelper.Lerp(MinRotationSpeed, MaxRotationSpeed, MathUtils.Clamp01(MathF.Abs(Rotation / MathHelper.PiOver2)));
 
-		Rotation += MathHelper.ToRadians(rotationSpeed * TimeSystem.LogicDeltaTime);
+		Rotation += MathHelper.ToRadians(rotationSpeed * (float)FallDirection * TimeSystem.LogicDeltaTime);
 	}
 
 	public override void Draw(SpriteBatch sb)
