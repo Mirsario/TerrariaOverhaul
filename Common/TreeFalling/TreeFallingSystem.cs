@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Microsoft.CodeAnalysis.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -13,6 +14,7 @@ using TerrariaOverhaul.Core.EntityCapturing;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Tiles;
 using TerrariaOverhaul.Utilities;
+using On_Player = On.Terraria.Player;
 using On_WorldGen = On.Terraria.WorldGen;
 
 namespace TerrariaOverhaul.Common.TreeFalling;
@@ -48,7 +50,8 @@ public sealed class TreeFallingSystem : ModSystem
 
 	public override void Load()
 	{
-		On_WorldGen.KillTile += KillTileInjection;
+		On_WorldGen.KillTile += KillTileDetour;
+		On_Player.ItemCheck_UseMiningTools_ActuallyUseMiningTool += ActuallyUseMiningToolDetour;
 	}
 
 	private static bool PrepareForTreeCreation(Vector2Int basePosition, [NotNullWhen(true)] out TreeCreationData data)
@@ -205,25 +208,16 @@ public sealed class TreeFallingSystem : ModSystem
 		return true;
 	}
 
-	private static void KillTileInjection(On_WorldGen.orig_KillTile original, int x, int y, bool fail, bool effectOnly, bool noItem)
+	private static void ActuallyUseMiningToolDetour(On_Player.orig_ItemCheck_UseMiningTools_ActuallyUseMiningTool original, Player player, Item selectedItem, out bool canHitWalls, int x, int y)
 	{
 		var tilePosition = new Vector2Int(x, y);
 
-		[MethodImpl(MethodImplOptions.AggressiveInlining)]
-		void Original()
-			=> original(x, y, fail, effectOnly, noItem);
-
-		if (Main.dedServ || WorldGen.gen || WorldGen.generatingWorld || !EnableTreeFallingAnimations || !Program.IsMainThread) {
-			Original();
-			return;
-		}
-
-		// Redirect damage to the top if a stump is hit.
+		// Redirect damage to the top if a non-stump tree root is hit.
 		if (IsATreeRoot(tilePosition) && !IsATreeStump(tilePosition) && tilePosition.Y > 0 && !isTreeBeingDestroyed) {
 			try {
 				isTreeHitRedirectedFromStump = true;
 
-				WorldGen.KillTile(tilePosition.X, tilePosition.Y - 1, fail, effectOnly, noItem);
+				original(player, selectedItem, out canHitWalls, x, y - 1);
 			}
 			finally {
 				isTreeHitRedirectedFromStump = false;
@@ -232,7 +226,18 @@ public sealed class TreeFallingSystem : ModSystem
 			return;
 		}
 
-		if (fail) {
+		original(player, selectedItem, out canHitWalls, x, y);
+	}
+
+	private static void KillTileDetour(On_WorldGen.orig_KillTile original, int x, int y, bool fail, bool effectOnly, bool noItem)
+	{
+		var tilePosition = new Vector2Int(x, y);
+
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		void Original()
+			=> original(x, y, fail, effectOnly, noItem);
+
+		if (Main.dedServ || fail || WorldGen.gen || WorldGen.generatingWorld || !EnableTreeFallingAnimations || !Program.IsMainThread) {
 			Original();
 			return;
 		}
