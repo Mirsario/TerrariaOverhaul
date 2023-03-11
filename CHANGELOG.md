@@ -55,7 +55,7 @@
 
 ### Localization
 - Chinese - PR [#173](https://github.com/Mirsario/TerrariaOverhaul/pull/173) by **Cyrillia**.
-- Polish - PR [#141](https://github.com/Mirsario/TerrariaOverhaul/pull/172) by **J00niper**.
+- Polish - PR [#172](https://github.com/Mirsario/TerrariaOverhaul/pull/172) by **J00niper**.
 
 # 5.0 BETA 12B
 
