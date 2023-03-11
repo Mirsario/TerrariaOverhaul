@@ -1,6 +1,6 @@
 ﻿author = Mirsario
-version = 5.0.0.26
-displayName = Terraria Overhaul (v5.0 BETA 12B)
+version = 5.0.0.28
+displayName = Terraria Overhaul (v5.0 BETA 12C)
 homepage = https://github.com/Mirsario/TerrariaOverhaul
 hideCode = false
 hideResources = false
