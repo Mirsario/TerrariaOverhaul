@@ -37,7 +37,13 @@ public class NPCBloodAndGore : GlobalNPC
 
 		// Replace specific dusts with new blood particles.
 		On.Terraria.Dust.NewDust += (orig, position, width, height, type, speedX, speedY, alpha, color, scale) => {
-			if (disableReplacementsSubscriptions > 0) {
+			bool skipOverride = disableReplacementsSubscriptions > 0;
+
+			if (!skipOverride) {
+				skipOverride = !ChildSafety.Disabled && type >= 0 && type <= ChildSafety.SafeDust.Length && !ChildSafety.SafeDust[type];
+			}
+
+			if (skipOverride) {
 				return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
 			}
 
@@ -114,26 +120,6 @@ public class NPCBloodAndGore : GlobalNPC
 		};
 	}
 
-	public override bool PreAI(NPC npc)
-	{
-		// Bleed on low health.
-		if (!Main.dedServ && npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % 5 == 0) {
-			Bleed(npc, 1);
-		}
-
-		return true;
-	}
-
-	public override void OnKill(NPC npc)
-	{
-		// Add extra blood on death.
-		if (!Main.dedServ) {
-			int count = (int)Math.Sqrt(npc.width * npc.height) / 12;
-
-			Bleed(npc, count);
-		}
-	}
-
 	//TODO: Using HitEffect was a bad idea in general. If possible, it's better to try to simulate its particle results instead.
 	public static void SpawnBloodWithHitEffect(NPC npc, int direction, int damage)
 	{
@@ -171,19 +157,11 @@ public class NPCBloodAndGore : GlobalNPC
 			p.position = position;
 			p.velocity = velocity * (Main.rand.NextVector2Circular(1f, 1f) + Vector2.One) * 0.5f;
 
-			float intensity;
-
-			switch (Main.rand.Next(3)) {
-				case 2:
-					intensity = 0.7f;
-					break;
-				case 1:
-					intensity = 0.85f;
-					break;
-				default:
-					intensity = 1f;
-					break;
-			}
+			float intensity = Main.rand.Next(3) switch {
+				2 => 0.7f,
+				1 => 0.85f,
+				_ => 1f,
+			};
 
 			color.R = (byte)(color.R * intensity);
 			color.G = (byte)(color.G * intensity);

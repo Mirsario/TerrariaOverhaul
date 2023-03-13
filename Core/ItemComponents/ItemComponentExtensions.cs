@@ -9,7 +9,7 @@ public static class ItemComponentExtensions
 	{
 		var component = item.GetGlobalItem<T>();
 
-		component.Enabled = true;
+		component.SetEnabled(item, true);
 
 		initializer?.Invoke(component);
 

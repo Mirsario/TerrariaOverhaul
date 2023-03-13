@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Core.DataStructures;
 using TerrariaOverhaul.Utilities;
+using BitOperations = System.Numerics.BitOperations;
 
 namespace TerrariaOverhaul.Common.Decals;
 
@@ -28,17 +29,31 @@ public sealed class ChunkDecals : ChunkComponent
 		}
 	}
 
+	private struct DecalStyleData
+	{
+		public uint NumDecalsToDraw = 0;
+		public DecalInfo[] DecalsToDraw = new DecalInfo[MinDecalBufferSize];
+
+		public DecalStyleData() { }
+	}
+
+	private const int MinDecalBufferSize = 64;
+
 	private static readonly short[] QuadTriangles = { 0, 2, 3, 0, 1, 2 };
 
 	private RenderTarget2D? texture;
-	private Dictionary<BlendState, List<DecalInfo>>? decalsToAdd;
+	private DecalStyleData[] decalStyleData = Array.Empty<DecalStyleData>();
 
 	public override void OnInit(Chunk chunk)
 	{
 		int textureWidth = chunk.TileRectangle.Width * 8;
 		int textureHeight = chunk.TileRectangle.Height * 8;
 
-		decalsToAdd = new Dictionary<BlendState, List<DecalInfo>>();
+		Array.Resize(ref decalStyleData, DecalSystem.DecalStyles.Length);
+
+		for (int i = 0; i < decalStyleData.Length; i++) {
+			decalStyleData[i] = new();
+		}
 
 		Main.QueueMainThreadAction(() => {
 			texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
@@ -64,30 +79,44 @@ public sealed class ChunkDecals : ChunkComponent
 	{
 		// Add pending decals
 		
-		if (decalsToAdd == null || decalsToAdd.Count == 0 || texture == null) {
+		if (decalStyleData == null || texture == null) {
 			return;
 		}
 
-		Main.instance.GraphicsDevice.SetRenderTarget(texture);
-
+		bool renderTargetSet = false;
 		var sb = Main.spriteBatch;
 
-		foreach (var pair in decalsToAdd) {
-			var blendState = pair.Key;
-			var drawList = pair.Value;
+		for (int i = 0; i < decalStyleData.Length; i++) {
+			ref var styleData = ref decalStyleData[i];
 
-			sb.Begin(SpriteSortMode.Deferred, blendState, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+			if (styleData.NumDecalsToDraw == 0) {
+				continue;
+			}
 
-			foreach (var info in drawList) {
+			if (!renderTargetSet) {
+				Main.instance.GraphicsDevice.SetRenderTarget(texture);
+
+				renderTargetSet = true;
+			}
+
+			var style = DecalSystem.DecalStyles[i];
+
+			sb.Begin(SpriteSortMode.Deferred, style.BlendState, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+
+			for (int j = 0; j < styleData.NumDecalsToDraw; j++) {
+				DecalInfo info = styleData.DecalsToDraw[j];
+
 				sb.Draw(info.texture, info.destRect, info.srcRect, info.color);
 			}
 
 			sb.End();
+
+			styleData.NumDecalsToDraw = 0;
 		}
 
-		Main.instance.GraphicsDevice.SetRenderTarget(null);
-
-		decalsToAdd.Clear();
+		if (renderTargetSet) {
+			Main.instance.GraphicsDevice.SetRenderTarget(null);
+		}
 	}
 
 	public override void PostDrawTiles(Chunk chunk, SpriteBatch sb)
@@ -149,17 +178,16 @@ public sealed class ChunkDecals : ChunkComponent
 		}
 	}
 
-	public void AddDecals(Texture2D texture, Rectangle localDestRect, Rectangle? srcRect, Color color, BlendState blendState)
+	public void AddDecals(DecalStyle decalStyle, Texture2D texture, Rectangle localDestRect, Rectangle? srcRect, Color color)
 	{
-		if (decalsToAdd == null) {
-			return;
+		ref var styleData = ref decalStyleData[decalStyle.Id];
+		uint index = styleData.NumDecalsToDraw++;
+
+		if (index >= styleData.DecalsToDraw.Length) {
+			Array.Resize(ref styleData.DecalsToDraw, (int)BitOperations.RoundUpToPowerOf2(index + 1));
 		}
 
-		if (!decalsToAdd.TryGetValue(blendState, out var list)) {
-			decalsToAdd[blendState] = list = new List<DecalInfo>();
-		}
-
-		list.Add(new DecalInfo(texture, localDestRect, srcRect, color));
+		styleData.DecalsToDraw[index] = new DecalInfo(texture, localDestRect, srcRect, color);
 	}
 
 	private static Matrix GetDefaultMatrix()

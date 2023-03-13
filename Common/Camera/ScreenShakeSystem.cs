@@ -14,9 +14,20 @@ namespace TerrariaOverhaul.Common.Camera;
 [Autoload(Side = ModSide.Client)]
 public sealed class ScreenShakeSystem : ModSystem
 {
+	private struct ScreenShakeInstance
+	{
+		public float StartTime;
+		public float EndTime;
+		public Vector2? Position;
+		public ScreenShake Style;
+
+		public float TimeLeft => MathF.Max(0f, EndTime - TimeSystem.RenderTime);
+		public float Progress => Style.LengthInSeconds > 0f ? MathHelper.Clamp((TimeSystem.RenderTime - StartTime) / Style.LengthInSeconds, 0f, 1f) : 1f;
+	}
+
 	public static readonly RangeConfigEntry<float> ScreenShakeStrength = new(ConfigSide.ClientOnly, "Camera", nameof(ScreenShakeStrength), 0f, 1f, () => 1f);
 
-	private static readonly List<ScreenShake> screenShakes = new();
+	private static readonly List<ScreenShakeInstance> screenShakes = new();
 
 	private static FastNoiseLite? noise;
 
@@ -138,21 +149,22 @@ public sealed class ScreenShakeSystem : ModSystem
 
 		float power = 0f;
 
-		foreach (var shake in EnumerateScreenShakes()) {
-			float progress = shake.Progress;
+		foreach (ref var instance in EnumerateScreenShakes()) {
+			ref readonly var style = ref instance.Style;
+			float progress = instance.Progress;
 
 			float intensity;
 
-			if (shake.PowerGradient != null) {
-				intensity = MathHelper.Clamp(shake.PowerGradient.GetValue(progress), 0f, 1f);
+			if (style.PowerGradient != null) {
+				intensity = MathHelper.Clamp(style.PowerGradient.GetValue(progress), 0f, 1f);
 			} else {
-				intensity = MathHelper.Clamp(shake.Power, 0f, 1f);
+				intensity = MathHelper.Clamp(style.Power, 0f, 1f);
 				intensity *= MathF.Pow(1f - progress, 2f);
 			}
 
-			if (shake.Position.HasValue) {
-				float distance = Vector2.Distance(shake.Position.Value, point);
-				float distanceFactor = 1f - Math.Min(1f, distance / shake.Range);
+			if (instance.Position.HasValue) {
+				float distance = Vector2.Distance(instance.Position.Value, point);
+				float distanceFactor = 1f - Math.Min(1f, distance / style.Range);
 
 				intensity *= MathF.Pow(distanceFactor, 2f); // Exponential 
 			}
@@ -164,38 +176,32 @@ public sealed class ScreenShakeSystem : ModSystem
 		return MathHelper.Clamp(power * ScreenShakeStrength.Value, 0f, 1f);
 	}
 
-	public static void New(float power, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string? uniqueId = null)
-		=> New(new ScreenShake(power, time, position, range, uniqueId));
-
-	public static void New(Gradient<float> powerGradient, float time, Vector2? position = null, float range = ScreenShake.DefaultRange, string? uniqueId = null)
-		=> New(new ScreenShake(powerGradient, time, position, range, uniqueId));
-
-	public static void New(ScreenShake screenShake)
+	public static void New(ScreenShake style, Vector2? position)
 	{
 		if (Main.dedServ) {
 			return;
 		}
 
-		screenShake.Power = Math.Min(screenShake.Power, 1f);
-		//screenShake.Length = MathF.Pow(screenShake.Power * 0.6f, 2f);
-		screenShake.startTime = TimeSystem.RenderTime;
-		screenShake.endTime = screenShake.startTime + screenShake.Length;
+		style.Power = MathUtils.Clamp01(style.Power);
 
-		if (screenShake.UniqueId == null) {
-			screenShakes.Add(screenShake);
+		ScreenShakeInstance instance;
+
+		instance.Style = style;
+		instance.Position = position;
+		instance.StartTime = TimeSystem.RenderTime;
+		instance.EndTime = instance.StartTime + style.LengthInSeconds;
+
+		string? uniqueId = style.UniqueId;
+
+		if (uniqueId != null && screenShakes.FindIndex(i => i.Style.UniqueId == uniqueId) is (>= 0 and int index)) {
+			screenShakes[index] = instance;
 			return;
 		}
 
-		int index = screenShakes.FindIndex(s => s.UniqueId == screenShake.UniqueId);
-
-		if (index >= 0) {
-			screenShakes[index] = screenShake;
-		} else {
-			screenShakes.Add(screenShake);
-		}
+		screenShakes.Add(instance);
 	}
 
-	private static Span<ScreenShake> EnumerateScreenShakes()
+	private static Span<ScreenShakeInstance> EnumerateScreenShakes()
 	{
 		screenShakes.RemoveAll(s => s.TimeLeft <= 0f);
 

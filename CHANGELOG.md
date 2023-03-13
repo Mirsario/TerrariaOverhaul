@@ -4,6 +4,7 @@
 | Version									| Release Date |
 | ----------------------------------------- | ------------ |
 | [Work In Progress](#work-in-progress)		| `TBA`        |
+| [5.0 BETA 12**C**](#50-beta-12c)			| `2023.03.11` |
 | [5.0 BETA 12**B**](#50-beta-12b)			| `2022.12.25` |
 | [5.0 BETA 12](#50-beta-12)				| `2022.12.24` |
 | [5.0 BETA 11**F**](#50-beta-11f)			| `2022.09.11` |
@@ -28,20 +29,47 @@
 
 # Work In Progress
 
+### Additions
+- Multiple features have been decoupled from "Item Overhauls", and will now appear on all fitting items in the game (including other mods' content), instead of only applying to thought-ahead categories of items ("shotguns", "bows", etc.):
+	- Crosshairs - The aiming reticle, but a great feedback booster more importantly.
+	- Visual Recoil - The slight offset in weapon's rotation after it's used.
+	- Muzzleflashes - The weapons' fire breath.
+	- Screen-shake - Self-explanatory.
+- Weapon muzzleflashes are now automatically colored based on the shot projectile (or used ammunition).
+- Added two new alternated muzzleflash variations, and two frames of animation.
+
+### Fixes
+- Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
+
+# 5.0 BETA 12C
+
 ### Changes
 - Reduced mages' Mana Absorption passive's max multiplier from 11.0 to 5.0, with its required speed reduced from 30.0 to 15.0. The reason for this is that 5.0 is usually the maximum multiplier that people could reach, and there's little need in suggesting that they try to go even faster.
 - Improved coloring of melee damage text and the Hack and Slash passive: removed green shades since people thought that they were sometimes healing enemies, widened white shades' range.
+- Fast-firing bows' audio will now stack instead of being abruptly reset all the time.
 - Slightly slowed down Mana Absorption passive's icon pulse rate.
+- Crosshairs will now take "re-use delay" into account for their rotations.
 
 ### Fixes
 - Fixed another typo in Journey mode scaling fixes, this time resulting in lowest stats being used when Master difficulty values are selected in Journey mode's customization.
+- Fixed bows using extreme screenshake intensity values.
+- Fixed enemies bleeding more than intended due to some code accidentally getting duplicated. The removal of that also fixes the fix to worms bleeding excessively. Oops.
+- Fixed blood spawning in place of cloudy dust when Blood & Gore is disabled in vanilla settings.
+- Prevented a seemingly impossible concurrency error in decal code from ever happening. This game has no concurrency, and yet this was reported.
+- Fixed a rare `IndexOutOfRangeException` that could occur when dodgerolling while on a grappling hook.
+- Fixed many screenshakes being global (positionless) in multiplayer.
+
+### Optimizations
+- Optimized decal addition code to perfection, minimized reallocations and GC stress.
+- Crosshair impulse registration no longer causes any heap allocations.
 
 ### Configuration
 - Added `Melee.EnableSwingVelocity` option.
+- Added `Ambience.EnableAudioFiltering` option. Set that to `false` if your game is crashing when entering a world.
 
 ### Localization
 - Chinese - PR [#173](https://github.com/Mirsario/TerrariaOverhaul/pull/173) by **Cyrillia**.
-- Polish - PR [#141](https://github.com/Mirsario/TerrariaOverhaul/pull/172) by **J00niper**.
+- Polish - PR [#172](https://github.com/Mirsario/TerrariaOverhaul/pull/172) by **J00niper**.
 
 # 5.0 BETA 12B
 

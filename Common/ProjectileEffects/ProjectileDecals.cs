@@ -18,7 +18,8 @@ public sealed class ProjectileDecals : GlobalProjectile
 	{
 		public Color Color { get; init; } = Color.White;
 		public Vector2Int? Size { get; init; }
-		public bool IsClearing { get; init; }
+		public bool IfChunkExists { get; init; }
+		public DecalStyle DecalStyle { get; init; } = DecalStyle.Default;
 		public Asset<Texture2D>? Texture { get; init; }
 	}
 
@@ -124,11 +125,7 @@ public sealed class ProjectileDecals : GlobalProjectile
 			color.B = (byte)(color.B * multiplier);
 		}
 
-		if (data.IsClearing) {
-			DecalSystem.ClearDecals(texture, rect, color);
-		} else {
-			DecalSystem.AddDecals(texture, rect, color);
-		}
+		DecalSystem.AddDecals(data.DecalStyle, texture, rect, color, ifChunkExists: data.IfChunkExists);
 	}
 
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]

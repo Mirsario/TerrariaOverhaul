@@ -2,7 +2,9 @@
 using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Crosshairs;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 
@@ -10,17 +12,20 @@ namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls;
 
 public partial class Bow : ItemOverhaul
 {
-	public static readonly SoundStyle BowFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowFire", 4) {
+	public static readonly SoundStyle FireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowFire", 4) {
 		Volume = 0.375f,
-		PitchVariance = 0.2f
+		PitchVariance = 0.2f,
+		MaxInstances = 3,
 	};
-	public static readonly SoundStyle BowChargeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowCharge", 4) {
+	public static readonly SoundStyle ChargeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowCharge", 4) {
 		Volume = 0.375f,
-		PitchVariance = 0.2f
+		PitchVariance = 0.2f,
+		MaxInstances = 3,
 	};
-	public static readonly SoundStyle BowEmptySound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowEmpty") {
+	public static readonly SoundStyle EmptySound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowEmpty") {
 		Volume = 0.375f,
-		PitchVariance = 0.2f
+		PitchVariance = 0.2f,
+		MaxInstances = 3,
 	};
 
 	public override bool ShouldApplyItemOverhaul(Item item)
@@ -48,15 +53,20 @@ public partial class Bow : ItemOverhaul
 		base.SetDefaults(item);
 
 		if (item.UseSound == SoundID.Item5) {
-			item.UseSound = BowFireSound;
+			item.UseSound = FireSound;
 		}
 
-		if (!Main.dedServ) {
-			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(2f, 0.2f);
-			});
+		item.EnableComponent<ItemPowerAttacks>(c => {
+			c.ChargeLengthMultiplier = 1.5f; // x2.5
+			c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
+			c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
+			c.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
+		});
 
-			item.EnableComponent<ItemCrosshairController>();
+		if (!Main.dedServ) {
+			item.EnableComponent<ItemPowerAttackSounds>(c => {
+				c.Sound = ChargeSound;
+			});
 		}
 	}
 }

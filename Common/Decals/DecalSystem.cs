@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -16,34 +18,41 @@ public sealed class DecalSystem : ModSystem
 {
 	public static readonly BlendState DefaultBlendState = BlendState.AlphaBlend;
 	public static readonly ConfigEntry<bool> EnableDecals = new(ConfigSide.ClientOnly, "BloodAndGore", nameof(EnableDecals), () => true);
+	
+	private static readonly List<DecalStyle> decalStyles = new();
 
 	public static Asset<Effect>? BloodShader { get; private set; }
-	public static BlendState SubtractiveBlendState { get; private set; } = null!;
+
+	public static ReadOnlySpan<DecalStyle> DecalStyles => CollectionsMarshal.AsSpan(decalStyles);
 
 	public override void Load()
 	{
 		BloodShader = Mod.Assets.Request<Effect>("Assets/Shaders/Blood");
 
-		SubtractiveBlendState = new() {
-			ColorSourceBlend = Blend.One,
-			ColorDestinationBlend = Blend.One,
-			ColorBlendFunction = BlendFunction.ReverseSubtract,
-			AlphaSourceBlend = Blend.One,
-			AlphaDestinationBlend = Blend.One,
-			AlphaBlendFunction = BlendFunction.ReverseSubtract,
-		};
+		DecalStyle.RegisterDefaultStyles();
+	}
+
+	public static void RegisterStyle(DecalStyle style)
+	{
+		if (style.Id != -1) {
+			throw new InvalidOperationException($"Tried to register a {nameof(DecalStyle)} that was already registered!");
+		}
+
+		style.Id = decalStyles.Count;
+
+		decalStyles.Add(style);
 	}
 
 	public static void ClearDecals(Rectangle dest)
-		=> AddDecals(dest, Color.Transparent, true, BlendState.Opaque);
+		=> AddDecals(DecalStyle.Opaque, dest, Color.Transparent, true);
 
 	public static void ClearDecals(Texture2D texture, Rectangle dest, Color color)
-		=> AddDecals(texture, dest, color, true, SubtractiveBlendState);
+		=> AddDecals(DecalStyle.Subtractive, texture, dest, color, true);
 
-	public static void AddDecals(Rectangle dest, Color color, bool ifChunkExists = false, BlendState? blendState = null)
-		=> AddDecals(TextureAssets.BlackTile.Value, dest, color, ifChunkExists, blendState);
+	public static void AddDecals(DecalStyle style, Rectangle dest, Color color, bool ifChunkExists = false)
+		=> AddDecals(style, TextureAssets.BlackTile.Value, dest, color, ifChunkExists);
 
-	public static void AddDecals(Vector2 point, Color color, bool ifChunkExists = false, BlendState? blendState = null)
+	public static void AddDecals(DecalStyle style, Vector2 point, Color color, bool ifChunkExists = false)
 	{
 		var tilePos = point.ToTileCoordinates();
 
@@ -51,10 +60,10 @@ public sealed class DecalSystem : ModSystem
 			return;
 		}
 
-		AddDecals(new Rectangle((int)(point.X / 2) * 2, (int)(point.Y / 2) * 2, 2, 2), color, ifChunkExists, blendState);
+		AddDecals(style, new Rectangle((int)(point.X / 2) * 2, (int)(point.Y / 2) * 2, 2, 2), color, ifChunkExists);
 	}
 
-	public static void AddDecals(Texture2D texture, Rectangle dest, Color color, bool ifChunkExists = false, BlendState? blendState = null)
+	public static void AddDecals(DecalStyle style, Texture2D texture, Rectangle dest, Color color, bool ifChunkExists = false)
 	{
 		if (Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode || !EnableDecals) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
 			return;
@@ -63,8 +72,6 @@ public sealed class DecalSystem : ModSystem
 		if (texture == null) {
 			throw new ArgumentNullException(nameof(texture));
 		}
-
-		blendState ??= DefaultBlendState;
 
 		var chunkStart = new Vector2Int(
 			(int)(dest.X / 16f / Chunk.MaxChunkSize),
@@ -120,7 +127,7 @@ public sealed class DecalSystem : ModSystem
 				);
 
 				// Enqueue a draw for the chunk component to do on its own.
-				chunk.Components.Get<ChunkDecals>().AddDecals(texture, (Rectangle)localDestRect, srcRect, color, blendState);
+				chunk.Components.Get<ChunkDecals>().AddDecals(style, texture, (Rectangle)localDestRect, srcRect, color);
 			}
 		}
 	}

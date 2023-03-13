@@ -106,7 +106,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			return false;
 		}
 
-		if (ContentSamples.ItemsByType.TryGetValue(item.type, out var itemSample) && itemSample.useStyle != item.useStyle) {
+		if (ContentSampleUtils.TryGetItem(item.type, out var itemSample) && itemSample.useStyle != item.useStyle) {
 			return false;
 		}
 

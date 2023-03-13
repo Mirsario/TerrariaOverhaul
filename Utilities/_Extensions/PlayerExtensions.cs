@@ -82,7 +82,9 @@ public static partial class PlayerExtensions
 			if (grapplingHook != exceptFor && grapplingHook.ai[0] == 2f) {
 				grapplingHook.Kill();
 
-				player.grappling[hookIndex] = -1;
+				if (hookIndex >= 0 && hookIndex < player.grappling.Length) {
+					player.grappling[hookIndex] = -1;
+				}
 			}
 		}
 	}

@@ -24,7 +24,7 @@ public sealed partial class ConfigSystem : ModSystem
 	public static IReadOnlyDictionary<string, IConfigEntry> EntriesByName { get; } = new ReadOnlyDictionary<string, IConfigEntry>(entriesByName);
 	public static IReadOnlyDictionary<string, CategoryData> CategoriesByName { get; } = new ReadOnlyDictionary<string, CategoryData>(categoriesByName);
 
-	public override void OnModLoad()
+	public override void Load()
 	{
 		ForceInitializeStaticConstructors();
 

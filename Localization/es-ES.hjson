@@ -55,6 +55,15 @@ Mods: {
 					Description: "Activa bucles de audio ambiental, como pájaros, grillos, viento, sonidos de cuevas, etc."
 				}
 
+				EnableAudioFiltering: {
+					//DisplayName: "Enable Audio Filtering"
+					//Description:
+					//	'''
+					//	Toggles low pass filtering and reverberation effects as a whole.
+					//	Disable this if your game is crashing every time you enter a world.
+					//	'''
+				}
+
 				EnablePlayerFootsteps: {
 					DisplayName: "Activar sonido de pisadas"
 					Description: "Activa el audio de las pisadas del personaje del jugador."

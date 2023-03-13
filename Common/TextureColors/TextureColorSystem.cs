@@ -23,6 +23,8 @@ public class TextureColorSystem : ModSystem
 	{
 		var instance = ModContent.GetInstance<TextureColorSystem>() ?? throw new InvalidOperationException($"{nameof(TextureColorSystem)} has not been loaded.");
 
+		texture.Wait?.Invoke();
+
 		if (!instance.cache.TryGetValue(texture, out var color)) {
 			instance.cache[texture] = color = CalculateAverageColor(texture.Value);
 		}

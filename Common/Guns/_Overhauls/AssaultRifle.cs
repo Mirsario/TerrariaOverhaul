@@ -42,17 +42,7 @@ public class AssaultRifle : ItemOverhaul
 
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
-			item.EnableComponent<ItemMuzzleflashes>();
-			item.EnableComponent<ItemCrosshairController>();
 			item.EnableComponent<ItemPlaySoundOnEveryUse>();
-
-			item.EnableComponent<ItemUseVisualRecoil>(c => {
-				c.Power = 10f;
-			});
-
-			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.45f, 0.2f);
-			});
 
 			item.EnableComponent<ItemBulletCasings>(c => {
 				c.CasingGoreType = ModContent.GoreType<BulletCasing>();

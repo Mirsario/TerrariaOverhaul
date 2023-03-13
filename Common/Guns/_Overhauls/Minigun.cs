@@ -59,17 +59,7 @@ public class Minigun : ItemOverhaul
 
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
-			item.EnableComponent<ItemMuzzleflashes>();
-			item.EnableComponent<ItemCrosshairController>();
 			item.EnableComponent<ItemPlaySoundOnEveryUse>();
-
-			item.EnableComponent<ItemUseVisualRecoil>(c => {
-				c.Power = 5f;
-			});
-
-			item.EnableComponent<ItemUseScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.15f, 0.2f);
-			});
 
 			item.EnableComponent<ItemBulletCasings>(c => {
 				c.CasingGoreType = ModContent.GoreType<BulletCasing>();

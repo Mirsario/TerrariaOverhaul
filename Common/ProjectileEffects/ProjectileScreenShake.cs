@@ -15,16 +15,16 @@ public sealed class ProjectileScreenShake : GlobalProjectile
 	public override void SetDefaults(Projectile projectile)
 	{
 		if (OverhaulProjectileTags.Explosive.Has(projectile.type)) {
-			ScreenShake = new ScreenShake(0.8f, 1.0f, range: 2048f);
+			ScreenShake = new ScreenShake(0.8f, 1.0f) {
+				Range = 2048f,
+			};
 		}
 	}
 
 	public override void Kill(Projectile projectile, int timeLeft)
 	{
 		if (ScreenShake is ScreenShake shake) {
-			shake.Position = projectile.Center;
-
-			ScreenShakeSystem.New(shake);
+			ScreenShakeSystem.New(shake, projectile.Center);
 		}
 	}
 }

@@ -55,6 +55,15 @@ Mods: {
 					Description: "Ativa repetição de audio de ambiência, como pássaros, gafanhotos, vento, sons de cavernas, etc."
 				}
 
+				EnableAudioFiltering: {
+					//DisplayName: "Enable Audio Filtering"
+					//Description:
+					//	'''
+					//	Toggles low pass filtering and reverberation effects as a whole.
+					//	Disable this if your game is crashing every time you enter a world.
+					//	'''
+				}
+
 				EnablePlayerFootsteps: {
 					DisplayName: "Ativar sons de passos"
 					Description: "Ativa audio de passos do personagem do jogador"

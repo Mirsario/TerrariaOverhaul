@@ -9,46 +9,46 @@
 
 ## de-DE
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***47.9%***
-- **Translated:** `81` out of `169` (`88` missing!)
+- **Completion:** ***47.4%***
+- **Translated:** `81` out of `171` (`90` missing!)
 
 ## en-US
 - **Status:** ✅ Full!
 - **Completion:** ***100.0%***
-- **Translated:** `169` out of `169` (`0` missing!)
+- **Translated:** `171` out of `171` (`0` missing!)
 
 ## es-ES
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***47.9%***
-- **Translated:** `81` out of `169` (`88` missing!)
+- **Completion:** ***47.4%***
+- **Translated:** `81` out of `171` (`90` missing!)
 
 ## fr-FR
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***47.9%***
-- **Translated:** `81` out of `169` (`88` missing!)
+- **Completion:** ***47.4%***
+- **Translated:** `81` out of `171` (`90` missing!)
 
 ## it-IT
 - **Status:** ❌ Not even started!
 - **Completion:** ***0.0%***
-- **Translated:** `0` out of `169` (`169` missing!)
+- **Translated:** `0` out of `171` (`171` missing!)
 
 ## pl-PL
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***53.3%***
-- **Translated:** `90` out of `169` (`79` missing!)
+- **Completion:** ***52.6%***
+- **Translated:** `90` out of `171` (`81` missing!)
 
 ## pt-BR
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***47.9%***
-- **Translated:** `81` out of `169` (`88` missing!)
+- **Completion:** ***47.4%***
+- **Translated:** `81` out of `171` (`90` missing!)
 
 ## ru-RU
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***50.9%***
-- **Translated:** `86` out of `169` (`83` missing!)
+- **Completion:** ***50.3%***
+- **Translated:** `86` out of `171` (`85` missing!)
 
 ## zh-Hans
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***53.3%***
-- **Translated:** `90` out of `169` (`79` missing!)
+- **Completion:** ***52.6%***
+- **Translated:** `90` out of `171` (`81` missing!)
 

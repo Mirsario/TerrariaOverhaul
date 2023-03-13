@@ -12,7 +12,7 @@ public sealed class ItemGrapplingHookTooltips : GlobalItem
 {
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 	{
-		if (item.shoot <= ProjectileID.None|| !ContentSamples.ProjectilesByType.TryGetValue(item.shoot, out var projectile) || projectile.aiStyle != ProjAIStyleID.Hook) {
+		if (item.shoot <= ProjectileID.None|| !ContentSampleUtils.TryGetProjectile(item.shoot, out var projectile) || projectile.aiStyle != ProjAIStyleID.Hook) {
 			return;
 		}
 
