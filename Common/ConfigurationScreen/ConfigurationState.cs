@@ -16,7 +16,7 @@ using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class ConfigurationUIState : UIState
+public sealed class ConfigurationState : UIState
 {
 	// Search
 	private string? searchString;
@@ -156,21 +156,21 @@ public class ConfigurationUIState : UIState
 			string thumbnailPath = $"{assetLocation}/{category}/Category";
 			string thumbnailVideoPath = $"{thumbnailPath}Video";
 
-			ConfigPanel configPanel;
+			CardPanel cardPanel;
 
 			if (ModContent.HasAsset(thumbnailVideoPath)) {
 				var thumbnailVideo = ModContent.Request<Video>(thumbnailVideoPath);
 
-				configPanel = new ConfigPanel(localizedCategoryName, thumbnailVideo);
+				cardPanel = new CardPanel(localizedCategoryName, thumbnailVideo);
 			} else {
 				var thumbnailTexture = ModContent.HasAsset(thumbnailPath) ? ModContent.Request<Texture2D>(thumbnailPath) : thumbnailPlaceholder;
 
-				configPanel = new ConfigPanel(localizedCategoryName, thumbnailTexture);
+				cardPanel = new CardPanel(localizedCategoryName, thumbnailTexture);
 			}
 
-			panelGrid.Add(configPanel);
+			panelGrid.Add(cardPanel);
 
-			configPanel.OnClick += (_, _) => SwitchToCategorySettings(category);
+			cardPanel.OnClick += (_, _) => SwitchToCategorySettings(category);
 		}
 	}
 

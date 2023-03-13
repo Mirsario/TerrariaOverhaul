@@ -7,7 +7,7 @@ using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class UIPanelExt : UIPanel
+public class InteractivePanel : UIPanel
 {
 	private Color borderColor;
 	private Color? borderColorHover;

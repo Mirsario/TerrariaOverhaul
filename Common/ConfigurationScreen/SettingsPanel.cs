@@ -121,7 +121,7 @@ public class SettingsPanel : UIElement
 		var localizedName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{configEntry.Category}.{entryName}.DisplayName");
 		var localizedDescription = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{configEntry.Category}.{entryName}.Description");
 
-		var panel = OptionRowsGrid.AddElement(new UIPanelExt().With(e => {
+		var panel = OptionRowsGrid.AddElement(new InteractivePanel().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixels(40f);
 			e.BackgroundColor = ColorUtils.FromHexRgba(0x495EAB_FF);

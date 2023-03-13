@@ -43,7 +43,7 @@ public class ConfigurationMenuButton : MenuButton
 
 		if (Main.menuMode == MenuID.Title) {
 			SoundEngine.PlaySound(SoundID.MenuOpen);
-			Main.MenuUI.SetState(new ConfigurationUIState());
+			Main.MenuUI.SetState(new ConfigurationState());
 			Main.menuMode = 888;
 		} else {
 			SoundEngine.PlaySound(SoundID.MenuClose);

@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class ConfigPanel : UIPanelExt
+public class CardPanel : InteractivePanel
 {
 	private static Asset<Texture2D>? defaultBorderTexture;
 
@@ -29,13 +29,13 @@ public class ConfigPanel : UIPanelExt
 	public UIElement TitleConstraint { get; }
 	public ScrollingUIText Title { get; }
 
-	public ConfigPanel(LocalizedText title, Asset<Texture2D> thumbnailTexture, Asset<Texture2D>? borderTexture = null)
+	public CardPanel(LocalizedText title, Asset<Texture2D> thumbnailTexture, Asset<Texture2D>? borderTexture = null)
 		: this(title, (object)thumbnailTexture, borderTexture) { }
 
-	public ConfigPanel(LocalizedText title, Asset<Video> thumbnailVideo, Asset<Texture2D>? borderTexture = null)
+	public CardPanel(LocalizedText title, Asset<Video> thumbnailVideo, Asset<Texture2D>? borderTexture = null)
 		: this(title, (object)thumbnailVideo, borderTexture) { }
 
-	private ConfigPanel(LocalizedText title, object thumbnailAsset, Asset<Texture2D>? borderTexture = null) : base()
+	private CardPanel(LocalizedText title, object thumbnailAsset, Asset<Texture2D>? borderTexture = null) : base()
 	{
 		titleText = title;
 		borderTexture ??= DefaultBorderTexture;
