@@ -38,6 +38,9 @@
 - Weapon muzzleflashes are now automatically colored based on the shot projectile (or used ammunition).
 - Added two new alternated muzzleflash variations, and two frames of animation.
 
+### Fixes
+- Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
+
 # 5.0 BETA 12C
 
 ### Changes
