@@ -2,9 +2,8 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.UI;
-using TerrariaOverhaul.Core.Interface;
 
-namespace TerrariaOverhaul.Common.ConfigurationScreen;
+namespace TerrariaOverhaul.Core.Interface;
 
 public sealed class SoundPlaybackUIComponent : UIComponent
 {

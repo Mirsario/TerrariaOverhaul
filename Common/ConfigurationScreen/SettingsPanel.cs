@@ -56,8 +56,8 @@ public class SettingsPanel : UIElement
 			e.Width = StyleDimension.FromPixelsAndPercent(-32f, 1f);
 			e.Height = StyleDimension.Fill;
 
-			e.Colors.Border.Normal = new Color(54, 68, 128);
-			e.Colors.Background.Normal = new Color(54, 68, 128);
+			e.Colors.Border = CommonColors.OuterPanelMedium.Border;
+			e.Colors.Background = CommonColors.OuterPanelMedium.Background;
 		}));
 
 		OptionRowsGrid = OptionRowsGridContainer.AddElement(new UIGrid().With(e => {
@@ -82,8 +82,8 @@ public class SettingsPanel : UIElement
 			e.HAlign = 0.5f;
 			e.VAlign = 1f;
 
-			e.Colors.Background.Normal = new Color(73, 94, 171);
-			e.Colors.Border.Normal = new Color(42, 54, 99);
+			e.Colors.Border = CommonColors.OuterPanelBright.Border;
+			e.Colors.Background = CommonColors.OuterPanelBright.Background;
 		}));
 
 		// Bottom panel - Description
@@ -127,10 +127,8 @@ public class SettingsPanel : UIElement
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixels(40f);
 
-			e.Colors.Background.Normal = ColorUtils.FromHexRgba(0x495EAB_FF);
-			e.Colors.Border.Normal = ColorUtils.FromHexRgba(0x2A3663_FF);
-			e.Colors.Border.Hover = Color.Gold;
-			e.Colors.Border.Active = Color.White;
+			e.Colors.Border = CommonColors.InnerPanelDark.Border;
+			e.Colors.Background = CommonColors.InnerPanelDark.Background;
 
 			e.OnMouseOver += (_, _) => UpdateDescription(localizedDescription);
 			e.OnMouseOut += (_, _) => ResetDescription();

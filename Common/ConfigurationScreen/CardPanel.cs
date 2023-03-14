@@ -45,11 +45,9 @@ public class CardPanel : FancyUIPanel
 
 		Width = StyleDimension.FromPixels(135f);
 		Height = StyleDimension.FromPixels(165f);
-		BackgroundColor = new Color(73, 94, 171);
 
-		Colors.Border.Normal = new Color(42, 54, 99);
-		Colors.Border.Hover = Color.Gold;
-		Colors.Border.Active = Color.White;
+		Colors.Border = CommonColors.InnerPanelMedium.Border;
+		Colors.Background = CommonColors.InnerPanelMedium.Background;
 		
 		SoundPlayback.HoverSound = SoundID.MenuTick;
 

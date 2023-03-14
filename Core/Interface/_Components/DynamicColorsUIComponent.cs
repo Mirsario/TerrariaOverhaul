@@ -3,21 +3,13 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
-using TerrariaOverhaul.Core.Interface;
 
-namespace TerrariaOverhaul.Common.ConfigurationScreen;
+namespace TerrariaOverhaul.Core.Interface;
 
 public sealed class DynamicColorsUIComponent : UIComponent
 {
-	public struct Colors
-	{
-		public Color Normal { get; set; }
-		public Color? Active { get; set; }
-		public Color? Hover { get; set; }
-	}
-
-	public Colors Border;
-	public Colors Background;
+	public UIColors Border;
+	public UIColors Background;
 
 	private ref Color CurrentBorderColor => ref ((UIPanel)Element).BorderColor;
 	private ref Color CurrentBackgroundColor => ref ((UIPanel)Element).BackgroundColor;
@@ -50,7 +42,7 @@ public sealed class DynamicColorsUIComponent : UIComponent
 		bool isHovered = Element.ContainsPoint(Main.MenuUI.MousePosition);
 		bool isPressed = isHovered && Main.mouseLeft;
 
-		Color GetColor(Colors colors)
+		Color GetColor(UIColors colors)
 			=> (isPressed ? colors.Active : null) ?? (isHovered ? colors.Hover : null) ?? colors.Normal;
 
 		CurrentBorderColor = GetColor(Border);

@@ -55,14 +55,8 @@ public sealed class ConfigurationState : UIState
 			e.Top = StyleDimension.FromPixels(-25f);
 
 			e.AddComponent(new DynamicColorsUIComponent {
-				Border = new() {
-					Normal = Color.Black,
-					Hover = Colors.FancyUIFatButtonMouseOver,
-				},
-				Background = new() {
-					Normal = new Color(63, 82, 151) * 0.8f,
-					Hover = new Color(73, 94, 171),
-				},
+				Border = CommonColors.OuterPanelMedium.Border,
+				Background = CommonColors.OuterPanelMedium.Background,
 			});
 
 			e.AddComponent(new SoundPlaybackUIComponent {
@@ -78,7 +72,8 @@ public sealed class ConfigurationState : UIState
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixelsAndPercent(-90f, 1f);
 
-			e.Colors.Background.Normal = new Color(33, 43, 79) * 0.8f;
+			e.Colors.Border = CommonColors.OuterPanelDark.Border;
+			e.Colors.Background = CommonColors.OuterPanelDark.Background;
 
 			e.SetPadding(0f);
 		}));
@@ -109,10 +104,8 @@ public sealed class ConfigurationState : UIState
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
 
-			e.Colors.Border.Normal = new Color(73, 94, 171);
-			e.Colors.Border.Hover = Color.Gold;
-			e.Colors.Border.Active = Color.White;
-			e.Colors.Background.Normal = new Color(73, 94, 171);
+			e.Colors.Border = CommonColors.InnerPanelBright.Border;
+			e.Colors.Background = CommonColors.InnerPanelBright.Background;
 
 			e.SetPadding(0f);
 		}));
