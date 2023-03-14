@@ -125,9 +125,10 @@ public class SettingsPanel : UIElement
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixels(40f);
 			e.BackgroundColor = ColorUtils.FromHexRgba(0x495EAB_FF);
-			e.BorderColor = ColorUtils.FromHexRgba(0x2A3663_FF);
-			e.BorderColorHover = Color.Gold;
-			e.BorderColorActive = Color.White;
+
+			e.BorderColors.Normal = ColorUtils.FromHexRgba(0x2A3663_FF);
+			e.BorderColors.Hover = Color.Gold;
+			e.BorderColors.Active = Color.White;
 
 			e.OnMouseOver += (_, _) => UpdateDescription(localizedDescription);
 			e.OnMouseOut += (_, _) => ResetDescription();

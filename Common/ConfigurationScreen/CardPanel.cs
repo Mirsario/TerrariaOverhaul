@@ -22,6 +22,7 @@ public class CardPanel : InteractivePanel
 
 	public LocalizedText titleText;
 
+	// Elements
 	public UIElement ThumbnailContainer { get; }
 	public UIElement Thumbnail { get; }
 	public UIImage ThumbnailBorder { get; }
@@ -44,12 +45,13 @@ public class CardPanel : InteractivePanel
 
 		Width = StyleDimension.FromPixels(135f);
 		Height = StyleDimension.FromPixels(165f);
-		BorderColor = Color.Black;
 		BackgroundColor = new Color(73, 94, 171);
-		BorderColor = new Color(42, 54, 99);
-		BorderColorHover = Color.Gold;
-		BorderColorActive = Color.White;
-		HoverSound = SoundID.MenuTick;
+
+		BorderColors.Normal = new Color(42, 54, 99);
+		BorderColors.Hover = Color.Gold;
+		BorderColors.Active = Color.White;
+		
+		SoundPlayback.HoverSound = SoundID.MenuTick;
 
 		SetPadding(0f);
 

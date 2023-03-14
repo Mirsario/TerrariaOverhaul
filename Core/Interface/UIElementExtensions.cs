@@ -23,4 +23,11 @@ public static class UIElementExtensions
 
 		return child;
 	}
+
+	public static T AddComponent<T>(this UIElement parent, T component) where T : UIComponent
+	{
+		component.AttachTo(parent);
+
+		return component;
+	}
 }

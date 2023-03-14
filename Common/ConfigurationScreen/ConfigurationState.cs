@@ -298,6 +298,8 @@ public sealed class ConfigurationState : UIState
 
 	public override void Update(GameTime gameTime)
 	{
+		base.Update(gameTime);
+
 		if (clickedSomething && !clickedSearchBar && SearchBar.IsWritingText) {
 			SearchBar.ToggleTakingText();
 		}
