@@ -27,10 +27,10 @@ public class SettingsPanel : UIElement
 	// Rows
 	public UIGrid OptionRowsGrid { get; }
 	public UIElement OptionRowsContainer { get; }
-	public UIPanel OptionRowsGridContainer { get; }
+	public FancyUIPanel OptionRowsGridContainer { get; }
 	public UIScrollbar OptionRowsScrollbar { get; }
 	// Bottom Panel
-	public UIPanel BottomPanel { get; }
+	public FancyUIPanel BottomPanel { get; }
 	// Bottom Panel - Description
 	public UIText DescriptionText { get; }
 	// Bottom Panel - Icon
@@ -52,11 +52,12 @@ public class SettingsPanel : UIElement
 			e.Height = StyleDimension.FromPercent(0.7f);
 		}));
 
-		OptionRowsGridContainer = OptionRowsContainer.AddElement(new UIPanel().With(e => {
+		OptionRowsGridContainer = OptionRowsContainer.AddElement(new FancyUIPanel().With(e => {
 			e.Width = StyleDimension.FromPixelsAndPercent(-32f, 1f);
 			e.Height = StyleDimension.Fill;
-			e.BackgroundColor = new Color(54, 68, 128);
-			e.BorderColor = new Color(54, 68, 128);
+
+			e.Colors.Border.Normal = new Color(54, 68, 128);
+			e.Colors.Background.Normal = new Color(54, 68, 128);
 		}));
 
 		OptionRowsGrid = OptionRowsGridContainer.AddElement(new UIGrid().With(e => {
@@ -75,13 +76,14 @@ public class SettingsPanel : UIElement
 
 		// Bottom panel
 
-		BottomPanel = this.AddElement(new UIPanel().With(e => {
+		BottomPanel = this.AddElement(new FancyUIPanel().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixelsAndPercent(-12f, 0.3f);
 			e.HAlign = 0.5f;
 			e.VAlign = 1f;
-			e.BackgroundColor = new Color(73, 94, 171);
-			e.BorderColor = new Color(42, 54, 99);
+
+			e.Colors.Background.Normal = new Color(73, 94, 171);
+			e.Colors.Border.Normal = new Color(42, 54, 99);
 		}));
 
 		// Bottom panel - Description
@@ -121,14 +123,14 @@ public class SettingsPanel : UIElement
 		var localizedName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{configEntry.Category}.{entryName}.DisplayName");
 		var localizedDescription = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{configEntry.Category}.{entryName}.Description");
 
-		var panel = OptionRowsGrid.AddElement(new InteractivePanel().With(e => {
+		var panel = OptionRowsGrid.AddElement(new FancyUIPanel().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixels(40f);
-			e.BackgroundColor = ColorUtils.FromHexRgba(0x495EAB_FF);
 
-			e.BorderColors.Normal = ColorUtils.FromHexRgba(0x2A3663_FF);
-			e.BorderColors.Hover = Color.Gold;
-			e.BorderColors.Active = Color.White;
+			e.Colors.Background.Normal = ColorUtils.FromHexRgba(0x495EAB_FF);
+			e.Colors.Border.Normal = ColorUtils.FromHexRgba(0x2A3663_FF);
+			e.Colors.Border.Hover = Color.Gold;
+			e.Colors.Border.Active = Color.White;
 
 			e.OnMouseOver += (_, _) => UpdateDescription(localizedDescription);
 			e.OnMouseOut += (_, _) => ResetDescription();

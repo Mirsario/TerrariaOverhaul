@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class CardPanel : InteractivePanel
+public class CardPanel : FancyUIPanel
 {
 	private static Asset<Texture2D>? defaultBorderTexture;
 
@@ -47,9 +47,9 @@ public class CardPanel : InteractivePanel
 		Height = StyleDimension.FromPixels(165f);
 		BackgroundColor = new Color(73, 94, 171);
 
-		BorderColors.Normal = new Color(42, 54, 99);
-		BorderColors.Hover = Color.Gold;
-		BorderColors.Active = Color.White;
+		Colors.Border.Normal = new Color(42, 54, 99);
+		Colors.Border.Hover = Color.Gold;
+		Colors.Border.Active = Color.White;
 		
 		SoundPlayback.HoverSound = SoundID.MenuTick;
 

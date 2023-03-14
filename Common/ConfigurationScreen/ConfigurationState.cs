@@ -26,7 +26,7 @@ public sealed class ConfigurationState : UIState
 	private bool inCategoryMenu = true;
 
 	// Main
-	public UIPanel MainPanel { get; private set; } = null!;
+	public FancyUIPanel MainPanel { get; private set; } = null!;
 	public UIElement ContentArea { get; private set; } = null!;
 	public UITextPanel<LocalizedText> ExitButton { get; private set; } = null!;
 	public UIElement ContentContainer { get; private set; } = null!;
@@ -34,7 +34,7 @@ public sealed class ConfigurationState : UIState
 	// Search
 	public UIImageButton SearchButton { get; private set; } = null!;
 	public UISearchBar SearchBar { get; private set; } = null!;
-	public UIPanel SearchBarPanel { get; private set; } = null!;
+	public FancyUIPanel SearchBarPanel { get; private set; } = null!;
 
 	public override void OnInitialize()
 	{
@@ -54,17 +54,31 @@ public sealed class ConfigurationState : UIState
 			e.HAlign = 0.5f;
 			e.Top = StyleDimension.FromPixels(-25f);
 
-			e.OnMouseOver += FadedMouseOver;
-			e.OnMouseOut += FadedMouseOut;
-			e.OnMouseDown += Click_GoBack;
+			e.AddComponent(new DynamicColorsUIComponent {
+				Border = new() {
+					Normal = Color.Black,
+					Hover = Colors.FancyUIFatButtonMouseOver,
+				},
+				Background = new() {
+					Normal = new Color(63, 82, 151) * 0.8f,
+					Hover = new Color(73, 94, 171),
+				},
+			});
+
+			e.AddComponent(new SoundPlaybackUIComponent {
+				HoverSound = SoundID.MenuTick,
+			});
+
+			e.OnMouseDown += (_, _) => BackButtonLogic();
 
 			e.SetSnapPoint("ExitButton", 0);
 		}));
 
-		MainPanel = ContentArea.AddElement(new UIPanel().With(e => {
+		MainPanel = ContentArea.AddElement(new FancyUIPanel().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixelsAndPercent(-90f, 1f);
-			e.BackgroundColor = new Color(33, 43, 79) * 0.8f;
+
+			e.Colors.Background.Normal = new Color(33, 43, 79) * 0.8f;
 
 			e.SetPadding(0f);
 		}));
@@ -89,13 +103,16 @@ public sealed class ConfigurationState : UIState
 			e.SetPadding(0f);
 		}));
 
-		SearchBarPanel = searchBarSection.AddElement(new UIPanel().With(e => {
+		SearchBarPanel = searchBarSection.AddElement(new FancyUIPanel().With(e => {
 			e.Width = StyleDimension.FromPercent(0.95f);
 			e.Height = StyleDimension.Fill;
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
-			e.BorderColor = new Color(73, 94, 171);
-			e.BackgroundColor = new Color(73, 94, 171);
+
+			e.Colors.Border.Normal = new Color(73, 94, 171);
+			e.Colors.Border.Hover = Color.Gold;
+			e.Colors.Border.Active = Color.White;
+			e.Colors.Background.Normal = new Color(73, 94, 171);
 
 			e.SetPadding(0f);
 		}));
@@ -119,7 +136,10 @@ public sealed class ConfigurationState : UIState
 			e.VAlign = 0.5f;
 			e.Left = StyleDimension.FromPixels(-2f);
 
-			e.OnMouseOver += SearchCancelButton_OnMouseOver;
+			e.AddComponent(new SoundPlaybackUIComponent {
+				HoverSound = SoundID.MenuTick,
+			});
+
 			e.OnClick += SearchCancelButton_OnClick;
 		}));
 
@@ -191,11 +211,6 @@ public sealed class ConfigurationState : UIState
 		inCategoryMenu = false;
 	}
 
-	private void Click_GoBack(UIMouseEvent evt, UIElement listeningElement)
-	{
-		BackButtonLogic();
-	}
-
 	private void BackButtonLogic()
 	{
 		SoundEngine.PlaySound(SoundID.MenuClose);
@@ -208,19 +223,6 @@ public sealed class ConfigurationState : UIState
 
 			inCategoryMenu = true;
 		}
-	}
-
-	private void FadedMouseOver(UIMouseEvent evt, UIElement listeningElement)
-	{
-		SoundEngine.PlaySound(SoundID.MenuTick);
-		((UIPanel)evt.Target).BackgroundColor = new Color(73, 94, 171);
-		((UIPanel)evt.Target).BorderColor = Colors.FancyUIFatButtonMouseOver;
-	}
-
-	private void FadedMouseOut(UIMouseEvent evt, UIElement listeningElement)
-	{
-		((UIPanel)evt.Target).BackgroundColor = new Color(63, 82, 151) * 0.8f;
-		((UIPanel)evt.Target).BorderColor = Color.Black;
 	}
 
 	#region Search Bar Nonsense
@@ -280,11 +282,6 @@ public sealed class ConfigurationState : UIState
 		}
 
 		GoBackHere();
-	}
-
-	private void SearchCancelButton_OnMouseOver(UIMouseEvent evt, UIElement listeningElement)
-	{
-		SoundEngine.PlaySound(SoundID.MenuTick);
 	}
 
 	public override void Click(UIMouseEvent evt)
