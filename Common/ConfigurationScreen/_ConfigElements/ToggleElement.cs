@@ -1,81 +1,112 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Chat;
 using TerrariaOverhaul.Core.Interface;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class ToggleElement : UIElement
 {
-	private static Asset<Texture2D>? toggleTexture;
+	private static UIPanelColors colorOn = new() {
+		Background = new(ColorUtils.FromHexRgb(0x6cb622)),
+		Border = new(ColorUtils.FromHexRgb(0x0b450b), Hover: Color.White),
+	};
+	private static UIPanelColors colorOff = new() {
+		Background = new(ColorUtils.FromHexRgb(0xbc2323)),
+		Border = new(ColorUtils.FromHexRgb(0x450c29), Hover: Color.White),
+	};
+
+	private readonly FancyUIPanel statePanel;
+	private readonly UIText textOn;
+	private readonly UIText textOff;
 
 	public bool Value { get; set; }
 
-	public override void OnInitialize()
+	public ToggleElement()
 	{
-		base.OnInitialize();
-	}
+		MaxWidth = Width = StyleDimension.FromPixels(136f);
+		MaxHeight = Height = StyleDimension.FromPercent(1.0f);
 
-	public override void Recalculate()
-	{
-		base.Recalculate();
+		var container = this.AddElement(new UIElement().With(e => {
+			e.MaxWidth = e.Width = StyleDimension.Fill;
+			e.MaxHeight = e.Height = StyleDimension.Fill;
+
+			e.SetPadding(4f);
+		}));
+
+		var background = container.AddElement(new UIPanel().With(e => {
+			e.BorderColor = CommonColors.OuterPanelMedium.Border.Normal;
+			e.BackgroundColor = CommonColors.OuterPanelMedium.Border.Normal;
+
+			e.HAlign = 0.5f;
+			e.VAlign = 0.5f;
+			e.MaxWidth = e.Width = StyleDimension.FromPixelsAndPercent(-8f, 1.0f);
+			e.MaxHeight = e.Height = StyleDimension.FromPixelsAndPercent(-10f, 1.0f);
+		}));
+
+		statePanel = container.AddElement(new FancyUIPanel().With(e => {
+			e.MaxWidth = e.Width = StyleDimension.FromPercent(0.5f);
+			e.MaxHeight = e.Height = StyleDimension.FromPercent(1.0f);
+		}));
+
+		// Text.
+		// NOTE: TextOrigin fields are useless.
+
+		textOff = container.AddElement(new UIText("Off").With(e => {
+			e.Recalculate();
+
+			var dimensions = e.GetDimensions();
+
+			e.Top = StyleDimension.FromPixelsAndPercent(-dimensions.Height * 0.5f, 0.5f);
+			e.Left = StyleDimension.FromPixelsAndPercent(-dimensions.Width * 0.5f, 0.25f);
+		}));
+
+		textOn = container.AddElement(new UIText("On").With(e => {
+			e.Recalculate();
+
+			var dimensions = e.GetDimensions();
+
+			e.Top = StyleDimension.FromPixelsAndPercent(-dimensions.Height * 0.5f, 0.5f);
+			e.Left = StyleDimension.FromPixelsAndPercent(-dimensions.Width * 0.5f, 0.75f);
+		}));
+
+		UpdateState();
 	}
 
 	public override void MouseDown(UIMouseEvent evt)
 	{
 		base.MouseDown(evt);
 
+		SoundEngine.PlaySound(SoundID.MenuTick);
+
 		Value = !Value;
+
+		UpdateState();
 	}
 
-	protected override void DrawSelf(SpriteBatch sb)
+	private void UpdateState()
 	{
-		base.DrawSelf(sb);
-
-		toggleTexture ??= ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Toggle");
-
-		if (toggleTexture is not { IsLoaded: true, Value: Texture2D toggleTextureValue }) {
-			return;
-		}
-
-		CalculatedStyle dimensions = GetDimensions();
-
 		bool value = Value;
-		
-		// Texture
+		var currentColors = value ? colorOn : colorOff;
 
-		var toggleSrcRect = new Rectangle(
-			0,
-			value ? toggleTextureValue.Height / 2 : 0,
-			toggleTextureValue.Width,
-			toggleTextureValue.Height / 2
-		);
-		var togglePosition = new Vector2(
-			dimensions.X + dimensions.Width - toggleSrcRect.Width + 8f,
-			dimensions.Y - 8f
-		);
-		
-		sb.Draw(toggleTextureValue, togglePosition, toggleSrcRect, Color.White, 0f, Vector2.Zero, Vector2.One, SpriteEffects.None, 0f);
+		statePanel.Colors.Border = currentColors.Border;
+		statePanel.Colors.Background = currentColors.Background;
+		statePanel.Left = StyleDimension.FromPercent(value ? 0.5f : 0.0f);
 
-		// Text
+		var textColorActive = Color.White;
+		var textColorInactive = ColorUtils.FromHexRgb(0x5c5c5c);
 
-		var textFont = FontAssets.ItemStack.Value;
-		string textOn = "On";
-		string textOff = "Off";
-		var textOriginOn = textFont.MeasureString(textOn) * 0.5f;
-		var textOriginOff = textFont.MeasureString(textOff) * 0.5f;
-		var textColorOn = value ? Color.White : Color.Gray;
-		var textColorOff = value ? Color.Gray : Color.White;
-		var textPositionOn = togglePosition + new Vector2(toggleSrcRect.Width - 36f, 19f) - textOriginOn;
-		var textPositionOff = togglePosition + new Vector2(36f, 19f) - textOriginOff;
+		textOn.TextColor = value ? textColorActive : textColorInactive;
+		textOff.TextColor = value ? textColorInactive : textColorActive;
 
-		ChatManager.DrawColorCodedStringWithShadow(sb, textFont, textOn, textPositionOn, textColorOn, 0f, default, new Vector2(1.0f));
-		ChatManager.DrawColorCodedStringWithShadow(sb, textFont, textOff, textPositionOff, textColorOff, 0f, default, new Vector2(1.0f));
+		RecalculateChildren();
 	}
 }

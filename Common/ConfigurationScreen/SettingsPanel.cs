@@ -127,22 +127,38 @@ public class SettingsPanel : UIElement
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixels(40f);
 
+			e.SetPadding(0f);
+
 			e.Colors.Border = CommonColors.InnerPanelDark.Border;
 			e.Colors.Background = CommonColors.InnerPanelDark.Background;
 
 			e.OnMouseOver += (_, _) => UpdateDescription(localizedDescription);
 			e.OnMouseOut += (_, _) => ResetDescription();
 
-			var text = e.AddElement(new ScrollingUIText(localizedName).With(uiText => {
+			var textContainer = e.AddElement(new UIElement().With(c => {
+				c.MaxWidth = c.Width = StyleDimension.FromPercent(0.5f);
+				c.MaxHeight = c.Height = StyleDimension.FromPercent(1.0f);
 
+				c.SetPadding(12f);
+			}));
+
+			var text = textContainer.AddElement(new ScrollingUIText(localizedName));
+
+			var configuratorContainer = e.AddElement(new UIElement().With(c => {
+				c.MaxWidth = c.Width = StyleDimension.FromPercent(0.5f);
+				c.MaxHeight = c.Height = StyleDimension.FromPercent(1.0f);
+				c.Left = StyleDimension.FromPercent(0.5f);
+
+				c.SetPadding(0f);
 			}));
 
 			if (ConfigElementLookup.TryCreateElement(configEntry, out var element)) {
-				element.Left = StyleDimension.FromPercent(0.5f);
+				element.Left = StyleDimension.FromPercent(0.0f);
 				element.Width = StyleDimension.FromPercent(0.5f);
 				element.Height = StyleDimension.Fill;
+				element.HAlign = 1.0f;
 
-				e.AddElement(element);
+				configuratorContainer.AddElement(element);
 			}
 		}));
 	}
