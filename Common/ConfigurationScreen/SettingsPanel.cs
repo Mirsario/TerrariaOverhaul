@@ -136,6 +136,14 @@ public class SettingsPanel : UIElement
 			var text = e.AddElement(new ScrollingUIText(localizedName).With(uiText => {
 
 			}));
+
+			if (ConfigElementLookup.TryCreateElement(configEntry, out var element)) {
+				element.Left = StyleDimension.FromPercent(0.5f);
+				element.Width = StyleDimension.FromPercent(0.5f);
+				element.Height = StyleDimension.Fill;
+
+				e.AddElement(element);
+			}
 		}));
 	}
 
