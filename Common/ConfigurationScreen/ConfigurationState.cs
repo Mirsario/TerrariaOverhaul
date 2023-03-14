@@ -91,7 +91,7 @@ public sealed class ConfigurationState : UIState
 
 		var searchBarSection = MainPanel.AddElement(new UIElement().With(e => {
 			e.Width = StyleDimension.Fill;
-			e.Height = StyleDimension.FromPixels(24f);
+			e.Height = StyleDimension.FromPixels(28f);
 			e.Top = StyleDimension.FromPixels(12f);
 			e.VAlign = 0f;
 
@@ -127,7 +127,7 @@ public sealed class ConfigurationState : UIState
 		var searchCancelButton = SearchBar.AddElement(new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/SearchCancel")).With(e => {
 			e.HAlign = 1f;
 			e.VAlign = 0.5f;
-			e.Left = StyleDimension.FromPixels(-2f);
+			e.Left = StyleDimension.FromPixels(-6f);
 
 			e.AddComponent(new SoundPlaybackUIComponent {
 				HoverSound = SoundID.MenuTick,
