@@ -96,8 +96,6 @@ public class SettingsPanel : UIElement
 			e.MaxWidth = e.Width = new StyleDimension(4f, 1f);
 		}));
 
-		ResetDescription();
-
 		// Bottom Panel - Icon
 
 		OptionIconContainer = BottomPanel.AddElement(new UIElement().With(e => {
@@ -106,67 +104,39 @@ public class SettingsPanel : UIElement
 			e.VAlign = 0.5f;
 		}));
 
+		UnselectedIconImage = OptionIconContainer.AddElement(new UIImage(IconLockedTexture).With(e => {
+			e.ScaleToFit = true;
+			e.MaxWidth = e.Width = StyleDimension.FromPixelsAndPercent(-6f, 1.0f);
+			e.MaxHeight = e.Height = StyleDimension.FromPixelsAndPercent(-6f, 1.0f);
+
+			e.HAlign = 0.5f;
+			e.VAlign = 0.5f;
+		}));
+
 		UnselectedIconBorder = OptionIconContainer.AddElement(new UIImage(UnselectedIconBorderTexture).With(e => {
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
 		}));
 
-		UnselectedIconImage = OptionIconContainer.AddElement(new UIImage(IconLockedTexture).With(e => {
-			e.HAlign = 0.5f;
-			e.VAlign = 0.5f;
-		}));
+		// Final
+
+		ResetDescription();
 	}
 
 	public void AddOption(IConfigEntry configEntry)
 	{
-		string entryName = configEntry.Name;
-		var localizedName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{configEntry.Category}.{entryName}.DisplayName");
-		var localizedDescription = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{configEntry.Category}.{entryName}.Description");
-
-		var panel = OptionRowsGrid.AddElement(new FancyUIPanel().With(e => {
-			e.Width = StyleDimension.Fill;
-			e.Height = StyleDimension.FromPixels(40f);
-
-			e.SetPadding(0f);
-
-			e.Colors.Border = CommonColors.InnerPanelDark.Border;
-			e.Colors.Background = CommonColors.InnerPanelDark.Background;
-
-			e.OnMouseOver += (_, _) => UpdateDescription(localizedDescription);
+		OptionRowsGrid.AddElement(new ConfigEntryElement(configEntry).With(e => {
+			e.OnMouseOver += (_, element) => UpdateDescription((ConfigEntryElement)element);
 			e.OnMouseOut += (_, _) => ResetDescription();
-
-			var textContainer = e.AddElement(new UIElement().With(c => {
-				c.MaxWidth = c.Width = StyleDimension.FromPercent(0.5f);
-				c.MaxHeight = c.Height = StyleDimension.FromPercent(1.0f);
-
-				c.SetPadding(12f);
-			}));
-
-			var text = textContainer.AddElement(new ScrollingUIText(localizedName));
-
-			var configuratorContainer = e.AddElement(new UIElement().With(c => {
-				c.MaxWidth = c.Width = StyleDimension.FromPercent(0.5f);
-				c.MaxHeight = c.Height = StyleDimension.FromPercent(1.0f);
-				c.Left = StyleDimension.FromPercent(0.5f);
-
-				c.SetPadding(0f);
-			}));
-
-			if (ConfigElementLookup.TryCreateElement(configEntry, out var element)) {
-				element.Left = StyleDimension.FromPercent(0.0f);
-				element.Width = StyleDimension.FromPercent(0.5f);
-				element.Height = StyleDimension.Fill;
-				element.HAlign = 1.0f;
-
-				configuratorContainer.AddElement(element);
-			}
 		}));
 	}
 
-	private void UpdateDescription(LocalizedText text)
+	private void UpdateDescription(ConfigEntryElement element)
 	{
-		DescriptionText.SetText(text, 1.0f, false);
+		// Text
+		var description = element.Description;
 
+		DescriptionText.SetText(description, 1.0f, false);
 		DescriptionText.Recalculate();
 
 		var textDimensions = DescriptionText.GetDimensions();
@@ -175,14 +145,23 @@ public class SettingsPanel : UIElement
 		if (textDimensions.Height >= panelDimensions.Height) {
 			float scale = Math.Max(0.75f, panelDimensions.Height / textDimensions.Height);
 
-			DescriptionText.SetText(text, scale, false);
+			DescriptionText.SetText(description, scale, false);
+		}
+
+		// Icon
+		if (element.IconTexture != null) {
+			UnselectedIconImage.SetImage(element.IconTexture);
 		}
 	}
 
 	private void ResetDescription()
 	{
+		// Text
 		var descriptionTip = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.HoverForDescriptionTip");
 
 		DescriptionText.SetText($"[c/{Color.LightGoldenrodYellow.ToHexRGB()}:{descriptionTip}]", 1.0f, false);
+
+		// Icon
+		UnselectedIconImage.SetImage(IconLockedTexture);
 	}
 }

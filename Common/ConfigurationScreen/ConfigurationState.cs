@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using ReLogic.Content;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
@@ -158,28 +160,19 @@ public sealed class ConfigurationState : UIState
 			panelGrid.SetScrollbar(e);
 		}));
 
-		string assetLocation = $"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config";
-
-		var thumbnailPlaceholder = ModContent.Request<Texture2D>($"{assetLocation}/NoPreview");
 		var configCategories = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s);
+		var thumbnailPlaceholder = ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/NoPreview");
 
 		foreach (string category in configCategories) {
 			var localizedCategoryName = Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.DisplayName");
 
-			string thumbnailPath = $"{assetLocation}/{category}/Category";
-			string thumbnailVideoPath = $"{thumbnailPath}Video";
+			ConfigMediaLookup.TryGetMedia(category, "Category", out var mediaResult, ConfigMediaKind.Image | ConfigMediaKind.Video);
 
-			CardPanel cardPanel;
-
-			if (ModContent.HasAsset(thumbnailVideoPath)) {
-				var thumbnailVideo = ModContent.Request<Video>(thumbnailVideoPath);
-
-				cardPanel = new CardPanel(localizedCategoryName, thumbnailVideo);
-			} else {
-				var thumbnailTexture = ModContent.HasAsset(thumbnailPath) ? ModContent.Request<Texture2D>(thumbnailPath) : thumbnailPlaceholder;
-
-				cardPanel = new CardPanel(localizedCategoryName, thumbnailTexture);
-			}
+			var cardPanel = mediaResult.mediaAsset switch {
+				Asset<Video> video => new CardPanel(localizedCategoryName, video),
+				Asset<Texture2D> image => new CardPanel(localizedCategoryName, image),
+				_ => new CardPanel(localizedCategoryName, thumbnailPlaceholder),
+			};
 
 			panelGrid.Add(cardPanel);
 
