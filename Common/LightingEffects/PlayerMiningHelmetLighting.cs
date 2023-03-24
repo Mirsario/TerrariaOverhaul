@@ -8,6 +8,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.LightingEffects;
 
+[Autoload(Side = ModSide.Client)]
 public sealed class PlayerMiningHelmetLighting : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnableAimableFlashlights = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnableAimableFlashlights), () => true);
@@ -15,12 +16,17 @@ public sealed class PlayerMiningHelmetLighting : ModPlayer
 	public override void Load()
 	{
 		On.Terraria.Player.UpdateArmorLights += (orig, player) => {
-			if (player.head == ArmorIDs.Head.MiningHelmet) {
-				player.head = -1;
+			if (player.head == ArmorIDs.Head.MiningHelmet && EffectEnabled(player)) {
+				int headCopy = player.head;
 
-				orig(player);
+				try {
+					player.head = -1;
 
-				player.head = ArmorIDs.Head.MiningHelmet;
+					orig(player);
+				}
+				finally {
+					player.head = headCopy;
+				}
 
 				return;
 			}
@@ -31,11 +37,7 @@ public sealed class PlayerMiningHelmetLighting : ModPlayer
 
 	public override void PostUpdate()
 	{
-		if (!EnableAimableFlashlights) {
-			return;
-		}
-
-		if (Player.armor[0] == null || Player.armor[0].headSlot != ArmorIDs.Head.MiningHelmet) {
+		if (!EffectEnabled(Player)) {
 			return;
 		}
 
@@ -69,4 +71,7 @@ public sealed class PlayerMiningHelmetLighting : ModPlayer
 			Lighting.AddLight(currentPos, lightColor * brightness);
 		}
 	}
+
+	private static bool EffectEnabled(Player player)
+		=> EnableAimableFlashlights && player.armor[0]?.headSlot == ArmorIDs.Head.MiningHelmet;
 }
