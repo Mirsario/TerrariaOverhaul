@@ -4,6 +4,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Core.ItemComponents;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Charging;
 
@@ -15,21 +16,33 @@ public sealed class ItemPowerAttackSounds : ItemComponent, IModifyItemUseSound
 	public float RequiredChargeProgress;
 	public bool ReplacesUseSound;
 
+	private Timer lastCharge;
 	private SlotId soundInstance;
 	private float previousChargeProgress;
 
-	public override void SetDefaults(Item item)
-	{
-		if (item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks)) {
-			powerAttacks.OnChargeStart += OnChargeStart;
-			powerAttacks.OnChargeUpdate += OnChargeUpdate;
-			powerAttacks.OnChargeEnd += OnChargeEnd;
-		}
-	}
-
 	public override void HoldItem(Item item, Player player)
 	{
-		if (!Main.dedServ && soundInstance.IsValid) {
+		if (!Enabled || !item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks)) {
+			return;
+		}
+
+		var charge = powerAttacks.Charge;
+
+		// React to charging
+		if (charge.Active) {
+			if (charge != lastCharge) {
+				OnChargeStart(player);
+
+				lastCharge = charge;
+			}
+
+			OnChargeUpdate(player, powerAttacks);
+		} else if (charge.UnclampedValue == 0) {
+			OnChargeEnd();
+		}
+
+		// Update sound position
+		if (soundInstance.IsValid) {
 			if (SoundEngine.TryGetActiveSound(soundInstance, out var activeSound)) {
 				activeSound.Position = player.Center;
 			} else {
@@ -40,8 +53,33 @@ public sealed class ItemPowerAttackSounds : ItemComponent, IModifyItemUseSound
 
 	void IModifyItemUseSound.ModifyItemUseSound(Item item, Player player, ref SoundStyle? useSound)
 	{
-		if (ReplacesUseSound && item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.Enabled && powerAttacks.PowerAttack) {
+		if (Enabled && ReplacesUseSound && item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.Enabled && powerAttacks.PowerAttack) {
 			useSound = Sound;
+		}
+	}
+
+	private void OnChargeStart(Player player)
+	{
+		if (!ReplacesUseSound && RequiredChargeProgress == 0f) {
+			PlaySound(player);
+		}
+	}
+
+	private void OnChargeUpdate(Player player, ItemPowerAttacks powerAttacks)
+	{
+		float progress = powerAttacks.Charge.Progress;
+
+		if (!ReplacesUseSound && RequiredChargeProgress > 0f && progress > RequiredChargeProgress && previousChargeProgress <= RequiredChargeProgress) {
+			PlaySound(player);
+		}
+
+		previousChargeProgress = progress;
+	}
+
+	private void OnChargeEnd()
+	{
+		if (Enabled && CancelPlaybackOnEnd && SoundEngine.TryGetActiveSound(soundInstance, out var activeSound)) {
+			activeSound.Stop();
 		}
 	}
 
@@ -49,37 +87,6 @@ public sealed class ItemPowerAttackSounds : ItemComponent, IModifyItemUseSound
 	{
 		if (Sound.HasValue) {
 			soundInstance = SoundEngine.PlaySound(Sound.Value, player.Center);
-		}
-	}
-
-	private static void OnChargeStart(Item item, Player player, float chargeLength)
-	{
-		var instance = item.GetGlobalItem<ItemPowerAttackSounds>();
-
-		if (!instance.ReplacesUseSound && instance.Enabled && instance.RequiredChargeProgress == 0f) {
-			instance.PlaySound(player);
-		}
-	}
-
-	private static void OnChargeUpdate(Item item, Player player, float chargeLength, float progress)
-	{
-		var instance = item.GetGlobalItem<ItemPowerAttackSounds>();
-
-		if (instance.Enabled) {
-			if (!instance.ReplacesUseSound && instance.RequiredChargeProgress > 0f && progress > instance.RequiredChargeProgress && instance.previousChargeProgress <= instance.RequiredChargeProgress) {
-				instance.PlaySound(player);
-			}
-
-			instance.previousChargeProgress = progress;
-		}
-	}
-
-	private static void OnChargeEnd(Item item, Player player, float chargeLength, float progress)
-	{
-		var instance = item.GetGlobalItem<ItemPowerAttackSounds>();
-
-		if (instance.Enabled && instance.CancelPlaybackOnEnd && SoundEngine.TryGetActiveSound(instance.soundInstance, out var activeSound)) {
-			activeSound.Stop();
 		}
 	}
 }

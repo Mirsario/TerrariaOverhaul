@@ -70,17 +70,10 @@ public partial class MagicWeapon : ItemOverhaul
 			c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.75f;
 			c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
 			c.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
+		});
 
-			c.OnChargeStart += (item, player, chargeLength) => {
-				if (Main.dedServ || !player.IsLocal()) {
-					return;
-				}
-
-				ScreenShakeSystem.New(
-					new ScreenShake(chargeScreenShakePowerGradient, chargeLength * TimeSystem.LogicDeltaTime),
-					null
-				);
-			};
+		item.EnableComponent<ItemPowerAttackScreenShake>(c => {
+			c.ScreenShake = new ScreenShake(0.5f, 0.5f);
 		});
 
 		if (!Main.dedServ) {

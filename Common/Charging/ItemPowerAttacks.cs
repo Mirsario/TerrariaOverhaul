@@ -20,12 +20,13 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 	public float ChargeLengthMultiplier = 2f;
 	public CommonStatMultipliers CommonStatMultipliers = CommonStatMultipliers.Default;
 
+	private Timer charge;
+
 	public bool PowerAttack { get; private set; }
 
-	public event Action<Item, Player>? OnStart;
-	public event Action<Item, Player, float>? OnChargeStart;
-	public event Action<Item, Player, float, float>? OnChargeUpdate;
-	public event Action<Item, Player, float, float>? OnChargeEnd;
+	public Timer Charge => charge;
+	public bool IsCharging => Charge.Active;
+
 	public event CanStartPowerAttackDelegate? CanStartPowerAttack;
 
 	public override void Load()
@@ -102,17 +103,20 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 		};
 	}
 
-	public override void UseAnimation(Item item, Player player)
-	{
-		if (PowerAttack) {
-			OnStart?.Invoke(item, player);
-		}
-	}
-
 	public override void HoldItem(Item item, Player player)
 	{
-		if (player.itemAnimation <= 1 && !item.GetGlobalItem<ItemCharging>().IsCharging) {
-			PowerAttack = false;
+		if (IsCharging) {
+			// The charge is ongoing
+			ChargeUpdate(item, player);
+		} else {
+			// The charge just ended
+			if (Charge.UnclampedValue == 0) {
+				ChargeEnd(item, player);
+			}
+
+			if (player.itemAnimation <= 1) {
+				PowerAttack = false;
+			}
 		}
 	}
 
@@ -122,9 +126,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 			return false;
 		}
 
-		var itemCharging = item.GetGlobalItem<ItemCharging>();
-
-		if (itemCharging.IsCharging || player.itemAnimation > 0) {
+		if (player.itemAnimation > 0 || IsCharging) {
 			return false;
 		}
 
@@ -136,47 +138,24 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 			return false;
 		}
 
-		if (CanStartPowerAttack != null && CanStartPowerAttack.GetInvocationList().Any(func => !((CanStartPowerAttackDelegate)func)(item, player))) {
+		if (!ICanStartPowerAttack.Invoke(item, player)) {
 			return false;
 		}
 		
-		int chargeLength = CombinedHooks.TotalAnimationTime(item.useAnimation * ChargeLengthMultiplier, player, item);
+		uint chargeLength = (uint)CombinedHooks.TotalAnimationTime(item.useAnimation * ChargeLengthMultiplier, player, item);
 
-		StartPowerAttack(item, player, chargeLength, itemCharging);
+		StartPowerAttack(item, player, chargeLength);
 
 		return true;
 	}
 
-	public void StartPowerAttack(Item item, Player player, int chargeLength, ItemCharging? itemCharging = null)
+	public void StartPowerAttack(Item item, Player player, uint chargeLength)
 	{
-		itemCharging ??= item.GetGlobalItem<ItemCharging>();
-
 		if (Main.netMode == NetmodeID.MultiplayerClient && player.IsLocal()) {
-			MultiplayerSystem.SendPacket(new PowerAttackStartPacket(player, chargeLength));
+			MultiplayerSystem.SendPacket(new PowerAttackStartPacket(player, (int)chargeLength));
 		}
 
-		OnChargeStart?.Invoke(item, player, chargeLength);
-
-		itemCharging.StartCharge(
-			chargeLength,
-			// Update
-			(i, p, progress) => {
-				p.itemTime = 2;
-				p.itemAnimation = p.itemAnimationMax;
-
-				OnChargeUpdate?.Invoke(i, p, chargeLength, progress);
-			},
-			// End
-			(i, p, progress) => {
-				i.GetGlobalItem<ItemPowerAttacks>().PowerAttack = true;
-
-				p.GetModPlayer<PlayerItemUse>().ForceItemUse();
-
-				OnChargeEnd?.Invoke(i, p, chargeLength, progress);
-			},
-			// Allow turning
-			true
-		);
+		charge.Set(chargeLength);
 	}
 
 	public void ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatMultipliers multipliers)
@@ -186,6 +165,18 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 		}
 	}
 
+	private void ChargeUpdate(Item item, Player player)
+	{
+		player.itemTime = 2;
+		player.itemAnimation = player.itemAnimationMax;
+	}
+
+	private void ChargeEnd(Item item, Player player)
+	{
+		item.GetGlobalItem<ItemPowerAttacks>().PowerAttack = true;
+		player.GetModPlayer<PlayerItemUse>().ForceItemUse();
+	}
+
 	bool ICanDoMeleeDamage.CanDoMeleeDamage(Item item, Player player)
-		=> !item.TryGetGlobalItem<ItemCharging>(out var itemCharging) || !itemCharging.IsCharging;
+		=> !IsCharging;
 }

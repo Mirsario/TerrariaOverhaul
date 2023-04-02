@@ -34,7 +34,7 @@ public sealed class PowerAttackStartPacket : NetPacket
 		}
 
 		// Resend happens in this method automatically
-		powerAttacks.StartPowerAttack(item, player, chargeLength);
+		powerAttacks.StartPowerAttack(item, player, (uint)chargeLength);
 
 		// Resend
 		if (Main.netMode == NetmodeID.Server) {
