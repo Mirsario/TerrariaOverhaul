@@ -49,6 +49,7 @@
 - Fast-firing bows' audio will now stack instead of being abruptly reset all the time.
 - Slightly slowed down Mana Absorption passive's icon pulse rate.
 - Crosshairs will now take "re-use delay" into account for their rotations.
+- Wooden arrow pieces will now be excepted from the "Gore Stay" feature, always disappearing in a short timespan. 
 
 ### Fixes
 - Fixed another typo in Journey mode scaling fixes, this time resulting in lowest stats being used when Master difficulty values are selected in Journey mode's customization.
