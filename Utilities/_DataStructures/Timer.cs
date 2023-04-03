@@ -7,17 +7,22 @@ namespace TerrariaOverhaul.Utilities;
 /// <summary> A game tick based timer. Saves a lot of troubles caused by entity component execution orders. </summary>
 public struct Timer
 {
+	private static uint RealTime => Main.GameUpdateCount;
+
 	public uint StartTime { get; private set; }
 	public uint EndTime { get; private set; }
+	public uint? FreezeTime { get; private set; }
 
-	public readonly bool Active => Main.GameUpdateCount < EndTime;
-	public readonly int UnclampedValue => (int)((long)EndTime - Main.GameUpdateCount);
+	public readonly bool Frozen => FreezeTime.HasValue;
+	public readonly bool Active => !FreezeTime.HasValue && CurrentTime < EndTime;
+	public readonly uint CurrentTime => FreezeTime ?? RealTime;
+	public readonly int UnclampedValue => (int)((long)EndTime - CurrentTime);
 	public readonly uint Length => Math.Max(0, EndTime - StartTime);
 
 	public uint Value {
 		readonly get => (uint)Math.Max(0, UnclampedValue);
 		set {
-			StartTime = Main.GameUpdateCount;
+			StartTime = CurrentTime;
 			EndTime = StartTime + Math.Max(0, value);
 		}
 	}
@@ -39,8 +44,30 @@ public struct Timer
 
 	public void Set(uint minValue)
 	{
-		StartTime = Main.GameUpdateCount;
+		Unfreeze();
+
+		StartTime = RealTime;
 		Value = Math.Max(minValue, Value);
+	}
+
+	public void Freeze()
+	{
+		Unfreeze();
+
+		FreezeTime = RealTime;
+	}
+
+	public void Unfreeze()
+	{
+		if (!FreezeTime.HasValue) {
+			return;
+		}
+
+		uint delta = RealTime - FreezeTime.Value;
+
+		StartTime += delta;
+		EndTime += delta;
+		FreezeTime = null;
 	}
 
 	public static implicit operator Timer(uint value)
