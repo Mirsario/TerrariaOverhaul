@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
@@ -26,8 +24,6 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 
 	public Timer Charge => charge;
 	public bool IsCharging => Charge.Active;
-
-	public event CanStartPowerAttackDelegate? CanStartPowerAttack;
 
 	public override void Load()
 	{
@@ -114,6 +110,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 				ChargeEnd(item, player);
 			}
 
+			// Not charging and the use has ended
 			if (player.itemAnimation <= 1) {
 				PowerAttack = false;
 			}
@@ -158,13 +155,6 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 		charge.Set(chargeLength);
 	}
 
-	public void ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatMultipliers multipliers)
-	{
-		if (PowerAttack) {
-			multipliers *= CommonStatMultipliers;
-		}
-	}
-
 	private void ChargeUpdate(Item item, Player player)
 	{
 		player.itemTime = 2;
@@ -173,8 +163,16 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 
 	private void ChargeEnd(Item item, Player player)
 	{
-		item.GetGlobalItem<ItemPowerAttacks>().PowerAttack = true;
+		PowerAttack = true;
+
 		player.GetModPlayer<PlayerItemUse>().ForceItemUse();
+	}
+
+	void IModifyCommonStatMultipliers.ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatMultipliers multipliers)
+	{
+		if (PowerAttack) {
+			multipliers *= CommonStatMultipliers;
+		}
 	}
 
 	bool ICanDoMeleeDamage.CanDoMeleeDamage(Item item, Player player)
