@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Charging;
@@ -53,6 +54,15 @@ public partial class Bow : ItemOverhaul
 		if (item.UseSound == SoundID.Item5) {
 			item.UseSound = FireSound;
 		}
+
+		item.EnableComponent<ItemPowerAttackHover>(c => {
+			c.ActivationVelocityRange = new Vector4(
+				// Minimum X & Y
+				float.NegativeInfinity, float.NegativeInfinity,
+				// Maximum X & Y
+				float.PositiveInfinity, 3.0f
+			);
+		});
 
 		item.EnableComponent<ItemPowerAttacks>(c => {
 			c.CanRelease = true;
