@@ -11,12 +11,12 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Charging;
 
-public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultipliers, ICanDoMeleeDamage
+public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers, ICanDoMeleeDamage
 {
 	public delegate bool CanStartPowerAttackDelegate(Item item, Player player);
 
 	public float ChargeLengthMultiplier = 2f;
-	public CommonStatMultipliers CommonStatMultipliers = CommonStatMultipliers.Default;
+	public SingleOrGradient<CommonStatModifiers> StatModifiers = new();
 
 	private Timer charge;
 
@@ -168,11 +168,26 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 		player.GetModPlayer<PlayerItemUse>().ForceItemUse();
 	}
 
-	void IModifyCommonStatMultipliers.ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatMultipliers multipliers)
+	void IModifyCommonStatModifiers.ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatModifiers multipliers)
 	{
-		if (PowerAttack) {
-			multipliers *= CommonStatMultipliers;
+		if (!PowerAttack) {
+			return;
 		}
+
+		float chargeProgress = charge.Progress;
+		CommonStatModifiers powerMultipliers;
+
+		if (StatModifiers.Gradient is Gradient<CommonStatModifiers> gradient) {
+			powerMultipliers = gradient.GetValue(chargeProgress);
+		} else {
+			powerMultipliers = CommonStatModifiers.Lerp(
+				in CommonStatModifiers.Default,
+				in StatModifiers.Single,
+				chargeProgress
+			);
+		}
+
+		multipliers *= powerMultipliers;
 	}
 
 	bool ICanDoMeleeDamage.CanDoMeleeDamage(Item item, Player player)

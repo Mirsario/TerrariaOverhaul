@@ -67,9 +67,14 @@ public partial class MagicWeapon : ItemOverhaul
 
 		item.EnableComponent<ItemPowerAttacks>(c => {
 			c.ChargeLengthMultiplier = 2f;
-			c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.75f;
-			c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
-			c.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
+
+			var modifiers = new CommonStatModifiers();
+
+			modifiers.ProjectileDamageMultiplier = modifiers.MeleeDamageMultiplier = 1.75f;
+			modifiers.ProjectileKnockbackMultiplier = modifiers.MeleeKnockbackMultiplier = 1.5f;
+			modifiers.ProjectileSpeedMultiplier = 2f;
+
+			c.StatModifiers.Single = modifiers;
 		});
 
 		item.EnableComponent<ItemPowerAttackScreenShake>(c => {
