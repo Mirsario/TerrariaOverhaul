@@ -15,6 +15,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 {
 	public delegate bool CanStartPowerAttackDelegate(Item item, Player player);
 
+	public bool CanRelease;
 	public float ChargeLengthMultiplier = 2f;
 	public SingleOrGradient<CommonStatModifiers> StatModifiers = new();
 
@@ -101,19 +102,19 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 
 	public override void HoldItem(Item item, Player player)
 	{
+		// The charge is ongoing
 		if (IsCharging) {
-			// The charge is ongoing
 			ChargeUpdate(item, player);
-		} else {
-			// The charge just ended
-			if (Charge.UnclampedValue == 0) {
-				ChargeEnd(item, player);
-			}
+		}
 
-			// Not charging and the use has ended
-			if (player.itemAnimation <= 1) {
-				PowerAttack = false;
-			}
+		// If the charge just ended on its own, or is released
+		if ((!Charge.FreezeTime.HasValue && Charge.UnclampedValue == 0) || (CanRelease && Charge.Active && !player.controlUseTile)) {
+			ChargeEnd(item, player);
+		}
+
+		// Not charging and the use has ended
+		if (!IsCharging && player.itemAnimation <= 1) {
+			PowerAttack = false;
 		}
 	}
 
@@ -163,6 +164,8 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 
 	private void ChargeEnd(Item item, Player player)
 	{
+		charge.Freeze();
+
 		PowerAttack = true;
 
 		player.GetModPlayer<PlayerItemUse>().ForceItemUse();

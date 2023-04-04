@@ -1,15 +1,12 @@
 ﻿using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
-using TerrariaOverhaul.Common.Crosshairs;
-using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls;
+namespace TerrariaOverhaul.Common.Bows;
 
 public partial class Bow : ItemOverhaul
 {
@@ -58,20 +55,29 @@ public partial class Bow : ItemOverhaul
 		}
 
 		item.EnableComponent<ItemPowerAttacks>(c => {
-			c.ChargeLengthMultiplier = 1.5f; // x2.5
+			c.CanRelease = true;
+			c.ChargeLengthMultiplier = 2.0f;
 
-			var modifiers = new CommonStatModifiers();
+			var weakest = new CommonStatModifiers {
+				ProjectileSpeedMultiplier = 0.25f,
+			};
+			var strongest = new CommonStatModifiers {
+				ProjectileDamageMultiplier = 2.0f,
+				ProjectileKnockbackMultiplier = 2.0f,
+				ProjectileSpeedMultiplier = 3.0f,
+			};
 
-			modifiers.ProjectileDamageMultiplier = modifiers.MeleeDamageMultiplier = 1.5f;
-			modifiers.ProjectileKnockbackMultiplier = modifiers.MeleeKnockbackMultiplier = 1.5f;
-			modifiers.ProjectileSpeedMultiplier = 2f;
-
-			c.StatModifiers.Single = modifiers;
+			c.StatModifiers.Gradient = new(stackalloc Gradient<CommonStatModifiers>.Key[] {
+				new(0.000f, weakest),
+				new(0.750f, strongest),
+				new(1.000f, strongest),
+			});
 		});
 
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
 				c.Sound = ChargeSound;
+				c.CancelPlaybackOnEnd = true;
 			});
 		}
 	}

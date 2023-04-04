@@ -37,7 +37,7 @@ public sealed class ItemPowerAttackSounds : ItemComponent, IModifyItemUseSound
 			}
 
 			OnChargeUpdate(player, powerAttacks);
-		} else if (charge.UnclampedValue == 0) {
+		} else if (charge.Progress != previousChargeProgress) {
 			OnChargeEnd();
 		}
 
