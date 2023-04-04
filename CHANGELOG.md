@@ -59,6 +59,7 @@
 - Prevented a seemingly impossible concurrency error in decal code from ever happening. This game has no concurrency, and yet this was reported.
 - Fixed a rare `IndexOutOfRangeException` that could occur when dodgerolling while on a grappling hook.
 - Fixed many screenshakes being global (positionless) in multiplayer.
+- Fixed force applied to gores being biased towards the right, due to an incorrect linear interpolation function being used for velocity angles.
 
 ### Optimizations
 - Optimized decal addition code to perfection, minimized reallocations and GC stress.
