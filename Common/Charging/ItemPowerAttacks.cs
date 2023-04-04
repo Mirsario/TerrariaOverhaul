@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Charging;
 
-public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers, ICanDoMeleeDamage
+public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers, ICanDoMeleeDamage, ICanTurnDuringItemUse
 {
 	public delegate bool CanStartPowerAttackDelegate(Item item, Player player);
 
@@ -192,4 +192,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 
 	bool ICanDoMeleeDamage.CanDoMeleeDamage(Item item, Player player)
 		=> !IsCharging;
+
+	bool? ICanTurnDuringItemUse.CanTurnDuringItemUse(Item item, Player player)
+		=> IsCharging ? true : null;
 }
