@@ -203,14 +203,23 @@ public sealed class DynamicGore : ModGore
 
 			// Draw
 			Texture2D texture = textures[textureHandle.Id].Reference;
-			var size = texture.Size();
-			var halfSize = size * 0.5f;
-			var position = gore.position + halfSize;
 
+			Rectangle? sourceRectangle;
+			Vector2 halfSize;
+
+			if (gore.Frame.ColumnCount > 1 || gore.Frame.RowCount > 1) {
+				sourceRectangle = gore.Frame.GetSourceRectangle(texture);
+				halfSize = sourceRectangle.Value.Size() * 0.5f;
+			} else {
+				sourceRectangle = null;
+				halfSize = texture.Size() * 0.5f;
+			}
+
+			var position = gore.position + halfSize;
 			var drawPosition = position + gore.drawOffset - halfSize - Main.screenPosition;
 			Color drawColor = gore.GetAlpha(Lighting.GetColor(position.ToTileCoordinates()));
 
-			sb.Draw(texture, drawPosition, null, drawColor, gore.rotation, halfSize, gore.scale, 0, 0f);
+			sb.Draw(texture, drawPosition, sourceRectangle, drawColor, gore.rotation, halfSize, gore.scale, 0, 0f);
 		}
 	}
 
