@@ -47,6 +47,11 @@ public sealed class DynamicGore : ModGore
 
 	public override void Unload()
 	{
+		if (!Program.IsMainThread) {
+			Main.QueueMainThreadAction(Unload);
+			return;
+		}
+
 		//TODO: Maybe make a common enumerator for this, and make it abuse TrailingZeroCount even further.
 		for (int i = 0, baseIndex = 0; i < texturesPresenceMask.Length; i++, baseIndex += BitsPerMask) {
 			ulong mask = texturesPresenceMask[i];
