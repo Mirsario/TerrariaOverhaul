@@ -45,11 +45,14 @@ public sealed class PlayerGore : ModPlayer
 		var drawnPart = currentlyDrawnPart;
 		var layers = PlayerDrawLayerLoader.DrawOrder;
 
+		//bool ShouldShowLayerFallback(PlayerDrawLayer layer)
+		//	=> layer == PlayerDrawLayers.dye
+
 		bool ShouldShowLayer(PlayerDrawLayer layer) => drawnPart switch {
-			DrawnPart.Head => layer == PlayerDrawLayers.Head,
-			DrawnPart.Torso => layer == PlayerDrawLayers.Torso,
-			DrawnPart.Arms => layer == PlayerDrawLayers.ArmOverItem,
-			DrawnPart.Legs => layer == PlayerDrawLayers.Leggings,
+			DrawnPart.Head => layer.IsHeadLayer,
+			DrawnPart.Torso => layer == PlayerDrawLayers.Torso || layer == PlayerDrawLayers.FrontAccFront || layer == PlayerDrawLayers.FrontAccBack || layer == PlayerDrawLayers.NeckAcc,
+			DrawnPart.Arms => layer == PlayerDrawLayers.ArmOverItem || layer == PlayerDrawLayers.HandOnAcc || layer == PlayerDrawLayers.OffhandAcc,
+			DrawnPart.Legs => layer == PlayerDrawLayers.Leggings || layer == PlayerDrawLayers.WaistAcc,
 			_ => throw new NotImplementedException(),
 		};
 
@@ -147,7 +150,8 @@ public sealed class PlayerGore : ModPlayer
 		var spriteBatch = Main.spriteBatch;
 		var graphicsDevice = Main.graphics.GraphicsDevice;
 		var renderTarget = new RenderTarget2D(graphicsDevice, framing.ColumnCount * CellSize, framing.RowCount * CellSize);
-		
+		var camera = Main.Camera;
+
 		// Overrides necessary for successful rendering
 		using var fullBrightOverride = new ValueOverride<bool>(typeof(Main), nameof(Main.gameMenu), true);
 		using var screenPositionOverride = new ValueOverride<Vector2>(typeof(Main), nameof(Main.screenPosition), default);
@@ -161,7 +165,7 @@ public sealed class PlayerGore : ModPlayer
 
 		graphicsDevice.SetRenderTarget(renderTarget);
 		graphicsDevice.Clear(Color.Transparent);
-		spriteBatch.Begin();
+		spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, camera.Sampler, DepthStencilState.None, camera.Rasterizer, null);
 
 		var defaultFrame = PlayerFrames.Idle.ToRectangle();
 
@@ -175,6 +179,9 @@ public sealed class PlayerGore : ModPlayer
 			player.headFrame = headFrame ?? defaultFrame;
 			player.bodyFrame = bodyFrame ?? defaultFrame;
 			player.legFrame = legsFrame ?? defaultFrame;
+
+			bool wearsRobe = player.wearsRobe && part != DrawnPart.Legs;
+			using var robeOverride = new ValueOverride<bool>(typeof(Player), nameof(Terraria.Player.wearsRobe), player, wearsRobe);
 
 			Main.PlayerRenderer.DrawPlayer(Main.Camera, player, position, rotation, default);
 		}
