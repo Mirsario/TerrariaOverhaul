@@ -96,9 +96,19 @@ public sealed class PlayerGore : ModPlayer
 		var texture = CreateGoreTexture(player, bloodColor, out var framing);
 
 		for (int i = 0; i < framing.ColumnCount; i++) {
-			var gore = Main.gore[DynamicGore.NewGore(texture, source, player.Center, GetGoreVelocity(player))];
+			var offset = i switch {
+				0 => new Vector2(0.000f, -20.0f), // Head
+				2 => new Vector2(-10.0f, 0.000f), // Left arm
+				3 => new Vector2(10.00f, 0.000f), // Right arm
+				4 => new Vector2(-10.0f, 20.00f), // Left leg
+				5 => new Vector2(10.00f, 20.00f), // Right leg
+				_ => default, // Torso
+			};
 
-			gore.drawOffset = new Vector2(0f, 6f);
+			var position = player.Center + offset;
+			var gore = Main.gore[DynamicGore.NewGore(texture, source, position, GetGoreVelocity(player))];
+
+			gore.drawOffset = new Vector2(0f, 8f);
 			gore.Frame = framing with {
 				CurrentColumn = (byte)i,
 			};
@@ -110,7 +120,8 @@ public sealed class PlayerGore : ModPlayer
 
 		// Generic gore
 		for (int i = 0; i < 7; i++) {
-			var gore = Gore.NewGoreDirect(source, player.Center, GetGoreVelocity(player), ModContent.GoreType<GenericGore>());
+			var position = player.Center + Main.rand.NextVector2Circular(20f, 28f);
+			var gore = Gore.NewGoreDirect(source, position, GetGoreVelocity(player), ModContent.GoreType<GenericGore>());
 
 			if (gore is OverhaulGore oGore) {
 				oGore.BleedColor = bloodColor;
