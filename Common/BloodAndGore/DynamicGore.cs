@@ -52,14 +52,16 @@ public sealed class DynamicGore : ModGore
 			return;
 		}
 
-		//TODO: Maybe make a common enumerator for this, and make it abuse TrailingZeroCount even further.
 		for (int i = 0, baseIndex = 0; i < texturesPresenceMask.Length; i++, baseIndex += BitsPerMask) {
 			ulong mask = texturesPresenceMask[i];
 
-			for (int j = BitOperations.TrailingZeroCount(mask); j < BitsPerMask; j++) {
-				if ((mask & (1ul << j)) != 0ul) {
-					RemoveTexture(baseIndex + j);
-				}
+			while (mask != 0) {
+				int bitShift = BitOperations.TrailingZeroCount(mask);
+				int index = baseIndex + bitShift;
+
+				RemoveTexture(index);
+
+				mask &= ~(1ul << bitShift);
 			}
 		}
 	}
@@ -233,16 +235,15 @@ public sealed class DynamicGore : ModGore
 		for (int i = 0, baseIndex = 0; i < referencedTexturesMask.Length; i++, baseIndex += BitsPerMask) {
 			ulong mask = ~referencedTexturesMask[i] & texturesPresenceMask[i];
 
-			for (int j = BitOperations.TrailingZeroCount(mask); j < BitsPerMask; j++) {
-				if ((mask & (1ul << j)) == 0ul) {
-					continue;
-				}
-
-				int index = baseIndex + j;
+			while (mask != 0) {
+				int bitShift = BitOperations.TrailingZeroCount(mask);
+				int index = baseIndex + bitShift;
 
 				if (textures[index].AutoRemove) {
 					RemoveTexture(index);
 				}
+
+				mask &= ~(1ul << bitShift);
 			}
 		}
 	}
