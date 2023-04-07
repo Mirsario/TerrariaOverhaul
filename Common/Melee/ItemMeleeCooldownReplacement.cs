@@ -61,10 +61,7 @@ public sealed class ItemMeleeCooldownReplacement : ItemComponent
 			il.HijackIncomingLabels();
 
 			// Create local var
-			var nullableBoolType = context.Import(typeof(bool?));
-			int callResultLocalId = context.Body.Variables.Count;
-			
-			il.Body.Variables.Add(new VariableDefinition(nullableBoolType));
+			int callResultLocalId = il.AddLocalVariable(typeof(bool?));
 
 			// Load 'this' (player)
 			il.Emit(OpCodes.Ldarg_0);

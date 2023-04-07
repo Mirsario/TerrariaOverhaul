@@ -59,9 +59,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 			);
 			il.HijackIncomingLabels();
 
-			int initialCheckSuccessLocalId = context.Body.Variables.Count;
-			
-			il.Body.Variables.Add(new VariableDefinition(context.Import(typeof(bool))));
+			int initialCheckSuccessLocalId = il.AddLocalVariable(typeof(bool));
 
 			il.Emit(OpCodes.Ldarg_0);
 			il.Emit(OpCodes.Ldloc, isButtonHeldLocalId);
