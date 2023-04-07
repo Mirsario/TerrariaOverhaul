@@ -3,7 +3,7 @@ using System.Linq;
 using System.Reflection;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using MonoMod.RuntimeDetour.HookGen;
+using MonoMod.RuntimeDetour;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -49,9 +49,9 @@ internal sealed class LocalizationTweaks : ILoadable
 				}
 
 				if (parametersEqual) {
-					HookEndpointManager.Add(updateLocalizationFilesForModMethod, (DetourDelegate)UpdateLocalizationFilesForModDetour);
-					HookEndpointManager.Modify(localizationFileToHjsonText, (ILContext.Manipulator)LocalizationFileToHjsonTextInjection);
-					HookEndpointManager.Modify(writeStringMethod, (ILContext.Manipulator)WriteStringInjection);
+					_ = new Hook(updateLocalizationFilesForModMethod, (DetourDelegate)UpdateLocalizationFilesForModDetour);
+					_ = new ILHook(localizationFileToHjsonText, LocalizationFileToHjsonTextInjection);
+					_ = new ILHook(writeStringMethod, WriteStringInjection);
 					return;
 				}
 			}

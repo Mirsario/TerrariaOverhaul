@@ -7,6 +7,7 @@ using TerrariaOverhaul.Common.Crosshairs;
 using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ModEntities.Items.Overhauls;
 
@@ -58,9 +59,14 @@ public partial class Bow : ItemOverhaul
 
 		item.EnableComponent<ItemPowerAttacks>(c => {
 			c.ChargeLengthMultiplier = 1.5f; // x2.5
-			c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
-			c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
-			c.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
+
+			var modifiers = new CommonStatModifiers();
+
+			modifiers.ProjectileDamageMultiplier = modifiers.MeleeDamageMultiplier = 1.5f;
+			modifiers.ProjectileKnockbackMultiplier = modifiers.MeleeKnockbackMultiplier = 1.5f;
+			modifiers.ProjectileSpeedMultiplier = 2f;
+
+			c.StatModifiers.Single = modifiers;
 		});
 
 		if (!Main.dedServ) {

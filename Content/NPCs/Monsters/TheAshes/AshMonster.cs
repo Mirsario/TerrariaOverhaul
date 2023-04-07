@@ -42,9 +42,9 @@ public abstract class AshMonster : ModNPC
 		}
 	}
 
-	public override void HitEffect(int hitDirection, double damage)
+	public override void HitEffect(NPC.HitInfo hit)
 	{
-		int amount = NPC.life <= 0 ? 50 : (int)damage;
+		int amount = NPC.life <= 0 ? 50 : hit.Damage;
 
 		for (int i = 0; i < amount; i++) {
 			Dust.NewDust(NPC.position, NPC.width, NPC.height, DustID.Wraith, Main.rand.NextFloat(-3f, 3f), Main.rand.NextFloat(-3f, 3f));

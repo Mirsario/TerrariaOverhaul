@@ -25,7 +25,7 @@ public class NPCDamageAudio : GlobalNPC
 	public override void Load()
 	{
 		// Hook for making the PlayHitSound method control whether or not to play the original hitsound.
-		IL_NPC.StrikeNPC += context => {
+		IL_NPC.StrikeNPC_HitInfo_bool_bool += context => {
 			var cursor = new ILCursor(context);
 
 			// Match 'if (HitSound != null)'

@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using MonoMod.RuntimeDetour.HookGen;
+using MonoMod.RuntimeDetour;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Debugging;
@@ -24,7 +24,7 @@ public sealed class TextSystem : ModSystem
 			return;
 		}
 
-		HookEndpointManager.Add(method, (RefreshModLanguageHook)Hook);
+		_ = new Hook(method, (RefreshModLanguageHook)Hook);
 	}
 
 	private static void Hook(RefreshModLanguageDelegate original, GameCulture culture)

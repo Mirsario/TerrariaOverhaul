@@ -41,18 +41,18 @@ public class NPCHitScreenShake : GlobalNPC
 		}
 	}
 
-	public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
-		=> OnHit(npc, damage, knockback, crit);
+	public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
+		=> OnHit(npc, hit, damageDone);
 
-	public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
-		=> OnHit(npc, damage, knockback, crit);
+	public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
+		=> OnHit(npc, hit, damageDone);
 
-	private void OnHit(NPC npc, int damage, float knockback, bool crit)
+	private void OnHit(NPC npc, NPC.HitInfo hit, int damageDone)
 	{
 		bool isDead = npc.life <= 0;
 
 		if ((isDead ? OnDeathShake : OnHitShake) is ScreenShake shake) {
-			shake.Power *= MathUtils.Clamp01(damage / 10f);
+			shake.Power *= MathUtils.Clamp01(hit.Damage * 0.1f);
 			shake.UniqueId ??= isDead ? "CustomNpcDeath" : "CustomNpcHit";
 
 			ScreenShakeSystem.New(shake, npc.Center);

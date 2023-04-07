@@ -19,14 +19,18 @@ public sealed class CriticalJudgement : ModBuff
 	{
 		public bool Active;
 
-		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
 		{
-			TryApply(ref crit);
+			if (TryApply()) {
+				modifiers.SetCrit();
+			}
 		}
 
-		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
 		{
-			TryApply(ref crit);
+			if (TryApply()) {
+				modifiers.SetCrit();
+			}
 		}
 
 		public override void OnHitAnything(float x, float y, Entity victim)
@@ -37,25 +41,28 @@ public sealed class CriticalJudgement : ModBuff
 			}
 		}
 
-		private void TryApply(ref bool crit)
+		private bool TryApply()
 		{
 			if (!Active) {
-				return;
+				return false;
 			}
 
 			int index = Player.FindBuffIndex(ModContent.BuffType<CriticalJudgement>());
 
-			if (index >= 0) {
-				crit = true;
+			if (index < 0) {
+				Active = false;
+				return false;
+			}
 
-				if (!Main.dedServ) {
-					SoundEngine.PlaySound(StrikeSound);
-				}
-
-				Player.DelBuff(index);
+			if (!Main.dedServ) {
+				SoundEngine.PlaySound(StrikeSound);
 			}
 
 			Active = false;
+
+			Player.DelBuff(index);
+
+			return true;
 		}
 	}
 

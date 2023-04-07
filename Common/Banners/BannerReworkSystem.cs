@@ -24,7 +24,7 @@ public sealed class BannerReworkSystem : ModSystem
 				orig(npc, closestPlayer);
 			}
 		};
-		
+
 		On_NPC.NPCLoot_DropMoney += (orig, npc, closestPlayer) => {
 			orig(npc, closestPlayer);
 

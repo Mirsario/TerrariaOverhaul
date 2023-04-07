@@ -41,10 +41,10 @@ public class NPCAttackCooldowns : GlobalNPC
 	public override bool CanHitPlayer(NPC npc, Player target, ref int cooldownSlot)
 		=> AttackCooldown <= 0;
 
-	public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+	public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
 		=> ApplyDefaultCooldown(npc);
 
-	public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
+	public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
 		=> ApplyDefaultCooldown(npc);
 
 	public void SetAttackCooldown(NPC npc, int ticks, bool isDamage)

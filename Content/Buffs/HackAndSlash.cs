@@ -27,7 +27,7 @@ public sealed class HackAndSlash : ModBuff
 		BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
 	}
 
-	public override void ModifyBuffTip(ref string tip, ref int rare)
+	public override void ModifyBuffText(ref string buffName, ref string tip, ref int rare)
 	{
 		if (Main.LocalPlayer is not Player { HeldItem: Item heldItem } player) {
 			return;

@@ -35,8 +35,15 @@
 	- Visual Recoil - The slight offset in weapon's rotation after it's used.
 	- Muzzleflashes - The weapons' fire breath.
 	- Screen-shake - Self-explanatory.
+- Implemented player character gore generation, powered by a dynamically textured gore system. This replaces vanilla's Mario-like "going off the screen" player death effect, allowing you to meet and mop up your old remains, as well as your friends'.
 - Weapon muzzleflashes are now automatically colored based on the shot projectile (or used ammunition).
 - Added two new alternated muzzleflash variations, and two frames of animation.
+
+### Changes
+- Blood/Gel/Whatever particles' line lengths will now be rounded in rendering, with positions aligned to the pixel grid, appearing slightly more pixelated and low framerate, and preventing very thin lines forming at low velocity. They are still rotated however.
+
+### Fixes
+- Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
 
 # 5.0 BETA 12C
 
@@ -46,6 +53,7 @@
 - Fast-firing bows' audio will now stack instead of being abruptly reset all the time.
 - Slightly slowed down Mana Absorption passive's icon pulse rate.
 - Crosshairs will now take "re-use delay" into account for their rotations.
+- Wooden arrow pieces will now be excepted from the "Gore Stay" feature, always disappearing in a short timespan. 
 
 ### Fixes
 - Fixed another typo in Journey mode scaling fixes, this time resulting in lowest stats being used when Master difficulty values are selected in Journey mode's customization.
@@ -55,6 +63,7 @@
 - Prevented a seemingly impossible concurrency error in decal code from ever happening. This game has no concurrency, and yet this was reported.
 - Fixed a rare `IndexOutOfRangeException` that could occur when dodgerolling while on a grappling hook.
 - Fixed many screenshakes being global (positionless) in multiplayer.
+- Fixed force applied to gores being biased towards the right, due to an incorrect linear interpolation function being used for velocity angles.
 
 ### Optimizations
 - Optimized decal addition code to perfection, minimized reallocations and GC stress.

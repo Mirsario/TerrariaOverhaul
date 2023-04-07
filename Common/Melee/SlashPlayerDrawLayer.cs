@@ -73,7 +73,7 @@ public class SlashPlayerDrawLayer : PlayerDrawLayer
 			return;
 		}
 
-		if (item.TryGetGlobalItem<ItemCharging>(out var itemCharging) && itemCharging.IsCharging) {
+		if (item.TryGetGlobalItem<ItemPowerAttacks>(out var powerAttacks) && powerAttacks.IsCharging) {
 			return;
 		}
 

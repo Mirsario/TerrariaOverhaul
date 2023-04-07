@@ -22,7 +22,7 @@ public sealed class TimeSystem : ModSystem
 	public static float RenderDeltaTime { get; private set; } = 1f / 60f;
 	// Etc
 	public static TimeSpan CurrentTimeSpan => GlobalStopwatch?.Elapsed ?? TimeSpan.Zero;
-	public static Stopwatch? GlobalStopwatch { get; private set; }
+	public static Stopwatch GlobalStopwatch { get; } = new();
 	public static ulong UpdateCount { get; private set; }
 	public static bool RenderOnlyFrame { get; private set; }
 	// Events
@@ -48,7 +48,7 @@ public sealed class TimeSystem : ModSystem
 		// From 27th December to 5th January, inclusively.
 		NewYear = (Date.Month == 12 && Date.Day >= 27) || (Date.Month == 1 && Date.Day <= 5);
 
-		GlobalStopwatch = Stopwatch.StartNew();
+		GlobalStopwatch.Start();
 
 		// Hooking of potentially executing draw methods has to be done on the main thread.
 		Main.QueueMainThreadAction(static () => {
@@ -83,9 +83,7 @@ public sealed class TimeSystem : ModSystem
 
 	public override void Unload()
 	{
-		GlobalStopwatch?.Stop();
-
-		GlobalStopwatch = null;
+		GlobalStopwatch.Reset();
 	}
 
 	public override void PostUpdateEverything()

@@ -72,6 +72,16 @@ public sealed class ItemCrosshairController : ItemComponent
 				return false;
 			}
 
+			// Ignore items that don't deal damage, with some exceptions.
+			if (item.damage <= 0) {
+				// Water and slime guns are excepted
+				if (item.shoot is ProjectileID.WaterGun or ProjectileID.SlimeGun) {
+					return true;
+				}
+
+				return false;
+			}
+
 			return true;
 		}
 

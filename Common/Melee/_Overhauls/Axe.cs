@@ -7,6 +7,7 @@ using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Melee;
 
@@ -86,10 +87,15 @@ public class Axe : ItemOverhaul
 			item.EnableComponent<ItemMeleePowerAttackEffects>();
 			item.EnableComponent<ItemPowerAttacks>(c => {
 				c.ChargeLengthMultiplier = 1.5f;
-				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
-				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
-				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
-				c.CommonStatMultipliers.ProjectileSpeedMultiplier = 1.5f;
+
+				var statsModifiers = new CommonStatModifiers();
+
+				statsModifiers.MeleeDamageMultiplier = statsModifiers.ProjectileDamageMultiplier = 1.5f;
+				statsModifiers.MeleeKnockbackMultiplier = statsModifiers.ProjectileKnockbackMultiplier = 1.5f;
+				statsModifiers.MeleeRangeMultiplier = 1.4f;
+				statsModifiers.ProjectileSpeedMultiplier = 1.5f;
+
+				c.StatModifiers.Single = statsModifiers;
 			});
 
 			if (!Main.dedServ) {

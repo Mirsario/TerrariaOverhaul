@@ -34,7 +34,7 @@ public sealed class ItemUseScreenShake : ItemComponent
 				return false;
 			}
 
-			// Ignore all melee items
+			// Ignore all melee items, since this is about UseItem and not UseAnimation.
 			if (item.CountsAsClass<MeleeDamageClass>()) {
 				return false;
 			}
@@ -49,10 +49,20 @@ public sealed class ItemUseScreenShake : ItemComponent
 				return false;
 			}
 
-			// Ignore spears
 			var projectile = ContentSampleUtils.GetProjectile(item.shoot);
 
+			// Ignore spears
 			if (projectile.aiStyle == ProjAIStyleID.Spear) {
+				return false;
+			}
+
+			// Ignore items that don't deal damage, with exceptions.
+			if (item.damage <= 0) {
+				// Water and slime guns are excepted
+				if (item.shoot is ProjectileID.WaterGun or ProjectileID.SlimeGun) {
+					return true;
+				}
+
 				return false;
 			}
 

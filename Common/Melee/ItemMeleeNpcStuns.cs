@@ -6,7 +6,7 @@ namespace TerrariaOverhaul.Common.Melee;
 
 public sealed class ItemMeleeNpcStuns : ItemComponent
 {
-	public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockback, bool crit)
+	public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
 	{
 		if (Enabled) {
 			target.GetGlobalNPC<NPCAttackCooldowns>().SetAttackCooldown(target, player.itemAnimationMax, true);
