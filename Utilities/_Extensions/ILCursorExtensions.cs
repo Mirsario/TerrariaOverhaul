@@ -9,19 +9,6 @@ namespace TerrariaOverhaul.Utilities;
 
 internal static class ILCursorExtensions
 {
-	public static int AddLocalVariable(this ILCursor cursor, Type type)
-	{
-		var context = cursor.Context;
-		var body = context.Body;
-
-		var importedType = context.Import(type);
-		int localId = body.Variables.Count;
-
-		body.Variables.Add(new VariableDefinition(importedType));
-
-		return localId;
-	}
-
 	public static ILCursor HijackIncomingLabels(this ILCursor cursor)
 	{
 		var incomingLabels = cursor.IncomingLabels.ToArray();

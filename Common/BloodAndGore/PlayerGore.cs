@@ -45,9 +45,6 @@ public sealed class PlayerGore : ModPlayer
 		var drawnPart = currentlyDrawnPart;
 		var layers = PlayerDrawLayerLoader.DrawOrder;
 
-		//bool ShouldShowLayerFallback(PlayerDrawLayer layer)
-		//	=> layer == PlayerDrawLayers.dye
-
 		bool ShouldShowLayer(PlayerDrawLayer layer) => drawnPart switch {
 			DrawnPart.Head => layer.IsHeadLayer,
 			DrawnPart.Torso => layer == PlayerDrawLayers.Torso || layer == PlayerDrawLayers.FrontAccFront || layer == PlayerDrawLayers.FrontAccBack || layer == PlayerDrawLayers.NeckAcc,
