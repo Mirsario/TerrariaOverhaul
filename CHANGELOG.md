@@ -39,6 +39,9 @@
 - Weapon muzzleflashes are now automatically colored based on the shot projectile (or used ammunition).
 - Added two new alternated muzzleflash variations, and two frames of animation.
 
+### Changes
+- Blood/Gel/Whatever particles' line lengths will now be rounded in rendering, with positions aligned to the pixel grid, appearing slightly more pixelated and low framerate, and preventing very thin lines forming at low velocity. They are still rotated however.
+
 ### Fixes
 - Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
 
