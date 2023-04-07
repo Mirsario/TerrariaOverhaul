@@ -1,4 +1,4 @@
-﻿#define OUTPUT_TEST
+﻿//#define OUTPUT_TEST
 
 using System;
 using System.Runtime.CompilerServices;
