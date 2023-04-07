@@ -11,7 +11,7 @@ public class DamageSourceSystem : ModSystem
 
 	public override void Load()
 	{
-		On.Terraria.Player.ItemCheck_MeleeHitNPCs += (orig, player, item, itemRectangle, originalDamage, knockback) => {
+		On_Player.ItemCheck_MeleeHitNPCs += (orig, player, item, itemRectangle, originalDamage, knockback) => {
 			var oldSource = CurrentDamageSource;
 			CurrentDamageSource = new DamageSource(item, new DamageSource(player));
 
@@ -19,7 +19,7 @@ public class DamageSourceSystem : ModSystem
 
 			CurrentDamageSource = oldSource;
 		};
-		On.Terraria.Player.ItemCheck_MeleeHitPVP += (orig, player, item, itemRectangle, originalDamage, knockback) => {
+		On_Player.ItemCheck_MeleeHitPVP += (orig, player, item, itemRectangle, originalDamage, knockback) => {
 			var oldSource = CurrentDamageSource;
 			CurrentDamageSource = new DamageSource(item, new DamageSource(player));
 
@@ -27,7 +27,7 @@ public class DamageSourceSystem : ModSystem
 
 			CurrentDamageSource = oldSource;
 		};
-		On.Terraria.Projectile.Damage += (orig, projectile) => {
+		On_Projectile.Damage += (orig, projectile) => {
 			var oldSource = CurrentDamageSource;
 			var owner = projectile.GetOwner();
 

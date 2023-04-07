@@ -22,7 +22,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 
 	public override void Load()
 	{
-		On.Terraria.Player.ItemCheck_ApplyHoldStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
+		On_Player.ItemCheck_ApplyHoldStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
 			if (ShouldForceUseAnim(sItem)) {
 				player.ItemCheck_ApplyUseStyle(mountOffset, sItem, heldItemFrame);
 
@@ -32,7 +32,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			orig(player, mountOffset, sItem, heldItemFrame);
 		};
 
-		On.Terraria.Player.ItemCheck_ApplyUseStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
+		On_Player.ItemCheck_ApplyUseStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
 			orig(player, mountOffset, sItem, heldItemFrame);
 
 			if (sItem.useStyle == ItemUseStyleID.Shoot) {
@@ -51,7 +51,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			}
 		};
 
-		On.Terraria.Player.PlayerFrame += (orig, player) => {
+		On_Player.PlayerFrame += (orig, player) => {
 			if (ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
 				InvokeWithForcedAnimation(player, () => orig(player));
 				return;
@@ -60,7 +60,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			orig(player);
 		};
 
-		On.Terraria.DataStructures.PlayerDrawLayers.DrawPlayer_27_HeldItem += (On.Terraria.DataStructures.PlayerDrawLayers.orig_DrawPlayer_27_HeldItem orig, ref PlayerDrawSet drawInfo) => {
+		On_PlayerDrawLayers.DrawPlayer_27_HeldItem += (On_PlayerDrawLayers.orig_DrawPlayer_27_HeldItem orig, ref PlayerDrawSet drawInfo) => {
 			var player = drawInfo.drawPlayer;
 
 			if (ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {

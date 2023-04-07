@@ -24,7 +24,7 @@ public class NPCBloodAndGore : GlobalNPC
 	public override void Load()
 	{
 		// Disable blood dust replacement during projectile AI.
-		On.Terraria.Projectile.AI += (orig, proj) => {
+		On_Projectile.AI += (orig, proj) => {
 			disableReplacementsSubscriptions++;
 
 			try {
@@ -36,7 +36,7 @@ public class NPCBloodAndGore : GlobalNPC
 		};
 
 		// Replace specific dusts with new blood particles.
-		On.Terraria.Dust.NewDust += (orig, position, width, height, type, speedX, speedY, alpha, color, scale) => {
+		On_Dust.NewDust += (orig, position, width, height, type, speedX, speedY, alpha, color, scale) => {
 			bool skipOverride = disableReplacementsSubscriptions > 0;
 
 			if (!skipOverride) {
@@ -78,7 +78,7 @@ public class NPCBloodAndGore : GlobalNPC
 		};
 
 		// Record and save blood information onto gores spawned during HitEffect.
-		On.Terraria.NPC.HitEffect += (orig, npc, hitDirection, dmg) => {
+		On_NPC.HitEffect += (orig, npc, hitDirection, dmg) => {
 			// Ignore contexts where we only want blood to spawn.
 			if (disableNonBloodEffectSubscriptions > 0 || !npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
 				orig(npc, hitDirection, dmg);

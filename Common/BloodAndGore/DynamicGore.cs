@@ -42,7 +42,7 @@ public sealed class DynamicGore : ModGore
 	{
 		goreTextureMapping = new TextureHandle[Main.maxGore];
 
-		On.Terraria.Main.DrawGore += DrawGoreDetour;
+		On_Main.DrawGore += DrawGoreDetour;
 	}
 
 	public override void Unload()
@@ -174,7 +174,7 @@ public sealed class DynamicGore : ModGore
 		return result;
 	}
 
-	private static void DrawGoreDetour(On.Terraria.Main.orig_DrawGore orig, Main main)
+	private static void DrawGoreDetour(On_Main.orig_DrawGore orig, Main main)
 	{
 		orig(main);
 

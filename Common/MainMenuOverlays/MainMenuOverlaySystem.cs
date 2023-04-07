@@ -22,7 +22,7 @@ public sealed class MainMenuOverlaySystem : ModSystem
 	public override void Load()
 	{
 		// Draw the overlay right before the cursor.
-		IL.Terraria.Main.DrawMenu += context => {
+		IL_Main.DrawMenu += context => {
 			var cursor = new ILCursor(context);
 
 			//Source:

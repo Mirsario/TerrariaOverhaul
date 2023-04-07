@@ -7,10 +7,10 @@ public sealed class CriticalStrikeTextImprovements : ModSystem
 {
 	public override void Load()
 	{
-		On.Terraria.NPC.StrikeNPC += NPC_StrikeNPC;
+		On_NPC.StrikeNPC += NPC_StrikeNPC;
 	}
 
-	private static double NPC_StrikeNPC(On.Terraria.NPC.orig_StrikeNPC orig, NPC self, int damage, float knockback, int hitDirection, bool crit, bool noEffect, bool fromNet)
+	private static double NPC_StrikeNPC(On_NPC.orig_StrikeNPC orig, NPC self, int damage, float knockback, int hitDirection, bool crit, bool noEffect, bool fromNet)
 	{
 		if (crit) {
 			CombatTextSystem.AddFilter(1, text => {

@@ -128,7 +128,7 @@ public class AudioEffectsSystem : ModSystem
 		LowPassFilteringEnabled = true;
 
 		// Track 'active' sounds, and apply effects before they get played.
-		IL.Terraria.Audio.ActiveSound.Play += context => {
+		IL_ActiveSound.Play += context => {
 			var il = new ILCursor(context);
 
 			int soundEffectInstanceLocalId = 0;

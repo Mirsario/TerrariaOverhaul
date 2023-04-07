@@ -21,7 +21,7 @@ public class PlayerHeadRotation : ModPlayer
 	public override void Load()
 	{
 		// The effect is exclusive to vanilla call paths, so that it doesn't screw with mods' custom draw calls.
-		On.Terraria.Main.DrawPlayers_AfterProjectiles += static (orig, main) => {
+		On_Main.DrawPlayers_AfterProjectiles += static (orig, main) => {
 			active = true;
 
 			orig(main);
@@ -29,7 +29,7 @@ public class PlayerHeadRotation : ModPlayer
 			active = false;
 		};
 
-		On.Terraria.Main.DrawPlayers_BehindNPCs += static (orig, main) => {
+		On_Main.DrawPlayers_BehindNPCs += static (orig, main) => {
 			active = true;
 
 			orig(main);

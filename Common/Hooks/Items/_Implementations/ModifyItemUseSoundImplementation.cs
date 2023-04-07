@@ -7,7 +7,7 @@ internal sealed class ModifyItemUseSoundImplementation : GlobalItem
 {
 	public override void Load()
 	{
-		On.Terraria.Player.ItemCheck_StartActualUse += (orig, player, item) => {
+		On_Player.ItemCheck_StartActualUse += (orig, player, item) => {
 			var heldItem = player.HeldItem;
 
 			if (heldItem == null || heldItem.IsAir) {

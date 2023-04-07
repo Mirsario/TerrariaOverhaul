@@ -15,7 +15,7 @@ public sealed class PlayerMiningHelmetLighting : ModPlayer
 
 	public override void Load()
 	{
-		On.Terraria.Player.UpdateArmorLights += (orig, player) => {
+		On_Player.UpdateArmorLights += (orig, player) => {
 			if (player.head == ArmorIDs.Head.MiningHelmet && EffectEnabled(player)) {
 				int headCopy = player.head;
 

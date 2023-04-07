@@ -33,7 +33,7 @@ public sealed class PlayerGore : ModPlayer
 
 	public override void Load()
 	{
-		On.Terraria.Player.KillMe += KillMeDetour;
+		On_Player.KillMe += KillMeDetour;
 	}
 
 	public override void HideDrawLayers(PlayerDrawSet drawInfo)
@@ -65,7 +65,7 @@ public sealed class PlayerGore : ModPlayer
 	public static Color GetPlayerBloodColor(Player player)
 		=> Color.DarkRed;
 
-	private static void KillMeDetour(On.Terraria.Player.orig_KillMe orig, Player player, PlayerDeathReason damageSource, double damage, int hitDirection, bool pvp)
+	private static void KillMeDetour(On_Player.orig_KillMe orig, Player player, PlayerDeathReason damageSource, double damage, int hitDirection, bool pvp)
 	{
 		orig(player, damageSource, damage, hitDirection, pvp);
 

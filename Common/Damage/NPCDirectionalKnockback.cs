@@ -16,7 +16,7 @@ public sealed class NPCDirectionalKnockback : GlobalNPC
 
 	public override void Load()
 	{
-		IL.Terraria.NPC.StrikeNPC += context => {
+		IL_NPC.StrikeNPC += context => {
 			var cursor = new ILCursor(context);
 
 			// Match 'if (knockBack > 0f && knockBackResist > 0f)' to get the address to which it jumps on failure.

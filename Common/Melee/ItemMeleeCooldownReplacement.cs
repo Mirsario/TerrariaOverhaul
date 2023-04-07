@@ -13,7 +13,7 @@ public sealed class ItemMeleeCooldownReplacement : ItemComponent
 	public override void Load()
 	{
 		// Disable attackCD for melee whenever this component is present on the held item and enabled.
-		IL.Terraria.Player.ItemCheck_MeleeHitNPCs += context => {
+		IL_Player.ItemCheck_MeleeHitNPCs += context => {
 			var il = new ILCursor(context);
 			bool debugAssembly = OverhaulMod.TMLAssembly.IsDebugAssembly();
 
