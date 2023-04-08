@@ -77,11 +77,11 @@ public partial class MagicWeapon : ItemOverhaul
 			c.StatModifiers.Single = modifiers;
 		});
 
-		item.EnableComponent<ItemPowerAttackScreenShake>(c => {
-			c.ScreenShake = new ScreenShake(0.5f, 0.5f);
-		});
-
 		if (!Main.dedServ) {
+			item.EnableComponent<ItemPowerAttackScreenShake>(c => {
+				c.ScreenShake = new ScreenShake(0.5f, 0.5f);
+			});
+
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
 				c.Sound = ChargeSound;
 				c.CancelPlaybackOnEnd = true;
