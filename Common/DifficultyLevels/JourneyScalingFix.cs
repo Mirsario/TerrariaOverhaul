@@ -27,8 +27,8 @@ internal sealed class JourneyScalingFix : ILoadable
 	{
 		valueField = typeof(ASharedSliderPower).GetField("_sliderCurrentValueCache", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)!;
 
-		On.Terraria.NPC.ScaleStats += OnNpcScaleStats;
-		IL.Terraria.Projectile.Damage += ProjectileDamageInjection;
+		On_NPC.ScaleStats += OnNpcScaleStats;
+		IL_Projectile.Damage += ProjectileDamageInjection;
 	}
 
 	void ILoadable.Unload()
@@ -36,7 +36,7 @@ internal sealed class JourneyScalingFix : ILoadable
 
 	}
 
-	private static void OnNpcScaleStats(On.Terraria.NPC.orig_ScaleStats orig, NPC npc, int? activePlayersCount, GameModeData gameModeData, float? strengthOverride)
+	private static void OnNpcScaleStats(On_NPC.orig_ScaleStats orig, NPC npc, int? activePlayersCount, GameModeData gameModeData, float? strengthOverride)
 	{
 		// Pass in GameModeData modified depending on journey settings.
 		ModifyGameModeData(ref gameModeData);

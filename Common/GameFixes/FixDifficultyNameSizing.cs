@@ -24,7 +24,7 @@ public sealed class FixDifficultyNameSizing : ILoadable
 			return;
 		}
 
-		IL.Terraria.GameContent.UI.States.UIWorldCreation.AddWorldDifficultyOptions += context => {
+		IL_UIWorldCreation.AddWorldDifficultyOptions += context => {
 			var il = new ILCursor(context);
 
 			int titleArrayLocalId = -1;

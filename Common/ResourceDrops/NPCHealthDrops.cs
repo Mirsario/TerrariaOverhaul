@@ -16,7 +16,7 @@ public sealed class NPCHealthDrops : GlobalNPC
 
 	public override void Load()
 	{
-		On.Terraria.NPC.NPCLoot += (orig, npc) => {
+		On_NPC.NPCLoot += (orig, npc) => {
 			orig(npc);
 
 			if (Main.netMode == NetmodeID.MultiplayerClient) {
@@ -30,7 +30,7 @@ public sealed class NPCHealthDrops : GlobalNPC
 			DropHealthFromKill(npc);
 		};
 
-		On.Terraria.NPC.NPCLoot_DropHeals += (orig, npc, closestPlayer) => {
+		On_NPC.NPCLoot_DropHeals += (orig, npc, closestPlayer) => {
 			// Juuuust don't.
 		};
 	}

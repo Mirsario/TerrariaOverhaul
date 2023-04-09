@@ -11,7 +11,8 @@ using TerrariaOverhaul.Common.Hooks.Items;
 
 namespace TerrariaOverhaul.Common.Damage;
 
-public class NPCDamageAudio : GlobalNPC
+[Autoload(Side = ModSide.Client)]
+public sealed class NPCDamageAudio : GlobalNPC
 {
 	public static readonly SoundStyle GoreSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2) {
 		Volume = 0.475f,
@@ -25,7 +26,7 @@ public class NPCDamageAudio : GlobalNPC
 	public override void Load()
 	{
 		// Hook for making the PlayHitSound method control whether or not to play the original hitsound.
-		IL.Terraria.NPC.StrikeNPC += context => {
+		IL_NPC.StrikeNPC += context => {
 			var cursor = new ILCursor(context);
 
 			// Match 'if (HitSound != null)'
@@ -47,7 +48,7 @@ public class NPCDamageAudio : GlobalNPC
 		};
 
 		// Hook for making the PlayDeathSound method control whether or not to play the original death sound.
-		IL.Terraria.NPC.checkDead += context => {
+		IL_NPC.checkDead += context => {
 			var cursor = new ILCursor(context);
 
 			// Match 'if (DeathSound != null)'

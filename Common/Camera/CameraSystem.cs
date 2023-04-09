@@ -52,7 +52,7 @@ public sealed class CameraSystem : ModSystem
 		});
 
 		Main.QueueMainThreadAction(() => {
-			On.Terraria.Main.DoDraw_UpdateCameraPosition += orig => {
+			On_Main.DoDraw_UpdateCameraPosition += orig => {
 				if (Main.gameMenu) {
 					orig();
 					return;
