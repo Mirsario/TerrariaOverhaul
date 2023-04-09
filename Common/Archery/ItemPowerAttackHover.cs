@@ -7,7 +7,7 @@ using TerrariaOverhaul.Common.PlayerEffects;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Bows;
+namespace TerrariaOverhaul.Common.Archery;
 
 public sealed class ItemPowerAttackHover : ItemComponent
 {

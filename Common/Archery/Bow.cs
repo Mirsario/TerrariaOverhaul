@@ -7,7 +7,7 @@ using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Bows;
+namespace TerrariaOverhaul.Common.Archery;
 
 public partial class Bow : ItemOverhaul
 {
