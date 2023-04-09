@@ -11,7 +11,8 @@ using TerrariaOverhaul.Common.Hooks.Items;
 
 namespace TerrariaOverhaul.Common.Damage;
 
-public class NPCDamageAudio : GlobalNPC
+[Autoload(Side = ModSide.Client)]
+public sealed class NPCDamageAudio : GlobalNPC
 {
 	public static readonly SoundStyle GoreSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2) {
 		Volume = 0.475f,
