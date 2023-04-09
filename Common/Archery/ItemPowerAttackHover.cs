@@ -51,7 +51,7 @@ public sealed class ItemPowerAttackHover : ItemComponent
 
 		// If outside required velocity range when starting - cease.
 		if (!active && ActivationVelocityRange is Vector4 range && player.velocity is Vector2 velocity) {
-			if (velocity.X < range.X || velocity.X > range.Z || velocity.Y < range.Z || velocity.Y > range.W) {
+			if (velocity.X < range.X || velocity.X > range.Z || velocity.Y < range.Y || velocity.Y > range.W) {
 				Stop();
 				return;
 			}
@@ -77,7 +77,7 @@ public sealed class ItemPowerAttackHover : ItemComponent
 
 		var modifier = MovementModifier.Lerp(in MovementModifier.Default, in Modifier, factor);
 
-		if (player.velocity.Y >= -1f) {
+		if (player.velocity.Y >= -0.5f) {
 			modifier.GravityScale *= 0f;
 		}
 
