@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.Hooks.Npcs;
 
 public interface INpcModifyShootProjectile
 {
-	public static readonly HookList<GlobalNPC> Hook = NPCLoader.AddModHook(new HookList<GlobalNPC>(typeof(Hook).GetMethod(nameof(ModifyShootProjectile))));
+	public static readonly GlobalHookList<GlobalNPC> Hook = NPCLoader.AddModHook(new GlobalHookList<GlobalNPC>(typeof(Hook).GetMethod(nameof(ModifyShootProjectile))));
 
 	void ModifyShootProjectile(NPC npc, ref int type, ref Vector2 position, ref Vector2 velocity, ref int damage, ref float knockback);
 
