@@ -113,44 +113,16 @@ public class AudioEffectsSystem : ModSystem
 			return;
 		}
 
+		// Injections
+		IL_ActiveSound.Play += ActiveSoundPlayInjection;
+
+		// Events
+		MusicControlSystem.OnTrackUpdate += OnMusicTrackUpdate;
+
+		// Mark as enabled
 		IsEnabled = true;
 		ReverbEnabled = true;
 		LowPassFilteringEnabled = true;
-
-		// Track 'active' sounds, and apply effects before they get played.
-		IL_ActiveSound.Play += context => {
-			var il = new ILCursor(context);
-
-			int soundEffectInstanceLocalId = 0;
-
-			il.GotoNext(
-				MoveType.Before,
-				i => i.MatchLdloc(out soundEffectInstanceLocalId),
-				i => i.MatchCallvirt(typeof(SoundEffectInstance), nameof(SoundEffectInstance.Play))
-			);
-
-			il.Emit(OpCodes.Ldarg_0);
-			il.Emit(OpCodes.Ldloc, soundEffectInstanceLocalId);
-			il.EmitDelegate<Action<ActiveSound, SoundEffectInstance>>(static (activeSound, soundEffectInstance) => {
-				if (!IsEnabled) {
-					return;
-				}
-
-				if (soundEffectInstance?.IsDisposed == false) {
-					if (soundStylesToIgnore.Contains(activeSound.Style)) {
-						return;
-					}
-
-					lock (trackedSoundInstances) {
-						trackedSoundInstances.Add(new SoundData(soundEffectInstance, activeSound.Position, activeSound));
-					}
-
-					ApplyEffects(soundEffectInstance, in soundParameters);
-				}
-			});
-		};
-
-		MusicControlSystem.OnTrackUpdate += OnMusicTrackUpdate;
 
 		DebugSystem.Log("Audio effects enabled.");
 	}
@@ -357,5 +329,38 @@ public class AudioEffectsSystem : ModSystem
 
 			audioErrorMessage = null;
 		}
+	}
+
+	private static void ActiveSoundPlayInjection(ILContext context)
+	{
+		var il = new ILCursor(context);
+
+		int soundEffectInstanceLocalId = 0;
+
+		il.GotoNext(
+			MoveType.Before,
+			i => i.MatchLdloc(out soundEffectInstanceLocalId),
+			i => i.MatchCallvirt(typeof(SoundEffectInstance), nameof(SoundEffectInstance.Play))
+		);
+
+		il.Emit(OpCodes.Ldarg_0);
+		il.Emit(OpCodes.Ldloc, soundEffectInstanceLocalId);
+		il.EmitDelegate<Action<ActiveSound, SoundEffectInstance>>(static (activeSound, soundEffectInstance) => {
+			if (!IsEnabled) {
+				return;
+			}
+
+			if (soundEffectInstance?.IsDisposed == false) {
+				if (soundStylesToIgnore.Contains(activeSound.Style)) {
+					return;
+				}
+
+				lock (trackedSoundInstances) {
+					trackedSoundInstances.Add(new SoundData(soundEffectInstance, activeSound.Position, activeSound));
+				}
+
+				ApplyEffects(soundEffectInstance, in soundParameters);
+			}
+		});
 	}
 }
