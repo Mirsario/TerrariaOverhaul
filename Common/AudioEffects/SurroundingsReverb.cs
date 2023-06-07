@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
@@ -9,8 +10,10 @@ using TerrariaOverhaul.Utilities;
 namespace TerrariaOverhaul.Common.AudioEffects;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class PlayerSurroundingsReverb : ModPlayer
+public sealed class SurroundingsReverb : ModSystem
 {
+	private const int UpdateRate = 5;
+
 	public static float MaxReverbIntensity => 0.725f;
 	public static float MaxReverbTileRatio => 0.1f;
 
@@ -21,9 +24,13 @@ public sealed class PlayerSurroundingsReverb : ModPlayer
 		(1.0f, 1.00f)
 	);
 
-	public override void PostUpdate()
+	public override void PostUpdateWorld()
 	{
-		if (!Player.IsLocal() || Main.GameUpdateCount % 5 != 0) {
+		if (Main.GameUpdateCount % UpdateRate != 0) {
+			return;
+		}
+
+		if (Main.LocalPlayer is not Player { active: true } player) {
 			return;
 		}
 
@@ -84,7 +91,7 @@ public sealed class PlayerSurroundingsReverb : ModPlayer
 		if (calculatedReverb > 0f) {
 			AudioEffectsSystem.AddAudioEffectModifier(
 				60,
-				$"{nameof(TerrariaOverhaul)}/{nameof(PlayerSurroundingsReverb)}",
+				$"{nameof(TerrariaOverhaul)}/{nameof(SurroundingsReverb)}",
 				(float intensity, ref AudioEffectParameters soundParameters, ref AudioEffectParameters _) => {
 					soundParameters.Reverb += calculatedReverb * intensity;
 				}
