@@ -10,10 +10,12 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.AudioEffects;
 
+//TODO: Rewrite to dynamically detect sounds as ones happening inside or outside, occlude if not the same.
 public sealed class WallSoundOcclusion : ModSystem
 {
 	private static readonly HashSet<SoundStyle> soundStyles = new() {
 		SoundID.Bird,
+		SoundID.Thunder,
 	};
 
 	public static float OcclusionFactor { get; private set; }
