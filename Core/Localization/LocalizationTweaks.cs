@@ -49,9 +49,9 @@ internal sealed class LocalizationTweaks : ILoadable
 				}
 
 				if (parametersEqual) {
-					_ = new Hook(updateLocalizationFilesForModMethod, (DetourDelegate)UpdateLocalizationFilesForModDetour);
-					_ = new ILHook(localizationFileToHjsonText, LocalizationFileToHjsonTextInjection);
-					_ = new ILHook(writeStringMethod, WriteStringInjection);
+					MonoModHooks.Add(updateLocalizationFilesForModMethod, (DetourDelegate)UpdateLocalizationFilesForModDetour);
+					MonoModHooks.Modify(localizationFileToHjsonText, LocalizationFileToHjsonTextInjection);
+					MonoModHooks.Modify(writeStringMethod, WriteStringInjection);
 					return;
 				}
 			}

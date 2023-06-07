@@ -24,7 +24,7 @@ public sealed class TextSystem : ModSystem
 			return;
 		}
 
-		_ = new Hook(method, (RefreshModLanguageHook)Hook);
+		MonoModHooks.Add(method, (RefreshModLanguageHook)Hook);
 	}
 
 	private static void Hook(RefreshModLanguageDelegate original, GameCulture culture)

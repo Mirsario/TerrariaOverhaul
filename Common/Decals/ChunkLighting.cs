@@ -24,7 +24,7 @@ public sealed class ChunkLighting : ChunkComponent
 	public override void Load()
 	{
 		// This fixes tileTarget not being available in many cases. And other dumb issues.
-		_ = new Hook(
+		MonoModHooks.Add(
 			typeof(Main).GetProperty(nameof(Main.RenderTargetsRequired))!.GetMethod!,
 			new Func<Func<bool>, bool>(orig => true)
 		);
