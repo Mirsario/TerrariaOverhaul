@@ -60,14 +60,15 @@ public sealed class VortexBeater : ItemOverhaul
 	private static void HeldProjectileBehaviorInjection(ILContext context)
 	{
 		var il = new ILCursor(context);
+		bool debugAssembly = OverhaulMod.TMLAssembly.IsDebugAssembly();
 
 		// Match the first 'if (type == 615)'.
 		il.GotoNext(
 			MoveType.After,
 			i => i.MatchLdarg(0),
 			i => i.MatchLdfld(typeof(Projectile), nameof(Projectile.type)),
-			i => i.MatchLdcI4(ProjectileID.VortexBeater),
-			i => i.MatchBneUn(out _)
+			i => i.MatchLdcI4(ProjectileID.VortexBeater)
+			//i => i.MatchBneUn(out _)
 		);
 
 		// Match 'if (ai[1] <= 0f)', which is the block for triggering firing.
@@ -77,8 +78,8 @@ public sealed class VortexBeater : ItemOverhaul
 			i => i.MatchLdfld(typeof(Projectile), nameof(Projectile.ai)),
 			i => i.MatchLdcI4(1),
 			i => i.MatchLdelemR4(),
-			i => i.MatchLdcR4(0f),
-			i => i.MatchBgtUn(out _)
+			i => i.MatchLdcR4(0f)
+			//i => i.MatchBgtUn(out _)
 		);
 
 		int weaponFiringEmitIndex = il.Index;
@@ -90,9 +91,20 @@ public sealed class VortexBeater : ItemOverhaul
 			MoveType.After,
 			i => i.MatchLdarg(0),
 			i => i.MatchLdfld(typeof(Projectile), nameof(Projectile.soundDelay)),
-			i => i.MatchLdcI4(0),
-			i => i.MatchBgt(out skipSoundPlayLabel)
+			i => i.MatchLdcI4(0)
 		);
+
+		if (!debugAssembly) {
+			il.GotoNext(
+				MoveType.After,
+				i => i.MatchBgt(out skipSoundPlayLabel)
+			);
+		} else {
+			il.GotoNext(
+				MoveType.After,
+				i => i.MatchBrfalse(out skipSoundPlayLabel)
+			);
+		}
 
 		// Emit sound skip
 		il.Emit(OpCodes.Ldarg_0);

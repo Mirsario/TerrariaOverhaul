@@ -121,7 +121,7 @@ public sealed class ItemMuzzleflashes : ItemComponent
 			&& item.useAmmo < ItemLoader.ItemCount
 			&& (
 				!AmmoID.Sets.IsBullet[item.useAmmo]
-				&& !AmmoID.Sets.IsRocket[item.useAmmo]
+				&& !AmmoID.Sets.IsSpecialist[item.useAmmo]
 				&& item.useAmmo != AmmoID.Gel
 				&& item.useAmmo != AmmoID.Flare
 				&& item.useAmmo != AmmoID.Dart

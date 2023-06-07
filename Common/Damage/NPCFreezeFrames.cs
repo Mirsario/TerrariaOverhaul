@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.ModEntities.NPCs
 
 		public override void Load()
 		{
-			On.Terraria.NPC.UpdateNPC += (orig, npc, i) => {
+			On_NPC.UpdateNPC += (orig, npc, i) => {
 				if(npc.TryGetGlobalNPC<NPCFreezeFrames>(out var globalNPC) && globalNPC.FreezeFrames > 0) {
 					globalNPC.FreezeFrames--;
 					return;

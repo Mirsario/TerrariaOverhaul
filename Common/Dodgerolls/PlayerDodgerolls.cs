@@ -302,6 +302,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 	private static void PlayerNpcCollisionInjection(ILContext context)
 	{
 		var il = new ILCursor(context);
+		bool debugAssembly = OverhaulMod.TMLAssembly.IsDebugAssembly();
 
 		ILLabel? continueLabel = null;
 		int npcIndexLocalId = -1;
@@ -310,17 +311,34 @@ public sealed class PlayerDodgerolls : ModPlayer
 		il.Index = context.Instrs.Count - 1;
 
 		// Match the last 'if (npcTypeNoAggro[Main.npc[i].type])'.
-		il.GotoPrev(
-			MoveType.After,
-			i => i.MatchLdarg(0),
-			i => i.MatchLdfld(typeof(Player), nameof(Terraria.Player.npcTypeNoAggro)),
-			i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
-			i => i.MatchLdloc(out npcIndexLocalId),
-			i => i.MatchLdelemRef(),
-			i => i.MatchLdfld(typeof(NPC), nameof(NPC.type)),
-			i => i.MatchLdelemU1(),
-			i => i.MatchBrtrue(out continueLabel)
-		);
+		if (!debugAssembly) {
+			il.GotoPrev(
+				MoveType.After,
+				i => i.MatchLdarg(0),
+				i => i.MatchLdfld(typeof(Player), nameof(Terraria.Player.npcTypeNoAggro)),
+				i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
+				i => i.MatchLdloc(out npcIndexLocalId),
+				i => i.MatchLdelemRef(),
+				i => i.MatchLdfld(typeof(NPC), nameof(NPC.type)),
+				i => i.MatchLdelemU1(),
+				i => i.MatchBrtrue(out continueLabel)
+			);
+		} else {
+			il.GotoPrev(
+				MoveType.After,
+				i => i.MatchLdarg(0),
+				i => i.MatchLdfld(typeof(Player), nameof(Terraria.Player.npcTypeNoAggro)),
+				i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
+				i => i.MatchLdloc(out npcIndexLocalId),
+				i => i.MatchLdelemRef(),
+				i => i.MatchLdfld(typeof(NPC), nameof(NPC.type)),
+				i => i.MatchLdelemU1(),
+				i => i.MatchStloc(out _),
+				i => i.MatchLdloc(out _),
+				i => i.MatchBrfalse(out _),
+				i => i.MatchBr(out continueLabel)
+			);
+		}
 
 		il.HijackIncomingLabels();
 
@@ -335,15 +353,27 @@ public sealed class PlayerDodgerolls : ModPlayer
 	private static void ProjectileDamageInjection(ILContext context)
 	{
 		var il = new ILCursor(context);
+		bool debugAssembly = OverhaulMod.TMLAssembly.IsDebugAssembly();
 
 		ILLabel? skipHitLabel = null;
 
 		// Match the last 'if (!Main.player[myPlayer2].CanParryAgainst(Main.player[myPlayer2].Hitbox, base.Hitbox, velocity))'.
 		il.GotoNext(
 			MoveType.After,
-			i => i.MatchCallvirt(typeof(Player), nameof(Player.CanParryAgainst)),
-			i => i.MatchBrtrue(out skipHitLabel)
+			i => i.MatchCallvirt(typeof(Player), nameof(Player.CanParryAgainst))
 		);
+
+		if (!debugAssembly) {
+			il.GotoNext(
+				MoveType.After,
+				i => i.MatchBrtrue(out skipHitLabel)
+			);
+		} else {
+			il.GotoNext(
+				MoveType.After,
+				i => i.MatchBrfalse(out skipHitLabel)
+			);
+		}
 
 		il.HijackIncomingLabels();
 

@@ -7,12 +7,12 @@ public sealed class CriticalStrikeTextImprovements : ModSystem
 {
 	public override void Load()
 	{
-		On_NPC.StrikeNPC += NPC_StrikeNPC;
+		On_NPC.StrikeNPC_HitInfo_bool_bool += NPC_StrikeNPC;
 	}
 
-	private static double NPC_StrikeNPC(On_NPC.orig_StrikeNPC orig, NPC self, int damage, float knockback, int hitDirection, bool crit, bool noEffect, bool fromNet)
+	private static int NPC_StrikeNPC(On_NPC.orig_StrikeNPC_HitInfo_bool_bool orig, NPC self, NPC.HitInfo hitInfo, bool fromNet, bool noPlayerInteraction)
 	{
-		if (crit) {
+		if (hitInfo.Crit) {
 			CombatTextSystem.AddFilter(1, text => {
 				if (uint.TryParse(text.text, out _) && !text.text.Contains('!')) {
 					text.text += "!";
@@ -20,6 +20,6 @@ public sealed class CriticalStrikeTextImprovements : ModSystem
 			});
 		}
 
-		return orig(self, damage, knockback, hitDirection, crit, noEffect, fromNet);
+		return orig(self, hitInfo, fromNet, noPlayerInteraction);
 	}
 }

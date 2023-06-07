@@ -1,4 +1,5 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria;
+using Terraria.ModLoader;
 using Hook = TerrariaOverhaul.Common.Hooks.Items.ICanDoMeleeDamage;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;

@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items;
 
 public interface ICanTurnDuringItemUse
 {
-	public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(CanTurnDuringItemUse))));
+	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(new GlobalHookList<GlobalItem>(typeof(Hook).GetMethod(nameof(CanTurnDuringItemUse))));
 
 	bool? CanTurnDuringItemUse(Item item, Player player);
 

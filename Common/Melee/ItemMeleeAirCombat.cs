@@ -19,7 +19,7 @@ public sealed class ItemMeleeAirCombat : ItemComponent
 	public MovementModifier MovementModifier { get; set; } = new() { GravityScale = 0.1f };
 	public float MovementModifierLengthMultiplier { get; set; } = 0.5f;
 
-	public override void OnHitNPC(Item item, Player player, NPC target, int damage, float knockback, bool crit)
+	public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
 	{
 		if (!Enabled || !item.TryGetGlobalItem<ItemMeleeAttackAiming>(out var meleeAttackAiming)) {
 			return;

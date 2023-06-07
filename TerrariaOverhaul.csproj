@@ -38,12 +38,18 @@
 		<None Remove=".gitignore" />
 	</ItemGroup>
 
-	<UsingTask TaskName="UpdateLocalizationFiles" AssemblyFile="$(BuildToolsAssemblyFile)" />
+	<UsingTask TaskName="SynchronizeLocalizationFiles" AssemblyFile="$(BuildToolsAssemblyFile)" />
+	<UsingTask TaskName="GenerateLocalizationStats" AssemblyFile="$(BuildToolsAssemblyFile)" />
 
 	<Target Name="UpdateLocalizationFiles" BeforeTargets="BeforeCompile">
-		<Message Text="Updating localization files..." Importance="high" />
+		<!-- Obsolete since 1.4.4 TML -->
+		<!--
+		<Message Text="Synchronizing localization files..." Importance="high" />
+		<SynchronizeLocalizationFiles MainFile="Localization\en-US.hjson" LocalizationFiles="@(LocalizationFiles)" />
+		-->
 
-		<UpdateLocalizationFiles ResultsOutputPath="Localization\README.md" MainFile="Localization\en-US.hjson" LocalizationFiles="@(LocalizationFiles)" />
+		<Message Text="Generating localization statistics..." Importance="high" />
+		<GenerateLocalizationStats ResultsOutputPath="Localization\README.md" MainFile="Localization\en-US.hjson" LocalizationFiles="@(LocalizationFiles)" />
 	</Target>
 
 </Project>

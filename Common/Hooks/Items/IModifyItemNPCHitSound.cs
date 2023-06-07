@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items;
 
 public interface IModifyItemNPCHitSound
 {
-	public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyItemNPCHitSound))));
+	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(new GlobalHookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyItemNPCHitSound))));
 
 	void ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle? customHitSound, ref bool playNPCHitSound);
 
