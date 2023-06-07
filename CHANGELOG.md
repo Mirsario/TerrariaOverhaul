@@ -30,6 +30,7 @@
 # Work In Progress
 
 ### Additions
+- Updated to support 1.4.4 Terraria and 2023 TModLoader.
 - Multiple features have been decoupled from "Item Overhauls", and will now appear on all fitting items in the game (including other mods' content), instead of only applying to thought-ahead categories of items ("shotguns", "bows", etc.):
 	- Crosshairs - The aiming reticle, but a great feedback booster more importantly.
 	- Visual Recoil - The slight offset in weapon's rotation after it's used.
