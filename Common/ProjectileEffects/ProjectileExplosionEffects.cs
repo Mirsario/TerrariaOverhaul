@@ -92,7 +92,7 @@ public sealed class ProjectileExplosionEffects : GlobalProjectile
 			}
 
 			foreach (var npc in ActiveEntities.NPCs) {
-				ApplySplashEffects(npc, ApplyVelocity, npc.GetRectangle(), center, range, rangeSquared, knockback);
+				ApplySplashEffects(npc, ApplyVelocity, npc.GetRectangle(), center, range, rangeSquared, knockback * npc.knockBackResist);
 			}
 		}
 
@@ -125,7 +125,10 @@ public sealed class ProjectileExplosionEffects : GlobalProjectile
 			return;
 		}
 
-		applyVelocityFunction(entity, direction * MathUtils.DistancePower(distance, range) * knockback);
+		float distanceFactor = MathUtils.DistancePower(distance, range);
+		var velocity = direction * distanceFactor * knockback;
+
+		applyVelocityFunction(entity, velocity);
 
 		if (entity is OverhaulGore gore) {
 			gore.Damage();
