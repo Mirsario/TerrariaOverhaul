@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using Microsoft.CodeAnalysis.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -14,8 +13,6 @@ using TerrariaOverhaul.Core.EntityCapturing;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Tiles;
 using TerrariaOverhaul.Utilities;
-using On_Player = On.Terraria.Player;
-using On_WorldGen = On.Terraria.WorldGen;
 
 namespace TerrariaOverhaul.Common.TreeFalling;
 

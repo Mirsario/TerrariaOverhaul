@@ -4,7 +4,6 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
-using On_Item = On.Terraria.Item;
 
 namespace TerrariaOverhaul.Core.EntityCapturing;
 

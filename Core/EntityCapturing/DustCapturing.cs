@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
-using On_Dust = On.Terraria.Dust;
 
 namespace TerrariaOverhaul.Core.EntityCapturing;
 
