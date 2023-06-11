@@ -1,0 +1,27 @@
+<!--
+	Based on:
+	https://github.com/rainersigwald/build-task-in-solution-demo
+-->
+<Project>
+	<PropertyGroup>
+		<BuildToolsAssemblyFile>$(MSBuildThisFileDirectory)\Libraries\TerrariaOverhaul.BuildTools.dll</BuildToolsAssemblyFile>
+	</PropertyGroup>
+
+	<!--
+		Using `TaskHostFactory` ensures that the task assembly will not be locked
+		at the end of the build. If it's omitted, that can cause build failures
+		in subsequent builds because the task assembly can't be written by the next build.
+	-->
+	<UsingTask TaskName="SynchronizeLocalizationFiles" AssemblyFile="$(BuildToolsAssemblyFile)" TaskFactory="TaskHostFactory" />
+	<UsingTask TaskName="GenerateLocalizationStats" AssemblyFile="$(BuildToolsAssemblyFile)" TaskFactory="TaskHostFactory" />
+
+	<ItemGroup>
+		<!-- Add a ProjectReference to ensure that the task gets built before it needs to be called. -->
+		<ProjectReference Include="$(MSBuildThisFileDirectory)\TerrariaOverhaul.BuildTools.csproj" ReferenceOutputAssembly="false" />
+	</ItemGroup>
+
+	<Target Name="InvokeCustomTasks" BeforeTargets="CoreCompile" DependsOnTargets="ResolveProjectReferences">
+		<!-- This is a dummy to depend on. -->
+	</Target>
+
+</Project>
