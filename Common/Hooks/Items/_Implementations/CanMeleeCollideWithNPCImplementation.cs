@@ -12,7 +12,7 @@ internal sealed class CanMeleeCollideWithNPCImplementation : GlobalItem
 {
 	public override void Load()
 	{
-		IL.Terraria.Player.ItemCheck_MeleeHitNPCs += context => {
+		IL_Player.ItemCheck_MeleeHitNPCs += context => {
 			var cursor = new ILCursor(context);
 
 			// This is a pretty bad expression

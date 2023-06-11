@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Gores;
@@ -11,6 +12,10 @@ public class ArrowBack : ModGore
 	public override void SetStaticDefaults()
 	{
 		ChildSafety.SafeGore[Type] = true;
+
+		// This makes this gore type be ignored by GoreStay.
+		GoreID.Sets.DisappearSpeed[Type] = 2;
+		GoreID.Sets.DisappearSpeedAlpha[Type] = 2;
 	}
 
 	public override void OnSpawn(Gore gore, IEntitySource source)

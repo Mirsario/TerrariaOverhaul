@@ -6,8 +6,6 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
-using OnPlayerSittingHelper = On.Terraria.GameContent.PlayerSittingHelper;
-using OnPlayerSleepingHelper = On.Terraria.GameContent.PlayerSleepingHelper;
 
 namespace TerrariaOverhaul.Common.Movement;
 
@@ -24,19 +22,19 @@ public sealed class PlayerDirectioning : ModPlayer
 
 	public override void Load()
 	{
-		On.Terraria.Player.HorizontalMovement += static (orig, player) => {
+		On_Player.HorizontalMovement += static (orig, player) => {
 			orig(player);
 
 			player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
 		};
 
-		On.Terraria.Player.ChangeDir += static (orig, player, dir) => {
+		On_Player.ChangeDir += static (orig, player, dir) => {
 			orig(player, dir);
 
 			player.GetModPlayer<PlayerDirectioning>()?.SetDirection();
 		};
 
-		OnPlayerSleepingHelper.StartSleeping += static (OnPlayerSleepingHelper.orig_StartSleeping orig, ref PlayerSleepingHelper self, Player player, int x, int y) => {
+		On_PlayerSleepingHelper.StartSleeping += static (On_PlayerSleepingHelper.orig_StartSleeping orig, ref PlayerSleepingHelper self, Player player, int x, int y) => {
 			try {
 				skipSetDirectionCounter++;
 
@@ -47,7 +45,7 @@ public sealed class PlayerDirectioning : ModPlayer
 			}
 		};
 
-		OnPlayerSittingHelper.SitDown += static (OnPlayerSittingHelper.orig_SitDown orig, ref PlayerSittingHelper self, Player player, int x, int y) => {
+		On_PlayerSittingHelper.SitDown += static (On_PlayerSittingHelper.orig_SitDown orig, ref PlayerSittingHelper self, Player player, int x, int y) => {
 			try {
 				skipSetDirectionCounter++;
 

@@ -165,11 +165,11 @@ public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
 	public void ApplyForce(Vector2 velocity, bool randomized = true)
 	{
 		if (randomized) {
-			float rotation = velocity != default ? velocity.ToRotation() : 0f;
+			float rotation = velocity != default ? velocity.ToRotation() : -MathHelper.PiOver2;
 			float length = velocity.SafeLength(0f);
 
-			rotation = MathHelper.Lerp(rotation, -MathHelper.PiOver2, 0.75f);
-			rotation += Main.rand.NextFloat(-1f, 1f) * MathHelper.ToRadians(45f);
+			rotation = MathUtils.LerpRadians(rotation, -MathHelper.PiOver2, 0.25f);
+			rotation += Main.rand.NextFloat(-1f, 1f) * MathHelper.ToRadians(10f);
 
 			velocity = new Vector2(length, 0f).RotatedBy(rotation);
 		}

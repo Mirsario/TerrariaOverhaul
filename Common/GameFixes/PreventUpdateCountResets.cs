@@ -9,7 +9,7 @@ public sealed class PreventUpdateCountResets : ILoadable
 {
 	public void Load(Mod mod)
 	{
-		On.Terraria.Main.ResetGameCounter += (orig) => {
+		On_Main.ResetGameCounter += (orig) => {
 			if (!Main.LocalPlayer.active) {
 				orig();
 			}

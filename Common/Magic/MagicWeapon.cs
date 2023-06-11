@@ -67,23 +67,21 @@ public partial class MagicWeapon : ItemOverhaul
 
 		item.EnableComponent<ItemPowerAttacks>(c => {
 			c.ChargeLengthMultiplier = 2f;
-			c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.75f;
-			c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
-			c.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
 
-			c.OnChargeStart += (item, player, chargeLength) => {
-				if (Main.dedServ || !player.IsLocal()) {
-					return;
-				}
+			var modifiers = new CommonStatModifiers();
 
-				ScreenShakeSystem.New(
-					new ScreenShake(chargeScreenShakePowerGradient, chargeLength * TimeSystem.LogicDeltaTime),
-					null
-				);
-			};
+			modifiers.ProjectileDamageMultiplier = modifiers.MeleeDamageMultiplier = 1.75f;
+			modifiers.ProjectileKnockbackMultiplier = modifiers.MeleeKnockbackMultiplier = 1.5f;
+			modifiers.ProjectileSpeedMultiplier = 2f;
+
+			c.StatModifiers.Single = modifiers;
 		});
 
 		if (!Main.dedServ) {
+			item.EnableComponent<ItemPowerAttackScreenShake>(c => {
+				c.ScreenShake = new ScreenShake(0.5f, 0.5f);
+			});
+
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
 				c.Sound = ChargeSound;
 				c.CancelPlaybackOnEnd = true;

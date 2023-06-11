@@ -25,7 +25,7 @@ public class PlayerManaRebalance : ModPlayer
 	{
 		// This IL edit completely replaces silly vanilla mana regeneration logic.
 		// Forces a constant regeneration value.
-		IL.Terraria.Player.UpdateManaRegen += static context => {
+		IL_Player.UpdateManaRegen += static context => {
 			var il = new ILCursor(context);
 
 			// manaRegenCount += manaRegen;

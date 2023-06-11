@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using Mono.Cecil.Cil;
+﻿using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ID;
@@ -13,26 +11,25 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Charging;
 
-public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultipliers, ICanDoMeleeDamage
+public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers, ICanDoMeleeDamage, ICanTurnDuringItemUse
 {
 	public delegate bool CanStartPowerAttackDelegate(Item item, Player player);
 
 	public float ChargeLengthMultiplier = 2f;
-	public CommonStatMultipliers CommonStatMultipliers = CommonStatMultipliers.Default;
+	public SingleOrGradient<CommonStatModifiers> StatModifiers = new();
+
+	private Timer charge;
 
 	public bool PowerAttack { get; private set; }
 
-	public event Action<Item, Player>? OnStart;
-	public event Action<Item, Player, float>? OnChargeStart;
-	public event Action<Item, Player, float, float>? OnChargeUpdate;
-	public event Action<Item, Player, float, float>? OnChargeEnd;
-	public event CanStartPowerAttackDelegate? CanStartPowerAttack;
+	public Timer Charge => charge;
+	public bool IsCharging => Charge.Active;
 
 	public override void Load()
 	{
 		// AltFunctionUse hook doesn't fit, since it relies on 'ItemID.Sets.ItemsThatAllowRepeatedRightClick' for repeated uses.
 		// Also it's better to execute power attack code after all other mods are done with their AltFunctionUse hooks.
-		IL.Terraria.Player.ItemCheck_ManageRightClickFeatures += context => {
+		IL_Player.ItemCheck_ManageRightClickFeatures += context => {
 			var il = new ILCursor(context);
 
 			int isButtonHeldLocalId = -1;
@@ -62,9 +59,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 			);
 			il.HijackIncomingLabels();
 
-			int initialCheckSuccessLocalId = context.Body.Variables.Count;
-			
-			il.Body.Variables.Add(new VariableDefinition(context.Import(typeof(bool))));
+			int initialCheckSuccessLocalId = il.AddLocalVariable(typeof(bool));
 
 			il.Emit(OpCodes.Ldarg_0);
 			il.Emit(OpCodes.Ldloc, isButtonHeldLocalId);
@@ -102,17 +97,21 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 		};
 	}
 
-	public override void UseAnimation(Item item, Player player)
-	{
-		if (PowerAttack) {
-			OnStart?.Invoke(item, player);
-		}
-	}
-
 	public override void HoldItem(Item item, Player player)
 	{
-		if (player.itemAnimation <= 1 && !item.GetGlobalItem<ItemCharging>().IsCharging) {
-			PowerAttack = false;
+		if (IsCharging) {
+			// The charge is ongoing
+			ChargeUpdate(item, player);
+		} else {
+			// The charge just ended
+			if (Charge.UnclampedValue == 0) {
+				ChargeEnd(item, player);
+			}
+
+			// Not charging and the use has ended
+			if (player.itemAnimation <= 1) {
+				PowerAttack = false;
+			}
 		}
 	}
 
@@ -122,9 +121,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 			return false;
 		}
 
-		var itemCharging = item.GetGlobalItem<ItemCharging>();
-
-		if (itemCharging.IsCharging || player.itemAnimation > 0) {
+		if (player.itemAnimation > 0 || IsCharging) {
 			return false;
 		}
 
@@ -136,56 +133,64 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatMultiplie
 			return false;
 		}
 
-		if (CanStartPowerAttack != null && CanStartPowerAttack.GetInvocationList().Any(func => !((CanStartPowerAttackDelegate)func)(item, player))) {
+		if (!ICanStartPowerAttack.Invoke(item, player)) {
 			return false;
 		}
 		
-		int chargeLength = CombinedHooks.TotalAnimationTime(item.useAnimation * ChargeLengthMultiplier, player, item);
+		uint chargeLength = (uint)CombinedHooks.TotalAnimationTime(item.useAnimation * ChargeLengthMultiplier, player, item);
 
-		StartPowerAttack(item, player, chargeLength, itemCharging);
+		StartPowerAttack(item, player, chargeLength);
 
 		return true;
 	}
 
-	public void StartPowerAttack(Item item, Player player, int chargeLength, ItemCharging? itemCharging = null)
+	public void StartPowerAttack(Item item, Player player, uint chargeLength)
 	{
-		itemCharging ??= item.GetGlobalItem<ItemCharging>();
-
 		if (Main.netMode == NetmodeID.MultiplayerClient && player.IsLocal()) {
-			MultiplayerSystem.SendPacket(new PowerAttackStartPacket(player, chargeLength));
+			MultiplayerSystem.SendPacket(new PowerAttackStartPacket(player, (int)chargeLength));
 		}
 
-		OnChargeStart?.Invoke(item, player, chargeLength);
-
-		itemCharging.StartCharge(
-			chargeLength,
-			// Update
-			(i, p, progress) => {
-				p.itemTime = 2;
-				p.itemAnimation = p.itemAnimationMax;
-
-				OnChargeUpdate?.Invoke(i, p, chargeLength, progress);
-			},
-			// End
-			(i, p, progress) => {
-				i.GetGlobalItem<ItemPowerAttacks>().PowerAttack = true;
-
-				p.GetModPlayer<PlayerItemUse>().ForceItemUse();
-
-				OnChargeEnd?.Invoke(i, p, chargeLength, progress);
-			},
-			// Allow turning
-			true
-		);
+		charge.Set(chargeLength);
 	}
 
-	public void ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatMultipliers multipliers)
+	private void ChargeUpdate(Item item, Player player)
 	{
-		if (PowerAttack) {
-			multipliers *= CommonStatMultipliers;
+		player.itemTime = 2;
+		player.itemAnimation = player.itemAnimationMax;
+	}
+
+	private void ChargeEnd(Item item, Player player)
+	{
+		PowerAttack = true;
+
+		player.GetModPlayer<PlayerItemUse>().ForceItemUse();
+	}
+
+	void IModifyCommonStatModifiers.ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatModifiers multipliers)
+	{
+		if (!PowerAttack) {
+			return;
 		}
+
+		float chargeProgress = charge.Progress;
+		CommonStatModifiers powerMultipliers;
+
+		if (StatModifiers.Gradient is Gradient<CommonStatModifiers> gradient) {
+			powerMultipliers = gradient.GetValue(chargeProgress);
+		} else {
+			powerMultipliers = CommonStatModifiers.Lerp(
+				in CommonStatModifiers.Default,
+				in StatModifiers.Single,
+				chargeProgress
+			);
+		}
+
+		multipliers *= powerMultipliers;
 	}
 
 	bool ICanDoMeleeDamage.CanDoMeleeDamage(Item item, Player player)
-		=> !item.TryGetGlobalItem<ItemCharging>(out var itemCharging) || !itemCharging.IsCharging;
+		=> !IsCharging;
+
+	bool? ICanTurnDuringItemUse.CanTurnDuringItemUse(Item item, Player player)
+		=> IsCharging ? true : null;
 }

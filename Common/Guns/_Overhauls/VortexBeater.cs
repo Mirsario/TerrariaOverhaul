@@ -22,7 +22,7 @@ public sealed class VortexBeater : ItemOverhaul
 	{
 		base.Load();
 
-		IL.Terraria.Projectile.AI_075 += HeldProjectileBehaviorInjection;
+		IL_Projectile.AI_075 += HeldProjectileBehaviorInjection;
 	}
 
 	public override bool ShouldApplyItemOverhaul(Item item)

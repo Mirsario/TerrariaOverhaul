@@ -38,7 +38,7 @@ public sealed class PlayerMovement : ModPlayer
 	public override void Load()
 	{
 		// Replace jump hold down logic with gravity scaling
-		IL.Terraria.Player.JumpMovement += (context) => {
+		IL_Player.JumpMovement += (context) => {
 			var cursor = new ILCursor(context);
 
 			// Match 'if (jump > 0)'

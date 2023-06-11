@@ -2,26 +2,26 @@
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
 using TerrariaOverhaul.Utilities;
-using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyCommonStatMultipliers;
+using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyCommonStatModifiers;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;
 
-public interface IModifyCommonStatMultipliers
+public interface IModifyCommonStatModifiers
 {
 	public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyCommonStatMultipliers))));
 
-	void ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatMultipliers multipliers);
+	void ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatModifiers multipliers);
 
-	public static CommonStatMultipliers GetMultipliers(Item item, Player player)
+	public static CommonStatModifiers GetMultipliers(Item item, Player player)
 	{
-		var multipliers = CommonStatMultipliers.Default;
+		var multipliers = new CommonStatModifiers();
 
 		Invoke(item, player, ref multipliers);
 
 		return multipliers;
 	}
 
-	public static void Invoke(Item item, Player player, ref CommonStatMultipliers multipliers)
+	public static void Invoke(Item item, Player player, ref CommonStatModifiers multipliers)
 	{
 		(item.ModItem as Hook)?.ModifyCommonStatMultipliers(item, player, ref multipliers);
 		

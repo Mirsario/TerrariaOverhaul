@@ -1,22 +1,37 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.AudioEffects;
 
-public sealed class PlayerWallOcclusion : ModPlayer
+//TODO: Rewrite to dynamically detect sounds as ones happening inside or outside, occlude if not the same.
+public sealed class WallSoundOcclusion : ModSystem
 {
-	public float OcclusionFactor { get; private set; }
+	private static readonly HashSet<SoundStyle> soundStyles = new() {
+		SoundID.Bird,
+		SoundID.Thunder,
+	};
 
-	public override void PostUpdate()
+	public static float OcclusionFactor { get; private set; }
+
+	public override void Load()
 	{
-		if (!Player.IsLocal()) {
+		AudioEffectsSystem.OnSoundUpdate += ApplyOcclusionToSounds;
+	}
+
+	public override void PostUpdateWorld()
+	{
+		if (Main.LocalPlayer is not Player { active: true } player) {
 			return;
 		}
 
-		Vector2Int areaCenter = Player.Center.ToTileCoordinates();
+		Vector2Int areaCenter = player.Center.ToTileCoordinates();
 		var halfSize = new Vector2Int(5, 5);
 		Vector2Int size = halfSize * 2;
 		Vector2Int start = areaCenter - halfSize;
@@ -53,5 +68,27 @@ public sealed class PlayerWallOcclusion : ModPlayer
 		);
 
 		OcclusionFactor = MathHelper.Clamp(numWalls / (float)requiredWallTiles, 0f, 1f);
+	}
+
+	public static void SetEnabledForSoundStyle(SoundStyle soundStyle, bool enabled)
+	{
+		if (enabled) {
+			soundStyles.Add(soundStyle);
+		} else {
+			soundStyles.Remove(soundStyle);
+		}
+	}
+
+	private static void ApplyOcclusionToSounds(Span<AudioEffectsSystem.SoundData> sounds)
+	{
+		float occlusionFactor = OcclusionFactor;
+
+		for (int i = 0; i < sounds.Length; i++) {
+			ref var data = ref sounds[i];
+
+			if (soundStyles.Contains(data.SoundStyle)) {
+				data.Parameters.LowPassFiltering += occlusionFactor;
+			}
+		}
 	}
 }

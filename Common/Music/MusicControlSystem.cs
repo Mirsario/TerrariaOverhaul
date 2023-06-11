@@ -27,7 +27,7 @@ public sealed class MusicControlSystem : ModSystem
 	public override void Load()
 	{
 		Main.QueueMainThreadAction(() => {
-			IL.Terraria.Main.UpdateAudio += UpdateAudioInjection;
+			IL_Main.UpdateAudio += UpdateAudioInjection;
 		});
 	}
 

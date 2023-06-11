@@ -17,7 +17,7 @@ public sealed class SystemCursorDisplay : ILoadable
 	
 	void ILoadable.Load(Mod mod)
 	{
-		Main.QueueMainThreadAction(() => IL.Terraria.Main.DoUpdate += Injection);
+		Main.QueueMainThreadAction(() => IL_Main.DoUpdate += Injection);
 	}
 
 	void ILoadable.Unload() { }

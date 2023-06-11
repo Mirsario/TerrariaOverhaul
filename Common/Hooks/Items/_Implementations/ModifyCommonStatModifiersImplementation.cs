@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyCommonStatMultipliers;
+using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyCommonStatModifiers;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;
 
-internal sealed class ModifyCommonStatMultipliersImplementation : GlobalItem, IModifyItemMeleeRange
+internal sealed class ModifyCommonStatModifiersImplementation : GlobalItem, IModifyItemMeleeRange
 {
 	public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
 	{
