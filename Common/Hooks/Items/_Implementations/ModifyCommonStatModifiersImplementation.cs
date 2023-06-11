@@ -7,12 +7,12 @@ namespace TerrariaOverhaul.Common.Hooks.Items;
 
 internal sealed class ModifyCommonStatModifiersImplementation : GlobalItem, IModifyItemMeleeRange
 {
-	public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
+	public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
 	{
 		var multipliers = Hook.GetMultipliers(item, player);
 
-		damage = (int)(damage * multipliers.MeleeDamageMultiplier);
-		knockback *= multipliers.MeleeKnockbackMultiplier;
+		modifiers.FinalDamage *= multipliers.MeleeDamageMultiplier;
+		modifiers.Knockback *= multipliers.MeleeKnockbackMultiplier;
 	}
 
 	public override void ModifyShootStats(Item item, Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)

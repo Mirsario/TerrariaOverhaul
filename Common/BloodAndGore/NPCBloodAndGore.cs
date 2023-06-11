@@ -78,10 +78,10 @@ public class NPCBloodAndGore : GlobalNPC
 		};
 
 		// Record and save blood information onto gores spawned during HitEffect.
-		On_NPC.HitEffect += (orig, npc, hitDirection, dmg) => {
+		On_NPC.HitEffect_HitInfo += (orig, npc, hitInfo) => {
 			// Ignore contexts where we only want blood to spawn.
 			if (disableNonBloodEffectSubscriptions > 0 || !npc.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore)) {
-				orig(npc, hitDirection, dmg);
+				orig(npc, hitInfo);
 
 				return;
 			}
@@ -90,7 +90,7 @@ public class NPCBloodAndGore : GlobalNPC
 			
 			var spawnedGores = GoreSystem.InvokeWithGoreSpawnRecording(() => {
 				bloodColors = BloodParticle.RecordBloodColors(() => {
-					orig(npc, hitDirection, dmg);
+					orig(npc, hitInfo);
 				});
 			});
 
@@ -133,7 +133,10 @@ public class NPCBloodAndGore : GlobalNPC
 		disableNonBloodEffectSubscriptions++;
 
 		try {
-			GoreSystem.InvokeWithGoreSpawnDisabled(() => NPCLoader.HitEffect(npc, direction, damage));
+			GoreSystem.InvokeWithGoreSpawnDisabled(() => NPCLoader.HitEffect(npc, new NPC.HitInfo {
+				Damage = damage,
+				HitDirection = direction,
+			}));
 		}
 		finally {
 			disableNonBloodEffectSubscriptions--;

@@ -453,64 +453,116 @@ Mods: {
 			Lightning: "{PlayerName} was struck by lightning. Ouch!"
 		}
 
-		ItemName: {
-			BunnyPaw: "Bunny Paw"
-			Charcoal: "Charcoal"
-			Calendar: "Calendar"
-			Gramophone: "Gramophone"
-			MusicDisc: "Music Disc"
-			Mop: "Mop"
-			StoneAxe: "Stone Axe"
-			StonePickaxe: "Stone Pickaxe"
+		Keybinds: {
+			Dodgeroll: {
+				DisplayName: "Dodgeroll"
+			}
 		}
 
-		ItemTooltip: {
-			BunnyPaw:
-				'''
-				[c/fca9ea:Increases bunnyhops' speed boost with every successful consequent jump]
-				[c/fca9ea:Combine bunnyhops with dodgerolls for even higher multipliers]
-				[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
-				'''
-			Charcoal: "It's still warm"
-			Calendar:
-				'''
-				Counts amount of days left until the next season
-				Right click after placing to use it
-				'''
-			Gramophone: "Plays music discs"
-			MusicDisc: "Can be played in a gramophone"
-			Mop: "Keeps your house clean of guts and shredded eyeballs"
-			StoneAxe: "Wood is probably stronger than this"
-			StonePickaxe: "Great against dirt!"
+		Tiles: {
+			Calendar: {
+				MapEntry: "{$Mods.TerrariaOverhaul.Items.Calendar.DisplayName}"
+			}
+
+			Gramophone: {
+				MapEntry: "{$Mods.TerrariaOverhaul.Items.Gramophone.DisplayName}"
+			}
 		}
 
-		NPCName: {
-			AshSlime: "Ash Clot"
-			AshZombie: "Walking Ashes"
+		Buffs: {
+			CriticalJudgement: {
+				DisplayName: "Critical Judgement"
+				Description:
+					'''
+					Their assault was proven futile
+					Unleash your judgement with a critical strike
+					'''
+			}
+
+			HackAndSlash: {
+				DisplayName: "Hack And Slash"
+				Description:
+					'''
+					The faster you move, the harder you strike
+					Melee damage multiplier: x{Multiplier}
+					'''
+			}
+
+			ManaAbsorption: {
+				DisplayName: "Mana Absorption"
+				Description:
+					'''
+					Moving with haste, you are absorbing energy from all around you
+					Base mana regeneration multiplier: x{Multiplier}
+					'''
+			}
 		}
 
-		BuffName: {
-			CriticalJudgement: "Critical Judgement"
-			HackAndSlash: "Hack and Slash"
-			ManaAbsorption: "Mana Absorption"
+		Items: {
+			BunnyPaw: {
+				DisplayName: "Bunny Paw"
+				Tooltip:
+					'''
+					[c/fca9ea:Increases bunnyhops' speed boost with every successful consequent jump]
+					[c/fca9ea:Combine bunnyhops with dodgerolls for even higher multipliers]
+					[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
+					'''
+			}
+
+			Charcoal: {
+				DisplayName: "Charcoal"
+				Tooltip: "It's still warm"
+			}
+
+			Calendar: {
+				DisplayName: "Calendar"
+				Tooltip:
+					'''
+					Counts amount of days left until the next season
+					Right click after placing to use it
+					'''
+			}
+
+			Gramophone: {
+				DisplayName: "Gramophone"
+				Tooltip: "Plays music discs"
+			}
+
+			MusicDisc: {
+				DisplayName: "Music Disc"
+				Tooltip: "Can be played in a gramophone"
+			}
+
+			Mop: {
+				DisplayName: "Mop"
+				Tooltip: "Keeps your house clean of guts and shredded eyeballs"
+			}
+
+			StoneAxe: {
+				DisplayName: "Stone Axe"
+				Tooltip: "Wood is probably stronger than this"
+			}
+
+			StonePickaxe: {
+				DisplayName: "Stone Pickaxe"
+				Tooltip: "Great against dirt!"
+			}
 		}
 
-		BuffDescription: {
-			CriticalJudgement:
-				'''
-				Their assault was proven futile
-				Unleash your judgement with a critical strike
-				'''
-			HackAndSlash:
-				'''
-				The faster you move, the harder you strike
-				Melee damage multiplier: x{Multiplier}
-				'''
-			ManaAbsorption:
-				'''
-				Moving with haste, you are absorbing energy from all around you
-				Base mana regeneration multiplier: x{Multiplier}
-				'''
+		NPCs: {
+			AshSlime: {
+				DisplayName: "Ash Clot"
+			}
+
+			AshZombie: {
+				DisplayName: "Walking Ashes"
+			}
+		}
+
+		Projectiles: {
+			MopProjectile: {
+				DisplayName: "{$Mods.TerrariaOverhaul.Items.Mop.DisplayName}"
+			}
 		}
 	}
 }

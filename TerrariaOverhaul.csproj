@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<Import Project="..\tModLoader.targets" />
+	<Import Project="BuildTools\BuildTools.targets" />
 
 	<PropertyGroup>
 		<AssemblyName>TerrariaOverhaul</AssemblyName>
@@ -8,10 +9,6 @@
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<LangVersion>10.0</LangVersion>
 		<Nullable>enable</Nullable>
-	</PropertyGroup>
-	
-	<PropertyGroup>
-		<BuildToolsAssemblyFile>BuildTools\Libraries\TerrariaOverhaul.BuildTools.dll</BuildToolsAssemblyFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -38,12 +35,15 @@
 		<None Remove=".gitignore" />
 	</ItemGroup>
 
-	<UsingTask TaskName="UpdateLocalizationFiles" AssemblyFile="$(BuildToolsAssemblyFile)" />
+	<Target Name="UpdateLocalizationFiles" BeforeTargets="BeforeCompile" DependsOnTargets="InvokeCustomTasks">
+		<!-- Obsolete since 1.4.4 TML -->
+		<!--
+		<Message Text="Synchronizing localization files..." Importance="high" />
+		<SynchronizeLocalizationFiles MainFile="Localization\en-US.hjson" LocalizationFiles="@(LocalizationFiles)" />
+		-->
 
-	<Target Name="UpdateLocalizationFiles" BeforeTargets="BeforeCompile">
-		<Message Text="Updating localization files..." Importance="high" />
-
-		<UpdateLocalizationFiles ResultsOutputPath="Localization\README.md" MainFile="Localization\en-US.hjson" LocalizationFiles="@(LocalizationFiles)" />
+		<Message Text="Generating localization statistics..." Importance="high" />
+		<GenerateLocalizationStats ResultsOutputPath="Localization\README.md" MainFile="Localization\en-US.hjson" LocalizationFiles="@(LocalizationFiles)" />
 	</Target>
 
 </Project>

@@ -68,9 +68,12 @@ public sealed class Text
 				cachedValue = Language.GetTextValue(source);
 
 				if (cachedValue == source && lastLanguageRefreshCount == 0) {
+					//TODO: Verify that everything is okay.
+					/*
 					var modTranslation = LocalizationLoader.GetOrCreateTranslation(source, defaultEmpty: true);
 					
 					cachedValue = modTranslation.GetTranslation(ActiveCultureId);
+					*/
 
 					if (string.IsNullOrWhiteSpace(cachedValue) || cachedValue == source) {
 						cachedValue = "Localizations loading...";

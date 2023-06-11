@@ -31,7 +31,7 @@ public class ManaAbsorption : ModBuff
 		BuffID.Sets.NurseCannotRemoveDebuff[Type] = true;
 	}
 
-	public override void ModifyBuffTip(ref string tip, ref int rare)
+	public override void ModifyBuffText(ref string buffName, ref string tip, ref int rare)
 	{
 		if (!Main.LocalPlayer.TryGetModPlayer(out PlayerManaRebalance manaRebalance)) {
 			return;

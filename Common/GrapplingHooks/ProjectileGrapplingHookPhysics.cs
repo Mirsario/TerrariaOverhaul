@@ -273,6 +273,7 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 	private static void PlayerGrappleMovementInjection(ILContext context)
 	{
 		var il = new ILCursor(context);
+		bool debugAssembly = OverhaulMod.TMLAssembly.IsDebugAssembly();
 
 		// Match 'GoingDownWithGrapple = true;' to prepare the code emitting location.
 		il.GotoNext(
@@ -287,12 +288,23 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 		// Match 'if (controlJump)' to mark a label.
 		var skipVanillaCodeLabel = il.DefineLabel();
 
-		il.GotoNext(
-			MoveType.Before,
-			i => i.MatchLdarg(0),
-			i => i.MatchLdfld(typeof(Player), nameof(Player.controlJump)),
-			i => i.MatchBrfalse(out _)
-		);
+		if (!debugAssembly) {
+			il.GotoNext(
+				MoveType.Before,
+				i => i.MatchLdarg(0),
+				i => i.MatchLdfld(typeof(Player), nameof(Player.controlJump)),
+				i => i.MatchBrfalse(out _)
+			);
+		} else {
+			il.GotoNext(
+				MoveType.Before,
+				i => i.MatchLdarg(0),
+				i => i.MatchLdfld(typeof(Player), nameof(Player.controlJump)),
+				i => i.MatchStloc(out _),
+				i => i.MatchLdloc(out _),
+				i => i.MatchBrfalse(out _)
+			);
+		}
 
 		il.MarkLabel(skipVanillaCodeLabel);
 

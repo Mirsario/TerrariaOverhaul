@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.Charging;
 
 public interface ICanStartPowerAttack
 {
-	public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(CanStartPowerAttack))));
+	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(new GlobalHookList<GlobalItem>(typeof(Hook).GetMethod(nameof(CanStartPowerAttack))));
 
 	bool CanStartPowerAttack(Item item, Player player);
 
