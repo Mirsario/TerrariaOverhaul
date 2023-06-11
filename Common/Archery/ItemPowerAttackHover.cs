@@ -43,8 +43,8 @@ public sealed class ItemPowerAttackHover : ItemComponent
 			return;
 		}
 
-		// Player has to be holding the up button and not be holding down.
-		if (!player.controlUp || player.controlDown) {
+		// Player has to be holding the jump button and not be holding down.
+		if (!player.controlJump || player.controlDown) {
 			Stop();
 			return;
 		}
