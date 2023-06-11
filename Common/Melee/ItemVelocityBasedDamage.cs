@@ -45,7 +45,7 @@ public sealed class ItemVelocityBasedDamage : ItemComponent
 		}
 	}
 
-	public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockback, ref bool crit)
+	public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
 	{
 		if (!Enabled) {
 			return;
@@ -54,14 +54,12 @@ public sealed class ItemVelocityBasedDamage : ItemComponent
 		float velocityFactor = CalculateVelocityFactor(player.velocity);
 		float velocityDamageScale = CalculateDamageMultiplier(velocityFactor);
 
-		knockback *= velocityDamageScale;
-		damage = (int)Math.Round(damage * velocityDamageScale);
+		modifiers.Knockback *= velocityDamageScale;
+		modifiers.FinalDamage *= velocityDamageScale;
 
 		if (Main.dedServ) {
 			return;
 		}
-
-		bool critCopy = crit;
 
 		CombatTextSystem.AddFilter(1, text => {
 			if (uint.TryParse(text.text, out _)) {

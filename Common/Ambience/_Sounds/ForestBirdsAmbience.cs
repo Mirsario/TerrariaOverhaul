@@ -21,6 +21,6 @@ public sealed class ForestBirdsAmbience : AmbienceTrack
 			new("TreesAround"),
 		};
 
-		AudioEffectsSystem.EnableSoundStyleWallOcclusion(Sound);
+		WallSoundOcclusion.SetEnabledForSoundStyle(Sound, true);
 	}
 }

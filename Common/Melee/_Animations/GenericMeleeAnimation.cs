@@ -7,7 +7,7 @@ public class GenericMeleeAnimation : MeleeAnimation
 {
 	public override float GetItemRotation(Player player, Item item)
 	{
-		if (!item.TryGetGlobalItem(out ItemMeleeAttackAiming aimableAttacks, false)) {
+		if (!item.TryGetGlobalItem(out ItemMeleeAttackAiming aimableAttacks)) {
 			return 0f;
 		}
 

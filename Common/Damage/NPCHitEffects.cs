@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Common.Damage;
 // Offsets, rotates, and scales enemies whenever they're hit, so that they look less static even when they're not moving.
 // Looks like some sort of flinching.
 [Autoload(Side = ModSide.Client)]
-public class NPCHitEffects : GlobalNPC
+public sealed class NPCHitEffects : GlobalNPC
 {
 	private ulong lastHitTime;
 	private float? usedDrawScaleMultiplier;
@@ -19,10 +19,10 @@ public class NPCHitEffects : GlobalNPC
 
 	public override bool InstancePerEntity => true;
 
-	public override void OnHitByItem(NPC npc, Player player, Item item, int damage, float knockback, bool crit)
+	public override void OnHitByItem(NPC npc, Player player, Item item, NPC.HitInfo hit, int damageDone)
 		=> ResetHitTime();
 
-	public override void OnHitByProjectile(NPC npc, Projectile projectile, int damage, float knockback, bool crit)
+	public override void OnHitByProjectile(NPC npc, Projectile projectile, NPC.HitInfo hit, int damageDone)
 		=> ResetHitTime();
 
 	// Drawing

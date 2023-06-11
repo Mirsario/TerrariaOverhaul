@@ -39,7 +39,7 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 		AttackId++;
 	}
 
-	public override void ModifyHitNPC(Item item, Player player, NPC target, ref int damage, ref float knockBack, ref bool crit)
+	public override void ModifyHitNPC(Item item, Player player, NPC target, ref NPC.HitModifiers modifiers)
 	{
 		// Make directional knockback work with melee.
 		if (target.TryGetGlobalNPC(out NPCDirectionalKnockback npcKnockback)) {

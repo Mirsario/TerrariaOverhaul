@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Hjson;
 using Microsoft.Build.Framework;
 using Newtonsoft.Json;
@@ -13,18 +11,15 @@ using TerrariaOverhaul.BuildTools.Utilities;
 namespace TerrariaOverhaul.BuildTools;
 
 /// <summary>
-/// Formats and populates HJSON localization files based on a default fallback file.
+/// <br/> Synchronizes HJSON localization files' keys with the provided default file.
+/// <br/> This task does not create new localization keys based on declared content, only based on the keys declared in the fallback file.
 /// </summary>
-public class UpdateLocalizationFiles : TaskBase
+public sealed class SynchronizeLocalizationFiles : TaskBase
 {
-	private class RecursionData
+	private record class RecursionData
 	{
 		public CodeWriter Code { get; }
 		public JObject Translation { get; }
-		public int PresentTranslationCount { get; set; }
-		public int MissingTranslationCount { get; set; }
-		
-		public int TotalTranslationCount => PresentTranslationCount + MissingTranslationCount;
 
 		public RecursionData(CodeWriter code, JObject translation)
 		{
@@ -33,8 +28,6 @@ public class UpdateLocalizationFiles : TaskBase
 		}
 	}
 	
-	public string ResultsOutputPath { get; set; } = string.Empty;
-
 	[Required]
 	public string MainFile { get; set; } = string.Empty;
 
@@ -58,46 +51,6 @@ public class UpdateLocalizationFiles : TaskBase
 			File.WriteAllText(translationFilePath, code.ToString());
 
 			results[cultureName] = data;
-		}
-
-		if (!string.IsNullOrWhiteSpace(ResultsOutputPath)) {
-			string usedPath = Path.ChangeExtension(ResultsOutputPath, ".md");
-			var resultsText = new StringBuilder();
-
-			const string Header = "# Results of the last localization refresh";
-
-			// Prevent commas from being used in place of periods.
-			// We don't want that to appear in PRs.
-			CultureInfo.CurrentCulture = new CultureInfo("en-US");
-
-			resultsText.AppendLine(Header);
-			resultsText.AppendLine();
-
-			foreach (var pair in results) {
-				string cultureName = pair.Key;
-				var data = pair.Value;
-
-				string status = data.PresentTranslationCount != 0 ? (data.MissingTranslationCount == 0 ? "✅ Full!" : "⚠️ Incomplete!") : "❌ Not even started!";
-
-				resultsText.AppendLine($"## {cultureName}");
-				resultsText.AppendLine($"- **Status:** {status}");
-				resultsText.AppendLine($"- **Completion:** ***{data.PresentTranslationCount / (float)data.TotalTranslationCount * 100f:0.0}%***");
-				resultsText.AppendLine($"- **Translated:** `{data.PresentTranslationCount}` out of `{data.TotalTranslationCount}` (`{data.MissingTranslationCount}` missing!)");
-				resultsText.AppendLine();
-			}
-
-			string finalizedResultsText = resultsText.ToString();
-
-			if (File.Exists(usedPath)) {
-				string existingText = File.ReadAllText(usedPath);
-				int headerIndex = existingText.IndexOf(Header);
-
-				if (headerIndex >= 0) {
-					finalizedResultsText = $"{existingText.Substring(0, headerIndex)}{finalizedResultsText}";
-				}
-			}
-
-			File.WriteAllText(usedPath, finalizedResultsText);
 		}
 	}
 
@@ -125,12 +78,6 @@ public class UpdateLocalizationFiles : TaskBase
 		switch (token) {
 			case JProperty jsonProperty:
 				if (jsonProperty.Value.Type != JTokenType.Object) {
-					if (translatedToken == null) {
-						data.MissingTranslationCount++;
-					} else {
-						data.PresentTranslationCount++;
-					}
-
 					code.Write(linePrefix);
 				}
 

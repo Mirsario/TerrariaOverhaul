@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items;
 
 public interface IModifyCommonStatModifiers
 {
-	public static readonly HookList<GlobalItem> Hook = ItemLoader.AddModHook(new HookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyCommonStatMultipliers))));
+	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(new GlobalHookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyCommonStatMultipliers))));
 
 	void ModifyCommonStatMultipliers(Item item, Player player, ref CommonStatModifiers multipliers);
 
