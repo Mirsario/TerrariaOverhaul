@@ -1,7 +1,10 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Core.ItemComponents;
@@ -42,7 +45,7 @@ public sealed class ItemKillingBlows : ItemComponent
 		};
 
 		// This hook implements killing blows. They have to run after all damage modifications, as it needs to check the final damage.
-		On_NPC.CalculateStrikeFromLegacyValues += CalculateStrikeFromLegacyValuesDetour;
+		IL_Player.ProcessHitAgainstNPC += ProcessHitAgainstNPCInjection;
 	}
 
 	public override void HoldStyle(Item item, Player player, Rectangle heldItemFrame)
@@ -93,18 +96,34 @@ public sealed class ItemKillingBlows : ItemComponent
 		}
 	}
 
-	private static NPC.HitInfo CalculateStrikeFromLegacyValuesDetour(On_NPC.orig_CalculateStrikeFromLegacyValues orig, NPC npc, int damage, float knockback, int hitDirection, bool crit)
+	private static void ProcessHitAgainstNPCInjection(ILContext context)
 	{
-		var result = orig(npc, damage, knockback, hitDirection, crit);
+		var il = new ILCursor(context);
 
-		CheckForKillingBlow(npc, ref result);
+		int hitInfoLocalId = -1;
+		int npcLocalId = -1;
 
-		return result;
+		il.GotoNext(
+			MoveType.After,
+			i => i.MatchCall(typeof(NPC.HitModifiers), nameof(NPC.HitModifiers.ToHitInfo)),
+			i => i.MatchStloc(out hitInfoLocalId)
+		);
+		il.GotoNext(
+			MoveType.Before,
+			i => i.MatchLdloca(out _),
+			i => i.MatchLdloc(out npcLocalId),
+			i => i.MatchCall(typeof(NPCKillAttempt).GetConstructor(new[] { typeof(NPC) })!)
+		);
+
+		il.Emit(OpCodes.Ldarg_0);
+		il.Emit(OpCodes.Ldloc, npcLocalId);
+		il.Emit(OpCodes.Ldloca, hitInfoLocalId);
+		il.EmitDelegate(TryApplyingKillingBlow);
 	}
 
-	private static void CheckForKillingBlow(NPC npc, ref NPC.HitInfo hitInfo)
+	private static void TryApplyingKillingBlow(Player player, NPC npc, ref NPC.HitInfo hitInfo)
 	{
-		if (playerCurrentlySwingingWeapons is not Player { HeldItem: Item item } player || !player.IsLocal()) {
+		if (playerCurrentlySwingingWeapons is not Player { HeldItem: Item item } currentPlayer || currentPlayer != player || !player.IsLocal()) {
 			return;
 		}
 
