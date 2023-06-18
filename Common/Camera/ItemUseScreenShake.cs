@@ -16,6 +16,12 @@ public sealed class ItemUseScreenShake : ItemComponent
 
 	public override void OnEnabled(Item item)
 	{
+		// Weaken effects for all thrown items.
+		if (item.consumable) {
+			ScreenShake = new ScreenShake(0.125f, 0.25f);
+			return;
+		}
+
 		float useTimeInSeconds = item.useTime * TimeSystem.LogicDeltaTime;
 		float useAnimInSeconds = item.useAnimation * TimeSystem.LogicDeltaTime;
 
