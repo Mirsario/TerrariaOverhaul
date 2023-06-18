@@ -189,7 +189,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 	}
 
 	bool ICanDoMeleeDamage.CanDoMeleeDamage(Item item, Player player)
-		=> !IsCharging;
+		=> /*!IsCharging*/ Charge.UnclampedValue < 0;
 
 	bool? ICanTurnDuringItemUse.CanTurnDuringItemUse(Item item, Player player)
 		=> IsCharging ? true : null;
