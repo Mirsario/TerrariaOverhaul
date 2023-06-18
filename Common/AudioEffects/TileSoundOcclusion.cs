@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.AudioEffects;

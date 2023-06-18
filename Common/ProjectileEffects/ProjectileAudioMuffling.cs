@@ -1,8 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.Tags;
+using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
