@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
@@ -12,18 +11,15 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Music;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Debugging;
-using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.AudioEffects;
+namespace TerrariaOverhaul.Core.AudioEffects;
 
 //TODO: Add configuration.
 [Autoload(Side = ModSide.Client)]
-public class AudioEffectsSystem : ModSystem
+public sealed class AudioEffectsSystem : ModSystem
 {
 	public struct SoundData
 	{
@@ -43,9 +39,7 @@ public class AudioEffectsSystem : ModSystem
 		}
 	}
 
-	public delegate void SoundUpdateCallback(Span<SoundData> sounds); 
-
-	public static readonly ConfigEntry<bool> EnableAudioFiltering = new(ConfigSide.ClientOnly, "Ambience", nameof(EnableAudioFiltering), () => true);
+	public delegate void SoundUpdateCallback(Span<SoundData> sounds);
 
 	private static readonly List<AudioEffectsModifier> modifiers = new();
 	private static readonly List<SoundData> trackedSoundInstances = new();
@@ -57,72 +51,41 @@ public class AudioEffectsSystem : ModSystem
 		SoundID.Chat,
 	};
 
+	private static readonly List<string> audioErrorMessages = new();
 	private static AudioEffectParameters soundParameters = new();
 	private static AudioEffectParameters musicParameters = new();
-	// Reflection
-	private static Action<SoundEffectInstance, float>? applyReverbFunc;
-	private static Action<SoundEffectInstance, float>? applyLowPassFilteringFunc;
 	private static FieldInfo? soundEffectBasedAudioTrackInstanceField;
-	private static string? audioErrorMessage;
 
 	public static bool IsEnabled { get; private set; }
-	public static bool ReverbEnabled { get; private set; }
-	public static bool LowPassFilteringEnabled { get; private set; }
 
 	public static event SoundUpdateCallback? OnSoundUpdate;
 
 	public override void OnModLoad()
 	{
 		IsEnabled = false;
-		ReverbEnabled = false;
-		LowPassFilteringEnabled = false;
 
 		WorldGen.Hooks.OnWorldLoad += TryAnnounceErrorMessage;
-
-		if (!EnableAudioFiltering) {
-			DebugSystem.Log($"Audio effects disabled: '{EnableAudioFiltering.Category}.{EnableAudioFiltering.Name}' is 'false'.");
-			return;
-		}
 
 		if (!SoundEngine.IsAudioSupported) {
 			DebugSystem.Log($"Audio effects disabled: '{nameof(SoundEngine)}.{nameof(SoundEngine.IsAudioSupported)}' returned false.");
 			return;
 		}
 
-		applyReverbFunc = typeof(SoundEffectInstance)
-			.GetMethod("INTERNAL_applyReverb", BindingFlags.Instance | BindingFlags.NonPublic)
-			?.CreateDelegate<Action<SoundEffectInstance, float>>();
-
-		applyLowPassFilteringFunc = typeof(SoundEffectInstance)
-			.GetMethod("INTERNAL_applyLowPassFilter", BindingFlags.Instance | BindingFlags.NonPublic)
-			?.CreateDelegate<Action<SoundEffectInstance, float>>();
-
 		soundEffectBasedAudioTrackInstanceField = typeof(ASoundEffectBasedAudioTrack)
 			.GetField("_soundEffectInstance", BindingFlags.Instance | BindingFlags.NonPublic);
 
-		if (applyReverbFunc == null || applyLowPassFilteringFunc == null || soundEffectBasedAudioTrackInstanceField == null) {
+		if (soundEffectBasedAudioTrackInstanceField == null) {
 			DebugSystem.Log("Audio effects disabled: Internal FNA methods are missing.");
-			return;
-		}
-		
-		if (!TestAudioFiltering(out string? errorMessage)) {
-			audioErrorMessage = errorMessage;
-
-			DebugSystem.Log($"Audio effects disabled: '{errorMessage}'.");
-			
 			return;
 		}
 
 		// Injections
 		IL_ActiveSound.Play += ActiveSoundPlayInjection;
-
 		// Events
 		MusicControlSystem.OnTrackUpdate += OnMusicTrackUpdate;
 
 		// Mark as enabled
 		IsEnabled = true;
-		ReverbEnabled = true;
-		LowPassFilteringEnabled = true;
 
 		DebugSystem.Log("Audio effects enabled.");
 	}
@@ -187,6 +150,11 @@ public class AudioEffectsSystem : ModSystem
 	public static void IgnoreSoundStyle(SoundStyle ISoundStyle)
 		=> soundStylesToIgnore.Add(ISoundStyle);
 
+	internal static void AddAudioError(string errorMessage)
+	{
+		audioErrorMessages.Add(errorMessage);
+	}
+
 	private static void UpdateSounds()
 	{
 		var sounds = CollectionsMarshal.AsSpan(trackedSoundInstances);
@@ -237,13 +205,8 @@ public class AudioEffectsSystem : ModSystem
 
 	private static void ApplyEffects(SoundEffectInstance instance, in AudioEffectParameters parameters)
 	{
-		if (ReverbEnabled) {
-			applyReverbFunc!(instance, parameters.Reverb);
-		}
-
-		if (LowPassFilteringEnabled) {
-			applyLowPassFilteringFunc!(instance, 1f - (parameters.LowPassFiltering * 0.9f));
-		}
+		ReverbSystem.ApplyEffects(instance, in parameters);
+		LowPassFilteringSystem.ApplyEffects(instance, in parameters);
 	}
 
 	private static void OnMusicTrackUpdate(bool isActiveTrack, int trackIndex, ref float musicVolume, ref float musicFade)
@@ -251,83 +214,16 @@ public class AudioEffectsSystem : ModSystem
 		musicVolume *= musicParameters.Volume;
 	}
 
-	private static bool TestAudioFiltering([NotNullWhen(false)] out string? errorMessage)
-	{
-		if (Main.audioSystem is not LegacyAudioSystem { Engine: AudioEngine engine }) {
-			errorMessage = "Unable to get AudioEngine instance to test audio filtering.";
-
-			return false;
-		}
-
-		IntPtr audioHandle = IntPtr.Zero;
-		var audioHandleObj = typeof(AudioEngine)
-			.GetField("handle", BindingFlags.Instance | BindingFlags.NonPublic)?
-			.GetValue(engine);
-
-		if (audioHandleObj != null) {
-			audioHandle = (IntPtr)audioHandleObj;
-		}
-
-		if (audioHandle == IntPtr.Zero) {
-			errorMessage = "Unable to get audio engine handle to test audio filtering.";
-
-			return false;
-		}
-
-		_ = FAudio.FAudio_GetDeviceDetails(audioHandle, 0, out var deviceDetails);
-
-		// Couldn't come up with anything better than this:
-		if (deviceDetails.OutputFormat.Format.nSamplesPerSec > 48000) {
-			errorMessage = "Audio device is set to a frequency higher than 48000Hz - assuming that FAudio would crash.";
-
-			return false;
-		}
-
-		// These tests were useless, as the native exception cannot be caught in managed code.
-		// There isn't even an AccessViolationException -- Native code just kills the process on failure.
-		// See: https://github.com/tModLoader/FAudio/blob/master/src/FAudio.c?ts=4#L1442
-
-		/*
-		try {
-			isTestingAudioFiltering = true;
-
-			var testSound = ModContent.Request<SoundEffect>("Terraria/Sounds/Camera", AssetRequestMode.ImmediateLoad).Value;
-			using var testSoundInstance = testSound.CreateInstance();
-
-			testSoundInstance.Volume = 0f; // Quiet!
-
-			// Apply
-			ApplyEffects(testSoundInstance, new AudioEffectParameters { LowPassFiltering = 0.5f, Reverb = 0.5f });
-
-			testSoundInstance.Play();
-
-			// Undo
-			ApplyEffects(testSoundInstance, new AudioEffectParameters { });
-
-			testSoundInstance.Stop(true);
-		}
-		catch (Exception e) {
-			errorMessage = $"{e.GetType().Name} - {e.Message}";
-			
-			return false;
-		}
-		finally {
-			isTestingAudioFiltering = false;
-		}
-		*/
-
-		errorMessage = null;
-
-		return true;
-	}
-
 	private static void TryAnnounceErrorMessage()
 	{
-		if (audioErrorMessage != null) {
+		if (audioErrorMessages.Count != 0) {
 			Main.NewText(Language.GetTextValue($"Mods.{nameof(TerrariaOverhaul)}.Notifications.AudioFilteringTestFailure"), Color.MediumVioletRed);
-			Main.NewText($@"""{audioErrorMessage}""", Color.PaleVioletRed);
 
-			audioErrorMessage = null;
+			for (int i = 0; i < audioErrorMessages.Count; i++) {
+				Main.NewText($@"""{audioErrorMessages[i]}""", Color.PaleVioletRed);
+			}
+
+			audioErrorMessages.Clear();
 		}
 	}
 

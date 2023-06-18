@@ -43,7 +43,11 @@
 ### Changes
 - Blood/Gel/Whatever particles' line lengths will now be rounded in rendering, with positions aligned to the pixel grid, appearing slightly more pixelated and low framerate, and preventing very thin lines forming at low velocity. They are still rotated however.
 - Crosshairs will now take "re-use delay" into account for their rotations.
-- Wooden arrow pieces will now be excepted from the "Gore Stay" feature, always disappearing in a short timespan. 
+- Wooden arrow pieces will now be excepted from the "Gore Stay" feature, always disappearing in a short timespan.
+- Improved workarounds for FAudio's audio filtering issues:
+	- Using uncommon audio configurations will now only disable Reverb and not Low Pass Filtering.
+	- Reverb will now be disabled with unsupported audio device channel counts.
+	- `Ambience.EnableAudioEffects` option replaced with `.EnableReverb` and `.EnableLowPassFiltering`.
 
 ### Fixes
 - Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
