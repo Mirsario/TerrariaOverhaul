@@ -4,11 +4,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
-using TerrariaOverhaul.Common.Crosshairs;
-using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
-using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Magic;
@@ -25,6 +22,13 @@ public partial class MagicWeapon : ItemOverhaul
 		Volume = 0.5f,
 		PitchVariance = 0.1f,
 	};
+
+	private static readonly Gradient<float> chargeScreenShakePowerGradient = new(
+		(0.000f, 0.000f),
+		(0.250f, 0.025f),
+		(0.500f, 0.090f),
+		(1.000f, 0.200f)
+	);
 
 	public override bool ShouldApplyItemOverhaul(Item item)
 	{
@@ -59,12 +63,6 @@ public partial class MagicWeapon : ItemOverhaul
 			item.UseSound = MagicBlastSound;
 		}
 
-		var chargeScreenShakePowerGradient = new Gradient<float>(
-			(0.0f, 0.0f),
-			(0.25f, 0.025f),
-			(1.0f, 0.2f)
-		);
-
 		item.EnableComponent<ItemPowerAttacks>(c => {
 			c.ChargeLengthMultiplier = 2f;
 
@@ -79,7 +77,7 @@ public partial class MagicWeapon : ItemOverhaul
 
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemPowerAttackScreenShake>(c => {
-				c.ScreenShake = new ScreenShake(0.5f, 0.5f);
+				c.ScreenShake = new ScreenShake(chargeScreenShakePowerGradient, 0.5f);
 			});
 
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
@@ -88,7 +86,4 @@ public partial class MagicWeapon : ItemOverhaul
 			});
 		}
 	}
-
-	public bool ShowItemCrosshair(Item item, Player player)
-		=> true;
 }

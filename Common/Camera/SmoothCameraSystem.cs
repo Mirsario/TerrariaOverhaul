@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
@@ -43,23 +42,10 @@ public sealed class SmoothCameraSystem : ModSystem
 
 				float deltaTime = CameraSystem.LimitCameraUpdateRate ? TimeSystem.LogicDeltaTime : TimeSystem.RenderDeltaTime;
 
-				Main.screenPosition = Damp(oldPosition.Value, newPosition, CameraSmoothness * BaseSmoothness, deltaTime);
+				Main.screenPosition = MathUtils.Damp(oldPosition.Value, newPosition, CameraSmoothness * BaseSmoothness, deltaTime);
 			}
 
 			oldPosition = Main.screenPosition;
 		});
 	}
-
-	public static float Damp(float source, float destination, float smoothing, float dt)
-	{
-		// See this:
-		// https://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp
-
-		return MathHelper.Lerp(source, destination, 1f - MathF.Pow(smoothing, dt));
-	}
-
-	public static Vector2 Damp(Vector2 source, Vector2 destination, float smoothing, float dt) => new(
-		Damp(source.X, destination.X, smoothing, dt),
-		Damp(source.Y, destination.Y, smoothing, dt)
-	);
 }

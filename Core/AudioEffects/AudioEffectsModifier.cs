@@ -1,4 +1,4 @@
-﻿namespace TerrariaOverhaul.Common.AudioEffects;
+﻿namespace TerrariaOverhaul.Core.AudioEffects;
 
 public struct AudioEffectsModifier
 {

@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.AudioEffects;
+using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 

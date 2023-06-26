@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Content.Buffs;
 
 public sealed class CriticalJudgement : ModBuff
 {
-	private static readonly SoundStyle StrikeSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast") {
+	private static readonly SoundStyle StrikeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast") {
 		Pitch = 0.50f,
 	};
 
@@ -23,6 +23,7 @@ public sealed class CriticalJudgement : ModBuff
 		{
 			if (TryApply()) {
 				modifiers.SetCrit();
+				Clear();
 			}
 		}
 
@@ -30,14 +31,7 @@ public sealed class CriticalJudgement : ModBuff
 		{
 			if (TryApply()) {
 				modifiers.SetCrit();
-			}
-		}
-
-		public override void OnHitAnything(float x, float y, Entity victim)
-		{
-			if (Active) {
-				Player.ClearBuff(ModContent.BuffType<CriticalJudgement>());
-				Active = false;
+				Clear();
 			}
 		}
 
@@ -63,6 +57,13 @@ public sealed class CriticalJudgement : ModBuff
 			Player.DelBuff(index);
 
 			return true;
+		}
+
+		private void Clear()
+		{
+			Active = false;
+
+			Player.ClearBuff(ModContent.BuffType<CriticalJudgement>());
 		}
 	}
 
