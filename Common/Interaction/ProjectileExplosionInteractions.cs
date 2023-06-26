@@ -8,9 +8,9 @@ using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.ProjectileEffects;
+namespace TerrariaOverhaul.Common.Interaction;
 
-public sealed class ProjectileExplosionEffects : GlobalProjectile
+public sealed class ProjectileExplosionInteractions : GlobalProjectile
 {
 	private Vector2Int maxSize;
 
