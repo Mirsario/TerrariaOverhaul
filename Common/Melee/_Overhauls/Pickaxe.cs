@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using TerrariaOverhaul.Common.BloodAndGore;
+using TerrariaOverhaul.Common.Interaction;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 

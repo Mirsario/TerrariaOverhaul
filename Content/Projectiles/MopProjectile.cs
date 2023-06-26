@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using Terraria;
-using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Decals;
+using TerrariaOverhaul.Common.Interaction;
 using TerrariaOverhaul.Common.ProjectileEffects;
 using TerrariaOverhaul.Utilities;
 
