@@ -2,8 +2,8 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Common.Interaction;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
