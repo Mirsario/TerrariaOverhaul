@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.AudioEffects;
+namespace TerrariaOverhaul.Core.AudioEffects;
 
 public struct AudioEffectParameters
 {
@@ -10,15 +10,15 @@ public struct AudioEffectParameters
 	private float lowPassFilteringIntensity = 0f;
 
 	public float Volume {
-		get => volumeScale;
+		readonly get => volumeScale;
 		set => volumeScale = MathHelper.Clamp(value, 0f, 1f);
 	}
 	public float Reverb {
-		get => reverbIntensity;
+		readonly get => reverbIntensity;
 		set => reverbIntensity = MathHelper.Clamp(value, 0f, 1f);
 	}
 	public float LowPassFiltering {
-		get => lowPassFilteringIntensity;
+		readonly get => lowPassFilteringIntensity;
 		set => lowPassFilteringIntensity = MathHelper.Clamp(value, 0f, 1f);
 	}
 
