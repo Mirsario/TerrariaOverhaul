@@ -38,6 +38,7 @@
 - Implemented player character gore generation, powered by a dynamically textured gore system. This replaces vanilla's Mario-like "going off the screen" player death effect, allowing you to meet and mop up your old remains, as well as your friends'.
 - Weapon muzzleflashes are now automatically colored based on the shot projectile (or used ammunition).
 - Added two new alternated muzzleflash variations, and two frames of animation.
+- Reimplemented player/npc water/rain interactions, i.e. application of the wet debuff.
 
 ### Changes
 - Blood/Gel/Whatever particles' line lengths will now be rounded in rendering, with positions aligned to the pixel grid, appearing slightly more pixelated and low framerate, and preventing very thin lines forming at low velocity. They are still rotated however.
