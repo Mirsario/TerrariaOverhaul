@@ -9,6 +9,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.EntityCapturing;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Tiles;
@@ -16,7 +17,6 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.TreeFalling;
 
-[Autoload(Side = ModSide.Client)]
 public sealed class TreeFallingSystem : ModSystem
 {
 	private struct TreeCreationData
@@ -32,7 +32,7 @@ public sealed class TreeFallingSystem : ModSystem
 		public Vector2Int TextureAabbMax;
 		public Vector2Int TextureAabbMinOffset;
 		public Vector2Int TextureAabbMaxOffset;
-		public RenderTarget2D Texture;
+		public RenderTarget2D? Texture;
 		public List<Vector2Int> TreeTilePositions;
 		public List<ItemCapture>? CapturedItems;
 		public List<DustCapture>? CapturedDusts;
@@ -103,9 +103,13 @@ public sealed class TreeFallingSystem : ModSystem
 		data.DestroyBottomTile = IsATreeRoot(data.BottomPosition) && isTreeHitRedirectedFromStump && DestroyStumpsAfterTreeFalls;
 
 		// Create tree texture
-		var sizeInTiles = data.TextureAabbMax - data.TextureAabbMin + Vector2Int.One;
+		if (!Main.dedServ) {
+			var sizeInTiles = data.TextureAabbMax - data.TextureAabbMin + Vector2Int.One;
 
-		data.Texture = TileSnapshotSystem.CreateSpecificTilesSnapshot(sizeInTiles, data.TextureAabbMin, treeTilePositionsSpan);
+			data.Texture = TileSnapshotSystem.CreateSpecificTilesSnapshot(sizeInTiles, data.TextureAabbMin, treeTilePositionsSpan);
+		} else {
+			data.Texture = null;
+		}
 
 		// Assign defaults to remaining fields
 		data.CapturedItems = default;
@@ -116,8 +120,28 @@ public sealed class TreeFallingSystem : ModSystem
 
 	private static Direction1D GetTreeFallDirection(Vector2Int basePosition)
 	{
+		static Direction1D FromEntity(Entity entity)
+			=> entity.direction >= 0 ? Direction1D.Right : Direction1D.Left;
+
 		if (playerCurrentlyUsingTools is Player toolingPlayer) {
-			return toolingPlayer.direction >= 0 ? Direction1D.Right : Direction1D.Left;
+			return FromEntity(toolingPlayer);
+		}
+
+		var baseWorldPosition = ((Point)basePosition).ToWorldCoordinates();
+		float closestSqrDistance = float.PositiveInfinity;
+		Player? closestPlayer = null;
+
+		foreach (var player in ActiveEntities.Players) {
+			float sqrDistance = player.DistanceSQ(baseWorldPosition);
+
+			if (sqrDistance < closestSqrDistance) {
+				closestSqrDistance = sqrDistance;
+				closestPlayer = player;
+			}
+		}
+
+		if (closestPlayer != null) {
+			return FromEntity(closestPlayer);
 		}
 
 		return basePosition.X % 2 == 0 ? Direction1D.Right : Direction1D.Left;
@@ -133,12 +157,14 @@ public sealed class TreeFallingSystem : ModSystem
 			e.DestroyBottomTile = data.DestroyBottomTile;
 			e.FallDirection = data.FallDirection;
 
-			e.Texture = data.Texture;
-			e.TextureOrigin = new Vector2(
-				(data.BasePosition.X - data.TextureAabbMin.X + 0.5f) * TileUtils.TileSizeInPixels,
-				data.Texture.Height - (data.TextureAabbMaxOffset.Y * TileUtils.TileSizeInPixels)
-			);
-			e.IsTextureDisposable = true;
+			if (!Main.dedServ && data.Texture != null) {
+				e.Texture = data.Texture;
+				e.TextureOrigin = new Vector2(
+					(data.BasePosition.X - data.TextureAabbMin.X + 0.5f) * TileUtils.TileSizeInPixels,
+					data.Texture.Height - (data.TextureAabbMaxOffset.Y * TileUtils.TileSizeInPixels)
+				);
+				e.IsTextureDisposable = true;
+			}
 
 			e.CapturedItems = data.CapturedItems;
 			e.CapturedDusts = data.CapturedDusts;
@@ -248,7 +274,7 @@ public sealed class TreeFallingSystem : ModSystem
 		void Original()
 			=> original(x, y, fail, effectOnly, noItem);
 
-		if (Main.dedServ || fail || WorldGen.gen || WorldGen.generatingWorld || !EnableTreeFallingAnimations || !Program.IsMainThread) {
+		if (fail || WorldGen.gen || WorldGen.generatingWorld || !EnableTreeFallingAnimations || !Program.IsMainThread) {
 			Original();
 			return;
 		}

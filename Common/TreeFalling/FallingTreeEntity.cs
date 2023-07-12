@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
 using TerrariaOverhaul.Core.EntityCapturing;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Time;
@@ -49,7 +50,9 @@ public sealed class FallingTreeEntity : SimpleEntity
 			throw new InvalidOperationException($"{nameof(Texture)} property must be assigned during pre-initialization.");
 		}
 
-		SoundEngine.PlaySound(in TreeFallingSound, Position);
+		if (!Main.dedServ) {
+			SoundEngine.PlaySound(in TreeFallingSound, Position);
+		}
 	}
 
 	public override void Update()
@@ -90,7 +93,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 	{
 		InstantiateItems();
 
-		if (allowEffects) {
+		if (allowEffects && !Main.dedServ) {
 			InstantiateDusts();
 
 			var soundPosition = Position + new Vector2(0f, -TreeHeight * TileUtils.TileSizeInPixels * 0.5f).RotatedBy(Rotation);
@@ -136,7 +139,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 
 	private void InstantiateItems()
 	{
-		if (CapturedItems == null) {
+		if (Main.netMode == NetmodeID.MultiplayerClient || CapturedItems == null) {
 			return;
 		}
 
