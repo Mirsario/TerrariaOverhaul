@@ -35,6 +35,11 @@
 	- Visual Recoil - The slight offset in weapon's rotation after it's used.
 	- Muzzleflashes - The weapons' fire breath.
 	- Screen-shake - Self-explanatory.
+- Implemented tree falling animations. Difference from 1.3 Terraria Overhaul versions are as follows:
+	- Stumps are now automatically destroyed after a tree falls down. Toggleable.
+	- Rendering is done with vanilla callsites, should be compatible with all mods' trees out of the box.
+	- Particles from initial tile breakage are now seamlessly captured and released once the tree falls down.
+	- Far more reliable and readable code, higher stability.
 - Implemented player character gore generation, powered by a dynamically textured gore system. This replaces vanilla's Mario-like "going off the screen" player death effect, allowing you to meet and mop up your old remains, as well as your friends'.
 - Weapon muzzleflashes are now automatically colored based on the shot projectile (or used ammunition).
 - Added two new alternated muzzleflash variations, and two frames of animation.
