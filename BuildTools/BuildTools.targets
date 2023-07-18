@@ -12,8 +12,7 @@
 		at the end of the build. If it's omitted, that can cause build failures
 		in subsequent builds because the task assembly can't be written by the next build.
 	-->
-	<UsingTask TaskName="SynchronizeLocalizationFiles" AssemblyFile="$(BuildToolsAssemblyFile)" TaskFactory="TaskHostFactory" />
-	<UsingTask TaskName="GenerateLocalizationStats" AssemblyFile="$(BuildToolsAssemblyFile)" TaskFactory="TaskHostFactory" />
+	<UsingTask TaskName="UpdateLocalizationFiles" AssemblyFile="$(BuildToolsAssemblyFile)" TaskFactory="TaskHostFactory" />
 
 	<ItemGroup>
 		<!-- Add a ProjectReference to ensure that the task gets built before it needs to be called. -->
