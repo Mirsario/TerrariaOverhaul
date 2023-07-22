@@ -150,7 +150,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 
 	private void TryDestroyingBottomTile()
 	{
-		if (ShouldDestroyBottomTile && Main.netMode != NetmodeID.MultiplayerClient && CheckBottomTileIntegrity(out Tile bottomTile)) {
+		if (ShouldDestroyBottomTile && CheckBottomTileIntegrity(out Tile bottomTile)) {
 			DestroyBottomTile(bottomTile);
 
 			ShouldDestroyBottomTile = false;
@@ -159,7 +159,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 
 	private void DestroyBottomTile(Tile bottomTile)
 	{
-		if (HitterInfo is { Entity: Player { active: true } player, Item: Item item }) {
+		if (HitterInfo is { Entity: Player { active: true } player, Item: Item { IsAir: false, axe: > 0 } item } && player.IsLocal()) {
 			// Break using a hit of the last used tool, but force the hit to succeed.
 			ref bool tileNoFail = ref Main.tileNoFail[bottomTile.TileType];
 			ref int tileTargetX = ref Player.tileTargetX;
@@ -181,7 +181,12 @@ public sealed class FallingTreeEntity : SimpleEntity
 				tileTargetX = tileTargetXCopy;
 				tileTargetY = tileTargetYCopy;
 			}
-		} else {
+
+			return;
+		}
+		
+		// Fallback
+		if (Main.netMode != NetmodeID.MultiplayerClient) {
 			WorldGen.KillTile(BottomTilePosition.X, BottomTilePosition.Y);
 		}
 	}
