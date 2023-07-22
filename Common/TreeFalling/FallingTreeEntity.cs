@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.EntityCapturing;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Time;
@@ -37,7 +38,8 @@ public sealed class FallingTreeEntity : SimpleEntity
 	public List<DustCapture>? CapturedDusts;
 	//
 	public Vector2Int BottomTilePosition;
-	public bool DestroyBottomTile;
+	public bool ShouldDestroyBottomTile;
+	public (Entity Entity, Item? Item)? HitterInfo;
 
 	public override void Init()
 	{
@@ -64,7 +66,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 
 		const float AngleToDetachAt = 75f;
 
-		if (MathF.Abs(Rotation) >= MathHelper.ToRadians(AngleToDetachAt) || (Main.tile.TryGet(BottomTilePosition, out var tile) && !tile.HasUnactuatedTile)) {
+		if (MathF.Abs(Rotation) >= MathHelper.ToRadians(AngleToDetachAt) || !CheckBottomTileIntegrity(out _)) {
 			Velocity += Gravity * TimeSystem.LogicDeltaTime;
 		}
 
@@ -101,11 +103,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 			SoundEngine.PlaySound(in TreeGroundHitSound, soundPosition);
 		}
 
-		if (DestroyBottomTile) {
-			WorldGen.KillTile(BottomTilePosition.X, BottomTilePosition.Y);
-
-			DestroyBottomTile = false;
-		}
+		TryDestroyingBottomTile();
 
 		if (IsTextureDisposable && Texture is { IsDisposed: false }) {
 			Texture.Dispose();
@@ -135,6 +133,57 @@ public sealed class FallingTreeEntity : SimpleEntity
 		}
 
 		return false;
+	}
+
+	private bool CheckBottomTileIntegrity(out Tile tile)
+	{
+		if (!Main.tile.TryGet(BottomTilePosition, out tile) || !tile.HasUnactuatedTile) {
+			return false;
+		}
+
+		if (!TileID.Sets.IsATreeTrunk[tile.TileType]) {
+			return false;
+		}
+
+		return true;
+	}
+
+	private void TryDestroyingBottomTile()
+	{
+		if (ShouldDestroyBottomTile && Main.netMode != NetmodeID.MultiplayerClient && CheckBottomTileIntegrity(out Tile bottomTile)) {
+			DestroyBottomTile(bottomTile);
+
+			ShouldDestroyBottomTile = false;
+		}
+	}
+
+	private void DestroyBottomTile(Tile bottomTile)
+	{
+		if (HitterInfo is { Entity: Player { active: true } player, Item: Item item }) {
+			// Break using a hit of the last used tool, but force the hit to succeed.
+			ref bool tileNoFail = ref Main.tileNoFail[bottomTile.TileType];
+			ref int tileTargetX = ref Player.tileTargetX;
+			ref int tileTargetY = ref Player.tileTargetY;
+
+			bool tileNoFailCopy = tileNoFail;
+			int tileTargetXCopy = tileTargetX;
+			int tileTargetYCopy = tileTargetY;
+
+			try {
+				tileNoFail = true;
+				tileTargetX = BottomTilePosition.X;
+				tileTargetY = BottomTilePosition.Y;
+
+				PlayerItemUse.UseMiningTool(player, item, out _, BottomTilePosition.X, BottomTilePosition.Y);
+			}
+			finally {
+				tileNoFail = tileNoFailCopy;
+				tileTargetX = tileTargetXCopy;
+				tileTargetY = tileTargetYCopy;
+			}
+		} else {
+			WorldGen.KillTile(BottomTilePosition.X, BottomTilePosition.Y);
+		}
 	}
 
 	private void InstantiateItems()
