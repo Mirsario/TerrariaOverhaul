@@ -58,6 +58,7 @@
 ### Fixes
 - Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
 - Fixed force applied to gores being biased towards the right, due to an incorrect linear interpolation function being used for velocity angles.
+- Fixed the Axe of Regrowth not getting the Axe item overhaul.
 
 ### Optimizations
 - Crosshair impulse registration no longer causes any heap allocations.
