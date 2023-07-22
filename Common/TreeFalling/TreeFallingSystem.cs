@@ -36,6 +36,7 @@ public sealed class TreeFallingSystem : ModSystem
 		public List<Vector2Int> TreeTilePositions;
 		public List<ItemCapture>? CapturedItems;
 		public List<DustCapture>? CapturedDusts;
+		public (Entity Entity, Item? Item)? HitterInfo;
 	}
 
 	private const int MinimalTreeHeight = 3;
@@ -96,8 +97,13 @@ public sealed class TreeFallingSystem : ModSystem
 			return false;
 		}
 
+		// Try to get the reponsible entity
+		var responsibleEntity = GetResponsibleEntity(basePosition);
+
+		data.HitterInfo = responsibleEntity != null ? (responsibleEntity, GetEntityItem(responsibleEntity)) : null;
+
 		// Get fall direction
-		data.FallDirection = GetTreeFallDirection(basePosition);
+		data.FallDirection = GetTreeFallDirection(basePosition, data.HitterInfo?.Entity);
 
 		// Set if the bottom tile should be removed after the tree falls
 		data.DestroyBottomTile = IsATreeRoot(data.BottomPosition) && isTreeHitRedirectedFromStump && DestroyStumpsAfterTreeFalls;
@@ -118,13 +124,10 @@ public sealed class TreeFallingSystem : ModSystem
 		return true;
 	}
 
-	private static Direction1D GetTreeFallDirection(Vector2Int basePosition)
+	private static Entity? GetResponsibleEntity(Vector2Int basePosition)
 	{
-		static Direction1D FromEntity(Entity entity)
-			=> entity.direction >= 0 ? Direction1D.Right : Direction1D.Left;
-
 		if (playerCurrentlyUsingTools is Player toolingPlayer) {
-			return FromEntity(toolingPlayer);
+			return toolingPlayer;
 		}
 
 		var baseWorldPosition = ((Point)basePosition).ToWorldCoordinates();
@@ -141,7 +144,32 @@ public sealed class TreeFallingSystem : ModSystem
 		}
 
 		if (closestPlayer != null) {
-			return FromEntity(closestPlayer);
+			return closestPlayer;
+		}
+
+		return null;
+	}
+
+	private static Item? GetEntityItem(Entity entity)
+	{
+		if (entity is Player player) {
+			var result = player.HeldItem;
+
+			if (!result.IsAir) {
+				return result;
+			}
+		}
+
+		return null;
+	}
+
+	private static Direction1D GetTreeFallDirection(Vector2Int basePosition, Entity? responsibleEntity)
+	{
+		static Direction1D FromEntity(Entity entity)
+			=> entity.direction >= 0 ? Direction1D.Right : Direction1D.Left;
+
+		if (responsibleEntity != null) {
+			return FromEntity(responsibleEntity);
 		}
 
 		return basePosition.X % 2 == 0 ? Direction1D.Right : Direction1D.Left;
@@ -154,8 +182,9 @@ public sealed class TreeFallingSystem : ModSystem
 			e.TreeHeight = data.TreeHeight;
 			e.Position = (data.BasePosition + new Vector2(0.5f, data.TextureAabbMaxOffset.Y)) * TileUtils.TileSizeInPixels;
 			e.BottomTilePosition = data.BottomPosition;
-			e.DestroyBottomTile = data.DestroyBottomTile;
+			e.ShouldDestroyBottomTile = data.DestroyBottomTile;
 			e.FallDirection = data.FallDirection;
+			e.HitterInfo = data.HitterInfo;
 
 			if (!Main.dedServ && data.Texture != null) {
 				e.Texture = data.Texture;
