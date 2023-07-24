@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 using TerrariaOverhaul.Utilities;
@@ -62,6 +63,11 @@ public partial class Bow : ItemOverhaul
 				// Maximum X & Y
 				float.PositiveInfinity, 3.0f
 			);
+		});
+
+		item.EnableComponent<ItemUseVelocityRecoil>(e => {
+			e.BaseVelocity = new(15.0f, 15.0f);
+			e.MaxVelocity = new(9.0f, 9.0f);
 		});
 
 		item.EnableComponent<ItemPowerAttacks>(c => {

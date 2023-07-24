@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Common.PlayerEffects;
 using TerrariaOverhaul.Core.ItemComponents;
@@ -9,6 +10,8 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Archery;
 
+//TODO: Add more grace-timing to everything.
+//TODO: Disallow hovering 1 pixel above the ground.
 public sealed class ItemPowerAttackHover : ItemComponent
 {
 	private static readonly Gradient<float> activationGradient = new(stackalloc Gradient<float>.Key[] {
@@ -18,6 +21,7 @@ public sealed class ItemPowerAttackHover : ItemComponent
 		(1.00f, 0.0f),
 	});
 
+	public bool ControlsVelocityRecoil;
 	public Vector4? ActivationVelocityRange = null;
 	public MovementModifier Modifier = new() {
 		RunAccelerationScale = 0.50f,
@@ -35,7 +39,7 @@ public sealed class ItemPowerAttackHover : ItemComponent
 
 		// Player has to be mid-air.
 		if (player.velocity.Y == 0f) {
-			Stop(onGround: true);
+			Stop(item, onGround: true);
 			return;
 		}
 
@@ -45,14 +49,14 @@ public sealed class ItemPowerAttackHover : ItemComponent
 
 		// Player has to be holding the jump button and not be holding down.
 		if (!player.controlJump || player.controlDown) {
-			Stop();
+			Stop(item);
 			return;
 		}
 
 		// If outside required velocity range when starting - cease.
 		if (!active && ActivationVelocityRange is Vector4 range && player.velocity is Vector2 velocity) {
 			if (velocity.X < range.X || velocity.X > range.Z || velocity.Y < range.Y || velocity.Y > range.W) {
-				Stop();
+				Stop(item);
 				return;
 			}
 		}
@@ -64,12 +68,12 @@ public sealed class ItemPowerAttackHover : ItemComponent
 
 		// Must be charging a power attack.
 		if (!powerAttacks.Enabled || !powerAttacks.IsCharging) {
-			Stop();
+			Stop(item);
 			return;
 		}
 
 		if (!active) {
-			Start();
+			Start(item);
 		}
 
 		float progressFactor = activationGradient.GetValue(powerAttacks.Charge.Progress);
@@ -88,17 +92,29 @@ public sealed class ItemPowerAttackHover : ItemComponent
 		}
 	}
 
-	private void Start()
+	private void Start(Item item)
 	{
+		if (active) {
+			return;
+		}
+
+		if (ControlsVelocityRecoil && item.TryGetGlobalItem(out ItemUseVelocityRecoil velocityRecoil)) {
+			velocityRecoil.SetEnabled(item, true);
+		}
+
 		active = true;
 	}
 
-	private void Stop(bool onGround = false)
+	private void Stop(Item item, bool onGround = false)
 	{
 		if (onGround) {
 			needsGroundReset = false;
 		} else if (active) {
 			needsGroundReset = true;
+
+			if (ControlsVelocityRecoil && item.TryGetGlobalItem(out ItemUseVelocityRecoil velocityRecoil)) {
+				velocityRecoil.SetEnabled(item, false);
+			}
 		}
 
 		active = false;
