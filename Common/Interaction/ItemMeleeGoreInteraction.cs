@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
+using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.Melee;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.BloodAndGore;
+namespace TerrariaOverhaul.Common.Interaction;
 
 public sealed class ItemMeleeGoreInteraction : ItemComponent
 {

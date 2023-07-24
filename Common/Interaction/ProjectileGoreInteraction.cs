@@ -2,9 +2,10 @@
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Tags;
 
-namespace TerrariaOverhaul.Common.BloodAndGore;
+namespace TerrariaOverhaul.Common.Interaction;
 
 [Autoload(Side = ModSide.Client)]
 public class ProjectileGoreInteraction : GlobalProjectile

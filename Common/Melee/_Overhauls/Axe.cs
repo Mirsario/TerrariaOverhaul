@@ -2,8 +2,8 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Common.Interaction;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
@@ -30,10 +30,15 @@ public class Axe : ItemOverhaul
 			return false;
 		}
 
-		// Avoid pickaxes and placeables
-		if (item.pick > 0 || item.createTile >= TileID.Dirt || item.createWall >= WallID.None) {
+		// Avoid pickaxes
+		if (item.pick > 0) {
 			return false;
 		}
+
+		// Avoid placeables
+		//if (item.createTile >= TileID.Dirt || item.createWall >= WallID.None) {
+		//	return false;
+		//}
 
 		// Axes always swing, deal melee damage, don't have channeling, and are visible
 		if (item.useStyle != ItemUseStyleID.Swing || item.noMelee || item.channel || item.noUseGraphic) {
