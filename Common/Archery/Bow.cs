@@ -63,12 +63,13 @@ public partial class Bow : ItemOverhaul
 				// Maximum X & Y
 				float.PositiveInfinity, 3.0f
 			);
+			c.ControlsVelocityRecoil = true;
 		});
 
 		item.EnableComponent<ItemUseVelocityRecoil>(e => {
 			e.BaseVelocity = new(15.0f, 15.0f);
 			e.MaxVelocity = new(9.0f, 9.0f);
-		});
+		}).SetEnabled(item, false);
 
 		item.EnableComponent<ItemPowerAttacks>(c => {
 			c.CanRelease = true;
