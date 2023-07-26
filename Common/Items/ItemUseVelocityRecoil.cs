@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Time;
@@ -26,6 +27,10 @@ public sealed class ItemUseVelocityRecoil : ItemComponent
 		float useTimeInSeconds = item.useTime * TimeSystem.LogicDeltaTime;
 
 		var velocity = modifiedDirection * BaseVelocity * useTimeInSeconds;
+
+		if (item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.Charge is { UnclampedUnfrozenValue: >= -1 } charge) {
+			velocity *= charge.Progress;
+		}
 
 		// Disable horizontal velocity recoil whenever the player is holding a directional key opposite to the direction of the dash.
 		if (Math.Sign(player.KeyDirection().X) == -Math.Sign(velocity.X)) {
