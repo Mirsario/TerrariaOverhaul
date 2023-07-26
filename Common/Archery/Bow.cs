@@ -86,7 +86,7 @@ public partial class Bow : ItemOverhaul
 
 			c.StatModifiers.Gradient = new(stackalloc Gradient<CommonStatModifiers>.Key[] {
 				new(0.000f, weakest),
-				new(0.750f, strongest),
+				//new(0.750f, strongest),
 				new(1.000f, strongest),
 			});
 		});
