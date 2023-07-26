@@ -17,6 +17,7 @@ public struct Timer
 	public readonly bool Active => !FreezeTime.HasValue && CurrentTime < EndTime;
 	public readonly uint CurrentTime => FreezeTime ?? RealTime;
 	public readonly int UnclampedValue => (int)((long)EndTime - CurrentTime);
+	public readonly int UnclampedUnfrozenValue => (int)((long)EndTime - RealTime); // Shenanigans
 	public readonly uint Length => Math.Max(0, EndTime - StartTime);
 
 	public uint Value {
