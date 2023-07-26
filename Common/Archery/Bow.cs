@@ -68,7 +68,7 @@ public partial class Bow : ItemOverhaul
 
 		item.EnableComponent<ItemUseVelocityRecoil>(e => {
 			e.BaseVelocity = new(15.0f, 15.0f);
-			e.MaxVelocity = new(9.0f, 9.0f);
+			e.MaxVelocity = new(6.0f, 8.5f);
 		}).SetEnabled(item, false);
 
 		item.EnableComponent<ItemPowerAttacks>(c => {
