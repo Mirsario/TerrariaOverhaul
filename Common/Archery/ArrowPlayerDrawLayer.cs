@@ -7,7 +7,7 @@ using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
-using TerrariaOverhaul.Common.TextureColors;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Archery;
@@ -24,6 +24,11 @@ public class ArrowPlayerDrawLayer : PlayerDrawLayer
 	protected override void Draw(ref PlayerDrawSet drawInfo)
 	{
 		var player = drawInfo.drawPlayer;
+
+		// Don't render as after-image
+		if (drawInfo.shadow != 0f) {
+			return;
+		}
 
 		// Only render while a use is in progress
 		if (player.itemAnimation <= 0 || player.itemAnimationMax <= 0) {
@@ -69,14 +74,16 @@ public class ArrowPlayerDrawLayer : PlayerDrawLayer
 
 		// Animation
 		const float StartOffset = 32f;
-		const float EndOffset = 12f;
+		const float EndOffset = 14f;
 
-		float animationEasing = 1f - MathF.Pow(1f - chargeProgress, 2f);
-		float arrowOffset = MathHelper.Lerp(StartOffset, EndOffset, animationEasing);
+		float positionOffsetEasing = 1f - MathF.Pow(1f - chargeProgress, 2f);
+		float positionOffset = MathHelper.Lerp(StartOffset, EndOffset, positionOffsetEasing);
+		float rotationOffsetIntensity = Math.Min(1f, MathF.Pow(chargeProgress, 5f) + 0.1f);
+		float rotationOffset = MathF.Sin(TimeSystem.RenderTime * 50f) * MathHelper.ToRadians(7.5f) * rotationOffsetIntensity;
 
 		// Drawing info
-		var position = player.Center + firingDirection * arrowOffset;
-		float rotation = firingAngle - MathHelper.PiOver2 * player.direction;
+		var position = player.Center + firingDirection * positionOffset;
+		float rotation = firingAngle - MathHelper.PiOver2 * player.direction + rotationOffset;
 		Vector2 origin = sourceRectangle.Size() * 0.5f;
 		float scale = 1.0f;
 		var effect = player.direction > 0 ? SpriteEffects.FlipVertically : SpriteEffects.None;
