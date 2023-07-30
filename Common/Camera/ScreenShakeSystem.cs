@@ -155,8 +155,8 @@ public sealed class ScreenShakeSystem : ModSystem
 
 			float intensity;
 
-			if (style.PowerGradient != null) {
-				intensity = MathHelper.Clamp(style.PowerGradient.GetValue(progress), 0f, 1f);
+			if (style.PowerFunction != null) {
+				intensity = MathHelper.Clamp(style.PowerFunction(progress), 0f, 1f);
 			} else {
 				intensity = MathHelper.Clamp(style.Power, 0f, 1f);
 				intensity *= MathF.Pow(1f - progress, 2f);
