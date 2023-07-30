@@ -2,6 +2,7 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
@@ -89,6 +90,16 @@ public partial class Bow : ItemOverhaul
 				//new(0.750f, strongest),
 				new(1.000f, strongest),
 			});
+		});
+
+		item.EnableComponent<ItemPowerAttackScreenShake>(c => {
+			Gradient<float> chargeScreenShakePowerGradient = new(
+				(0.000f, 0.000f * 0.1f),
+				(0.250f, 0.025f * 0.1f),
+				(0.500f, 0.090f * 0.1f),
+				(1.000f, 0.200f * 0.1f)
+			);
+			c.ScreenShake = new ScreenShake(chargeScreenShakePowerGradient, 0.5f);
 		});
 
 		item.EnableComponent<ItemPrimaryUseCharging>(c => {
