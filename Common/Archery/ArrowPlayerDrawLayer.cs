@@ -10,7 +10,7 @@ using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.TextureColors;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Melee;
+namespace TerrariaOverhaul.Common.Archery;
 
 [Autoload(Side = ModSide.Client)]
 public class ArrowPlayerDrawLayer : PlayerDrawLayer
@@ -36,7 +36,13 @@ public class ArrowPlayerDrawLayer : PlayerDrawLayer
 		}
 
 		// Must be charging the weapon
-		if (weapon.TryGetGlobalItem<ItemPowerAttacks>(out var powerAttacks) && !powerAttacks.IsCharging) {
+		float chargeProgress;
+
+		if (weapon.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.IsCharging) {
+			chargeProgress = powerAttacks.Charge.Progress;
+		} else if (weapon.TryGetGlobalItem(out ItemPrimaryUseCharging primaryCharging) && primaryCharging.Charge.Active) {
+			chargeProgress = primaryCharging.Charge.Progress;
+		} else {
 			return;
 		}
 
@@ -51,7 +57,6 @@ public class ArrowPlayerDrawLayer : PlayerDrawLayer
 		}
 
 		// Attack info
-		float chargeProgress = powerAttacks.Charge.Progress;
 		var firingDirection = player.LookDirection();
 		float firingAngle = firingDirection.ToRotation();
 

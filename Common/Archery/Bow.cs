@@ -91,6 +91,12 @@ public partial class Bow : ItemOverhaul
 			});
 		});
 
+		item.EnableComponent<ItemPrimaryUseCharging>(c => {
+			// One third of the vanilla use time is spent on the charge, two thirds remain.
+			c.UseLengthMultiplier = 2f / 3f;
+			c.ChargeLengthMultiplier = 1f / 3f;
+		});
+
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
 				c.Sound = ChargeSound;
