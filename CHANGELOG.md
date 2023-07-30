@@ -54,6 +54,12 @@
 	- Using uncommon audio configurations will now only disable Reverb and not Low Pass Filtering.
 	- Reverb will now be disabled with unsupported audio device channel counts.
 	- `Ambience.EnableAudioEffects` option replaced with `.EnableReverb` and `.EnableLowPassFiltering`.
+- Rewrote and rebalanced NPC stuns:
+	- Melee weapons now apply 1 to 60 ticks (60 ticks == 1 second) of stun time depending on use speed.
+	- Projectiles (+ spears, yoyos, etc.) now apply 1 to 20 ticks of stun time depending on their weapon's use speed, entity penetration, and hit cooldowns. Unlike previously, when all projectiles applied a fixed and useless stun time of 5 ticks.
+	- Enemies now accumulate "stun penalties" with every hit, reducing each succeeding hit's stun time by a few ticks. Stun penalties are reset after the enemy has not been hit for 45 ticks.
+	- These changes should keep stuns a reliable mechanic for diving into enemies in an in-and-out combat style, while preventing easy stun-locking of enemies and bosses that allowed people to receive no damage while standing still and holding the use button.
+	- The red flash visual effect is no longer reduced in intensity for bosses.
 
 ### Fixes
 - Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
