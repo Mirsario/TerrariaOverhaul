@@ -3,6 +3,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Common.Damage;
 using TerrariaOverhaul.Common.Interaction;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
@@ -76,7 +77,6 @@ public class Axe : ItemOverhaul
 		}
 
 		item.EnableComponent<ItemMeleeGoreInteraction>();
-		item.EnableComponent<ItemMeleeNpcStuns>();
 		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
