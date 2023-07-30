@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
@@ -92,16 +93,6 @@ public partial class Bow : ItemOverhaul
 			});
 		});
 
-		item.EnableComponent<ItemPowerAttackScreenShake>(c => {
-			Gradient<float> chargeScreenShakePowerGradient = new(
-				(0.000f, 0.000f * 0.1f),
-				(0.250f, 0.025f * 0.1f),
-				(0.500f, 0.090f * 0.1f),
-				(1.000f, 0.200f * 0.1f)
-			);
-			c.ScreenShake = new ScreenShake(chargeScreenShakePowerGradient, 0.5f);
-		});
-
 		item.EnableComponent<ItemPrimaryUseCharging>(c => {
 			// One third of the vanilla use time is spent on the charge, two thirds remain.
 			c.UseLengthMultiplier = 2f / 3f;
@@ -109,6 +100,19 @@ public partial class Bow : ItemOverhaul
 		});
 
 		if (!Main.dedServ) {
+			static float ScreenShakePowerFunction(float progress)
+			{
+				const float StartOffset = 0.00f;
+				const float MaxPower = 0.15f;
+				const float PowX = 7f;
+
+				return MathHelper.Clamp((MathF.Pow(progress, PowX) * (1f + StartOffset)) - StartOffset, 0f, 1f) * MaxPower;
+			}
+
+			item.EnableComponent<ItemPowerAttackScreenShake>(c => {
+				c.ScreenShake = new ScreenShake(ScreenShakePowerFunction, float.PositiveInfinity);
+			});
+
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
 				c.Sound = ChargeSound;
 				c.CancelPlaybackOnEnd = true;
