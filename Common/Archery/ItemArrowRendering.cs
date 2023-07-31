@@ -30,12 +30,7 @@ public sealed class ItemArrowRendering : ItemComponent
 
 	public override void HoldItem(Item item, Player player)
 	{
-		if (!Enabled) {
-			Visible = false;
-			return;
-		}
-
-		Visible = UpdateIsVisible(item, player);
+		Visible = Enabled && UpdateIsVisible(item, player);
 	}
 
 	private bool UpdateIsVisible(Item item, Player player)

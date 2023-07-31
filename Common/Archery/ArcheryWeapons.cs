@@ -29,7 +29,6 @@ public static class ArcheryWeapons
 		MaxInstances = 3,
 	};
 
-
 	public static bool IsArcheryWeapon(Item item, out Kind kind)
 	{
 		kind = Kind.Undefined;
