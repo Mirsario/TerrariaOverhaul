@@ -36,6 +36,11 @@
 	- Visual Recoil - The slight offset in weapon's rotation after it's used.
 	- Muzzleflashes - The weapons' fire breath.
 	- Screen-shake - Self-explanatory.
+- Implemented an initial Archery Overhaul:
+    - Bows can now again be manually charged using right click. This charge can be released at any time, scaling damage, knockback and projectile speed according to the charge progress.
+    - Reintroduced arrow charging animations, improved much with fancy easing functions.
+    - Introduced experimental (experimental means fun) "Hover-shots" - Start a bow charge while holding down the Jump button to hover over enemies. Release the string to receive double-jump-like recoil velocity.
+	- Bows' primary use now has a short delay before firing. The after-firing use cooldown is shortened as a compensation, so this shouldn't affect DPS.
 - Implemented tree falling animations. Difference from 1.3 Terraria Overhaul versions are as follows:
 	- Stumps are now automatically destroyed after a tree falls down. Toggleable.
 	- Rendering is done with vanilla callsites, should be compatible with all mods' trees out of the box.
@@ -70,6 +75,9 @@
 - Fixed the Axe of Regrowth not getting the Axe item overhaul.
 - Fixed issue [#177](https://github.com/Mirsario/TerrariaOverhaul/issues/177) (Explosives ignore knockback resistance). 
 - Fixed issue [#124](https://github.com/Mirsario/TerrariaOverhaul/issues/124) (Unable to pet cats & dogs).
+
+### Netcode
+- Fixed some cases of desynchronization within power attacks.
 
 ### Optimizations
 - Crosshair impulse registration no longer causes any heap allocations.

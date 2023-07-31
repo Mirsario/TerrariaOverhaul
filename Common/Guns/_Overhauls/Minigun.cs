@@ -57,6 +57,11 @@ public class Minigun : ItemOverhaul
 
 		item.UseSound = MinigunFireSound;
 
+		item.EnableComponent<ItemUseVelocityRecoil>(e => {
+			e.BaseVelocity = new(4.0f, 20.85f);
+			e.MaxVelocity = new(3.0f, 5.0f);
+		});
+
 		if (!Main.dedServ) {
 			item.EnableComponent<ItemAimRecoil>();
 			item.EnableComponent<ItemPlaySoundOnEveryUse>();
@@ -81,32 +86,5 @@ public class Minigun : ItemOverhaul
 		} else {
 			speedFactor = MinSpeedFactor; //speedFactor = MathUtils.StepTowards(speedFactor, MinSpeedFactor, DecelerationTime * TimeSystem.LogicDeltaTime);
 		}
-	}
-
-	public override bool? UseItem(Item item, Player player)
-	{
-		ApplyVelocityRecoil(item, player);
-
-		return base.UseItem(item, player);
-	}
-
-	private static void ApplyVelocityRecoil(Item item, Player player)
-	{
-		var mouseWorld = player.GetModPlayer<PlayerDirectioning>().MouseWorld;
-		var direction = (player.Center - mouseWorld).SafeNormalize(default);
-		var modifiedDirection = new Vector2(direction.X, direction.Y * Math.Abs(direction.Y));
-		var velocity = modifiedDirection * new Vector2(item.useTime / 15f, item.useTime / 2.875f);
-
-		// Disable horizontal velocity recoil whenever the player is holding a directional key opposite to the direction of the dash.
-		if (Math.Sign(player.KeyDirection().X) == -Math.Sign(velocity.X)) {
-			velocity.X = 0f;
-		}
-
-		// Disable vertical velocity whenever aiming upwards or standing on the ground
-		if (velocity.Y > 0f || player.velocity.Y == 0f) {
-			velocity.Y = 0f;
-		}
-
-		VelocityUtils.AddLimitedVelocity(player, velocity, new Vector2(3f, 5f));
 	}
 }

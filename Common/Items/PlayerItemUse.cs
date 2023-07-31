@@ -2,6 +2,7 @@
 using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Items;
 
@@ -12,6 +13,7 @@ public sealed class PlayerItemUse : ModPlayer
 	private static UseMiningToolDelegate? useMiningToolDelegate;
 
 	private bool forceItemUse;
+	private bool isItemUseForced;
 	private int altFunctionUse;
 
 	public override void Load()
@@ -31,7 +33,14 @@ public sealed class PlayerItemUse : ModPlayer
 			Player.reuseDelay = 0;
 			Player.itemTime = 0;
 
+			isItemUseForced = true;
 			forceItemUse = false;
+		} else if (isItemUseForced) {
+			if (!Player.IsLocal()) {
+				Player.controlUseItem = false;
+			}
+
+			isItemUseForced = false;
 		}
 
 		return true;
