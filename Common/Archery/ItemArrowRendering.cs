@@ -16,8 +16,17 @@ namespace TerrariaOverhaul.Common.Archery;
 public sealed class ItemArrowRendering : ItemComponent
 {
 	public bool Visible { get; private set; }
+	public byte ArrowCount { get; private set; } = 1;
 	public float AnimationProgress { get; private set; }
 	public Projectile? AmmoProjectileSample { get; private set; }
+
+	public override void SetDefaults(Item item)
+	{
+		// Hardcoded for now.
+		if (item.type == ItemID.Tsunami) {
+			ArrowCount = 5;
+		}
+	}
 
 	public override void HoldItem(Item item, Player player)
 	{
@@ -100,19 +109,25 @@ public sealed class ArrowPlayerDrawLayer : PlayerDrawLayer
 
 		float animationProgress = arrowRendering.AnimationProgress;
 		float positionOffsetEasing = 1f - MathF.Pow(1f - animationProgress, 2f);
-		float positionOffset = MathHelper.Lerp(StartOffset, EndOffset, positionOffsetEasing);
+		var positionOffset = itemDirection * MathHelper.Lerp(StartOffset, EndOffset, positionOffsetEasing);
 		float rotationOffsetIntensity = Math.Min(1f, MathF.Pow(animationProgress, 5f) + 0.1f);
 		float rotationOffset = MathF.Sin(TimeSystem.RenderTime * 50f) * MathHelper.ToRadians(7.5f) * rotationOffsetIntensity;
 
-		// Drawing info
-		var position = player.Center + itemDirection * positionOffset;
-		float rotation = itemRotation - MathHelper.PiOver2 * player.direction + rotationOffset;
-		Vector2 origin = sourceRectangle.Size() * 0.5f;
-		float scale = 1.0f;
-		var effect = player.direction > 0 ? SpriteEffects.FlipVertically : SpriteEffects.None;
-		var color = Lighting.GetColor(position.ToTileCoordinates());
+		for (int i = 0; i < arrowRendering.ArrowCount; i++) {
+			int arrowStep = (int)MathF.Ceiling(i * 0.5f) * (i % 2 == 0 ? 1 : -1);
+			var itemDirectionRight = itemDirection.RotatedBy(MathHelper.PiOver2);
+			var arrowOffset = (itemDirectionRight * arrowStep * 8f) + (itemDirection * MathF.Abs(arrowStep) * -2f);
 
-		// Drawing
-		drawInfo.DrawDataCache.Add(new DrawData(projectileTexture, position - Main.screenPosition, sourceRectangle, color, rotation, origin, scale, effect, 0));
+			// Drawing info
+			var position = player.Center + positionOffset + arrowOffset;
+			float rotation = itemRotation - MathHelper.PiOver2 * player.direction + rotationOffset;
+			Vector2 origin = sourceRectangle.Size() * 0.5f;
+			float scale = 1.0f;
+			var effect = player.direction > 0 ? SpriteEffects.FlipVertically : SpriteEffects.None;
+			var color = Lighting.GetColor(position.ToTileCoordinates());
+
+			// Drawing
+			drawInfo.DrawDataCache.Add(new DrawData(projectileTexture, position - Main.screenPosition, sourceRectangle, color, rotation, origin, scale, effect, 0));
+		}
 	}
 }
