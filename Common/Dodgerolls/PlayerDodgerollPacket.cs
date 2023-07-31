@@ -14,7 +14,7 @@ public sealed class PlayerDodgerollPacket : NetPacket
 
 		Writer.TryWriteSenderPlayer(player);
 
-		Writer.Write(playerDodgerolls.WantedDodgerollDirection);
+		Writer.Write((sbyte)playerDodgerolls.WantedDodgerollDirection);
 		Writer.WriteVector2(player.velocity);
 	}
 
@@ -27,7 +27,7 @@ public sealed class PlayerDodgerollPacket : NetPacket
 		var playerDodgerolls = player.GetModPlayer<PlayerDodgerolls>();
 
 		playerDodgerolls.ForceDodgeroll = true;
-		playerDodgerolls.WantedDodgerollDirection = reader.ReadSByte();
+		playerDodgerolls.WantedDodgerollDirection = (Direction1D)reader.ReadSByte();
 
 		player.velocity = reader.ReadVector2();
 

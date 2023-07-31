@@ -45,6 +45,7 @@
 - Weapon muzzleflashes are now automatically colored based on the shot projectile (or used ammunition).
 - Added two new alternated muzzleflash variations, and two frames of animation.
 - Reimplemented player/npc water/rain interactions, i.e. application of the wet debuff.
+- Players now face NPCs during dialogues.
 
 ### Changes
 - Blood/Gel/Whatever particles' line lengths will now be rounded in rendering, with positions aligned to the pixel grid, appearing slightly more pixelated and low framerate, and preventing very thin lines forming at low velocity. They are still rotated however.
@@ -61,11 +62,14 @@
 	- Enemies now accumulate "stun penalties" with every hit, reducing each succeeding hit's stun time by a few ticks. Stun penalties are reset after the enemy has not been hit for 45 ticks.
 	- These changes should keep stuns a reliable mechanic for diving into enemies in an in-and-out combat style, while preventing easy stun-locking of enemies and bosses that allowed people to receive no damage while standing still and holding the use button.
 	- The red flash visual effect is no longer reduced in intensity for bosses.
+- Aimable weapons no longer show during NPC dialogues.
 
 ### Fixes
 - Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
 - Fixed force applied to gores being biased towards the right, due to an incorrect linear interpolation function being used for velocity angles.
 - Fixed the Axe of Regrowth not getting the Axe item overhaul.
+- Fixed issue [#177](https://github.com/Mirsario/TerrariaOverhaul/issues/177) (Explosives ignore knockback resistance). 
+- Fixed issue [#124](https://github.com/Mirsario/TerrariaOverhaul/issues/124) (Unable to pet cats & dogs).
 
 ### Optimizations
 - Crosshair impulse registration no longer causes any heap allocations.
