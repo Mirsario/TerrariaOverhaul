@@ -23,7 +23,11 @@ internal class ItemPrimaryUseCharging : ItemComponent
 
 	public override void HoldItem(Item item, Player player)
 	{
-		if (charge.UnclampedValue == 0) {
+		if (!Enabled) {
+			return;
+		}
+
+		if (charge.UnclampedValue == 0 && charge.CurrentTime != 0) {
 			player.GetModPlayer<PlayerItemUse>().ForceItemUse();
 		} else if (charge.UnclampedValue > 0) {
 			ApplyDummyAnimationTime(player);

@@ -106,7 +106,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 		}
 
 		// If the charge just ended on its own, or is released
-		if ((!Charge.FreezeTime.HasValue && Charge.UnclampedValue == 0) || (CanRelease && Charge.Active && !player.controlUseTile)) {
+		if ((!Charge.FreezeTime.HasValue && Charge.UnclampedValue == 0 && Charge.CurrentTime != 0) || (CanRelease && Charge.Active && !player.controlUseTile)) {
 			ChargeEnd(item, player);
 		}
 
