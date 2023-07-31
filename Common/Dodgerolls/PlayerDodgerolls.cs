@@ -47,7 +47,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public Timer NoDodgerollsTimer;
 	public Timer DodgeAttemptTimer;
 	public bool ForceDodgeroll;
-	public sbyte WantedDodgerollDirection;
+	public Direction1D WantedDodgerollDirection;
 
 	public int MaxCharges { get; set; }
 	public int CurrentCharges { get; set; }
@@ -56,8 +56,8 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public float DodgeStartRotation { get; private set; }
 	public float DodgeItemRotation { get; private set; }
 	public float DodgeTime { get; private set; }
-	public sbyte DodgeDirection { get; private set; }
-	public sbyte DodgeDirectionVisual { get; private set; }
+	public Direction1D DodgeDirection { get; private set; }
+	public Direction1D DodgeDirectionVisual { get; private set; }
 
 	public override void Load()
 	{
@@ -93,7 +93,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public override bool CanUseItem(Item item)
 		=> !IsDodging;
 
-	public void QueueDodgeroll(uint minAttemptTimer, sbyte direction, bool force = false)
+	public void QueueDodgeroll(uint minAttemptTimer, Direction1D direction, bool force = false)
 	{
 		if (force) {
 			DodgerollCooldownTimer = 0;
@@ -127,7 +127,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 		bool isLocal = Player.IsLocal();
 
 		if (isLocal && !DodgeAttemptTimer.Active && DodgerollKey.JustPressed && (!Player.mouseInterface || !Main.playerInventory)) {
-			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), (sbyte)Math.Sign(Player.KeyDirection().X));
+			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), Player.KeyDirection().X >= 0f ? Direction1D.Right : Direction1D.Left);
 		}
 
 		if (!ForceDodgeroll) {
@@ -175,8 +175,8 @@ public sealed class PlayerDodgerolls : ModPlayer
 		DodgeStartRotation = Player.GetModPlayer<PlayerBodyRotation>().Rotation;
 		DodgeItemRotation = Player.itemRotation;
 		DodgeTime = 0f;
-		DodgeDirectionVisual = (sbyte)Player.direction;
-		DodgeDirection = WantedDodgerollDirection != 0 ? WantedDodgerollDirection : (sbyte)Player.direction;
+		DodgeDirectionVisual = (Direction1D)Player.direction;
+		DodgeDirection = WantedDodgerollDirection != 0 ? WantedDodgerollDirection : (Direction1D)Player.direction;
 
 		// Handle cooldowns
 
@@ -229,13 +229,13 @@ public sealed class PlayerDodgerolls : ModPlayer
 			}
 
 			if (tile.TileType == TileID.ClosedDoor) {
-				WorldGen.OpenDoor(x, y, DodgeDirection);
+				WorldGen.OpenDoor(x, y, (int)DodgeDirection);
 			}
 		}
 
 		// Apply velocity
 		if (DodgeTime < DodgeTimeMax * 0.5f) {
-			float newVelX = (onGround ? 6f : 4f) * DodgeDirection;
+			float newVelX = (onGround ? 6f : 4f) * (sbyte)DodgeDirection;
 
 			if (Math.Abs(Player.velocity.X) < Math.Abs(newVelX) || Math.Sign(newVelX) != Math.Sign(Player.velocity.X)) {
 				Player.velocity.X = newVelX;
@@ -252,9 +252,9 @@ public sealed class PlayerDodgerolls : ModPlayer
 		// Apply rotations & direction
 		Player.GetModPlayer<PlayerItemRotation>().ForcedItemRotation = DodgeItemRotation;
 		Player.GetModPlayer<PlayerAnimations>().ForcedLegFrame = PlayerFrames.Jump;
-		Player.GetModPlayer<PlayerDirectioning>().ForcedDirection = DodgeDirectionVisual;
+		Player.GetModPlayer<PlayerDirectioning>().SetDirectionOverride(DodgeDirectionVisual, 2, PlayerDirectioning.OverrideFlags.IgnoreItemAnimation);
 
-		rotation = DodgeDirection == 1
+		rotation = DodgeDirection == Direction1D.Right
 			? Math.Min(MathHelper.Pi * 2f, MathHelper.Lerp(DodgeStartRotation, MathHelper.TwoPi, DodgeTime / (DodgeTimeMax * 1f)))
 			: Math.Max(-MathHelper.Pi * 2f, MathHelper.Lerp(DodgeStartRotation, -MathHelper.TwoPi, DodgeTime / (DodgeTimeMax * 1f)));
 

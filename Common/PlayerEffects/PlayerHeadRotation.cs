@@ -45,8 +45,8 @@ public class PlayerHeadRotation : ModPlayer
 		if (Player.sleeping.isSleeping) {
 			targetHeadRotation = 0;
 		} else {
-			var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().MouseWorld;
-			Vector2 offset = mouseWorld - Player.Center;
+			var lookPosition = Player.GetModPlayer<PlayerDirectioning>().LookPosition;
+			Vector2 offset = lookPosition - Player.Center;
 
 			if (Math.Sign(offset.X) == Player.direction) {
 				targetHeadRotation = (offset * Player.direction).ToRotation() * LookStrength;
