@@ -21,7 +21,7 @@ public sealed class PlayerDirectioning : ModPlayer
 
 			Writer.TryWriteSenderPlayer(player);
 			Writer.WriteVector2(modPlayer.MouseWorld);
-			Writer.WritePackedVector2(modPlayer.LookPosition - modPlayer.MouseWorld);
+			Writer.WriteHalfVector2(modPlayer.LookPosition - modPlayer.MouseWorld);
 		}
 
 		public override void Read(BinaryReader reader, int sender)
@@ -31,7 +31,7 @@ public sealed class PlayerDirectioning : ModPlayer
 			}
 
 			modPlayer.MouseWorld = reader.ReadVector2();
-			modPlayer.LookPosition = modPlayer.MouseWorld + reader.ReadPackedVector2();
+			modPlayer.LookPosition = modPlayer.MouseWorld + reader.ReadHalfVector2();
 
 			// Resend
 			if (Main.netMode == NetmodeID.Server) {
@@ -152,7 +152,7 @@ public sealed class PlayerDirectioning : ModPlayer
 			}
 
 			if (Main.netMode == NetmodeID.MultiplayerClient && Main.GameUpdateCount % MouseWorldSyncFrequency == 0) {
-				int syncHash = MouseWorld.GetHashCode() ^ LookPosition.GetHashCode();
+				int syncHash = unchecked(MouseWorld.GetHashCode() + LookPosition.GetHashCode());
 
 				if (syncHash != lastSyncHash) {
 					MultiplayerSystem.SendPacket(new PlayerMousePositionPacket(Player));
