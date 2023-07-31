@@ -76,6 +76,9 @@
 - Fixed issue [#177](https://github.com/Mirsario/TerrariaOverhaul/issues/177) (Explosives ignore knockback resistance). 
 - Fixed issue [#124](https://github.com/Mirsario/TerrariaOverhaul/issues/124) (Unable to pet cats & dogs).
 
+### Netcode
+- Fixed some cases of desynchronization within power attacks.
+
 ### Optimizations
 - Crosshair impulse registration no longer causes any heap allocations.
 

@@ -152,6 +152,11 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 		}
 
 		charge.Set(chargeLength);
+
+		// How does this happen?
+		if (!player.IsLocal()) {
+			player.controlUseTile = true;
+		}
 	}
 
 	private void ChargeUpdate(Item item, Player player)

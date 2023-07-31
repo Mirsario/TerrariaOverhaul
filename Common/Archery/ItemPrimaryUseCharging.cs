@@ -27,8 +27,10 @@ internal class ItemPrimaryUseCharging : ItemComponent
 			return;
 		}
 
-		if (charge.UnclampedValue == 0 && charge.CurrentTime != 0) {
-			player.GetModPlayer<PlayerItemUse>().ForceItemUse();
+		if (charge.UnclampedUnfrozenValue == 0 && charge.CurrentTime != 0) {
+			if (player.IsLocal()) {
+				player.GetModPlayer<PlayerItemUse>().ForceItemUse();
+			}
 		} else if (charge.UnclampedValue > 0) {
 			ApplyDummyAnimationTime(player);
 		}
