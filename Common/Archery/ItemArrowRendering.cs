@@ -47,13 +47,9 @@ public sealed class ItemArrowRendering : ItemComponent
 
 		// Update ammo kind only at the beginning of the animation.
 		if (!Visible) {
-			var ammo = player.ChooseAmmo(item);
+			player.PickAmmo(item, out int projectileType, out _, out _, out _, out _, dontConsume: true);
 
-			if (ammo.IsAir || ammo.shoot <= ProjectileID.None || ammo.shoot >= ProjectileLoader.ProjectileCount) {
-				return false;
-			}
-
-			if (!ContentSamples.ProjectilesByType.TryGetValue(ammo.shoot, out var projectile) || projectile == null) {
+			if (!ContentSamples.ProjectilesByType.TryGetValue(projectileType, out var projectile) || projectile == null) {
 				return false;
 			}
 
