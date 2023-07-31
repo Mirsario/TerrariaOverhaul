@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Items;
@@ -90,5 +92,18 @@ public partial class Bow : ItemOverhaul
 				c.CancelPlaybackOnEnd = true;
 			});
 		}
+	}
+
+	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+	{
+		base.ModifyTooltips(item, tooltips);
+
+		IEnumerable<string> GetCombatInfo()
+		{
+			yield return Mod.GetTextValue("ItemOverhauls.Archery.ManualCharging");
+			yield return Mod.GetTextValue("ItemOverhauls.Archery.HoverShots");
+		}
+
+		TooltipUtils.ShowCombatInformation(Mod, tooltips, GetCombatInfo);
 	}
 }
