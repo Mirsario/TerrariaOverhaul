@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
@@ -14,40 +13,9 @@ namespace TerrariaOverhaul.Common.Archery;
 
 public partial class Bow : ItemOverhaul
 {
-	public static readonly SoundStyle FireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowFire", 4) {
-		Volume = 0.375f,
-		PitchVariance = 0.2f,
-		MaxInstances = 3,
-	};
-	public static readonly SoundStyle ChargeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowCharge", 4) {
-		Volume = 0.375f,
-		PitchVariance = 0.2f,
-		MaxInstances = 3,
-	};
-	public static readonly SoundStyle EmptySound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Bows/BowEmpty") {
-		Volume = 0.375f,
-		PitchVariance = 0.2f,
-		MaxInstances = 3,
-	};
-
 	public override bool ShouldApplyItemOverhaul(Item item)
 	{
-		// Ignore weapons that don't shoot, and ones that deal hitbox damage 
-		if (item.shoot <= ProjectileID.None || !item.noMelee) {
-			return false;
-		}
-
-		// Ignore weapons that don't shoot arrows.
-		if (item.useAmmo != AmmoID.Arrow) {
-			return false;
-		}
-
-		// Avoid tools and placeables
-		if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
-			return false;
-		}
-
-		return true;
+		return ArcheryWeapons.IsArcheryWeapon(item, out var kind) && kind == ArcheryWeapons.Kind.Bow;
 	}
 
 	public override void SetDefaults(Item item)
@@ -55,7 +23,7 @@ public partial class Bow : ItemOverhaul
 		base.SetDefaults(item);
 
 		if (item.UseSound == SoundID.Item5) {
-			item.UseSound = FireSound;
+			item.UseSound = ArcheryWeapons.FireSound;
 		}
 
 		item.EnableComponent<ItemPowerAttackHover>(c => {
@@ -114,7 +82,7 @@ public partial class Bow : ItemOverhaul
 			});
 
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
-				c.Sound = ChargeSound;
+				c.Sound = ArcheryWeapons.ChargeSound;
 				c.CancelPlaybackOnEnd = true;
 			});
 		}

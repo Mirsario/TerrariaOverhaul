@@ -8,7 +8,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Archery;
 
