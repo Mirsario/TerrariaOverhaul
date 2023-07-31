@@ -61,6 +61,7 @@
 	- Enemies now accumulate "stun penalties" with every hit, reducing each succeeding hit's stun time by a few ticks. Stun penalties are reset after the enemy has not been hit for 45 ticks.
 	- These changes should keep stuns a reliable mechanic for diving into enemies in an in-and-out combat style, while preventing easy stun-locking of enemies and bosses that allowed people to receive no damage while standing still and holding the use button.
 	- The red flash visual effect is no longer reduced in intensity for bosses.
+- Aimable weapons no longer show during NPC dialogues.
 
 ### Fixes
 - Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
