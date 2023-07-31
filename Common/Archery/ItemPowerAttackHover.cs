@@ -86,6 +86,10 @@ public sealed class ItemPowerAttackHover : ItemComponent
 
 		// Must be charging a power attack.
 		if (!c.PowerAttacks.Enabled || !c.PowerAttacks.IsCharging) {
+			if (active) {
+				needsGroundReset = true;
+			}
+
 			graceTicks = 0;
 			return false;
 		}
