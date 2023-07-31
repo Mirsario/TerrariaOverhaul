@@ -91,7 +91,7 @@ public sealed class ArrowPlayerDrawLayer : PlayerDrawLayer
 		Main.instance.LoadProjectile(projectile.type);
 
 		var projectileTexture = TextureAssets.Projectile[projectile.type].Value;
-		var frame = new SpriteFrame(1, 1);
+		var frame = new SpriteFrame(1, (byte)Main.projFrames[projectile.type]);
 		var sourceRectangle = frame.GetSourceRectangle(projectileTexture);
 
 		// Animation
