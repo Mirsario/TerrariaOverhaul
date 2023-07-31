@@ -106,7 +106,7 @@ public class PlayerWallJumps : ModPlayer
 		}
 
 		if (!ninjaJump) {
-			playerDodgerolls.QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.1f), (sbyte)-prevDirX, force: true);
+			playerDodgerolls.QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.1f), (Direction1D)(-prevDirX), force: true);
 		}
 
 		Player.StopGrappling();
