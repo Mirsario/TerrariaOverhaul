@@ -12,7 +12,7 @@ public sealed class PlayerDialogueDirectioning : ModPlayer
 {
 	public override void PreUpdate()
 	{
-		if (Player.TalkNPC is NPC { active: true } npc && Player.TryGetModPlayer(out PlayerDirectioning directions)) {
+		if (Player.talkNPC is >= 0 and < Main.maxNPCs && Main.npc[Player.talkNPC] is NPC { active: true } npc && Player.TryGetModPlayer(out PlayerDirectioning directions)) {
 			var playerCenter = Player.Center;
 			var npcCenter = npc.Center;
 

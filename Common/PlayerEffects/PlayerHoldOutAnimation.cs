@@ -107,7 +107,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			return false;
 		}
 
-		if (player.TalkNPC is NPC { active: true } && !player.ItemAnimationActive) {
+		if (player.talkNPC is >= 0 and < Main.maxNPCs && Main.npc[player.talkNPC] is NPC { active: true } && !player.ItemAnimationActive) {
 			return false;
 		}
 

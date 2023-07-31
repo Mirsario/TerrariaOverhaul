@@ -415,6 +415,19 @@ Mods: {
 		}
 
 		ItemOverhauls: {
+			Archery: {
+				/* HoverShots:
+					'''
+					Hover in the air by charging your weapon during jumping
+					Perform a hover-shot to get even more velocity
+					''' */
+				/* ManualCharging:
+					'''
+					Hold right click to manually charge your weapon
+					Release it at any time to fine-tune the shot speed & damage
+					''' */
+			}
+
 			Melee: {
 				AirCombatInfo: "Gegner in der Luft anzugreifen schleudert dich zu ihnen"
 				VelocityBasedDamageInfo: "Schaden kann durch Spielergeschwindigkeit erhöht werden, Sprinten ist empfohlen"
