@@ -49,6 +49,11 @@ public static class ArcheryWeapons
 			return false;
 		}
 
+		// Ignore specific weapons.
+		if (item.type == ItemID.FairyQueenRangedItem) {
+			return false;
+		}
+
 		// Avoid tools and placeables
 		if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
 			return false;
