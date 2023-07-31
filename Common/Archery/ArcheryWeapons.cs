@@ -39,6 +39,11 @@ public static class ArcheryWeapons
 			return false;
 		}
 
+		// Ignore channeled weapons.
+		if (item.channel) {
+			return false;
+		}
+
 		// Ignore weapons that don't shoot arrows.
 		if (item.useAmmo != AmmoID.Arrow) {
 			return false;
