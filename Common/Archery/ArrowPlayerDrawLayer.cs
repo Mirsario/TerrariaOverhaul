@@ -62,8 +62,8 @@ public class ArrowPlayerDrawLayer : PlayerDrawLayer
 		}
 
 		// Attack info
-		var firingDirection = player.LookDirection();
-		float firingAngle = firingDirection.ToRotation();
+		float itemRotation = player.itemRotation + (player.direction < 0 ? MathHelper.Pi : 0f);
+		Vector2 itemDirection = itemRotation.ToRotationVector2();
 
 		// Texture info
 		Main.instance.LoadProjectile(projectile.type);
@@ -82,8 +82,8 @@ public class ArrowPlayerDrawLayer : PlayerDrawLayer
 		float rotationOffset = MathF.Sin(TimeSystem.RenderTime * 50f) * MathHelper.ToRadians(7.5f) * rotationOffsetIntensity;
 
 		// Drawing info
-		var position = player.Center + firingDirection * positionOffset;
-		float rotation = firingAngle - MathHelper.PiOver2 * player.direction + rotationOffset;
+		var position = player.Center + itemDirection * positionOffset;
+		float rotation = itemRotation - MathHelper.PiOver2 * player.direction + rotationOffset;
 		Vector2 origin = sourceRectangle.Size() * 0.5f;
 		float scale = 1.0f;
 		var effect = player.direction > 0 ? SpriteEffects.FlipVertically : SpriteEffects.None;
