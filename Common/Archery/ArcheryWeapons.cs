@@ -61,10 +61,13 @@ public static class ArcheryWeapons
 
 	private static Kind GetKind(Item item)
 	{
-		if (item.width >= item.height) {
-			return Kind.Repeater;
-		}
-
-		return Kind.Bow;
+		// Tons of items have incorrect width/height values. This is why we can't have nice things.
+		return item.type switch {
+			ItemID.PulseBow => Kind.Bow,
+			ItemID.Tsunami => Kind.Bow,
+			ItemID.FairyQueenRangedItem => Kind.Bow,
+			_ when item.width > item.height => Kind.Repeater,
+			_ => Kind.Bow,
+		};
 	}
 }
