@@ -68,16 +68,20 @@ public partial class Bow : ItemOverhaul
 		});
 
 		if (!Main.dedServ) {
-			static float ScreenShakePowerFunction(float progress)
-			{
-				const float StartOffset = 0.00f;
-				const float MaxPower = 0.15f;
-				const float PowX = 7f;
-
-				return MathHelper.Clamp((MathF.Pow(progress, PowX) * (1f + StartOffset)) - StartOffset, 0f, 1f) * MaxPower;
-			}
+			item.EnableComponent<ItemArrowRendering>(c => {
+				
+			});
 
 			item.EnableComponent<ItemPowerAttackScreenShake>(c => {
+				static float ScreenShakePowerFunction(float progress)
+				{
+					const float StartOffset = 0.00f;
+					const float MaxPower = 0.15f;
+					const float PowX = 7f;
+
+					return MathHelper.Clamp((MathF.Pow(progress, PowX) * (1f + StartOffset)) - StartOffset, 0f, 1f) * MaxPower;
+				}
+
 				c.ScreenShake = new ScreenShake(ScreenShakePowerFunction, float.PositiveInfinity);
 			});
 
