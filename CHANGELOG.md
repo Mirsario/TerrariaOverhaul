@@ -67,6 +67,7 @@
 - Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
 - Fixed force applied to gores being biased towards the right, due to an incorrect linear interpolation function being used for velocity angles.
 - Fixed the Axe of Regrowth not getting the Axe item overhaul.
+- Fixed issue [#177](https://github.com/Mirsario/TerrariaOverhaul/issues/177) (Explosives ignore knockback resistance). 
 - Fixed issue [#124](https://github.com/Mirsario/TerrariaOverhaul/issues/124) (Unable to pet cats & dogs).
 
 ### Optimizations
