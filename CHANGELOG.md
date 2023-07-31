@@ -69,11 +69,11 @@
 - Aimable weapons no longer show during NPC dialogues.
 
 ### Fixes
-- Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
-- Fixed force applied to gores being biased towards the right, due to an incorrect linear interpolation function being used for velocity angles.
-- Fixed the Axe of Regrowth not getting the Axe item overhaul.
 - Fixed issue [#177](https://github.com/Mirsario/TerrariaOverhaul/issues/177) (Explosives ignore knockback resistance). 
 - Fixed issue [#124](https://github.com/Mirsario/TerrariaOverhaul/issues/124) (Unable to pet cats & dogs).
+- Fixed issue [#188](https://github.com/Mirsario/TerrariaOverhaul/issues/188) (Vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.)
+- Fixed force applied to gores being biased towards the right, due to an incorrect linear interpolation function being used for velocity angles.
+- Fixed the Axe of Regrowth not getting the Axe item overhaul.
 
 ### Netcode
 - Fixed some cases of desynchronization within power attacks.
