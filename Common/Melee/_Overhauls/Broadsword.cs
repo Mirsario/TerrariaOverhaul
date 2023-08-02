@@ -45,7 +45,7 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 			return false;
 		}
 
-		if (item.DamageType != DamageClass.Melee) {
+		if (!item.DamageType.CountsAsClass(DamageClass.Melee)) {
 			return false;
 		}
 

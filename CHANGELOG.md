@@ -4,6 +4,7 @@
 | Version									| Release Date |
 | ----------------------------------------- | ------------ |
 | [Work In Progress](#work-in-progress)		| `TBA`        |
+| [5.0 BETA 13](#50-beta-13)				| `2023.08.01` |
 | [5.0 BETA 12**C**](#50-beta-12c)			| `2023.03.11` |
 | [5.0 BETA 12**B**](#50-beta-12b)			| `2022.12.25` |
 | [5.0 BETA 12](#50-beta-12)				| `2022.12.24` |
@@ -29,7 +30,13 @@
 
 # Work In Progress
 
+### Fixes
+- Fixed many broadswords not getting their item overhaul when Calamity is enabled.
+
+# 5.0 BETA 13
+
 ### Additions
+- Updated to support 1.4.4 Terraria and 2023 TModLoader.
 - Multiple features have been decoupled from "Item Overhauls", and will now appear on all fitting items in the game (including other mods' content), instead of only applying to thought-ahead categories of items ("shotguns", "bows", etc.):
 	- Crosshairs - The aiming reticle, but a great feedback booster more importantly.
 	- Visual Recoil - The slight offset in weapon's rotation after it's used.
