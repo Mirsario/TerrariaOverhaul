@@ -30,6 +30,10 @@
 
 # Work In Progress
 
+Nothing so far!
+
+# 5.0 BETA 13B
+
 ### Fixes
 - Fixed many broadswords not getting their item overhaul when Calamity is enabled.
 
