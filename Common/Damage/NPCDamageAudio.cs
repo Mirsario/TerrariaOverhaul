@@ -11,7 +11,8 @@ using TerrariaOverhaul.Common.Hooks.Items;
 
 namespace TerrariaOverhaul.Common.Damage;
 
-public class NPCDamageAudio : GlobalNPC
+[Autoload(Side = ModSide.Client)]
+public sealed class NPCDamageAudio : GlobalNPC
 {
 	public static readonly SoundStyle GoreSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2) {
 		Volume = 0.475f,
@@ -25,7 +26,7 @@ public class NPCDamageAudio : GlobalNPC
 	public override void Load()
 	{
 		// Hook for making the PlayHitSound method control whether or not to play the original hitsound.
-		IL.Terraria.NPC.StrikeNPC += context => {
+		IL_NPC.StrikeNPC_HitInfo_bool_bool += context => {
 			var cursor = new ILCursor(context);
 
 			// Match 'if (HitSound != null)'
@@ -47,24 +48,43 @@ public class NPCDamageAudio : GlobalNPC
 		};
 
 		// Hook for making the PlayDeathSound method control whether or not to play the original death sound.
-		IL.Terraria.NPC.checkDead += context => {
+		IL_NPC.checkDead += context => {
 			var cursor = new ILCursor(context);
 
-			// Match 'if (DeathSound != null)'
-			ILLabel? onCheckFailureLabel = null;
+			// Match
+			// 'SoundStyle? style = DeathSound;'
+			// to get the style local's id.
+
+			int styleLocalId = -1;
 
 			cursor.GotoNext(
 				MoveType.After,
 				i => i.Match(OpCodes.Ldarg_0),
-				i => i.MatchLdflda(typeof(NPC), nameof(NPC.DeathSound))
+				i => i.MatchLdfld(typeof(NPC), nameof(NPC.DeathSound)),
+				i => i.MatchStloc(out styleLocalId)
 			);
+
+			// Match
+			// 'SoundStyle? style = DeathSound;'
+			// to get the label and relocate.
+
+			ILLabel? onCheckFailureLabel = null;
+
+			cursor.GotoNext(
+				MoveType.After,
+				i => i.MatchLdloca(styleLocalId),
+				i => i.MatchCall(out _) // Couldn't bother getting this to work - i.MatchCall(typeof(SoundStyle?), "get_HasValue")
+			);
+			// (Skip Debug NoOPs)
 			cursor.GotoNext(
 				MoveType.After,
 				i => i.MatchBrfalse(out onCheckFailureLabel)
 			);
 
+			// Emit extra check that would run our code and then short-circuit on success.
+
 			cursor.Emit(OpCodes.Ldarg_0);
-			cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC(out NPCDamageAudio npcDamageAudio) || PlayDeathSound(npc));
+			cursor.EmitDelegate<Func<NPC, bool>>(npc => !npc.TryGetGlobalNPC<NPCDamageAudio>(out _) || PlayDeathSound(npc));
 			cursor.Emit(OpCodes.Brfalse, onCheckFailureLabel!);
 		};
 	}

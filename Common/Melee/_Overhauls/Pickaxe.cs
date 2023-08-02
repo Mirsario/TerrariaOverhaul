@@ -2,7 +2,8 @@
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
-using TerrariaOverhaul.Common.BloodAndGore;
+using TerrariaOverhaul.Common.Damage;
+using TerrariaOverhaul.Common.Interaction;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 
@@ -46,7 +47,6 @@ public class Pickaxe : ItemOverhaul
 		// Components
 
 		item.EnableComponent<ItemMeleeGoreInteraction>();
-		item.EnableComponent<ItemMeleeNpcStuns>();
 		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();

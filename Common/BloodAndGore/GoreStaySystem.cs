@@ -15,8 +15,8 @@ public class GoreStaySystem : ModSystem
 
 	public override void Load()
 	{
-		IL.Terraria.Gore.NewGore_IEntitySource_Vector2_Vector2_int_float += NewGoreInjection;
-		IL.Terraria.Gore.Update += GoreUpdateInjection;
+		IL_Gore.NewGore_IEntitySource_Vector2_Vector2_int_float += NewGoreInjection;
+		IL_Gore.Update += GoreUpdateInjection;
 	}
 
 	// Modifies gore creation to replace a random gore slot whenever there's no free ones left.

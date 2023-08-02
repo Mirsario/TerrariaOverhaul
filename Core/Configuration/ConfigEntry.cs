@@ -1,6 +1,7 @@
 ﻿using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Configuration;
@@ -15,9 +16,11 @@ public class ConfigEntry<T> : IConfigEntry
 	public string Name { get; }
 	public string Category { get; }
 	public ConfigSide Side { get; }
+	//TODO: Make use of this in the yet to be made GUIs.
+	public bool RequiresRestart { get; set; }
 	public string[] ExtraCategories { get; set; } = Array.Empty<string>();
-	public ModTranslation? DisplayName { get; internal set; }
-	public ModTranslation? Description { get; internal set; }
+	public LocalizedText? DisplayName { get; internal set; }
+	public LocalizedText? Description { get; internal set; }
 	public Mod? Mod { get; private set; }
 
 	public Type ValueType => typeof(T);
@@ -80,8 +83,8 @@ public class ConfigEntry<T> : IConfigEntry
 	public void Initialize(Mod mod)
 	{
 		Mod = mod;
-		DisplayName = LocalizationLoader.CreateTranslation(mod, $"Configuration.{Category}.{Name}.DisplayName");
-		Description = LocalizationLoader.CreateTranslation(mod, $"Configuration.{Category}.{Name}.Description");
+		DisplayName = Language.GetText($"Mods.{Mod.Name}.Configuration.{Category}.{Name}.DisplayName");
+		Description = Language.GetText($"Mods.{Mod.Name}.Configuration.{Category}.{Name}.Description");
 	}
 
 	public static implicit operator T?(ConfigEntry<T> configEntry) => configEntry.Value;

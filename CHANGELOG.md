@@ -4,6 +4,7 @@
 | Version									| Release Date |
 | ----------------------------------------- | ------------ |
 | [Work In Progress](#work-in-progress)		| `TBA`        |
+| [5.0 BETA 13](#50-beta-13)				| `2023.08.01` |
 | [5.0 BETA 12**C**](#50-beta-12c)			| `2023.03.11` |
 | [5.0 BETA 12**B**](#50-beta-12b)			| `2022.12.25` |
 | [5.0 BETA 12](#50-beta-12)				| `2022.12.24` |
@@ -29,17 +30,67 @@
 
 # Work In Progress
 
+Nothing so far!
+
+# 5.0 BETA 13B
+
+### Fixes
+- Fixed many broadswords not getting their item overhaul when Calamity is enabled.
+
+# 5.0 BETA 13
+
 ### Additions
+- Updated to support 1.4.4 Terraria and 2023 TModLoader.
 - Multiple features have been decoupled from "Item Overhauls", and will now appear on all fitting items in the game (including other mods' content), instead of only applying to thought-ahead categories of items ("shotguns", "bows", etc.):
 	- Crosshairs - The aiming reticle, but a great feedback booster more importantly.
 	- Visual Recoil - The slight offset in weapon's rotation after it's used.
 	- Muzzleflashes - The weapons' fire breath.
 	- Screen-shake - Self-explanatory.
+- Implemented an initial Archery Overhaul:
+    - Bows can now again be manually charged using right click. This charge can be released at any time, scaling damage, knockback and projectile speed according to the charge progress.
+    - Reintroduced arrow charging animations, improved much with fancy easing functions.
+    - Introduced experimental (experimental means fun) "Hover-shots" - Start a bow charge while holding down the Jump button to hover over enemies. Release the string to receive double-jump-like recoil velocity.
+	- Bows' primary use now has a short delay before firing. The after-firing use cooldown is shortened as a compensation, so this shouldn't affect DPS.
+- Implemented tree falling animations. Difference from 1.3 Terraria Overhaul versions are as follows:
+	- Stumps are now automatically destroyed after a tree falls down. Toggleable.
+	- Rendering is done with vanilla callsites, should be compatible with all mods' trees out of the box.
+	- Particles from initial tile breakage are now seamlessly captured and released once the tree falls down.
+	- Far more reliable and readable code, higher stability.
+- Implemented player character gore generation, powered by a dynamically textured gore system. This replaces vanilla's Mario-like "going off the screen" player death effect, allowing you to meet and mop up your old remains, as well as your friends'.
 - Weapon muzzleflashes are now automatically colored based on the shot projectile (or used ammunition).
 - Added two new alternated muzzleflash variations, and two frames of animation.
+- Reimplemented player/npc water/rain interactions, i.e. application of the wet debuff.
+- Players now face NPCs during dialogues.
+
+### Changes
+- Blood/Gel/Whatever particles' line lengths will now be rounded in rendering, with positions aligned to the pixel grid, appearing slightly more pixelated and low framerate, and preventing very thin lines forming at low velocity. They are still rotated however.
+- Crosshairs will now take "re-use delay" into account for their rotations.
+- Wooden arrow pieces will now be excepted from the "Gore Stay" feature, always disappearing in a short timespan.
+- Improved Magic Weapons' power attack charge screenshake.
+- Improved workarounds for FAudio's audio filtering issues:
+	- Using uncommon audio configurations will now only disable Reverb and not Low Pass Filtering.
+	- Reverb will now be disabled with unsupported audio device channel counts.
+	- `Ambience.EnableAudioEffects` option replaced with `.EnableReverb` and `.EnableLowPassFiltering`.
+- Rewrote and rebalanced NPC stuns:
+	- Melee weapons now apply 1 to 60 ticks (60 ticks == 1 second) of stun time depending on use speed.
+	- Projectiles (+ spears, yoyos, etc.) now apply 1 to 20 ticks of stun time depending on their weapon's use speed, entity penetration, and hit cooldowns. Unlike previously, when all projectiles applied a fixed and useless stun time of 5 ticks.
+	- Enemies now accumulate "stun penalties" with every hit, reducing each succeeding hit's stun time by a few ticks. Stun penalties are reset after the enemy has not been hit for 45 ticks.
+	- These changes should keep stuns a reliable mechanic for diving into enemies in an in-and-out combat style, while preventing easy stun-locking of enemies and bosses that allowed people to receive no damage while standing still and holding the use button.
+	- The red flash visual effect is no longer reduced in intensity for bosses.
+- Aimable weapons no longer show during NPC dialogues.
 
 ### Fixes
-- Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
+- Fixed issue [#177](https://github.com/Mirsario/TerrariaOverhaul/issues/177) (Explosives ignore knockback resistance). 
+- Fixed issue [#124](https://github.com/Mirsario/TerrariaOverhaul/issues/124) (Unable to pet cats & dogs).
+- Fixed issue [#188](https://github.com/Mirsario/TerrariaOverhaul/issues/188) (Vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.)
+- Fixed force applied to gores being biased towards the right, due to an incorrect linear interpolation function being used for velocity angles.
+- Fixed the Axe of Regrowth not getting the Axe item overhaul.
+
+### Netcode
+- Fixed some cases of desynchronization within power attacks.
+
+### Optimizations
+- Crosshair impulse registration no longer causes any heap allocations.
 
 ### Fixes
 - Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
@@ -51,7 +102,6 @@
 - Improved coloring of melee damage text and the Hack and Slash passive: removed green shades since people thought that they were sometimes healing enemies, widened white shades' range.
 - Fast-firing bows' audio will now stack instead of being abruptly reset all the time.
 - Slightly slowed down Mana Absorption passive's icon pulse rate.
-- Crosshairs will now take "re-use delay" into account for their rotations.
 
 ### Fixes
 - Fixed another typo in Journey mode scaling fixes, this time resulting in lowest stats being used when Master difficulty values are selected in Journey mode's customization.
@@ -64,7 +114,6 @@
 
 ### Optimizations
 - Optimized decal addition code to perfection, minimized reallocations and GC stress.
-- Crosshair impulse registration no longer causes any heap allocations.
 
 ### Configuration
 - Added `Melee.EnableSwingVelocity` option.

@@ -38,7 +38,7 @@ public sealed class PlayerMovement : ModPlayer
 	public override void Load()
 	{
 		// Replace jump hold down logic with gravity scaling
-		IL.Terraria.Player.JumpMovement += (context) => {
+		IL_Player.JumpMovement += (context) => {
 			var cursor = new ILCursor(context);
 
 			// Match 'if (jump > 0)'
@@ -77,8 +77,12 @@ public sealed class PlayerMovement : ModPlayer
 			cursor.EmitDelegate<Action<Player>>(static player => {
 				var playerMovement = player.GetModPlayer<PlayerMovement>();
 
-				player.gravity *= MathHelper.Lerp(1f, 0.1f, MathHelper.Clamp(player.jump / (float)Math.Max(playerMovement.maxPlayerJump, 1), 0f, 1f));
-				
+				float maxGravity = 1.0f;
+				float minGravity = 0.1f;
+				float jumpFactor = MathHelper.Clamp(player.jump / (float)Math.Max(playerMovement.maxPlayerJump, 1), 0f, 1f);
+
+				player.gravity *= MathHelper.Lerp(maxGravity, minGravity, jumpFactor);
+
 				// Workaround for an issue of wings activating too late with the new jump arc.
 				// This makes them activate almost immediately.
 				if (player.wingsLogic > 0) {
@@ -148,6 +152,15 @@ public sealed class PlayerMovement : ModPlayer
 				}
 			}
 		}
+
+		// Additional player agency over gravity.
+		//if (Player.controlUp != Player.controlDown) {
+		//	if (Player.controlDown) {
+		//		Player.gravity *= 1.40f;
+		//	} else if (Player.controlUp) {
+		//		Player.gravity *= 0.80f;
+		//	}
+		//}
 
 		HandleMovementModifiers();
 	}

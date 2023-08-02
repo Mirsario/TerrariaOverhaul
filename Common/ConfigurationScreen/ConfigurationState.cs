@@ -65,7 +65,7 @@ public sealed class ConfigurationState : UIState
 				HoverSound = SoundID.MenuTick,
 			});
 
-			e.OnMouseDown += (_, _) => BackButtonLogic();
+			e.OnLeftClick += (_, _) => BackButtonLogic();
 
 			e.SetSnapPoint("ExitButton", 0);
 		}));
@@ -118,7 +118,7 @@ public sealed class ConfigurationState : UIState
 			e.HAlign = 0f;
 			e.VAlign = 0.5f;
 
-			e.OnClick += Click_SearchArea;
+			e.OnLeftClick += Click_SearchArea;
 			e.OnContentsChanged += OnSearchContentsChanged;
 			e.OnStartTakingInput += OnStartTakingInput;
 			e.OnEndTakingInput += OnEndTakingInput;
@@ -135,7 +135,7 @@ public sealed class ConfigurationState : UIState
 				HoverSound = SoundID.MenuTick,
 			});
 
-			e.OnClick += SearchCancelButton_OnClick;
+			e.OnLeftClick += SearchCancelButton_OnClick;
 		}));
 
 		// Panel Grid
@@ -176,7 +176,7 @@ public sealed class ConfigurationState : UIState
 
 			panelGrid.Add(cardPanel);
 
-			cardPanel.OnClick += (_, _) => SwitchToCategorySettings(category);
+			cardPanel.OnLeftClick += (_, _) => SwitchToCategorySettings(category);
 		}
 	}
 
@@ -270,9 +270,9 @@ public sealed class ConfigurationState : UIState
 		GoBackHere();
 	}
 
-	public override void Click(UIMouseEvent evt)
+	public override void LeftClick(UIMouseEvent evt)
 	{
-		base.Click(evt);
+		base.LeftClick(evt);
 
 		clickedSomething = true;
 	}

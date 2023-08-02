@@ -18,9 +18,9 @@ public sealed class SnowSeasonComponent : SeasonComponent
 			.SetMethod!
 			.CreateDelegate(typeof(Action<SceneMetrics, int>));
 
-		On.Terraria.Main.snowing += orig => WrapCall(() => orig());
+		On_Main.snowing += orig => WrapCall(() => orig());
 
-		On.Terraria.Rain.NewRain += (orig, position, velocity) => {
+		On_Rain.NewRain += (orig, position, velocity) => {
 			int result = 0;
 
 			WrapCall(() => {

@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.AudioEffects;
+using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
@@ -21,7 +21,7 @@ public sealed class BossDeathMusicMuting : GlobalNPC
 		return npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type];
 	}
 
-	public override void HitEffect(NPC npc, int hitDirection, double damage)
+	public override void HitEffect(NPC npc, NPC.HitInfo hit)
 	{
 		if (npc.life < 0) {
 			const float MuteTimeInSeconds = 5f;

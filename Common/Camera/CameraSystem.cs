@@ -22,14 +22,18 @@ public sealed class CameraSystem : ModSystem
 	private readonly static SortedList<int, CameraModifierDelegate> cameraModifiers = new();
 
 	private static Vector2 lastPositionRemainder;
+	private static Vector2 screenCenter;
 
-	public static Vector2 ScreenSize => new(Main.screenWidth, Main.screenHeight);
-	public static Vector2 ScreenHalf => new(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f);
-	public static Rectangle ScreenRect => new((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
-	public static Vector2 MouseWorld => Main.MouseWorld;
+	public static Vector2 ScreenSize { get; private set; }
+	public static Vector2 ScreenHalf { get; private set; }
+	public static Rectangle ScreenRect { get; private set; }
+	public static Vector2 MouseWorld { get; private set; }
 	public static Vector2 ScreenCenter {
-		get => new(Main.screenPosition.X + Main.screenWidth * 0.5f, Main.screenPosition.Y + Main.screenHeight * 0.5f);
-		set => Main.screenPosition = new Vector2(value.X - Main.screenWidth * 0.5f, value.Y - Main.screenHeight * 0.5f);
+		get => screenCenter;
+		set {
+			Main.screenPosition = new Vector2(value.X - Main.screenWidth * 0.5f, value.Y - Main.screenHeight * 0.5f);
+			UpdateCache();
+		}
 	}
 
 	public override void Load()
@@ -52,9 +56,10 @@ public sealed class CameraSystem : ModSystem
 		});
 
 		Main.QueueMainThreadAction(() => {
-			On.Terraria.Main.DoDraw_UpdateCameraPosition += orig => {
+			On_Main.DoDraw_UpdateCameraPosition += orig => {
 				if (Main.gameMenu) {
 					orig();
+					PostCameraUpdate();
 					return;
 				}
 
@@ -74,6 +79,8 @@ public sealed class CameraSystem : ModSystem
 				lock (cameraModifiers) {
 					ModifierRecursion();
 				}
+
+				PostCameraUpdate();
 			};
 		});
 	}
@@ -90,5 +97,19 @@ public sealed class CameraSystem : ModSystem
 		lock (cameraModifiers) {
 			cameraModifiers.Add(-priority, function);
 		}
+	}
+
+	private static void PostCameraUpdate()
+	{
+		UpdateCache();
+	}
+
+	private static void UpdateCache()
+	{
+		MouseWorld = Main.MouseWorld;
+		ScreenSize = new(Main.screenWidth, Main.screenHeight);
+		ScreenHalf = new(Main.screenWidth * 0.5f, Main.screenHeight * 0.5f);
+		ScreenRect = new((int)Main.screenPosition.X, (int)Main.screenPosition.Y, Main.screenWidth, Main.screenHeight);
+		screenCenter = new(Main.screenPosition.X + Main.screenWidth * 0.5f, Main.screenPosition.Y + Main.screenHeight * 0.5f);
 	}
 }

@@ -134,4 +134,20 @@ public static class MathUtils
 
 		return result;
 	}
+
+	public static float Damp(float source, float destination, float smoothing, float dt)
+	{
+		// See this:
+		// https://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp
+
+		return MathHelper.Lerp(source, destination, 1f - MathF.Pow(smoothing, dt));
+	}
+
+	public static Vector2 Damp(Vector2 source, Vector2 destination, float smoothing, float dt)
+	{
+		return new(
+			Damp(source.X, destination.X, smoothing, dt),
+			Damp(source.Y, destination.Y, smoothing, dt)
+		);
+	}
 }

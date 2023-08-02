@@ -20,6 +20,6 @@ public sealed class ForestCricketsAmbience : AmbienceTrack
 			new("NotRainWeather"),
 		};
 
-		AudioEffectsSystem.EnableSoundStyleWallOcclusion(Sound);
+		WallSoundOcclusion.SetEnabledForSoundStyle(Sound, true);
 	}
 }

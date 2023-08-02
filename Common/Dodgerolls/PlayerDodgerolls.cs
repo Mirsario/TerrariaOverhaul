@@ -7,10 +7,10 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Common.PlayerEffects;
 using TerrariaOverhaul.Content.Buffs;
+using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
@@ -47,7 +47,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public Timer NoDodgerollsTimer;
 	public Timer DodgeAttemptTimer;
 	public bool ForceDodgeroll;
-	public sbyte WantedDodgerollDirection;
+	public Direction1D WantedDodgerollDirection;
 
 	public int MaxCharges { get; set; }
 	public int CurrentCharges { get; set; }
@@ -56,8 +56,8 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public float DodgeStartRotation { get; private set; }
 	public float DodgeItemRotation { get; private set; }
 	public float DodgeTime { get; private set; }
-	public sbyte DodgeDirection { get; private set; }
-	public sbyte DodgeDirectionVisual { get; private set; }
+	public Direction1D DodgeDirection { get; private set; }
+	public Direction1D DodgeDirectionVisual { get; private set; }
 
 	public override void Load()
 	{
@@ -67,8 +67,8 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 		DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
 
-		IL.Terraria.Player.Update_NPCCollision += PlayerNpcCollisionInjection;
-		IL.Terraria.Projectile.Damage += ProjectileDamageInjection;
+		IL_Player.Update_NPCCollision += PlayerNpcCollisionInjection;
+		IL_Projectile.Damage += ProjectileDamageInjection;
 	}
 
 	public override void Initialize()
@@ -93,7 +93,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public override bool CanUseItem(Item item)
 		=> !IsDodging;
 
-	public void QueueDodgeroll(uint minAttemptTimer, sbyte direction, bool force = false)
+	public void QueueDodgeroll(uint minAttemptTimer, Direction1D direction, bool force = false)
 	{
 		if (force) {
 			DodgerollCooldownTimer = 0;
@@ -127,7 +127,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 		bool isLocal = Player.IsLocal();
 
 		if (isLocal && !DodgeAttemptTimer.Active && DodgerollKey.JustPressed && (!Player.mouseInterface || !Main.playerInventory)) {
-			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), (sbyte)Math.Sign(Player.KeyDirection().X));
+			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), Player.KeyDirection().X >= 0f ? Direction1D.Right : Direction1D.Left);
 		}
 
 		if (!ForceDodgeroll) {
@@ -175,8 +175,8 @@ public sealed class PlayerDodgerolls : ModPlayer
 		DodgeStartRotation = Player.GetModPlayer<PlayerBodyRotation>().Rotation;
 		DodgeItemRotation = Player.itemRotation;
 		DodgeTime = 0f;
-		DodgeDirectionVisual = (sbyte)Player.direction;
-		DodgeDirection = WantedDodgerollDirection != 0 ? WantedDodgerollDirection : (sbyte)Player.direction;
+		DodgeDirectionVisual = (Direction1D)Player.direction;
+		DodgeDirection = WantedDodgerollDirection != 0 ? WantedDodgerollDirection : (Direction1D)Player.direction;
 
 		// Handle cooldowns
 
@@ -229,13 +229,13 @@ public sealed class PlayerDodgerolls : ModPlayer
 			}
 
 			if (tile.TileType == TileID.ClosedDoor) {
-				WorldGen.OpenDoor(x, y, DodgeDirection);
+				WorldGen.OpenDoor(x, y, (int)DodgeDirection);
 			}
 		}
 
 		// Apply velocity
 		if (DodgeTime < DodgeTimeMax * 0.5f) {
-			float newVelX = (onGround ? 6f : 4f) * DodgeDirection;
+			float newVelX = (onGround ? 6f : 4f) * (sbyte)DodgeDirection;
 
 			if (Math.Abs(Player.velocity.X) < Math.Abs(newVelX) || Math.Sign(newVelX) != Math.Sign(Player.velocity.X)) {
 				Player.velocity.X = newVelX;
@@ -252,9 +252,9 @@ public sealed class PlayerDodgerolls : ModPlayer
 		// Apply rotations & direction
 		Player.GetModPlayer<PlayerItemRotation>().ForcedItemRotation = DodgeItemRotation;
 		Player.GetModPlayer<PlayerAnimations>().ForcedLegFrame = PlayerFrames.Jump;
-		Player.GetModPlayer<PlayerDirectioning>().ForcedDirection = DodgeDirectionVisual;
+		Player.GetModPlayer<PlayerDirectioning>().SetDirectionOverride(DodgeDirectionVisual, 2, PlayerDirectioning.OverrideFlags.IgnoreItemAnimation);
 
-		rotation = DodgeDirection == 1
+		rotation = DodgeDirection == Direction1D.Right
 			? Math.Min(MathHelper.Pi * 2f, MathHelper.Lerp(DodgeStartRotation, MathHelper.TwoPi, DodgeTime / (DodgeTimeMax * 1f)))
 			: Math.Max(-MathHelper.Pi * 2f, MathHelper.Lerp(DodgeStartRotation, -MathHelper.TwoPi, DodgeTime / (DodgeTimeMax * 1f)));
 
@@ -302,6 +302,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 	private static void PlayerNpcCollisionInjection(ILContext context)
 	{
 		var il = new ILCursor(context);
+		bool debugAssembly = OverhaulMod.TMLAssembly.IsDebugAssembly();
 
 		ILLabel? continueLabel = null;
 		int npcIndexLocalId = -1;
@@ -310,17 +311,34 @@ public sealed class PlayerDodgerolls : ModPlayer
 		il.Index = context.Instrs.Count - 1;
 
 		// Match the last 'if (npcTypeNoAggro[Main.npc[i].type])'.
-		il.GotoPrev(
-			MoveType.After,
-			i => i.MatchLdarg(0),
-			i => i.MatchLdfld(typeof(Player), nameof(Terraria.Player.npcTypeNoAggro)),
-			i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
-			i => i.MatchLdloc(out npcIndexLocalId),
-			i => i.MatchLdelemRef(),
-			i => i.MatchLdfld(typeof(NPC), nameof(NPC.type)),
-			i => i.MatchLdelemU1(),
-			i => i.MatchBrtrue(out continueLabel)
-		);
+		if (!debugAssembly) {
+			il.GotoPrev(
+				MoveType.After,
+				i => i.MatchLdarg(0),
+				i => i.MatchLdfld(typeof(Player), nameof(Terraria.Player.npcTypeNoAggro)),
+				i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
+				i => i.MatchLdloc(out npcIndexLocalId),
+				i => i.MatchLdelemRef(),
+				i => i.MatchLdfld(typeof(NPC), nameof(NPC.type)),
+				i => i.MatchLdelemU1(),
+				i => i.MatchBrtrue(out continueLabel)
+			);
+		} else {
+			il.GotoPrev(
+				MoveType.After,
+				i => i.MatchLdarg(0),
+				i => i.MatchLdfld(typeof(Player), nameof(Terraria.Player.npcTypeNoAggro)),
+				i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
+				i => i.MatchLdloc(out npcIndexLocalId),
+				i => i.MatchLdelemRef(),
+				i => i.MatchLdfld(typeof(NPC), nameof(NPC.type)),
+				i => i.MatchLdelemU1(),
+				i => i.MatchStloc(out _),
+				i => i.MatchLdloc(out _),
+				i => i.MatchBrfalse(out _),
+				i => i.MatchBr(out continueLabel)
+			);
+		}
 
 		il.HijackIncomingLabels();
 
@@ -335,15 +353,27 @@ public sealed class PlayerDodgerolls : ModPlayer
 	private static void ProjectileDamageInjection(ILContext context)
 	{
 		var il = new ILCursor(context);
+		bool debugAssembly = OverhaulMod.TMLAssembly.IsDebugAssembly();
 
 		ILLabel? skipHitLabel = null;
 
 		// Match the last 'if (!Main.player[myPlayer2].CanParryAgainst(Main.player[myPlayer2].Hitbox, base.Hitbox, velocity))'.
 		il.GotoNext(
 			MoveType.After,
-			i => i.MatchCallvirt(typeof(Player), nameof(Player.CanParryAgainst)),
-			i => i.MatchBrtrue(out skipHitLabel)
+			i => i.MatchCallvirt(typeof(Player), nameof(Player.CanParryAgainst))
 		);
+
+		if (!debugAssembly) {
+			il.GotoNext(
+				MoveType.After,
+				i => i.MatchBrtrue(out skipHitLabel)
+			);
+		} else {
+			il.GotoNext(
+				MoveType.After,
+				i => i.MatchBrfalse(out skipHitLabel)
+			);
+		}
 
 		il.HijackIncomingLabels();
 

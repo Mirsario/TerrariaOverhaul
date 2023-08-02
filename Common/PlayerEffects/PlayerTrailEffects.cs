@@ -1,4 +1,5 @@
 ﻿using System;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.PlayerEffects;
@@ -10,7 +11,7 @@ public sealed class PlayerTrailEffects : ModPlayer
 
 	public override void Load()
 	{
-		On.Terraria.Player.SetArmorEffectVisuals += (orig, player, drawPlayer) => {
+		On_Player.SetArmorEffectVisuals += (orig, player, drawPlayer) => {
 			orig(player, drawPlayer);
 
 			var modPlayer = drawPlayer.GetModPlayer<PlayerTrailEffects>();

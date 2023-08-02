@@ -1,14 +1,13 @@
-﻿using Terraria;
+﻿using System;
+using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
-using TerrariaOverhaul.Common.Crosshairs;
-using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
-using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Magic;
@@ -25,6 +24,13 @@ public partial class MagicWeapon : ItemOverhaul
 		Volume = 0.5f,
 		PitchVariance = 0.1f,
 	};
+
+	private static readonly Gradient<float> chargeScreenShakePowerGradient = new(
+		(0.000f, 0.000f),
+		(0.250f, 0.025f),
+		(0.500f, 0.090f),
+		(1.000f, 0.200f)
+	);
 
 	public override bool ShouldApplyItemOverhaul(Item item)
 	{
@@ -59,38 +65,36 @@ public partial class MagicWeapon : ItemOverhaul
 			item.UseSound = MagicBlastSound;
 		}
 
-		var chargeScreenShakePowerGradient = new Gradient<float>(
-			(0.0f, 0.0f),
-			(0.25f, 0.025f),
-			(1.0f, 0.2f)
-		);
-
 		item.EnableComponent<ItemPowerAttacks>(c => {
 			c.ChargeLengthMultiplier = 2f;
-			c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.75f;
-			c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
-			c.CommonStatMultipliers.ProjectileSpeedMultiplier = 2f;
 
-			c.OnChargeStart += (item, player, chargeLength) => {
-				if (Main.dedServ || !player.IsLocal()) {
-					return;
-				}
+			var modifiers = new CommonStatModifiers();
 
-				ScreenShakeSystem.New(
-					new ScreenShake(chargeScreenShakePowerGradient, chargeLength * TimeSystem.LogicDeltaTime),
-					null
-				);
-			};
+			modifiers.ProjectileDamageMultiplier = modifiers.MeleeDamageMultiplier = 1.75f;
+			modifiers.ProjectileKnockbackMultiplier = modifiers.MeleeKnockbackMultiplier = 1.5f;
+			modifiers.ProjectileSpeedMultiplier = 2f;
+
+			c.StatModifiers.Single = modifiers;
 		});
 
 		if (!Main.dedServ) {
+			static float ScreenShakePowerFunction(float progress)
+			{
+				const float StartOffset = 0.05f;
+				const float MaxPower = 0.3f;
+				const float PowX = 3.0f;
+
+				return MathHelper.Clamp((MathF.Pow(progress, PowX) * (1f + StartOffset)) - StartOffset, 0f, 1f) * MaxPower;
+			}
+
+			item.EnableComponent<ItemPowerAttackScreenShake>(c => {
+				c.ScreenShake = new ScreenShake(ScreenShakePowerFunction, float.PositiveInfinity);
+			});
+
 			item.EnableComponent<ItemPowerAttackSounds>(c => {
 				c.Sound = ChargeSound;
 				c.CancelPlaybackOnEnd = true;
 			});
 		}
 	}
-
-	public bool ShowItemCrosshair(Item item, Player player)
-		=> true;
 }

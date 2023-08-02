@@ -32,23 +32,23 @@ Mods: {
 			//HoverForDescriptionTip: "Hover over an option to see its description"
 
 			Accessibility: {
-				//DisplayName: "Accessibility"
-				//Description: "Overhaul contains a few simple changes that allow everyone to experience the game in a more comfortable way."
+				// DisplayName: "Accessibility"
+				// Description: "Overhaul contains a few simple changes that allow everyone to experience the game in a more comfortable way."
 
 				ForceAutoReuse: {
-					//DisplayName: "Force Auto-reuse"
-					//Description:
-					//	'''
-					//	When enabled, almost every item in the game will be able to be used repeatedly by holding down the use button.
-					//	Tiny rebalancing measures take place to prevent unintended "60 times a second" usages.
-					//	Prevents carpal tunnel syndrome, recommended by 10 out of 10 doctors.
-					//	'''
+					// DisplayName: "Force Auto-reuse"
+					/* Description:
+						'''
+						When enabled, almost every item in the game will be able to be used repeatedly by holding down the use button.
+						Tiny rebalancing measures take place to prevent unintended "60 times a second" usages.
+						Prevents carpal tunnel syndrome, recommended by 10 out of 10 doctors.
+						''' */
 				}
 			}
 
 			Ambience: {
-				//DisplayName: "Ambience"
-				//Description: "Overhaul contains many features that help make the game's world feel more immersive."
+				// DisplayName: "Ambience"
+				// Description: "Overhaul contains many features that help make the game's world feel more immersive."
 
 				EnableAmbientSounds: {
 					DisplayName: "Ativar Ambientação Sonora"
@@ -56,12 +56,12 @@ Mods: {
 				}
 
 				EnableAudioFiltering: {
-					//DisplayName: "Enable Audio Filtering"
-					//Description:
-					//	'''
-					//	Toggles low pass filtering and reverberation effects as a whole.
-					//	Disable this if your game is crashing every time you enter a world.
-					//	'''
+					// DisplayName: "Enable Audio Filtering"
+					/* Description:
+						'''
+						Toggles low pass filtering and reverberation effects as a whole.
+						Disable this if your game is crashing every time you enter a world.
+						''' */
 				}
 
 				EnablePlayerFootsteps: {
@@ -71,55 +71,55 @@ Mods: {
 			}
 
 			Awareness: {
-				//DisplayName: "Awareness"
-				//Description:
-				//	'''
-				//	Overhaul implements multiple features that help increase players' awareness of their characters' state,
-				//	also improving immersion in the process.
-				//	'''
+				// DisplayName: "Awareness"
+				/* Description:
+					'''
+					Overhaul implements multiple features that help increase players' awareness of their characters' state,
+					also improving immersion in the process.
+					''' */
 
 				LowHealthFilteringIntensity: {
-					//DisplayName: "Low Health Filtering Intensity"
-					//Description: "Controls the intensity of low pass audio filtering (muffling) that occurs when you are low on health."
+					// DisplayName: "Low Health Filtering Intensity"
+					// Description: "Controls the intensity of low pass audio filtering (muffling) that occurs when you are low on health."
 				}
 
 				LowHealthSoundVolume: {
-					//DisplayName: "Low Health Sound Volume"
-					//Description: "Controls the volume of the sound that plays when you are low on health."
+					// DisplayName: "Low Health Sound Volume"
+					// Description: "Controls the volume of the sound that plays when you are low on health."
 				}
 
 				LowManaSoundVolume: {
-					//DisplayName: "Low Mana Sound Volume"
-					//Description: "Controls the volume of the sound that plays when you are low on mana."
+					// DisplayName: "Low Mana Sound Volume"
+					// Description: "Controls the volume of the sound that plays when you are low on mana."
 				}
 
 				ManaRegenerationSoundVolume: {
-					//DisplayName: "Mana Regeneration Sound Volume"
-					//Description: "Controls the volume of the sound that plays when mana is regenerating."
+					// DisplayName: "Mana Regeneration Sound Volume"
+					// Description: "Controls the volume of the sound that plays when mana is regenerating."
 				}
 			}
 
 			Banners: {
-				//DisplayName: "Banners"
-				//Description: "Overhaul changes the way banners work, so that they don't end up making enemies feeling too weak."
+				// DisplayName: "Banners"
+				// Description: "Overhaul changes the way banners work, so that they don't end up making enemies feeling too weak."
 
 				BannerReworkEnabled: {
-					//DisplayName: "Banner Rework Enabled"
-					//Description:
-					//	'''
-					//	The banner rework removes banners' effects of lowering enemies' health and damage, instead replacing that with double loot and coin drops.
-					//	Both the drop chance and drop quantity are affected.
-					//	'''
+					// DisplayName: "Banner Rework Enabled"
+					/* Description:
+						'''
+						The banner rework removes banners' effects of lowering enemies' health and damage, instead replacing that with double loot and coin drops.
+						Both the drop chance and drop quantity are affected.
+						''' */
 				}
 			}
 
 			BloodAndGore: {
-				//DisplayName: "Blood and Gore"
-				//Description:
-				//	'''
-				//	Overhaul improves violence-related audio, visuals, and interactivity,
-				//	vastly increasing the overall satisfaction level of the game's combat.
-				//	'''
+				// DisplayName: "Blood and Gore"
+				/* Description:
+					'''
+					Overhaul improves violence-related audio, visuals, and interactivity,
+					vastly increasing the overall satisfaction level of the game's combat.
+					''' */
 
 				EnableDecals: {
 					DisplayName: "Ativar manchas"
@@ -127,31 +127,31 @@ Mods: {
 				}
 
 				EnableGoreStay: {
-					//DisplayName: "Enable Gore Stay"
-					//Description: "When enabled, gore (or more specifically 'gibs') will not disappear after ~10 seconds."
+					// DisplayName: "Enable Gore Stay"
+					// Description: "When enabled, gore (or more specifically 'gibs') will not disappear after ~10 seconds."
 				}
 			}
 
 			Camera: {
-				//DisplayName: "Camera"
-				//Description: "Overhaul implements many camera features that highly improve how the game presents itself."
+				// DisplayName: "Camera"
+				// Description: "Overhaul implements many camera features that highly improve how the game presents itself."
 
 				CameraSmoothness: {
-					//DisplayName: "Camera Smoothness"
-					//Description:
-					//	'''
-					//	How much damping to apply to the camera's movement to improve the feel of velocity.
-					//	Set this to zero to disable the feature completely.
-					//	'''
+					// DisplayName: "Camera Smoothness"
+					/* Description:
+						'''
+						How much damping to apply to the camera's movement to improve the feel of velocity.
+						Set this to zero to disable the feature completely.
+						''' */
 				}
 
 				LimitCameraUpdateRate: {
-					//DisplayName: "Limit Camera Update Rate"
-					//Description:
-					//	'''
-					//	When enabled, the camera update rate is locked to 60hz to prevent the player character spazzing out on high refresh rate monitors.
-					//	It's currently best that you leave this on.
-					//	'''
+					// DisplayName: "Limit Camera Update Rate"
+					/* Description:
+						'''
+						When enabled, the camera update rate is locked to 60hz to prevent the player character spazzing out on high refresh rate monitors.
+						It's currently best that you leave this on.
+						''' */
 				}
 
 				ScreenShakeStrength: {
@@ -161,120 +161,120 @@ Mods: {
 			}
 
 			DifficultyLevels: {
-				//DisplayName: "Difficulty Levels"
-				//Description:
-				//	'''
-				//	Overhaul reimplements game modes as actual difficulty levels, fulfilling the following goals:
-				//	- Equalization of most stats, removal of bullet sponges from high difficulties and glass enemies from low ones;
-				//	- (WIP) Removal of mode-exclusivity on content and AI behaviors, less ableism;
-				//	- (WIP) Focus on variation in concepts such as reaction windows rather than "more damage and health";
-				//	'''
+				// DisplayName: "Difficulty Levels"
+				/* Description:
+					'''
+					Overhaul reimplements game modes as actual difficulty levels, fulfilling the following goals:
+					- Equalization of most stats, removal of bullet sponges from high difficulties and glass enemies from low ones;
+					- (WIP) Removal of mode-exclusivity on content and AI behaviors, less ableism;
+					- (WIP) Focus on variation in concepts such as reaction windows rather than "more damage and health";
+					''' */
 
 				EnableDifficultyChanges: {
-					//DisplayName: "Enable Difficulty Changes"
-					//Description: "Toggles the mod's changes to difficulty levels as a whole."
+					// DisplayName: "Enable Difficulty Changes"
+					// Description: "Toggles the mod's changes to difficulty levels as a whole."
 				}
 			}
 
 			Enemies: {
-				//DisplayName: "Enemies"
-				//Description: "Overhaul contains a few additions to the game's enemies' behavior that aim to make fighting them a little bit more fun."
+				// DisplayName: "Enemies"
+				// Description: "Overhaul contains a few additions to the game's enemies' behavior that aim to make fighting them a little bit more fun."
 
 				EnableEnemyLunges: {
-					//DisplayName: "Enable Enemy Lunges"
-					//Description: "When enabled, walking enemies may lunge at you when they get close."
+					// DisplayName: "Enable Enemy Lunges"
+					// Description: "When enabled, walking enemies may lunge at you when they get close."
 				}
 			}
 
 			Guns: {
-				//DisplayName: "Guns"
-				//Description: "Overhaul heavily focuses on improving gameplay and feel of the game's firearms."
+				// DisplayName: "Guns"
+				// Description: "Overhaul heavily focuses on improving gameplay and feel of the game's firearms."
 
 				EnableAimingRecoil: {
-					//DisplayName: "Enable Aiming Recoil (Experimental)"
-					//Description:
-					//	'''
-					//	When enabled, guns may offset the player's cursor when fired.
-					//	Experimental feature, disabled by default.
-					//	'''
+					// DisplayName: "Enable Aiming Recoil (Experimental)"
+					/* Description:
+						'''
+						When enabled, guns may offset the player's cursor when fired.
+						Experimental feature, disabled by default.
+						''' */
 				}
 			}
 
 			Melee: {
-				//DisplayName: "Melee"
-				//Description: "Overhaul completely reimagines the feel and flow of the game's melee weapons, allowing you to hack and slash like never before!"
+				// DisplayName: "Melee"
+				// Description: "Overhaul completely reimagines the feel and flow of the game's melee weapons, allowing you to hack and slash like never before!"
 
 				EnableAirCombat: {
-					//DisplayName: "Enable Air Combat"
-					//Description:
-					//	'''
-					//	Toggles melee air combat, which allows you to accelerate yourself in any direction using movement keys every time you hit an enemy mid-air.
-					//	Use your foes as stepladders; Chain attacks on flying enemies; Gain greater momentum to fall-strike ground brutes.
-					//	'''
+					// DisplayName: "Enable Air Combat"
+					/* Description:
+						'''
+						Toggles melee air combat, which allows you to accelerate yourself in any direction using movement keys every time you hit an enemy mid-air.
+						Use your foes as stepladders; Chain attacks on flying enemies; Gain greater momentum to fall-strike ground brutes.
+						''' */
 				}
 
 				EnableProjectileSwordManaUsage: {
-					//DisplayName: "Enable Projectile Sword Mana Usage"
-					//Description:
-					//	'''
-					//	Experimental.
-					//	When enabled, broadswords that shoot projectiles will use a bit of mana.
-					//	Mages' mana regeneration and mana drop rules still apply, so this isn't very significant.
-					//	'''
+					// DisplayName: "Enable Projectile Sword Mana Usage"
+					/* Description:
+						'''
+						Experimental.
+						When enabled, broadswords that shoot projectiles will use a bit of mana.
+						Mages' mana regeneration and mana drop rules still apply, so this isn't very significant.
+						''' */
 				}
 
 				EnableSwingVelocity: {
-					//DisplayName: "Enable Swing Velocity"
-					//Description:
-					//	'''
-					//	When enabled, swinging a melee weapon can accelerate you towards the direction of the swing.
-					//	This can be further controlled using movement keys, as you'll never be thrown forward when you're holding back movement.
-					//	Use together with power attacks to significantly boost your jumps and damage. 
-					//	'''
+					// DisplayName: "Enable Swing Velocity"
+					/* Description:
+						'''
+						When enabled, swinging a melee weapon can accelerate you towards the direction of the swing.
+						This can be further controlled using movement keys, as you'll never be thrown forward when you're holding back movement.
+						Use together with power attacks to significantly boost your jumps and damage. 
+						''' */
 				}
 
 				EnableAxePowerAttacks: {
-					//DisplayName: "Enable Axe Power Attacks"
-					//Description: "Toggles the ability to perform charged power attacks with axes via right clicking."
+					// DisplayName: "Enable Axe Power Attacks"
+					// Description: "Toggles the ability to perform charged power attacks with axes via right clicking."
 				}
 
 				EnableBroadswordPowerAttacks: {
-					//DisplayName: "Enable Broadsword Power Attacks"
-					//Description: "Toggles the ability to perform charged power attacks with broadswords via right clicking."
+					// DisplayName: "Enable Broadsword Power Attacks"
+					// Description: "Toggles the ability to perform charged power attacks with broadswords via right clicking."
 				}
 
 				EnableHammerPowerAttacks: {
-					//DisplayName: "Enable Hammer Power Attacks"
-					//Description: "Toggles the ability to perform charged power attacks with hammers via right clicking."
+					// DisplayName: "Enable Hammer Power Attacks"
+					// Description: "Toggles the ability to perform charged power attacks with hammers via right clicking."
 				}
 			}
 
 			Music: {
-				//DisplayName: "Music"
-				//Description:
-				//	'''
-				//	Overhaul contains a few improvements to the game's music playback behavior.
-				//	There's also a whole remastered soundtrack made for it - Click the button in top left to get it!
-				//	'''
+				// DisplayName: "Music"
+				/* Description:
+					'''
+					Overhaul contains a few improvements to the game's music playback behavior.
+					There's also a whole remastered soundtrack made for it - Click the button in top left to get it!
+					''' */
 
 				EnableMusicPlaybackPositionPreservation: {
-					//DisplayName: "Enable Music Playback Position Preservation"
-					//Description:
-					//	'''
-					//	When enabled, music tracks will always pause in place of stopping.
-					//	This means that whenever you come back to a biome you've already been at, its music will resume playing where it has been whenever you left it.
-					//	Greatly improves game feel, since you won't be stuck hearing music tracks' intros when moving around the world.
-					//	'''
+					// DisplayName: "Enable Music Playback Position Preservation"
+					/* Description:
+						'''
+						When enabled, music tracks will always pause in place of stopping.
+						This means that whenever you come back to a biome you've already been at, its music will resume playing where it has been whenever you left it.
+						Greatly improves game feel, since you won't be stuck hearing music tracks' intros when moving around the world.
+						''' */
 				}
 			}
 
 			PlayerMovement: {
-				//DisplayName: "Player Movement"
-				//Description: "Overhaul greatly improves and refreshes almost every aspect of moving around, which you do a lot of."
+				// DisplayName: "Player Movement"
+				// Description: "Overhaul greatly improves and refreshes almost every aspect of moving around, which you do a lot of."
 
 				EnableAutoJump: {
-					//DisplayName: "Enable Auto Jump"
-					//Description: "When enabled, players will always be able to hold down the space key to jump repeatedly."
+					// DisplayName: "Enable Auto Jump"
+					// Description: "When enabled, players will always be able to hold down the space key to jump repeatedly."
 				}
 
 				EnableVerticalAccelerationChanges: {
@@ -298,13 +298,13 @@ Mods: {
 				}
 
 				EnableGrapplingHookPhysics: {
-					//DisplayName: "Enable Grappling Hook Physics"
-					//Description:
-					//	'''
-					//	When enabled, grappling hooks' behavior will be changed to allow swinging around on them using movement keys.
-					//	NOTE: The grappling hook button can be held down to execute a vanilla-like pull, so you don't need to choose between the two behaviors and can combine them.
-					//	NOTE: This feature does not apply to every hook in the game, also multihooks revert to vanilla behavior whenever more than one hook is connected.
-					//	'''
+					// DisplayName: "Enable Grappling Hook Physics"
+					/* Description:
+						'''
+						When enabled, grappling hooks' behavior will be changed to allow swinging around on them using movement keys.
+						NOTE: The grappling hook button can be held down to execute a vanilla-like pull, so you don't need to choose between the two behaviors and can combine them.
+						NOTE: This feature does not apply to every hook in the game, also multihooks revert to vanilla behavior whenever more than one hook is connected.
+						''' */
 				}
 
 				EnableWallJumping: {
@@ -327,8 +327,8 @@ Mods: {
 			}
 
 			PlayerVisuals: {
-				//DisplayName: "Player Visuals"
-				//Description: "Overhaul contains a few improvements to player characters' visual appearance, so that the game feels more responsive."
+				// DisplayName: "Player Visuals"
+				// Description: "Overhaul contains a few improvements to player characters' visual appearance, so that the game feels more responsive."
 
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Sempre mostrar Armas com Mira"
@@ -336,26 +336,26 @@ Mods: {
 				}
 
 				EnableAimableFlashlights: {
-					//DisplayName: "Enable Aimable Flashlights"
-					//Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
+					// DisplayName: "Enable Aimable Flashlights"
+					// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
 				}
 
 				EnableImprovedMeleeAnimations: {
-					//DisplayName: "Enable Improved Melee Animations"
-					//Description:
-					//	'''
-					//	When enabled, melee weapon swing animations will be changed to a more immediate swing, with alternating directions.
-					//	This is best kept on, as it best mimics the timing and direction of melee damage collision. 
-					//	'''
+					// DisplayName: "Enable Improved Melee Animations"
+					/* Description:
+						'''
+						When enabled, melee weapon swing animations will be changed to a more immediate swing, with alternating directions.
+						This is best kept on, as it best mimics the timing and direction of melee damage collision. 
+						''' */
 				}
 
 				EnableMeleeSlashVisualization: {
-					//DisplayName: "Enable Melee Slash Visualization"
-					//Description:
-					//	'''
-					//	When enabled, a circular slash sprite will appear when swinging melee weapons.
-					//	This is best kept on, as it best mimics the range and collision arc of the weapon. 
-					//	'''
+					// DisplayName: "Enable Melee Slash Visualization"
+					/* Description:
+						'''
+						When enabled, a circular slash sprite will appear when swinging melee weapons.
+						This is best kept on, as it best mimics the range and collision arc of the weapon. 
+						''' */
 				}
 
 				EnablePlayerHeadRotation: {
@@ -370,16 +370,16 @@ Mods: {
 			}
 
 			Tweaks: {
-				//DisplayName: "Tweaks"
-				//Description: "This category contains tiny technical utilities that you're unlikely to care about."
+				// DisplayName: "Tweaks"
+				// Description: "This category contains tiny technical utilities that you're unlikely to care about."
 
 				DisplaySystemCursorWithDisabledUI: {
-					//DisplayName: "Display System Cursor With Disabled UI"
-					//Description:
-					//	'''
-					//	When enabled, the operational system's cursor will be enabled when game interface is disabled using the F11 hotkey.
-					//	This is a tiny utility change that eases recording gameplay footage without UI, as recording software can disable capture of the OS cursor.
-					//	'''
+					// DisplayName: "Display System Cursor With Disabled UI"
+					/* Description:
+						'''
+						When enabled, the operational system's cursor will be enabled when game interface is disabled using the F11 hotkey.
+						This is a tiny utility change that eases recording gameplay footage without UI, as recording software can disable capture of the OS cursor.
+						''' */
 				}
 			}
 		}
@@ -413,6 +413,19 @@ Mods: {
 		}
 
 		ItemOverhauls: {
+			Archery: {
+				/* HoverShots:
+					'''
+					Hover in the air by charging your weapon during jumping
+					Perform a hover-shot to get even more velocity
+					''' */
+				/* ManualCharging:
+					'''
+					Hold right click to manually charge your weapon
+					Release it at any time to fine-tune the shot speed & damage
+					''' */
+			}
+
 			Melee: {
 				AirCombatInfo: "Atacar inimigos no ar te lançara neles"
 				VelocityBasedDamageInfo: "O dano pode ser aumentado pela velocidade do jogador, é recomendado se impulsionar"
@@ -431,12 +444,12 @@ Mods: {
 		CommonTooltips: {
 			ShowCombatInfo: "[Mantenha {Key} pressionado para mostrar informações de combate]"
 			CombatInfo: "[Informação de Combate]"
-			//RightClickAudioCuesToggle: "Right click on item to toggle audio cues"
-			//RightClickAudioCuesEnabled: "Audio cues are now enabled"
-			//RightClickAudioCuesDisabled: "Audio cues are now disabled"
+			// RightClickAudioCuesToggle: "Right click on item to toggle audio cues"
+			// RightClickAudioCuesEnabled: "Audio cues are now enabled"
+			// RightClickAudioCuesDisabled: "Audio cues are now disabled"
 
 			GrapplingHooks: {
-				//ClassicPullTip: "Hold the grappling hook key for a classic pull"
+				// ClassicPullTip: "Hold the grappling hook key for a classic pull"
 			}
 		}
 
@@ -447,64 +460,116 @@ Mods: {
 			Lightning: "{PlayerName} foi atingido por um raio. Ai!"
 		}
 
-		ItemName: {
-			BunnyPaw: "Pata de Coelho"
-			Charcoal: "Carvão Vegetal"
-			Calendar: "Calendário"
-			Gramophone: "Gramofone"
-			MusicDisc: "Disco de Vinil"
-			Mop: "Esfregão"
-			StoneAxe: "Machado de Pedra"
-			StonePickaxe: "Picareta de Pedra"
+		Keybinds: {
+			Dodgeroll: {
+				// DisplayName: "Dodgeroll"
+			}
 		}
 
-		ItemTooltip: {
-			//BunnyPaw:
-			//	'''
-			//	[c/fca9ea:Increases bunnyhops' speed boost with every successful consequent jump]
-			//	[c/fca9ea:Combine bunnyhops with dodgerolls for even higher multipliers]
-			//	[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
-			//	'''
-			Charcoal: "Ainda está quente"
-			Calendar:
-				'''
-				Conta a quantidade de dias até a próxima estação
-				Clique com o botão direito após colocar para usar
-				'''
-			Gramophone: "Toca Discos de Vinil"
-			MusicDisc: "Pode ser tocado em um gramofone"
-			Mop: "Mantém sua casa sem entranhas e olhos dilacerados"
-			StoneAxe: "Madeira provavelmente é mais forte que isso"
-			StonePickaxe: "Bom contra terra!"
+		Tiles: {
+			Calendar: {
+				MapEntry: "{$Mods.TerrariaOverhaul.Items.Calendar.DisplayName}"
+			}
+
+			Gramophone: {
+				MapEntry: "{$Mods.TerrariaOverhaul.Items.Gramophone.DisplayName}"
+			}
 		}
 
-		NPCName: {
-			AshSlime: "Amontoado de Cinzas"
-			AshZombie: "Cinzas Ambulantes"
+		Buffs: {
+			CriticalJudgement: {
+				// DisplayName: "Critical Judgement"
+				/* Description:
+					'''
+					Their assault was proven futile
+					Unleash your judgement with a critical strike
+					''' */
+			}
+
+			HackAndSlash: {
+				// DisplayName: "Hack And Slash"
+				/* Description:
+					'''
+					The faster you move, the harder you strike
+					Melee damage multiplier: x{Multiplier}
+					''' */
+			}
+
+			ManaAbsorption: {
+				DisplayName: "Absorção de Mana"
+				Description:
+					'''
+					Movendo-se com pressa, você está absorvendo energia ao seu redor
+					Multiplicador de regeneração de mana básica: x{Multiplier}
+					'''
+			}
 		}
 
-		BuffName: {
-			//CriticalJudgement: "Critical Judgement"
-			//HackAndSlash: "Hack and Slash"
-			ManaAbsorption: "Absorção de Mana"
+		Items: {
+			BunnyPaw: {
+				DisplayName: "Pata de Coelho"
+				/* Tooltip:
+					'''
+					[c/fca9ea:Increases bunnyhops' speed boost with every successful consequent jump]
+					[c/fca9ea:Combine bunnyhops with dodgerolls for even higher multipliers]
+					[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
+					''' */
+			}
+
+			Charcoal: {
+				DisplayName: "Carvão Vegetal"
+				Tooltip: "Ainda está quente"
+			}
+
+			Calendar: {
+				DisplayName: "Calendário"
+				Tooltip:
+					'''
+					Conta a quantidade de dias até a próxima estação
+					Clique com o botão direito após colocar para usar
+					'''
+			}
+
+			Gramophone: {
+				DisplayName: "Gramofone"
+				Tooltip: "Toca Discos de Vinil"
+			}
+
+			MusicDisc: {
+				DisplayName: "Disco de Vinil"
+				Tooltip: "Pode ser tocado em um gramofone"
+			}
+
+			Mop: {
+				DisplayName: "Esfregão"
+				Tooltip: "Mantém sua casa sem entranhas e olhos dilacerados"
+			}
+
+			StoneAxe: {
+				DisplayName: "Picareta de Pedra"
+				Tooltip: "Madeira provavelmente é mais forte que isso"
+			}
+
+			StonePickaxe: {
+				DisplayName: "Machado de Pedra"
+				Tooltip: "Bom contra terra!"
+			}
 		}
 
-		BuffDescription: {
-			//CriticalJudgement:
-			//	'''
-			//	Their assault was proven futile
-			//	Unleash your judgement with a critical strike
-			//	'''
-			//HackAndSlash:
-			//	'''
-			//	The faster you move, the harder you strike
-			//	Melee damage multiplier: x{Multiplier}
-			//	'''
-			ManaAbsorption:
-				'''
-				Movendo-se com pressa, você está absorvendo energia ao seu redor
-				Multiplicador de regeneração de mana básica: x{Multiplier}
-				'''
+		NPCs: {
+			AshSlime: {
+				DisplayName: "Amontoado de Cinzas"
+			}
+
+			AshZombie: {
+				DisplayName: "Cinzas Ambulantes"
+			}
+		}
+
+		Projectiles: {
+			MopProjectile: {
+				DisplayName: "{$Mods.TerrariaOverhaul.Items.Mop.DisplayName}"
+			}
 		}
 	}
 }

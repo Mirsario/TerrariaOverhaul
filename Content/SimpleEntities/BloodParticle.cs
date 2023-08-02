@@ -83,6 +83,15 @@ public class BloodParticle : Particle
 			var lineStart = position;
 			var lineEnd = positions[positions.Length - 1];
 
+			var delta = lineEnd - lineStart;
+			float length = MathF.Ceiling(delta.SafeLength(0f) / 2f) * 2f;
+			var direction = delta.SafeNormalize(Vector2.UnitX);
+
+			lineEnd = lineStart + direction * length;
+
+			lineStart = Vector2Utils.Floor(lineStart / 2f) * 2f;
+			lineEnd = Vector2Utils.Floor(lineEnd / 2f) * 2f;
+
 			sb.DrawLine(lineStart - Main.screenPosition, lineEnd - Main.screenPosition, usedColor, 2);
 		}
 	}

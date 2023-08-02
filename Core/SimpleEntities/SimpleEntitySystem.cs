@@ -12,7 +12,7 @@ public class SimpleEntitySystem : ModSystem
 
 	public override void Load()
 	{
-		On.Terraria.Main.DrawPlayers_AfterProjectiles += (orig, self) => {
+		On_Main.DrawPlayers_AfterProjectiles += (orig, self) => {
 			orig(self);
 
 			DrawEntities();

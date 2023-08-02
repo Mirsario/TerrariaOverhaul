@@ -4,6 +4,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Core.ItemComponents;
@@ -32,7 +33,7 @@ public sealed class ItemKillingBlows : ItemComponent
 	public override void Load()
 	{
 		// Stores context.
-		On.Terraria.Player.ItemCheck_MeleeHitNPCs += (orig, player, sItem, itemRectangle, originalDamage, knockback) => {
+		On_Player.ItemCheck_MeleeHitNPCs += (orig, player, sItem, itemRectangle, originalDamage, knockback) => {
 			playerCurrentlySwingingWeapons = player;
 
 			try {
@@ -43,30 +44,8 @@ public sealed class ItemKillingBlows : ItemComponent
 			}
 		};
 
-		// This IL edit implements killing blows. They have to run after all damage modifications, as it needs to check the final damage.
-		IL.Terraria.NPC.StrikeNPC += context => {
-			var cursor = new ILCursor(context);
-
-			int damageLocalId = 0;
-
-			cursor.GotoNext(
-				MoveType.After,
-				//	num *= (double)takenDamageMultiplier;
-				i => i.MatchLdloc(out damageLocalId),
-				i => i.Match(OpCodes.Ldarg_0),
-				i => i.MatchLdfld(typeof(NPC), nameof(NPC.takenDamageMultiplier)),
-				i => i.Match(OpCodes.Conv_R8),
-				i => i.Match(OpCodes.Mul),
-				//	{
-				i => i.MatchStloc(out _)
-			);
-
-			cursor.HijackIncomingLabels(); // Make jumps be to before the upcoming insertion instead of after it.
-
-			cursor.Emit(OpCodes.Ldarg_0);
-			cursor.Emit(OpCodes.Ldloca, damageLocalId);
-			cursor.EmitDelegate<NPCDamageModifier>(CheckForKillingBlow);
-		};
+		// This hook implements killing blows. They have to run after all damage modifications, as it needs to check the final damage.
+		IL_Player.ProcessHitAgainstNPC += ProcessHitAgainstNPCInjection;
 	}
 
 	public override void HoldStyle(Item item, Player player, Rectangle heldItemFrame)
@@ -76,13 +55,13 @@ public sealed class ItemKillingBlows : ItemComponent
 		}
 	}
 
-	private void KillingBlow(NPC npc, ref double damage)
+	private void KillingBlow(NPC npc, ref NPC.HitInfo hitInfo)
 	{
 		if (killingBlowCount >= MaxKillingBlowsPerUse) {
 			return;
 		}
 
-		if (damage <= 0.0 || npc.life <= 0) {
+		if (hitInfo.Damage <= 0.0 || npc.life <= 0) {
 			return;
 		}
 
@@ -90,10 +69,10 @@ public sealed class ItemKillingBlows : ItemComponent
 			return;
 		}
 
-		double multipliedDamage = damage * DamageMultiplier;
+		double multipliedDamage = hitInfo.Damage * DamageMultiplier;
 
 		if (npc.life - multipliedDamage <= 0.0d) {
-			damage = multipliedDamage;
+			hitInfo.Damage = (int)Math.Round(multipliedDamage);
 
 			if (Main.netMode != NetmodeID.Server) {
 				var effectsPosition = (Vector2Int)npc.Center;
@@ -117,9 +96,34 @@ public sealed class ItemKillingBlows : ItemComponent
 		}
 	}
 
-	private static void CheckForKillingBlow(NPC npc, ref double damage)
+	private static void ProcessHitAgainstNPCInjection(ILContext context)
 	{
-		if (playerCurrentlySwingingWeapons is not Player { HeldItem: Item item } player || !player.IsLocal()) {
+		var il = new ILCursor(context);
+
+		int hitInfoLocalId = -1;
+		int npcLocalId = -1;
+
+		il.GotoNext(
+			MoveType.After,
+			i => i.MatchCall(typeof(NPC.HitModifiers), nameof(NPC.HitModifiers.ToHitInfo)),
+			i => i.MatchStloc(out hitInfoLocalId)
+		);
+		il.GotoNext(
+			MoveType.Before,
+			i => i.MatchLdloca(out _),
+			i => i.MatchLdloc(out npcLocalId),
+			i => i.MatchCall(typeof(NPCKillAttempt).GetConstructor(new[] { typeof(NPC) })!)
+		);
+
+		il.Emit(OpCodes.Ldarg_0);
+		il.Emit(OpCodes.Ldloc, npcLocalId);
+		il.Emit(OpCodes.Ldloca, hitInfoLocalId);
+		il.EmitDelegate(TryApplyingKillingBlow);
+	}
+
+	private static void TryApplyingKillingBlow(Player player, NPC npc, ref NPC.HitInfo hitInfo)
+	{
+		if (playerCurrentlySwingingWeapons is not Player { HeldItem: Item item } currentPlayer || currentPlayer != player || !player.IsLocal()) {
 			return;
 		}
 
@@ -131,6 +135,6 @@ public sealed class ItemKillingBlows : ItemComponent
 			return;
 		}
 
-		killingBlows.KillingBlow(npc, ref damage);
+		killingBlows.KillingBlow(npc, ref hitInfo);
 	}
 }

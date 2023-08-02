@@ -7,7 +7,9 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Common.Damage;
 using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Common.Interaction;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
@@ -43,7 +45,7 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 			return false;
 		}
 
-		if (item.DamageType != DamageClass.Melee) {
+		if (!item.DamageType.CountsAsClass(DamageClass.Melee)) {
 			return false;
 		}
 
@@ -79,7 +81,6 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 		}
 
 		item.EnableComponent<ItemMeleeGoreInteraction>();
-		item.EnableComponent<ItemMeleeNpcStuns>();
 		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
 		item.EnableComponent<ItemVelocityBasedDamage>();
@@ -95,10 +96,15 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 			item.EnableComponent<ItemMeleePowerAttackEffects>();
 			item.EnableComponent<ItemPowerAttacks>(c => {
 				c.ChargeLengthMultiplier = 1.5f;
-				c.CommonStatMultipliers.MeleeRangeMultiplier = 1.4f;
-				c.CommonStatMultipliers.MeleeDamageMultiplier = c.CommonStatMultipliers.ProjectileDamageMultiplier = 1.5f;
-				c.CommonStatMultipliers.MeleeKnockbackMultiplier = c.CommonStatMultipliers.ProjectileKnockbackMultiplier = 1.5f;
-				c.CommonStatMultipliers.ProjectileSpeedMultiplier = 1.5f;
+
+				var modifiers = new CommonStatModifiers();
+
+				modifiers.MeleeDamageMultiplier = modifiers.ProjectileDamageMultiplier = 1.5f;
+				modifiers.MeleeKnockbackMultiplier = modifiers.ProjectileKnockbackMultiplier = 1.5f;
+				modifiers.MeleeRangeMultiplier = 1.4f;
+				modifiers.ProjectileSpeedMultiplier = 1.5f;
+
+				c.StatModifiers.Single = modifiers;
 			});
 
 			if (!Main.dedServ) {

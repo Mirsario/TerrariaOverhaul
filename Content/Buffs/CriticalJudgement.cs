@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Content.Buffs;
 
 public sealed class CriticalJudgement : ModBuff
 {
-	private static readonly SoundStyle StrikeSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast") {
+	private static readonly SoundStyle StrikeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast") {
 		Pitch = 0.50f,
 	};
 
@@ -19,43 +19,51 @@ public sealed class CriticalJudgement : ModBuff
 	{
 		public bool Active;
 
-		public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+		public override void ModifyHitNPC(NPC target, ref NPC.HitModifiers modifiers)
 		{
-			TryApply(ref crit);
-		}
-
-		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-		{
-			TryApply(ref crit);
-		}
-
-		public override void OnHitAnything(float x, float y, Entity victim)
-		{
-			if (Active) {
-				Player.ClearBuff(ModContent.BuffType<CriticalJudgement>());
-				Active = false;
+			if (TryApply()) {
+				modifiers.SetCrit();
+				Clear();
 			}
 		}
 
-		private void TryApply(ref bool crit)
+		public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref NPC.HitModifiers modifiers)
+		{
+			if (TryApply()) {
+				modifiers.SetCrit();
+				Clear();
+			}
+		}
+
+		private bool TryApply()
 		{
 			if (!Active) {
-				return;
+				return false;
 			}
 
 			int index = Player.FindBuffIndex(ModContent.BuffType<CriticalJudgement>());
 
-			if (index >= 0) {
-				crit = true;
+			if (index < 0) {
+				Active = false;
+				return false;
+			}
 
-				if (!Main.dedServ) {
-					SoundEngine.PlaySound(StrikeSound);
-				}
-
-				Player.DelBuff(index);
+			if (!Main.dedServ) {
+				SoundEngine.PlaySound(StrikeSound);
 			}
 
 			Active = false;
+
+			Player.DelBuff(index);
+
+			return true;
+		}
+
+		private void Clear()
+		{
+			Active = false;
+
+			Player.ClearBuff(ModContent.BuffType<CriticalJudgement>());
 		}
 	}
 

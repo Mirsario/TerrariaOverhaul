@@ -20,7 +20,7 @@ public sealed class CombatTextSystem : ModSystem
 
 	public override void Load()
 	{
-		On.Terraria.CombatText.NewText_Rectangle_Color_string_bool_bool += (orig, location, color, text, dramatic, dot) => {
+		On_CombatText.NewText_Rectangle_Color_string_bool_bool += (orig, location, color, text, dramatic, dot) => {
 			int result = orig(location, color, text, dramatic, dot);
 
 			if (!skip) {

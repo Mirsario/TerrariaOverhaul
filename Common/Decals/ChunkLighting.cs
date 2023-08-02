@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoMod.RuntimeDetour.HookGen;
+using MonoMod.RuntimeDetour;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
@@ -24,7 +24,7 @@ public sealed class ChunkLighting : ChunkComponent
 	public override void Load()
 	{
 		// This fixes tileTarget not being available in many cases. And other dumb issues.
-		HookEndpointManager.Add<Func<Func<bool>, bool>>(
+		MonoModHooks.Add(
 			typeof(Main).GetProperty(nameof(Main.RenderTargetsRequired))!.GetMethod!,
 			new Func<Func<bool>, bool>(orig => true)
 		);

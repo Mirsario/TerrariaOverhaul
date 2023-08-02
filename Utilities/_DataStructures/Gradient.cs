@@ -3,68 +3,77 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities;
 
-public abstract class Gradient
+public class Gradient
 {
+	internal Gradient() { }
+
 	static Gradient()
 	{
-		Gradient<float>.LerpFunc = MathHelper.Lerp;
-		Gradient<double>.LerpFunc = (a, b, time) => a + (b - a) * (time < 0d ? 0f : time > 1d ? 1d : time);
+		Gradient<float>.Lerp = MathHelper.Lerp;
+		Gradient<double>.Lerp = (a, b, time) => a + (b - a) * (time < 0d ? 0f : time > 1d ? 1d : time);
 
-		Gradient<int>.LerpFunc = (left, right, t) => (int)Math.Round(MathHelper.Lerp(left, right, t));
-		Gradient<uint>.LerpFunc = (left, right, t) => (uint)Math.Round(MathHelper.Lerp(left, right, t));
-		Gradient<long>.LerpFunc = (left, right, t) => (long)Math.Round(MathHelper.Lerp(left, right, t));
-		Gradient<ulong>.LerpFunc = (left, right, t) => (ulong)Math.Round(MathHelper.Lerp(left, right, t));
+		Gradient<int>.Lerp = (left, right, t) => (int)Math.Round(MathHelper.Lerp(left, right, t));
+		Gradient<uint>.Lerp = (left, right, t) => (uint)Math.Round(MathHelper.Lerp(left, right, t));
+		Gradient<long>.Lerp = (left, right, t) => (long)Math.Round(MathHelper.Lerp(left, right, t));
+		Gradient<ulong>.Lerp = (left, right, t) => (ulong)Math.Round(MathHelper.Lerp(left, right, t));
 
-		Gradient<Color>.LerpFunc = Color.Lerp;
+		Gradient<Color>.Lerp = Color.Lerp;
 
-		Gradient<Vector2>.LerpFunc = Vector2.Lerp;
-		Gradient<Vector3>.LerpFunc = Vector3.Lerp;
-		Gradient<Vector4>.LerpFunc = Vector4.Lerp;
+		Gradient<Vector2>.Lerp = Vector2.Lerp;
+		Gradient<Vector3>.Lerp = Vector3.Lerp;
+		Gradient<Vector4>.Lerp = Vector4.Lerp;
 	}
 }
 
-public class Gradient<T> : Gradient
+public sealed class Gradient<T> : Gradient
 {
-	public struct GradientKey
+	public struct Key
 	{
 		public float Time;
 		public T Value;
 
-		public GradientKey(float time, T value)
+		public Key(float time, T value)
 		{
 			Time = time;
 			Value = value;
 		}
 
-		public static implicit operator GradientKey((float time, T value) tuple)
+		public static implicit operator Key((float time, T value) tuple)
 			=> new(tuple.time, tuple.value);
 	}
 
-	public static Func<T, T, float, T>? LerpFunc { protected get; set; }
+	public delegate T LerpDelegate(T a, T b, float step);
 
-	private GradientKey[] keys;
+	public static LerpDelegate? Lerp { private get; set; }
 
-	public GradientKey[] Keys {
+	private Key[] keys = Array.Empty<Key>();
+
+	public ReadOnlySpan<Key> Keys {
 		get => keys;
-		set => keys = value ?? throw new ArgumentNullException(nameof(value));
+		set {
+			if (value.Length <= 0) {
+				throw new InvalidOperationException("At least 1 key must be specified.");
+			}
+
+			keys = value.ToArray();
+		}
 	}
 
-	public Gradient(params GradientKey[] values)
-		: this((ReadOnlySpan<GradientKey>)values) { }
-
-	public Gradient(ReadOnlySpan<GradientKey> values)
+	public Gradient(params Key[] values) : this()
 	{
-		if (LerpFunc == null) {
-			throw new NotSupportedException($"Gradient<{typeof(T).Name}>.{nameof(Gradient<float>.LerpFunc)} is not defined.");
+		Keys = values;
+	}
+
+	public Gradient(ReadOnlySpan<Key> values) : this()
+	{
+		Keys = values;
+	}
+
+	private Gradient()
+	{
+		if (Lerp == null) {
+			throw new NotSupportedException($"Gradient<{typeof(T).Name}>.{nameof(Gradient<float>.Lerp)} is not defined.");
 		}
-
-		if (values.Length == 0) {
-			throw new ArgumentException("Array length must not be zero.");
-		}
-
-		keys = new GradientKey[values.Length];
-
-		values.CopyTo(keys);
 	}
 
 	public T GetValue(float time)
@@ -75,8 +84,8 @@ public class Gradient<T> : Gradient
 
 		bool leftDefined = false;
 		bool rightDefined = false;
-		GradientKey left = default;
-		GradientKey right = default;
+		Key left = default;
+		Key right = default;
 
 		for (int i = 0; i < keys.Length; i++) {
 			if (!leftDefined || keys[i].Time > left.Time && keys[i].Time <= time) {
@@ -96,6 +105,6 @@ public class Gradient<T> : Gradient
 			throw new InvalidOperationException("No keys found. This shouldn't happen.");
 		}
 
-		return left.Time == right.Time ? left.Value : LerpFunc!(left.Value, right.Value, (time - left.Time) / (right.Time - left.Time));
+		return left.Time == right.Time ? left.Value : Lerp!(left.Value, right.Value, (time - left.Time) / (right.Time - left.Time));
 	}
 }

@@ -95,7 +95,7 @@ public sealed class PlayerClimbing : ModPlayer
 			return;
 		}
 
-		Player.GetModPlayer<PlayerDirectioning>().SetDirection();
+		Player.GetModPlayer<PlayerDirectioning>().UpdateDirection();
 
 		var tilePos = Player.position.ToTileCoordinates();
 
@@ -142,9 +142,9 @@ public sealed class PlayerClimbing : ModPlayer
 		Player.fallStart = (int)(Player.position.Y / 16f);
 
 		// Force direction.
-		int climbDirection = climbStartPos.X <= climbEndPos.X ? 1 : -1;
+		var climbDirection = climbStartPos.X <= climbEndPos.X ? Direction1D.Right : Direction1D.Left;
 
-		playerDirectioning.ForcedDirection = climbDirection;
+		playerDirectioning.SetDirectionOverride(climbDirection, 2, PlayerDirectioning.OverrideFlags.IgnoreItemAnimation);
 
 		// Progress climbing.
 		ClimbProgress = MathUtils.StepTowards(ClimbProgress, 1f, 1f / ClimbTime * TimeSystem.LogicDeltaTime);
@@ -166,12 +166,12 @@ public sealed class PlayerClimbing : ModPlayer
 			int xVelocityDirection = MathF.Sign(climbStartVelocity.X);
 			int xKeyDirection = MathF.Sign(Player.KeyDirection().X);
 
-			if (xVelocityDirection != climbDirection) {
+			if (xVelocityDirection != (int)climbDirection) {
 				newVelocity.X = 0f;
 			} else if (xVelocityDirection != xKeyDirection) {
 				newVelocity.X *= xKeyDirection == 0 ? 0.5f : 0f;
 			} else {
-				newVelocity.X += climbDirection;
+				newVelocity.X += (float)climbDirection;
 			}
 
 			if (climbStartVelocity.Y > -1f) {

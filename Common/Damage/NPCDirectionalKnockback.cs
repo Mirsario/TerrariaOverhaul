@@ -5,6 +5,7 @@ using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Damage;
 
@@ -16,46 +17,48 @@ public sealed class NPCDirectionalKnockback : GlobalNPC
 
 	public override void Load()
 	{
-		IL.Terraria.NPC.StrikeNPC += context => {
+		IL_NPC.StrikeNPC_HitInfo_bool_bool += context => {
 			var cursor = new ILCursor(context);
+			bool debugAssembly = OverhaulMod.TMLAssembly.IsDebugAssembly();
 
-			// Match 'if (knockBack > 0f && knockBackResist > 0f)' to get the address to which it jumps on failure.
+			// Match 'if (hit.Knockback > 0f)' to get the address to which it jumps on failure.
 			ILLabel? skipKnockbackLabel = null;
 
-			if (!cursor.TryGotoNext(
-				MoveType.After,
-				i => i.Match(OpCodes.Ldarg_2), // 'knockBack' parameter.
-				i => i.MatchLdcR4(0f),
-				i => i.MatchBleUn(out skipKnockbackLabel)
-			)) {
-				throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL.Terraria.NPC.StrikeNPC Failure at match 1.");
+			if (!debugAssembly) {
+				cursor.GotoNext(
+					MoveType.After,
+					i => i.MatchLdfld(typeof(NPC.HitInfo), nameof(NPC.HitInfo.Knockback)),
+					i => i.MatchLdcR4(0f),
+					i => i.MatchBleUn(out skipKnockbackLabel)
+				);
+			} else {
+				cursor.GotoNext(
+					MoveType.After,
+					i => i.MatchLdarg(1),
+					i => i.MatchLdfld(typeof(NPC.HitInfo), nameof(NPC.HitInfo.Knockback)),
+					i => i.MatchLdcR4(0f),
+					i => i.MatchCgt(),
+					i => i.MatchStloc(out _),
+					i => i.MatchLdloc(out _),
+					i => i.MatchBrfalse(out skipKnockbackLabel)
+				);
 			}
 
-			// Match 'float num4 = knockBack * knockBackResist' to get the number of the 'num4' local.
+			// Match 'float num3 = hit.Knockback;' to get the number of the 'num3' local.
 			int totalKnockbackLocalId = 0;
 
-			if (!cursor.TryGotoNext(
+			cursor.GotoNext(
 				MoveType.After,
-				i => i.Match(OpCodes.Ldarg_2), // Loads the 'knockback' parameter
-				i => i.Match(OpCodes.Ldarg_0), // Loads 'this'
-				i => i.MatchLdfld(typeof(NPC), nameof(NPC.knockBackResist)),
-				i => i.Match(OpCodes.Mul),
+				i => i.Match(OpCodes.Ldarg_1), // Loads 'HitInfo hit'
+				i => i.MatchLdfld(typeof(NPC.HitInfo), nameof(NPC.HitInfo.Knockback)),
 				i => i.MatchStloc(out totalKnockbackLocalId)
-			)) {
-				throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL.Terraria.NPC.StrikeNPC Failure at match 2.");
-			}
+			);
 
-			// Match 'int num9 = (int)num * 10;' to place code after it.
-			if (!cursor.TryGotoNext(
-				MoveType.After,
-				i => i.Match(OpCodes.Ldloc_1),
-				i => i.Match(OpCodes.Conv_I4),
-				i => i.MatchLdcI4(10),
-				i => i.Match(OpCodes.Mul),
-				i => i.Match(OpCodes.Stloc_S)
-			)) {
-				throw new Exception($"{nameof(NPCDirectionalKnockback)}: IL.Terraria.NPC.StrikeNPC Failure at match 3.");
-			}
+			// Match 'if (Main.expertMode)' to place code before it.
+			cursor.GotoNext(
+				MoveType.Before,
+				i => i.MatchCall(typeof(Main), $"get_{nameof(Main.expertMode)}")
+			);
 
 			cursor.Emit(OpCodes.Ldarg_0); // Load 'this'.
 			cursor.Emit(OpCodes.Ldloc, totalKnockbackLocalId); // Load the local with total knockback.

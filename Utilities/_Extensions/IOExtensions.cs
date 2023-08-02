@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 
@@ -17,6 +19,19 @@ public static class IOExtensions
 	public static Vector2Int ReadVector2Int(this BinaryReader reader)
 	{
 		return new Vector2Int(reader.ReadInt32(), reader.ReadInt32());
+	}
+
+	// Half Vector2
+
+	public static void WriteHalfVector2(this BinaryWriter writer, Vector2 vector)
+	{
+		writer.Write((Half)vector.X);
+		writer.Write((Half)vector.Y);
+	}
+
+	public static Vector2 ReadHalfVector2(this BinaryReader reader)
+	{
+		return new Vector2((float)reader.ReadHalf(), (float)reader.ReadHalf());
 	}
 
 	// Players

@@ -22,8 +22,8 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 
 	public override void Load()
 	{
-		On.Terraria.Player.ItemCheck_ApplyHoldStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
-			if (ShouldForceUseAnim(sItem)) {
+		On_Player.ItemCheck_ApplyHoldStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
+			if (ShouldForceUseAnim(player, sItem)) {
 				player.ItemCheck_ApplyUseStyle(mountOffset, sItem, heldItemFrame);
 
 				return;
@@ -32,7 +32,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			orig(player, mountOffset, sItem, heldItemFrame);
 		};
 
-		On.Terraria.Player.ItemCheck_ApplyUseStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
+		On_Player.ItemCheck_ApplyUseStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
 			orig(player, mountOffset, sItem, heldItemFrame);
 
 			if (sItem.useStyle == ItemUseStyleID.Shoot) {
@@ -51,8 +51,8 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			}
 		};
 
-		On.Terraria.Player.PlayerFrame += (orig, player) => {
-			if (ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
+		On_Player.PlayerFrame += (orig, player) => {
+			if (ShouldForceUseAnim(player, player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
 				InvokeWithForcedAnimation(player, () => orig(player));
 				return;
 			}
@@ -60,10 +60,10 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			orig(player);
 		};
 
-		On.Terraria.DataStructures.PlayerDrawLayers.DrawPlayer_27_HeldItem += (On.Terraria.DataStructures.PlayerDrawLayers.orig_DrawPlayer_27_HeldItem orig, ref PlayerDrawSet drawInfo) => {
+		On_PlayerDrawLayers.DrawPlayer_27_HeldItem += (On_PlayerDrawLayers.orig_DrawPlayer_27_HeldItem orig, ref PlayerDrawSet drawInfo) => {
 			var player = drawInfo.drawPlayer;
 
-			if (ShouldForceUseAnim(player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
+			if (ShouldForceUseAnim(player, player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
 				ForceAnim(player, out int itemAnim, out int itemAnimMax);
 
 				orig(ref drawInfo);
@@ -79,10 +79,11 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 
 	public override void PreUpdate()
 	{
-		var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().MouseWorld;
+		var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().LookPosition;
 		Vector2 offset = mouseWorld - Player.Center;
+		int direction = offset.X >= 0f ? 1 : -1;
 
-		if (offset != Vector2.Zero && Math.Sign(offset.X) == Player.direction) {
+		if (offset != Vector2.Zero && direction == Player.direction) {
 			directTargetItemRotation = offset.ToRotation();
 		}
 
@@ -90,19 +91,23 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 		VisualRecoil = MathHelper.Lerp(VisualRecoil, 0f, 10f * TimeSystem.LogicDeltaTime);
 
 		// This could go somewhere else?
-		if (Player.HeldItem?.IsAir == false && ShouldForceUseAnim(Player.HeldItem)) {
+		if (Player.HeldItem?.IsAir == false && ShouldForceUseAnim(Player, Player.HeldItem)) {
 			//TODO: Is this not ever reset? Looks like an undiscovered bug.
 			Player.HeldItem.useTurn = true;
 		}
 	}
 
-	private static bool ShouldForceUseAnim(Item item)
+	private static bool ShouldForceUseAnim(Player player, Item item)
 	{
 		if (item.noUseGraphic) {
 			return false;
 		}
 
 		if (item.useStyle != ItemUseStyleID.Shoot) {
+			return false;
+		}
+
+		if (player.TalkNPC is NPC { active: true } && !player.ItemAnimationActive) {
 			return false;
 		}
 

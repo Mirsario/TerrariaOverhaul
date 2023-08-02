@@ -123,7 +123,11 @@ public sealed partial class EnvironmentSystem : ModSystem
 			var bitsByte = bitsBytes[i];
 
 			for (int j = 0; j < 8 && globalId < biomeTagsById.Count; j++, globalId++) {
-				SetSignal(biomeTagsById[globalId], bitsByte[j] ? 1f : 0f);
+				var tag = biomeTagsById[globalId];
+
+				if (tag != default) {
+					SetSignal(tag, bitsByte[j] ? 1f : 0f);
+				}
 			}
 		}
 	}
@@ -140,6 +144,10 @@ public sealed partial class EnvironmentSystem : ModSystem
 
 	public static void SetSignal(Tag tag, float value)
 	{
+		if (tag == default) {
+			return;
+		}
+
 		if (value > 0f) {
 			environmentSignals[tag] = MathHelper.Clamp(value, 0f, 1f);
 			return;
