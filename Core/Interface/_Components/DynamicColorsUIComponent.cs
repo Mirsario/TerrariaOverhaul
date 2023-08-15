@@ -14,6 +14,9 @@ public sealed class DynamicColorsUIComponent : UIComponent
 	private ref Color CurrentBorderColor => ref ((UIPanel)Element).BorderColor;
 	private ref Color CurrentBackgroundColor => ref ((UIPanel)Element).BackgroundColor;
 
+	public Color? OverrideBorderColor = null;
+	public Color? OverrideBackgroundColor = null;
+
 	protected override void OnAttach()
 	{
 		if (Element is not UIPanel) {
@@ -45,7 +48,7 @@ public sealed class DynamicColorsUIComponent : UIComponent
 		Color GetColor(UIColors colors)
 			=> (isPressed ? colors.Active : null) ?? (isHovered ? colors.Hover : null) ?? colors.Normal;
 
-		CurrentBorderColor = GetColor(Border);
-		CurrentBackgroundColor = GetColor(Background);
+		CurrentBorderColor = OverrideBorderColor ?? GetColor(Border);
+		CurrentBackgroundColor = OverrideBackgroundColor ?? GetColor(Background);
 	}
 }

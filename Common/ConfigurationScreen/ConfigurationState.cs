@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -20,23 +22,16 @@ namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public sealed class ConfigurationState : UIState
 {
-	// Search
-	private string? searchString;
-	// Etc.
-	private bool clickedSearchBar;
-	private bool clickedSomething;
 	private bool inCategoryMenu = true;
 
+	public BetterSearchBar SearchBar { get; set; } = null!;
 	// Main
 	public FancyUIPanel MainPanel { get; private set; } = null!;
 	public UIElement ContentArea { get; private set; } = null!;
 	public UITextPanel<LocalizedText> ExitButton { get; private set; } = null!;
 	public UIElement ContentContainer { get; private set; } = null!;
 	public UIElement PanelGridContainer { get; private set; } = null!;
-	// Search
-	public UIImageButton SearchButton { get; private set; } = null!;
-	public UISearchBar SearchBar { get; private set; } = null!;
-	public FancyUIPanel SearchBarPanel { get; private set; } = null!;
+	public UIGrid PanelGrid { get; private set; } = null!;
 
 	public override void OnInitialize()
 	{
@@ -80,6 +75,14 @@ public sealed class ConfigurationState : UIState
 			e.SetPadding(0f);
 		}));
 
+		SearchBar = MainPanel.AddElement(new BetterSearchBar().With(e => {
+			e.Width = StyleDimension.Fill;
+			e.Top = StyleDimension.FromPixels(10f);
+			e.VAlign = 0f;
+
+			e.TextInput.OnContentsChanged += HighlightPanelsViaSearchString;
+		}));
+
 		ContentContainer = MainPanel.AddElement(new UIElement().With(e => {
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixelsAndPercent(-48f, 1f);
@@ -89,55 +92,6 @@ public sealed class ConfigurationState : UIState
 			e.PaddingBottom = 15f;
 		}));
 
-		// Search Bar
-
-		var searchBarSection = MainPanel.AddElement(new UIElement().With(e => {
-			e.Width = StyleDimension.Fill;
-			e.Height = StyleDimension.FromPixels(28f);
-			e.Top = StyleDimension.FromPixels(12f);
-			e.VAlign = 0f;
-
-			e.SetPadding(0f);
-		}));
-
-		SearchBarPanel = searchBarSection.AddElement(new FancyUIPanel().With(e => {
-			e.Width = StyleDimension.FromPercent(0.95f);
-			e.Height = StyleDimension.Fill;
-			e.HAlign = 0.5f;
-			e.VAlign = 0.5f;
-
-			e.Colors.Border = CommonColors.InnerPanelBright.Border;
-			e.Colors.Background = CommonColors.InnerPanelBright.Background;
-
-			e.SetPadding(0f);
-		}));
-
-		SearchBar = SearchBarPanel.AddElement(new UISearchBar(Language.GetText("Search"), 0.8f).With(e => {
-			e.Width = StyleDimension.Fill;
-			e.Height = StyleDimension.Fill;
-			e.HAlign = 0f;
-			e.VAlign = 0.5f;
-
-			e.OnLeftClick += Click_SearchArea;
-			e.OnContentsChanged += OnSearchContentsChanged;
-			e.OnStartTakingInput += OnStartTakingInput;
-			e.OnEndTakingInput += OnEndTakingInput;
-
-			e.SetContents(null, forced: true);
-		}));
-
-		var searchCancelButton = SearchBar.AddElement(new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/SearchCancel")).With(e => {
-			e.HAlign = 1f;
-			e.VAlign = 0.5f;
-			e.Left = StyleDimension.FromPixels(-6f);
-
-			e.AddComponent(new SoundPlaybackUIComponent {
-				HoverSound = SoundID.MenuTick,
-			});
-
-			e.OnLeftClick += SearchCancelButton_OnClick;
-		}));
-
 		// Panel Grid
 
 		PanelGridContainer = ContentContainer.AddElement(new UIElement().With(e => {
@@ -145,7 +99,7 @@ public sealed class ConfigurationState : UIState
 			e.Height = StyleDimension.Fill;
 		}));
 
-		var panelGrid = PanelGridContainer.AddElement(new UIGrid().With(e => {
+		PanelGrid = PanelGridContainer.AddElement(new UIGrid().With(e => {
 			e.Width = StyleDimension.FromPixelsAndPercent(-20, 1f);
 			e.Height = StyleDimension.Fill;
 			e.ListPadding = 15f;
@@ -155,9 +109,9 @@ public sealed class ConfigurationState : UIState
 		var panelGridScrollbar = PanelGridContainer.AddElement(new UIScrollbar().With(e => {
 			e.HAlign = 1f;
 			e.VAlign = 0.5f;
-			e.Height = StyleDimension.FromPixelsAndPercent(-8f, 1f);
+			e.Height = StyleDimension.FromPixelsAndPercent(-16f, 1f);
 
-			panelGrid.SetScrollbar(e);
+			PanelGrid.SetScrollbar(e);
 		}));
 
 		var configCategories = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s);
@@ -174,7 +128,7 @@ public sealed class ConfigurationState : UIState
 				_ => new CardPanel(localizedCategoryName, thumbnailPlaceholder),
 			};
 
-			panelGrid.Add(cardPanel);
+			PanelGrid.Add(cardPanel);
 
 			cardPanel.OnLeftClick += (_, _) => SwitchToCategorySettings(category);
 		}
@@ -195,6 +149,8 @@ public sealed class ConfigurationState : UIState
 		}));
 
 		inCategoryMenu = false;
+
+		HighlightPanelsViaSearchString(SearchBar.searchString);
 	}
 
 	private void BackButtonLogic()
@@ -208,88 +164,68 @@ public sealed class ConfigurationState : UIState
 			ContentContainer.Append(PanelGridContainer);
 
 			inCategoryMenu = true;
+
+			HighlightPanelsViaSearchString(SearchBar.searchString);
 		}
 	}
 
-	#region Search Bar Nonsense
-
-	private void Click_SearchArea(UIMouseEvent evt, UIElement listeningElement)
+	private void HighlightPanelsViaSearchString(string? obj)
 	{
-		if (SearchBar == null) {
+		var panels = inCategoryMenu ? PanelGrid.Children.First().Children.ToList() : ContentContainer.GetFirstChildAt<UIElement>(5, e => e is UIGrid).Children.First().Children.ToList();
+
+		if (obj == "" || obj == null) { // searchbar is empty, reset all panels
+			panels.ForEach(e => {
+				((FancyUIPanel)e).Colors.OverrideBorderColor = null;
+			});
+
 			return;
 		}
 
-		if (listeningElement == SearchBar || listeningElement == SearchButton || listeningElement == SearchBarPanel) {
-			SearchBar.ToggleTakingText();
+		string searchString = obj.ToLower();
 
-			clickedSearchBar = true;
-		}
-	}
+		panels.ForEach(e => {
+			if (inCategoryMenu) {
+				var panel = (CardPanel)e;
+				string category = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s).ElementAt(panels.IndexOf(e));
+				var categoryEntries = ConfigSystem.CategoriesByName[category].EntriesByName.Values;
 
-	private void OnSearchContentsChanged(string contents)
-	{
-		searchString = contents;
-	}
+				bool categoryNameHasSearchString = panel.titleText.Value.ToLower().Contains(searchString);
+				bool categoryEntryNameHasSearchString = categoryEntries.Any(i => Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.{i.Name}.DisplayName").ToString().ToLower().Contains(searchString));
 
-	private void OnStartTakingInput()
-	{
-		SearchBarPanel.BorderColor = Main.OurFavoriteColor;
-	}
+				if (categoryNameHasSearchString || categoryEntryNameHasSearchString) {
+					// Change to whatever color the border should be when highlighted. Note: theres also OverrideBackgroundColor
+					panel.Colors.OverrideBorderColor = (Color)CommonColors.InnerPanelMedium.Border.Hover;
+				} else {
+					panel.Colors.OverrideBorderColor = null;
+				}
+			} else {
+				var panel = (ConfigEntryElement)e;
 
-	private void OnEndTakingInput()
-	{
-		SearchBarPanel.BorderColor = new Color(73, 94, 171);
-	}
-
-	private void OnFinishedSettingName(string name)
-	{
-		string contents = name.Trim();
-
-		SearchBar.SetContents(contents);
-		GoBackHere();
-	}
-
-	private void GoBackHere()
-	{
-		UserInterface.ActiveInstance.SetState(this);
-
-		if (SearchBar.IsWritingText) {
-			SearchBar.ToggleTakingText();
-		}
-	}
-
-	private void SearchCancelButton_OnClick(UIMouseEvent evt, UIElement listeningElement)
-	{
-		if (SearchBar.HasContents) {
-			SearchBar.SetContents(null, forced: true);
-			SoundEngine.PlaySound(SoundID.MenuClose);
-		} else {
-			SoundEngine.PlaySound(SoundID.MenuTick);
-		}
-
-		GoBackHere();
+				if (panel.DisplayName.ToString().ToLower().Contains(searchString)) {
+					panel.Colors.OverrideBorderColor = (Color)CommonColors.InnerPanelMedium.Border.Hover;
+				} else {
+					panel.Colors.OverrideBorderColor = null;
+				}
+			}
+		});
 	}
 
 	public override void LeftClick(UIMouseEvent evt)
 	{
+		if (SearchBar.IsFocused) {
+			SearchBar.ToggleFocus();
+		}
+
 		base.LeftClick(evt);
-
-		clickedSomething = true;
 	}
-
-	#endregion
 
 	public override void Update(GameTime gameTime)
 	{
 		base.Update(gameTime);
 
-		if (clickedSomething && !clickedSearchBar && SearchBar.IsWritingText) {
-			SearchBar.ToggleTakingText();
-		}
-
 		if (Main.keyState.IsKeyDown(Keys.Escape) && !Main.oldKeyState.IsKeyDown(Keys.Escape)) {
-			if (SearchBar.IsWritingText) {
-				GoBackHere();
+			if (SearchBar.IsFocused) {
+				SearchBar.IsFocused = false;
 			} else {
 				BackButtonLogic();
 			}

@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using ReLogic.Content.Sources;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.ConfigurationScreen;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Core.VideoPlayback;
 
@@ -23,6 +24,8 @@ public class OverhaulMod : Mod
 
 	private static OverhaulMod? instance;
 
+	public static ConfigurationState ConfigurationScreen { get; set; }
+
 	//internal static readonly ResourceManager ResourceManager = new ResourceManager("TerrariaOverhaul.Properties.Resources", Assembly.GetExecutingAssembly());
 
 	public static OverhaulMod Instance => instance ?? throw new InvalidOperationException("An instance of the mod has not yet been created.");
@@ -37,6 +40,7 @@ public class OverhaulMod : Mod
 	public OverhaulMod()
 	{
 		instance = this;
+		ConfigurationScreen = new ConfigurationState();
 
 		Directory.CreateDirectory(PersonalDirectory);
 
