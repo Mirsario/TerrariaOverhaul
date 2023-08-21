@@ -23,7 +23,6 @@ public class BulletCasing : ModGore
 	public override void OnSpawn(Gore gore, IEntitySource source)
 	{
 		gore.Frame = new SpriteFrame(1, 1, 0, 0);
-		gore.sticky = false;
 		gore.light = 0f;
 		gore.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 		gore.scale = 0.7f;
