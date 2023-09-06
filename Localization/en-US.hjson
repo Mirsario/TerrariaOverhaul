@@ -231,7 +231,7 @@ Mods: {
 						'''
 						When enabled, swinging a melee weapon can accelerate you towards the direction of the swing.
 						This can be further controlled using movement keys, as you'll never be thrown forward when you're holding back movement.
-						Use together with power attacks to significantly boost your jumps and damage. 
+						Use together with power attacks to significantly boost your jumps and damage.
 						'''
 				}
 
@@ -351,7 +351,7 @@ Mods: {
 					Description:
 						'''
 						When enabled, melee weapon swing animations will be changed to a more immediate swing, with alternating directions.
-						This is best kept on, as it best mimics the timing and direction of melee damage collision. 
+						This is best kept on, as it best mimics the timing and direction of melee damage collision.
 						'''
 				}
 
@@ -360,7 +360,7 @@ Mods: {
 					Description:
 						'''
 						When enabled, a circular slash sprite will appear when swinging melee weapons.
-						This is best kept on, as it best mimics the range and collision arc of the weapon. 
+						This is best kept on, as it best mimics the range and collision arc of the weapon.
 						'''
 				}
 
