@@ -429,15 +429,24 @@ Mods: {
 			}
 
 			Melee: {
-				// AirCombatInfo: "[[Attack enemies mid-air]] to stay elevated or keep control of your velocity!"
-				// VelocityBasedDamageInfo: "[[The faster you move - the harder you strike!]] Combine your attacks with dashes and falls!"
+				/* AirCombatInfo:
+					'''
+					[[Attack enemies mid-air]] to gain speed, stay elevated, or to retreat!
+					Use the movement keys during a strike to control the velocity you gain!
+					''' */
+				// PowerStrikeInfo: "Charge up [[Power Strikes]] via alternate use!"
+				/* VelocityBasedDamageInfo:
+					'''
+					[[The faster you move - the harder you strike!]]
+					Combine your attacks with dashes and even use gravity to your advantage!
+					''' */
 
 				Broadsword: {
 					// KillingBlow: "Killing Blow!"
 					/* KillingBlowInfo:
 						'''
-						Charged strikes can deal [[Killing Blows]] to damaged enemies
-						[[Killing Blows]] multiply damage by [[x{0}]] whenever that would finish the enemy
+						Perform [[Killing Blows]] by [[power striking]] already hurt foes,
+						multiplying damage by [[x{0}]] whenever that would finish the enemy
 						''' */
 				}
 			}

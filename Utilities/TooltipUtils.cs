@@ -31,7 +31,7 @@ public static class TooltipUtils
 			static string MatchEvaluator(Match match)
 				=> StringUtils.ColoredText(combatInfoAccentColorAlt, match.Groups[1].Value);
 
-			var lines = getLines().Select(s => combatInfoAccentRegex.Replace(s, MatchEvaluator));
+			var lines = getLines().Select(s => "◙ " + combatInfoAccentRegex.Replace(s, MatchEvaluator).Replace("\n", "\n   "));
 
 			AddTooltip("CombatInfoSeparator", mod.GetTextValue("CommonTooltips.CombatInfo"), combatInfoAccentColor);
 			AddTooltip("CombatInfo", string.Join("\r\n", lines), combatInfoBaseColor);

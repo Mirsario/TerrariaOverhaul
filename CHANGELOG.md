@@ -30,7 +30,11 @@
 
 # Work In Progress
 
-Nothing so far!
+### Changes
+- Heavily improved combat info tooltips. They now have far more information and feature formatting and color highlighting. They were also added to Hammers, Axes and Pickaxes.
+
+### Fixes
+- Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated). 
 
 # 5.0 BETA 13B
 

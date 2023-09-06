@@ -139,6 +139,8 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 
 		IEnumerable<string> GetCombatInfo()
 		{
+			yield return Mod.GetTextValue("ItemOverhauls.Melee.PowerStrikeInfo");
+
 			if (item.TryGetGlobalItem(out ItemKillingBlows killingBlows)) {
 				yield return Mod.GetTextValue("ItemOverhauls.Melee.Broadsword.KillingBlowInfo", killingBlows.DamageMultiplier);
 			}
