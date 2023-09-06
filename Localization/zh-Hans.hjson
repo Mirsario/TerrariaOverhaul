@@ -418,27 +418,27 @@ Mods: {
 			Archery: {
 				/* HoverShots:
 					'''
-					Hover in the air by charging your weapon during jumping
-					Perform a hover-shot to get even more velocity
+					[[Hover in the air]] by charging your weapon as you're jumping
+					Perform a [[hover-shot]] to get even more velocity
 					''' */
 				/* ManualCharging:
 					'''
-					Hold right click to manually charge your weapon
-					Release it at any time to fine-tune the shot speed & damage
+					Hold right click to [[manually charge]] your weapon
+					Release it at any time to [[fine-tune]] the shot speed & damage
 					''' */
 			}
 
 			Melee: {
-				AirCombatInfo: "冲向并打击半空中的敌人"
-				VelocityBasedDamageInfo: "伤害会随玩家的速度而上升，冲就完了"
+				// AirCombatInfo: "[[Attack enemies mid-air]] to stay elevated or keep control of your velocity!"
+				// VelocityBasedDamageInfo: "[[The faster you move - the harder you strike!]] Combine your attacks with dashes and falls!"
 
 				Broadsword: {
-					KillingBlow: "致命！"
-					KillingBlowInfo:
+					// KillingBlow: "Killing Blow!"
+					/* KillingBlowInfo:
 						'''
-						蓄力攻击有几率对残血的敌人造成致命一击
-						致命一击会对敌人造成双倍伤害
-						'''
+						Charged strikes can deal [[Killing Blows]] to damaged enemies
+						[[Killing Blows]] multiply damage by [[x{0}]] whenever that would finish the enemy
+						''' */
 				}
 			}
 		}
