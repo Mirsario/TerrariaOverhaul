@@ -67,9 +67,9 @@ public class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage
 	}
 
 	// Leg framing
-	public override void UseItemFrame(Item item, Player player)
+	protected override void ApplyAnimation(Item item, Player player)
 	{
-		base.UseItemFrame(item, player);
+		base.ApplyAnimation(item, player);
 
 		if (!Enabled || !AnimateLegs) {
 			return;

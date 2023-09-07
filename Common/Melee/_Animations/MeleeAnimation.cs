@@ -1,12 +1,11 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Utilities;
-
-using TerrariaOverhaul.Core.Configuration;
-using Terraria.ID;
 
 namespace TerrariaOverhaul.Common.Melee;
 
@@ -16,7 +15,7 @@ public abstract class MeleeAnimation : ItemComponent
 
 	public abstract float GetItemRotation(Player player, Item item);
 
-	public override void UseItemFrame(Item item, Player player)
+	protected virtual void ApplyAnimation(Item item, Player player)
 	{
 		if (!Enabled || !EnableImprovedMeleeAnimations) {
 			return;
@@ -66,6 +65,25 @@ public abstract class MeleeAnimation : ItemComponent
 
 		if (!Main.dedServ && DebugSystem.EnableDebugRendering) {
 			DebugSystem.DrawCircle(player.itemLocation, 3f, Color.White);
+		}
+	}
+
+	public sealed override void UseStyle(Item item, Player player, Rectangle heldItemFrame)
+	{
+		TryApplyAnimation(player.HeldItem, player);
+	}
+
+	public sealed override void UseItemFrame(Item item, Player player)
+	{
+		TryApplyAnimation(player.HeldItem, player);
+	}
+
+	private void TryApplyAnimation(Item item, Player player)
+	{
+		var heldItem = player.HeldItem;
+
+		if (heldItem.TryGetGlobalItem(this, out var correctInstance)) {
+			correctInstance.ApplyAnimation(heldItem, player);
 		}
 	}
 }

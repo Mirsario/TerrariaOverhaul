@@ -34,7 +34,8 @@
 - Heavily improved combat info tooltips. They now have far more information and feature formatting and color highlighting. They were also added to Hammers, Axes and Pickaxes.
 
 ### Fixes
-- Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated). 
+- Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated).
+- Fixed the Volcano, Blood Butcherer, and a few other melee weapons using incorrect rotations & locations for their particle effects.
 
 # 5.0 BETA 13B
 
