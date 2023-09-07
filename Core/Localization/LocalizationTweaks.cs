@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Mono.Cecil.Cil;
@@ -88,10 +89,11 @@ internal sealed class LocalizationTweaks : ILoadable
 			i => i.MatchLdloc(out _),
 			i => i.MatchLdloc(out _),
 			i => i.MatchCall(typeof(Enumerable).GetMethod(nameof(Enumerable.Skip))!.MakeGenericMethod(typeof(string))),
+			i => i.MatchCall(typeof(string).GetMethod(nameof(string.Join), new[] { typeof(string), typeof(IEnumerable<>).MakeGenericType(typeof(string)) })!),
 		};
 
 		var instructionsB = new Func<Instruction, bool>[] {
-			i => i.MatchBgt(out skipLabel),
+			i => i.MatchBrfalse(out skipLabel),
 		};
 
 		if (!il.TryGotoNext(MoveType.Before, instructionsA) || !il.TryGotoPrev(MoveType.After, instructionsB)) {
