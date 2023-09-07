@@ -96,6 +96,8 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 				*/
 			});
 		};
+
+		On_Player.ItemCheck_OwnerOnlyCode += PlayertemCheckOwnerOnlyCodeDetour;
 	}
 
 	public override void HoldItem(Item item, Player player)
@@ -201,4 +203,13 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 
 	bool? ICanTurnDuringItemUse.CanTurnDuringItemUse(Item item, Player player)
 		=> IsCharging ? true : null;
+
+	private static void PlayertemCheckOwnerOnlyCodeDetour(On_Player.orig_ItemCheck_OwnerOnlyCode orig, Player player, ref Player.ItemCheckContext context, Item sItem, int weaponDamage, Microsoft.Xna.Framework.Rectangle heldItemFrame)
+	{
+		if (player.HeldItem is { IsAir: false } item && item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.IsCharging) {
+			return;
+		}
+
+		orig(player, ref context, sItem, weaponDamage, heldItemFrame);
+	}
 }
