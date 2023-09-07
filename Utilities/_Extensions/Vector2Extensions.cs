@@ -20,4 +20,10 @@ public static class Vector2Extensions
 
 	public static Rectangle ToRectangle(this Vector2 vector, int width, int height)
 		=> new((int)vector.X, (int)vector.Y, width, height);
+
+	public static void Deconstruct(this Vector2 vector, out float x, out float y)
+	{
+		x = vector.X;
+		y = vector.Y;
+	}
 }
