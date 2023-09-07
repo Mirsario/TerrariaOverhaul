@@ -34,8 +34,8 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 
 	public override bool ShouldApplyItemOverhaul(Item item)
 	{
-		// Broadswords always swing, deal melee damage, don't have channeling, and are visible
-		if (item.useStyle != ItemUseStyleID.Swing || item.noMelee || item.channel || item.noUseGraphic) {
+		// Broadswords always swing, don't have channeling, and are visible
+		if (item.useStyle != ItemUseStyleID.Swing || item.channel || item.noUseGraphic) {
 			return false;
 		}
 
@@ -44,6 +44,7 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 			return false;
 		}
 
+		// Must be part of the melee class, or a subclass of it.
 		if (!item.DamageType.CountsAsClass(DamageClass.Melee)) {
 			return false;
 		}

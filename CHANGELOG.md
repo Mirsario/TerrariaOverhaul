@@ -36,6 +36,7 @@
 ### Fixes
 - Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated).
 - Fixed the Volcano, Blood Butcherer, and a few other melee weapons using incorrect rotations & locations for their particle effects.
+- Fixed the following broadswords not getting the broadsword overhaul: `Night's Edge`, `Excalibur`, `True Excalibur`, `True Night's Edge`, `Terra Blade`, `The Horseman's Blade`.
 
 # 5.0 BETA 13B
 
