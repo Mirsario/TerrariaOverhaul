@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Content.Dusts;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ResourceDrops;
@@ -71,13 +72,15 @@ public sealed class ManaPickupChanges : ResourcePickupChanges<ManaPickupChanges>
 
 	public override void SpawnDust(Item item, int amount, Rectangle rectangle, Func<Vector2> velocityGetter)
 	{
+		int dustType = ModContent.DustType<ManaDust>();
+
 		for (int i = 0; i < amount; i++) {
-			var dust = Dust.NewDustDirect(rectangle.TopLeft(), rectangle.Width, rectangle.Height, DustID.ManaRegeneration, Scale: Main.rand.NextFloat(1.5f, 2f));
+			var dust = Dust.NewDustDirect(rectangle.TopLeft(), rectangle.Width, rectangle.Height, dustType, Scale: Main.rand.NextFloat(1.5f, 2f));
 
 			dust.noLight = true;
 			dust.noGravity = true;
 			dust.velocity = velocityGetter();
-			dust.alpha = 255;
+			dust.alpha = 32;
 		}
 	}
 }
