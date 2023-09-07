@@ -40,6 +40,7 @@
 	- Fixed the `Volcano`, `Blood Butcherer`, and a few other melee weapons using incorrect rotations & locations for their particle effects.
 	- Fixed the following projectile-only swords not getting the broadsword overhaul: `Night's Edge`, `Excalibur`, `True Excalibur`, `True Night's Edge`, `Terra Blade`, `The Horseman's Blade`.
 	- Fixed `Blade of Grass` and projectile-only swords being able to create projectiles during a power attack charge.
+	- Fixed projectile-only swords not being fully aimable.
 
 # 5.0 BETA 13B
 

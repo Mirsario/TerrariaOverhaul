@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Damage;
@@ -11,7 +12,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithNPC
+public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithNPC, IModifyItemNewProjectile
 {
 	private Vector2 attackDirection;
 	private float attackAngle;
@@ -47,7 +48,7 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 		}
 	}
 
-	public bool? CanMeleeCollideWithNPC(Item item, Player player, NPC target, Rectangle itemRectangle)
+	bool? ICanMeleeCollideWithNPC.CanMeleeCollideWithNPC(Item item, Player player, NPC target, Rectangle itemRectangle)
 	{
 		if (!Enabled) {
 			return null;
@@ -61,6 +62,16 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 
 		// Check arc collision
 		return CollisionUtils.CheckRectangleVsArcCollision(target.getRect(), player.Center, AttackAngle, MathHelper.Pi * 0.5f, range);
+	}
+
+	void IModifyItemNewProjectile.ModifyShootProjectile(Player player, Item item, in IModifyItemNewProjectile.Args args, ref IModifyItemNewProjectile.Args result)
+	{
+		// Makes always horizontally-facing projectiles aimable.
+		if (args.Source is EntitySource_ItemUse_WithAmmo && args.Velocity.Y == 0f && args.Velocity.X == player.direction) {
+			if (item.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
+				result.Velocity = aiming.AttackDirection;
+			}
+		}
 	}
 
 	public static float GetAttackRange(Item item, Player player, Rectangle? itemRectangle = null)
