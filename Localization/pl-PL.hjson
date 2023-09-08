@@ -30,23 +30,23 @@ Mods: {
 
 		Configuration: {
 			Accessibility: {
-				 DisplayName: "Dostępność"
-				 Description: "Overhaul zawiera parę prostych zmian które pozwolą by każdemu grało się wygodniej."
+				DisplayName: "Dostępność"
+				Description: "Overhaul zawiera parę prostych zmian które pozwolą by każdemu grało się wygodniej."
 
 				ForceAutoReuse: {
-					 DisplayName: "Wymuś Auto-użycie"
-					 Description:
+					DisplayName: "Wymuś Auto-użycie"
+					Description:
 						'''
 						Gdy włączone, prawie każdy przedmiot w grze będzie uzywany ponownie jeśli przycisk myszy jest trzymany.
 						Drobne modyfikacje zapobiegają przpadkom nadużyć "60 razy na sekundę".
 						Zapobiega też zespołowi cieśni nadgarstka, polecane przez 10 na 10 lekarzy.
-						''' 
+						'''
 				}
 			}
 
 			Ambience: {
-				 DisplayName: "Ustawienia Otoczenia"
-				 Description: "Overhaul zawiera wiele funkcji otoczenia, które pomagają lepiej wczuć się w świat gry."
+				DisplayName: "Ustawienia Otoczenia"
+				Description: "Overhaul zawiera wiele funkcji otoczenia, które pomagają lepiej wczuć się w świat gry."
 
 				EnableAmbientSounds: {
 					DisplayName: "Włącz Dźwięki Otoczenia"
@@ -54,12 +54,12 @@ Mods: {
 				}
 
 				EnableAudioFiltering: {
-					 DisplayName: "Włącz Filtrowanie Dźwięku"
-					 Description:
+					DisplayName: "Włącz Filtrowanie Dźwięku"
+					Description:
 						'''
 						Przełącza filtrowanie dolnoprzepustowe i efekt pogłosu.
 						Wyłącz to jeśli gra się zawiesza kiedy dołączasz do świata.
-						''' 
+						'''
 				}
 
 				EnablePlayerFootsteps: {
@@ -69,55 +69,55 @@ Mods: {
 			}
 
 			Awareness: {
-				 DisplayName: "Świadomość"
-				 Description:
+				DisplayName: "Świadomość"
+				Description:
 					'''
 					Overhaul wdraża wiele funkcji pomagających byś świadomym stanu gracza,
 					przy okazjii zyskując na immersji.
-					''' 
+					'''
 
 				LowHealthFilteringIntensity: {
-					 DisplayName: "Intensywność efektu niskiego stanu zdrowia"
-					 Description: "Kontroluje intensywność efektu tłumienia dźwięku, prz niskim stanie zdrowia."
+					DisplayName: "Intensywność efektu niskiego stanu zdrowia"
+					Description: "Kontroluje intensywność efektu tłumienia dźwięku, prz niskim stanie zdrowia."
 				}
 
 				LowHealthSoundVolume: {
-					 DisplayName: "Głośność dźwięku niskiego stanu zdrowia"
-					 Description: "Kontroluje głośność dźwięku który ma miejsce przy niskim stanie zdrowia."
+					DisplayName: "Głośność dźwięku niskiego stanu zdrowia"
+					Description: "Kontroluje głośność dźwięku który ma miejsce przy niskim stanie zdrowia."
 				}
 
 				LowManaSoundVolume: {
-					 DisplayName: "Głośność dźwięku niskiego poziomu many"
-					 Description: "Kontroluje głośność dźwięku który ma miejsce przy niskim poziomie many."
+					DisplayName: "Głośność dźwięku niskiego poziomu many"
+					Description: "Kontroluje głośność dźwięku który ma miejsce przy niskim poziomie many."
 				}
 
 				ManaRegenerationSoundVolume: {
-					 DisplayName: "Głośność dźwięku regeneracji many"
-					 Description: "Kontroluje głośność dźwięku który ma miejsce gdy mana się regeneruje."
+					DisplayName: "Głośność dźwięku regeneracji many"
+					Description: "Kontroluje głośność dźwięku który ma miejsce gdy mana się regeneruje."
 				}
 			}
 
 			Banners: {
-				 DisplayName: "Sztandary"
-				 Description: "Overhaul zmienia w jaki sposób działają sztandary, żeby przeciwnicy nie stawali się za słabi."
+				DisplayName: "Sztandary"
+				Description: "Overhaul zmienia w jaki sposób działają sztandary, żeby przeciwnicy nie stawali się za słabi."
 
 				BannerReworkEnabled: {
-					 DisplayName: "Zmiany Działania Sztandarów"
-					 Description:
+					DisplayName: "Zmiany Działania Sztandarów"
+					Description:
 						'''
 						Zmienia działanie sztandarów, zamiast zmniejszać zdrowie i obrażenia przeciwników, podwaja upuszczane przedmioty i monety.
 						Ma wpływ na zarówno częstotliwość i ilość.
-						''' 
+						'''
 				}
 			}
 
 			BloodAndGore: {
-				 DisplayName: "Krew i Flaki"
-				 Description:
+				DisplayName: "Krew i Flaki"
+				Description:
 					'''
 					Overhaul usprawnie brutalne efekty dźwiękowe, wizualne oraz interakcję z nimi,
 					znacznie zwiększając satysfakcję z walki.
-					''' 
+					'''
 
 				EnableDecals: {
 					DisplayName: "Włącz Ślady Krwi"
@@ -125,31 +125,31 @@ Mods: {
 				}
 
 				EnableGoreStay: {
-					 DisplayName: "Włącz Trwałe Flaki"
-					 Description: "Gdy włączone, flaki (albo dokładniej 'bebechy') nie będą znikać po 10 sekundach."
+					DisplayName: "Włącz Trwałe Flaki"
+					Description: "Gdy włączone, flaki (albo dokładniej 'bebechy') nie będą znikać po 10 sekundach."
 				}
 			}
 
 			Camera: {
-				 DisplayName: "Kamera"
-				 Description: "Overhaul wdraża zmiany w funkcjach kamery, które znacznie poprawiają jak gra się prezentuje."
+				DisplayName: "Kamera"
+				Description: "Overhaul wdraża zmiany w funkcjach kamery, które znacznie poprawiają jak gra się prezentuje."
 
 				CameraSmoothness: {
-					 DisplayName: "Płynność Kamery"
-					 Description:
+					DisplayName: "Płynność Kamery"
+					Description:
 						'''
 						Jak bardzo zmiękczać ruch kamery by poprawić poczucie prędkości.
 						Ustaw na zero aby całkowicie to wyłączyć.
-						''' 
+						'''
 				}
 
 				LimitCameraUpdateRate: {
-					 DisplayName: "Ogranicz Prędkość Odświeżania Kamery"
-					 Description:
+					DisplayName: "Ogranicz Prędkość Odświeżania Kamery"
+					Description:
 						'''
 						Gdy włączone, odświeżanie kamery jest ograniczone do 60hz by zapobiec błędach wizualnych postaci na monitorach z >60hz.
 						Obecnie najlepiej pozostawić włączone.
-						''' 
+						'''
 				}
 
 				ScreenShakeStrength: {
@@ -159,120 +159,120 @@ Mods: {
 			}
 
 			DifficultyLevels: {
-				 DisplayName: "Poziomy Trudności"
-				 Description:
+				DisplayName: "Poziomy Trudności"
+				Description:
 					'''
 					Overhaul zmienia tryby gry na faktyczne poziomy trudności, osiągając poniższe cele:
 					- Wyrównianie większości statystyk, usunięcie bullet sponge'ów z wyższych poziomów trudności i żałośnie kruchych przeciwników z niższych;
 					- (WIP) Usunięcie zawartości ekskluzywnej dla trybów gry i zachowania SI, mniej ableizmu;
 					- (WIP) Skupienie na urozmaiceniu w koncepcje takie jak szanse na reakcję zamiast "więcej zdrowia i obrażeń";
-					''' 
+					'''
 
 				EnableDifficultyChanges: {
-					 DisplayName: "Włącz Zmiany Poziomów Trudności"
-					 Description: "Przełącza zmiany wobec poziomów trudności."
+					DisplayName: "Włącz Zmiany Poziomów Trudności"
+					Description: "Przełącza zmiany wobec poziomów trudności."
 				}
 			}
 
 			Enemies: {
-				 DisplayName: "Przeciwnicy"
-				 Description: "Overhaul zawiera parę dodatków do zachowania przeciwników, mające na celu uprzyjemnienie walki z nimi."
+				DisplayName: "Przeciwnicy"
+				Description: "Overhaul zawiera parę dodatków do zachowania przeciwników, mające na celu uprzyjemnienie walki z nimi."
 
 				EnableEnemyLunges: {
-					 DisplayName: "Włącz Rzucanie się Przeciwników"
-					 Description: "Gdy włączone, przeciwnicy mogą się na ciebie rzucić gdy się zbliżysz."
+					DisplayName: "Włącz Rzucanie się Przeciwników"
+					Description: "Gdy włączone, przeciwnicy mogą się na ciebie rzucić gdy się zbliżysz."
 				}
 			}
 
 			Guns: {
-				 DisplayName: "Broń Palna"
-				 Description: "Overhaul mocno skupia się na ulepszeniu mechanik i doznań z używania broni palnej."
+				DisplayName: "Broń Palna"
+				Description: "Overhaul mocno skupia się na ulepszeniu mechanik i doznań z używania broni palnej."
 
 				EnableAimingRecoil: {
-					 DisplayName: "Włącz Odrzut Broni Palnej (Eksperymentalne)"
-					 Description:
+					DisplayName: "Włącz Odrzut Broni Palnej (Eksperymentalne)"
+					Description:
 						'''
 						Gdy włączone, broń palna może przesunąć celownik gracza przy wystrzale.
 						Funkcja eksperymentalna, domyślnie wyłączone.
-						''' 
+						'''
 				}
 			}
 
 			Melee: {
-				 DisplayName: "Walka Wręcz"
-				 Description: "Overhaul kompletnie przeobraża odczucie i styl walki wręcz, pozwalając na doznania jak nigdy wcześniej!"
+				DisplayName: "Walka Wręcz"
+				Description: "Overhaul kompletnie przeobraża odczucie i styl walki wręcz, pozwalając na doznania jak nigdy wcześniej!"
 
 				EnableAirCombat: {
-					 DisplayName: "Włącz Walkę w Powietrzu"
-					 Description:
+					DisplayName: "Włącz Walkę w Powietrzu"
+					Description:
 						'''
 						Przełącza walkę wręcz w powietrzu, pozwalając na zryw w dowolnym kierunku uzywając klawiszy ruchu przy każdym trafieniu w przeciwnika w powietrzu.
 						Użyj swoich wrogów jaki drabiny; łącz ataki na latających przeciwnikach; nabierz prędkości by spaść z impetem na przeciwników poniżej.
-						''' 
+						'''
 				}
 
 				EnableProjectileSwordManaUsage: {
-					 DisplayName: "Włącz Zużycie Many Przez Pociski Mieczy"
-					 Description:
+					DisplayName: "Włącz Zużycie Many Przez Pociski Mieczy"
+					Description:
 						'''
 						Eksperymentalne.
 						Gdy włączone, miecze strzelające pociskami zużywają odrobinę many.
 						Zasady regeneracji i upuszczania many są takie same, więc zmienia to niewiele.
-						''' 
+						'''
 				}
 
 				EnableSwingVelocity: {
-					 DisplayName: "Wlącz Zryw Przy Zamachu"
-					 Description:
+					DisplayName: "Wlącz Zryw Przy Zamachu"
+					Description:
 						'''
 						Gdy włączone, zamach bronią wręcz rzuca cię w stronę ataku.
 						Większą kontrolę nad tym dają klawisze ruchu, nie zostaniesz rzucony do przodu trzymając klawisz ruchu do tyłu.
 						Użyj wraz z wzmocnionym atakiem aby znacznie ulepszyć swoje skoki i obrażenia.
-						''' 
+						'''
 				}
 
 				EnableAxePowerAttacks: {
-					 DisplayName: "Włącz Zzmocnione Ataki Toporami"
-					 Description: "Przełącza możliwość wykonania naładowanych ataków toporami prawym przyciskiem myszy."
+					DisplayName: "Włącz Zzmocnione Ataki Toporami"
+					Description: "Przełącza możliwość wykonania naładowanych ataków toporami prawym przyciskiem myszy."
 				}
 
 				EnableBroadswordPowerAttacks: {
-					 DisplayName: "Włącz Wzmocnione Ataki Mieczami"
-					 Description: "Przełącza możliwość wykonania naładowanych ataków mieczami prawym przyciskiem myszy."
+					DisplayName: "Włącz Wzmocnione Ataki Mieczami"
+					Description: "Przełącza możliwość wykonania naładowanych ataków mieczami prawym przyciskiem myszy."
 				}
 
 				EnableHammerPowerAttacks: {
-					 DisplayName: "Włącz Wzmocnione Ataki Młotami"
-					 Description: "Przełącza możliwość wykonania naładowanych ataków młotami prawym przyciskiem myszy."
+					DisplayName: "Włącz Wzmocnione Ataki Młotami"
+					Description: "Przełącza możliwość wykonania naładowanych ataków młotami prawym przyciskiem myszy."
 				}
 			}
 
 			Music: {
-				 DisplayName: "Muzyka"
-				 Description:
+				DisplayName: "Muzyka"
+				Description:
 					'''
 					Overhaul zawiera parę zmian polepszających to jak grana jest muzyka.
 					Jest też odświeżona wersja ścieżki muzycznej - Kliknij przycisk w lewym górnym rogu!
-					''' 
+					'''
 
 				EnableMusicPlaybackPositionPreservation: {
-					 DisplayName: "Włącz Zachowanie Przerwanej Muzyki"
-					 Description:
+					DisplayName: "Włącz Zachowanie Przerwanej Muzyki"
+					Description:
 						'''
 						Gdy włączone, muzyka zostanie zapauzowana zamiast zatrzymania.
 						To oznacza że gdy wrócisz do biomu w którym byłeś wcześniej, muzyka zostanie wznowiona od momentu gdzie wcześniej skończyła.
 						Znacznie polepsza doznania z gry, gdyż nie będziesz w kółko słyszał muzyki od nowa poruszając się po świecie.
-						''' 
+						'''
 				}
 			}
 
 			PlayerMovement: {
-				 DisplayName: "Poruszanie się Gracza"
-				 Description: "Overhaul znacznie ulepsza i odświeża prawie każdy aspekt poruszania sie, czego jest sporo."
+				DisplayName: "Poruszanie się Gracza"
+				Description: "Overhaul znacznie ulepsza i odświeża prawie każdy aspekt poruszania sie, czego jest sporo."
 
 				EnableAutoJump: {
-					 DisplayName: "Włacz Auto-skok"
-					 Description: "Gdy włączone, gracze będą zawsze mogli trzymać spację by skakać wielokrotnie."
+					DisplayName: "Włacz Auto-skok"
+					Description: "Gdy włączone, gracze będą zawsze mogli trzymać spację by skakać wielokrotnie."
 				}
 
 				EnableVerticalAccelerationChanges: {
@@ -296,13 +296,13 @@ Mods: {
 				}
 
 				EnableGrapplingHookPhysics: {
-					 DisplayName: "Włącz fizykę haku z linką"
-					 Description:
+					DisplayName: "Włącz fizykę haku z linką"
+					Description:
 						'''
 						Gdy włączone, haki z linką będą umożliwiały huśtanie się przy użyciu klawiszy ruchu.
 						WAŻNE: Przytrzymaj klawisz haka z linką by przyciągnąć się normalnie, więc nie musisz wybierać między oboma sposobami, a nawet je łączyć.
 						WAŻNE: Ta zmiana nie działa z każdym hakiem w grze, w przypadku wielu haków zostanie użyte normalne przyciąganie.
-						''' 
+						'''
 				}
 
 				EnableWallJumping: {
@@ -325,8 +325,8 @@ Mods: {
 			}
 
 			PlayerVisuals: {
-				 DisplayName: "Efekty Wizualne Gracza"
-				 Description: "Overhaul zawiera parę zmian w wyglądzie gracza, żeby gra była bardziej responsywna."
+				DisplayName: "Efekty Wizualne Gracza"
+				Description: "Overhaul zawiera parę zmian w wyglądzie gracza, żeby gra była bardziej responsywna."
 
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Zawsze Pokazuj Bronie Mierzone"
@@ -334,26 +334,26 @@ Mods: {
 				}
 
 				EnableAimableFlashlights: {
-					 DisplayName: "Włącz Celowanie Latarkami"
-					 Description: "Gdy włączone, oświetlenie z przedmiotów takich jak 'Hełm Góniczy' będzie podączać za kursorem."
+					DisplayName: "Włącz Celowanie Latarkami"
+					Description: "Gdy włączone, oświetlenie z przedmiotów takich jak 'Hełm Góniczy' będzie podączać za kursorem."
 				}
 
 				EnableImprovedMeleeAnimations: {
-					 DisplayName: "Włącz Ulepszone Animacje Walki Wręcz"
-					 Description:
+					DisplayName: "Włącz Ulepszone Animacje Walki Wręcz"
+					Description:
 						'''
 						Gdy włączone, zamach bronią wręcz zostanie zmieniony na bardzeij nagły, ze zmiennym kierunkiem.
 						Najlepiej pozostawić włączone, gdyż najlepiej naśladuje czas i kierunek obszaru działania broni.
-						''' 
+						'''
 				}
 
 				EnableMeleeSlashVisualization: {
-					 DisplayName: "Włącz Wizualizację Cięcia"
-					 Description:
+					DisplayName: "Włącz Wizualizację Cięcia"
+					Description:
 						'''
 						Gdy włączone, przy zamachu bronią wręcz pojawi się okrężne cięcie.
 						Najlepiej pozostawić włączone, gdyż najlepiej naśladuje zasięg i obszar działania broni.
-						''' 
+						'''
 				}
 
 				EnablePlayerHeadRotation: {
@@ -368,16 +368,16 @@ Mods: {
 			}
 
 			Tweaks: {
-				 DisplayName: "Drobne Poprawki"
-				 Description: "Ta kategoria zawiera malutkie zmiany technicznę które pewnie cię nie obchodzą."
+				DisplayName: "Drobne Poprawki"
+				Description: "Ta kategoria zawiera malutkie zmiany technicznę które pewnie cię nie obchodzą."
 
 				DisplaySystemCursorWithDisabledUI: {
-					 DisplayName: "Pokaż Kursor Systemowy Przy Wyłączonym UI"
-					 Description:
+					DisplayName: "Pokaż Kursor Systemowy Przy Wyłączonym UI"
+					Description:
 						'''
 						Gdy włączone, kursor systemu operacyjnego będzie widoczny gdy UI gry zostanie wyłączony klawiszem F11.
 						To malutka zmiania pomagająca w nagrywaniu rozgrywki bez UI, gdyż programy do nagrywania mogą ukryć kursor systemowy.
-						''' 
+						'''
 				}
 			}
 		}
@@ -412,38 +412,38 @@ Mods: {
 
 		ItemOverhauls: {
 			Archery: {
-				 HoverShots:
+				HoverShots:
 					'''
 					[[Zawiśnij w Powietrzu]] ładując broń podczas skoku
 					Wykonaj [[Strzał z Zawisu]] dla jeszcze większej prędkości
-					''' 
-				 ManualCharging:
+					'''
+				ManualCharging:
 					'''
 					Przytrzymaj prawy przycisk myszy aby [[Manualnie Naładować]] swoją broń
 					Puść w dowolnym momencie aby [[Dostroić]] prędkość i obrażenia strzału
-					''' 
+					'''
 			}
 
 			Melee: {
-				 AirCombatInfo:
+				AirCombatInfo:
 					'''
 					[[Atakuj Przeciwników w Powietrzu]] by zystać prędkość, utrzymać wysokość, albo uciec!
 					Użyj klawiszy ruchu podczas ataku by kontrolować zyskaną prędkość!
-					''' 
-				 PowerStrikeInfo: "Naładuj [[Wzmocniony Atak]] poprzez przycisk alternatywnego użycia!"
-				 VelocityBasedDamageInfo:
+					'''
+				PowerStrikeInfo: "Naładuj [[Wzmocniony Atak]] poprzez przycisk alternatywnego użycia!"
+				VelocityBasedDamageInfo:
 					'''
 					[[I'm szybciej się poruszasz - tym mocniej uderzysz!]]
 					Polącz ataki ze zrywem a nawet użyj grawitacji!
-					''' 
+					'''
 
 				Broadsword: {
-					 KillingBlow: "Zabójczy Cios!"
-					 KillingBlowInfo:
+					KillingBlow: "Zabójczy Cios!"
+					KillingBlowInfo:
 						'''
 						Wykonaj [[Zabójcze Ciosy]] wykonując [[naładowany atak]] na rannych wrogach,
 						mnożąc obrażenia o [[x{0}]] jeśli wykończyło by to wroga
-						''' 
+						'''
 				}
 			}
 		}
@@ -469,7 +469,7 @@ Mods: {
 
 		Keybinds: {
 			Dodgeroll: {
-				 DisplayName: "Unik"
+				DisplayName: "Unik"
 			}
 		}
 
