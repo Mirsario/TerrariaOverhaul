@@ -34,6 +34,9 @@
 - Heavily improved combat info tooltips. They now have far more information and feature formatting and color highlighting. They were also added to Hammers, Axes and Pickaxes.
 - Changed mana pickups' particles, fixed these particles being influenced by the local player's movement.
 
+### Localization
+- Polish - PR [#205](https://github.com/Mirsario/TerrariaOverhaul/pull/205) by **J00niper**.
+
 ### Fixes
 - Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated).
 - Partially fixed issue [#198](https://github.com/Mirsario/TerrariaOverhaul/issues/198) (Various problems with 1.4.4 sword changes):
