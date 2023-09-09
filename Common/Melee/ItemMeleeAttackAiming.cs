@@ -82,7 +82,7 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 			DebugSystem.DrawRectangle(itemHitbox, Color.LightGoldenrodYellow);
 		}
 
-		float range = 0f;
+		float sqrRange = 0f;
 		var playerCenter = player.Center;
 
 		for (int i = 0; i < 4; i++) {
@@ -93,10 +93,12 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 				3 => itemHitbox.BottomLeft(),
 				_ => throw new InvalidOperationException()
 			};
-			float distanceToCorner = Vector2.Distance(playerCenter, corner);
+			float sqrDistanceToCorner = Vector2.DistanceSquared(playerCenter, corner);
 
-			range = Math.Max(range, distanceToCorner);
+			sqrRange = Math.Max(sqrRange, sqrDistanceToCorner);
 		}
+
+		float range = sqrRange > 0f ? MathF.Sqrt(sqrRange) : 0f;
 
 		IModifyItemMeleeRange.Invoke(item, player, ref range);
 
@@ -124,9 +126,9 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 			itemRectangle.Width = (int)size.X;
 			itemRectangle.Height = (int)size.Y;
 		}
-		
+
 		float adjustedItemScale = player.GetAdjustedItemScale(item);
-		
+
 		itemRectangle.Width = (int)(itemRectangle.Width * adjustedItemScale);
 		itemRectangle.Height = (int)(itemRectangle.Height * adjustedItemScale);
 
@@ -154,7 +156,7 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 			itemRectangle.Width = (int)(itemRectangle.Width * 1.4);
 			itemRectangle.Y += (int)(itemRectangle.Height * 0.6);
 			itemRectangle.Height = (int)(itemRectangle.Height * 0.6);
-			
+
 			if (item.type == ItemID.Umbrella || item.type == ItemID.TragicUmbrella) {
 				itemRectangle.Height += 14;
 				itemRectangle.Width -= 10;
