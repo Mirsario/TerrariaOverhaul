@@ -33,9 +33,9 @@
 - **Translated:** `0` out of `177` (`177` missing!)
 
 ## pl-PL
-- **Status:** ⚠️ Incomplete!
-- **Completion:** ***50.3%***
-- **Translated:** `89` out of `177` (`88` missing!)
+- **Status:** ✅ Full!
+- **Completion:** ***100.0%***
+- **Translated:** `177` out of `177` (`0` missing!)
 
 ## pt-BR
 - **Status:** ⚠️ Incomplete!
