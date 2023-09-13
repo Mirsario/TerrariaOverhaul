@@ -30,6 +30,9 @@
 
 # Work In Progress
 
+### Additions
+- Opening doors with dodgerolls will now deal high-knockback damage to entities.
+
 ### Changes
 - Heavily improved combat info tooltips. They now have far more information and feature formatting and color highlighting. They were also added to Hammers, Axes and Pickaxes.
 - Changed mana pickups' particles, fixed these particles being influenced by the local player's movement.
