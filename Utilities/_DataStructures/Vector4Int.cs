@@ -35,8 +35,14 @@ public struct Vector4Int
 	public override bool Equals(object? other)
 		=> other is Vector4Int v && X == v.X && Y == v.Y && Z == v.Z && W == v.W;
 
+	public readonly void Deconstruct(out int x, out int y)
+	{
+		x = X;
+		y = Y;
+	}
+
 	// Vector4Int
-	
+
 	public static Vector4Int operator +(Vector4Int a, Vector4Int b) => new(a.X + b.X, a.Y + b.Y, a.Z + b.Z, a.W + b.W);
 	
 	public static Vector4Int operator -(Vector4Int a, Vector4Int b) => new(a.X - b.X, a.Y - b.Y, a.Z - b.Z, a.W - b.W);
