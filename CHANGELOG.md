@@ -40,6 +40,9 @@
 ### Localization
 - Polish - PR [#205](https://github.com/Mirsario/TerrariaOverhaul/pull/205) by **J00niper**.
 
+### Optimizations
+- Improved performance of flood fill algorithms, which the mod uses mostly to analyze the player's surroundings for sound reverberation & occlusion.
+
 ### Fixes
 - Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated).
 - Partially fixed issue [#198](https://github.com/Mirsario/TerrariaOverhaul/issues/198) (Various problems with 1.4.4 sword changes):
@@ -47,6 +50,7 @@
 	- Fixed the following projectile-only swords not getting the broadsword overhaul: `Night's Edge`, `Excalibur`, `True Excalibur`, `True Night's Edge`, `Terra Blade`, `The Horseman's Blade`.
 	- Fixed `Blade of Grass` and projectile-only swords being able to create projectiles during a power attack charge.
 	- Fixed projectile-only swords not being fully aimable.
+- Fixed a possible `IndexOutOfRangeException` in `FloodFill` method used by `SurroundingsReverb`.
 
 # 5.0 BETA 13B
 
