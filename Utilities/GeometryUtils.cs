@@ -8,52 +8,63 @@ namespace TerrariaOverhaul.Utilities;
 
 public static class GeometryUtils
 {
-	public delegate void CancellablePositionCallback(Vector2Int position, ref bool stop);
-
-	public static void BresenhamLine(Vector2Int start, Vector2Int end, CancellablePositionCallback action)
+	/// <summary>
+	/// Enumerator, to be used within a foreach.
+	/// </summary>
+	public ref struct BresenhamLine
 	{
-		Vector2Int currentPosition = start;
+		private readonly int shortest;
+		private readonly int longest;
+		private readonly Vector2Int stepA;
+		private readonly Vector2Int stepB;
+		private int i;
+		private int numerator;
 
-		int width = end.X - start.X;
-		int height = end.Y - start.Y;
+		public Vector2Int Current { get; private set; }
 
-		Vector2Int stepA = default;
-		Vector2Int stepB = default;
+		public BresenhamLine(Vector2Int start, Vector2Int end)
+		{
+			int width = end.X - start.X;
+			int height = end.Y - start.Y;
 
-		stepA.X = Math.Sign(width);
-		stepA.Y = Math.Sign(height);
-		stepB.X = Math.Sign(width);
+			stepA = new Vector2Int(Math.Sign(width), Math.Sign(height));
+			stepB = new Vector2Int(Math.Sign(width), 0);
+			longest = Math.Abs(width);
+			shortest = Math.Abs(height);
 
-		int longest = Math.Abs(width);
-		int shortest = Math.Abs(height);
+			if (longest <= shortest) {
+				longest = Math.Abs(height);
+				shortest = Math.Abs(width);
 
-		if (longest <= shortest) {
-			longest = Math.Abs(height);
-			shortest = Math.Abs(width);
+				stepB.X = 0;
+				stepB.Y = Math.Sign(height);
+			}
 
-			stepB.X = 0;
-			stepB.Y = Math.Sign(height);
+			i = -1;
+			numerator = longest >> 1;
+			Current = start;
 		}
 
-		int numerator = longest >> 1;
-		bool stop = false;
-
-		for (int i = 0; i <= longest; i++) {
-			action(currentPosition, ref stop);
-
-			if (stop) {
-				return;
+		public bool MoveNext()
+		{
+			if (i++ > longest) {
+				return false;
 			}
 
 			numerator += shortest;
 
 			if (!(numerator < longest)) {
 				numerator -= longest;
-				currentPosition += stepA;
+				Current += stepA;
 			} else {
-				currentPosition += stepB;
+				Current += stepB;
 			}
+
+			return true;
 		}
+
+		public readonly BresenhamLine GetEnumerator()
+			=> this;
 	}
 
 	/// <summary>

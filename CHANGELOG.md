@@ -43,7 +43,8 @@
 - French - PR [#208](https://github.com/Mirsario/TerrariaOverhaul/pull/208) by **orian34**.
 
 ### Optimizations
-- Improved performance of flood fill algorithms, which the mod uses mostly to analyze the player's surroundings for sound reverberation & occlusion.
+- Improved performance of the implementation of the flood fill algorithm, which the mod uses mostly to analyze the player's surroundings for sound reverberation & wall-based occlusion.
+- Slightly improved performance of the implementation of the Bresenham Line algorithm, which the mod uses for block-based sound occlusion checking.
 
 ### Fixes
 - Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated).
