@@ -113,6 +113,6 @@ public abstract class AmbienceTrack : ModType
 			return;
 		}
 
-		SoundUtils.UpdateLoopingSound(ref instanceReference, Sound, Volume, CameraSystem.ScreenCenter);
+		SoundUtils.UpdateLoopingSound(ref instanceReference, Sound, Volume, null);
 	}
 }

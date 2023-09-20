@@ -53,6 +53,7 @@
 	- Fixed the following projectile-only swords not getting the broadsword overhaul: `Night's Edge`, `Excalibur`, `True Excalibur`, `True Night's Edge`, `Terra Blade`, `The Horseman's Blade`.
 	- Fixed `Blade of Grass` and projectile-only swords being able to create projectiles during a power attack charge.
 	- Fixed projectile-only swords not being fully aimable.
+- Fixed ambience sounds' instances having a position, and thus being subject to rather inadequate and irritating sound occlusion & low pass filtering.
 - Fixed a possible `IndexOutOfRangeException` in `FloodFill` method used by `SurroundingsReverb`.
 
 # 5.0 BETA 13B
