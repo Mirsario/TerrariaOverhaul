@@ -40,6 +40,7 @@
 ### Localization
 - Polish - PR [#205](https://github.com/Mirsario/TerrariaOverhaul/pull/205) by **J00niper**.
 - Spanish - PR [#207](https://github.com/Mirsario/TerrariaOverhaul/pull/207) by **cottonman132**.
+- French - PR [#208](https://github.com/Mirsario/TerrariaOverhaul/pull/208) by **orian34**.
 
 ### Optimizations
 - Improved performance of flood fill algorithms, which the mod uses mostly to analyze the player's surroundings for sound reverberation & occlusion.
