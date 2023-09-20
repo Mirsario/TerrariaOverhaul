@@ -20,20 +20,9 @@ public static class GeometryUtils
 		Vector2Int stepA = default;
 		Vector2Int stepB = default;
 
-		if (width < 0)
-			stepA.X = -1;
-		else if (width > 0)
-			stepA.X = 1;
-
-		if (height < 0)
-			stepA.Y = -1;
-		else if (height > 0)
-			stepA.Y = 1;
-
-		if (width < 0)
-			stepB.X = -1;
-		else if (width > 0)
-			stepB.X = 1;
+		stepA.X = Math.Sign(width);
+		stepA.Y = Math.Sign(height);
+		stepB.X = Math.Sign(width);
 
 		int longest = Math.Abs(width);
 		int shortest = Math.Abs(height);
@@ -42,12 +31,8 @@ public static class GeometryUtils
 			longest = Math.Abs(height);
 			shortest = Math.Abs(width);
 
-			if (height < 0)
-				stepB.Y = -1;
-			else if (height > 0)
-				stepB.Y = 1;
-
 			stepB.X = 0;
+			stepB.Y = Math.Sign(height);
 		}
 
 		int numerator = longest >> 1;
@@ -71,19 +56,10 @@ public static class GeometryUtils
 		}
 	}
 
-	public static FloodFillEnumerator FloodFill(Vector2Int start, int extents)
-		=> FloodFill(start, new Vector4Int(extents, extents, extents, extents));
-
-	public static FloodFillEnumerator FloodFill(Vector2Int start, Vector2Int extents)
-		=> FloodFill(start, new Vector4Int(extents.X, extents.Y, extents.X, extents.Y));
-
-	public static FloodFillEnumerator FloodFill(Vector2Int start, Vector4Int extents)
-		=> FloodFill(start, new Rectangle(start.X - extents.X, start.Y - extents.Y, start.X + extents.Z, start.Y + extents.W));
-
-	public static FloodFillEnumerator FloodFill(Vector2Int start, Rectangle areaRectangle)
-		=> new(start, areaRectangle);
-
-	public ref struct FloodFillEnumerator
+	/// <summary>
+	/// Enumerator, to be used within a foreach. Every enumeration step should update <see cref="Result.IsPointFree"/>.
+	/// </summary>
+	public ref struct FloodFill
 	{
 		public readonly ref struct Result
 		{
@@ -122,7 +98,7 @@ public static class GeometryUtils
 
 		public readonly Result Current => result;
 
-		public FloodFillEnumerator(Vector2Int startPosition, Rectangle rectangle)
+		public FloodFill(Vector2Int startPosition, Rectangle rectangle)
 		{
 			stackReads = 0;
 			stackWrites = 0;
@@ -201,7 +177,7 @@ public static class GeometryUtils
 			}
 		}
 
-		public readonly FloodFillEnumerator GetEnumerator()
+		public readonly FloodFill GetEnumerator()
 			=> this;
 	}
 }

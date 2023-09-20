@@ -42,7 +42,7 @@ public sealed class WallSoundOcclusion : ModSystem
 		int requiredWallTiles = (int)(maxTiles * RequiredWallRatio);
 		int numWalls = 0;
 
-		foreach (var p in GeometryUtils.FloodFill(areaCenter, areaRectangle.ClampTileCoordinates())) {
+		foreach (var p in new GeometryUtils.FloodFill(areaCenter, areaRectangle.ClampTileCoordinates())) {
 			var (x, y) = p.Point;
 			Tile tile = Main.tile[x, y];
 

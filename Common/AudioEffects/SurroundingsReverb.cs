@@ -45,7 +45,7 @@ public sealed class SurroundingsReverb : ModSystem
 		int maxTiles = areaRectangle.Width * areaRectangle.Height;
 		int maxReverbTiles = (int)(maxTiles * MaxReverbTileRatio) + 1;
 
-		foreach (var p in GeometryUtils.FloodFill(areaCenter, areaRectangle.ClampTileCoordinates())) {
+		foreach (var p in new GeometryUtils.FloodFill(areaCenter, areaRectangle.ClampTileCoordinates())) {
 			var (x, y) = p.Point;
 			Tile tile = Main.tile[x, y];
 
