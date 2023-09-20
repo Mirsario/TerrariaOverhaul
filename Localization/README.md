@@ -18,9 +18,9 @@
 - **Translated:** `177` out of `177` (`0` missing!)
 
 ## es-ES
-- **Status:** ⚠️ Incomplete!
-- **Completion:** ***45.2%***
-- **Translated:** `80` out of `177` (`97` missing!)
+- **Status:** ✅ Full!
+- **Completion:** ***100.0%***
+- **Translated:** `177` out of `177` (`0` missing!)
 
 ## fr-FR
 - **Status:** ✅ Full!
