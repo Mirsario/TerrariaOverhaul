@@ -2,7 +2,7 @@
 using Terraria;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Common.PlayerEffects;
+namespace TerrariaOverhaul.Common.EntityEffects;
 
 [Autoload(Side = ModSide.Client)]
 public sealed class PlayerTrailEffects : ModPlayer

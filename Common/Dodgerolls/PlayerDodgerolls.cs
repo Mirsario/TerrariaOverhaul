@@ -9,7 +9,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Damage;
 using TerrariaOverhaul.Common.Movement;
-using TerrariaOverhaul.Common.PlayerEffects;
+using TerrariaOverhaul.Common.EntityEffects;
 using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Networking;

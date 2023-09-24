@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.PlayerEffects;
+namespace TerrariaOverhaul.Common.EntityEffects;
 
 public sealed class PlayerBodyRotation : ModPlayer
 {
@@ -46,16 +46,6 @@ public sealed class PlayerBodyRotation : ModPlayer
 
 			//TODO: If swimming, multiply by 4.
 		}
-
-		/*
-		while (rotation >= MathHelper.TwoPi) {
-			rotation -= MathHelper.TwoPi;
-		}
-		
-		while (rotation <= -MathHelper.TwoPi) {
-			rotation += MathHelper.TwoPi;
-		}
-		*/
 
 		Player.fullRotation = Rotation * Player.gravDir;
 
