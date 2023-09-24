@@ -36,7 +36,7 @@
 ### Changes
 - Heavily improved combat info tooltips. They now have far more information and feature formatting and color highlighting. They were also added to Hammers, Axes and Pickaxes.
 - Changed mana pickups' particles, fixed these particles being influenced by the local player's movement.
-- Removed a 2-tick (33.33 milliseconds) use speed penalty from items that have its auto-reuse (auto-swing) forced on by Overhaul. This is pointless to do now that 1.4.4 Terraria decided to allow auto-reuse for every item as a weird opt-in without rebalancing items to account for that change.
+- Changed how the `Accessibility.ForceAutoReuse` option works. Now it will only exist to make the vanilla global auto-reuse option that was added in Terraria 1.4.4 be enabled by default for players of Overhaul. This change also removes a 2-tick (33.33 milliseconds) use speed penalty from items that had its auto-reuse (auto-swing) forced on by Overhaul, as rebalancing has now been done in vanilla.
 
 ### Localization
 - Polish - PR [#205](https://github.com/Mirsario/TerrariaOverhaul/pull/205) by **J00niper**.
@@ -48,7 +48,7 @@
 - Slightly improved performance of the implementation of the Bresenham Line algorithm, which the mod uses for block-based sound occlusion checking.
 
 ### Compatibility
-- The aforementioned ForceAutoReuse penalty removal works around a compatibility bug in `AFK's Pets` that resulted in many items being used more than once. The cause of that bug issue is still to be fixed by `AFK's Pets` authors.
+- The aforementioned `ForceAutoReuse` penalty removal works around a compatibility bug in `AFK's Pets` that resulted in many items being used more than once. The real cause of that issue will be fixed by `AFK's Pets` authors.
 
 ### Fixes
 - Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated).
