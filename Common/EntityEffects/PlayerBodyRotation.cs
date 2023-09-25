@@ -30,13 +30,7 @@ public sealed class PlayerBodyRotation : ModPlayer
 		}
 
 		if (RotationOffsetScale != 0f && EnablePlayerTilting) {
-			float movementRotation;
-
-			if (Player.OnGround()) {
-				movementRotation = Player.velocity.X * (Player.velocity.X < Main.MouseWorld.X ? 1f : -1f) * 0.025f;
-			} else {
-				movementRotation = MathHelper.Clamp(Player.velocity.Y * Math.Sign(Player.velocity.X) * -0.015f, -0.4f, 0.4f);
-			}
+			float movementRotation = BodyTilting.CalculateRotationOffset(Player.velocity, Player.OnGround(), airMultiplier: 0.8f);
 
 			if (Player.mount.Active) {
 				movementRotation *= 0.5f;
