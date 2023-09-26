@@ -65,7 +65,7 @@ public class PlayerManaEffects : ModPlayer
 		// Sound
 		float lowManaSoundVolume = lowManaEffectIntensity * LowManaSoundVolume.Value;
 
-		SoundUtils.UpdateLoopingSound(ref lowManaSoundSlot, LowManaSound, lowManaSoundVolume, CameraSystem.ScreenCenter);
+		SoundUtils.UpdateLoopingSound(ref lowManaSoundSlot, in LowManaSound, lowManaSoundVolume, CameraSystem.ScreenCenter);
 
 		// Dust
 		if (!Player.dead) {
@@ -103,7 +103,7 @@ public class PlayerManaEffects : ModPlayer
 		// Sound
 		float manaRegenSoundVolume = manaRegenEffectIntensity * ManaRegenerationSoundVolume.Value;
 		
-		SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, ManaRegenSound, manaRegenSoundVolume, CameraSystem.ScreenCenter);
+		SoundUtils.UpdateLoopingSound(ref manaRegenSoundSlot, in ManaRegenSound, manaRegenSoundVolume, CameraSystem.ScreenCenter);
 
 		// Dust
 		if (!Player.dead) {

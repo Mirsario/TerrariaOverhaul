@@ -135,9 +135,15 @@ public sealed partial class EnvironmentSystem : ModSystem
 	public static void RegisterSignalUpdater(Tag tag, SignalUpdater function)
 		=> signalUpdaters.Add((tag, function));
 
+
+	public static bool TryGetSignal(Tag tag, out float signal)
+	{
+		return environmentSignals.TryGetValue(tag, out signal);
+	}
+
 	public static float GetSignal(Tag tag)
 	{
-		environmentSignals.TryGetValue(tag, out float signal);
+		TryGetSignal(tag, out float signal);
 
 		return signal;
 	}

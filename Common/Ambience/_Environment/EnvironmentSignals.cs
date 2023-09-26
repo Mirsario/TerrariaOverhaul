@@ -36,7 +36,7 @@ public static class EnvironmentSignals
 		=> WorldLocationUtils.UnderSurfaceGradient.GetValue(context.PlayerTilePosition.Y);
 
 	[EnvironmentSignalUpdater]
-	private static float SpaceGradientAltitude(in EnvironmentContext context)
+	private static float SpaceAltitude(in EnvironmentContext context)
 		=> WorldLocationUtils.SpaceGradient.GetValue(context.PlayerTilePosition.Y);
 
 	// Weather

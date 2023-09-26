@@ -38,6 +38,7 @@
 - Heavily improved combat info tooltips. They now have far more information and feature formatting and color highlighting. They were also added to Hammers, Axes and Pickaxes.
 - Changed mana pickups' particles, fixed these particles being influenced by the local player's movement.
 - Changed how the `Accessibility.ForceAutoReuse` option works. Now it will only exist to make the vanilla global auto-reuse option that was added in Terraria 1.4.4 be enabled by default for players of Overhaul. This change also removes a 2-tick (33.33 milliseconds) use speed penalty from items that had its auto-reuse (auto-swing) forced on by Overhaul, as rebalancing has now been done in vanilla.
+- The ambience system has now been made fully data-driven, utilizing HJSON files for declaring ambience tracks. This changes nothing for users, but it's now easy to contribute expansions to the ambience module without a need to know any programming. Check out [Content/Ambience/README.md](https://github.com/Mirsario/TerrariaOverhaul/blob/dev/Content/Ambience/README.md) if you're interested!
 - Slightly altered velocity-based tilting effects on player characters.
 
 ### Localization

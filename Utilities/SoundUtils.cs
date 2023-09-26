@@ -6,13 +6,13 @@ namespace TerrariaOverhaul.Utilities;
 
 public static class SoundUtils
 {
-	public static void UpdateLoopingSound(ref SlotId slot, SoundStyle style, float volume, Vector2? position)
+	public static void UpdateLoopingSound(ref SlotId slot, in SoundStyle style, float volume, Vector2? position)
 	{
 		SoundEngine.TryGetActiveSound(slot, out var sound);
 
 		if (volume > 0f) {
 			if (sound == null) {
-				slot = SoundEngine.PlaySound(style, position);
+				slot = SoundEngine.PlaySound(in style, position);
 				return;
 			}
 
