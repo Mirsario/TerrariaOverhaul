@@ -1,0 +1,3 @@
+# Highlight HJSON as JSON5, for the former lacks GitHub highlighting & maintenance.
+*.hjson linguist-language=JSON5
+*.prefab linguist-language=JSON5
