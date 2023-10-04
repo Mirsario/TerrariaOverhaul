@@ -1,138 +1,138 @@
 UI: {
-	// Creative: "Journey"
-	// Normal: "I'm Too Young to Mine"
-	// Expert: "Bone Me Plenty"
-	// Master: "I Am Cthulhu Incarnate"
-	// WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
-	// WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
-	// WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
-	// WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
+	 Creativa: "Journey"
+	 Classico: "Sono troppo giovane per minare"
+	 Esperto: "Bone Me Plenty"
+	 Maestro: "Sono Cthulhu Incarnato"
+	 WorldDescriptionCreative: "La modalità creativa / accessibilità (per coloro che vogliono essere in controllo)"
+	 WorldDescriptionNormal: "meno danno dai nemici, ma stesse ricompense (Per i più rilassati)"
+	 WorldDescriptionExpert: "La nuova esperienza standard (Per coloro che vogliono una giusta sfida)"
+	 WorldDescriptionMaster: "Punizioni estreme e nuove ricompense (per i veri duri)"
 }
 
 Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
-			// Configuration: "Configuration"
-			// DiscordServer: "Discord Server"
-			// ForumPage: "Forum Page"
-			// WikiPage: "Overhaul Wiki"
-			// Github: "GitHub"
+			 Configuration: "Configurazione"
+			 DiscordServer: "server di Discord"
+			 ForumPage: "Pagina forum"
+			 WikiPage: "Overhaul Wiki"
+			 Github: "GitHub"
 
 			MusicPack: {
-				// Get: "Get the Music Pack"
-				// Enable: "Enable the Music Pack"
+				 Get: "ottieni il pacchetto musicale"
+				 Enable: "attiva il pacchetto musicale"
 			}
 		}
 
 		Notifications: {
-			// AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate some of its audio filtering effects. Make sure that your audio drivers are up to date."
+			 AudioFilteringTestFailure: "Attenzione: TerrariaOverhaul non è stato in grado di attivare alcuni dei suoi filtri d'audio. Assicurati che i tuoi driver audio siano aggiornati."
 		}
 
 		Configuration: {
 			Accessibility: {
-				// DisplayName: "Accessibility"
-				// Description: "Overhaul contains a few simple changes that allow everyone to experience the game in a more comfortable way."
+				 DisplayName: "Accesibilità"
+				 Description: "Overhaul contiene una serie di semplici cambiamenti che permette a chiunque di sperimentale il gioco in maniera più confortevole."
 
 				ForceAutoReuse: {
-					// DisplayName: "Force Auto-reuse"
-					/* Description:
+					 DisplayName: "Forza il riuso automatico"
+					 Description:
 						'''
-						When enabled, almost every item in the game will be able to be used repeatedly by holding down the use button.
-						Tiny rebalancing measures take place to prevent unintended "60 times a second" usages.
-						Prevents carpal tunnel syndrome, recommended by 10 out of 10 doctors.
-						''' */
+						Quando attivato, quasi ogni oggetto nel gioco potrà essere utilizzato ripetutamente tenendo premuto il pulsante per usarlo.
+						Piccole misure di ribilanciamento avvengono per prevenire utilizzi ''60 volte al secondo'' non previsti.
+						Previene la sindrome del tunnel carpale, raccomandato da 10 dottori su 10.
+						''' 
 				}
 			}
 
 			Ambience: {
-				// DisplayName: "Ambience"
-				// Description: "Overhaul contains many features that help make the game's world feel more immersive."
+				 DisplayName: "Atmosfera"
+				 Description: "Overhaul contiene molte implementazioni che aiutano il mondo di gioco a essere più immersivo."
 
 				EnableAmbientSounds: {
-					// DisplayName: "Enable Ambient Sounds"
-					// Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
+					 DisplayName: "Attiva Suoni Atmosferici"
+					 Description: "Aggiunge loop audio come: uccelli, cavallette, vento, rumori cavernosi, etc."
 				}
 
 				EnableAudioFiltering: {
-					// DisplayName: "Enable Audio Filtering"
-					/* Description:
+					 DisplayName: "Attiva Filtraggio Audio"
+					 Description:
 						'''
-						Toggles low pass filtering and reverberation effects as a whole.
-						Disable this if your game is crashing every time you enter a world.
-						''' */
+						Aggiunge tutti gli effetti di filtraggio low pass (ovattamento) e reverbero.
+						Disattivalo se il gioco si chiude ogni volta che entri in un mondo.
+						''' 
 				}
 
 				EnablePlayerFootsteps: {
-					// DisplayName: "Enable Player Footsteps"
-					// Description: "Toggles player character footstep audio"
+					 DisplayName: "Attiva rumore Passi del Giocatore"
+					 Description: "Aggiunge il rumore dei passi del personaggio giocabile"
 				}
 			}
 
 			Awareness: {
-				// DisplayName: "Awareness"
-				/* Description:
+				 DisplayName: "Consapevolezza"
+				 Description:
 					'''
-					Overhaul implements multiple features that help increase players' awareness of their characters' state,
-					also improving immersion in the process.
-					''' */
+					Overhaul Implementa molti aspetti che aiutano ad aumentare la consapevolezza del giocatore sullo stato del loro personaggio, 
+					Migliorando inoltre l'immedesimazione nel processo.
+					''' 
 
 				LowHealthFilteringIntensity: {
-					// DisplayName: "Low Health Filtering Intensity"
-					// Description: "Controls the intensity of low pass audio filtering (muffling) that occurs when you are low on health."
+					 DisplayName: "Intensità del filtro poca vita"
+					 Description: "Controlla l'intensità del filtro audio low pass (ovattante) che avviene quando hai poca vita"
 				}
 
 				LowHealthSoundVolume: {
-					// DisplayName: "Low Health Sound Volume"
-					// Description: "Controls the volume of the sound that plays when you are low on health."
+					 DisplayName: "Volume del suono poca vita"
+					 Description: "Controlla il volume del suono che si sente quando hai poca vita."
 				}
 
 				LowManaSoundVolume: {
-					// DisplayName: "Low Mana Sound Volume"
-					// Description: "Controls the volume of the sound that plays when you are low on mana."
+					 DisplayName: "Volume del suono mana basso"
+					 Description: "Controlla il volume del suono che si sente quando hai poco mana"
 				}
 
 				ManaRegenerationSoundVolume: {
-					// DisplayName: "Mana Regeneration Sound Volume"
-					// Description: "Controls the volume of the sound that plays when mana is regenerating."
+					 DisplayName: "Volume del suono di rigenerazione del mana"
+					 Description: "Controlla il volume del suono che si sente quando il mana si sta rigenerando."
 				}
 			}
 
 			Banners: {
-				// DisplayName: "Banners"
-				// Description: "Overhaul changes the way banners work, so that they don't end up making enemies feeling too weak."
+				 DisplayName: "Stendardi"
+				 Description: "Overhaul cambia il modo in cui funzionano gli stendardi per non lasciare che facciano sembrare i nemici troppo deboli."
 
 				BannerReworkEnabled: {
-					// DisplayName: "Banner Rework Enabled"
-					/* Description:
+					 DisplayName: "Attiva Modifica agli stendardi"
+					 Description:
 						'''
-						The banner rework removes banners' effects of lowering enemies' health and damage, instead replacing that with double loot and coin drops.
-						Both the drop chance and drop quantity are affected.
-						''' */
+						La modifica agli stendardi ne rimuove gli effetti di diminuzione della vita e danni dei nemici, rimpiazzandoli con bottino e monete raddoppiate.
+						Sia la possibilità che la quantità del bottino è aumentata.
+						''' 
 				}
 			}
 
 			BloodAndGore: {
-				// DisplayName: "Blood and Gore"
-				/* Description:
+				 DisplayName: "Sangue e violenza"
+				 Description:
 					'''
-					Overhaul improves violence-related audio, visuals, and interactivity,
-					vastly increasing the overall satisfaction level of the game's combat.
-					''' */
+					Overhaul migliora l'audio, l'aspetto e l'interagibilità della violenza,
+					migliorando vastamente la soddisfazione del combattimento nel gioco.
+					''' 
 
 				EnableDecals: {
-					// DisplayName: "Enable Decals"
-					// Description: "Toggles decals, also known as 'blood on tiles'."
+					 DisplayName: "Attiva decalcomanie"
+						 Description: "Aggiunge decalcomanie, Conosciute anche come ''sangue sui blocchi."
 				}
 
 				EnableGoreStay: {
-					// DisplayName: "Enable Gore Stay"
-					// Description: "When enabled, gore (or more specifically 'gibs') will not disappear after ~10 seconds."
+					 DisplayName: "Attiva permanenza interiora"
+					 Description: "Quando attiva, le interiora non spariranno prima di ~10 secondi."
 				}
 			}
 
 			Camera: {
-				// DisplayName: "Camera"
-				// Description: "Overhaul implements many camera features that highly improve how the game presents itself."
+				 DisplayName: "Visuale"
+				 Description: "Overhaul implementa molti aspetti della visuale che migliorano drasticamente la presentazione del gioco."
 
 				CameraSmoothness: {
 					// DisplayName: "Camera Smoothness"
