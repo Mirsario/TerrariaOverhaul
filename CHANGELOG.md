@@ -47,6 +47,8 @@
 - French - PR [#208](https://github.com/Mirsario/TerrariaOverhaul/pull/208) by **orian34**.
 
 ### Optimizations
+- Completely rewrote blood particles for the sake of optimization, visible behavior being left mostly the same. The code is now data-oriented, no longer utilizes unnecessary object-oriented tooling such as inheritance, virtual calls, and needless references and reallocations, altogether minimizing stress on the Garbage Collector and maximizing CPU cache friendliness. This also introduces an upper limit to the amount of particles, currently set to 1024.
+- Optimized blood color recording by making it reuse collections using a pool, reducing GC stress from collection resizing. This is used by gibs during monster/NPC deaths to determine if gibs should bleed.
 - Improved performance of the implementation of the flood fill algorithm, which the mod uses mostly to analyze the player's surroundings for sound reverberation & wall-based occlusion.
 - Slightly improved performance of the implementation of the Bresenham Line algorithm, which the mod uses for block-based sound occlusion checking.
 
