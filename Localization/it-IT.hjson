@@ -135,101 +135,101 @@ Mods: {
 				 Description: "Overhaul implementa molti aspetti della visuale che migliorano drasticamente la presentazione del gioco."
 
 				CameraSmoothness: {
-					// DisplayName: "Camera Smoothness"
-					/* Description:
+					 DisplayName: "Fluidità visuale"
+					 Description:
 						'''
-						How much damping to apply to the camera's movement to improve the feel of velocity.
-						Set this to zero to disable the feature completely.
-						''' */
+						Quanto smorzamento è applicato al movimento della visuale per migliorare la sensazione di velocità.
+						Impostare a 0 per disattivare completamente l'effetto.
+						''' 
 				}
 
 				LimitCameraUpdateRate: {
-					// DisplayName: "Limit Camera Update Rate"
-					/* Description:
+					 DisplayName: "Limite frequenza aggiornamento schermo"
+					 Description:
 						'''
-						When enabled, the camera update rate is locked to 60hz to prevent the player character spazzing out on high refresh rate monitors.
-						It's currently best that you leave this on.
-						''' */
+						Quando attivo, La frequenza di aggiornamento dello schermo è bloccata 60hz per prevenire che il personaggio giocabile si comporti stranamente su monitor ad alta frequenza di aggiornamento.
+						Per il momento è meglio se lasci questa opzione attiva.
+						''' 
 				}
 
 				ScreenShakeStrength: {
-					// DisplayName: "Screen Shake Strength"
-					/* Description:
+					 DisplayName: "Intensità tremolio schermo"
+					 Description:
 						'''
-						Controls the strength of screen shaking effects.
-						Set this to zero to disable the feature completely.
-						''' */
+						Controlla l'intensità degli effeti che scuotono la visuale.
+						Impostare a 0 per disattivare completamente l'effetto.
+						''' 
 				}
 			}
 
 			DifficultyLevels: {
-				// DisplayName: "Difficulty Levels"
-				/* Description:
+				 DisplayName: "Livelli di difficoltà"
+				 Description:
 					'''
-					Overhaul reimplements game modes as actual difficulty levels, fulfilling the following goals:
-					- Equalization of most stats, removal of bullet sponges from high difficulties and glass enemies from low ones;
-					- (WIP) Removal of mode-exclusivity on content and AI behaviors, less ableism;
-					- (WIP) Focus on variation in concepts such as reaction windows rather than "more damage and health";
-					''' */
+					Overhaul reimplementa le modalità di gioco come veri e propri livelli di difficoltà, Adempiendo i seguenti obbiettivi:
+					- L'equalizzazione della maggior parte delle statische, rimozione dei nemici ''spugna'' delle difficoltà più alte, e dei nemici fragilissimi delle difficoltà più basse;
+					- (WIP) Rimozione dell'esclusività delle modalità più difficli su contenuti e comportamento dei nemici, meno abilismo;
+					- (WIP) Concentrazione sulla variazione di concetti come il tempo di reazione invece che semplicemente ''più danno e più vita'';
+					''' 
 
 				EnableDifficultyChanges: {
-					// DisplayName: "Enable Difficulty Changes"
-					// Description: "Toggles the mod's changes to difficulty levels as a whole."
+					 DisplayName: "Attiva cambiamenti della difficoltà"
+					 Description: "Attiva tutti i cambiamenti sulla difficoltà della mod."
 				}
 			}
 
 			Enemies: {
-				// DisplayName: "Enemies"
-				// Description: "Overhaul contains a few additions to the game's enemies' behavior that aim to make fighting them a little bit more fun."
+				 DisplayName: "Nemici"
+				 Description: "Overhaul contiene qualche addizione al comportamento dei nemici per rendere il combatterli un po' più divertenti."
 
 				EnableEnemyLunges: {
-					// DisplayName: "Enable Enemy Lunges"
-					// Description: "When enabled, walking enemies may lunge at you when they get close."
+					 DisplayName: "Attiva assalti nemici"
+					 Description: "Quando attivo, i nemici che camminano potrebbero saltarti addosso quando ti si avvicinano."
 				}
 			}
 
 			Guns: {
-				// DisplayName: "Guns"
-				// Description: "Overhaul heavily focuses on improving gameplay and feel of the game's firearms."
+				 DisplayName: "Armi da fuoco"
+				 Description: "Overhaul si concentra molto nel migliorare il gameplay e la sensazione delle armi da fuoco del gioco."
 
 				EnableAimingRecoil: {
-					// DisplayName: "Enable Aiming Recoil (Experimental)"
-					/* Description:
+					 DisplayName: "Attiva il rinculo (sperimentale)"
+					 Description:
 						'''
-						When enabled, guns may offset the player's cursor when fired.
-						Experimental feature, disabled by default.
-						''' */
+						Quando attivo, le armi da fuoco possono spostare il cursore del giocatore quando si spara.
+						Addizione sperimentale, disabilitata di base.
+						''' 
 				}
 			}
 
 			Melee: {
-				// DisplayName: "Melee"
-				// Description: "Overhaul completely reimagines the feel and flow of the game's melee weapons, allowing you to hack and slash like never before!"
+				 DisplayName: "Corpo a corpo"
+				 Description: "Overhaul reimmagina la sensazione e fluidità delle armi corpo a corpo, permettendoti di squarciare e tagliare come mai prima d'ora!"
 
 				EnableAirCombat: {
-					// DisplayName: "Enable Air Combat"
-					/* Description:
+					 DisplayName: "Attiva combattimento aereo"
+					 Description:
 						'''
-						Toggles melee air combat, which allows you to accelerate yourself in any direction using movement keys every time you hit an enemy mid-air.
-						Use your foes as stepladders; Chain attacks on flying enemies; Gain greater momentum to fall-strike ground brutes.
+						Attiva il combattimento corpo a corpo aereo, che ti permette di propellerti in qualsiasi direzione usando i tasti per il movimento ogni volta che colpisci un nemico a mezz'aria.
+						Usa i tuoi nemici come sgabelli; Incatena i tuoi attacchi su nemici volanti; Ottiene maggiore momento per colpire in caduta i bruti a terra.
 						''' */
 				}
 
 				EnableProjectileSwordManaUsage: {
-					// DisplayName: "Enable Projectile Sword Mana Usage"
-					/* Description:
+					 DisplayName: "Attiva l'utilizzo di mana dei proiettili della spada"
+					 Description:
 						'''
-						Experimental.
-						When enabled, broadswords that shoot projectiles will use a bit of mana.
-						Mages' mana regeneration and mana drop rules still apply, so this isn't very significant.
-						''' */
+						Sperimentale.
+						Quando attiva, le spade che sparano proiettili userannò un po' di mana.
+						la rigenerazione di mana dei maghi e le regole del rilascio del mana si applicano sempre, quindi il cambiamento non è significativo.
+						''' 
 				}
 
 				EnableSwingVelocity: {
-					// DisplayName: "Enable Swing Velocity"
+					// DisplayName: "Attiva velocità fendente"
 					/* Description:
 						'''
-						When enabled, swinging a melee weapon can accelerate you towards the direction of the swing.
+						Quando attiva, swinging a melee weapon can accelerate you towards the direction of the swing.
 						This can be further controlled using movement keys, as you'll never be thrown forward when you're holding back movement.
 						Use together with power attacks to significantly boost your jumps and damage.
 						''' */
