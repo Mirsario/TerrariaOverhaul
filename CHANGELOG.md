@@ -57,6 +57,7 @@
 
 ### Fixes
 - Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated).
+- Fixed issue [#206](https://github.com/Mirsario/TerrariaOverhaul/issues/206) (Dodgerolling while standing still will be biased to the right).
 - Partially fixed issue [#198](https://github.com/Mirsario/TerrariaOverhaul/issues/198) (Various problems with 1.4.4 sword changes):
 	- Fixed the `Volcano`, `Blood Butcherer`, and a few other melee weapons using incorrect rotations & locations for their particle effects.
 	- Fixed the following projectile-only swords not getting the broadsword overhaul: `Night's Edge`, `Excalibur`, `True Excalibur`, `True Night's Edge`, `Terra Blade`, `The Horseman's Blade`.

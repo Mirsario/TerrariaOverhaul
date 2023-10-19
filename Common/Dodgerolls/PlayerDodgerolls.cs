@@ -130,7 +130,14 @@ public sealed class PlayerDodgerolls : ModPlayer
 		bool isLocal = Player.IsLocal();
 
 		if (isLocal && !DodgeAttemptTimer.Active && DodgerollKey.JustPressed && (!Player.mouseInterface || !Main.playerInventory)) {
-			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), Player.KeyDirection().X >= 0f ? Direction1D.Right : Direction1D.Left);
+			int keyDirection = (int)Player.KeyDirection().X;
+			Direction1D chosenDirection = keyDirection switch {
+				1 => Direction1D.Right,
+				-1 => Direction1D.Left,
+				_ => (Direction1D)Player.direction,
+			};
+
+			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), chosenDirection);
 		}
 
 		if (!ForceDodgeroll) {
