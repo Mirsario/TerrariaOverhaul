@@ -1,4 +1,4 @@
-﻿[img]https://raw.githubusercontent.com/Mirsario/TerrariaOverhaul/1.4/Content/Menus/Logo.png[/img]
+﻿[img]https://raw.githubusercontent.com/Mirsario/TerrariaOverhaul/dev/Content/Menus/Logo.png[/img]
 
 A large mod for Terraria that focuses on increasing overall enjoyment of the game, via improving aspects such as: combat looks, feel, & mechanics, movement, camera, ambience, and even the entire soundtrack.
 

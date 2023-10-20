@@ -4,6 +4,8 @@
 | Version									| Release Date |
 | ----------------------------------------- | ------------ |
 | [Work In Progress](#work-in-progress)		| `TBA`        |
+| [5.0 BETA 13C](#50-beta-13c)				| `2023.10.20` |
+| [5.0 BETA 13B](#50-beta-13b)				| `2023.08.02` |
 | [5.0 BETA 13](#50-beta-13)				| `2023.08.01` |
 | [5.0 BETA 12**C**](#50-beta-12c)			| `2023.03.11` |
 | [5.0 BETA 12**B**](#50-beta-12b)			| `2022.12.25` |
@@ -29,6 +31,10 @@
 | [5.0 BETA 1](#50-beta-1)					| `2021.02.27` |
 
 # Work In Progress
+
+Nothing yet.
+
+# 5.0 BETA 13C
 
 ### Additions
 - Opening doors with dodgerolls will now deal high-knockback damage to entities.
