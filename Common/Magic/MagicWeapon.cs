@@ -65,6 +65,8 @@ public partial class MagicWeapon : ItemOverhaul
 			item.UseSound = MagicBlastSound;
 		}
 
+		ContentSampleUtils.TryGetProjectile(item.shoot, out var shotProjectile);
+
 		item.EnableComponent<ItemPowerAttacks>(c => {
 			c.ChargeLengthMultiplier = 2f;
 
@@ -73,6 +75,12 @@ public partial class MagicWeapon : ItemOverhaul
 			modifiers.ProjectileDamageMultiplier = modifiers.MeleeDamageMultiplier = 1.75f;
 			modifiers.ProjectileKnockbackMultiplier = modifiers.MeleeKnockbackMultiplier = 1.5f;
 			modifiers.ProjectileSpeedMultiplier = 2f;
+
+			// Workaround for Vilethorn-type projectiles stretching too far.
+			// Preferably they'd be still sped up in some way, but it's all too hardcoded in vanilla.
+			if (shotProjectile?.aiStyle == ProjAIStyleID.Vilethorn) {
+				modifiers.ProjectileSpeedMultiplier = 1.0f;
+			}
 
 			c.StatModifiers.Single = modifiers;
 		});
