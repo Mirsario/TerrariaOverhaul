@@ -56,6 +56,7 @@
 - The aforementioned `ForceAutoReuse` penalty removal works around a compatibility bug in `AFK's Pets` that resulted in many items being used more than once. The real cause of that issue will be fixed by `AFK's Pets` authors.
 
 ### Fixes
+- Fixed issue [#186](https://github.com/Mirsario/TerrariaOverhaul/issues/186) (Balloons not functioning).
 - Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated).
 - Fixed issue [#201](https://github.com/Mirsario/TerrariaOverhaul/issues/201) (Large mod trees are cropped when falling).
 - Fixed issue [#202](https://github.com/Mirsario/TerrariaOverhaul/issues/202) (Crystal Vile Shard projectiles stretch too far).
