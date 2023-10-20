@@ -54,7 +54,7 @@ public class GoreStaySystem : ModSystem
 		il.Emit(OpCodes.Ldloca, goreIndexLocalId);
 		il.EmitDelegate(FindGoreSlotToReplace);
 		// If a replacement is found - proceed like 'num' wasn't '600' after all.
-		il.Emit(OpCodes.Brtrue, skipReturnLabel);
+		il.Emit(OpCodes.Brtrue, skipReturnLabel!);
 	}
 
 	private static bool FindGoreSlotToReplace(ref int slot)

@@ -43,7 +43,7 @@ public abstract class ItemOverhaul : GlobalItem
 		ItemIdMapping.Clear();
 	}
 
-	public override GlobalItem Clone(Item item, Item itemClone)
+	public override GlobalItem Clone(Item? item, Item itemClone)
 	{
 		return base.Clone(item, itemClone);
 	}

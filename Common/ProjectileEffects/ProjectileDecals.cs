@@ -95,7 +95,7 @@ public sealed class ProjectileDecals : GlobalProjectile
 		return true;
 	}
 
-	public override void Kill(Projectile projectile, int timeLeft)
+	public override void OnKill(Projectile projectile, int timeLeft)
 	{
 		UpdateMaxSize(projectile);
 		TryCreateDecal(projectile, OnDestroy);
