@@ -33,7 +33,13 @@ public sealed class PlayerBodyRotation : ModPlayer
 			float movementRotation = BodyTilting.CalculateRotationOffset(Player.velocity, Player.OnGround(), airMultiplier: 0.8f);
 
 			if (Player.mount.Active) {
-				movementRotation *= 0.5f;
+				if (Player.mount.Cart) {
+					// Exclude minecarts.
+					movementRotation = 0.0f;
+				} else {
+					// Reduce intensity on mounts.
+					movementRotation *= 0.5f;
+				}
 			}
 
 			Rotation += movementRotation;

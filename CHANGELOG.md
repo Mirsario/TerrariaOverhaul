@@ -67,6 +67,7 @@ Nothing yet.
 - Fixed issue [#201](https://github.com/Mirsario/TerrariaOverhaul/issues/201) (Large mod trees are cropped when falling).
 - Fixed issue [#202](https://github.com/Mirsario/TerrariaOverhaul/issues/202) (Crystal Vile Shard projectiles stretch too far).
 - Fixed issue [#206](https://github.com/Mirsario/TerrariaOverhaul/issues/206) (Dodgerolling while standing still will be biased to the right).
+- Fixed issue [#211](https://github.com/Mirsario/TerrariaOverhaul/issues/211) (Player body rotation ruins minecarts).
 - Fixed recent TML changes resulting in characters preferring to face their movement direction instead of their aiming direction when using swords and other weapons.
 - Partially fixed issue [#198](https://github.com/Mirsario/TerrariaOverhaul/issues/198) (Various problems with 1.4.4 sword changes):
 	- Fixed the `Volcano`, `Blood Butcherer`, and a few other melee weapons using incorrect rotations & locations for their particle effects.
