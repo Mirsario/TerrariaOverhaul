@@ -1,6 +1,6 @@
 UI: {
 	Creative: "旅途"
-	Normal: "我还年轻我不想挖矿"
+	Normal: "我还年轻不想挖矿"
 	Expert: "大力上我"
 	Master: "我是克苏鲁的化身"
 	WorldDescriptionCreative: "创造/无障碍模式（为想要掌控一切的人准备）"
@@ -13,9 +13,9 @@ Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
 			Configuration: "配置"
-			DiscordServer: "Discord 服务器"
+			DiscordServer: "Discord服务器"
 			ForumPage: "官方论坛页面"
-			WikiPage: "Overhaul Wiki"
+			WikiPage: "Overhaul维基"
 			Github: "GitHub"
 
 			MusicPack: {
