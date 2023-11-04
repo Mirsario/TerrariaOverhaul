@@ -25,20 +25,20 @@ Mods: {
 		}
 
 		Notifications: {
-			AudioFilteringTestFailure: "警告：TerrariaOverhaul无法激活音频滤波效果，请确保安装了最新的音频驱动。"
+			AudioFilteringTestFailure: "警告：TerrariaOverhaul无法激活音频过滤效果，请确保安装了最新的音频驱动。"
 		}
 
 		Configuration: {
 			Accessibility: {
 				DisplayName: "无障碍"
-				Description: "Overhaul包含一些简单的游戏性修改，以使每个人都能以更舒适的方式体验游戏。 "
+				Description: "Overhaul包含一些简单的游戏性修改，以便所有人以更舒适的方式体验游戏。"
 
 				ForceAutoReuse: {
 					DisplayName: "强制自动挥舞"
 					Description:
 						'''
-						启用后，游戏中的几乎所有物品都可以通过按住使用按钮来重复使用。
-						自带微小的平衡措施来防止意外的“每秒使用60次”。
+						启用后，游戏中的几乎所有物品都可以通过按住使用按钮来持续使用。
+						附带微小的平衡措施来防止意外的“每秒使用60次”。
 						预防腕管综合症，医生百分百推荐。
 						'''
 				}
@@ -128,7 +128,7 @@ Mods: {
 
 			Camera: {
 				DisplayName: "相机"
-				Description: "Overhaul implements many camera features that highly improve how the game presents itself."
+				Description: "Overhaul包含许多相机优化功能，极大地改进了游戏的呈现方式。"
 
 				CameraSmoothness: {
 					DisplayName: "相机平滑移动"
@@ -160,7 +160,7 @@ Mods: {
 					'''
 					Overhaul对游戏难度进行了重新平衡，以实现以下目标：
 					- 大部分数据的平衡，避免了高难度中部分敌怪血量奇高和低难度中无双割草的情况
-					- [未完成] 不再有特定难度独占的AI和内容，关怀手残党
+					- [未完成] 原先特定难度独占的AI和内容现在全难度通用，关怀手残党
 					- [未完成] 专注于敌怪行为上的变化（如提升反应力需求）而不是无脑增加伤害和血量
 					'''
 
@@ -213,15 +213,15 @@ Mods: {
 						'''
 						实验性功能
 						启用后，能够发射射弹的剑将消耗一定魔力。
-						法师的魔力恢复和魔力星掉落仍然适用，因此此项更改并不显著。
+						法师的魔力恢复和魔力星掉落仍然适用，因此该更改并不显著。
 						'''
 				}
 
 				EnableSwingVelocity: {
-					DisplayName: "启用挥砍加速"
+					DisplayName: "启用挥砍推进"
 					Description:
 						'''
-						启用后，挥舞近战武器可以向挥舞的方向加速。
+						启用后，挥舞近战武器可以令玩家角色向挥舞的方向加速。
 						可以通过使用方向键来控制，在保持向后移动时不会向前加速。
 						与重击一起使用，可以显著提高你的跳跃高度和伤害。
 						'''
@@ -248,7 +248,7 @@ Mods: {
 				Description:
 					'''
 					Overhaul包含了对游戏音乐播放行为的几项改进。
-					此外，还包含一套完整的重制音轨 - 点击屏幕左上角的按钮以启用！
+					此外，还包含一套完整的重制音乐 - 点击屏幕左上角的按钮以启用！
 					'''
 
 				EnableMusicPlaybackPositionPreservation: {
@@ -257,7 +257,7 @@ Mods: {
 						'''
 						启用后，音轨会暂停在已播放到的位置，而不是从头开始。
 						也就是说，每当你回到你已经去过的生物群落时，其音乐将接着你离开时的进度播放。
-						在环游世界时不再总是循环播放音乐的开头，极大地改善了游戏体验。
+						在环游世界时不再总是“循环播放”音乐的开头，极大地改善了游戏体验。
 						'''
 				}
 			}
@@ -273,19 +273,19 @@ Mods: {
 
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "应用垂直加速度更改"
-					Description: "开关空气阻力和（几乎）无限制的最大坠落速度。"
+					Description: "空气阻力和（几乎）无限制的最大坠落速度。"
 				}
 
 				EnableHorizontalAccelerationChanges: {
 					DisplayName: "应用水平加速度更改"
-					Description: "开关水平阻力、最大奔跑速度和加速度的更改。"
+					Description: "水平阻力、最大奔跑速度和加速度的更改。"
 				}
 
 				EnableBunnyhopping: {
 					DisplayName: "启用连跳加速"
 					Description:
 						'''
-						连跳(兔子跳)会在每次跳跃时给你带来轻微的水平速度提升。
+						连跳会在每次跳跃时给你带来轻微的水平速度提升。
 						关闭此功能将禁用某些饰品的效果。
 						'''
 				}
@@ -299,9 +299,9 @@ Mods: {
 					DisplayName: "启用钩爪物理"
 					Description:
 						'''
-						启用后，钩爪的行为将改变，可以通过方向键在钩爪附近晃荡。
+						启用后，钩爪的行为将改变，可以通过方向键绕着钩子晃荡。
 						注意：按住钩爪快捷键不放会将你拉到钩爪除，就像原版一样，因此你不需要在这两种行为之间进行选择，而是可以将它们结合起来使用。
-						注意：此功能不适用于游戏中的所有钩爪，此外，同时勾住多处时与原版行为一致。
+						注意：此功能不适用于游戏中的所有钩爪，此外，同时勾住多处时行为与原版一致。
 						'''
 				}
 
@@ -310,7 +310,7 @@ Mods: {
 					Description:
 						'''
 						蹬墙跳是一种新的运动机制，需要装备有攀爬装备或钉鞋才能完成。
-						背对着冲向墙，在触碰墙面的同时按下向上键，同时放开水平方向键，即可完成此动作。
+						背对着冲向墙，在触碰墙面的同时按下向上键，同时松开水平方向键，即可完成此动作。
 						'''
 				}
 
@@ -343,7 +343,7 @@ Mods: {
 					Description:
 						'''
 						启用后，近战武器挥舞动画将改为更直接的挥舞，且挥舞方向交替切换。
-						推荐开启，因为其极大程度地模拟了近战伤害碰撞的时机和方向。
+						推荐开启，因为其极大程度地模拟了造成近战伤害的时机和方向。
 						'''
 				}
 
@@ -415,7 +415,7 @@ Mods: {
 				HoverShots:
 					'''
 					通过在跳跃时为武器蓄力以[[悬在半空]]
-					通过[[悬浮射击]]以获得更高的速度
+					通过[[悬浮时射击]]以获得更高的速度
 					'''
 				ManualCharging:
 					'''
@@ -430,11 +430,11 @@ Mods: {
 					[[攻击空中的敌人]]以获得速度，保持高度，以及撤退！
 					在攻击过程中使用方向键来控制你的移动！
 					'''
-				PowerStrikeInfo: "通过连续挥砍来为[[强力斩击]]充能！"
+				PowerStrikeInfo: "通过连续挥砍来为[[强力斩击]]蓄能！"
 				VelocityBasedDamageInfo:
 					'''
 					[[移动得越快 - 斩击就越狠！]]
-					将你的攻击与冲刺相结合，利用重力摧毁敌人！
+					将你的攻击与冲刺相结合，或利用重力加速度摧毁敌人！
 					'''
 
 				Broadsword: {
@@ -456,7 +456,7 @@ Mods: {
 			RightClickAudioCuesDisabled: "音效提示已关闭"
 
 			GrapplingHooks: {
-				ClassicPullTip: "按住钩爪键使用以像原版一样将玩家拉动"
+				ClassicPullTip: "按住钩爪快捷键使用以像原版一样将玩家拉动"
 			}
 		}
 
@@ -497,8 +497,8 @@ Mods: {
 				DisplayName: "砍杀"
 				Description:
 					'''
-					移动得越快，砍杀就越狠
-					近战伤害乘数 x{Multiplier}
+					移动得越快，砍得就越狠
+					近战伤害 x{Multiplier}
 					'''
 			}
 
@@ -506,7 +506,7 @@ Mods: {
 				DisplayName: "魔力汲取"
 				Description:
 					'''
-					你的轻快步伐，使你从周边一切汲取魔力
+					以迅捷之势，你吸取周围的魔能
 					基础魔力再生速度 x{Multiplier}
 					'''
 			}
@@ -517,7 +517,7 @@ Mods: {
 				DisplayName: "兔爪"
 				Tooltip:
 					'''
-					[c/fca9ea:每次成功的连续跳跃，都会增加连跳所提供的加速度大小]
+					[c/fca9ea:每次成功的连跳，都会增加连跳所提供的加速度大小]
 					[c/fca9ea:将连跳和翻滚结合以获得更高的加速度提升乘数]
 					[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
 					'''
