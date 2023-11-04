@@ -51,6 +51,7 @@ Nothing yet.
 - Polish - PR [#205](https://github.com/Mirsario/TerrariaOverhaul/pull/205) by **J00niper**.
 - Spanish - PR [#207](https://github.com/Mirsario/TerrariaOverhaul/pull/207) by **cottonman132**.
 - French - PR [#208](https://github.com/Mirsario/TerrariaOverhaul/pull/208) by **orian34**.
+- Chinese - PR [#213](https://github.com/Mirsario/TerrariaOverhaul/pull/213) by **Cyrillya**.
 
 ### Optimizations
 - Completely rewrote blood particles for the sake of optimization, visible behavior being left mostly the same. The code is now data-oriented, no longer utilizes unnecessary object-oriented tooling such as inheritance, virtual calls, and needless references and reallocations, altogether minimizing stress on the Garbage Collector and maximizing CPU cache friendliness. This also introduces an upper limit to the amount of particles, currently set to 1024.
