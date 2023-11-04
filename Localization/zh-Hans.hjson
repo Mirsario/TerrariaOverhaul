@@ -30,7 +30,7 @@ Mods: {
 
 		Configuration: {
 			Accessibility: {
-				DisplayName: "无障碍设置"
+				DisplayName: "无障碍"
 				Description: "Overhaul包含一些简单的游戏性修改，以使每个人都能以更舒适的方式体验游戏。 "
 
 				ForceAutoReuse: {
@@ -45,7 +45,7 @@ Mods: {
 			}
 
 			Ambience: {
-				DisplayName: "环境设置"
+				DisplayName: "环境"
 				Description: "Overhaul包含一些令游戏世界更加身临其境的功能"
 
 				EnableAmbientSounds: {
@@ -69,7 +69,7 @@ Mods: {
 			}
 
 			Awareness: {
-				DisplayName: "意识设置"
+				DisplayName: "意识"
 				Description: "Overhaul包含一些帮助玩家提高对角色状态的意识的功能，提升沉浸感。"
 
 				LowHealthFilteringIntensity: {
@@ -108,7 +108,7 @@ Mods: {
 			}
 
 			BloodAndGore: {
-				DisplayName: "暴力设置"
+				DisplayName: "暴力"
 				Description:
 					'''
 					Overhaul改善了与暴力相关的音效、视效以及交互，
@@ -127,7 +127,7 @@ Mods: {
 			}
 
 			Camera: {
-				DisplayName: "相机设置"
+				DisplayName: "相机"
 				Description: "Overhaul implements many camera features that highly improve how the game presents itself."
 
 				CameraSmoothness: {
@@ -135,7 +135,7 @@ Mods: {
 					Description:
 						'''
 						应用多少阻尼以改善摄像机运动的速度感。
-						将其设置为零以完全禁用该功能。
+						将其设为零以完全禁用该功能。
 						'''
 				}
 
@@ -150,12 +150,12 @@ Mods: {
 
 				ScreenShakeStrength: {
 					DisplayName: "屏幕震动强度"
-					Description: "控制屏幕震动效果的强度，要完全禁用屏幕抖动请设置为零。"
+					Description: "控制屏幕震动效果的强度，要完全禁用屏幕抖动请设为零。"
 				}
 			}
 
 			DifficultyLevels: {
-				DisplayName: "难度设置"
+				DisplayName: "难度"
 				Description:
 					'''
 					Overhaul对游戏难度进行了重新平衡，以实现以下目标：
@@ -171,7 +171,7 @@ Mods: {
 			}
 
 			Enemies: {
-				DisplayName: "敌怪设置"
+				DisplayName: "敌怪"
 				Description: "Overhaul对敌怪的行为进行了一些修改，旨在使战斗过程变得更加有趣。"
 
 				EnableEnemyLunges: {
@@ -181,7 +181,7 @@ Mods: {
 			}
 
 			Guns: {
-				DisplayName: "枪械设置"
+				DisplayName: "枪械"
 				Description: "Overhaul包含一些提升游戏玩法和枪械手感的设置。"
 
 				EnableAimingRecoil: {
@@ -195,7 +195,7 @@ Mods: {
 			}
 
 			Melee: {
-				DisplayName: "近战设置"
+				DisplayName: "近战"
 				Description: "Overhaul彻底重制了游戏内近战武器的手感，允许你尽情砍杀！"
 
 				EnableAirCombat: {
@@ -244,7 +244,7 @@ Mods: {
 			}
 
 			Music: {
-				DisplayName: "音乐设置"
+				DisplayName: "音乐"
 				Description:
 					'''
 					Overhaul包含了对游戏音乐播放行为的几项改进。
@@ -263,7 +263,7 @@ Mods: {
 			}
 
 			PlayerMovement: {
-				DisplayName: "移动设置"
+				DisplayName: "移动"
 				Description: "Overhaul极大地改善和重制了贯穿全游的玩家角色移动的每个方面。"
 
 				EnableAutoJump: {
@@ -325,7 +325,7 @@ Mods: {
 			}
 
 			PlayerVisuals: {
-				DisplayName: "玩家视效设置"
+				DisplayName: "角色视效"
 				Description: "Overhaul包含一些对玩家角色视觉效果的改进，以提升游戏反馈"
 
 				AlwaysShowAimableWeapons: {
@@ -368,7 +368,7 @@ Mods: {
 			}
 
 			Tweaks: {
-				DisplayName: "辅助设置"
+				DisplayName: "辅助"
 				Description: "这个类别包含了一些你可能不会注意到的微小技术性实用工具。"
 
 				DisplaySystemCursorWithDisabledUI: {
