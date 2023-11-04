@@ -1,5 +1,5 @@
 UI: {
-	 Creativa: "Journey"
+	 Creativa: "Viaggio"
 	 Classico: "Sono troppo giovane per minare"
 	 Esperto: "Bone Me Plenty"
 	 Maestro: "Sono Cthulhu Incarnato"
@@ -212,7 +212,7 @@ Mods: {
 						'''
 						Attiva il combattimento corpo a corpo aereo, che ti permette di propellerti in qualsiasi direzione usando i tasti per il movimento ogni volta che colpisci un nemico a mezz'aria.
 						Usa i tuoi nemici come sgabelli; Incatena i tuoi attacchi su nemici volanti; Ottiene maggiore momento per colpire in caduta i bruti a terra.
-						''' */
+						''' 
 				}
 
 				EnableProjectileSwordManaUsage: {
@@ -226,47 +226,47 @@ Mods: {
 				}
 
 				EnableSwingVelocity: {
-					// DisplayName: "Attiva velocità fendente"
-					/* Description:
+					 DisplayName: "Attiva velocità fendente"
+					 Description:
 						'''
-						Quando attiva, swinging a melee weapon can accelerate you towards the direction of the swing.
-						This can be further controlled using movement keys, as you'll never be thrown forward when you're holding back movement.
-						Use together with power attacks to significantly boost your jumps and damage.
-						''' */
+						Quando attiva, Brandire un arma corpo a corpo può propellerti verso la direzione del fendente.
+						Questo può essere ulteriormente controllato con i tasti di movimento: Non verrai mai lanciato in avanti se ti stai muovendo indietro.
+						Usalo insieme agli attacchi pesanti per potenziare in modo significativo i tuoi salti ed i danni to significantly boost your jumps and damage.
+						''' 
 				}
 
 				EnableAxePowerAttacks: {
-					// DisplayName: "Enable Axe Power Attacks"
-					// Description: "Toggles the ability to perform charged power attacks with axes via right clicking."
+					 DisplayName: "Attiva attacchi pesanti ascia"
+					 Description: "Dona l'abilità di sferrare attacchi caricati pesanti con le ascie, premendo il tasto destro del mouse."
 				}
 
 				EnableBroadswordPowerAttacks: {
-					// DisplayName: "Enable Broadsword Power Attacks"
-					// Description: "Toggles the ability to perform charged power attacks with broadswords via right clicking."
+					 DisplayName: "Attiva attachi pesanti spada"
+					 Description: "Dona l'abilità di sferrare attacchi caricati pesanti con le spade, premendo il tasto destro del mouse."
 				}
 
 				EnableHammerPowerAttacks: {
-					// DisplayName: "Enable Hammer Power Attacks"
-					// Description: "Toggles the ability to perform charged power attacks with hammers via right clicking."
+					 DisplayName: "Attiva attacchi pesanti martello"
+					 Description: "Dona l'abilità di sferrare attacchi caricati pesanti con i martelli, premendo il tasto destro del mouse."
 				}
 			}
 
 			Music: {
-				// DisplayName: "Music"
-				/* Description:
+				 DisplayName: "Musica"
+				 Description:
 					'''
-					Overhaul contains a few improvements to the game's music playback behavior.
-					There's also a whole remastered soundtrack made for it - Click the button in top left to get it!
-					''' */
+					Overhaul contiene dei miglioramenti alla riproduzione della musica del gioco.
+					C'è anche una colonna sonora remasterizzata creata appositamente - Clicca il bottone in alto a sinistra per ottenerla!
+					''' 
 
 				EnableMusicPlaybackPositionPreservation: {
-					// DisplayName: "Enable Music Playback Position Preservation"
-					/* Description:
+					 DisplayName: "Attiva conservazione posizione della riproduzione musicale"
+					 Description:
 						'''
-						When enabled, music tracks will always pause in place of stopping.
-						This means that whenever you come back to a biome you've already been at, its music will resume playing where it has been whenever you left it.
-						Greatly improves game feel, since you won't be stuck hearing music tracks' intros when moving around the world.
-						''' */
+						Quando attiva, la musica verrà messa in pausa invece di fermarsi.
+						Questo significa che ogni volta che ritorni in un bioma dove sei già stato, la sua musica riprenderà da dove l'hai lasciata.
+						Migliora drasticamente l'atmosfera del gioco, in quanto non rimarrai bloccato a sentire sempre la parte iniziale di ogni musica quando ti muovi per il mondo.
+						''' 
 				}
 			}
 
