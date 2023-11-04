@@ -48,7 +48,7 @@
 - **Translated:** `84` out of `177` (`93` missing!)
 
 ## zh-Hans
-- **Status:** ⚠️ Incomplete!
-- **Completion:** ***49.2%***
-- **Translated:** `87` out of `177` (`90` missing!)
+- **Status:** ✅ Full!
+- **Completion:** ***100.0%***
+- **Translated:** `177` out of `177` (`0` missing!)
 

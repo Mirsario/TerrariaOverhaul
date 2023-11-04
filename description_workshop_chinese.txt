@@ -1,0 +1,29 @@
+﻿[img]https://raw.githubusercontent.com/Mirsario/TerrariaOverhaul/dev/Content/Menus/Logo.png[/img]
+
+这是一个大型模组，主要通过改进游戏各个方面（如战斗体验、手感和机制、移动行为、相机、环境氛围以及全部音乐）来增加游戏的整体乐趣。
+
+基于1.4的制作中的v5.0版本是一个完全重制的模组，具有以下特点：
+
+- 一个优越且开源的代码库
+- 重新构思并更接近原版，同时游戏设计过硬、更加疯狂和有趣
+- 更高的整体质量和打磨程度
+- 与内容模组的高度兼容性，不久后将进行进一步的优化
+
+[h1]常见问题解答[/h1]
+
+[b]如何配置模组特性？[/b]
+[quote]如果点击主菜单左上角的'配置'按钮没用，请前往以下路径：
+[b]Windows：[/b] [i][u]%userprofile%/Documents/My games/Terraria/tModLoader/TerrariaOverhaul[/u][/i]
+[b]Linux：[/b] [i][u]~/.local/share/Terraria/tModLoader/TerrariaOverhaul[/u][/i]
+[b]MacOS：[/b] [i][u]~/Library/Application support/Terraria/tModLoader/TerrariaOverhaul[/u][/i]
+(如果你用的是预览版的TML，[i][u]tModLoader[/u][/i]可能是[i][u]tModLoader-preview[/u][/i])
+并手动编辑[i][u]Config.json[/u][/i]文件。Overhaul将在文件保存后自动应用配置。
+
+目前正在努力开发一个完善的游戏内配置界面。
+[/quote]
+
+[h1]链接[/h1]
+
+[url=https://discord.gg/RNGq9N8]在我们的[b]Discord服务器[/b]上提问和讨论 💬[/url]
+[url=https://patreon.com/Mirsario]在[b]Patreon[/b]上支持我们 ❤️[/url]
+[url=https://github.com/MIrsario/TerrariaOverhaul]在[b]GitHub[/b]上贡献代码和翻译 ⚙️[/url]
