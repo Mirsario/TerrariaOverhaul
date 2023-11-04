@@ -5,7 +5,7 @@
 基于1.4的制作中的v5.0版本是一个完全重制的模组，具有以下特点：
 
 - 一个优越且开源的代码库
-- 重新构思并更接近原版，同时更加疯狂、扎实和有趣
+- 重新构思并更接近原版，同时游戏设计过硬、更加疯狂和有趣
 - 更高的整体质量和打磨程度
 - 与内容模组的高度兼容性，不久后将进行进一步的优化
 
@@ -17,7 +17,7 @@
 [b]Linux：[/b] [i][u]~/.local/share/Terraria/tModLoader/TerrariaOverhaul[/u][/i]
 [b]MacOS：[/b] [i][u]~/Library/Application support/Terraria/tModLoader/TerrariaOverhaul[/u][/i]
 (如果你用的是预览版的TML，[i][u]tModLoader[/u][/i]可能是[i][u]tModLoader-preview[/u][/i])
-并手动编辑[i][u]Config.json[/u][/i]文件。Overhaul将在文件保存后自动导入配置。
+并手动编辑[i][u]Config.json[/u][/i]文件。Overhaul将在文件保存后自动应用配置。
 
 目前正在努力开发一个完善的游戏内配置界面。
 [/quote]
