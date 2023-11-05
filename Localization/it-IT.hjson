@@ -271,12 +271,12 @@ Mods: {
 			}
 
 			PlayerMovement: {
-				// DisplayName: "Movimento giocatore"
-				// Description: "Overhaul migliora ampiamente e rinfresca quasi ogni aspetto del muoversi in giro, cosa che fai molto."
+				DisplayName: "Movimento giocatore"
+				Description: "Overhaul migliora ampiamente e rinfresca quasi ogni aspetto del muoversi in giro, cosa che fai molto."
 
 				EnableAutoJump: {
-					// DisplayName: "Attiva salto automatico"
-					// Description: "Quando attiva, I giocatori saranno sempre in grado di tener premuto spazio per saltare ripetutamente."
+					DisplayName: "Attiva salto automatico"
+					Description: "Quando attiva, I giocatori saranno sempre in grado di tener premuto spazio per saltare ripetutamente."
 				}
 
 				EnableVerticalAccelerationChanges: {
