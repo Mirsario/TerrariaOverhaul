@@ -28,9 +28,9 @@
 - **Translated:** `177` out of `177` (`0` missing!)
 
 ## it-IT
-- **Status:** ❌ Not even started!
-- **Completion:** ***0.0%***
-- **Translated:** `0` out of `177` (`177` missing!)
+- **Status:** ⚠️ Incomplete!
+- **Completion:** ***48.6%***
+- **Translated:** `86` out of `177` (`91` missing!)
 
 ## pl-PL
 - **Status:** ✅ Full!
