@@ -29,10 +29,16 @@ public sealed class PlayerBodyRotation : ModPlayer
 			return;
 		}
 
+		// Do nothing for minecarts.
+		if (Player.mount is { Active: true, Cart: true }) {
+			return;
+		}
+
 		if (RotationOffsetScale != 0f && EnablePlayerTilting) {
 			float movementRotation = BodyTilting.CalculateRotationOffset(Player.velocity, Player.OnGround(), airMultiplier: 0.8f);
 
 			if (Player.mount.Active) {
+				// Reduce intensity on mounts.
 				movementRotation *= 0.5f;
 			}
 

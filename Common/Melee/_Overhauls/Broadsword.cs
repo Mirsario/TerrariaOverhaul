@@ -64,7 +64,10 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 
 		// Components
 
-		if (ItemMeleeAirCombat.EnableAirCombat) {
+		// Put in place until https://github.com/Mirsario/TerrariaOverhaul/issues/198 is resolved.
+		bool isProjectileOnlySword = item.noMelee;
+
+		if (ItemMeleeAirCombat.EnableAirCombat && !isProjectileOnlySword) {
 			item.EnableComponent<ItemMeleeAirCombat>();
 		}
 
@@ -83,7 +86,10 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 		item.EnableComponent<ItemMeleeGoreInteraction>();
 		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
-		item.EnableComponent<ItemVelocityBasedDamage>();
+
+		if (!isProjectileOnlySword) {
+			item.EnableComponent<ItemVelocityBasedDamage>();
+		}
 
 		// Animation
 		item.EnableComponent<QuickSlashMeleeAnimation>(c => {
@@ -116,7 +122,9 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 		}
 
 		// Killing Blows
-		item.EnableComponent<ItemKillingBlows>();
+		if (!isProjectileOnlySword) {
+			item.EnableComponent<ItemKillingBlows>();
+		}
 	}
 
 	public override void UseAnimation(Item item, Player player)
@@ -142,12 +150,17 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 		{
 			yield return Mod.GetTextValue("ItemOverhauls.Melee.PowerStrikeInfo");
 
-			if (item.TryGetGlobalItem(out ItemKillingBlows killingBlows)) {
+			if (item.TryGetGlobalItem(out ItemKillingBlows killingBlows) && killingBlows.Enabled) {
 				yield return Mod.GetTextValue("ItemOverhauls.Melee.Broadsword.KillingBlowInfo", killingBlows.DamageMultiplier);
 			}
 
-			yield return Mod.GetTextValue("ItemOverhauls.Melee.AirCombatInfo");
-			yield return Mod.GetTextValue("ItemOverhauls.Melee.VelocityBasedDamageInfo");
+			if (item.TryGetGlobalItem(out ItemMeleeAirCombat airCombat) && airCombat.Enabled) {
+				yield return Mod.GetTextValue("ItemOverhauls.Melee.AirCombatInfo");
+			}
+
+			if (item.TryGetGlobalItem(out ItemVelocityBasedDamage velocityBasedDamage) && velocityBasedDamage.Enabled) {
+				yield return Mod.GetTextValue("ItemOverhauls.Melee.VelocityBasedDamageInfo");
+			}
 		}
 
 		TooltipUtils.ShowCombatInformation(Mod, tooltips, GetCombatInfo);

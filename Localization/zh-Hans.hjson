@@ -1,6 +1,6 @@
 UI: {
 	Creative: "旅途"
-	Normal: "我还年轻我不想挖矿"
+	Normal: "我还年轻不想挖矿"
 	Expert: "大力上我"
 	Master: "我是克苏鲁的化身"
 	WorldDescriptionCreative: "创造/无障碍模式（为想要掌控一切的人准备）"
@@ -13,9 +13,9 @@ Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
 			Configuration: "配置"
-			DiscordServer: "Discord 服务器"
+			DiscordServer: "Discord服务器"
 			ForumPage: "官方论坛页面"
-			WikiPage: "Overhaul Wiki"
+			WikiPage: "Overhaul维基"
 			Github: "GitHub"
 
 			MusicPack: {
@@ -25,301 +25,297 @@ Mods: {
 		}
 
 		Notifications: {
-			AudioFilteringTestFailure: "警告：TerrariaOverhaul无法激活音频滤镜效果，请确保安装了最新的音频驱动。"
+			AudioFilteringTestFailure: "警告：TerrariaOverhaul无法激活音频过滤效果，请确保安装了最新的音频驱动。"
 		}
 
 		Configuration: {
 			Accessibility: {
-				// DisplayName: "Accessibility"
-				// Description: "Overhaul contains a few simple changes that allow everyone to experience the game in a more comfortable way."
+				DisplayName: "无障碍"
+				Description: "Overhaul包含一些简单的游戏性修改，以便所有人以更舒适的方式体验游戏。"
 
 				ForceAutoReuse: {
-					// DisplayName: "Force Auto-reuse"
-					/* Description:
+					DisplayName: "强制自动挥舞"
+					Description:
 						'''
-						When enabled, almost every item in the game will be able to be used repeatedly by holding down the use button.
-						Tiny rebalancing measures take place to prevent unintended "60 times a second" usages.
-						Prevents carpal tunnel syndrome, recommended by 10 out of 10 doctors.
-						''' */
+						启用后，游戏中的几乎所有物品都可以通过按住使用按钮来持续使用。
+						附带微小的平衡措施来防止意外的“每秒使用60次”。
+						预防腕管综合症，医生百分百推荐。
+						'''
 				}
 			}
 
 			Ambience: {
-				// DisplayName: "Ambience"
-				// Description: "Overhaul contains many features that help make the game's world feel more immersive."
+				DisplayName: "环境"
+				Description: "Overhaul包含一些令游戏世界更加身临其境的功能"
 
 				EnableAmbientSounds: {
 					DisplayName: "启用环境音效"
-					Description: "开关环境音效，如鸟、蟋蟀、风、洞穴声等"
+					Description: "各式各样的环境音效，如鸟、蟋蟀、风、洞穴声等"
 				}
 
 				EnableAudioFiltering: {
-					// DisplayName: "Enable Audio Filtering"
-					/* Description:
+					DisplayName: "启用音频过滤"
+					Description:
 						'''
-						Toggles low pass filtering and reverberation effects as a whole.
-						Disable this if your game is crashing every time you enter a world.
-						''' */
+						整体的低通滤波和混响效果。
+						如果一进入世界游戏就崩溃，请禁用此功能。
+						'''
 				}
 
 				EnablePlayerFootsteps: {
 					DisplayName: "启用脚步声"
-					Description: "开关玩家角色的脚步声音"
+					Description: "玩家角色的脚步声"
 				}
 			}
 
 			Awareness: {
-				// DisplayName: "Awareness"
-				/* Description:
-					'''
-					Overhaul implements multiple features that help increase players' awareness of their characters' state,
-					also improving immersion in the process.
-					''' */
+				DisplayName: "意识"
+				Description: "Overhaul包含一些帮助玩家提高对角色状态的意识的功能，提升沉浸感。"
 
 				LowHealthFilteringIntensity: {
-					// DisplayName: "Low Health Filtering Intensity"
-					// Description: "Controls the intensity of low pass audio filtering (muffling) that occurs when you are low on health."
+					DisplayName: "残血音频过滤强度"
+					Description: "控制当你生命值较低时低通滤波（消音）效果的强度。"
 				}
 
 				LowHealthSoundVolume: {
-					// DisplayName: "Low Health Sound Volume"
-					// Description: "Controls the volume of the sound that plays when you are low on health."
+					DisplayName: "残血音效音量"
+					Description: "控制生命值低时播放的音效的音量。"
 				}
 
 				LowManaSoundVolume: {
-					// DisplayName: "Low Mana Sound Volume"
-					// Description: "Controls the volume of the sound that plays when you are low on mana."
+					DisplayName: "低魔力音效音量"
+					Description: "控制魔力值低时播放的音效的音量。"
 				}
 
 				ManaRegenerationSoundVolume: {
-					// DisplayName: "Mana Regeneration Sound Volume"
-					// Description: "Controls the volume of the sound that plays when mana is regenerating."
+					DisplayName: "魔力恢复音效音量"
+					Description: "控制魔力恢复时播放的音效的音量。"
 				}
 			}
 
 			Banners: {
-				// DisplayName: "Banners"
-				// Description: "Overhaul changes the way banners work, so that they don't end up making enemies feeling too weak."
+				DisplayName: "旗帜"
+				Description: "Overhaul包含对敌怪旗效果的修改，其效果不再止步于令敌怪变弱。"
 
 				BannerReworkEnabled: {
-					// DisplayName: "Banner Rework Enabled"
-					/* Description:
+					DisplayName: "启用旗帜重制"
+					Description:
 						'''
-						The banner rework removes banners' effects of lowering enemies' health and damage, instead replacing that with double loot and coin drops.
-						Both the drop chance and drop quantity are affected.
-						''' */
+						旗帜重制移除了旗帜降低敌人生命值和伤害的效果，取而代之的是双倍掉落物和金币。
+						物品掉落几率和掉落数量都会受到影响。
+						'''
 				}
 			}
 
 			BloodAndGore: {
-				// DisplayName: "Blood and Gore"
-				/* Description:
+				DisplayName: "暴力"
+				Description:
 					'''
-					Overhaul improves violence-related audio, visuals, and interactivity,
-					vastly increasing the overall satisfaction level of the game's combat.
-					''' */
+					Overhaul改善了与暴力相关的音效、视效以及交互，
+					大大提高了游戏的战斗手感。
+					'''
 
 				EnableDecals: {
 					DisplayName: "启用血迹糊砖效果"
-					Description: "开关留在方块上的血迹"
+					Description: "爆血会在方块上留下血迹"
 				}
 
 				EnableGoreStay: {
-					// DisplayName: "Enable Gore Stay"
-					// Description: "When enabled, gore (or more specifically 'gibs') will not disappear after ~10 seconds."
+					DisplayName: "敌怪残骸不消失"
+					Description: "启用后，敌怪的残骸不再会在约10秒后消失。"
 				}
 			}
 
 			Camera: {
-				// DisplayName: "Camera"
-				// Description: "Overhaul implements many camera features that highly improve how the game presents itself."
+				DisplayName: "相机"
+				Description: "Overhaul包含许多相机优化功能，极大地改进了游戏的呈现方式。"
 
 				CameraSmoothness: {
-					// DisplayName: "Camera Smoothness"
-					/* Description:
+					DisplayName: "相机平滑移动"
+					Description:
 						'''
-						How much damping to apply to the camera's movement to improve the feel of velocity.
-						Set this to zero to disable the feature completely.
-						''' */
+						应用多少阻尼以改善摄像机运动的速度感。
+						将其设为零以完全禁用该功能。
+						'''
 				}
 
 				LimitCameraUpdateRate: {
-					// DisplayName: "Limit Camera Update Rate"
-					/* Description:
+					DisplayName: "限制相机更新率"
+					Description:
 						'''
-						When enabled, the camera update rate is locked to 60hz to prevent the player character spazzing out on high refresh rate monitors.
-						It's currently best that you leave this on.
-						''' */
+						启用后，相机更新率被锁定为60hz，以防止玩家角色在高刷新率显示器上出现抽搐现象。
+						目前最好将其保持开启状态。
+						'''
 				}
 
 				ScreenShakeStrength: {
 					DisplayName: "屏幕震动强度"
-					Description: "控制屏幕震动效果的强度，要完全禁用屏幕抖动请设置为零。"
+					Description: "控制屏幕震动效果的强度，要完全禁用屏幕抖动请设为零。"
 				}
 			}
 
 			DifficultyLevels: {
-				// DisplayName: "Difficulty Levels"
-				/* Description:
+				DisplayName: "难度"
+				Description:
 					'''
-					Overhaul reimplements game modes as actual difficulty levels, fulfilling the following goals:
-					- Equalization of most stats, removal of bullet sponges from high difficulties and glass enemies from low ones;
-					- (WIP) Removal of mode-exclusivity on content and AI behaviors, less ableism;
-					- (WIP) Focus on variation in concepts such as reaction windows rather than "more damage and health";
-					''' */
+					Overhaul对游戏难度进行了重新平衡，以实现以下目标：
+					- 大部分数据的平衡，避免了高难度中部分敌怪血量奇高和低难度中无双割草的情况
+					- [未完成] 原先特定难度独占的AI和内容现在全难度通用，关怀手残党
+					- [未完成] 专注于敌怪行为上的变化（如提升反应力需求）而不是无脑增加伤害和血量
+					'''
 
 				EnableDifficultyChanges: {
-					// DisplayName: "Enable Difficulty Changes"
-					// Description: "Toggles the mod's changes to difficulty levels as a whole."
+					DisplayName: "启用难度修改"
+					Description: "本模组对游戏整体难度的重新平衡。"
 				}
 			}
 
 			Enemies: {
-				// DisplayName: "Enemies"
-				// Description: "Overhaul contains a few additions to the game's enemies' behavior that aim to make fighting them a little bit more fun."
+				DisplayName: "敌怪"
+				Description: "Overhaul对敌怪的行为进行了一些修改，旨在使战斗过程变得更加有趣。"
 
 				EnableEnemyLunges: {
-					// DisplayName: "Enable Enemy Lunges"
-					// Description: "When enabled, walking enemies may lunge at you when they get close."
+					DisplayName: "启用敌怪冲锋"
+					Description: "启用后，步行敌怪在接近你时可能会扑向你。"
 				}
 			}
 
 			Guns: {
-				// DisplayName: "Guns"
-				// Description: "Overhaul heavily focuses on improving gameplay and feel of the game's firearms."
+				DisplayName: "枪械"
+				Description: "Overhaul包含一些提升游戏玩法和枪械手感的设置。"
 
 				EnableAimingRecoil: {
-					// DisplayName: "Enable Aiming Recoil (Experimental)"
-					/* Description:
+					DisplayName: "启用枪械后坐力（实验性）"
+					Description:
 						'''
-						When enabled, guns may offset the player's cursor when fired.
-						Experimental feature, disabled by default.
-						''' */
+						启用后，枪械射击时会使玩家鼠标光标移位，以模拟后坐力。
+						实验性功能，默认禁用。
+						'''
 				}
 			}
 
 			Melee: {
-				// DisplayName: "Melee"
-				// Description: "Overhaul completely reimagines the feel and flow of the game's melee weapons, allowing you to hack and slash like never before!"
+				DisplayName: "近战"
+				Description: "Overhaul彻底重制了游戏内近战武器的手感，允许你尽情砍杀！"
 
 				EnableAirCombat: {
-					// DisplayName: "Enable Air Combat"
-					/* Description:
+					DisplayName: "启用空中冲锋"
+					Description:
 						'''
-						Toggles melee air combat, which allows you to accelerate yourself in any direction using movement keys every time you hit an enemy mid-air.
-						Use your foes as stepladders; Chain attacks on flying enemies; Gain greater momentum to fall-strike ground brutes.
-						''' */
+						每次在空中击中敌人时，你可以使用方向键向任何方向冲锋。
+						利用敌怪作为阶梯；对空中的敌怪进行连续攻击；以极大的动量向地面敌怪下砸。
+						'''
 				}
 
 				EnableProjectileSwordManaUsage: {
-					// DisplayName: "Enable Projectile Sword Mana Usage"
-					/* Description:
+					DisplayName: "带剑气的剑消耗魔力"
+					Description:
 						'''
-						Experimental.
-						When enabled, broadswords that shoot projectiles will use a bit of mana.
-						Mages' mana regeneration and mana drop rules still apply, so this isn't very significant.
-						''' */
+						实验性功能
+						启用后，能够发射射弹的剑将消耗一定魔力。
+						法师的魔力恢复和魔力星掉落仍然适用，因此该更改并不显著。
+						'''
 				}
 
 				EnableSwingVelocity: {
-					// DisplayName: "Enable Swing Velocity"
-					/* Description:
+					DisplayName: "启用挥砍推进"
+					Description:
 						'''
-						When enabled, swinging a melee weapon can accelerate you towards the direction of the swing.
-						This can be further controlled using movement keys, as you'll never be thrown forward when you're holding back movement.
-						Use together with power attacks to significantly boost your jumps and damage.
-						''' */
+						启用后，挥舞近战武器可以令玩家角色向挥舞的方向加速。
+						可以通过使用方向键来控制，在保持向后移动时不会向前加速。
+						与重击一起使用，可以显著提高你的跳跃高度和伤害。
+						'''
 				}
 
 				EnableAxePowerAttacks: {
-					// DisplayName: "Enable Axe Power Attacks"
-					// Description: "Toggles the ability to perform charged power attacks with axes via right clicking."
+					DisplayName: "启用战斧重击"
+					Description: "允许你通过右键使用斧头施展重击。"
 				}
 
 				EnableBroadswordPowerAttacks: {
-					// DisplayName: "Enable Broadsword Power Attacks"
-					// Description: "Toggles the ability to perform charged power attacks with broadswords via right clicking."
+					DisplayName: "启用阔剑重击"
+					Description: "允许你通过右键使用阔剑施展重击。"
 				}
 
 				EnableHammerPowerAttacks: {
-					// DisplayName: "Enable Hammer Power Attacks"
-					// Description: "Toggles the ability to perform charged power attacks with hammers via right clicking."
+					DisplayName: "启用战锤重击"
+					Description: "允许你通过右键使用锤子施展重击。"
 				}
 			}
 
 			Music: {
-				// DisplayName: "Music"
-				/* Description:
+				DisplayName: "音乐"
+				Description:
 					'''
-					Overhaul contains a few improvements to the game's music playback behavior.
-					There's also a whole remastered soundtrack made for it - Click the button in top left to get it!
-					''' */
+					Overhaul包含了对游戏音乐播放行为的几项改进。
+					此外，还包含一套完整的重制音乐 - 点击屏幕左上角的按钮以启用！
+					'''
 
 				EnableMusicPlaybackPositionPreservation: {
-					// DisplayName: "Enable Music Playback Position Preservation"
-					/* Description:
+					DisplayName: "保持音乐播放进度"
+					Description:
 						'''
-						When enabled, music tracks will always pause in place of stopping.
-						This means that whenever you come back to a biome you've already been at, its music will resume playing where it has been whenever you left it.
-						Greatly improves game feel, since you won't be stuck hearing music tracks' intros when moving around the world.
-						''' */
+						启用后，音轨会暂停在已播放到的位置，而不是从头开始。
+						也就是说，每当你回到你已经去过的生物群落时，其音乐将接着你离开时的进度播放。
+						在环游世界时不再总是“循环播放”音乐的开头，极大地改善了游戏体验。
+						'''
 				}
 			}
 
 			PlayerMovement: {
-				// DisplayName: "Player Movement"
-				// Description: "Overhaul greatly improves and refreshes almost every aspect of moving around, which you do a lot of."
+				DisplayName: "移动"
+				Description: "Overhaul极大地改善和重制了贯穿全游的玩家角色移动的每个方面。"
 
 				EnableAutoJump: {
-					// DisplayName: "Enable Auto Jump"
-					// Description: "When enabled, players will always be able to hold down the space key to jump repeatedly."
+					DisplayName: "启用自动跳跃"
+					Description: "启用后，玩家将始终能够按住空格键进行连续跳跃。"
 				}
 
 				EnableVerticalAccelerationChanges: {
 					DisplayName: "应用垂直加速度更改"
-					Description: "开关空气阻力和（几乎）无限制的最大坠落速度。"
+					Description: "空气阻力和（几乎）无限制的最大坠落速度。"
 				}
 
 				EnableHorizontalAccelerationChanges: {
 					DisplayName: "应用水平加速度更改"
-					Description: "开关水平阻力、最大奔跑速度和加速度的更改。"
+					Description: "水平阻力、最大奔跑速度和加速度的更改。"
 				}
 
 				EnableBunnyhopping: {
-					DisplayName: "开启连跳加速"
+					DisplayName: "启用连跳加速"
 					Description:
 						'''
-						连跳(兔子跳)会在每次跳跃时给你带来轻微的水平速度提升。
+						连跳会在每次跳跃时给你带来轻微的水平速度提升。
 						关闭此功能将禁用某些饰品的效果。
 						'''
 				}
 
 				EnableClimbing: {
-					DisplayName: "开启攀登功能"
+					DisplayName: "启用攀登"
 					Description: "此功能可以让你通过按住向上键来爬升至更高的高度。"
 				}
 
 				EnableGrapplingHookPhysics: {
-					// DisplayName: "Enable Grappling Hook Physics"
-					/* Description:
+					DisplayName: "启用钩爪物理"
+					Description:
 						'''
-						When enabled, grappling hooks' behavior will be changed to allow swinging around on them using movement keys.
-						NOTE: The grappling hook button can be held down to execute a vanilla-like pull, so you don't need to choose between the two behaviors and can combine them.
-						NOTE: This feature does not apply to every hook in the game, also multihooks revert to vanilla behavior whenever more than one hook is connected.
-						''' */
+						启用后，钩爪的行为将改变，可以通过方向键绕着钩子晃荡。
+						注意：按住钩爪快捷键不放会将你拉到钩爪除，就像原版一样，因此你不需要在这两种行为之间进行选择，而是可以将它们结合起来使用。
+						注意：此功能不适用于游戏中的所有钩爪，此外，同时勾住多处时行为与原版一致。
+						'''
 				}
 
 				EnableWallJumping: {
-					DisplayName: "开启蹬墙跳功能"
+					DisplayName: "启用蹬墙跳"
 					Description:
 						'''
 						蹬墙跳是一种新的运动机制，需要装备有攀爬装备或钉鞋才能完成。
-						背对着冲向墙，在触碰墙面的同时按住向上键，同时抬起水平方向移动键，即可完成此动作。
+						背对着冲向墙，在触碰墙面的同时按下向上键，同时松开水平方向键，即可完成此动作。
 						'''
 				}
 
 				EnableWallFlips: {
-					DisplayName: "开启蹬墙空翻功能"
+					DisplayName: "启用蹬墙空翻"
 					Description:
 						'''
 						蹬墙空翻是一种新的运动机制，不需要任何额外饰品即可完成。
@@ -329,8 +325,8 @@ Mods: {
 			}
 
 			PlayerVisuals: {
-				// DisplayName: "Player Visuals"
-				// Description: "Overhaul contains a few improvements to player characters' visual appearance, so that the game feels more responsive."
+				DisplayName: "角色视效"
+				Description: "Overhaul包含一些对玩家角色视觉效果的改进，以提升游戏反馈"
 
 				AlwaysShowAimableWeapons: {
 					DisplayName: "总是显示可瞄准的武器"
@@ -338,26 +334,26 @@ Mods: {
 				}
 
 				EnableAimableFlashlights: {
-					// DisplayName: "Enable Aimable Flashlights"
-					// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
+					DisplayName: "照明光源可瞄准"
+					Description: "启用后，“采矿头盔”等设备的光照将朝向光标方向。"
 				}
 
 				EnableImprovedMeleeAnimations: {
-					// DisplayName: "Enable Improved Melee Animations"
-					/* Description:
+					DisplayName: "启用近战动画改善"
+					Description:
 						'''
-						When enabled, melee weapon swing animations will be changed to a more immediate swing, with alternating directions.
-						This is best kept on, as it best mimics the timing and direction of melee damage collision.
-						''' */
+						启用后，近战武器挥舞动画将改为更直接的挥舞，且挥舞方向交替切换。
+						推荐开启，因为其极大程度地模拟了造成近战伤害的时机和方向。
+						'''
 				}
 
 				EnableMeleeSlashVisualization: {
-					// DisplayName: "Enable Melee Slash Visualization"
-					/* Description:
+					DisplayName: "启用近战斩击视效"
+					Description:
 						'''
-						When enabled, a circular slash sprite will appear when swinging melee weapons.
-						This is best kept on, as it best mimics the range and collision arc of the weapon.
-						''' */
+						当启用时，挥舞近战武器时会出现一个圆形斩击特效。
+						推荐开启，因为其最极大程度地模拟了武器的攻击范围和弧度。
+						'''
 				}
 
 				EnablePlayerHeadRotation: {
@@ -372,16 +368,16 @@ Mods: {
 			}
 
 			Tweaks: {
-				// DisplayName: "Tweaks"
-				// Description: "This category contains tiny technical utilities that you're unlikely to care about."
+				DisplayName: "辅助"
+				Description: "这个类别包含了一些你可能不会注意到的微小技术性实用工具。"
 
 				DisplaySystemCursorWithDisabledUI: {
-					// DisplayName: "Display System Cursor With Disabled UI"
-					/* Description:
+					DisplayName: "界面隐藏时显示系统光标"
+					Description:
 						'''
-						When enabled, the operational system's cursor will be enabled when game interface is disabled using the F11 hotkey.
-						This is a tiny utility change that eases recording gameplay footage without UI, as recording software can disable capture of the OS cursor.
-						''' */
+						启用后，若使用F11热键隐藏游戏界面，将会显示系统鼠标光标。
+						这是一个微小的实用更改，可以在没有UI的情况下轻松录制游戏画面，因为录制软件可以设置不捕获系统光标。
+						'''
 				}
 			}
 		}
@@ -416,38 +412,38 @@ Mods: {
 
 		ItemOverhauls: {
 			Archery: {
-				/* HoverShots:
+				HoverShots:
 					'''
-					[[Hover in the air]] by charging your weapon as you're jumping
-					Perform a [[hover-shot]] to get even more velocity
-					''' */
-				/* ManualCharging:
+					通过在跳跃时为武器蓄力以[[悬在半空]]
+					通过[[悬浮时射击]]以获得更高的速度
 					'''
-					Hold right click to [[manually charge]] your weapon
-					Release it at any time to [[fine-tune]] the shot speed & damage
-					''' */
+				ManualCharging:
+					'''
+					按住右键以[[手动蓄力]]武器
+					随时释放以[[最大化]]射击速度和伤害
+					'''
 			}
 
 			Melee: {
-				/* AirCombatInfo:
+				AirCombatInfo:
 					'''
-					[[Attack enemies mid-air]] to gain speed, stay elevated, or to retreat!
-					Use the movement keys during a strike to control the velocity you gain!
-					''' */
-				// PowerStrikeInfo: "Charge up [[Power Strikes]] via alternate use!"
-				/* VelocityBasedDamageInfo:
+					[[攻击空中的敌人]]以获得速度，保持高度，以及撤退！
+					在攻击过程中使用方向键来控制你的移动！
 					'''
-					[[The faster you move - the harder you strike!]]
-					Combine your attacks with dashes and even use gravity to your advantage!
-					''' */
+				PowerStrikeInfo: "通过连续挥砍来为[[强力斩击]]蓄能！"
+				VelocityBasedDamageInfo:
+					'''
+					[[移动得越快 - 斩击就越狠！]]
+					将你的攻击与冲刺相结合，或利用重力加速度摧毁敌人！
+					'''
 
 				Broadsword: {
-					// KillingBlow: "Killing Blow!"
-					/* KillingBlowInfo:
+					KillingBlow: "致命一击！"
+					KillingBlowInfo:
 						'''
-						Perform [[Killing Blows]] by [[power striking]] already hurt foes,
-						multiplying damage by [[x{0}]] whenever that would finish the enemy
-						''' */
+						通过[[强力斩击]]已受伤的敌人以施展[[致命一击]]
+						对于足以结果敌人的斩击，其伤害将乘以[[x{0}]]。
+						'''
 				}
 			}
 		}
@@ -460,7 +456,7 @@ Mods: {
 			RightClickAudioCuesDisabled: "音效提示已关闭"
 
 			GrapplingHooks: {
-				ClassicPullTip: "按住钩爪键使用以像原版一样将玩家拉动"
+				ClassicPullTip: "按住钩爪快捷键使用以像原版一样将玩家拉动"
 			}
 		}
 
@@ -473,17 +469,17 @@ Mods: {
 
 		Keybinds: {
 			Dodgeroll: {
-				// DisplayName: "Dodgeroll"
+				DisplayName: "翻滚"
 			}
 		}
 
 		Tiles: {
 			Calendar: {
-				// MapEntry: "{$Mods.TerrariaOverhaul.Items.Calendar.DisplayName}"
+				MapEntry: "{$Mods.TerrariaOverhaul.Items.Calendar.DisplayName}"
 			}
 
 			Gramophone: {
-				// MapEntry: "{$Mods.TerrariaOverhaul.Items.Gramophone.DisplayName}"
+				MapEntry: "{$Mods.TerrariaOverhaul.Items.Gramophone.DisplayName}"
 			}
 		}
 
@@ -501,8 +497,8 @@ Mods: {
 				DisplayName: "砍杀"
 				Description:
 					'''
-					移动得越快，砍杀就越狠
-					近战伤害乘数 x{Multiplier}
+					移动得越快，砍得就越狠
+					近战伤害 x{Multiplier}
 					'''
 			}
 
@@ -510,7 +506,7 @@ Mods: {
 				DisplayName: "魔力汲取"
 				Description:
 					'''
-					你的轻快步伐，使你从周边一切汲取魔力
+					以迅捷之势，你吸取周围的魔能
 					基础魔力再生速度 x{Multiplier}
 					'''
 			}
@@ -521,7 +517,7 @@ Mods: {
 				DisplayName: "兔爪"
 				Tooltip:
 					'''
-					[c/fca9ea:每次成功的连续跳跃，都会增加连跳所提供的加速度大小]
+					[c/fca9ea:每次成功的连跳，都会增加连跳所提供的加速度大小]
 					[c/fca9ea:将连跳和翻滚结合以获得更高的加速度提升乘数]
 					[c/8a2730:{$Mods.TerrariaOverhaul.CommonTooltips.RightClickAudioCuesToggle}]
 					'''

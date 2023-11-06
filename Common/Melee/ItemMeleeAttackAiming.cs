@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -32,6 +34,13 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 			attackAngle = value;
 			attackDirection = value.ToRotationVector2();
 		}
+	}
+
+	public override void Load()
+	{
+		//On_Player.GetPointOnSwungItemPath += GetPointOnSwungItemPathDetour;
+
+		IL_Player.ProcessHitAgainstNPC += ProcessHitAgainstNPCInjection;
 	}
 
 	public override void UseAnimation(Item item, Player player)
@@ -172,5 +181,33 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 		ItemLoader.UseItemHitbox(item, player, ref itemRectangle, ref dontAttackDummy);
 
 		return itemRectangle;
+	}
+
+	/*
+	private static void GetPointOnSwungItemPathDetour(On_Player.orig_GetPointOnSwungItemPath orig, Player player, float spriteWidth, float spriteHeight, float normalizedPointOnPath, float itemScale, out Vector2 location, out Vector2 outwardDirection)
+	{
+		orig(player, spriteWidth, spriteHeight, normalizedPointOnPath, itemScale, out location, out outwardDirection);
+
+		if (DebugSystem.EnableDebugRendering) {
+			DebugSystem.DrawCircle(location, 8f, Color.Turquoise, width: 3);
+			DebugSystem.DrawLine(location, location + outwardDirection * 32f, Color.MediumTurquoise, width: 3);
+		}
+	}
+	*/
+
+	private static void ProcessHitAgainstNPCInjection(ILContext context)
+	{
+		var il = new ILCursor(context);
+
+		// Skip a weird FieryGreatsword/Volcano block that culls collision for whatever reason.
+		il.GotoNext(
+			MoveType.After,
+			i => i.MatchLdarg(1),
+			i => i.MatchLdfld(typeof(Item), nameof(Item.type)),
+			i => i.MatchLdcI4(ItemID.FieryGreatsword)
+		);
+
+		il.Emit(OpCodes.Pop);
+		il.Emit(OpCodes.Ldc_I4, int.MinValue);
 	}
 }

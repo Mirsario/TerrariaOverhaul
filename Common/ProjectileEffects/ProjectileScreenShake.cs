@@ -21,7 +21,7 @@ public sealed class ProjectileScreenShake : GlobalProjectile
 		}
 	}
 
-	public override void Kill(Projectile projectile, int timeLeft)
+	public override void OnKill(Projectile projectile, int timeLeft)
 	{
 		if (ScreenShake is ScreenShake shake) {
 			ScreenShakeSystem.New(shake, projectile.Center);

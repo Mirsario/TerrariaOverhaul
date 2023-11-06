@@ -60,7 +60,7 @@ public sealed class PlayerDirectioning : ModPlayer
 			Flags = flags;
 		}
 
-		public bool AppliesToPlayer(Player player)
+		public readonly bool AppliesToPlayer(Player player)
 		{
 			if (!Timer.Active) {
 				return false;
@@ -93,10 +93,10 @@ public sealed class PlayerDirectioning : ModPlayer
 			player.GetModPlayer<PlayerDirectioning>()?.UpdateDirection();
 		};
 
-		On_Player.ChangeDir += static (orig, player, dir) => {
-			orig(player, dir);
+		On_Player.ItemCheck_StartActualUse += static (On_Player.orig_ItemCheck_StartActualUse orig, Player player, Item sItem) => {
+			orig(player, sItem);
 
-			player.GetModPlayer<PlayerDirectioning>()?.UpdateDirection();
+			player.GetModPlayer<PlayerDirectioning>()?.UpdateDirection(ignoreItemAnim: true);
 		};
 
 		On_PlayerSleepingHelper.StartSleeping += static (On_PlayerSleepingHelper.orig_StartSleeping orig, ref PlayerSleepingHelper self, Player player, int x, int y) => {
@@ -135,7 +135,12 @@ public sealed class PlayerDirectioning : ModPlayer
 		return true;
 	}
 
-	public void UpdateDirection()
+	public override void PostItemCheck()
+	{
+		UpdateDirection();
+	}
+
+	public void UpdateDirection(bool ignoreItemAnim = false)
 	{
 		if (!Main.dedServ && Main.gameMenu) {
 			Player.direction = 1;
@@ -166,12 +171,16 @@ public sealed class PlayerDirectioning : ModPlayer
 			return;
 		}
 
-		if (!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (Player.itemAnimation <= 1 || ICanTurnDuringItemUse.Invoke(Player.HeldItem, Player))) {
+		if (!Player.pulley && (!Player.mount.Active || Player.mount.AllowDirectionChange) && (ignoreItemAnim || Player.itemAnimation <= 1 || ICanTurnDuringItemUse.Invoke(Player.HeldItem, Player))) {
+			int wantedDirection;
+			
 			if (directionOverride.AppliesToPlayer(Player)) {
-				Player.direction = (int)directionOverride.Value;
+				wantedDirection = (int)directionOverride.Value;
 			} else {
-				Player.direction = MouseWorld.X >= Player.Center.X ? 1 : -1;
+				wantedDirection = MouseWorld.X >= Player.Center.X ? 1 : -1;
 			}
+
+			Player.ChangeDir(wantedDirection);
 		}
 	}
 
