@@ -48,10 +48,11 @@ Nothing yet.
 - Slightly altered velocity-based tilting effects on player characters.
 
 ### Localization
-- Polish - PR [#205](https://github.com/Mirsario/TerrariaOverhaul/pull/205) by **J00niper**.
-- Spanish - PR [#207](https://github.com/Mirsario/TerrariaOverhaul/pull/207) by **cottonman132**.
-- French - PR [#208](https://github.com/Mirsario/TerrariaOverhaul/pull/208) by **orian34**.
-- Chinese - PR [#213](https://github.com/Mirsario/TerrariaOverhaul/pull/213) by **Cyrillya**.
+- Italian (`0.0%` -> `48.6%`) - PR [#214](https://github.com/Mirsario/TerrariaOverhaul/pull/214) by [**CupCat05**](https://github.com/CupCat05).
+- Polish (`50.3%` -> `100.0%`) - PR [#205](https://github.com/Mirsario/TerrariaOverhaul/pull/205) by [**J00niper**](https://github.com/J00niper).
+- Spanish (`45.2%` -> `100.0%`) - PR [#207](https://github.com/Mirsario/TerrariaOverhaul/pull/207) by [**cottonman132**](https://github.com/cottonman132).
+- French (`44.6%` -> `100.0%`) - PR [#208](https://github.com/Mirsario/TerrariaOverhaul/pull/208) by [**orian34**](https://github.com/orian34).
+- Chinese (`49.2%` -> `100.0%`) - PR [#213](https://github.com/Mirsario/TerrariaOverhaul/pull/213) by [**Cyrillya**](https://github.com/Cyrillya).
 
 ### Optimizations
 - Completely rewrote blood particles for the sake of optimization, visible behavior being left mostly the same. The code is now data-oriented, no longer utilizes unnecessary object-oriented tooling such as inheritance, virtual calls, and needless references and reallocations, altogether minimizing stress on the Garbage Collector and maximizing CPU cache friendliness. This also introduces an upper limit to the amount of particles, currently set to 1024.

@@ -1,282 +1,282 @@
 UI: {
-	// Creative: "Journey"
-	// Normal: "I'm Too Young to Mine"
-	// Expert: "Bone Me Plenty"
-	// Master: "I Am Cthulhu Incarnate"
-	// WorldDescriptionCreative: "The Creative / Accessibility mode (For those who want to be in control)"
-	// WorldDescriptionNormal: "Less damage from enemies, but same rewards (For the easy-going)"
-	// WorldDescriptionExpert: "The new standard experience (For those who like a fair challenge)"
-	// WorldDescriptionMaster: "Extreme punishment and new rewards (For the truly ruthless)"
+	Creativa: "Viaggio"
+	Classico: "Sono troppo giovane per minare"
+	Esperto: "Bone Me Plenty"
+	Maestro: "Sono Cthulhu Incarnato"
+	WorldDescriptionCreative: "La modalità creativa / accessibilità (per coloro che vogliono essere in controllo)"
+	WorldDescriptionNormal: "meno danno dai nemici, ma stesse ricompense (Per i più rilassati)"
+	WorldDescriptionExpert: "La nuova esperienza standard (Per coloro che vogliono una giusta sfida)"
+	WorldDescriptionMaster: "Punizioni estreme e nuove ricompense (per i veri duri)"
 }
 
 Mods: {
 	TerrariaOverhaul: {
 		MainMenu: {
-			// Configuration: "Configuration"
-			// DiscordServer: "Discord Server"
-			// ForumPage: "Forum Page"
-			// WikiPage: "Overhaul Wiki"
-			// Github: "GitHub"
+			Configuration: "Configurazione"
+			DiscordServer: "server di Discord"
+			ForumPage: "Pagina forum"
+			WikiPage: "Overhaul Wiki"
+			Github: "GitHub"
 
 			MusicPack: {
-				// Get: "Get the Music Pack"
-				// Enable: "Enable the Music Pack"
+				Get: "ottieni il pacchetto musicale"
+				Enable: "attiva il pacchetto musicale"
 			}
 		}
 
 		Notifications: {
-			// AudioFilteringTestFailure: "Warning: TerrariaOverhaul was unable to activate some of its audio filtering effects. Make sure that your audio drivers are up to date."
+			AudioFilteringTestFailure: "Attenzione: TerrariaOverhaul non è stato in grado di attivare alcuni dei suoi filtri d'audio. Assicurati che i tuoi driver audio siano aggiornati."
 		}
 
 		Configuration: {
 			Accessibility: {
-				// DisplayName: "Accessibility"
-				// Description: "Overhaul contains a few simple changes that allow everyone to experience the game in a more comfortable way."
+				DisplayName: "Accesibilità"
+				Description: "Overhaul contiene una serie di semplici cambiamenti che permette a chiunque di sperimentale il gioco in maniera più confortevole."
 
 				ForceAutoReuse: {
-					// DisplayName: "Force Auto-reuse"
-					/* Description:
+					DisplayName: "Forza il riuso automatico"
+					Description:
 						'''
-						When enabled, almost every item in the game will be able to be used repeatedly by holding down the use button.
-						Tiny rebalancing measures take place to prevent unintended "60 times a second" usages.
-						Prevents carpal tunnel syndrome, recommended by 10 out of 10 doctors.
-						''' */
+						Quando attivato, quasi ogni oggetto nel gioco potrà essere utilizzato ripetutamente tenendo premuto il pulsante per usarlo.
+						Piccole misure di ribilanciamento avvengono per prevenire utilizzi ''60 volte al secondo'' non previsti.
+						Previene la sindrome del tunnel carpale, raccomandato da 10 dottori su 10.
+						''' 
 				}
 			}
 
 			Ambience: {
-				// DisplayName: "Ambience"
-				// Description: "Overhaul contains many features that help make the game's world feel more immersive."
+				DisplayName: "Atmosfera"
+				Description: "Overhaul contiene molte implementazioni che aiutano il mondo di gioco a essere più immersivo."
 
 				EnableAmbientSounds: {
-					// DisplayName: "Enable Ambient Sounds"
-					// Description: "Toggles ambient audio loops, like birds, cricket, wind, cave sounds, etc."
+					DisplayName: "Attiva Suoni Atmosferici"
+					Description: "Aggiunge loop audio come: uccelli, cavallette, vento, rumori cavernosi, etc."
 				}
 
 				EnableAudioFiltering: {
-					// DisplayName: "Enable Audio Filtering"
-					/* Description:
+					DisplayName: "Attiva Filtraggio Audio"
+					Description:
 						'''
-						Toggles low pass filtering and reverberation effects as a whole.
-						Disable this if your game is crashing every time you enter a world.
-						''' */
+						Aggiunge tutti gli effetti di filtraggio low pass (ovattamento) e reverbero.
+						Disattivalo se il gioco si chiude ogni volta che entri in un mondo.
+						''' 
 				}
 
 				EnablePlayerFootsteps: {
-					// DisplayName: "Enable Player Footsteps"
-					// Description: "Toggles player character footstep audio"
+					DisplayName: "Attiva rumore Passi del Giocatore"
+					Description: "Aggiunge il rumore dei passi del personaggio giocabile"
 				}
 			}
 
 			Awareness: {
-				// DisplayName: "Awareness"
-				/* Description:
+				DisplayName: "Consapevolezza"
+				Description:
 					'''
-					Overhaul implements multiple features that help increase players' awareness of their characters' state,
-					also improving immersion in the process.
-					''' */
+					Overhaul Implementa molti aspetti che aiutano ad aumentare la consapevolezza del giocatore sullo stato del loro personaggio, 
+					Migliorando inoltre l'immedesimazione nel processo.
+					''' 
 
 				LowHealthFilteringIntensity: {
-					// DisplayName: "Low Health Filtering Intensity"
-					// Description: "Controls the intensity of low pass audio filtering (muffling) that occurs when you are low on health."
+					DisplayName: "Intensità del filtro poca vita"
+					Description: "Controlla l'intensità del filtro audio low pass (ovattante) che avviene quando hai poca vita"
 				}
 
 				LowHealthSoundVolume: {
-					// DisplayName: "Low Health Sound Volume"
-					// Description: "Controls the volume of the sound that plays when you are low on health."
+					DisplayName: "Volume del suono poca vita"
+					Description: "Controlla il volume del suono che si sente quando hai poca vita."
 				}
 
 				LowManaSoundVolume: {
-					// DisplayName: "Low Mana Sound Volume"
-					// Description: "Controls the volume of the sound that plays when you are low on mana."
+					DisplayName: "Volume del suono mana basso"
+					Description: "Controlla il volume del suono che si sente quando hai poco mana"
 				}
 
 				ManaRegenerationSoundVolume: {
-					// DisplayName: "Mana Regeneration Sound Volume"
-					// Description: "Controls the volume of the sound that plays when mana is regenerating."
+					DisplayName: "Volume del suono di rigenerazione del mana"
+					Description: "Controlla il volume del suono che si sente quando il mana si sta rigenerando."
 				}
 			}
 
 			Banners: {
-				// DisplayName: "Banners"
-				// Description: "Overhaul changes the way banners work, so that they don't end up making enemies feeling too weak."
+				DisplayName: "Stendardi"
+				Description: "Overhaul cambia il modo in cui funzionano gli stendardi per non lasciare che facciano sembrare i nemici troppo deboli."
 
 				BannerReworkEnabled: {
-					// DisplayName: "Banner Rework Enabled"
-					/* Description:
+					DisplayName: "Attiva Modifica agli stendardi"
+					Description:
 						'''
-						The banner rework removes banners' effects of lowering enemies' health and damage, instead replacing that with double loot and coin drops.
-						Both the drop chance and drop quantity are affected.
-						''' */
+						La modifica agli stendardi ne rimuove gli effetti di diminuzione della vita e danni dei nemici, rimpiazzandoli con bottino e monete raddoppiate.
+						Sia la possibilità che la quantità del bottino è aumentata.
+						''' 
 				}
 			}
 
 			BloodAndGore: {
-				// DisplayName: "Blood and Gore"
-				/* Description:
+				DisplayName: "Sangue e violenza"
+				Description:
 					'''
-					Overhaul improves violence-related audio, visuals, and interactivity,
-					vastly increasing the overall satisfaction level of the game's combat.
-					''' */
+					Overhaul migliora l'audio, l'aspetto e l'interagibilità della violenza,
+					migliorando vastamente la soddisfazione del combattimento nel gioco.
+					''' 
 
 				EnableDecals: {
-					// DisplayName: "Enable Decals"
-					// Description: "Toggles decals, also known as 'blood on tiles'."
+					DisplayName: "Attiva decalcomanie"
+						Description: "Aggiunge decalcomanie, Conosciute anche come ''sangue sui blocchi."
 				}
 
 				EnableGoreStay: {
-					// DisplayName: "Enable Gore Stay"
-					// Description: "When enabled, gore (or more specifically 'gibs') will not disappear after ~10 seconds."
+					DisplayName: "Attiva permanenza interiora"
+					Description: "Quando attiva, le interiora non spariranno prima di ~10 secondi."
 				}
 			}
 
 			Camera: {
-				// DisplayName: "Camera"
-				// Description: "Overhaul implements many camera features that highly improve how the game presents itself."
+				DisplayName: "Visuale"
+				Description: "Overhaul implementa molti aspetti della visuale che migliorano drasticamente la presentazione del gioco."
 
 				CameraSmoothness: {
-					// DisplayName: "Camera Smoothness"
-					/* Description:
+					DisplayName: "Fluidità visuale"
+					Description:
 						'''
-						How much damping to apply to the camera's movement to improve the feel of velocity.
-						Set this to zero to disable the feature completely.
-						''' */
+						Quanto smorzamento è applicato al movimento della visuale per migliorare la sensazione di velocità.
+						Impostare a 0 per disattivare completamente l'effetto.
+						''' 
 				}
 
 				LimitCameraUpdateRate: {
-					// DisplayName: "Limit Camera Update Rate"
-					/* Description:
+					DisplayName: "Limite frequenza aggiornamento schermo"
+					Description:
 						'''
-						When enabled, the camera update rate is locked to 60hz to prevent the player character spazzing out on high refresh rate monitors.
-						It's currently best that you leave this on.
-						''' */
+						Quando attivo, La frequenza di aggiornamento dello schermo è bloccata 60hz per prevenire che il personaggio giocabile si comporti stranamente su monitor ad alta frequenza di aggiornamento.
+						Per il momento è meglio se lasci questa opzione attiva.
+						''' 
 				}
 
 				ScreenShakeStrength: {
-					// DisplayName: "Screen Shake Strength"
-					/* Description:
+					DisplayName: "Intensità tremolio schermo"
+					Description:
 						'''
-						Controls the strength of screen shaking effects.
-						Set this to zero to disable the feature completely.
-						''' */
+						Controlla l'intensità degli effeti che scuotono la visuale.
+						Impostare a 0 per disattivare completamente l'effetto.
+						''' 
 				}
 			}
 
 			DifficultyLevels: {
-				// DisplayName: "Difficulty Levels"
-				/* Description:
+				DisplayName: "Livelli di difficoltà"
+				Description:
 					'''
-					Overhaul reimplements game modes as actual difficulty levels, fulfilling the following goals:
-					- Equalization of most stats, removal of bullet sponges from high difficulties and glass enemies from low ones;
-					- (WIP) Removal of mode-exclusivity on content and AI behaviors, less ableism;
-					- (WIP) Focus on variation in concepts such as reaction windows rather than "more damage and health";
-					''' */
+					Overhaul reimplementa le modalità di gioco come veri e propri livelli di difficoltà, Adempiendo i seguenti obbiettivi:
+					- L'equalizzazione della maggior parte delle statische, rimozione dei nemici ''spugna'' delle difficoltà più alte, e dei nemici fragilissimi delle difficoltà più basse;
+					- (WIP) Rimozione dell'esclusività delle modalità più difficli su contenuti e comportamento dei nemici, meno abilismo;
+					- (WIP) Concentrazione sulla variazione di concetti come il tempo di reazione invece che semplicemente ''più danno e più vita'';
+					''' 
 
 				EnableDifficultyChanges: {
-					// DisplayName: "Enable Difficulty Changes"
-					// Description: "Toggles the mod's changes to difficulty levels as a whole."
+					DisplayName: "Attiva cambiamenti della difficoltà"
+					Description: "Attiva tutti i cambiamenti sulla difficoltà della mod."
 				}
 			}
 
 			Enemies: {
-				// DisplayName: "Enemies"
-				// Description: "Overhaul contains a few additions to the game's enemies' behavior that aim to make fighting them a little bit more fun."
+				DisplayName: "Nemici"
+				Description: "Overhaul contiene qualche addizione al comportamento dei nemici per rendere il combatterli un po' più divertenti."
 
 				EnableEnemyLunges: {
-					// DisplayName: "Enable Enemy Lunges"
-					// Description: "When enabled, walking enemies may lunge at you when they get close."
+					DisplayName: "Attiva assalti nemici"
+					Description: "Quando attivo, i nemici che camminano potrebbero saltarti addosso quando ti si avvicinano."
 				}
 			}
 
 			Guns: {
-				// DisplayName: "Guns"
-				// Description: "Overhaul heavily focuses on improving gameplay and feel of the game's firearms."
+				DisplayName: "Armi da fuoco"
+				Description: "Overhaul si concentra molto nel migliorare il gameplay e la sensazione delle armi da fuoco del gioco."
 
 				EnableAimingRecoil: {
-					// DisplayName: "Enable Aiming Recoil (Experimental)"
-					/* Description:
+					DisplayName: "Attiva il rinculo (sperimentale)"
+					Description:
 						'''
-						When enabled, guns may offset the player's cursor when fired.
-						Experimental feature, disabled by default.
-						''' */
+						Quando attivo, le armi da fuoco possono spostare il cursore del giocatore quando si spara.
+						Addizione sperimentale, disabilitata di base.
+						''' 
 				}
 			}
 
 			Melee: {
-				// DisplayName: "Melee"
-				// Description: "Overhaul completely reimagines the feel and flow of the game's melee weapons, allowing you to hack and slash like never before!"
+				DisplayName: "Corpo a corpo"
+				Description: "Overhaul reimmagina la sensazione e fluidità delle armi corpo a corpo, permettendoti di squarciare e tagliare come mai prima d'ora!"
 
 				EnableAirCombat: {
-					// DisplayName: "Enable Air Combat"
-					/* Description:
+					DisplayName: "Attiva combattimento aereo"
+					Description:
 						'''
-						Toggles melee air combat, which allows you to accelerate yourself in any direction using movement keys every time you hit an enemy mid-air.
-						Use your foes as stepladders; Chain attacks on flying enemies; Gain greater momentum to fall-strike ground brutes.
-						''' */
+						Attiva il combattimento corpo a corpo aereo, che ti permette di propellerti in qualsiasi direzione usando i tasti per il movimento ogni volta che colpisci un nemico a mezz'aria.
+						Usa i tuoi nemici come sgabelli; Incatena i tuoi attacchi su nemici volanti; Ottiene maggiore momento per colpire in caduta i bruti a terra.
+						''' 
 				}
 
 				EnableProjectileSwordManaUsage: {
-					// DisplayName: "Enable Projectile Sword Mana Usage"
-					/* Description:
+					DisplayName: "Attiva l'utilizzo di mana dei proiettili della spada"
+					Description:
 						'''
-						Experimental.
-						When enabled, broadswords that shoot projectiles will use a bit of mana.
-						Mages' mana regeneration and mana drop rules still apply, so this isn't very significant.
-						''' */
+						Sperimentale.
+						Quando attiva, le spade che sparano proiettili userannò un po' di mana.
+						la rigenerazione di mana dei maghi e le regole del rilascio del mana si applicano sempre, quindi il cambiamento non è significativo.
+						''' 
 				}
 
 				EnableSwingVelocity: {
-					// DisplayName: "Enable Swing Velocity"
-					/* Description:
+					DisplayName: "Attiva velocità fendente"
+					Description:
 						'''
-						When enabled, swinging a melee weapon can accelerate you towards the direction of the swing.
-						This can be further controlled using movement keys, as you'll never be thrown forward when you're holding back movement.
-						Use together with power attacks to significantly boost your jumps and damage.
-						''' */
+						Quando attiva, Brandire un arma corpo a corpo può propellerti verso la direzione del fendente.
+						Questo può essere ulteriormente controllato con i tasti di movimento: Non verrai mai lanciato in avanti se ti stai muovendo indietro.
+						Usalo insieme agli attacchi pesanti per potenziare in modo significativo i tuoi salti ed i danni to significantly boost your jumps and damage.
+						''' 
 				}
 
 				EnableAxePowerAttacks: {
-					// DisplayName: "Enable Axe Power Attacks"
-					// Description: "Toggles the ability to perform charged power attacks with axes via right clicking."
+					DisplayName: "Attiva attacchi pesanti ascia"
+					Description: "Dona l'abilità di sferrare attacchi caricati pesanti con le ascie, premendo il tasto destro del mouse."
 				}
 
 				EnableBroadswordPowerAttacks: {
-					// DisplayName: "Enable Broadsword Power Attacks"
-					// Description: "Toggles the ability to perform charged power attacks with broadswords via right clicking."
+					DisplayName: "Attiva attachi pesanti spada"
+					Description: "Dona l'abilità di sferrare attacchi caricati pesanti con le spade, premendo il tasto destro del mouse."
 				}
 
 				EnableHammerPowerAttacks: {
-					// DisplayName: "Enable Hammer Power Attacks"
-					// Description: "Toggles the ability to perform charged power attacks with hammers via right clicking."
+					DisplayName: "Attiva attacchi pesanti martello"
+					Description: "Dona l'abilità di sferrare attacchi caricati pesanti con i martelli, premendo il tasto destro del mouse."
 				}
 			}
 
 			Music: {
-				// DisplayName: "Music"
-				/* Description:
+				DisplayName: "Musica"
+				Description:
 					'''
-					Overhaul contains a few improvements to the game's music playback behavior.
-					There's also a whole remastered soundtrack made for it - Click the button in top left to get it!
-					''' */
+					Overhaul contiene dei miglioramenti alla riproduzione della musica del gioco.
+					C'è anche una colonna sonora remasterizzata creata appositamente - Clicca il bottone in alto a sinistra per ottenerla!
+					''' 
 
 				EnableMusicPlaybackPositionPreservation: {
-					// DisplayName: "Enable Music Playback Position Preservation"
-					/* Description:
+					DisplayName: "Attiva conservazione posizione della riproduzione musicale"
+					Description:
 						'''
-						When enabled, music tracks will always pause in place of stopping.
-						This means that whenever you come back to a biome you've already been at, its music will resume playing where it has been whenever you left it.
-						Greatly improves game feel, since you won't be stuck hearing music tracks' intros when moving around the world.
-						''' */
+						Quando attiva, la musica verrà messa in pausa invece di fermarsi.
+						Questo significa che ogni volta che ritorni in un bioma dove sei già stato, la sua musica riprenderà da dove l'hai lasciata.
+						Migliora drasticamente l'atmosfera del gioco, in quanto non rimarrai bloccato a sentire sempre la parte iniziale di ogni musica quando ti muovi per il mondo.
+						''' 
 				}
 			}
 
 			PlayerMovement: {
-				// DisplayName: "Player Movement"
-				// Description: "Overhaul greatly improves and refreshes almost every aspect of moving around, which you do a lot of."
+				DisplayName: "Movimento giocatore"
+				Description: "Overhaul migliora ampiamente e rinfresca quasi ogni aspetto del muoversi in giro, cosa che fai molto."
 
 				EnableAutoJump: {
-					// DisplayName: "Enable Auto Jump"
-					// Description: "When enabled, players will always be able to hold down the space key to jump repeatedly."
+					DisplayName: "Attiva salto automatico"
+					Description: "Quando attiva, I giocatori saranno sempre in grado di tener premuto spazio per saltare ripetutamente."
 				}
 
 				EnableVerticalAccelerationChanges: {
