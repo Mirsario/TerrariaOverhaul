@@ -32,7 +32,8 @@
 
 # Work In Progress
 
-Nothing yet.
+### Fixes
+- Fixed a few broken keys in Italian localization.
 
 # 5.0 BETA 13C
 

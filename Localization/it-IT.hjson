@@ -1,8 +1,8 @@
 UI: {
-	Creativa: "Viaggio"
-	Classico: "Sono troppo giovane per minare"
-	Esperto: "Bone Me Plenty"
-	Maestro: "Sono Cthulhu Incarnato"
+	Creative: "Viaggio"
+	Normal: "Sono troppo giovane per minare"
+	Expert: "Bone Me Plenty"
+	Master: "Sono Cthulhu Incarnato"
 	WorldDescriptionCreative: "La modalità creativa / accessibilità (per coloro che vogliono essere in controllo)"
 	WorldDescriptionNormal: "meno danno dai nemici, ma stesse ricompense (Per i più rilassati)"
 	WorldDescriptionExpert: "La nuova esperienza standard (Per coloro che vogliono una giusta sfida)"
@@ -40,7 +40,7 @@ Mods: {
 						Quando attivato, quasi ogni oggetto nel gioco potrà essere utilizzato ripetutamente tenendo premuto il pulsante per usarlo.
 						Piccole misure di ribilanciamento avvengono per prevenire utilizzi ''60 volte al secondo'' non previsti.
 						Previene la sindrome del tunnel carpale, raccomandato da 10 dottori su 10.
-						''' 
+						'''
 				}
 			}
 
@@ -59,7 +59,7 @@ Mods: {
 						'''
 						Aggiunge tutti gli effetti di filtraggio low pass (ovattamento) e reverbero.
 						Disattivalo se il gioco si chiude ogni volta che entri in un mondo.
-						''' 
+						'''
 				}
 
 				EnablePlayerFootsteps: {
@@ -74,7 +74,7 @@ Mods: {
 					'''
 					Overhaul Implementa molti aspetti che aiutano ad aumentare la consapevolezza del giocatore sullo stato del loro personaggio, 
 					Migliorando inoltre l'immedesimazione nel processo.
-					''' 
+					'''
 
 				LowHealthFilteringIntensity: {
 					DisplayName: "Intensità del filtro poca vita"
@@ -107,7 +107,7 @@ Mods: {
 						'''
 						La modifica agli stendardi ne rimuove gli effetti di diminuzione della vita e danni dei nemici, rimpiazzandoli con bottino e monete raddoppiate.
 						Sia la possibilità che la quantità del bottino è aumentata.
-						''' 
+						'''
 				}
 			}
 
@@ -117,11 +117,11 @@ Mods: {
 					'''
 					Overhaul migliora l'audio, l'aspetto e l'interagibilità della violenza,
 					migliorando vastamente la soddisfazione del combattimento nel gioco.
-					''' 
+					'''
 
 				EnableDecals: {
 					DisplayName: "Attiva decalcomanie"
-						Description: "Aggiunge decalcomanie, Conosciute anche come ''sangue sui blocchi."
+					Description: "Aggiunge decalcomanie, Conosciute anche come ''sangue sui blocchi."
 				}
 
 				EnableGoreStay: {
@@ -140,7 +140,7 @@ Mods: {
 						'''
 						Quanto smorzamento è applicato al movimento della visuale per migliorare la sensazione di velocità.
 						Impostare a 0 per disattivare completamente l'effetto.
-						''' 
+						'''
 				}
 
 				LimitCameraUpdateRate: {
@@ -149,7 +149,7 @@ Mods: {
 						'''
 						Quando attivo, La frequenza di aggiornamento dello schermo è bloccata 60hz per prevenire che il personaggio giocabile si comporti stranamente su monitor ad alta frequenza di aggiornamento.
 						Per il momento è meglio se lasci questa opzione attiva.
-						''' 
+						'''
 				}
 
 				ScreenShakeStrength: {
@@ -158,7 +158,7 @@ Mods: {
 						'''
 						Controlla l'intensità degli effeti che scuotono la visuale.
 						Impostare a 0 per disattivare completamente l'effetto.
-						''' 
+						'''
 				}
 			}
 
@@ -170,7 +170,7 @@ Mods: {
 					- L'equalizzazione della maggior parte delle statische, rimozione dei nemici ''spugna'' delle difficoltà più alte, e dei nemici fragilissimi delle difficoltà più basse;
 					- (WIP) Rimozione dell'esclusività delle modalità più difficli su contenuti e comportamento dei nemici, meno abilismo;
 					- (WIP) Concentrazione sulla variazione di concetti come il tempo di reazione invece che semplicemente ''più danno e più vita'';
-					''' 
+					'''
 
 				EnableDifficultyChanges: {
 					DisplayName: "Attiva cambiamenti della difficoltà"
@@ -198,7 +198,7 @@ Mods: {
 						'''
 						Quando attivo, le armi da fuoco possono spostare il cursore del giocatore quando si spara.
 						Addizione sperimentale, disabilitata di base.
-						''' 
+						'''
 				}
 			}
 
@@ -212,7 +212,7 @@ Mods: {
 						'''
 						Attiva il combattimento corpo a corpo aereo, che ti permette di propellerti in qualsiasi direzione usando i tasti per il movimento ogni volta che colpisci un nemico a mezz'aria.
 						Usa i tuoi nemici come sgabelli; Incatena i tuoi attacchi su nemici volanti; Ottiene maggiore momento per colpire in caduta i bruti a terra.
-						''' 
+						'''
 				}
 
 				EnableProjectileSwordManaUsage: {
@@ -222,7 +222,7 @@ Mods: {
 						Sperimentale.
 						Quando attiva, le spade che sparano proiettili userannò un po' di mana.
 						la rigenerazione di mana dei maghi e le regole del rilascio del mana si applicano sempre, quindi il cambiamento non è significativo.
-						''' 
+						'''
 				}
 
 				EnableSwingVelocity: {
@@ -232,7 +232,7 @@ Mods: {
 						Quando attiva, Brandire un arma corpo a corpo può propellerti verso la direzione del fendente.
 						Questo può essere ulteriormente controllato con i tasti di movimento: Non verrai mai lanciato in avanti se ti stai muovendo indietro.
 						Usalo insieme agli attacchi pesanti per potenziare in modo significativo i tuoi salti ed i danni to significantly boost your jumps and damage.
-						''' 
+						'''
 				}
 
 				EnableAxePowerAttacks: {
@@ -257,7 +257,7 @@ Mods: {
 					'''
 					Overhaul contiene dei miglioramenti alla riproduzione della musica del gioco.
 					C'è anche una colonna sonora remasterizzata creata appositamente - Clicca il bottone in alto a sinistra per ottenerla!
-					''' 
+					'''
 
 				EnableMusicPlaybackPositionPreservation: {
 					DisplayName: "Attiva conservazione posizione della riproduzione musicale"
@@ -266,7 +266,7 @@ Mods: {
 						Quando attiva, la musica verrà messa in pausa invece di fermarsi.
 						Questo significa che ogni volta che ritorni in un bioma dove sei già stato, la sua musica riprenderà da dove l'hai lasciata.
 						Migliora drasticamente l'atmosfera del gioco, in quanto non rimarrai bloccato a sentire sempre la parte iniziale di ogni musica quando ti muovi per il mondo.
-						''' 
+						'''
 				}
 			}
 

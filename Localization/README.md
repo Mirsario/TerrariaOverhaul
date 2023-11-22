@@ -29,8 +29,8 @@
 
 ## it-IT
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***48.6%***
-- **Translated:** `86` out of `177` (`91` missing!)
+- **Completion:** ***50.8%***
+- **Translated:** `90` out of `177` (`87` missing!)
 
 ## pl-PL
 - **Status:** ✅ Full!
