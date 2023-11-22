@@ -32,6 +32,8 @@
 
 # Work In Progress
 
+### Changes
+- Fighter AI enemies will no longer leap at their targets if they're not facing them.
 ### Fixes
 - Fixed a few broken keys in Italian localization.
 - Fixed an injection not working in Debug builds of TML.
