@@ -2,7 +2,7 @@
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.PlayerEffects;
+namespace TerrariaOverhaul.Common.EntityEffects;
 
 public sealed class PlayerAnimations : ModPlayer
 {

@@ -1,0 +1,18 @@
+EvilDrone: {
+	AmbienceTrack: {
+		Sound: {
+			SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/Evil/EvilDroneLoop"
+			Type: Ambient
+			Volume: 0.6
+			IsLooped: true
+		}
+
+		// Plays everywhere near evil biomes as well as near meteors and in the dungeon.
+		Variables: {
+			Volume: {
+				Inputs: [ "Corruption", "Crimson", "Meteor", "Dungeon" ]
+				Operation: Max
+			}
+		}
+	}
+}

@@ -21,19 +21,22 @@
 
 		<Compile Remove="Old\**" />
 		<Compile Remove="lib\**" />
-		<Compile Remove="BuildTools\**" />
+		<Compile Remove="BuildTools/**" />
 		<EmbeddedResource Remove="Old\**" />
 		<EmbeddedResource Remove="lib\**" />
 		<EmbeddedResource Remove="BuildTools\**" />
 		<None Remove="Old\**" />
 		<None Remove="lib\**" />
-		<None Remove="BuildTools\**" />
+		<None Remove="BuildTools/**" />
 		<None Remove="**/*.png" />
 		<None Remove="**/*.ogg" />
 		<None Remove="**/*.ase" />
 		<None Remove="build.txt" />
 		<None Remove="description.txt" />
 		<None Remove=".gitignore" />
+
+		<!-- Weirdly, without this a bunch of files appear in VS regardless of being excluded from all other groups -->
+		<AdditionalFiles Remove="**" />
 	</ItemGroup>
 
 	<Target Name="UpdateLocalizationFiles" BeforeTargets="BeforeCompile" DependsOnTargets="InvokeCustomTasks">

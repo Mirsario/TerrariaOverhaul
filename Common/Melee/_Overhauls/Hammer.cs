@@ -1,7 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
+using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Damage;
 using TerrariaOverhaul.Common.Interaction;
@@ -108,5 +110,19 @@ public class Hammer : ItemOverhaul
 				});
 			}
 		}
+	}
+
+	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+	{
+		base.ModifyTooltips(item, tooltips);
+
+		IEnumerable<string> GetCombatInfo()
+		{
+			yield return Mod.GetTextValue("ItemOverhauls.Melee.PowerStrikeInfo");
+			yield return Mod.GetTextValue("ItemOverhauls.Melee.AirCombatInfo");
+			yield return Mod.GetTextValue("ItemOverhauls.Melee.VelocityBasedDamageInfo");
+		}
+
+		TooltipUtils.ShowCombatInformation(Mod, tooltips, GetCombatInfo);
 	}
 }

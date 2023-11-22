@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Mono.Cecil.Cil;
@@ -16,7 +17,7 @@ internal sealed class LocalizationTweaks : ILoadable
 	private delegate void DetourDelegate(DetourOriginal original, Mod mod, string outputPath, GameCulture specificCulture);
 
 	[ThreadStatic]
-	private static int modLocalizationCalls;
+	private static int personalModLocalizationCalls;
 
 	void ILoadable.Load(Mod mod)
 	{
@@ -62,20 +63,22 @@ internal sealed class LocalizationTweaks : ILoadable
 
 	void ILoadable.Unload() { }
 
+	// Tracks localization updates for this mod.
 	private static void UpdateLocalizationFilesForModDetour(DetourOriginal original, Mod mod, string outputPath, GameCulture specificCulture)
 	{
 		int offset = mod.Name == nameof(TerrariaOverhaul) ? 1 : 0;
 
 		try {
-			modLocalizationCalls += offset;
+			personalModLocalizationCalls += offset;
 
 			original(mod, outputPath, specificCulture);
 		}
 		finally {
-			modLocalizationCalls -= offset;
+			personalModLocalizationCalls -= offset;
 		}
 	}
 
+	// Disables "A: { B: C }" being converted to "A.B: C".
 	private static void LocalizationFileToHjsonTextInjection(ILContext context)
 	{
 		var il = new ILCursor(context);
@@ -86,10 +89,11 @@ internal sealed class LocalizationTweaks : ILoadable
 			i => i.MatchLdloc(out _),
 			i => i.MatchLdloc(out _),
 			i => i.MatchCall(typeof(Enumerable).GetMethod(nameof(Enumerable.Skip))!.MakeGenericMethod(typeof(string))),
+			i => i.MatchCall(typeof(string).GetMethod(nameof(string.Join), new[] { typeof(string), typeof(IEnumerable<>).MakeGenericType(typeof(string)) })!),
 		};
 
 		var instructionsB = new Func<Instruction, bool>[] {
-			i => i.MatchBgt(out skipLabel),
+			i => i.MatchBrfalse(out skipLabel),
 		};
 
 		if (!il.TryGotoNext(MoveType.Before, instructionsA) || !il.TryGotoPrev(MoveType.After, instructionsB)) {
@@ -97,25 +101,39 @@ internal sealed class LocalizationTweaks : ILoadable
 			return;
 		}
 
-		il.EmitDelegate(static () => modLocalizationCalls > 0);
+		il.EmitDelegate(static () => personalModLocalizationCalls > 0);
 		il.Emit(OpCodes.Brtrue, skipLabel!);
 	}
 
+	// Forces strings to always use quotemarks.
 	private static void WriteStringInjection(ILContext context)
 	{
+		const string HasCommentParameter = "hasComment";
+		int hasCommentIndex = context.Method.Parameters.FirstOrDefault(p => p.Name == HasCommentParameter)?.Index ?? -1;
+
+		if (hasCommentIndex == -1) {
+			OverhaulMod.Instance.Logger.Warn($"{nameof(LocalizationTweaks)}/{nameof(WriteStringInjection)}: No '{HasCommentParameter}' parameter.");
+			return;
+		}
+		
 		var il = new ILCursor(context);
-		ILLabel? enforceQuotermarksLabel = null;
+		ILLabel? placeQuoteWrappedStringLabel = null;
 
 		if (!il.TryGotoNext(
 			MoveType.After,
-			i => i.MatchLdarg(3),
-			i => i.MatchBrtrue(out enforceQuotermarksLabel)
+			i => i.MatchLdarg(hasCommentIndex),
+			i => i.MatchBrtrue(out placeQuoteWrappedStringLabel)
 		)) {
 			OverhaulMod.Instance.Logger.Warn($"{nameof(LocalizationTweaks)}/{nameof(WriteStringInjection)}: Injection failed.");
 			return;
 		}
 
-		il.EmitDelegate(static () => modLocalizationCalls > 0);
-		il.Emit(OpCodes.Brtrue, enforceQuotermarksLabel!);
+		il.EmitDelegate(ShouldForceQuoteWrappingInHjson);
+		il.Emit(OpCodes.Brtrue, placeQuoteWrappedStringLabel!);
+	}
+
+	private static bool ShouldForceQuoteWrappingInHjson()
+	{
+		return personalModLocalizationCalls > 0;
 	}
 }

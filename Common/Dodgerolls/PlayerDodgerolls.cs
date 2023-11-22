@@ -7,8 +7,9 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Damage;
 using TerrariaOverhaul.Common.Movement;
-using TerrariaOverhaul.Common.PlayerEffects;
+using TerrariaOverhaul.Common.EntityEffects;
 using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Networking;
@@ -51,6 +52,8 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 	public int MaxCharges { get; set; }
 	public int CurrentCharges { get; set; }
+	public int DoorRollDamage { get; set; } = 10;
+	public float DoorRollKnockback { get; set; } = 8.00f;
 
 	public bool IsDodging { get; private set; }
 	public float DodgeStartRotation { get; private set; }
@@ -127,7 +130,14 @@ public sealed class PlayerDodgerolls : ModPlayer
 		bool isLocal = Player.IsLocal();
 
 		if (isLocal && !DodgeAttemptTimer.Active && DodgerollKey.JustPressed && (!Player.mouseInterface || !Main.playerInventory)) {
-			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), Player.KeyDirection().X >= 0f ? Direction1D.Right : Direction1D.Left);
+			int keyDirection = (int)Player.KeyDirection().X;
+			Direction1D chosenDirection = keyDirection switch {
+				1 => Direction1D.Right,
+				-1 => Direction1D.Left,
+				_ => (Direction1D)Player.direction,
+			};
+
+			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), chosenDirection);
 		}
 
 		if (!ForceDodgeroll) {
@@ -220,18 +230,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 		}
 
 		// Open doors
-		var tilePos = Player.position.ToTileCoordinates16();
-		int x = DodgeDirection > 0 ? tilePos.X + 2 : tilePos.X - 1;
-
-		for (int y = tilePos.Y; y < tilePos.Y + 3; y++) {
-			if (!Main.tile.TryGet(x, y, out var tile)) {
-				continue;
-			}
-
-			if (tile.TileType == TileID.ClosedDoor) {
-				WorldGen.OpenDoor(x, y, (int)DodgeDirection);
-			}
-		}
+		TryOpeningDoors();
 
 		// Apply velocity
 		if (DodgeTime < DodgeTimeMax * 0.5f) {
@@ -272,6 +271,46 @@ public sealed class PlayerDodgerolls : ModPlayer
 		} else {
 			Player.runAcceleration = 0f;
 		}
+	}
+
+	private bool TryOpeningDoors()
+	{
+		var tilePos = Player.position.ToTileCoordinates16();
+		int x = DodgeDirection > 0 ? tilePos.X + 2 : tilePos.X - 1;
+
+		for (int y = tilePos.Y; y < tilePos.Y + 3; y++) {
+			if (!Main.tile.TryGet(x, y, out var tile)) {
+				continue;
+			}
+
+			if (tile.TileType != TileID.ClosedDoor) {
+				continue;
+			}
+
+			if (WorldGen.OpenDoor(x, y, (int)DodgeDirection)) {
+				if (Player.IsLocal()) {
+					var damageRect = new Rectangle(x * 16, y * 16 - 8, 48, 64);
+
+					if (DodgeDirection == Direction1D.Left) {
+						damageRect.X -= 32;
+					}
+
+					foreach (var npc in ActiveEntities.NPCs) {
+						if (npc.GetRectangle().Intersects(damageRect)) {
+							Player.ApplyDamageToNPC(npc, DoorRollDamage, DoorRollKnockback, (int)DodgeDirection, crit: true);
+
+							if (!npc.boss && !NPCID.Sets.ShouldBeCountedAsBoss[npc.type] && npc.TryGetGlobalNPC(out NPCAttackCooldowns cooldowns)) {
+								cooldowns.SetAttackCooldown(npc, 60, true);
+							}
+						}
+					}
+				}
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private void OnDodgeEntity(Player player, Entity entity)

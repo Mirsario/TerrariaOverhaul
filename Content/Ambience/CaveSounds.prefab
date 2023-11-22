@@ -1,0 +1,18 @@
+CaveLoop: {
+	AmbienceTrack: {
+		Sound: {
+			SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/Underground/CaveLoop"
+			Type: Ambient
+			Volume: 0.2
+			IsLooped: true
+		}
+		
+		// Plays everywhere underground
+		Variables: {
+			Volume: {
+				Inputs: [ "UnderSurfaceAltitude" ]
+				Operation: Multiply
+			}
+		}
+	}
+}

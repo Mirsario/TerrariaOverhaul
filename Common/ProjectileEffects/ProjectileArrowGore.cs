@@ -16,7 +16,7 @@ public sealed class ProjectileArrowGore : GlobalProjectile
 		return OverhaulProjectileTags.WoodenArrow.Has(entity.type);
 	}
 
-	public override void Kill(Projectile projectile, int timeLeft)
+	public override void OnKill(Projectile projectile, int timeLeft)
 	{
 		if (Main.dedServ) {
 			return;

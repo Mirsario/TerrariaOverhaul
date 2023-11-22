@@ -43,6 +43,6 @@ public class PlayerUnderwaterEffects : ModPlayer
 		}
 
 		// Sound
-		SoundUtils.UpdateLoopingSound(ref underwaterLoopSoundSlot, UnderwaterLoopSound, underwaterEffectIntensity, CameraSystem.ScreenCenter);
+		SoundUtils.UpdateLoopingSound(ref underwaterLoopSoundSlot, in UnderwaterLoopSound, underwaterEffectIntensity, CameraSystem.ScreenCenter);
 	}
 }

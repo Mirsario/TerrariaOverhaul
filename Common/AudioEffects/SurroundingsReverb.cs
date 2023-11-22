@@ -35,56 +35,51 @@ public sealed class SurroundingsReverb : ModSystem
 			return;
 		}
 
+		const int FloodFillRange = 22;
+		const int FloodFillExtents = FloodFillRange / 2;
+
 		Vector2Int areaCenter = CameraSystem.ScreenCenter.ToTileCoordinates();
-		var halfSize = new Vector2Int(22, 22);
-		Vector2Int size = halfSize * 2;
-		Vector2Int start = areaCenter - halfSize;
-		Vector2Int end = areaCenter + halfSize;
+		var areaRectangle = new Rectangle(areaCenter.X, areaCenter.Y, 0, 0).Extended(FloodFillExtents);
 
 		int numReverbTiles = 0;
-		int maxTiles = size.X * size.Y;
+		int maxTiles = areaRectangle.Width * areaRectangle.Height;
 		int maxReverbTiles = (int)(maxTiles * MaxReverbTileRatio) + 1;
 
-		GeometryUtils.FloodFill(
-			areaCenter - start,
-			size,
-			(Vector2Int p, out bool occupied, ref bool stop) => {
-				int x = p.X + start.X;
-				int y = p.Y + start.Y;
-				Tile tile = Main.tile[x, y];
+		foreach (var p in new GeometryUtils.FloodFill(areaCenter, areaRectangle.ClampTileCoordinates())) {
+			var (x, y) = p.Point;
+			Tile tile = Main.tile[x, y];
 
-				occupied = tile.HasTile && Main.tileSolid[tile.TileType];
+			bool isPointFree = p.IsPointFree = !tile.HasTile || !Main.tileSolid[tile.TileType];
 
-				if (!occupied) {
-					/*if(DebugSystem.EnableDebugRendering) {
-						DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.White, 1);
-					}*/
-
-					return;
-				}
-
-				if (tile.TileType >= TileLoader.TileCount || !OverhaulTileTags.Reverb.Has(tile.TileType)) {
-					return;
-				}
-
+			if (isPointFree) {
 				if (DebugSystem.EnableDebugRendering) {
-					DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.Red, 1);
+					//DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.White, 1);
 				}
 
-				numReverbTiles++;
-
-				if (numReverbTiles >= maxReverbTiles) {
-					stop = true;
-				}
+				continue;
 			}
-		);
+
+			if (tile.TileType >= TileLoader.TileCount || !OverhaulTileTags.Reverb.Has(tile.TileType)) {
+				continue;
+			}
+
+			if (DebugSystem.EnableDebugRendering) {
+				DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.Red, 1);
+			}
+
+			numReverbTiles++;
+
+			if (numReverbTiles >= maxReverbTiles) {
+				break;
+			}
+		}
 
 		float reverbTileFactor = numReverbTiles / (float)maxReverbTiles;
 		float adjustedReverbTileFactor = ReverbFactorToReverbIntensity.GetValue(reverbTileFactor);
 		float calculatedReverb = adjustedReverbTileFactor * MaxReverbIntensity;
 
 		if (DebugSystem.EnableDebugRendering) {
-			DebugSystem.DrawRectangle(new Rectangle(start.X * 16, start.Y * 16, halfSize.X * 32, halfSize.Y * 32), Color.Purple, 4);
+			DebugSystem.DrawRectangle(areaRectangle.ToWorldCoordinates(), Color.Purple, 1);
 		}
 
 		//DebugSystem.Log($"{numReverbTiles} = {reverbTileFactor:0.00} = {adjustedReverbTileFactor:0.00} = {calculatedReverb:0.00}");

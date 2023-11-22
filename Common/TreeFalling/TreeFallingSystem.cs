@@ -75,6 +75,22 @@ public sealed class TreeFallingSystem : ModSystem
 			return false;
 		}
 
+		// Find the soil tile
+		Tile soilTile;
+		Vector2Int soilPosition = data.BottomPosition;
+
+		do {
+			soilPosition += Vector2Int.UnitY;
+
+			if (soilPosition.Y >= Main.maxTilesY) {
+				data = default;
+				return false;
+			}
+
+			soilTile = Main.tile[soilPosition.X, soilPosition.Y];
+		}
+		while (IsATreeTile(soilTile));
+
 		// Get all adjacent tree tiles above this one
 		data.TreeTilePositions = GetAdjacentTreeParts(basePosition);
 
@@ -83,8 +99,22 @@ public sealed class TreeFallingSystem : ModSystem
 		// Calculate tilespace AABBs
 		CalculateTilesAabb(treeTilePositionsSpan, out data.AabbMin, out data.AabbMax);
 
-		data.TextureAabbMinOffset = new Vector2Int(2, 4);
-		data.TextureAabbMaxOffset = new Vector2Int(2, 1);
+		// Write down texturespace AABBs
+		int treeFrame = WorldGen.GetTreeFrame(baseTile);
+		int treeStyle = 0;
+		int xOffset = 0;
+
+		WorldGen.GetCommonTreeFoliageData(
+			data.BottomPosition.X, data.BottomPosition.Y, xOffset,
+			ref treeFrame, ref treeStyle,
+			out int _, out int topTextureFrameWidth, out int topTextureFrameHeight
+		);
+
+		int topHalfWidthInTiles = (int)MathF.Ceiling(topTextureFrameWidth / 16f / 2f);
+		int topHeightInTiles = (int)MathF.Ceiling(topTextureFrameHeight / 16f);
+
+		data.TextureAabbMinOffset = new Vector2Int(topHalfWidthInTiles, topHeightInTiles);
+		data.TextureAabbMaxOffset = new Vector2Int(topHalfWidthInTiles, 1);
 
 		data.TextureAabbMin = data.AabbMin - data.TextureAabbMinOffset;
 		data.TextureAabbMax = data.AabbMax + data.TextureAabbMaxOffset;

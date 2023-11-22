@@ -7,7 +7,7 @@ using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 
-namespace TerrariaOverhaul.Common.PlayerEffects;
+namespace TerrariaOverhaul.Common.EntityEffects;
 
 public class PlayerHeadRotation : ModPlayer
 {

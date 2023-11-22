@@ -5,8 +5,6 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Content.SimpleEntities;
-using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.BloodAndGore;
@@ -47,11 +45,19 @@ public class NPCBloodAndGore : GlobalNPC
 				return orig(position, width, height, type, speedX, speedY, alpha, color, scale);
 			}
 
-			void SpawnParticles(Color usedColor) => SpawnNewBlood(
-				position + new Vector2(Main.rand.NextFloat(width), Main.rand.NextFloat(height)),
-				new Vector2(speedX, speedY) * TimeSystem.LogicFramerate,
-				usedColor
-			);
+			void SpawnParticles(Color usedColor)
+			{
+				Span<ParticleSystem.ParticleData> particleSpan = stackalloc ParticleSystem.ParticleData[1];
+
+				ParticleSystem.ConfigureParticles(
+					particleSpan,
+					position + new Vector2(Main.rand.NextFloat(width), Main.rand.NextFloat(height)),
+					new Vector2(speedX, speedY) * TimeSystem.LogicFramerate,
+					usedColor
+				);
+
+				ParticleSystem.SpawnParticles(particleSpan);
+			}
 
 			switch (type) {
 				default:
@@ -89,7 +95,7 @@ public class NPCBloodAndGore : GlobalNPC
 			List<Color>? bloodColors = null;
 			
 			var spawnedGores = GoreSystem.InvokeWithGoreSpawnRecording(() => {
-				bloodColors = BloodParticle.RecordBloodColors(() => {
+				bloodColors = BloodColorRecording.RecordBloodColors(() => {
 					orig(npc, hitInfo);
 				});
 			});
@@ -152,25 +158,5 @@ public class NPCBloodAndGore : GlobalNPC
 		for (int i = 0; i < amount; i++) {
 			SpawnBloodWithHitEffect(npc, npc.direction, 1);
 		}
-	}
-
-	private static void SpawnNewBlood(Vector2 position, Vector2 velocity, Color color)
-	{
-		SimpleEntity.Instantiate<BloodParticle>(p => {
-			p.position = position;
-			p.velocity = velocity * (Main.rand.NextVector2Circular(1f, 1f) + Vector2.One) * 0.5f;
-
-			float intensity = Main.rand.Next(3) switch {
-				2 => 0.7f,
-				1 => 0.85f,
-				_ => 1f,
-			};
-
-			color.R = (byte)(color.R * intensity);
-			color.G = (byte)(color.G * intensity);
-			color.B = (byte)(color.B * intensity);
-
-			p.color = color;
-		});
 	}
 }

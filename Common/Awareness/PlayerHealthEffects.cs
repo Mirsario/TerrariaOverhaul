@@ -70,6 +70,6 @@ public sealed class PlayerHealthEffects : ModPlayer
 		// Sound
 		float soundVolume = Player.dead ? 0f : lowHealthEffectIntensity * LowHealthSoundVolume.Value;
 
-		SoundUtils.UpdateLoopingSound(ref lowHealthSoundSlot, LowHealthSound, soundVolume, CameraSystem.ScreenCenter);
+		SoundUtils.UpdateLoopingSound(ref lowHealthSoundSlot, in LowHealthSound, soundVolume, CameraSystem.ScreenCenter);
 	}
 }

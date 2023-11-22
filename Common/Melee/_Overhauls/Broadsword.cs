@@ -7,7 +7,6 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
-using TerrariaOverhaul.Common.Damage;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.Interaction;
 using TerrariaOverhaul.Core.Configuration;
@@ -35,8 +34,8 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 
 	public override bool ShouldApplyItemOverhaul(Item item)
 	{
-		// Broadswords always swing, deal melee damage, don't have channeling, and are visible
-		if (item.useStyle != ItemUseStyleID.Swing || item.noMelee || item.channel || item.noUseGraphic) {
+		// Broadswords always swing, don't have channeling, and are visible
+		if (item.useStyle != ItemUseStyleID.Swing || item.channel || item.noUseGraphic) {
 			return false;
 		}
 
@@ -45,6 +44,7 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 			return false;
 		}
 
+		// Must be part of the melee class, or a subclass of it.
 		if (!item.DamageType.CountsAsClass(DamageClass.Melee)) {
 			return false;
 		}
@@ -64,7 +64,10 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 
 		// Components
 
-		if (ItemMeleeAirCombat.EnableAirCombat) {
+		// Put in place until https://github.com/Mirsario/TerrariaOverhaul/issues/198 is resolved.
+		bool isProjectileOnlySword = item.noMelee;
+
+		if (ItemMeleeAirCombat.EnableAirCombat && !isProjectileOnlySword) {
 			item.EnableComponent<ItemMeleeAirCombat>();
 		}
 
@@ -83,7 +86,10 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 		item.EnableComponent<ItemMeleeGoreInteraction>();
 		item.EnableComponent<ItemMeleeCooldownReplacement>();
 		item.EnableComponent<ItemMeleeAttackAiming>();
-		item.EnableComponent<ItemVelocityBasedDamage>();
+
+		if (!isProjectileOnlySword) {
+			item.EnableComponent<ItemVelocityBasedDamage>();
+		}
 
 		// Animation
 		item.EnableComponent<QuickSlashMeleeAnimation>(c => {
@@ -116,7 +122,9 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 		}
 
 		// Killing Blows
-		item.EnableComponent<ItemKillingBlows>();
+		if (!isProjectileOnlySword) {
+			item.EnableComponent<ItemKillingBlows>();
+		}
 	}
 
 	public override void UseAnimation(Item item, Player player)
@@ -140,9 +148,19 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 
 		IEnumerable<string> GetCombatInfo()
 		{
-			yield return Mod.GetTextValue("ItemOverhauls.Melee.Broadsword.KillingBlowInfo");
-			yield return Mod.GetTextValue("ItemOverhauls.Melee.AirCombatInfo");
-			yield return Mod.GetTextValue("ItemOverhauls.Melee.VelocityBasedDamageInfo");
+			yield return Mod.GetTextValue("ItemOverhauls.Melee.PowerStrikeInfo");
+
+			if (item.TryGetGlobalItem(out ItemKillingBlows killingBlows) && killingBlows.Enabled) {
+				yield return Mod.GetTextValue("ItemOverhauls.Melee.Broadsword.KillingBlowInfo", killingBlows.DamageMultiplier);
+			}
+
+			if (item.TryGetGlobalItem(out ItemMeleeAirCombat airCombat) && airCombat.Enabled) {
+				yield return Mod.GetTextValue("ItemOverhauls.Melee.AirCombatInfo");
+			}
+
+			if (item.TryGetGlobalItem(out ItemVelocityBasedDamage velocityBasedDamage) && velocityBasedDamage.Enabled) {
+				yield return Mod.GetTextValue("ItemOverhauls.Melee.VelocityBasedDamageInfo");
+			}
 		}
 
 		TooltipUtils.ShowCombatInformation(Mod, tooltips, GetCombatInfo);

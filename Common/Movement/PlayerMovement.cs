@@ -37,59 +37,9 @@ public sealed class PlayerMovement : ModPlayer
 
 	public override void Load()
 	{
-		// Replace jump hold down logic with gravity scaling
-		IL_Player.JumpMovement += (context) => {
-			var cursor = new ILCursor(context);
+		IL_Player.JumpMovement += PlayerJumpMovementInjection;
 
-			// Match 'if (jump > 0)'
-			cursor.GotoNext(
-				MoveType.After,
-				i => i.Match(OpCodes.Ldarg_0),
-				i => i.MatchLdfld(typeof(Player), nameof(Player.jump)),
-				i => i.MatchLdcI4(0),
-				i => i.MatchCgt() || i.MatchBle(out _)
-			);
-
-			// Match 'velocity.Y = (0f - jumpSpeed) * gravDir;'
-			cursor.GotoNext(
-				MoveType.Before,
-				i => i.Match(OpCodes.Ldarg_0),
-				i => i.MatchLdflda(typeof(Entity), nameof(Entity.velocity)),
-				i => i.MatchLdcR4(0f),
-				i => i.MatchLdsfld(typeof(Player), nameof(Player.jumpSpeed)),
-				i => i.MatchSub(),
-				i => i.Match(OpCodes.Ldarg_0),
-				i => i.MatchLdfld(typeof(Player), nameof(Player.gravDir)),
-				i => i.MatchMul(),
-				i => i.MatchStfld(typeof(Vector2), nameof(Vector2.Y))
-			);
-
-			var incomingLabels = cursor.IncomingLabels.ToArray();
-
-			cursor.RemoveRange(9);
-			cursor.Emit(OpCodes.Nop);
-
-			foreach (var incomingLabel in incomingLabels) {
-				incomingLabel.Target = cursor.Prev;
-			}
-
-			cursor.Emit(OpCodes.Ldarg_0);
-			cursor.EmitDelegate<Action<Player>>(static player => {
-				var playerMovement = player.GetModPlayer<PlayerMovement>();
-
-				float maxGravity = 1.0f;
-				float minGravity = 0.1f;
-				float jumpFactor = MathHelper.Clamp(player.jump / (float)Math.Max(playerMovement.maxPlayerJump, 1), 0f, 1f);
-
-				player.gravity *= MathHelper.Lerp(maxGravity, minGravity, jumpFactor);
-
-				// Workaround for an issue of wings activating too late with the new jump arc.
-				// This makes them activate almost immediately.
-				if (player.wingsLogic > 0) {
-					player.jump = 1;
-				}
-			});
-		};
+		On_Player.UpdateJumpHeight += PlayerUpdateJumpHeightDetour;
 	}
 
 	public override void PreUpdate()
@@ -105,10 +55,6 @@ public sealed class PlayerMovement : ModPlayer
 
 			prevPlayerJump = Player.jump;
 		}
-
-		// Scale jump stats
-		Player.jumpSpeed *= 1.21f;
-		Player.jumpHeight = (int)(Player.jumpHeight * 1.75f);
 
 		if (!Player.wet) {
 			bool wings = Player.wingsLogic > 0 && Player.controlJump && !onGround && !wasOnGround;
@@ -210,5 +156,80 @@ public sealed class PlayerMovement : ModPlayer
 				MovementModifiers.Remove(key);
 			}
 		}
+	}
+
+	private static void PlayerUpdateJumpHeightDetour(On_Player.orig_UpdateJumpHeight orig, Player player)
+	{
+		orig(player);
+
+		// Scale jump stats to compensate for the below injection's effects.
+		// This shouldn't buff nor debuff the player, resulting in about the same feel as vanilla.
+		const float VanillaJumpSpeed = 5.01f;
+		const float VanillaJumpHeight = 15.0f;
+		const float JumpSpeedMultiplier = 1.21f;
+		const float JumpHeightMultiplier = 1.75f;
+		const float JumpSpeedBonus = (VanillaJumpSpeed * JumpSpeedMultiplier) - VanillaJumpSpeed;
+		const float JumpHeightBonus = (VanillaJumpHeight * JumpHeightMultiplier) - VanillaJumpHeight;
+
+		//Player.jumpSpeed *= JumpSpeedMultiplier;
+		//Player.jumpHeight = (int)(Player.jumpHeight * JumpHeightMultiplier);
+		Player.jumpSpeed += JumpSpeedBonus;
+		Player.jumpHeight += (int)JumpHeightBonus;
+	}
+
+	// Replace jump hold down logic with gravity scaling
+	private static void PlayerJumpMovementInjection(ILContext context)
+	{
+		var cursor = new ILCursor(context);
+		var Player = Main.LocalPlayer; // Only for nameof, so dumb.
+
+		// Match 'if (jump > 0)'
+		cursor.GotoNext(
+			MoveType.After,
+			i => i.Match(OpCodes.Ldarg_0),
+			i => i.MatchLdfld(typeof(Player), nameof(Player.jump)),
+			i => i.MatchLdcI4(0),
+			i => i.MatchCgt() || i.MatchBle(out _)
+		);
+
+		// Match 'velocity.Y = (0f - jumpSpeed) * gravDir;'
+		cursor.GotoNext(
+			MoveType.Before,
+			i => i.Match(OpCodes.Ldarg_0),
+			i => i.MatchLdflda(typeof(Entity), nameof(Player.velocity)),
+			i => i.MatchLdcR4(0f),
+			i => i.MatchLdsfld(typeof(Player), nameof(Player.jumpSpeed)),
+			i => i.MatchSub(),
+			i => i.Match(OpCodes.Ldarg_0),
+			i => i.MatchLdfld(typeof(Player), nameof(Player.gravDir)),
+			i => i.MatchMul(),
+			i => i.MatchStfld(typeof(Vector2), nameof(Vector2.Y))
+		);
+
+		var incomingLabels = cursor.IncomingLabels.ToArray();
+
+		cursor.RemoveRange(9);
+		cursor.Emit(OpCodes.Nop);
+
+		foreach (var incomingLabel in incomingLabels) {
+			incomingLabel.Target = cursor.Prev;
+		}
+
+		cursor.Emit(OpCodes.Ldarg_0);
+		cursor.EmitDelegate<Action<Player>>(static player => {
+			var playerMovement = player.GetModPlayer<PlayerMovement>();
+
+			float maxGravity = 1.0f;
+			float minGravity = 0.1f;
+			float jumpFactor = MathHelper.Clamp(player.jump / (float)Math.Max(playerMovement.maxPlayerJump, 1), 0f, 1f);
+
+			player.gravity *= MathHelper.Lerp(maxGravity, minGravity, jumpFactor);
+
+			// Workaround for an issue of wings activating too late with the new jump arc.
+			// This makes them activate almost immediately.
+			if (player.wingsLogic > 0) {
+				player.jump = 1;
+			}
+		});
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Utilities;
@@ -11,7 +12,7 @@ namespace TerrariaOverhaul.Common.Melee;
 /// Quick swing that lasts 1/2 of the use animation time.
 /// Affects gameplay.
 /// </summary>
-public class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage
+public class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage, IModifyItemNewProjectile
 {
 	public bool IsAttackFlipped { get; set; }
 	public bool FlipAttackEachSwing { get; set; }
@@ -67,9 +68,9 @@ public class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage
 	}
 
 	// Leg framing
-	public override void UseItemFrame(Item item, Player player)
+	protected override void ApplyAnimation(Item item, Player player)
 	{
-		base.UseItemFrame(item, player);
+		base.ApplyAnimation(item, player);
 
 		if (!Enabled || !AnimateLegs) {
 			return;
@@ -86,7 +87,7 @@ public class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage
 		}
 	}
 
-	public bool CanDoMeleeDamage(Item item, Player player)
+	bool ICanDoMeleeDamage.CanDoMeleeDamage(Item item, Player player)
 	{
 		if (!Enabled) {
 			return true;
@@ -95,5 +96,22 @@ public class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage
 		// Damage will only be applied during the first half of the use.
 		// The second half is a cooldown, and the animations reflect that.
 		return player.itemAnimation >= player.itemAnimationMax / 2;
+	}
+
+	void IModifyItemNewProjectile.ModifyShootProjectile(Player player, Item item, in IModifyItemNewProjectile.Args args, ref IModifyItemNewProjectile.Args result)
+	{
+		if (args.Source is EntitySource_ItemUse_WithAmmo
+			// For horizontally-facing projectiles
+			&& args.Velocity.Y == 0f
+			&& args.Velocity.X == player.direction
+			// That pass rotation direction as AI0
+			&& args.AI0 == player.direction * player.gravDir
+			// Whenever the slash animation is flipped
+			&& item.TryGetGlobalItem(out QuickSlashMeleeAnimation slashAnimation)
+			&& slashAnimation.IsAttackFlipped
+		) {
+			// Flip the rotation direction
+			result.AI0 = -args.AI0;
+		}
 	}
 }

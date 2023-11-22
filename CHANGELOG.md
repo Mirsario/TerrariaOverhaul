@@ -4,6 +4,8 @@
 | Version									| Release Date |
 | ----------------------------------------- | ------------ |
 | [Work In Progress](#work-in-progress)		| `TBA`        |
+| [5.0 BETA 13C](#50-beta-13c)				| `2023.10.20` |
+| [5.0 BETA 13B](#50-beta-13b)				| `2023.08.02` |
 | [5.0 BETA 13](#50-beta-13)				| `2023.08.01` |
 | [5.0 BETA 12**C**](#50-beta-12c)			| `2023.03.11` |
 | [5.0 BETA 12**B**](#50-beta-12b)			| `2022.12.25` |
@@ -30,7 +32,56 @@
 
 # Work In Progress
 
-Nothing so far!
+### Changes
+- Fighter AI enemies will no longer leap at their targets if they're not facing them.
+### Fixes
+- Fixed a few broken keys in Italian localization.
+- Fixed an injection not working in Debug builds of TML.
+
+# 5.0 BETA 13C
+
+### Additions
+- Opening doors with dodgerolls will now deal high-knockback damage to entities.
+- Added velocity-based tilting (rotation offset) effects to enemies and NPCs, previously only seen on player characters. Toggled by the `Visuals.EnableEnemyTiltingEffects` config entry.
+
+### Changes
+- Heavily improved combat info tooltips. They now have far more information and feature formatting and color highlighting. They were also added to Hammers, Axes and Pickaxes.
+- Changed mana pickups' particles, fixed these particles being influenced by the local player's movement.
+- Changed how the `Accessibility.ForceAutoReuse` option works. Now it will only exist to make the vanilla global auto-reuse option that was added in Terraria 1.4.4 be enabled by default for players of Overhaul. This change also removes a 2-tick (33.33 milliseconds) use speed penalty from items that had its auto-reuse (auto-swing) forced on by Overhaul, as rebalancing has now been done in vanilla.
+- The ambience system has now been made fully data-driven, utilizing HJSON files for declaring ambience tracks. This changes nothing for users, but it's now easy to contribute expansions to the ambience module without a need to know any programming. Check out [Content/Ambience/README.md](https://github.com/Mirsario/TerrariaOverhaul/blob/dev/Content/Ambience/README.md) if you're interested!
+- Slightly altered velocity-based tilting effects on player characters.
+
+### Localization
+- Italian (`0.0%` -> `48.6%`) - PR [#214](https://github.com/Mirsario/TerrariaOverhaul/pull/214) by [**CupCat05**](https://github.com/CupCat05).
+- Polish (`50.3%` -> `100.0%`) - PR [#205](https://github.com/Mirsario/TerrariaOverhaul/pull/205) by [**J00niper**](https://github.com/J00niper).
+- Spanish (`45.2%` -> `100.0%`) - PR [#207](https://github.com/Mirsario/TerrariaOverhaul/pull/207) by [**cottonman132**](https://github.com/cottonman132).
+- French (`44.6%` -> `100.0%`) - PR [#208](https://github.com/Mirsario/TerrariaOverhaul/pull/208) by [**orian34**](https://github.com/orian34).
+- Chinese (`49.2%` -> `100.0%`) - PR [#213](https://github.com/Mirsario/TerrariaOverhaul/pull/213) by [**Cyrillya**](https://github.com/Cyrillya).
+
+### Optimizations
+- Completely rewrote blood particles for the sake of optimization, visible behavior being left mostly the same. The code is now data-oriented, no longer utilizes unnecessary object-oriented tooling such as inheritance, virtual calls, and needless references and reallocations, altogether minimizing stress on the Garbage Collector and maximizing CPU cache friendliness. This also introduces an upper limit to the amount of particles, currently set to 1024.
+- Optimized blood color recording by making it reuse collections using a pool, reducing GC stress from collection resizing. This is used by gibs during monster/NPC deaths to determine if gibs should bleed.
+- Improved performance of the implementation of the flood fill algorithm, which the mod uses mostly to analyze the player's surroundings for sound reverberation & wall-based occlusion.
+- Slightly improved performance of the implementation of the Bresenham Line algorithm, which the mod uses for block-based sound occlusion checking.
+
+### Compatibility
+- The aforementioned `ForceAutoReuse` penalty removal works around a compatibility bug in `AFK's Pets` that resulted in many items being used more than once. The real cause of that issue will be fixed by `AFK's Pets` authors.
+
+### Fixes
+- Fixed issue [#186](https://github.com/Mirsario/TerrariaOverhaul/issues/186) (Balloons not functioning).
+- Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated).
+- Fixed issue [#201](https://github.com/Mirsario/TerrariaOverhaul/issues/201) (Large mod trees are cropped when falling).
+- Fixed issue [#202](https://github.com/Mirsario/TerrariaOverhaul/issues/202) (Crystal Vile Shard projectiles stretch too far).
+- Fixed issue [#206](https://github.com/Mirsario/TerrariaOverhaul/issues/206) (Dodgerolling while standing still will be biased to the right).
+- Fixed issue [#211](https://github.com/Mirsario/TerrariaOverhaul/issues/211) (Player body rotation ruins minecarts).
+- Fixed recent TML changes resulting in characters preferring to face their movement direction instead of their aiming direction when using swords and other weapons.
+- Partially fixed issue [#198](https://github.com/Mirsario/TerrariaOverhaul/issues/198) (Various problems with 1.4.4 sword changes):
+	- Fixed the `Volcano`, `Blood Butcherer`, and a few other melee weapons using incorrect rotations & locations for their particle effects.
+	- Fixed the following projectile-only swords not getting the broadsword overhaul: `Night's Edge`, `Excalibur`, `True Excalibur`, `True Night's Edge`, `Terra Blade`, `The Horseman's Blade`.
+	- Fixed `Blade of Grass` and projectile-only swords being able to create projectiles during a power attack charge.
+	- Fixed projectile-only swords not being fully aimable.
+- Fixed ambience sounds' instances having a position, and thus being subject to rather inadequate and irritating sound occlusion & low pass filtering.
+- Fixed a possible `IndexOutOfRangeException` in `FloodFill` method used by `SurroundingsReverb`.
 
 # 5.0 BETA 13B
 

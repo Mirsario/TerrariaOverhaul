@@ -36,7 +36,7 @@ public abstract class ResourcePickupChanges<TThis> : GlobalItem
 
 	public abstract override bool AppliesToEntity(Item item, bool lateInstantiation);
 
-	public override GlobalItem Clone(Item item, Item itemClone)
+	public override GlobalItem Clone(Item? item, Item itemClone)
 	{
 		// All data is value types.
 

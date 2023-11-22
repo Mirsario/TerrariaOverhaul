@@ -1,0 +1,51 @@
+Birds: {
+	AmbienceTrack: {
+		Sound: {
+			SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/Forest/ForestBirds"
+			Type: Ambient
+			Volume: 0.45
+			IsLooped: true
+		}
+
+		// Plays around surface-level trees at daytime when outside specific biomes and if it's not raining.
+		Variables: {
+			NotInExcludedBiomes: {
+				Inputs: [ "Corruption", "Crimson", "Jungle", "Desert", "Tundra" ]
+				Operation: Max
+				Modifiers: Inverse
+			}
+			Volume: {
+				Inputs: [ "NotInExcludedBiomes", "DayTime", "SurfaceAltitude", "NotRainWeather", "TreesAround" ]
+				Operation: Multiply
+			}
+		}
+		
+		SoundIsWallOccluded: true
+	}
+}
+
+Crickets: {
+	AmbienceTrack: {
+		Sound: {
+			SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/Forest/ForestCrickets"
+			Type: Ambient
+			Volume: 0.13
+			IsLooped: true
+		}
+
+		// Plays everywhere on surface level near night time when outside evil biomes and if it's not raining.
+		Variables: {
+			NotInExcludedBiomes: {
+				Inputs: [ "Corruption", "Crimson" ]
+				Operation: Max
+				Modifiers: Inverse
+			}
+			Volume: {
+				Inputs: [ "NotInExcludedBiomes", "NightTime", "SurfaceAltitude", "NotRainWeather" ]
+				Operation: Multiply
+			}
+		}
+		
+		SoundIsWallOccluded: true
+	}
+}

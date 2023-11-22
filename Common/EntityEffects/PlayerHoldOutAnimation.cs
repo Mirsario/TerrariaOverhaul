@@ -9,7 +9,7 @@ using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.PlayerEffects;
+namespace TerrariaOverhaul.Common.EntityEffects;
 
 public sealed class PlayerHoldOutAnimation : ModPlayer
 {
@@ -22,7 +22,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 
 	public override void Load()
 	{
-		On_Player.ItemCheck_ApplyHoldStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
+		On_Player.ItemCheck_ApplyHoldStyle_Inner += static (orig, player, mountOffset, sItem, heldItemFrame) => {
 			if (ShouldForceUseAnim(player, sItem)) {
 				player.ItemCheck_ApplyUseStyle(mountOffset, sItem, heldItemFrame);
 
@@ -32,7 +32,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			orig(player, mountOffset, sItem, heldItemFrame);
 		};
 
-		On_Player.ItemCheck_ApplyUseStyle_Inner += (orig, player, mountOffset, sItem, heldItemFrame) => {
+		On_Player.ItemCheck_ApplyUseStyle_Inner += static (orig, player, mountOffset, sItem, heldItemFrame) => {
 			orig(player, mountOffset, sItem, heldItemFrame);
 
 			if (sItem.useStyle == ItemUseStyleID.Shoot) {
@@ -51,7 +51,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			}
 		};
 
-		On_Player.PlayerFrame += (orig, player) => {
+		On_Player.PlayerFrame += static (orig, player) => {
 			if (ShouldForceUseAnim(player, player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {
 				InvokeWithForcedAnimation(player, () => orig(player));
 				return;
@@ -60,7 +60,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 			orig(player);
 		};
 
-		On_PlayerDrawLayers.DrawPlayer_27_HeldItem += (On_PlayerDrawLayers.orig_DrawPlayer_27_HeldItem orig, ref PlayerDrawSet drawInfo) => {
+		On_PlayerDrawLayers.DrawPlayer_27_HeldItem += static (On_PlayerDrawLayers.orig_DrawPlayer_27_HeldItem orig, ref PlayerDrawSet drawInfo) => {
 			var player = drawInfo.drawPlayer;
 
 			if (ShouldForceUseAnim(player, player.HeldItem) && player.itemAnimation <= 0 && AlwaysShowAimableWeapons) {

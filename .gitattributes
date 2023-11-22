@@ -1,0 +1,5 @@
+# Highlight HJSON as JSON5, for the former lacks GitHub highlighting & maintenance.
+*.hjson linguist-language=Jison-Lex
+*.hjson -linguist-detectable
+*.prefab linguist-language=Jison-Lex
+*.prefab -linguist-detectable

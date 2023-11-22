@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Content.SimpleEntities;
-using TerrariaOverhaul.Core.SimpleEntities;
+using TerrariaOverhaul.Common.BloodAndGore;
 
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 
@@ -13,11 +13,15 @@ public sealed class ProjectileSlimeGunParticles : GlobalProjectile
 	public override void AI(Projectile projectile)
 	{
 		if (projectile.type == ProjectileID.SlimeGun) {
-			SimpleEntity.Instantiate<BloodParticle>(p => {
-				p.position = projectile.Center;
-				p.velocity = projectile.velocity * 60f + Main.rand.NextVector2Circular(20f, 20f);
-				p.color = new Color(0, 80, 255, 100);
-			});
+			Span<ParticleSystem.ParticleData> particleSpan = stackalloc ParticleSystem.ParticleData[1] {
+				new() {
+					Position = projectile.Center,
+					Velocity = projectile.velocity * 60f + Main.rand.NextVector2Circular(20f, 20f),
+					Color = new Color(0, 80, 255, 100),
+				}
+			};
+
+			ParticleSystem.SpawnParticles(particleSpan);
 		}
 	}
 }

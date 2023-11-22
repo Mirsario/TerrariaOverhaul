@@ -229,7 +229,7 @@ Mods: {
 						'''
 						When enabled, swinging a melee weapon can accelerate you towards the direction of the swing.
 						This can be further controlled using movement keys, as you'll never be thrown forward when you're holding back movement.
-						Use together with power attacks to significantly boost your jumps and damage. 
+						Use together with power attacks to significantly boost your jumps and damage.
 						''' */
 				}
 
@@ -345,7 +345,7 @@ Mods: {
 					/* Description:
 						'''
 						When enabled, melee weapon swing animations will be changed to a more immediate swing, with alternating directions.
-						This is best kept on, as it best mimics the timing and direction of melee damage collision. 
+						This is best kept on, as it best mimics the timing and direction of melee damage collision.
 						''' */
 				}
 
@@ -354,7 +354,7 @@ Mods: {
 					/* Description:
 						'''
 						When enabled, a circular slash sprite will appear when swinging melee weapons.
-						This is best kept on, as it best mimics the range and collision arc of the weapon. 
+						This is best kept on, as it best mimics the range and collision arc of the weapon.
 						''' */
 				}
 
@@ -416,27 +416,36 @@ Mods: {
 			Archery: {
 				/* HoverShots:
 					'''
-					Hover in the air by charging your weapon during jumping
-					Perform a hover-shot to get even more velocity
+					[[Hover in the air]] by charging your weapon as you're jumping
+					Perform a [[hover-shot]] to get even more velocity
 					''' */
 				/* ManualCharging:
 					'''
-					Hold right click to manually charge your weapon
-					Release it at any time to fine-tune the shot speed & damage
+					Hold right click to [[manually charge]] your weapon
+					Release it at any time to [[fine-tune]] the shot speed & damage
 					''' */
 			}
 
 			Melee: {
-				AirCombatInfo: "Atacar inimigos no ar te lançara neles"
-				VelocityBasedDamageInfo: "O dano pode ser aumentado pela velocidade do jogador, é recomendado se impulsionar"
+				/* AirCombatInfo:
+					'''
+					[[Attack enemies mid-air]] to gain speed, stay elevated, or to retreat!
+					Use the movement keys during a strike to control the velocity you gain!
+					''' */
+				// PowerStrikeInfo: "Charge up [[Power Strikes]] via alternate use!"
+				/* VelocityBasedDamageInfo:
+					'''
+					[[The faster you move - the harder you strike!]]
+					Combine your attacks with dashes and even use gravity to your advantage!
+					''' */
 
 				Broadsword: {
-					KillingBlow: "Golpe Mortal!"
-					KillingBlowInfo:
+					// KillingBlow: "Killing Blow!"
+					/* KillingBlowInfo:
 						'''
-						Ataques carregados podem ser Golpes Mortais para inimigos machucados
-						Golpes mortais dobram seu dano sempre que acabam com o inimigo
-						'''
+						Perform [[Killing Blows]] by [[power striking]] already hurt foes,
+						multiplying damage by [[x{0}]] whenever that would finish the enemy
+						''' */
 				}
 			}
 		}

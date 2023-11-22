@@ -34,6 +34,12 @@ public struct Vector2Int
 	public override string ToString()
 		=> $"X: {X}, Y: {Y}";
 
+	public readonly void Deconstruct(out int x, out int y)
+	{
+		x = X;
+		y = Y;
+	}
+
 	// Functions
 
 	public static Vector2Int Max(Vector2Int a, Vector2Int b)

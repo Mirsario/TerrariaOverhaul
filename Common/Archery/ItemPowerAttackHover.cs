@@ -3,7 +3,7 @@ using Terraria;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Common.Movement;
-using TerrariaOverhaul.Common.PlayerEffects;
+using TerrariaOverhaul.Common.EntityEffects;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;

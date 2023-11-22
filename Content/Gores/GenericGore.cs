@@ -11,7 +11,6 @@ public class GenericGore : ModGore
 	public override void OnSpawn(Gore gore, IEntitySource source)
 	{
 		gore.Frame = new SpriteFrame(1, 3, 0, (byte)Main.rand.Next(3));
-		gore.sticky = false;
 		gore.light = 0f;
 		gore.rotation = Main.rand.NextFloat(MathHelper.TwoPi);
 		gore.drawOffset = new Vector2(0f, 4f);

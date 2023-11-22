@@ -13,9 +13,9 @@ using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.Fires;
 using TerrariaOverhaul.Common.PhysicalMaterials;
 using TerrariaOverhaul.Content.Gores;
-using TerrariaOverhaul.Content.SimpleEntities;
 using TerrariaOverhaul.Core.PhysicalMaterials;
 using TerrariaOverhaul.Core.SimpleEntities;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.BloodAndGore;
@@ -248,16 +248,20 @@ public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
 		float maxHorizontalSpeed = 30f * sprayScale;
 		float maxVerticalSpeed = 100f * sprayScale;
 
+		Span<ParticleSystem.ParticleData> particleSpan = stackalloc ParticleSystem.ParticleData[amount];
+
 		for (int i = 0; i < amount; i++) {
-			SimpleEntity.Instantiate<BloodParticle>(p => {
-				p.position = GetRandomPoint();
-				p.velocity = velocity * 30f + new Vector2(
+			particleSpan[i] = new() {
+				Position = GetRandomPoint(),
+				Velocity = velocity * 30f + new Vector2(
 					Main.rand.NextFloat(-maxHorizontalSpeed, maxHorizontalSpeed),
 					Main.rand.NextFloat(-maxVerticalSpeed, 0f)
-				);
-				p.color = BleedColor.Value;
-			});
+				),
+				Color = BleedColor.Value,
+			};
 		}
+
+		ParticleSystem.SpawnParticles(particleSpan);
 	}
 
 	private void OnLiquidCollision(Tile tile)

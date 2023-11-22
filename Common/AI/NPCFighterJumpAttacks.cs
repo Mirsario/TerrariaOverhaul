@@ -36,7 +36,15 @@ public class NPCFighterJumpAttacks : GlobalNPC
 			return;
 		}
 
-		float distance = Vector2.Distance(target.Center, npc.Center);
+		var npcCenter = npc.Center;
+		var targetCenter = target.Center;
+
+		// Forbid leaping backwards.
+		if (npc.direction != ((targetCenter.X - npcCenter.X) >= 0f ? 1 : -1)) {
+			return;
+		}
+
+		float distance = Vector2.Distance(targetCenter, npcCenter);
 
 		if (npc.velocity.Y == 0f && distance <= 80f && prevDistance > 80f) {
 			npc.velocity.X = 3f * npc.direction;
