@@ -34,6 +34,7 @@
 
 ### Fixes
 - Fixed a few broken keys in Italian localization.
+- Fixed an injection not working in Debug builds of TML.
 
 # 5.0 BETA 13C
 

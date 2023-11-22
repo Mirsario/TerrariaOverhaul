@@ -197,15 +197,29 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 
 	private static void ProcessHitAgainstNPCInjection(ILContext context)
 	{
+		// Skip a weird FieryGreatsword/Volcano block that culls collision for whatever reason.
 		var il = new ILCursor(context);
 
-		// Skip a weird FieryGreatsword/Volcano block that culls collision for whatever reason.
+		// Match:
+		//   ldarg.1
+		//   ldfld int32 Terraria.Item::'type'
+		//   (stloc)?
+		//   (ldloc)?
+		//   ldc.i4.s 121
+
 		il.GotoNext(
 			MoveType.After,
-			i => i.MatchLdarg(1),
-			i => i.MatchLdfld(typeof(Item), nameof(Item.type)),
 			i => i.MatchLdcI4(ItemID.FieryGreatsword)
 		);
+
+		int emitIndex = il.Index;
+
+		il.GotoPrev(
+			i => i.MatchLdarg(1),
+			i => i.MatchLdfld(typeof(Item), nameof(Item.type))
+		);
+
+		il.Index = emitIndex;
 
 		il.Emit(OpCodes.Pop);
 		il.Emit(OpCodes.Ldc_I4, int.MinValue);
