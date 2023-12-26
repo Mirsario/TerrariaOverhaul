@@ -1,3 +1,6 @@
+# Automatic line endings
+* text=auto eol=lf
+
 # Highlight HJSON as JSON5, for the former lacks GitHub highlighting & maintenance.
 *.hjson linguist-language=Jison-Lex
 *.hjson -linguist-detectable
