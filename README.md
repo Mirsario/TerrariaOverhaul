@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/Mirsario/TerrariaOverhaul/blob/1.4/Content/Menus/Logo.png?raw=true" alt="Sublime's custom image"/>
+	<img src="https://github.com/Mirsario/TerrariaOverhaul/blob/dev/Content/Menus/Logo.png?raw=true"/>
 </p>
 
 
@@ -19,14 +19,14 @@ Below is a step by step instruction for that. It only assumes that you know at l
 
 - Get [TModLoader from Steam](https://store.steampowered.com/app/1281930/tModLoader).
 - Get [Git from git-scm](https://git-scm.com/download). Most defaults suffice for installation.
-- Clone the mod's 1.4 branch into `%userprofile%/Documents/My games/Terraria/tModLoader/ModSources`.
+- Clone the mod into `%userprofile%/Documents/My games/Terraria/tModLoader/ModSources`.
 The git command for that would be `git clone https://github.com/Mirsario/TerrariaOverhaul -b dev`, where `dev` is the branch you want to clone.
 - Head over to Mod Sources in-game and `Build & Reload` TerrariaOverhaul.
 
 That's all. Use `git fetch` and `git pull` to keep up with updates. Note that you'll need to rerun patching in the tML setup tool when updating tML.
 
 # 📖 License
-All code of this repository is provided under [the MIT License](https://github.com/Mirsario/TerrariaOverhaul/blob/1.4/LICENSE.md).
+All code of this repository is provided under [the MIT License](https://github.com/Mirsario/TerrariaOverhaul/blob/dev/LICENSE.md).
 
 All of the art, audio, and other non-code assets belong to their respective owners and are used non-commercially either with a permission, a royalty-free license, or with various modifications & trust in the holiness of videogame modding.
 No copyright infringements intended.
@@ -37,5 +37,5 @@ Besides for that, I only want to say - be nice, and please [contribute configura
 Thank you to the following contributors for helping improve the mod for everyone!
 
 <a href="https://github.com/Mirsario/TerrariaOverhaul/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Mirsario/TerrariaOverhaul&max=900&columns=20" />
+	<img src="https://contrib.rocks/image?repo=Mirsario/TerrariaOverhaul&max=900&columns=20" />
 </a>
