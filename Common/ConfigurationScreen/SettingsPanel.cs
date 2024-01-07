@@ -153,6 +153,8 @@ public class SettingsPanel : UIElement
 		if (element.IconTexture != null) {
 			UnselectedIconImage.SetImage(element.IconTexture);
 		}
+
+		Recalculate();
 	}
 
 	private void ResetDescription()
@@ -164,5 +166,7 @@ public class SettingsPanel : UIElement
 
 		// Icon
 		UnselectedIconImage.SetImage(IconLockedTexture);
+
+		Recalculate();
 	}
 }

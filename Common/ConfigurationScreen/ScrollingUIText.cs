@@ -55,6 +55,7 @@ public class ScrollingUIText : UIText
 
 		if (canScroll) {
 			Left.Set(Left.Pixels + 1f * scrollingLeft.ToDirectionInt(), 0f);
+			Recalculate();
 		}
 	}
 }
