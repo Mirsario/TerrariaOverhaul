@@ -112,6 +112,7 @@ public sealed class ConfigurationState : UIState
 			e.Height = StyleDimension.FromPixelsAndPercent(-16f, 1f);
 
 			PanelGrid.SetScrollbar(e);
+			PanelGrid.AddComponent(new ScrollbarListenerUIComponent { Scrollbar = e, });
 		}));
 
 		var configCategories = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s);

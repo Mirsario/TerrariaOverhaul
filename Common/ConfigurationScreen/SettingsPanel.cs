@@ -72,6 +72,7 @@ public class SettingsPanel : UIElement
 			e.Height = StyleDimension.FromPixelsAndPercent(-8f, 1f);
 
 			OptionRowsGrid.SetScrollbar(e);
+			OptionRowsGrid.AddComponent(new ScrollbarListenerUIComponent { Scrollbar = e, });
 		}));
 
 		// Bottom panel
