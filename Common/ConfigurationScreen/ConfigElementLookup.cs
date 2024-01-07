@@ -19,7 +19,7 @@ public static class ConfigElementLookup
 
 	public static void Register<TEntry, TElement>()
 		where TEntry : IConfigEntry
-		where TElement : UIElement, new()
+		where TElement : UIElement, IConfigEntryController, new()
 	{
 		Register<TEntry>(static () => new TElement());
 	}

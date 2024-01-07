@@ -68,6 +68,8 @@ public class ConfigEntryElement : FancyUIPanel
 			element.Height = StyleDimension.Fill;
 			element.HAlign = 1.0f;
 
+			((IConfigEntryController)element).Value = configEntry.LocalValue;
+
 			configuratorContainer.AddElement(element);
 		} else {
 			textContainer.AddElement(new UIText("Not supported").With(e => {

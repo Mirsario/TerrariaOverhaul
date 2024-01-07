@@ -1,19 +1,15 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using Terraria.Audio;
-using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
-using Terraria.ModLoader;
 using Terraria.UI;
-using Terraria.UI.Chat;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Interface;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class ToggleElement : UIElement
+public class ToggleElement : UIElement, IConfigEntryController
 {
 	private static UIPanelColors colorOn = new() {
 		Background = new(ColorUtils.FromHexRgb(0x6cb622)),
@@ -29,6 +25,14 @@ public class ToggleElement : UIElement
 	private readonly UIText textOff;
 
 	public bool Value { get; set; }
+
+	object? IConfigEntryController.Value {
+		get => Value;
+		set {
+			Value = (bool)value!;
+			UpdateState();
+		}
+	}
 
 	public ToggleElement()
 	{
