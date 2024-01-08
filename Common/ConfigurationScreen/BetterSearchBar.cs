@@ -33,8 +33,7 @@ public class BetterSearchBar : UIElement
 			e.HAlign = 0.5f;
 			e.VAlign = 0.5f;
 
-			e.Colors.Border = CommonColors.InnerPanelBright.Border;
-			e.Colors.Background = CommonColors.InnerPanelBright.Background;
+			e.Colors.CopyFrom(CommonColors.InnerPanelBrightDynamic);
 
 			e.SetPadding(0f);
 		}));

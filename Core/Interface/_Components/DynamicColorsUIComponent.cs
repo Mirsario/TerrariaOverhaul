@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.UI;
+using TerrariaOverhaul.Common.ConfigurationScreen;
 
 namespace TerrariaOverhaul.Core.Interface;
 
@@ -36,6 +37,14 @@ public sealed class DynamicColorsUIComponent : UIComponent
 
 	protected override void OnDetach()
 		=> Element.OnUpdate -= OnUpdate;
+
+	public DynamicColorsUIComponent CopyFrom(UIPanelColors colors)
+	{
+		Border = colors.Border;
+		Background = colors.Background;
+
+		return this;
+	}
 
 	private void OnUpdate(UIElement element)
 		=> UpdateBorderColor();

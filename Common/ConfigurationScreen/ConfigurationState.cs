@@ -51,10 +51,9 @@ public sealed class ConfigurationState : UIState
 			e.HAlign = 0.5f;
 			e.Top = StyleDimension.FromPixels(-25f);
 
-			e.AddComponent(new DynamicColorsUIComponent {
-				Border = CommonColors.OuterPanelMedium.Border,
-				Background = CommonColors.OuterPanelMedium.Background,
-			});
+			e.AddComponent(new DynamicColorsUIComponent().CopyFrom(
+				CommonColors.OuterPanelMediumDynamic
+			));
 
 			e.AddComponent(new SoundPlaybackUIComponent {
 				HoverSound = SoundID.MenuTick,
@@ -69,8 +68,7 @@ public sealed class ConfigurationState : UIState
 			e.Width = StyleDimension.Fill;
 			e.Height = StyleDimension.FromPixelsAndPercent(-90f, 1f);
 
-			e.Colors.Border = CommonColors.OuterPanelDark.Border;
-			e.Colors.Background = CommonColors.OuterPanelDark.Background;
+			e.Colors.CopyFrom(CommonColors.OuterPanelDark);
 
 			e.SetPadding(0f);
 		}));
@@ -195,7 +193,7 @@ public sealed class ConfigurationState : UIState
 
 				if (categoryNameHasSearchString || categoryEntryNameHasSearchString) {
 					// Change to whatever color the border should be when highlighted. Note: theres also OverrideBackgroundColor
-					panel.Colors.OverrideBorderColor = (Color)CommonColors.InnerPanelMedium.Border.Hover;
+					panel.Colors.OverrideBorderColor = CommonColors.DefaultHover;
 				} else {
 					panel.Colors.OverrideBorderColor = null;
 				}
@@ -203,7 +201,7 @@ public sealed class ConfigurationState : UIState
 				var panel = (ConfigEntryElement)e;
 
 				if (panel.DisplayName.ToString().ToLower().Contains(searchString)) {
-					panel.Colors.OverrideBorderColor = (Color)CommonColors.InnerPanelMedium.Border.Hover;
+					panel.Colors.OverrideBorderColor = CommonColors.DefaultActive;
 				} else {
 					panel.Colors.OverrideBorderColor = null;
 				}

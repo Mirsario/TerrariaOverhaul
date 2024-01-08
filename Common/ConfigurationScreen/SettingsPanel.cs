@@ -56,8 +56,7 @@ public class SettingsPanel : UIElement
 			e.Width = StyleDimension.FromPixelsAndPercent(-32f, 1f);
 			e.Height = StyleDimension.Fill;
 
-			e.Colors.Border = CommonColors.OuterPanelMedium.Border;
-			e.Colors.Background = CommonColors.OuterPanelMedium.Background;
+			e.Colors.CopyFrom(CommonColors.OuterPanelMedium);
 		}));
 
 		OptionRowsGrid = OptionRowsGridContainer.AddElement(new UIGrid().With(e => {
@@ -83,8 +82,7 @@ public class SettingsPanel : UIElement
 			e.HAlign = 0.5f;
 			e.VAlign = 1f;
 
-			e.Colors.Border = CommonColors.OuterPanelBright.Border;
-			e.Colors.Background = CommonColors.OuterPanelBright.Background;
+			e.Colors.CopyFrom(CommonColors.OuterPanelBright);
 		}));
 
 		// Bottom panel - Description

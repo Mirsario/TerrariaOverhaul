@@ -38,14 +38,32 @@ public static class CommonColors
 
 	public static UIPanelColors InnerPanelBright => new() {
 		Background = new(DefaultPalette.Bright),
-		Border = new(DefaultPalette.Brightest, Hover: Color.Gold, Active: Color.White),
+		Border = new(DefaultPalette.Brightest),
 	};
 	public static UIPanelColors InnerPanelMedium => new() {
 		Background = new(DefaultPalette.Medium),
-		Border = new(DefaultPalette.Brighter, Hover: Color.Gold, Active: Color.White),
+		Border = new(DefaultPalette.Brighter),
 	};
 	public static UIPanelColors InnerPanelDark => new() {
 		Background = new(DefaultPalette.Dark),
-		Border = new(DefaultPalette.Bright, Hover: Color.Gold, Active: Color.White),
+		Border = new(DefaultPalette.Bright),
+	};
+
+	public static UIPanelColors OuterPanelBrightDynamic => MakeDynamic(OuterPanelBright);
+	public static UIPanelColors OuterPanelMediumDynamic => MakeDynamic(OuterPanelMedium);
+	public static UIPanelColors OuterPanelDarkDynamic => MakeDynamic(OuterPanelDark);
+
+	public static UIPanelColors InnerPanelBrightDynamic => MakeDynamic(InnerPanelBright);
+	public static UIPanelColors InnerPanelMediumDynamic => MakeDynamic(InnerPanelMedium);
+	public static UIPanelColors InnerPanelDarkDynamic => MakeDynamic(InnerPanelDark);
+
+	public static Color DefaultHover => Color.Gold;
+	public static Color DefaultActive => Color.White;
+
+	private static UIPanelColors MakeDynamic(UIPanelColors colors) => colors with {
+		Border = colors.Border with {
+			Hover = DefaultHover,
+			Active = DefaultActive,
+		}
 	};
 }

@@ -36,8 +36,7 @@ public class ConfigEntryElement : FancyUIPanel
 		Width = StyleDimension.Fill;
 		Height = StyleDimension.FromPixels(40f);
 
-		Colors.Border = CommonColors.InnerPanelDark.Border;
-		Colors.Background = CommonColors.InnerPanelDark.Background;
+		Colors.CopyFrom(CommonColors.InnerPanelDarkDynamic);
 
 		// Left side (Text)
 
