@@ -1,19 +1,20 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
 using Microsoft.Xna.Framework.Graphics;
-using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.UI;
+using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class ScrollingUIText : UIText
 {
-	private bool canScroll;
-	private bool scrollingLeft;
-	private int cooldownTimer;
-
+	public bool StopOnHover { get; set; }
 	public bool NoScroll { get; set; }
+	public float ScrollPixelsPerSecond { get; set; } = 128f;
+	public float ScrollSpeedSnapStep { get; set; } = 0.5f; // Used to synchronize slightly differing texts.
+	public float PauseTimeInSeconds { get; set; } = 1.0f;
 	public UIElement? ScrollStopAssistElement { get; set; }
 
 	public ScrollingUIText(string text, float textScale = 1, bool large = false)
@@ -30,32 +31,31 @@ public class ScrollingUIText : UIText
 			return;
 		}
 
-		canScroll = cooldownTimer <= 0;
-
-		if (IsMouseHovering || ScrollStopAssistElement?.IsMouseHovering == true) {
-			canScroll = false;
+		if (StopOnHover && (IsMouseHovering || ScrollStopAssistElement?.IsMouseHovering == true)) {
 			return;
 		}
 
-		if (cooldownTimer > 0) {
-			cooldownTimer--;
+		float currentTime = (float)TimeSystem.GlobalStopwatch.Elapsed.TotalSeconds;
+
+		var dimensions = GetDimensions();
+		var parentDimensions = Parent.GetInnerDimensions();
+		float horizontalScrollRange = dimensions.Width - parentDimensions.Width;
+
+		if (horizontalScrollRange <= 0f) {
 			return;
 		}
 
-		Rectangle cullingArea = GetViewCullingArea();
-		Vector2 offset = new(10f);
+		float scrollTime = MathF.Ceiling(horizontalScrollRange / ScrollPixelsPerSecond / ScrollSpeedSnapStep) * ScrollSpeedSnapStep;
+		float moduloRange = scrollTime + PauseTimeInSeconds;
+		float singleModulo = MathUtils.Modulo(currentTime, moduloRange * 1f);
+		float doubleModulo = MathUtils.Modulo(currentTime, moduloRange * 2f);
+		bool scrollingLeft = doubleModulo > moduloRange;
+		float scrollProgress = MathUtils.Clamp01(singleModulo / scrollTime);
 
-		if (!scrollingLeft && Parent.ContainsPoint(new Vector2(cullingArea.Right, cullingArea.Bottom) + offset) ||
-			scrollingLeft && Parent.ContainsPoint(new Vector2(cullingArea.Left, cullingArea.Bottom) - offset)) {
-			scrollingLeft = !scrollingLeft;
-			cooldownTimer = 90;
+		scrollProgress = scrollingLeft ? 1f - scrollProgress : scrollProgress;
 
-			return;
-		}
-
-		if (canScroll) {
-			Left.Set(Left.Pixels + 1f * scrollingLeft.ToDirectionInt(), 0f);
-			Recalculate();
-		}
+		Left.Set(-(horizontalScrollRange * scrollProgress), 0f);
+		HAlign = 0f;
+		Recalculate();
 	}
 }
