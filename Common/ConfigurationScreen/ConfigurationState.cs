@@ -168,45 +168,47 @@ public sealed class ConfigurationState : UIState
 		}
 	}
 
-	private void HighlightPanelsViaSearchString(string? obj)
+	private void HighlightPanelsViaSearchString(string? searchString)
 	{
 		var panels = inCategoryMenu ? PanelGrid.Children.First().Children.ToList() : ContentContainer.GetFirstChildAt<UIElement>(5, e => e is UIGrid).Children.First().Children.ToList();
 
-		if (obj == "" || obj == null) { // searchbar is empty, reset all panels
-			panels.ForEach(e => {
-				((FancyUIPanel)e).Colors.OverrideBorderColor = null;
-			});
+		// Searchbar is empty, reset all panels
+		if (string.IsNullOrEmpty(searchString)) {
+			foreach (FancyUIPanel panel in panels.Cast<FancyUIPanel>()) {
+				panel.Colors.OverrideBorderColor = null;
+			}
 
 			return;
 		}
 
-		string searchString = obj.ToLower();
+		var comparison = StringComparison.InvariantCultureIgnoreCase;
 
-		panels.ForEach(e => {
-			if (inCategoryMenu) {
-				var panel = (CardPanel)e;
-				string category = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s).ElementAt(panels.IndexOf(e));
-				var categoryEntries = ConfigSystem.CategoriesByName[category].EntriesByName.Values;
+		bool TextContains(LocalizedText text, string searchString)
+			=> text.Value.Contains(searchString, comparison);
 
-				bool categoryNameHasSearchString = panel.titleText.Value.ToLower().Contains(searchString);
-				bool categoryEntryNameHasSearchString = categoryEntries.Any(i => Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.{i.Name}.DisplayName").ToString().ToLower().Contains(searchString));
+		if (inCategoryMenu) {
+			foreach (var panel in panels.Cast<CardPanel>()) {
+				string categoryId = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s).ElementAt(panels.IndexOf(panel));
 
-				if (categoryNameHasSearchString || categoryEntryNameHasSearchString) {
-					// Change to whatever color the border should be when highlighted. Note: theres also OverrideBackgroundColor
-					panel.Colors.OverrideBorderColor = CommonColors.DefaultHover;
-				} else {
-					panel.Colors.OverrideBorderColor = null;
+				if (!ConfigSystem.CategoriesByName.TryGetValue(categoryId, out var category)) {
+					continue;
 				}
-			} else {
-				var panel = (ConfigEntryElement)e;
 
-				if (panel.DisplayName.ToString().ToLower().Contains(searchString)) {
-					panel.Colors.OverrideBorderColor = CommonColors.DefaultActive;
-				} else {
-					panel.Colors.OverrideBorderColor = null;
-				}
+				var categoryEntries = category.EntriesByName.Values;
+				bool categoryNameHasSearchString = TextContains(panel.titleText, searchString);
+				bool categoryEntryNameHasSearchString = categoryEntries.Any(i => TextContains(Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.{i.Name}.DisplayName"), searchString));
+				bool either = categoryNameHasSearchString || categoryEntryNameHasSearchString;
+
+				// Change to whatever color the border should be when highlighted. Note: theres also OverrideBackgroundColor
+				panel.Colors.OverrideBorderColor = either ? CommonColors.DefaultHover : null;
 			}
-		});
+		} else {
+			foreach (var entry in panels.Cast<ConfigEntryElement>()) {
+				bool isMatched = TextContains(entry.DisplayName, searchString);
+
+				entry.Colors.OverrideBorderColor = isMatched ? CommonColors.DefaultHover : null;
+			}
+		}
 	}
 
 	public override void LeftClick(UIMouseEvent evt)
