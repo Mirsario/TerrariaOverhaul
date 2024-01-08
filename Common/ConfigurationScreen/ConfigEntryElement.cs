@@ -1,8 +1,8 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
-using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Interface;
@@ -15,6 +15,7 @@ public class ConfigEntryElement : FancyUIPanel
 	public LocalizedText DisplayName { get; }
 	public LocalizedText Description { get; }
 	public Asset<Texture2D>? IconTexture { get; }
+	public Vector4 CollisionExtents { get; set; }
 
 	public ConfigEntryElement(IConfigEntry configEntry)
 	{
@@ -77,5 +78,19 @@ public class ConfigEntryElement : FancyUIPanel
 				e.TextOriginX = 1.0f;
 			}));
 		}
+	}
+
+	public override bool ContainsPoint(Vector2 point)
+	{
+		var dimensions = GetDimensions();
+		var xyzw = new Vector4(
+			dimensions.X - CollisionExtents.X,
+			dimensions.Y - CollisionExtents.Y,
+			dimensions.X + dimensions.Width + CollisionExtents.Z,
+			dimensions.Y + dimensions.Height + CollisionExtents.W
+		);
+
+		return point.X > xyzw.X && point.Y > xyzw.Y
+			&& point.X < xyzw.Z && point.Y < xyzw.W;
 	}
 }

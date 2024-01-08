@@ -125,6 +125,8 @@ public class SettingsPanel : UIElement
 	public void AddOption(IConfigEntry configEntry)
 	{
 		OptionRowsGrid.AddElement(new ConfigEntryElement(configEntry).With(e => {
+			e.CollisionExtents = new(3, 3, 3, 4);
+
 			e.OnMouseOver += (_, element) => UpdateDescription((ConfigEntryElement)element);
 			e.OnMouseOut += (_, _) => ResetDescription();
 		}));
