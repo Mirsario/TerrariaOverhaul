@@ -1,9 +1,9 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.UI;
-using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Interface;
 using TerrariaOverhaul.Utilities;
 
@@ -33,6 +33,8 @@ public class ToggleElement : UIElement, IConfigEntryController
 			UpdateState();
 		}
 	}
+
+	public event Action? OnModified;
 
 	public ToggleElement()
 	{
@@ -93,6 +95,7 @@ public class ToggleElement : UIElement, IConfigEntryController
 
 		Value = !Value;
 
+		OnModified?.Invoke();
 		UpdateState();
 	}
 

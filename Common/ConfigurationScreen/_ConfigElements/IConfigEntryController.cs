@@ -1,8 +1,10 @@
-﻿using TerrariaOverhaul.Core.Configuration;
+﻿using System;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public interface IConfigEntryController
 {
-	object? Value { get; set;  }
+	object? Value { get; set; }
+
+	event Action? OnModified;
 }

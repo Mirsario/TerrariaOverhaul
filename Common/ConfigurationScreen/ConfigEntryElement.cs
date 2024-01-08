@@ -68,7 +68,13 @@ public class ConfigEntryElement : FancyUIPanel
 			element.Height = StyleDimension.Fill;
 			element.HAlign = 1.0f;
 
-			((IConfigEntryController)element).Value = configEntry.LocalValue;
+			var controller = (IConfigEntryController)element;
+
+			controller.Value = configEntry.LocalValue;
+			controller.OnModified += () => {
+				ConfigEntry.LocalValue = controller.Value;
+				ConfigSystem.SaveConfig();
+			};
 
 			configuratorContainer.AddElement(element);
 		} else {
