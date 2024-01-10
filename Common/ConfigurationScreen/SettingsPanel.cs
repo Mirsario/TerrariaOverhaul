@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using Terraria;
 using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -15,14 +18,20 @@ namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class SettingsPanel : UIElement
 {
+	private const string BasePath = $"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config";
+
 	private static Asset<Texture2D>? iconLockedTexture;
 	private static Asset<Texture2D>? unselectedIconBorderTexture;
+	private static Asset<Texture2D>[]? backgroundTextures;
 
-	private static Asset<Texture2D> IconLockedTexture
-		=> iconLockedTexture ??= ModContent.Request<Texture2D>("Terraria/Images/UI/Bestiary/Icon_Locked").EnsureLoaded();
+	private static Asset<Texture2D> UnknownOptionTexture
+		=> iconLockedTexture ??= ModContent.Request<Texture2D>($"{BasePath}/UnknownOption").EnsureLoaded();
 
 	private static Asset<Texture2D> UnselectedIconBorderTexture
-		=> unselectedIconBorderTexture ??= ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/UnselectedIconBorder").EnsureLoaded();
+		=> unselectedIconBorderTexture ??= ModContent.Request<Texture2D>($"{BasePath}/UnselectedIconBorder").EnsureLoaded();
+
+	private static Asset<Texture2D>[] BackgroundTextures
+		=> backgroundTextures ??= Enumerable.Range(1, 7).Select(i => ModContent.Request<Texture2D>($"{BasePath}/Background{i}").EnsureLoaded()).ToArray();
 
 	// Rows
 	public UIGrid OptionRowsGrid { get; }
@@ -36,7 +45,7 @@ public class SettingsPanel : UIElement
 	// Bottom Panel - Icon
 	public UIElement OptionIconContainer { get; }
 	public UIImage UnselectedIconBorder { get; }
-	public UIImage UnselectedIconImage { get; }
+	public UIConfigIcon UnselectedIconImage { get; }
 
 	public SettingsPanel() : base()
 	{
@@ -103,8 +112,8 @@ public class SettingsPanel : UIElement
 			e.VAlign = 0.5f;
 		}));
 
-		UnselectedIconImage = OptionIconContainer.AddElement(new UIImage(IconLockedTexture).With(e => {
-			e.ScaleToFit = true;
+		UnselectedIconImage = OptionIconContainer.AddElement(new UIConfigIcon(UnknownOptionTexture, BackgroundTextures[0]).With(e => {
+			e.ResolutionOverride = UnknownOptionTexture.Value.Size();
 			e.MaxWidth = e.Width = StyleDimension.FromPixelsAndPercent(-6f, 1.0f);
 			e.MaxHeight = e.Height = StyleDimension.FromPixelsAndPercent(-6f, 1.0f);
 
@@ -151,8 +160,10 @@ public class SettingsPanel : UIElement
 
 		// Icon
 		if (element.IconTexture != null) {
-			UnselectedIconImage.SetImage(element.IconTexture);
+			UnselectedIconImage.ForegroundTexture = element.IconTexture;
 		}
+
+		UnselectedIconImage.BackgroundTexture = BackgroundTextures[Math.Abs(element.ConfigEntry.Name.GetHashCode()) % BackgroundTextures.Length];
 
 		Recalculate();
 	}
@@ -165,7 +176,8 @@ public class SettingsPanel : UIElement
 		DescriptionText.SetText($"[c/{Color.LightGoldenrodYellow.ToHexRGB()}:{descriptionTip}]", 1.0f, false);
 
 		// Icon
-		UnselectedIconImage.SetImage(IconLockedTexture);
+		UnselectedIconImage.ForegroundTexture = UnknownOptionTexture;
+		UnselectedIconImage.BackgroundTexture = BackgroundTextures[Main.rand.Next(BackgroundTextures.Length)];
 
 		Recalculate();
 	}
