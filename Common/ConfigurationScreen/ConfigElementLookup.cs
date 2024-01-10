@@ -14,7 +14,11 @@ public static class ConfigElementLookup
 
 	static ConfigElementLookup()
 	{
+		// Bool
 		Register<ConfigEntry<bool>, ToggleElement>();
+		// Range
+		Register<RangeConfigEntry<float>, RangeElement>();
+		Register<RangeConfigEntry<double>, RangeElement>();
 	}
 
 	public static void Register<TEntry, TElement>()

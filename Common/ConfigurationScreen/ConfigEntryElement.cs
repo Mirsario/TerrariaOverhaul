@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria.GameContent.UI.Elements;
@@ -72,7 +73,8 @@ public class ConfigEntryElement : FancyUIPanel
 
 			controller.Value = configEntry.LocalValue;
 			controller.OnModified += () => {
-				ConfigEntry.LocalValue = controller.Value;
+				ConfigEntry.LocalValue = Convert.ChangeType(controller.Value, ConfigEntry.ValueType);
+
 				ConfigSystem.SaveConfig();
 			};
 
