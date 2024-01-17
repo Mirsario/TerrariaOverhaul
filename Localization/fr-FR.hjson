@@ -29,7 +29,7 @@ Mods: {
 		}
 
 		Configuration: {
-			//HoverForDescriptionTip: "Hover over an option to see its description"
+			// HoverForDescriptionTip: "Hover over an option to see its description"
 
 			Accessibility: {
 				DisplayName: "Accessibilité"

@@ -1,10 +1,12 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
+using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Interface;
 using TerrariaOverhaul.Core.Time;
@@ -16,8 +18,8 @@ public class RangeElement : UIElement, IConfigEntryController
 {
 	private readonly UIElement container;
 	private readonly UIPanel background;
-	private readonly FancyUIPanel statePanel;
-	private readonly UIText text;
+	private readonly UIImageButton statePanel;
+	private readonly EditableUIText text;
 	private bool dragging;
 	private float soundCooldownEndTime;
 
@@ -53,20 +55,23 @@ public class RangeElement : UIElement, IConfigEntryController
 			e.VAlign = 0.5f;
 			e.MaxWidth = e.Width = StyleDimension.FromPixelsAndPercent(-8f, 1.0f);
 			e.MaxHeight = e.Height = StyleDimension.FromPixelsAndPercent(-10f, 1.0f);
+
+			e.SetPadding(0f);
 		}));
 
-		statePanel = container.AddElement(new FancyUIPanel().With(e => {
-			e.MaxWidth = e.Width = StyleDimension.FromPercent(0.5f);
-			e.MaxHeight = e.Height = StyleDimension.FromPercent(1.0f);
-		}));
+		statePanel = background.AddElement(new UIImageButton(ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/RangeElementAnchor"))).With(e => {
+			e.SetVisibility(1f, 1f);
+			e.SetHoverImage(ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/RangeElementAnchorHover"));
+		});
 
-		text = container.AddElement(new UIText("0.00").With(t => {
+		text = container.AddElement(new EditableUIText("0.00").With(t => {
+			t.MaxTextInputLength = 4;
 			t.Recalculate();
 
-			var dimensions = t.GetDimensions();
+			t.Width = StyleDimension.FromPixels(54f); // need to change this so it doesn't use an arbitrary constant, perhaps using the length of the string "0.00" as a standard
 
-			t.Top = StyleDimension.FromPixelsAndPercent(-dimensions.Height * 0.5f, 0.5f);
-			t.Left = StyleDimension.FromPixelsAndPercent(-dimensions.Width * 0.5f, 0.25f);
+			t.VAlign = 0.5f;
+			t.Left = StyleDimension.FromPixels(-t.Width.Pixels);
 		}));
 
 		UpdateState();
@@ -79,6 +84,16 @@ public class RangeElement : UIElement, IConfigEntryController
 		SoundEngine.PlaySound(SoundID.MenuTick with { Identifier = "StartStop", Pitch = 0.1f });
 
 		dragging = true;
+	}
+
+	public override void ScrollWheel(UIScrollWheelEvent evt)
+	{
+		base.ScrollWheel(evt);
+
+		int scrollDirection = Math.Sign(evt.ScrollWheelValue);
+
+		Value = MathUtils.Clamp01((float)Value + scrollDirection * 0.01f);
+		UpdateState();
 	}
 
 	public override void Update(GameTime gameTime)
@@ -94,10 +109,11 @@ public class RangeElement : UIElement, IConfigEntryController
 				OnModified?.Invoke();
 				SoundEngine.PlaySound(soundStop);
 			} else {
-				var dimensions = GetInnerDimensions();
+				var dimensions = background.GetInnerDimensions();
+
 				var dragDimensions = dimensions with {
-					X = dimensions.X + dimensions.Width * 0.25f,
-					Width = dimensions.Width * 0.5f,
+					X = dimensions.X + (-2f * statePanel.HAlign + 1f) * 11f,
+					Width = dimensions.Width,
 				};
 
 				double newValue = MathUtils.Clamp01((Main.MenuUI.MousePosition.X - dragDimensions.X) / dragDimensions.Width);
@@ -121,16 +137,11 @@ public class RangeElement : UIElement, IConfigEntryController
 
 	private void UpdateState()
 	{
-		float percent = MathHelper.Lerp(0.0f, 0.5f, (float)Value);
+		float percent = MathHelper.Lerp(0, 1f, (float)Value);
 		string valueString = Value.ToString("0.00");
-		var valueStringSize = FontAssets.MouseText.Value.MeasureString(valueString);
 
-		text.HAlign = 0.0f;
-		text.TextOriginX = 0.0f;
-		text.Left = StyleDimension.FromPixelsAndPercent(MathF.Floor(valueStringSize.X * 0.5f), percent);
-		statePanel.Left = StyleDimension.FromPixelsAndPercent(0f, percent);
-
-		text.SetText(valueString, 1.0f, false);
+		statePanel.HAlign = percent;
+		text.textContent = valueString;
 
 		Recalculate();
 	}
