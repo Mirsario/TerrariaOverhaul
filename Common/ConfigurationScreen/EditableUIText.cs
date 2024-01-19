@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -47,18 +49,29 @@ public class EditableUIText : UIElement
 			e.VAlign = 0.5f;
 
 			e.SetContents(textContent, true);
+			e.OnContentsChanged += (string obj) => {
+				this.textContent = obj.Length <= MaxTextInputLength ? obj : this.textContent;
+			};
 		}));
 	}
 
-	public override void LeftClick(UIMouseEvent evt)
-	{
-		ToggleFocus();
-	}
+	public virtual bool TextFilter(string text) => true;
 
 	public void ToggleFocus()
 	{
 		TextInput.ToggleTakingText();
 		IsFocused = TextInput.IsWritingText;
+	}
+
+	public void SetText(string text)
+	{
+		textContent = text;
+		TextInput.SetContents(textContent, true);
+	}
+
+	public override void LeftClick(UIMouseEvent evt)
+	{
+		ToggleFocus();
 	}
 
 	public override void Update(GameTime gameTime)

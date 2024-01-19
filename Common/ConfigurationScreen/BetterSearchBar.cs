@@ -58,7 +58,6 @@ public class BetterSearchBar : UIElement
 			});
 
 			e.OnLeftClick += ClearTextInput;
-			;
 		}));
 	}
 

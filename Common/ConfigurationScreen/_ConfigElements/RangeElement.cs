@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -16,6 +17,7 @@ namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class RangeElement : UIElement, IConfigEntryController
 {
+	// I have no idea why, but this element (specifically the anchor) doesn't work properly on first use. The horizontal movement isn't synced to the mouse and the hover texture doesn't appear. Going back to the category menu fixes this for some reason.
 	private readonly UIElement container;
 	private readonly UIPanel background;
 	private readonly UIImageButton statePanel;
@@ -37,7 +39,7 @@ public class RangeElement : UIElement, IConfigEntryController
 
 	public RangeElement()
 	{
-		MaxWidth = Width = StyleDimension.FromPixels(136f);
+		MaxWidth = Width = StyleDimension.FromPixels(250f);
 		MaxHeight = Height = StyleDimension.FromPercent(1.0f);
 
 		container = this.AddElement(new UIElement().With(e => {
@@ -45,15 +47,16 @@ public class RangeElement : UIElement, IConfigEntryController
 			e.MaxHeight = e.Height = StyleDimension.Fill;
 
 			e.SetPadding(4f);
+			e.PaddingLeft = e.PaddingRight = 8f;
 		}));
 
 		background = container.AddElement(new UIPanel().With(e => {
 			e.BorderColor = CommonColors.OuterPanelMedium.Border.Normal;
 			e.BackgroundColor = CommonColors.OuterPanelMedium.Border.Normal;
 
-			e.HAlign = 0.5f;
+			e.HAlign = 1f;
 			e.VAlign = 0.5f;
-			e.MaxWidth = e.Width = StyleDimension.FromPixelsAndPercent(-8f, 1.0f);
+			e.MaxWidth = e.Width = StyleDimension.FromPixels(120f);
 			e.MaxHeight = e.Height = StyleDimension.FromPixelsAndPercent(-10f, 1.0f);
 
 			e.SetPadding(0f);
@@ -66,12 +69,11 @@ public class RangeElement : UIElement, IConfigEntryController
 
 		text = container.AddElement(new EditableUIText("0.00").With(t => {
 			t.MaxTextInputLength = 4;
-			t.Recalculate();
 
-			t.Width = StyleDimension.FromPixels(54f); // need to change this so it doesn't use an arbitrary constant, perhaps using the length of the string "0.00" as a standard
-
+			t.Width = StyleDimension.FromPixels(55f);
+			t.HAlign = 1f;
 			t.VAlign = 0.5f;
-			t.Left = StyleDimension.FromPixels(-t.Width.Pixels);
+			t.Left = StyleDimension.FromPixels(-124f);
 		}));
 
 		UpdateState();
@@ -80,6 +82,10 @@ public class RangeElement : UIElement, IConfigEntryController
 	public override void LeftMouseDown(UIMouseEvent evt)
 	{
 		base.LeftMouseDown(evt);
+
+		if (evt.Target != background && evt.Target != statePanel) {
+			return;
+		}
 
 		SoundEngine.PlaySound(SoundID.MenuTick with { Identifier = "StartStop", Pitch = 0.1f });
 
@@ -99,6 +105,11 @@ public class RangeElement : UIElement, IConfigEntryController
 	public override void Update(GameTime gameTime)
 	{
 		base.Update(gameTime);
+
+		if (double.TryParse(text.textContent, out double value) && value >= 0 && value <= 1) {
+			Value = value;
+			UpdateState(false);
+		}
 
 		if (dragging) {
 			var soundDrag = SoundID.MenuTick with { Identifier = "Drag", Volume = 0.6f, Pitch = 0.025f, PitchVariance = 0.1f };
@@ -135,13 +146,16 @@ public class RangeElement : UIElement, IConfigEntryController
 		}
 	}
 
-	private void UpdateState()
+	private void UpdateState(bool setText = true)
 	{
 		float percent = MathHelper.Lerp(0, 1f, (float)Value);
 		string valueString = Value.ToString("0.00");
 
 		statePanel.HAlign = percent;
-		text.textContent = valueString;
+
+		if (setText) {
+			text.SetText(valueString);
+		}
 
 		Recalculate();
 	}
