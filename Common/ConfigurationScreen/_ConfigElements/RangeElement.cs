@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
-using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,7 +15,6 @@ namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class RangeElement : UIElement, IConfigEntryController
 {
-	// I have no idea why, but this element (specifically the anchor) doesn't work properly on first use. The horizontal movement isn't synced to the mouse and the hover texture doesn't appear. Going back to the category menu fixes this for some reason.
 	private readonly UIElement container;
 	private readonly UIPanel background;
 	private readonly UIImageButton statePanel;
@@ -62,9 +59,12 @@ public class RangeElement : UIElement, IConfigEntryController
 			e.SetPadding(0f);
 		}));
 
-		statePanel = background.AddElement(new UIImageButton(ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/RangeElementAnchor"))).With(e => {
+		var anchorTextureDefault = ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/RangeElementAnchor").EnsureLoaded();
+		var anchorTextureHover = ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/RangeElementAnchorHover").EnsureLoaded();
+
+		statePanel = background.AddElement(new UIImageButton(anchorTextureDefault)).With(e => {
 			e.SetVisibility(1f, 1f);
-			e.SetHoverImage(ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/RangeElementAnchorHover"));
+			e.SetHoverImage(anchorTextureHover);
 		});
 
 		text = container.AddElement(new EditableUIText("0.00").With(t => {
