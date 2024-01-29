@@ -76,7 +76,7 @@ public static class GeometryUtils
 		{
 			public readonly Vector2Int Point;
 
-			//TODO: Replace with a ref field after TML moves to .NET 7.0+.
+			// To avoid requiring 'unsafe' in questionable contexts - a span is used even in C# 11+.
 			private readonly Span<bool> occupied;
 
 			/// <summary> Set this after every MoveNext() call to whether the returned point's neighbours should be enumerated because after it. </summary>
@@ -85,9 +85,12 @@ public static class GeometryUtils
 			}
 
 			public Result(Vector2Int point, ref bool occupied)
+				: this(point, MemoryMarshal.CreateSpan(ref occupied, 1)) { }
+
+			public Result(Vector2Int point, Span<bool> occupied)
 			{
 				Point = point;
-				this.occupied = MemoryMarshal.CreateSpan(ref occupied, 1);
+				this.occupied = occupied;
 			}
 		}
 
@@ -157,7 +160,7 @@ public static class GeometryUtils
 				localPoint = StackPop();
 				globalPoint = localPoint + gridOffset;
 
-				result = new Result(globalPoint, ref isPointFree);
+				result = new Result(globalPoint, MemoryMarshal.CreateSpan(ref isPointFree, 1));
 				isPointFree = true;
 
 				return true;

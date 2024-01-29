@@ -34,6 +34,7 @@
 
 ### Changes
 - Fighter AI enemies will no longer leap at their targets if they're not facing them.
+- Enqueued dodgerolls will now prevent automatic weapons from being re-used, no longer requiring a release of the use button to trigger a dodge.
 ### Fixes
 - Fixed a few broken keys in Italian localization.
 - Fixed an injection not working in Debug builds of TML.
