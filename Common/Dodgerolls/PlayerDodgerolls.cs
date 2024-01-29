@@ -94,7 +94,19 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 	// CanX
 	public override bool CanUseItem(Item item)
-		=> !IsDodging;
+	{
+		// Disallow item use during a dodgeroll;
+		if (IsDodging) {
+			return false;
+		}
+
+		// And also when one is enqueued, so that autoReuse doesn't trigger.
+		if (DodgeAttemptTimer.Active) {
+			return false;
+		}
+
+		return true;
+	}
 
 	public void QueueDodgeroll(uint minAttemptTimer, Direction1D direction, bool force = false)
 	{
