@@ -15,6 +15,7 @@ using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Common.Hooks.Items;
 
 #pragma warning disable IDE0060 // Remove unused parameter
 
@@ -54,6 +55,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public int CurrentCharges { get; set; }
 	public int DoorRollDamage { get; set; } = 10;
 	public float DoorRollKnockback { get; set; } = 8.00f;
+	public int MinItemUseCommitment { get; set; } = 20;
 
 	public bool IsDodging { get; private set; }
 	public float DodgeStartRotation { get; private set; }
@@ -167,12 +169,28 @@ public sealed class PlayerDodgerolls : ModPlayer
 			if (Player.mount != null && Player.mount.Active) {
 				return false;
 			}
-		}
 
-		if (Player.ItemAnimationActive) {
-			Player.channel = false;
-		}
+			// Handle item use
+			if (Player.ItemAnimationActive && Player.HeldItem is Item heldItem) {
+				int timeSinceItemUseStart = Player.itemAnimationMax - Player.itemAnimation;
 
+				// Enforce a minimal commitment timeframe.
+				if (timeSinceItemUseStart < MinItemUseCommitment) {
+					return false;
+				}
+
+				// If the item has a reuseDelay - Deny the roll up until it's activated.
+				// (Player.reuseDelay works by getting swapped into itemAnim once itemAnim first reaches zero) 
+				if (heldItem.reuseDelay > 0 && Player.reuseDelay != 0) {
+					return false;
+				}
+
+				// Handle melee in a special way, ensuring that rolling during a slash is not possible.
+				if (!heldItem.noMelee && ICanDoMeleeDamage.Invoke(heldItem, Player)) {
+					return false;
+				}
+			}
+		}
 
 		DodgeAttemptTimer = 0;
 
@@ -196,6 +214,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 		Player.StopGrappling();
 
+		Player.channel = false;
 		Player.eocHit = 1;
 
 		IsDodging = true;
