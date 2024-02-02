@@ -2,6 +2,7 @@
 using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Items;
@@ -15,6 +16,9 @@ public sealed class PlayerItemUse : ModPlayer
 	private bool forceItemUse;
 	private bool isItemUseForced;
 	private int altFunctionUse;
+	private ulong lastItemAnimationStartTime;
+
+	public uint TimeSinceLastUseAnimation => (uint)Math.Max(0ul, TimeSystem.UpdateCount - lastItemAnimationStartTime);
 
 	public override void Load()
 	{
@@ -22,6 +26,14 @@ public sealed class PlayerItemUse : ModPlayer
 			.GetMethod("ItemCheck_UseMiningTools_ActuallyUseMiningTool", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)?
 			.CreateDelegate<UseMiningToolDelegate>()
 			?? throw new InvalidOperationException("Unable to acquire mining tool usage method delegate.");
+
+		On_Player.ApplyItemAnimation_Item_float_Nullable1 += static (orig, player, item, multiplier, itemReuseDelay) => {
+			orig(player, item, multiplier, itemReuseDelay);
+
+			if (player.TryGetModPlayer(out PlayerItemUse itemUse)) {
+				itemUse.lastItemAnimationStartTime = TimeSystem.UpdateCount;
+			}
+		};
 	}
 
 	public override bool PreItemCheck()

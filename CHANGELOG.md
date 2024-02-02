@@ -34,6 +34,8 @@
 
 ### Changes
 - Fighter AI enemies will no longer leap at their targets if they're not facing them.
+- Dodgerolls can now be activated during an active item use animation or cooldown if the player is past its damage-dealing timeframe, and if at least `20 ticks` (third of a second) have passed since the item usage was initiated. Feedback is welcome!
+	(PR [#221](https://github.com/Mirsario/TerrariaOverhaul/pull/173) by **TimeSignMaid**)
 - Enqueued dodgerolls will now prevent automatic weapons from being re-used, no longer requiring a release of the use button to trigger a dodge.
 ### Fixes
 - Fixed a few broken keys in Italian localization.
