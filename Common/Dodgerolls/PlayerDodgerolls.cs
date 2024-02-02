@@ -16,6 +16,7 @@ using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Common.Items;
 
 #pragma warning disable IDE0060 // Remove unused parameter
 
@@ -94,7 +95,6 @@ public sealed class PlayerDodgerolls : ModPlayer
 		return true;
 	}
 
-	// CanX
 	public override bool CanUseItem(Item item)
 	{
 		// Disallow item use during a dodgeroll;
@@ -172,7 +172,9 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 			// Handle item use
 			if (Player.ItemAnimationActive && Player.HeldItem is Item heldItem) {
-				int timeSinceItemUseStart = Player.itemAnimationMax - Player.itemAnimation;
+				uint timeSinceItemUseStart = !Player.TryGetModPlayer(out PlayerItemUse playerItemUse)
+					? (uint)Math.Max(0, Player.itemAnimationMax - Player.itemAnimation)
+					: playerItemUse.TimeSinceLastUseAnimation;
 
 				// Enforce a minimal commitment timeframe.
 				if (timeSinceItemUseStart < MinItemUseCommitment) {
