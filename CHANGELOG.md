@@ -34,6 +34,9 @@
 
 ### Changes
 - Fighter AI enemies will no longer leap at their targets if they're not facing them.
+- Dodgerolls can now be activated during an active item use animation or cooldown if the player is past its damage-dealing timeframe, and if at least `20 ticks` (third of a second) have passed since the item usage was initiated. Feedback is welcome!
+	(PR [#221](https://github.com/Mirsario/TerrariaOverhaul/pull/221) by **TimeSignMaid**)
+- Enqueued dodgerolls will now prevent automatic weapons from being re-used, no longer requiring a release of the use button to trigger a dodge.
 ### Fixes
 - Fixed a few broken keys in Italian localization.
 - Fixed an injection not working in Debug builds of TML.
@@ -43,30 +46,25 @@
 ### Additions
 - Opening doors with dodgerolls will now deal high-knockback damage to entities.
 - Added velocity-based tilting (rotation offset) effects to enemies and NPCs, previously only seen on player characters. Toggled by the `Visuals.EnableEnemyTiltingEffects` config entry.
-
 ### Changes
 - Heavily improved combat info tooltips. They now have far more information and feature formatting and color highlighting. They were also added to Hammers, Axes and Pickaxes.
 - Changed mana pickups' particles, fixed these particles being influenced by the local player's movement.
 - Changed how the `Accessibility.ForceAutoReuse` option works. Now it will only exist to make the vanilla global auto-reuse option that was added in Terraria 1.4.4 be enabled by default for players of Overhaul. This change also removes a 2-tick (33.33 milliseconds) use speed penalty from items that had its auto-reuse (auto-swing) forced on by Overhaul, as rebalancing has now been done in vanilla.
 - The ambience system has now been made fully data-driven, utilizing HJSON files for declaring ambience tracks. This changes nothing for users, but it's now easy to contribute expansions to the ambience module without a need to know any programming. Check out [Content/Ambience/README.md](https://github.com/Mirsario/TerrariaOverhaul/blob/dev/Content/Ambience/README.md) if you're interested!
 - Slightly altered velocity-based tilting effects on player characters.
-
 ### Localization
 - Italian (`0.0%` -> `48.6%`) - PR [#214](https://github.com/Mirsario/TerrariaOverhaul/pull/214) by [**CupCat05**](https://github.com/CupCat05).
 - Polish (`50.3%` -> `100.0%`) - PR [#205](https://github.com/Mirsario/TerrariaOverhaul/pull/205) by [**J00niper**](https://github.com/J00niper).
 - Spanish (`45.2%` -> `100.0%`) - PR [#207](https://github.com/Mirsario/TerrariaOverhaul/pull/207) by [**cottonman132**](https://github.com/cottonman132).
 - French (`44.6%` -> `100.0%`) - PR [#208](https://github.com/Mirsario/TerrariaOverhaul/pull/208) by [**orian34**](https://github.com/orian34).
 - Chinese (`49.2%` -> `100.0%`) - PR [#213](https://github.com/Mirsario/TerrariaOverhaul/pull/213) by [**Cyrillya**](https://github.com/Cyrillya).
-
 ### Optimizations
 - Completely rewrote blood particles for the sake of optimization, visible behavior being left mostly the same. The code is now data-oriented, no longer utilizes unnecessary object-oriented tooling such as inheritance, virtual calls, and needless references and reallocations, altogether minimizing stress on the Garbage Collector and maximizing CPU cache friendliness. This also introduces an upper limit to the amount of particles, currently set to 1024.
 - Optimized blood color recording by making it reuse collections using a pool, reducing GC stress from collection resizing. This is used by gibs during monster/NPC deaths to determine if gibs should bleed.
 - Improved performance of the implementation of the flood fill algorithm, which the mod uses mostly to analyze the player's surroundings for sound reverberation & wall-based occlusion.
 - Slightly improved performance of the implementation of the Bresenham Line algorithm, which the mod uses for block-based sound occlusion checking.
-
 ### Compatibility
 - The aforementioned `ForceAutoReuse` penalty removal works around a compatibility bug in `AFK's Pets` that resulted in many items being used more than once. The real cause of that issue will be fixed by `AFK's Pets` authors.
-
 ### Fixes
 - Fixed issue [#186](https://github.com/Mirsario/TerrariaOverhaul/issues/186) (Balloons not functioning).
 - Fixed issue [#200](https://github.com/Mirsario/TerrariaOverhaul/issues/200) (Killing Blow Localizations are Outdated).
@@ -112,7 +110,6 @@
 - Added two new alternated muzzleflash variations, and two frames of animation.
 - Reimplemented player/npc water/rain interactions, i.e. application of the wet debuff.
 - Players now face NPCs during dialogues.
-
 ### Changes
 - Blood/Gel/Whatever particles' line lengths will now be rounded in rendering, with positions aligned to the pixel grid, appearing slightly more pixelated and low framerate, and preventing very thin lines forming at low velocity. They are still rotated however.
 - Crosshairs will now take "re-use delay" into account for their rotations.
@@ -129,17 +126,14 @@
 	- These changes should keep stuns a reliable mechanic for diving into enemies in an in-and-out combat style, while preventing easy stun-locking of enemies and bosses that allowed people to receive no damage while standing still and holding the use button.
 	- The red flash visual effect is no longer reduced in intensity for bosses.
 - Aimable weapons no longer show during NPC dialogues.
-
 ### Fixes
 - Fixed issue [#177](https://github.com/Mirsario/TerrariaOverhaul/issues/177) (Explosives ignore knockback resistance). 
 - Fixed issue [#124](https://github.com/Mirsario/TerrariaOverhaul/issues/124) (Unable to pet cats & dogs).
 - Fixed issue [#188](https://github.com/Mirsario/TerrariaOverhaul/issues/188) (Vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.)
 - Fixed force applied to gores being biased towards the right, due to an incorrect linear interpolation function being used for velocity angles.
 - Fixed the Axe of Regrowth not getting the Axe item overhaul.
-
 ### Netcode
 - Fixed some cases of desynchronization within power attacks.
-
 ### Optimizations
 - Crosshair impulse registration no longer causes any heap allocations.
 
@@ -153,7 +147,6 @@
 - Improved coloring of melee damage text and the Hack and Slash passive: removed green shades since people thought that they were sometimes healing enemies, widened white shades' range.
 - Fast-firing bows' audio will now stack instead of being abruptly reset all the time.
 - Slightly slowed down Mana Absorption passive's icon pulse rate.
-
 ### Fixes
 - Fixed another typo in Journey mode scaling fixes, this time resulting in lowest stats being used when Master difficulty values are selected in Journey mode's customization.
 - Fixed bows using extreme screenshake intensity values.
@@ -162,14 +155,11 @@
 - Prevented a seemingly impossible concurrency error in decal code from ever happening. This game has no concurrency, and yet this was reported.
 - Fixed a rare `IndexOutOfRangeException` that could occur when dodgerolling while on a grappling hook.
 - Fixed many screenshakes being global (positionless) in multiplayer.
-
 ### Optimizations
 - Optimized decal addition code to perfection, minimized reallocations and GC stress.
-
 ### Configuration
 - Added `Melee.EnableSwingVelocity` option.
 - Added `Ambience.EnableAudioFiltering` option. Set that to `false` if your game is crashing when entering a world.
-
 ### Localization
 - Chinese - PR [#173](https://github.com/Mirsario/TerrariaOverhaul/pull/173) by **Cyrillia**.
 - Polish - PR [#172](https://github.com/Mirsario/TerrariaOverhaul/pull/172) by **J00niper**.
@@ -178,7 +168,6 @@
 
 ### Changes
 - Increased minimal Journey player damage scale from 0.33 to 0.625 (half of `I'm Too Young To Mine`.)
-
 ### Fixes
 - (!) Fixed a bad typo in IL injection code resulting in projectile-to-player damage failure. Oopsie doopsie.
 - (!) Fixed a big difficulty-agnostic balance issue introduced by the Journey fix.
@@ -199,7 +188,6 @@
 - Improved gore interaction, added splash force to bullet impacts.
 - Added bullet & ice decals.
 - Added a tiny toggleable tweak that causes the OS cursor to be displayed when interface is disabled.
-
 ### Changes
 - Rewrote and improved everything about the camera features - [#168](https://github.com/Mirsario/TerrariaOverhaul/pull/168).
 - Heavily improved melee swing velocity, now respects player movement input - [#137](https://github.com/Mirsario/TerrariaOverhaul/pull/137) (and many commits after that.)
@@ -226,7 +214,6 @@
 - Made the mop use a texture for decal clearing. Now more effective, too.
 - Decals will now be cleared from doors when they open.
 - Decals will now be cleared from tiles that become surrounded (Might be inconssistent.)
-
 ### Compatibility
 - Improved compatibility friendliness of grappling hook physics code.
 - Fixed slashes appearing for `noMelee` weapons.
@@ -234,7 +221,6 @@
 - Fixed melee gore interaction not checking for `noMelee` boolean.
 - Fixed HoldOut animations lingering on weapons that swap animation types.
 - Fixed melee mana experiments breaking "AltUse shoot" weapons, like Thorium's `Valadium Slicer`.
-
 ### Fixes
 - Fixed [#101](https://github.com/Mirsario/TerrariaOverhaul/issues/101) - Binoculars & other camera offsets do not work.
 - Fixed [#119](https://github.com/Mirsario/TerrariaOverhaul/issues/119) - Smooth Camera doesn't handle teleports, reveals map areas.
@@ -244,12 +230,10 @@
 - Fixed the Mop and a few other weapons not interacting with gore & gibs.
 - Fixed explosions accelerating their own particles into bottom right direction.
 - Fixed some vanilla grappling hooks not emitting lights and other effects after latching onto a tile.
-
 ### Configuration
 - PR [#157](https://github.com/Mirsario/TerrariaOverhaul/pull/157) by **BAMcSH** - Added bool config to toggle air combat functionality.
 - PR [#166](https://github.com/Mirsario/TerrariaOverhaul/pull/166) by **Hoabs** - Added config option to enable/disable difficulty tweaks.
 - Added `Enemies.EnableEnemyLunges` option.
-
 ### Localization
 - Localization files in the GitHub repository will now be refreshed based on English strings automatically on mod rebuild, making the development and localization contribution processes a lot more convenient.
 - Main menu overlays are now localizable.
@@ -268,7 +252,6 @@
 - PR [#122](https://github.com/Mirsario/TerrariaOverhaul/pull/122) by **clownwithnoname** - Added config toggles for melee power attacks.
 - PR [#128](https://github.com/Mirsario/TerrariaOverhaul/pull/128) by **Tenrys** - Added config options for new Melee Animations and Slash sprites.
 - Added `PlayerVisuals.EnableAimableFlashlights` config option.
-
 ### Fixes
 - Issues [#151](https://github.com/Mirsario/TerrariaOverhaul/issues/151) and [#147](https://github.com/Mirsario/TerrariaOverhaul/issues/147) - Excessive mana drops with worms & segmented enemies. Segmented (worm-like) enemies now drop mana at random segments. This is the issue that resulted in some Calamity-ish bosses not dropping loot bags.
 - Issue [#123](https://github.com/Mirsario/TerrariaOverhaul/issues/123) - Texture2D failure crash (Chunks being created outside the world.)
@@ -293,10 +276,8 @@
 ### Additions
 - Added `PlayerMovement.EnableAutoJump` config toggle.
 - Added `PlayerMovement.EnableGrapplingHookPhysics` config toggle.
-
 ### Changes
 - Rewritten melee weapon range calculation functions, now way more accurate. This is a bugfix, but it does directly affect gameplay.. Probably a buff.
-
 ### Fixes
 - Fixed the mod not working on headless servers (you may need to be on preview TML until 1st of July.)
 - Fixed dedicated servers crashing on 29/30th June TML preview after a super recent fix for illegal operations not being reported.
@@ -308,7 +289,6 @@
 - Polished mana drops again. They will now be culled by the amount needed on per player basis.
 - Adjusted volume of some ambience tracks, made broadsword swings a bit quiter.
 - Changed `Accessibility.ForceAutoReuse`'s netside to `Both`.
-
 ### Fixes
 - ❗❗❗ Fixed bosses sometimes not dropping their loot due to too many mana drops being spawned and overtaking all slots.
 - Fixed URL link opening issues. I fixed this through TML, so make sure it's up to date too.
@@ -322,10 +302,8 @@
 ### Additions
 - Config files will now automatically reload when modified.
 - Added `Accessibility.ForceAutoReuse` config option.
-
 ### Changes
 - Compatibility - Excluded ClickerClass items from ForceAutoReuse.
-
 ### Fixes
 - Issue [#103](https://github.com/Mirsario/TerrariaOverhaul/issues/103) - Fixed looping sounds being louder than supposed to.
 - Issue [#103](https://github.com/Mirsario/TerrariaOverhaul/issues/103) - Fixed ManaRegenerationSoundVolume setting not working.
@@ -340,10 +318,8 @@
 - Spanish difficulty level translations (Thanks, Igmc!)
 - ru-RU grammar corrections (Thanks, Snoop1CattZ69!)
 - Included a small version of the icon, may be used by other mods.
-
 ### Changes
 - Public Overhaul builds will now also be uploaded to Github releases.
-
 ### Fixes
 - Fixed spears & chain knives using mana.
 - Made main menu links preferably open in steam for now, due to some issues in Firefox & Process.Start's UseShellExecute.
@@ -371,7 +347,6 @@
 - Mana regeneration is now based on player speed. Complete with a beautiful indicator in the top left. The already present mana regeneration sounds compliment this too.
 - Added 4 configuration options related to low health, low mana, and mana regen effects.
 - Brand new logo by Zoomo & Donmor. I've also added some glowmasks to the one in main menu, so it looks better in dark.
-
 ### Changes
 - Improved dodgerolls with twice the dodgerolls. Players now have two dodgeroll charges, for which polished indicators have been added. Using up all charges before they're restored penalizes players with a longer cooldown.
 - Weapons' power attacks' activation no longer requires a new button press, and it's all now auto-reusable.
@@ -382,7 +357,6 @@
 	- 10.5 -> 11 blocks for health;
     - 12 -> 16 blocks for mana.
 - Large codebase quality improvements, once again. Is gud!
-
 ### Fixes
 - Fixed many multiplayer synchronization issues! Multiplayer experience should now be quite comfortable.
 - Issue [#94](https://github.com/Mirsario/TerrariaOverhaul/issues/94) - Enemy mana drops don't accumulate from debuff damage.
@@ -400,7 +374,6 @@
 - Fixed chunk textures being loaded outside the main thread (that caused rare crashes.)
 - Fixed bullet/shell casings & arrow chunks turning into mist when the vanilla Blood & Gore option is turned off.
 - Fixed broadswords' killing blows' damage multipliers not making their way to multiplayer servers, causing "killed" enemies to come back.
-
 ### Localization
 - Updated Chinese localization (Thanks, Cyril!)
 - Updated Brazilian Portuguese localizations (Thanks, Pixelnando!)
@@ -428,7 +401,6 @@ Debuff lengths, enemy health, defense, knockback, and coin drops are now the sam
 - **Experimental:** Projectile-firing swords now use 3-10 mana, depending on their firerate. I already have another idea for them, but let me know what you think, and don't forget the above 2 points before writing hate mail.
 - Axes & Hammers now have charged attacks (not fully done with them.)
 - Axes & Hammers now use broadswords' swing animations.
-
 ### Changes
 - Huge backend rewrites - now component-based with no reliance on the unreliable paradigm that is inheritance.
 - Mana drop logic redone again. The amount of mana dropped from each enemy is now pre-determined based on their assumed (by the mod) role. Fodder will drop `15` mana, heavies - more, bosses - depending on their healthpools. The used weapon's stats no longer affect mana drops at all. Honestly not sure why they did, it's pretty dumb.
@@ -439,7 +411,6 @@ Debuff lengths, enemy health, defense, knockback, and coin drops are now the sam
 - Melee weapons' projectiles are now sped up when charged. Much more satisfying.
 - Reduced Killing Blow damage scaling from `2.0` to `1.5`.
 - Reduced Magic Weapon charged projectile damage multiplier from `2.50` to `1.75`.
-
 ### Fixes
 - Fixed killing blows only doubling damage on kills that would happen regardless. Facepalming.
 - Fixed slashes showing up in after-images (appearing not translucent during dashes.)
@@ -451,14 +422,12 @@ Debuff lengths, enemy health, defense, knockback, and coin drops are now the sam
 - Replaced magic staves' sound effect with an actually good one.
 - Added a charged magic blast sound effect.
 - Added screenshake to magic power attack charges.
-
 ### Changes
 - Made bow sounds quieter.
 - Simplified mana drops. No longer exclusive to magic damage, no longer based on the current weapon's mana usage.
 - Mana is no longer regenerated during item use (like it wasn't in vanilla.) This is done because you're now able to get mana back from enemies.
 - Readjusted melee velocity boosts once more to battle abuse.
 - Rebalanced magic power attacks, made them quicker.
-
 ### Fixes
 - Fixed magic weapon power attacks not checking for mana until fire.
 - Fixed broadsword charged attacks being activatable during item use.
@@ -467,7 +436,6 @@ Debuff lengths, enemy health, defense, knockback, and coin drops are now the sam
 - Fixed dodgerolls being able to be activated when hovering over GUI.
 - Fixed mana effects being active while dead.
 - Fixed Main Menu links not working (by RighteousRyan.)
-
 ### Localization
 - Brazilian Portuguese localization (by goiabae & Pixelnando.)
 - Polish Localization (by J00niper.)
@@ -485,10 +453,8 @@ Debuff lengths, enemy health, defense, knockback, and coin drops are now the sam
 - Added jump footstep sounds to dirt, grass, stone and wood.
 - Wooden arrows now break into visible 'gore' pieces.
 - Implemented a basis for seasons. They don't actually appear in the game yet.
-
 ### Changes
 - Lowered overall aim recoil.
-
 ### Fixes
 - Fixed weapon rotations jumping when switching direction.
 - Fixed the slash draw layer possibly rendering when charging.
@@ -501,10 +467,8 @@ Debuff lengths, enemy health, defense, knockback, and coin drops are now the sam
 - Experimental: Added gun recoil. Let me know what you think after trying it out. In the future, this will let me remove random spread from many guns, like the miniguns.
 - Reimplemented the audio ambience system. Currently has 4 audio tracks for 3 different biomes.
 - Implemented low pass filtering-based wall occlusion of outdoors ambient sounds. You will no longer hear birds so clearly while indoors or in a cave.
-
 ### Changes
 - New grass, dirt and stone footstep sounds that I find less jarring.
-
 ### Fixes
 - Fixed "projectile enemies" being able to drop health and mana.
 - Fixed the ChunkSystem sometimes freezing on mod unload.
@@ -544,10 +508,8 @@ Debuff lengths, enemy health, defense, knockback, and coin drops are now the sam
 - Implemented low mana warning effects & a sound.
 - Implemented mana regeneration effects & a sound.
 - Added 'Mana Channelling' UX buff to notify the player that standing still speeds up mana regeneration.
-
 ### Changes
 - Heavily speeded up climbing.
-
 ### Fixes
 - Fixed autoreuse forcing breaking magic missile & other items.
 - Fixed 1.4.2 TML getting stuck due to an unused corrupted ogg.
@@ -561,19 +523,16 @@ Debuff lengths, enemy health, defense, knockback, and coin drops are now the sam
 - Added broadswords killing blows. They're very different from 1.3 -- they double damage on power attacks whenever an enemy with non-full health will die from that.
 - Striking enemies will now launch the player towards their velocity. This lets you 'ride' demon eyes into the sky!
 - Made a new system that allows me to replace enemy hit sounds on per-item basis. Swords now play custom audio, and so do wooden tools.
-
 ### Changes
 - Redid swing velocity logic from scratch. Removed extra velocity bonuses for attacking downwards.
 - Heavily improved enemy hit & death sounds.
 - Heavily improved gore audio and fixed some issues with it.
 - Improved gore blood splatters.
 - Removed unused keybindings.
-
 ### Fixes
 - Fixed configs not loading.
 - Fixed retro lighting lagging the game (and sometimes crashing on some graphics drivers.)
 - Improved the mop's code, fixed the mop hitting enemies through walls.
-
 
 # 5.0 BETA 2 FIX 1
 
@@ -598,10 +557,8 @@ Debuff lengths, enemy health, defense, knockback, and coin drops are now the sam
 - Added new NPC hit effects: scaling, rotation & offsets.
 - Reimplemented npc "stuns" for melee.
 - Added debug mode - /oToggleDebugDisplay.
-
 ### Changes
 - Lowered footstep volume.
-
 ### Fixes
 - Fixed gun recoil going in the wrong direction when gravity is flipped.
 - Fixed the player rotating incorrectly when gravity is flipped. 
@@ -609,7 +566,6 @@ Debuff lengths, enemy health, defense, knockback, and coin drops are now the sam
 # 5.0 BETA 1
 
 This is the first public release of version 5.0, which is a from-scratch recreation of the mod.
-
 ### Starting features
 - (!) Jump key buffering and a new addition: forced-on auto-jump.
 - (!) New and improved NPC blood and gore.
