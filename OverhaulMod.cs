@@ -51,7 +51,9 @@ public class OverhaulMod : Mod
 
 	public override IContentSource CreateDefaultContentSource()
 	{
-		AddContent(new OgvReader());
+		if (!Main.dedServ) {
+			AddContent(new OgvReader());
+		}
 
 		return base.CreateDefaultContentSource();
 	}
