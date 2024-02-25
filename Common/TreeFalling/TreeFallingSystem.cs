@@ -299,7 +299,12 @@ public sealed class TreeFallingSystem : ModSystem
 		var tilePosition = new Vector2Int(x, y);
 
 		// Redirect damage to the top if a non-stump tree root is hit.
-		if (!isTreeHitRedirectedFromStump && !isTreeBeingDestroyed && IsATreeRoot(tilePosition) && !IsATreeStump(tilePosition) && tilePosition.Y > 0) {
+		if (EnableTreeFallingAnimations
+		&& !isTreeHitRedirectedFromStump
+		&& !isTreeBeingDestroyed
+		&& IsATreeRoot(tilePosition)
+		&& !IsATreeStump(tilePosition)
+		&& tilePosition.Y > 0) {
 			try {
 				isTreeHitRedirectedFromStump = true;
 

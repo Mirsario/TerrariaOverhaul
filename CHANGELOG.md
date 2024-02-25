@@ -38,6 +38,7 @@
 	(PR [#221](https://github.com/Mirsario/TerrariaOverhaul/pull/221) by **TimeSignMaid**)
 - Enqueued dodgerolls will now prevent automatic weapons from being re-used, no longer requiring a release of the use button to trigger a dodge.
 ### Fixes
+- Fixed stump cutting still being redirected upwards when tree falling animations are disabled.
 - Fixed a few broken keys in Italian localization.
 - Fixed an injection not working in Debug builds of TML.
 
