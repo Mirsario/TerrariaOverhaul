@@ -26,7 +26,7 @@ public sealed class WallSoundOcclusion : ModSystem
 		AudioEffectsSystem.OnSoundUpdate += ApplyOcclusionToSounds;
 	}
 
-	public override void PostUpdateWorld()
+	public override void PostUpdateEverything()
 	{
 		if (Main.LocalPlayer is not Player { active: true } player) {
 			return;

@@ -25,7 +25,7 @@ public sealed class SurroundingsReverb : ModSystem
 		(1.0f, 1.00f)
 	);
 
-	public override void PostUpdateWorld()
+	public override void PostUpdateEverything()
 	{
 		if (Main.GameUpdateCount % UpdateRate != 0) {
 			return;

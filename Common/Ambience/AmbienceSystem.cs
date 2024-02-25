@@ -31,7 +31,7 @@ public sealed class AmbienceSystem : ModSystem
 		LoadAmbienceTracksFromMod(Mod);
 	}
 
-	public override void PostUpdateWorld()
+	public override void PostUpdateEverything()
 	{
 		var tracksSpan = CollectionsMarshal.AsSpan(Tracks);
 		bool isAmbienceEnabled = EnableAmbientSounds;

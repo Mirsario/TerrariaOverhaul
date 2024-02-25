@@ -37,7 +37,7 @@ public sealed class BannerReworkSystem : ModSystem
 		};
 	}
 
-	public override void PreUpdateWorld()
+	public override void PreUpdatePlayers()
 	{
 		bool enable = BannerReworkEnabled.Value;
 

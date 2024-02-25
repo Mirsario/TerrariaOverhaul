@@ -22,7 +22,7 @@ public sealed partial class ConfigSystem : ModSystem
 		configNeedsSynchronization = false;
 	}
 
-	public override void PostUpdateWorld()
+	public override void PostUpdateEverything()
 	{
 		if (Main.netMode == NetmodeID.Server && configNeedsSynchronization) {
 			SendConfiguration();
