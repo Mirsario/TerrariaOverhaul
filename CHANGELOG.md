@@ -42,6 +42,7 @@
 - Fixed stump cutting still being redirected upwards when tree falling animations are disabled.
 - Fixed a few broken keys in Italian localization.
 - Fixed an injection not working in Debug builds of TML.
+- Fixed combo breaking sounds still playing when `Bunny Paw`'s cues are disabled.
 
 # 5.0 BETA 13C
 

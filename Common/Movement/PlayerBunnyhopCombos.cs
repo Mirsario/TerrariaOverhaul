@@ -103,8 +103,10 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 			return;
 		}
 
-		if (!Main.dedServ && Player.IsLocal()) {
-			SoundEngine.PlaySound(BunnyhopComboBreakSound, Player.Center);
+		if (AudioEnabled) {
+			if (!Main.dedServ && Player.IsLocal()) {
+				SoundEngine.PlaySound(BunnyhopComboBreakSound, Player.Center);
+			}
 		}
 
 		Combo = 0;
