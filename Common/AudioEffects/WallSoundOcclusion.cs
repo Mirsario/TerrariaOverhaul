@@ -66,7 +66,7 @@ public sealed class WallSoundOcclusion : ModSystem
 		OcclusionFactor = MathHelper.Clamp(numWalls / (float)requiredWallTiles, 0f, 1f);
 	}
 
-	public static void SetEnabledForSoundStyle(SoundStyle soundStyle, bool enabled)
+	public static void SetEnabledForSoundStyle(in SoundStyle soundStyle, bool enabled)
 	{
 		if (enabled) {
 			soundStyles.Add(soundStyle);

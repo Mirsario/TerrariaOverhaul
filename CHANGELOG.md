@@ -32,11 +32,14 @@
 
 # Work In Progress
 
+### Additions
+- Muffling (low-pass filtering) will now be applied to sounds located underwater. Previously it's only been applied if the local player is underwater.
 ### Changes
 - Fighter AI enemies will no longer leap at their targets if they're not facing them.
 - Dodgerolls can now be activated during an active item use animation or cooldown if the player is past its damage-dealing timeframe, and if at least `20 ticks` (third of a second) have passed since the item usage was initiated. Feedback is welcome!
 	(PR [#221](https://github.com/Mirsario/TerrariaOverhaul/pull/221) by **TimeSignMaid**)
 - Enqueued dodgerolls will now prevent automatic weapons from being re-used, no longer requiring a release of the use button to trigger a dodge.
+- Improved the underwater sound loop a bit, previously it might've been getting muffled itself.
 ### Fixes
 - (!) Fixed ambience tracks as well as reverb & low-pass audio effects all not functioning in multiplayer. Has no one reported this???
 - Fixed stump cutting still being redirected upwards when tree falling animations are disabled.

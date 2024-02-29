@@ -68,8 +68,8 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public override void Load()
 	{
 		// Make GUI-related sounds ignored by reverb & other filters.
-		AudioEffectsSystem.IgnoreSoundStyle(FailureSound);
-		AudioEffectsSystem.IgnoreSoundStyle(RechargedSound);
+		AudioEffectsSystem.SetEnabledForSoundStyle(FailureSound, false);
+		AudioEffectsSystem.SetEnabledForSoundStyle(RechargedSound, false);
 
 		DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
 
