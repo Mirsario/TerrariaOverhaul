@@ -1,7 +1,7 @@
 # Ambience Tracks
 
-Files with the '.prefab' extension under this folder declare ambient sounds that should appear in the game.
-'.prefab' files use the HJSON syntax: https://hjson.github.io
+Files with the '.prefab.hjson' extension under this folder declare ambient sounds that should appear in the game.
+'.prefab.hjson' files use the HJSON syntax: https://hjson.github.io
 
 ## Contributing
 

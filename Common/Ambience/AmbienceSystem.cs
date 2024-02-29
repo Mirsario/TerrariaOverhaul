@@ -58,13 +58,13 @@ public sealed class AmbienceSystem : ModSystem
 		}
 	}
 
-	// This parses .prefab files in a mod and looks for 'EntityName: { AmbienceTrack: { ... } }' constructs in them.
+	// This parses '.prefab.hjson' files in a mod and looks for 'EntityName: { AmbienceTrack: { ... } }' constructs in them.
 	// Later, if the mod needs more data-driven approaches, it's possible to implement a universal ECS-like entity data storage not limited to ambience tracks.
 	public static void LoadAmbienceTracksFromMod(Mod mod)
 	{
 		var assets = mod.GetFileNames();
 
-		foreach (string fullFilePath in assets.Where(t => t.EndsWith(".prefab"))) {
+		foreach (string fullFilePath in assets.Where(t => t.EndsWith(".prefab.hjson"))) {
 			using var stream = mod.GetFileStream(fullFilePath);
 			using var streamReader = new StreamReader(stream);
 
