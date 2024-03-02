@@ -330,6 +330,20 @@ public sealed class PlayerDodgerolls : ModPlayer
 			}
 		}
 
+		if (!onGround && wasOnGround && MathF.Abs(Player.velocity.X) >= lesserSpeed) {
+			int sign = Math.Sign(Player.velocity.X);
+			float newVelX = MathUtils.MaxAbs(
+				Player.velocity.X - (speedTypeDiff * sign),
+				lesserSpeed * sign
+			);
+
+			if (Math.Sign(newVelX) == Math.Sign(StartVelocity.X)) {
+				newVelX = MathUtils.MaxAbs(newVelX, StartVelocity.X);
+			}
+
+			Player.velocity.X = newVelX;
+		}
+
 		if (!Main.dedServ) {
 			// Trail
 			Player.GetModPlayer<PlayerTrailEffects>().ForceTrailEffect(2);

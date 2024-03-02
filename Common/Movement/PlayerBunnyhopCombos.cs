@@ -61,8 +61,13 @@ public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 		}
 
 		Player.TryGetModPlayer(out PlayerDodgerolls dodgerolls);
+		Player.TryGetModPlayer(out PlayerClimbing climbing);
 		
-		if (Math.Abs(player.velocity.X) <= 3f && !player.controlRight && !player.controlLeft && dodgerolls?.IsDodging != true) {
+		if (Math.Abs(player.velocity.X) <= 3f
+		&& !player.controlRight
+		&& !player.controlLeft
+		&& dodgerolls?.IsDodging != true
+		&& climbing?.IsClimbing != true) {
 			EndCombo();
 			return;
 		}

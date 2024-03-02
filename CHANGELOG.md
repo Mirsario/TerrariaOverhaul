@@ -39,6 +39,9 @@
 - Dodgerolls can now be activated during an active item use animation or cooldown if the player is past its damage-dealing timeframe, and if at least `20 ticks` (third of a second) have passed since the item usage was initiated. Feedback is welcome!
 	(PR [#221](https://github.com/Mirsario/TerrariaOverhaul/pull/221) by **TimeSignMaid**)
 - Enqueued dodgerolls will now prevent automatic weapons from being re-used, no longer requiring a release of the use button to trigger a dodge.
+- Jumping out of a dodgeroll no longer gives players insane horizontal speed, with it instead going down to the speed value you get when dodgerolling mid-air.
+- Rolljumps (also referred to as 'bunnyrolls'), which are performed by combining bunnyhops with a dodgeroll, now convert vertical/falling speed into horizontal speed. Jump from a-high and combine dodgerolling (which also reduces or nulls fall damage) with a jump to launch yourself horizontally.
+- Base bunnyhop effectivity has been much reduced. Utilize rolljumps & mantling to remain swift in early game.
 - Improved the underwater sound loop, previously it might've been getting muffled itself.
 - Reduced volume of jump/land footsteps, added pitch variance to every footstep sound.
 ### Fixes
