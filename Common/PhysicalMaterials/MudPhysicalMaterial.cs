@@ -12,5 +12,6 @@ public sealed class MudPhysicalMaterial : PhysicalMaterial, ITileTagAssociated, 
 
 	public SoundStyle? FootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Mud/Step", 6) {
 		Volume = 0.5f,
+		PitchVariance = 0.1f,
 	};
 }

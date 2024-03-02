@@ -8,5 +8,6 @@ public sealed class GorePhysicalMaterial : PhysicalMaterial, IFootstepSoundProvi
 {
 	public SoundStyle? FootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSmallSplatter", 2) {
 		Volume = 0.4f,
+		PitchVariance = 0.1f,
 	};
 }

@@ -39,7 +39,8 @@
 - Dodgerolls can now be activated during an active item use animation or cooldown if the player is past its damage-dealing timeframe, and if at least `20 ticks` (third of a second) have passed since the item usage was initiated. Feedback is welcome!
 	(PR [#221](https://github.com/Mirsario/TerrariaOverhaul/pull/221) by **TimeSignMaid**)
 - Enqueued dodgerolls will now prevent automatic weapons from being re-used, no longer requiring a release of the use button to trigger a dodge.
-- Improved the underwater sound loop a bit, previously it might've been getting muffled itself.
+- Improved the underwater sound loop, previously it might've been getting muffled itself.
+- Reduced volume of jump/land footsteps, added pitch variance to every footstep sound.
 ### Fixes
 - (!) Fixed ambience tracks as well as reverb & low-pass audio effects all not functioning in multiplayer. Has no one reported this???
 - Fixed stump cutting still being redirected upwards when tree falling animations are disabled.

@@ -14,6 +14,7 @@ public sealed class WoodPhysicalMaterial : PhysicalMaterial, ITileTagAssociated,
 	// Footsteps
 	public SoundStyle? FootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Wood/Step", 11) {
 		Volume = 0.5f,
+		PitchVariance = 0.1f,
 	};
 
 	public SoundStyle? JumpFootstepSound => ModContent.GetInstance<StonePhysicalMaterial>().JumpFootstepSound;
