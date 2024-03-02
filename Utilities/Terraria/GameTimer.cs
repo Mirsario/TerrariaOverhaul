@@ -72,6 +72,13 @@ public struct GameTimer
 		FreezeTime = null;
 	}
 
+	// Cursed
+	public void Offset(int delta)
+	{
+		StartTime = (uint)Math.Max(0, StartTime + delta);
+		EndTime = (uint)Math.Max(0, EndTime + delta);
+	}
+
 	public static implicit operator GameTimer(uint value) => new() { Value = value };
 	public static implicit operator GameTimer(int value) => new() { Value = (uint)value };
 

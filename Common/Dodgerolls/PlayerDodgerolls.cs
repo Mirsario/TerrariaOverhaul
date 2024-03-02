@@ -33,7 +33,7 @@ public struct DodgerollStats
 {
 	public uint MaxCharges = 2;
 	// Timings
-	public uint CooldownLength = 90;
+	public uint CooldownLength = 120;
 	public uint DodgerollLength = 22;
 	public uint MovementActionDenialLength = 22 / 3 * 2;
 	public uint BufferingLength = 20;
