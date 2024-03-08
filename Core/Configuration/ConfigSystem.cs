@@ -1,27 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Core.Configuration;
 
-public sealed partial class ConfigSystem : ModSystem
+public sealed class ConfigSystem : ModSystem
 {
-	private class CategoryData
+	public class CategoryData
 	{
 		public readonly Dictionary<string, IConfigEntry> EntriesByName = new();
 	}
 
-	private static readonly Dictionary<string, IConfigEntry> entriesByName = new();
-	private static readonly Dictionary<string, CategoryData> categoriesByName = new();
+	private static readonly List<IConfigEntry> entries = new();
+	private static readonly Dictionary<string, IConfigEntry> entriesByName;
+	private static readonly Dictionary<string, CategoryData> categoriesByName;
 
-	public static IReadOnlyDictionary<string, IConfigEntry> EntriesByName { get; } = new ReadOnlyDictionary<string, IConfigEntry>(entriesByName);
+	public static ReadOnlySpan<IConfigEntry> Entries => CollectionsMarshal.AsSpan(entries);
+	public static ReadOnlyDictionary<string, IConfigEntry> EntriesByName { get; }
+	public static ReadOnlyDictionary<string, CategoryData> CategoriesByName { get; }
+
+	static ConfigSystem()
+	{
+		EntriesByName = new(entriesByName = new());
+		CategoriesByName = new(categoriesByName = new());
+	}
 
 	public override void Load()
 	{
@@ -33,10 +42,7 @@ public sealed partial class ConfigSystem : ModSystem
 			entry.Initialize(Mod);
 		}
 
-		InitializeIO();
-		InitializeNetworking();
-
-		LoadConfig();
+		ConfigIO.LoadConfig();
 	}
 
 	private void ForceInitializeStaticConstructors()
@@ -69,6 +75,8 @@ public sealed partial class ConfigSystem : ModSystem
 
 	public static void ResetConfig()
 	{
+		DebugSystem.Logger.Info("Resetting configuration...");
+
 		foreach (var entry in entriesByName.Values) {
 			entry.LocalValue = entry.DefaultValue;
 		}
@@ -76,6 +84,7 @@ public sealed partial class ConfigSystem : ModSystem
 
 	internal static void RegisterEntry(IConfigEntry entry)
 	{
+		entries.Add(entry);
 		entriesByName.Add(entry.Name, entry);
 
 		if (!categoriesByName.TryGetValue(entry.Category, out var category)) {

@@ -18,8 +18,8 @@ public class ConfigurationMenuButton : MenuButton
 		});
 		*/
 
-		string configFilePath = ConfigSystem.ConfigPath;
-		string configDirectory = ConfigSystem.ConfigDirectory;
+		string configFilePath = ConfigIO.FilePathWithoutExtension + ConfigIO.Formats[0].Extension;
+		string configDirectory = ConfigIO.Directory;
 		string configFileName = Path.GetFileName(configFilePath);
 
 		try {

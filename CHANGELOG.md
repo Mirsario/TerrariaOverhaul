@@ -50,6 +50,8 @@
 - Fixed a few broken keys in Italian localization.
 - Fixed an injection not working in Debug builds of TML.
 - Fixed combo breaking sounds still playing when `Bunny Paw`'s cues are disabled.
+### Technical
+- Redesigned half of the config backend, hopefully making it more robust in networking & filesystem operations, and error handling. It's also no longer hardcoded to use JSON.
 
 # 5.0 BETA 13C
 

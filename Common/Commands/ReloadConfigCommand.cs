@@ -13,18 +13,22 @@ public class ReloadConfigCommand : ModCommand
 
 	public override void Action(CommandCaller caller, string input, string[] args)
 	{
-		var (result, resultMessage) = ConfigSystem.LoadConfig(resetOnError: false);
+		var result = ConfigIO.LoadConfig();
 
 		Color color;
+		string message;
 
-		if (result.HasFlag(ConfigSystem.LoadingResult.ErrorFlag)) {
+		if (result.HasFlag(ConfigIO.Result.ErrorFlag)) {
 			color = Color.IndianRed;
-		} else if (result.HasFlag(ConfigSystem.LoadingResult.WarningFlag)) {
+			message = $"Failed to load configuration: '{result}'.";
+		} else if (result.HasFlag(ConfigIO.Result.WarningFlag)) {
 			color = Color.OrangeRed;
+			message = $"Configuration loaded with warnings: '{result}'.";
 		} else {
 			color = Color.SpringGreen;
+			message = "Configuration loaded successfully";
 		}
 
-		MessageUtils.NewText(resultMessage, color);
+		MessageUtils.NewText(message, color);
 	}
 }
