@@ -1,0 +1,1500 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tomlyn</name>
+    </assembly>
+    <members>
+        <member name="T:Tomlyn.Collections.Iterator`2">
+            <summary>
+            Iterator ala Stark.
+            </summary>
+            <typeparam name="TElement">The type of an element of the iteration.</typeparam>
+            <typeparam name="TState">The type of the state of the iteration.</typeparam>
+        </member>
+        <member name="P:Tomlyn.Collections.Iterator`2.Start">
+            <summary>
+            Gets the start state for the iteration.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Collections.Iterator`2.TryGetNext(`1@)">
+            <summary>
+            Tries to get the next element in the iteration.
+            </summary>
+            <param name="state">The state.</param>
+            <returns>none if no element, or an element</returns>
+        </member>
+        <member name="T:Tomlyn.Helpers.TomlNamingHelper">
+            <summary>
+            Naming helpers used by Tomlyn.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Helpers.TomlNamingHelper.PascalToSnakeCase(System.String)">
+            <summary>
+            Converts a string from pascal case (e.g `ThisIsFine`) to snake case (e.g `this_is_fine`).
+            </summary>
+            <param name="name">A PascalCase string to convert to snake case.</param>
+            <returns>The snake case version of the input string.</returns>
+        </member>
+        <member name="T:Tomlyn.Model.ITomlMetadataProvider">
+            <summary>
+            Allow to attach metadata to properties
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Model.ITomlMetadataProvider.PropertiesMetadata">
+            <summary>
+            Gets or sets the attached metadata for properties
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Model.ObjectKind">
+            <summary>
+            Kind of an TOML object.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Model.SyntaxToModelTransform">
+            <summary>
+            Transform syntax to a model.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Model.SyntaxToModelTransform.GetTomlPropertyMetadata(Tomlyn.Syntax.SyntaxNode)">
+            <summary>
+            Create metadata for model.
+            </summary>
+            <param name="syntax">The syntax used to collect the metadata from.</param>
+            <returns>The metadata to attach to the property; null if no metadata.</returns>
+        </member>
+        <member name="T:Tomlyn.Model.TomlArray">
+            <summary>
+            Runtime representation of a TOML array
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Model.TomlObject">
+            <summary>
+            Base class for the runtime representation of a TOML object
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Model.TomlObject.Kind">
+            <summary>
+            The kind of the object
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Model.TomlPropertyMetadata.LeadingTrivia">
+            <summary>
+            Gets the leading trivia attached to this node. Might be null if no leading trivias.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Model.TomlPropertyMetadata.TrailingTrivia">
+            <summary>
+            Gets the trailing trivia attached to this node. Might be null if no trailing trivias.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Model.TomlPropertyMetadata.TrailingTriviaAfterEndOfLine">
+            <summary>
+            Gets the trailing trivia attached to this node. Might be null if no trailing trivias.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Model.TomlTable">
+            <summary>
+            Runtime representation of a TOML table
+            </summary>
+            <remarks>
+            This object keep the order of the inserted key=values
+            </remarks>
+        </member>
+        <member name="M:Tomlyn.Model.TomlTable.#ctor">
+            <summary>
+            Creates an instance of a <see cref="T:Tomlyn.Model.TomlTable"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Model.TomlTable.#ctor(System.Boolean)">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Model.TomlTable"/>.
+            </summary>
+            <param name="inline"></param>
+        </member>
+        <member name="P:Tomlyn.Model.TomlTable.PropertiesMetadata">
+            <inheritdoc/>
+        </member>
+        <member name="T:Tomlyn.Model.TomlTableArray">
+            <summary>
+            Runtime representation of a TOML table array
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Parsing.ITokenProvider`1.HasErrors">
+            <summary>
+            Gets a boolean indicating whether this lexer has errors.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Parsing.ITokenProvider`1.Errors">
+            <summary>
+            Gets error messages.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Parsing.Lexer`2">
+            <summary>
+            Lexer enumerator that generates <see cref="T:Tomlyn.Parsing.SyntaxTokenValue"/>, to be used from a foreach.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Parsing.Lexer`2.#ctor(`0)">
+            <summary>
+            Initialize a new instance of this <see cref="T:Tomlyn.Parsing.Lexer`2" />.
+            </summary>
+            <param name="sourceView">The text to analyze</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentNullException">If text is null</exception>
+        </member>
+        <member name="P:Tomlyn.Parsing.Lexer`2.HasErrors">
+            <summary>
+            Gets a boolean indicating whether this lexer has errors.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Parsing.Lexer`2.Errors">
+            <summary>
+            Gets error messages.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Parsing.Parser`1">
+            <summary>
+            The parser.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Parsing.Parser`1.#ctor(Tomlyn.Parsing.ITokenProvider{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tomlyn.Parsing.Parser`1"/> class.
+            </summary>
+            <param name="lexer">The lexer.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="T:Tomlyn.Parsing.SyntaxTokenValue">
+            <summary>
+            A lightweight token struct to avoid GC allocations.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Parsing.SyntaxTokenValue.#ctor(Tomlyn.Syntax.TokenKind,Tomlyn.Syntax.TextPosition,Tomlyn.Syntax.TextPosition,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tomlyn.Parsing.SyntaxTokenValue"/> struct.
+            </summary>
+            <param name="kind">The type.</param>
+            <param name="start">The start.</param>
+            <param name="end">The end.</param>
+            <param name="value">Optional parse value of the token</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+        </member>
+        <member name="F:Tomlyn.Parsing.SyntaxTokenValue.Kind">
+            <summary>
+            The type of token.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.Parsing.SyntaxTokenValue.Start">
+            <summary>
+            The start position of this token.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.Parsing.SyntaxTokenValue.End">
+            <summary>
+            The end position of this token.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.Parsing.SyntaxTokenValue.Value">
+            <summary>
+            The parsed value
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.ArrayItemSyntax">
+            <summary>
+            An item of an <see cref="T:Tomlyn.Syntax.ArraySyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.ArrayItemSyntax.#ctor">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.ArrayItemSyntax"/>
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.ArrayItemSyntax.Value">
+            <summary>
+            Gets or sets the value of this item.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.ArrayItemSyntax.Comma">
+            <summary>
+            Gets or sets the comma of this item (mandatory to separate elements in an array)
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.ArraySyntax">
+            <summary>
+            An array TOML node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.ArraySyntax.#ctor">
+            <summary>
+            Creates an instance of an <see cref="T:Tomlyn.Syntax.ArraySyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.ArraySyntax.#ctor(System.Int32[])">
+            <summary>
+            Creates an instance of an <see cref="T:Tomlyn.Syntax.ArraySyntax"/>
+            </summary>
+            <param name="values">An array of integer values</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.ArraySyntax.#ctor(System.String[])">
+            <summary>
+            Creates an instance of an <see cref="T:Tomlyn.Syntax.ArraySyntax"/>
+            </summary>
+            <param name="values">An array of string values</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.ArraySyntax.OpenBracket">
+            <summary>
+            Gets or sets the open bracket `[` token
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.ArraySyntax.Items">
+            <summary>
+            Gets the <see cref="T:Tomlyn.Syntax.ArrayItemSyntax"/> of this array.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.ArraySyntax.CloseBracket">
+            <summary>
+            Gets or sets the close bracket `]` token
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.BareKeyOrStringValueSyntax">
+            <summary>
+            Base class for a <see cref="T:Tomlyn.Syntax.BareKeySyntax"/> or a <see cref="T:Tomlyn.Syntax.StringValueSyntax"/>
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.BareKeySyntax">
+            <summary>
+            A TOML bare key syntax node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.BareKeySyntax.#ctor">
+            <summary>
+            Creates a new instance of a <see cref="T:Tomlyn.Syntax.BareKeySyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.BareKeySyntax.#ctor(System.String)">
+            <summary>
+            Creates a new instance of a <see cref="T:Tomlyn.Syntax.BareKeySyntax"/>
+            </summary>
+            <param name="name">The name used for this key</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.BareKeySyntax.Key">
+            <summary>
+            A textual representation of the key
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.BooleanValueSyntax">
+            <summary>
+            A boolean TOML value syntax node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.BooleanValueSyntax.#ctor">
+            <summary>
+            Creates an instance of a <see cref="T:Tomlyn.Syntax.BooleanValueSyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.BooleanValueSyntax.#ctor(System.Boolean)">
+            <summary>
+            Creates an instance of a <see cref="T:Tomlyn.Syntax.BooleanValueSyntax"/>
+            </summary>
+            <param name="value">The boolean value</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.BooleanValueSyntax.Token">
+            <summary>
+            The boolean token value (true or false)
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.BooleanValueSyntax.Value">
+            <summary>
+            The boolean parsed value.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.DateTimeValueSyntax">
+            <summary>
+            A datetime TOML value syntax node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.DateTimeValueSyntax.#ctor(Tomlyn.Syntax.SyntaxKind)">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.DateTimeValueSyntax"/>
+            </summary>
+            <param name="kind">The kind of datetime</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.DateTimeValueSyntax.Token">
+            <summary>
+            Gets or sets the datetime token.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.DateTimeValueSyntax.Value">
+            <summary>
+            Gets or sets the parsed datetime value.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.DiagnosticMessage">
+            <summary>
+            A diagnostic message with errors.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.DiagnosticMessage.#ctor(Tomlyn.Syntax.DiagnosticMessageKind,Tomlyn.Syntax.SourceSpan,System.String)">
+            <summary>
+            Creates a new instance of a <see cref="T:Tomlyn.Syntax.DiagnosticMessage"/>
+            </summary>
+            <param name="kind">The kind of message</param>
+            <param name="span">The source span</param>
+            <param name="message">The message</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.DiagnosticMessage.Kind">
+            <summary>
+            Gets the kind of message.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.DiagnosticMessage.Span">
+            <summary>
+            Gets the source span.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.DiagnosticMessage.Message">
+            <summary>
+            Gets the message.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.DiagnosticMessageKind">
+            <summary>
+            Kind of a <see cref="T:Tomlyn.Syntax.DiagnosticMessage"/>
+            </summary>
+        </member>
+        <member name="F:Tomlyn.Syntax.DiagnosticMessageKind.Error">
+            <summary>
+            An error message.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.Syntax.DiagnosticMessageKind.Warning">
+            <summary>
+            A warning message.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.DiagnosticsBag">
+            <summary>
+            A container for <see cref="T:Tomlyn.Syntax.DiagnosticMessage"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.DiagnosticsBag.#ctor">
+            <summary>
+            Creates a new instance of a <see cref="T:Tomlyn.Syntax.DiagnosticsBag"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.DiagnosticsBag.#ctor(System.Collections.Generic.IEnumerable{Tomlyn.Syntax.DiagnosticMessage})">
+            <summary>
+            Creates a new instance of a <see cref="T:Tomlyn.Syntax.DiagnosticsBag"/>.
+            </summary>
+            <param name="messages">An existing list of messages.</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.DiagnosticsBag.Count">
+            <summary>
+            Gets the number of messages.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.DiagnosticsBag.Item(System.Int32)">
+            <summary>
+            Gets the message at the specified index.
+            </summary>
+            <param name="index">Index of the message.</param>
+            <returns>A diagnostic message.</returns>
+        </member>
+        <member name="P:Tomlyn.Syntax.DiagnosticsBag.HasErrors">
+            <summary>
+            Gets a boolean indicating if this bag contains any error messages.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.DiagnosticsBag.Add(Tomlyn.Syntax.DiagnosticMessage)">
+            <summary>
+            Adds the specified message to this bag.
+            </summary>
+            <param name="message">The message to add</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.DiagnosticsBag.AddRange(System.Collections.Generic.IEnumerable{Tomlyn.Syntax.DiagnosticMessage})">
+            <summary>
+            Adds the specified list of messages to this bag.
+            </summary>
+            <param name="messages">A list of messages.</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.DiagnosticsBag.Clear">
+            <summary>
+            Clear this bag including the error state.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.DiagnosticsBag.Warning(Tomlyn.Syntax.SourceSpan,System.String)">
+            <summary>
+            Adds a warning message
+            </summary>
+            <param name="span">The source span</param>
+            <param name="text">The warning message</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.DiagnosticsBag.Error(Tomlyn.Syntax.SourceSpan,System.String)">
+            <summary>
+            Adds an error message
+            </summary>
+            <param name="span">The source span</param>
+            <param name="text">The error message</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.DiagnosticsBag.GetEnumerator">
+            <summary>
+            Gets the enumerator of <see cref="T:Tomlyn.Syntax.DiagnosticMessage"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Tomlyn.Syntax.DocumentSyntax">
+            <summary>
+            Root TOML syntax tree
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.DocumentSyntax.#ctor">
+            <summary>
+            Creates an instance of a <see cref="T:Tomlyn.Syntax.DocumentSyntax"/>
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.DocumentSyntax.Diagnostics">
+            <summary>
+            Gets the diagnostics attached to this document.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.DocumentSyntax.HasErrors">
+            <summary>
+            Gets a boolean indicating if the <see cref="P:Tomlyn.Syntax.DocumentSyntax.Diagnostics"/> has any errors.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.DocumentSyntax.KeyValues">
+            <summary>
+            Gets the list of <see cref="T:Tomlyn.Syntax.KeyValueSyntax"/>
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.DocumentSyntax.Tables">
+            <summary>
+            Gets the list of tables (either <see cref="T:Tomlyn.Syntax.TableSyntax"/> or <see cref="T:Tomlyn.Syntax.TableArraySyntax"/>)
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.DottedKeyItemSyntax">
+            <summary>
+            A part of a TOML dotted key used by <see cref="T:Tomlyn.Syntax.KeySyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.DottedKeyItemSyntax.#ctor">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.DottedKeyItemSyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.DottedKeyItemSyntax.#ctor(System.String)">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.DottedKeyItemSyntax"/>
+            </summary>
+            <param name="key">The key used after the `.`</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.DottedKeyItemSyntax.Dot">
+            <summary>
+            The token `.`
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.DottedKeyItemSyntax.Key">
+            <summary>
+            The following key or string node.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.FloatValueSyntax">
+            <summary>
+            A float TOML value syntax node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.FloatValueSyntax.#ctor">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.FloatValueSyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.FloatValueSyntax.#ctor(System.Double)">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.FloatValueSyntax"/>
+            </summary>
+            <param name="value">The double value</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.FloatValueSyntax.Token">
+            <summary>
+            The token storing the float value.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.FloatValueSyntax.Value">
+            <summary>
+            The parsed value of the <see cref="P:Tomlyn.Syntax.FloatValueSyntax.Token"/>
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.InlineTableItemSyntax">
+            <summary>
+            A key-value pair item of an inline table.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.InlineTableItemSyntax.#ctor">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.InlineTableItemSyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.InlineTableItemSyntax.#ctor(Tomlyn.Syntax.KeyValueSyntax)">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.InlineTableItemSyntax"/>
+            </summary>
+            <param name="keyValue">The key=value</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.InlineTableItemSyntax.KeyValue">
+            <summary>
+            Gets or sets the <see cref="T:Tomlyn.Syntax.KeyValueSyntax"/>.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.InlineTableItemSyntax.Comma">
+            <summary>
+            Gets or sets the comma, mandatory to separate entries in an inline table.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.InlineTableSyntax">
+            <summary>
+            An inline table TOML syntax node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.InlineTableSyntax.#ctor">
+            <summary>
+            Creates a new instance of an <see cref="T:Tomlyn.Syntax.InlineTableSyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.InlineTableSyntax.#ctor(Tomlyn.Syntax.KeyValueSyntax[])">
+            <summary>
+            Creates a new instance of an <see cref="T:Tomlyn.Syntax.InlineTableSyntax"/>
+            </summary>
+            <param name="keyValues">The key values of this inline table</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.InlineTableSyntax.OpenBrace">
+            <summary>
+            The token open brace `{`
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.InlineTableSyntax.Items">
+            <summary>
+            The items of this table.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.InlineTableSyntax.CloseBrace">
+            <summary>
+            The token close brace `}`
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.IntegerValueSyntax">
+            <summary>
+            An integer TOML value syntax node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.IntegerValueSyntax.#ctor">
+            <summary>
+            Creates an <see cref="T:Tomlyn.Syntax.IntegerValueSyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.IntegerValueSyntax.#ctor(System.Int64)">
+            <summary>
+            Creates an <see cref="T:Tomlyn.Syntax.IntegerValueSyntax"/> 
+            </summary>
+            <param name="value">The integer value</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.IntegerValueSyntax.Token">
+            <summary>
+            The integer token with its textual representation
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.IntegerValueSyntax.Value">
+            <summary>
+            The parsed integer value
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.InvalidSyntaxToken">
+            <summary>
+            Represents an invalid <see cref="T:Tomlyn.Syntax.SyntaxToken"/>
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.InvalidSyntaxToken.InvalidKind">
+            <summary>
+            The kind of token which is invalid for the context.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.KeySyntax">
+            <summary>
+            A key TOML syntax node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.KeySyntax.#ctor">
+            <summary>
+            Creates a new instance of a <see cref="T:Tomlyn.Syntax.KeySyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.KeySyntax.#ctor(System.String)">
+            <summary>
+            Creates a new instance of a <see cref="T:Tomlyn.Syntax.KeySyntax"/>
+            </summary>
+            <param name="key">A simple name of this key</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.KeySyntax.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new instance of a <see cref="T:Tomlyn.Syntax.KeySyntax"/>
+            </summary>
+            <param name="key">the base key</param>
+            <param name="dotKey1">the key after the dot</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.KeySyntax.Key">
+            <summary>
+            The base of the key before the dot
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.KeySyntax.DotKeys">
+            <summary>
+            List of the dotted keys.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.KeyValueSyntax">
+            <summary>
+            A TOML key = value syntax node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.KeyValueSyntax.#ctor">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.KeyValueSyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.KeyValueSyntax.#ctor(System.String,Tomlyn.Syntax.ValueSyntax)">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.KeyValueSyntax"/>
+            </summary>
+            <param name="key">The key</param>
+            <param name="value">The value</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.KeyValueSyntax.#ctor(Tomlyn.Syntax.KeySyntax,Tomlyn.Syntax.ValueSyntax)">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.KeyValueSyntax"/>
+            </summary>
+            <param name="key">The key</param>
+            <param name="value">The value</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.KeyValueSyntax.Key">
+            <summary>
+            Gets or sets the key.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.KeyValueSyntax.EqualToken">
+            <summary>
+            Gets or sets the `=` token
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.KeyValueSyntax.Value">
+            <summary>
+            Gets or sets the value
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.KeyValueSyntax.EndOfLineToken">
+            <summary>
+            Gets or sets the new-line token.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.SourceSpan">
+            <summary>
+            A textual source span.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.SourceSpan.#ctor(System.String,Tomlyn.Syntax.TextPosition,Tomlyn.Syntax.TextPosition)">
+            <summary>
+            Creates a source span.
+            </summary>
+            <param name="fileName"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+        </member>
+        <member name="F:Tomlyn.Syntax.SourceSpan.FileName">
+            <summary>
+            Gets or sets the filename.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.SourceSpan.Offset">
+            <summary>
+            Gets the starting offset of this span.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.SourceSpan.Length">
+            <summary>
+            Gets the length of this span.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.Syntax.SourceSpan.Start">
+            <summary>
+            Gets or sets the starting text position.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.Syntax.SourceSpan.End">
+            <summary>
+            Gets or sets the ending text position.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.SourceSpan.ToStringSimple">
+            <summary>
+            A string representation of this source span not including the <see cref="F:Tomlyn.Syntax.SourceSpan.End"/> position.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.StringValueSyntax">
+            <summary>
+            A string TOML syntax value node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.StringValueSyntax.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:Tomlyn.Syntax.StringValueSyntax"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.StringValueSyntax.#ctor(System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:Tomlyn.Syntax.StringValueSyntax"/>
+            </summary>
+            <param name="text">String value used for this node</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.StringValueSyntax.Token">
+            <summary>
+            The token of the string.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.StringValueSyntax.Value">
+            <summary>
+            The associated parsed string value
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.SyntaxFactory">
+            <summary>
+            A factory for <see cref="T:Tomlyn.Syntax.SyntaxNode"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxFactory.Whitespace">
+            <summary>
+            Creates a trivia whitespace.
+            </summary>
+            <returns>A trivia whitespace.</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxFactory.NewLineTrivia">
+            <summary>
+            Creates a newline trivia.
+            </summary>
+            <returns>A new line trivia</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxFactory.Comment(System.String)">
+            <summary>
+            Creates a comment trivia.
+            </summary>
+            <param name="comment">A comment trivia</param>
+            <returns>A comment trivia</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxFactory.NewLine">
+            <summary>
+            Creates a newline token.
+            </summary>
+            <returns>A new line token</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxFactory.Token(Tomlyn.Syntax.TokenKind)">
+            <summary>
+            Creates a token from the specified token kind.
+            </summary>
+            <param name="kind">The token kind</param>
+            <returns>The token</returns>
+        </member>
+        <member name="T:Tomlyn.Syntax.SyntaxKind">
+            <summary>
+            Defines the kind for a <see cref="T:Tomlyn.Syntax.SyntaxNode"/>
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.SyntaxList">
+            <summary>
+            Abstract list of <see cref="T:Tomlyn.Syntax.SyntaxNode"/>
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.SyntaxList`1">
+            <summary>
+            Abstract list of <see cref="T:Tomlyn.Syntax.SyntaxNode"/>
+            </summary>
+            <typeparam name="TSyntaxNode">Type of the node</typeparam>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxList`1.#ctor">
+            <summary>
+            Creates an instance of <see cref="T:Tomlyn.Syntax.SyntaxList`1"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxList`1.Add(`0)">
+            <summary>
+            Adds the specified node to this list.
+            </summary>
+            <param name="node">Node to add to this list</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxList`1.RemoveChildAt(System.Int32)">
+            <summary>
+            Removes a node at the specified index.
+            </summary>
+            <param name="index">Index of the node to remove</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxList`1.RemoveChild(`0)">
+            <summary>
+            Removes the specified node instance.
+            </summary>
+            <param name="node">Node instance to remove</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxList`1.GetEnumerator">
+            <summary>
+            Gets the default enumerator.
+            </summary>
+            <returns>The enumerator of this list</returns>
+        </member>
+        <member name="T:Tomlyn.Syntax.SyntaxList`1.Enumerator">
+            <summary>
+            Enumerator of a <see cref="T:Tomlyn.Syntax.SyntaxList`1"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxList`1.Enumerator.#ctor(System.Collections.Generic.List{Tomlyn.Syntax.SyntaxNode})">
+            <summary>
+            Initialize an enumerator with a list of <see cref="T:Tomlyn.Syntax.SyntaxNode"/>
+            </summary>
+            <param name="nodes"></param>
+        </member>
+        <member name="T:Tomlyn.Syntax.SyntaxNode">
+            <summary>
+            Base class used to define a TOML Syntax tree.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.SyntaxNode.Kind">
+            <summary>
+            Gets the type of node.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.SyntaxNode.LeadingTrivia">
+            <summary>
+            Gets the leading trivia attached to this node. Might be null if no leading trivias.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.SyntaxNode.TrailingTrivia">
+            <summary>
+            Gets the trailing trivia attached to this node. Might be null if no trailing trivias.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.SyntaxNode.ChildrenCount">
+            <summary>
+            Gets the number of children.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxNode.GetChild(System.Int32)">
+            <summary>
+            Gets a child at the specified index.
+            </summary>
+            <param name="index">Index of the child</param>
+            <returns>A child at the specified index</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxNode.GetChildImpl(System.Int32)">
+            <summary>
+            Gets a child at the specified index.
+            </summary>
+            <param name="index">Index of the child</param>
+            <returns>A child at the specified index</returns>
+            <remarks>The index is safe to use</remarks>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxNode.WriteTo(System.IO.TextWriter)">
+            <summary>
+            Writes this node to a textual TOML representation
+            </summary>
+            <param name="writer">A writer to receive the TOML output</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxNode.ParentToThis``1(``0@,``0)">
+            <summary>
+            Helper method to deparent/parent a node to this instance.
+            </summary>
+            <typeparam name="TSyntaxNode">Type of the node</typeparam>
+            <param name="set">The previous child node parented to this instance</param>
+            <param name="node">The new child node to parent to this instance</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxNode.ParentToThis``1(``0@,``0,Tomlyn.Syntax.TokenKind)">
+            <summary>
+            Helper method to deparent/parent a <see cref="T:Tomlyn.Syntax.SyntaxToken"/> to this instance with an expected kind of token.
+            </summary>
+            <typeparam name="TSyntaxNode">Type of the node</typeparam>
+            <param name="set">The previous child node parented to this instance</param>
+            <param name="node">The new child node to parent to this instance</param>
+            <param name="expectedKind">The expected kind of token</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxNode.ParentToThis``2(``0@,``0,System.Boolean,``1)">
+            <summary>
+            Helper method to deparent/parent a <see cref="T:Tomlyn.Syntax.SyntaxToken"/> to this instance with an expected kind of token condition.
+            </summary>
+            <typeparam name="TSyntaxNode">Type of the node</typeparam>
+            <typeparam name="TExpected">The type of message</typeparam>
+            <param name="set">The previous child node parented to this instance</param>
+            <param name="node">The new child node to parent to this instance</param>
+            <param name="expectedKindSuccess">true if kind is matching, false otherwise</param>
+            <param name="expectedMessage">The message to display if the kind is not matching</param>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxNode.ParentToThis``1(``0@,``0,Tomlyn.Syntax.TokenKind,Tomlyn.Syntax.TokenKind)">
+            <summary>
+            Helper method to deparent/parent a <see cref="T:Tomlyn.Syntax.SyntaxToken"/> to this instance with an expected kind of token.
+            </summary>
+            <typeparam name="TSyntaxNode">Type of the node</typeparam>
+            <param name="set">The previous child node parented to this instance</param>
+            <param name="node">The new child node to parent to this instance</param>
+            <param name="expectedKind1">The expected kind of token (option1)</param>
+            <param name="expectedKind2">The expected kind of token (option2)</param>
+        </member>
+        <member name="T:Tomlyn.Syntax.SyntaxNodeBase">
+            <summary>
+            Base class for <see cref="T:Tomlyn.Syntax.SyntaxNode"/> and <see cref="T:Tomlyn.Syntax.SyntaxTrivia"/>
+            </summary>
+        </member>
+        <member name="F:Tomlyn.Syntax.SyntaxNodeBase.Span">
+            <summary>
+            The text source span, read-write, manually updated from children.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxNodeBase.Accept(Tomlyn.Syntax.SyntaxVisitor)">
+            <summary>
+            Allow to visit this instance with the specified visitor.
+            </summary>
+            <param name="visitor">The visitor</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.SyntaxNodeBase.Parent">
+            <summary>
+            Gets the parent of this node.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.SyntaxNodeExtensions">
+            <summary>
+            Extensions for <see cref="T:Tomlyn.Syntax.SyntaxNode"/>.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxNodeExtensions.Tokens(Tomlyn.Syntax.SyntaxNode,System.Boolean)">
+            <summary>
+            Get all <see cref="T:Tomlyn.Syntax.SyntaxToken"/> and <see cref="T:Tomlyn.Syntax.SyntaxTrivia"/> in Depth-First-Search order of the node.
+            </summary>
+            <param name="node">The node to collect all tokens from</param>
+            <param name="includeCommentsAndWhitespaces"><c>true</c> to include comments and whitespaces.</param>
+            <returns>All descendants in Depth-First-Search order of the node.</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxNodeExtensions.Descendants(Tomlyn.Syntax.SyntaxNode,System.Boolean)">
+            <summary>
+            Get all descendants in Depth-First-Search order of the node. Note that this method returns the node itself (last).
+            </summary>
+            <param name="node">The node to collect all descendants</param>
+            <param name="includeTokensCommentsAndWhitespaces"><c>true</c> to include tokens, comments and whitespaces.</param>
+            <returns>All descendants in Depth-First-Search order of the node.</returns>
+        </member>
+        <member name="T:Tomlyn.Syntax.SyntaxToken">
+            <summary>
+            A token node.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxToken.#ctor">
+            <summary>
+            Creates a new instance of <see cref="T:Tomlyn.Syntax.SyntaxToken"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.SyntaxToken.#ctor(Tomlyn.Syntax.TokenKind,System.String)">
+            <summary>
+            Creates a new instance of <see cref="T:Tomlyn.Syntax.SyntaxToken"/>
+            </summary>
+            <param name="tokenKind">The type of token</param>
+            <param name="text">The associated textual representation</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.SyntaxToken.TokenKind">
+            <summary>
+            Gets or sets the kind of token.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.SyntaxToken.Text">
+            <summary>
+            Gets or sets the associated text
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.TableSyntaxBase">
+            <summary>
+            Base class for a <see cref="T:Tomlyn.Syntax.TableSyntax"/> or a <see cref="T:Tomlyn.Syntax.TableArraySyntax"/>
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.TableSyntaxBase.OpenBracket">
+            <summary>
+            Gets or sets the open bracket (simple `[` for <see cref="T:Tomlyn.Syntax.TableSyntax"/>, double `[[` for <see cref="T:Tomlyn.Syntax.TableArraySyntax"/>)
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.TableSyntaxBase.Name">
+            <summary>
+            Gets or sets the name of this table
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.TableSyntaxBase.CloseBracket">
+            <summary>
+            Gets or sets the close bracket (simple `]` for <see cref="T:Tomlyn.Syntax.TableSyntax"/>, double `]]` for <see cref="T:Tomlyn.Syntax.TableArraySyntax"/>)
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.TableSyntaxBase.EndOfLineToken">
+            <summary>
+            Gets the new-line.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.TableSyntaxBase.Items">
+            <summary>
+            Gets the key-values associated with this table.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.TextPosition">
+            <summary>
+            A position within a text (offset, line column)
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.TextPosition.#ctor(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Creates a new instance of a <see cref="T:Tomlyn.Syntax.TextPosition"/>
+            </summary>
+            <param name="offset">Offset in the source text</param>
+            <param name="line">Line number - zero based</param>
+            <param name="column">Column number - zero based</param>
+        </member>
+        <member name="P:Tomlyn.Syntax.TextPosition.Offset">
+            <summary>
+            Gets or sets the offset.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.TextPosition.Column">
+            <summary>
+            Gets or sets the column number (zero based)
+            </summary>
+        </member>
+        <member name="P:Tomlyn.Syntax.TextPosition.Line">
+            <summary>
+            Gets or sets the line number (zero based)
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.TokenKind">
+            <summary>
+            An enumeration to categorize tokens.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Syntax.TokenKindExtensions">
+            <summary>
+            Helper functions for <see cref="T:Tomlyn.Syntax.TokenKind"/>
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Syntax.TokenKindExtensions.IsHidden(Tomlyn.Syntax.TokenKind,System.Boolean)">
+            <summary>
+            Returns <c>true</c> if the specified token kind is considered as hidden (comments, whitespaces or newline)
+            </summary>
+            <param name="tokenKind">The token kind.</param>
+            <param name="hideNewLine">Makes the newline hidden by default. Default is true.</param>
+            <returns><c>true</c> if the specified token kind is considered as hidden; <c>false</c> otherwise</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.TokenKindExtensions.ToText(Tomlyn.Syntax.TokenKind)">
+            <summary>
+            Gets a textual representation of a token kind or null if not applicable (e.g TokenKind.Integer)
+            </summary>
+            <param name="kind">A token kind</param>
+            <returns>A textual representation of a token kind or null if not applicable (e.g TokenKind.Integer)</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.TokenKindExtensions.IsFloat(Tomlyn.Syntax.TokenKind)">
+            <summary>
+            Checks if the specified kind is a float.
+            </summary>
+            <param name="kind">A token kind</param>
+            <returns><c>true</c> if the specified kind is a float.</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.TokenKindExtensions.IsInteger(Tomlyn.Syntax.TokenKind)">
+            <summary>
+            Checks if the specified kind is an integer
+            </summary>
+            <param name="kind">A token kind</param>
+            <returns><c>true</c> if the specified kind is an integer.</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.TokenKindExtensions.IsDateTime(Tomlyn.Syntax.TokenKind)">
+            <summary>
+            Checks if the specified kind is a datetime.
+            </summary>
+            <param name="kind">A token kind</param>
+            <returns><c>true</c> if the specified kind is a datetime.</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.TokenKindExtensions.IsString(Tomlyn.Syntax.TokenKind)">
+            <summary>
+            Checks if the specified kind is a string.
+            </summary>
+            <param name="kind">A token kind</param>
+            <returns><c>true</c> if the specified kind is a string</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.TokenKindExtensions.IsTrivia(Tomlyn.Syntax.TokenKind)">
+            <summary>
+            Checks if the specified kind is a trivia.
+            </summary>
+            <param name="kind">A token kind</param>
+            <returns><c>true</c> if the specified kind is a trivia</returns>
+        </member>
+        <member name="M:Tomlyn.Syntax.TokenKindExtensions.IsToken(Tomlyn.Syntax.TokenKind)">
+            <summary>
+            Checks if the specified kind is a token for which <see cref="M:Tomlyn.Syntax.TokenKindExtensions.ToText(Tomlyn.Syntax.TokenKind)"/> will return not null
+            </summary>
+            <param name="kind">A token kind</param>
+            <returns><c>true</c> if the specified kind is a simple token</returns>
+        </member>
+        <member name="T:Tomlyn.Syntax.ValueSyntax">
+            <summary>
+            Base class for all TOML values.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Text.char32">
+            <summary>
+            A UTF-32 character ala Stark.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Text.char32.#ctor(System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Tomlyn.Text.char32"/> UTF-32 character.
+            </summary>
+            <param name="code">The UTF-32 code character.</param>
+        </member>
+        <member name="P:Tomlyn.Text.char32.Code">
+            <summary>
+            Gets the UTF-32 code.
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Text.char32.op_Implicit(Tomlyn.Text.char32)~System.Int32">
+            <summary>
+            Performs an implicit conversion from <see cref="T:Tomlyn.Text.char32"/> to <see cref="T:System.Int32"/>.
+            </summary>
+            <param name="c">The c.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="M:Tomlyn.Text.char32.op_Implicit(System.Int32)~Tomlyn.Text.char32">
+            <summary>
+            Performs an implicit conversion from <see cref="T:System.Int32"/> to <see cref="T:Tomlyn.Text.char32"/>.
+            </summary>
+            <param name="c">The c.</param>
+            <returns>The result of the conversion.</returns>
+        </member>
+        <member name="T:Tomlyn.Text.CharacterIterator">
+            <summary>
+            (trait) CharacterIterator ala Stark
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Text.CharHelper.EscapeForToml(System.String,System.Boolean)">
+            <summary>
+            Escape a C# string to a TOML string
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Text.CharHelper.ToPrintableString(System.String)">
+            <summary>
+            Converts a string that may have control characters to a printable string
+            </summary>
+        </member>
+        <member name="T:Tomlyn.Toml">
+            <summary>
+            Main entry class to parse, validate and transform to a model a TOML document.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.Toml.Version">
+            <summary>
+            Shows version
+            </summary>
+        </member>
+        <member name="M:Tomlyn.Toml.Parse(System.String,System.String,Tomlyn.TomlParserOptions)">
+            <summary>
+            Parses a text to a TOML document.
+            </summary>
+            <param name="text">A string representing a TOML document</param>
+            <param name="sourcePath">An optional path/file name to identify errors</param>
+            <param name="options">Options for parsing. Default is parse and validate.</param>
+            <returns>A parsed TOML document</returns>
+        </member>
+        <member name="M:Tomlyn.Toml.Parse(System.Byte[],System.String,Tomlyn.TomlParserOptions)">
+            <summary>
+            Parses a UTF8 byte array to a TOML document.
+            </summary>
+            <param name="utf8Bytes">A UTF8 string representing a TOML document</param>
+            <param name="sourcePath">An optional path/file name to identify errors</param>
+            <param name="options">Options for parsing. Default is parse and validate.</param>
+            <returns>A parsed TOML document</returns>
+        </member>
+        <member name="M:Tomlyn.Toml.Validate(Tomlyn.Syntax.DocumentSyntax)">
+            <summary>
+            Validates the specified TOML document.
+            </summary>
+            <param name="doc">The TOML document to validate</param>
+            <returns>The same instance as the parameter. Check <see cref="P:Tomlyn.Syntax.DocumentSyntax.HasErrors"/> and <see cref="P:Tomlyn.Syntax.DocumentSyntax.Diagnostics"/> for details.</returns>
+        </member>
+        <member name="M:Tomlyn.Toml.FromModel(System.Object,Tomlyn.TomlModelOptions)">
+            <summary>
+            Gets the TOML string representation from the specified model.
+            </summary>
+            <param name="model">The type of the mode</param>
+            <param name="options">Optional parameters for the serialization.</param>
+            <returns>The TOML string representation from the specified model.</returns>
+            <exception cref="T:Tomlyn.TomlException">If there are errors while trying to serialize to a TOML string.</exception>
+        </member>
+        <member name="M:Tomlyn.Toml.TryFromModel(System.Object,System.String@,Tomlyn.Syntax.DiagnosticsBag@,Tomlyn.TomlModelOptions)">
+            <summary>
+            Tries to get the TOML string representation from the specified model.
+            </summary>
+            <param name="model">The model instance to serialize to TOML.</param>
+            <param name="modelAsToml">The TOML string representation from the specified model if this method returns true.</param>
+            <param name="diagnostics">The diagnostics error messages if this method returns false.</param>
+            <param name="options">Optional parameters for the serialization.</param>
+            <returns>The TOML string representation from the specified model.</returns>
+            <returns><c>true</c> if the conversion was successful; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Tomlyn.Toml.TryFromModel(System.Object,System.IO.TextWriter,Tomlyn.Syntax.DiagnosticsBag@,Tomlyn.TomlModelOptions)">
+            <summary>
+            Tries to get the TOML string representation from the specified model.
+            </summary>
+            <param name="model">The model instance to serialize to TOML.</param>
+            <param name="writer">The TOML string representation written to a <see cref="T:System.IO.TextWriter"/> if this method returns true.</param>
+            <param name="diagnostics">The diagnostics error messages if this method returns false.</param>
+            <param name="options">Optional parameters for the serialization.</param>
+            <returns>The TOML string representation from the specified model.</returns>
+            <returns><c>true</c> if the conversion was successful; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Tomlyn.Toml.ToModel(System.String,System.String,Tomlyn.TomlModelOptions)">
+            <summary>
+            Parses a TOML text to directly to a model.
+            </summary>
+            <param name="text">A string representing a TOML document</param>
+            <param name="sourcePath">An optional path/file name to identify errors</param>
+            <param name="options">The options for the mapping.</param>
+            <returns>A parsed TOML document returned as <see cref="T:Tomlyn.Model.TomlTable"/>.</returns>
+        </member>
+        <member name="M:Tomlyn.Toml.ToModel``1(System.String,System.String,Tomlyn.TomlModelOptions)">
+            <summary>
+            Parses a TOML text to directly to a model.
+            </summary>
+            <param name="text">A string representing a TOML document</param>
+            <param name="sourcePath">An optional path/file name to identify errors</param>
+            <param name="options">The options for the mapping.</param>
+            <returns>A parsed TOML document</returns>
+        </member>
+        <member name="M:Tomlyn.Toml.TryToModel``1(System.String,``0@,Tomlyn.Syntax.DiagnosticsBag@,System.String,Tomlyn.TomlModelOptions)">
+            <summary>
+            Tries to parses a TOML text directly to a model.
+            </summary>
+            <param name="text">A string representing a TOML document</param>
+            <param name="model">The output model.</param>
+            <param name="diagnostics">The diagnostics if this method returns false.</param>
+            <param name="sourcePath">An optional path/file name to identify errors</param>
+            <param name="options">The options for the mapping.</param>
+            <returns>A parsed TOML document</returns>
+        </member>
+        <member name="M:Tomlyn.Toml.ToModel(Tomlyn.Syntax.DocumentSyntax)">
+            <summary>
+            Converts a <see cref="T:Tomlyn.Syntax.DocumentSyntax"/> to a <see cref="T:Tomlyn.Model.TomlTable"/>
+            </summary>
+            <param name="syntax">A TOML document</param>
+            <returns>A <see cref="T:Tomlyn.Model.TomlTable"/>, a runtime representation of the TOML document</returns>
+        </member>
+        <member name="M:Tomlyn.Toml.ToModel``1(Tomlyn.Syntax.DocumentSyntax,Tomlyn.TomlModelOptions)">
+            <summary>
+            Converts a <see cref="T:Tomlyn.Syntax.DocumentSyntax"/> to the specified runtime object.
+            </summary>
+            <typeparam name="T">The runtime object to map the syntax to</typeparam>
+            <param name="syntax">The syntax to map from.</param>
+            <param name="options">The options for the mapping.</param>
+            <returns>The result of mapping <see cref="T:Tomlyn.Syntax.DocumentSyntax"/> to a runtime model of type T </returns>
+            <exception cref="T:Tomlyn.TomlException">If there were errors when mapping to properties.</exception>
+        </member>
+        <member name="M:Tomlyn.Toml.TryToModel``1(Tomlyn.Syntax.DocumentSyntax,``0@,Tomlyn.Syntax.DiagnosticsBag@,Tomlyn.TomlModelOptions)">
+            <summary>
+            Tries to convert a <see cref="T:Tomlyn.Syntax.DocumentSyntax"/> to the specified runtime object.
+            </summary>
+            <typeparam name="T">The runtime object to map the syntax to</typeparam>
+            <param name="syntax">The syntax to map from.</param>
+            <param name="model">The output model.</param>
+            <param name="diagnostics">The diagnostics if this method returns false.</param>
+            <param name="options">The options for the mapping.</param>
+            <returns><c>true</c> if the mapping was successful; <c>false</c> otherwise. In that case the output <paramref name="diagnostics"/> will contain error messages.</returns>
+        </member>
+        <member name="T:Tomlyn.TomlDateTime">
+            <summary>
+            A datetime value that can represent a TOML
+            - An offset DateTime with Zero offset or Number offset.
+            - A local DateTime.
+            - A local Date.
+            - A local Time.
+            </summary>
+            <param name="DateTime">The datetime offset.</param>
+            <param name="SecondPrecision">The precision of milliseconds.</param>
+            <param name="Kind">The kind of datetime offset.</param>
+        </member>
+        <member name="M:Tomlyn.TomlDateTime.#ctor(System.DateTimeOffset,System.Int32,Tomlyn.TomlDateTimeKind)">
+            <summary>
+            A datetime value that can represent a TOML
+            - An offset DateTime with Zero offset or Number offset.
+            - A local DateTime.
+            - A local Date.
+            - A local Time.
+            </summary>
+            <param name="DateTime">The datetime offset.</param>
+            <param name="SecondPrecision">The precision of milliseconds.</param>
+            <param name="Kind">The kind of datetime offset.</param>
+        </member>
+        <member name="P:Tomlyn.TomlDateTime.DateTime">
+            <summary>The datetime offset.</summary>
+        </member>
+        <member name="P:Tomlyn.TomlDateTime.SecondPrecision">
+            <summary>The precision of milliseconds.</summary>
+        </member>
+        <member name="P:Tomlyn.TomlDateTime.Kind">
+            <summary>The kind of datetime offset.</summary>
+        </member>
+        <member name="M:Tomlyn.TomlDateTime.GetFormatPrecision(System.Int32)">
+            <summary>
+            Gets the string formatter for the specified precision.
+            </summary>
+            <param name="precision">A precision number from 1 to 7. Other numbers will return the default `fff` formatter.</param>
+            <returns>The string formatter for the specified precision.</returns>
+        </member>
+        <member name="M:Tomlyn.TomlDateTime.op_Implicit(System.DateTime)~Tomlyn.TomlDateTime">
+            <summary>
+            Converts a datetime to TomlDateTime.
+            </summary>
+        </member>
+        <member name="T:Tomlyn.TomlDateTimeKind">
+            <summary>
+            Offsets used for a <see cref="T:Tomlyn.TomlDateTime"/>
+            </summary>
+        </member>
+        <member name="F:Tomlyn.TomlModelOptions.DefaultCreateInstance">
+            <summary>
+            Default member to create an instance.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.TomlModelOptions.DefaultConvertPropertyName">
+            <summary>
+            Default convert name using snake case via help <see cref="M:Tomlyn.Helpers.TomlNamingHelper.PascalToSnakeCase(System.String)"/>.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.TomlModelOptions.DefaultConvertFieldName">
+            <summary>
+            Default convert name using snake case via help <see cref="M:Tomlyn.Helpers.TomlNamingHelper.PascalToSnakeCase(System.String)"/>.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.GetPropertyName">
+            <summary>
+            Gets or sets the delegate to retrieve a name from a property. If this function returns null, the property is ignored.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.GetFieldName">
+            <summary>
+            Gets or sets the delegate to retrieve a field from a property. If this function returns null, the field is ignored.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.ConvertPropertyName">
+            <summary>
+            Gets or sets the delegate used to convert the name of the property to the name used in TOML. By default, it is using snake case via <see cref="M:Tomlyn.Helpers.TomlNamingHelper.PascalToSnakeCase(System.String)"/>.
+            </summary>
+            <remarks>
+            This delegate is used by the default <see cref="P:Tomlyn.TomlModelOptions.GetPropertyName"/> delegate.
+            </remarks>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.ConvertFieldName">
+            <summary>
+            Gets or sets the delegate used to convert the name of the field to the name used in TOML. By default, it is using snake case via <see cref="M:Tomlyn.Helpers.TomlNamingHelper.PascalToSnakeCase(System.String)"/>.
+            </summary>
+            <remarks>
+            This delegate is used by the default <see cref="P:Tomlyn.TomlModelOptions.GetFieldName"/> delegate.
+            </remarks>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.CreateInstance">
+            <summary>
+            Gets or sets the function used when deserializing from TOML to create instance of objects. Default is set to <see cref="F:Tomlyn.TomlModelOptions.DefaultCreateInstance"/>.
+            The arguments of the function are:
+            - The type to create an instance for.
+            - The expected <see cref="T:Tomlyn.Model.ObjectKind"/> from a TOML perspective.
+            Returns an instance according to the type and the expected <see cref="T:Tomlyn.Model.ObjectKind"/>.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.ConvertTo">
+            <summary>
+            Gets or sets the convert function called when deserializing a value from TOML to a model (e.g string to Uri).
+            
+            Must return null if cannot convert. The arguments of the function are:
+            - The input object value to convert.
+            - The target type to convert to.
+            
+            Returns an instance of target type converted from the input value or null if conversion is not supported.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.ConvertToModel">
+            <summary>
+            Gets or sets the convert function called when deserializing a value from TOML to a model (e.g string to Uri).
+            
+            Must return null if cannot convert. The arguments of the function are:
+            - The input object value to convert.
+            - The target type to convert to.
+            
+            Returns an instance of target type converted from the input value or null if conversion is not supported.
+            </summary>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.ConvertToToml">
+            <summary>
+            Gets or sets the convert function called when serializing a value from a model to a TOML representation.
+            This function allows to substitute a value to another type before converting (e.g Uri to string).
+            </summary>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.AttributeListForIgnore">
+            <summary>
+            Gets the list of the attributes used to ignore a property.
+            </summary>
+            <remarks>
+            By default, the list contains:
+            - System.Runtime.Serialization.IgnoreDataMemberAttribute
+            - System.Text.Json.Serialization.JsonPropertyNameAttribute
+            </remarks>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.AttributeListForGetName">
+            <summary>
+            Gets the list of the attributes used to fetch the property `Name`.
+            </summary>
+            <remarks>
+            By default, the list contains:
+            - System.Runtime.Serialization.DataMemberAttribute
+            - System.Text.Json.Serialization.JsonPropertyNameAttribute
+            </remarks>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.IgnoreMissingProperties">
+            <summary>
+            Gets or sets the option to ignore properties in the TOML that are missing from a custom model
+            </summary>
+            <remarks>
+            By default this is false
+            </remarks>
+        </member>
+        <member name="P:Tomlyn.TomlModelOptions.IncludeFields">
+            <summary>
+            Gets or sets the option to include fields from a custom model in the TOML
+            </summary>
+            <remarks>
+            By default this is false
+            </remarks>
+        </member>
+        <member name="M:Tomlyn.TomlModelOptions.DefaultGetPropertyNameImpl(System.Reflection.PropertyInfo)">
+            <summary>
+            Default implementation for getting the property name
+            </summary>
+        </member>
+        <member name="M:Tomlyn.TomlModelOptions.DefaultGetFieldNameImpl(System.Reflection.FieldInfo)">
+            <summary>
+            Default implementation for getting the field name
+            </summary>
+        </member>
+        <member name="T:Tomlyn.TomlParserOptions">
+            <summary>
+            Options for parsing a TOML string.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.TomlParserOptions.ParseAndValidate">
+            <summary>
+            Parse and validate.
+            </summary>
+        </member>
+        <member name="F:Tomlyn.TomlParserOptions.ParseOnly">
+            <summary>
+            Parse only the document.
+            </summary>
+        </member>
+    </members>
+</doc>

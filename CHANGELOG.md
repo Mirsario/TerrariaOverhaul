@@ -44,14 +44,15 @@
 - Base bunnyhop effectivity has been much reduced. Utilize rolljumps & mantling to remain swift in early game.
 - Improved the underwater sound loop, previously it might've been getting muffled itself.
 - Reduced volume of jump/land footsteps, added pitch variance to every footstep sound.
+### Configuration
+- Configuration files now use the `.toml` format instead of `.json`. It's a lot more human-friendly, and has a much simpler syntax. In addition to that, it also supports comments, so config entries' descriptions will now be included there.
+- Redesigned a half of the config backend, hopefully making it more robust in networking, filesystem operations, and error handling.
 ### Fixes
 - (!) Fixed ambience tracks as well as reverb & low-pass audio effects all not functioning in multiplayer. Has no one reported this???
 - Fixed stump cutting still being redirected upwards when tree falling animations are disabled.
 - Fixed a few broken keys in Italian localization.
 - Fixed an injection not working in Debug builds of TML.
 - Fixed combo breaking sounds still playing when `Bunny Paw`'s cues are disabled.
-### Technical
-- Redesigned half of the config backend, hopefully making it more robust in networking & filesystem operations, and error handling. It's also no longer hardcoded to use JSON.
 
 # 5.0 BETA 13C
 

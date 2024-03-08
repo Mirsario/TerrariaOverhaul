@@ -52,8 +52,9 @@ public sealed class ConfigIO : ModSystem
 
 	private static readonly ConfigFormat[] formats = {
 		// Main:
-		JsonConfig.Format,
+		TomlConfig.Format,
 		// Fallbacks:
+		JsonConfig.Format,
 	};
 	private static FileSystemWatcher? configWatcher;
 	private static DateTime lastConfigWatcherWriteTime;
