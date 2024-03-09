@@ -89,7 +89,7 @@ public sealed partial class EnvironmentSystem : ModSystem
 		tileCountsSpan.CopyTo(tileCounts);
 	}
 
-	public override void PreUpdateWorld()
+	public override void PostUpdatePlayers()
 	{
 		if (Main.netMode == NetmodeID.Server) {
 			return;

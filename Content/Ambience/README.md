@@ -82,6 +82,8 @@ The following "environmental signals" are available for consumption in `Variable
 ### Time
 - `DayTime` - Starts approaching 1.0 in the morning, goes back to 0.0 in the evening.
 - `NightTime` - Starts approaching 1.0 in the evening, goes back to 0.0 in the morning.
+### State
+- `Underwater` - Approaches 1.0 when the local player is underwater, to 0.0 otherwise.
 ### Altitude
 - `SurfaceAltitude` - 1.0 when on surface, approaches 0.0 underground, in skies, or at extreme mountain peaks.
 - `SurfaceOrSkyAltitude` - Like `SurfaceAltitude`, but flying upwards doesn't zero-out it until the player reaches space.

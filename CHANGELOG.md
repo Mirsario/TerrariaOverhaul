@@ -32,14 +32,27 @@
 
 # Work In Progress
 
+### Additions
+- Muffling (low-pass filtering) will now be applied to sounds located underwater. Previously it's only been applied if the local player is underwater.
 ### Changes
 - Fighter AI enemies will no longer leap at their targets if they're not facing them.
 - Dodgerolls can now be activated during an active item use animation or cooldown if the player is past its damage-dealing timeframe, and if at least `20 ticks` (third of a second) have passed since the item usage was initiated. Feedback is welcome!
 	(PR [#221](https://github.com/Mirsario/TerrariaOverhaul/pull/221) by **TimeSignMaid**)
 - Enqueued dodgerolls will now prevent automatic weapons from being re-used, no longer requiring a release of the use button to trigger a dodge.
+- Jumping out of a dodgeroll no longer gives players insane horizontal speed, with it instead going down to the speed value you get when dodgerolling mid-air.
+- Rolljumps (also referred to as 'bunnyrolls'), which are performed by combining bunnyhops with a dodgeroll, now convert vertical/falling speed into horizontal speed. Jump from a-high and combine dodgerolling (which also reduces or nulls fall damage) with a jump to launch yourself horizontally.
+- Base bunnyhop effectivity has been much reduced. Utilize rolljumps & mantling to remain swift in early game.
+- Improved the underwater sound loop, previously it might've been getting muffled itself.
+- Reduced volume of jump/land footsteps, added pitch variance to every footstep sound.
+### Configuration
+- Configuration files now use the `.toml` format instead of `.json`. It's a lot more human-friendly, and has a much simpler syntax. In addition to that, it also supports comments, so config entries' descriptions will now be included there.
+- Redesigned a half of the config backend, hopefully making it more robust in networking, filesystem operations, and error handling.
 ### Fixes
+- (!) Fixed ambience tracks as well as reverb & low-pass audio effects all not functioning in multiplayer. Has no one reported this???
+- Fixed stump cutting still being redirected upwards when tree falling animations are disabled.
 - Fixed a few broken keys in Italian localization.
 - Fixed an injection not working in Debug builds of TML.
+- Fixed combo breaking sounds still playing when `Bunny Paw`'s cues are disabled.
 
 # 5.0 BETA 13C
 

@@ -12,5 +12,6 @@ public sealed class SandPhysicalMaterial : PhysicalMaterial, ITileTagAssociated,
 
 	public SoundStyle? FootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Sand/Step", 11) {
 		Volume = 0.5f,
+		PitchVariance = 0.1f,
 	};
 }

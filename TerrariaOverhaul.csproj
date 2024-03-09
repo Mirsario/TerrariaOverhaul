@@ -13,6 +13,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Reference Include="Tomlyn">
+			<HintPath>lib/Tomlyn.dll</HintPath>
+		</Reference>
 		<PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
 	</ItemGroup>
 

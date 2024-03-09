@@ -8,19 +8,44 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Damage;
-using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Common.EntityEffects;
+using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Common.Items;
+using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Networking;
-using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
-using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.Items;
 
 #pragma warning disable IDE0060 // Remove unused parameter
 
 namespace TerrariaOverhaul.Common.Dodgerolls;
+
+public struct DodgerollStats
+{
+	public uint MaxCharges = 2;
+	// Timings
+	public uint CooldownLength = 90;
+	public uint DodgerollLength = 22;
+	public uint BufferingLength = 20;
+	public uint MinItemUseCommitment = 20;
+	public uint CounterBuffLength = 90;
+	// Velocity
+	public float AirSpeed = 3.90f;
+	public float GroundSpeed = 6.00f;
+	public float VelocityApplicationPeriod = 0.5f;
+	// Fall Damage Reduction
+	public float FallDamageReductionPeriod = 0.67f;
+	public float FallDamageReductionMultiplier = 0.35f;
+	// Damage done via direct collision
+	public int DirectDamage = 0;
+	public float DirectKnockback = 0f;
+	// Damage done via opening doors
+	public int TransferredDamage = 10;
+	public float TransferredKnockback = 8.0f;
+
+	public DodgerollStats() { }
+}
 
 public sealed class PlayerDodgerolls : ModPlayer
 {
@@ -39,37 +64,30 @@ public sealed class PlayerDodgerolls : ModPlayer
 	};
 
 	public static ModKeybind DodgerollKey { get; private set; } = null!;
+	public static DodgerollStats DefaultStats { get; set; } = new();
 
-	public static float DodgeTimeMax => 0.37f;
-	public static uint DefaultDodgeTirednessTime => (uint)(TimeSystem.LogicFramerate * 1.5f);
-	public static uint DefaultDodgeCooldownTime => DefaultDodgeTirednessTime * 2;
-	public static int DefaultDodgeMaxCharges => 2;
 
-	public Timer DodgerollTirednessTimer;
-	public Timer DodgerollCooldownTimer;
+	public DodgerollStats Stats = DefaultStats;
+	public Timer TirednessTimer;
 	public Timer NoDodgerollsTimer;
 	public Timer DodgeAttemptTimer;
 	public bool ForceDodgeroll;
-	public Direction1D WantedDodgerollDirection;
+	public Direction1D WantedDirection;
 
-	public int MaxCharges { get; set; }
-	public int CurrentCharges { get; set; }
-	public int DoorRollDamage { get; set; } = 10;
-	public float DoorRollKnockback { get; set; } = 8.00f;
-	public int MinItemUseCommitment { get; set; } = 20;
-
+	public uint CurrentCharges { get; set; }
 	public bool IsDodging { get; private set; }
-	public float DodgeStartRotation { get; private set; }
-	public float DodgeItemRotation { get; private set; }
-	public float DodgeTime { get; private set; }
+	public uint DodgeTime { get; private set; }
+	public float StartRotation { get; private set; }
+	public float StartItemRotation { get; private set; }
+	public Vector2 StartVelocity { get; private set; }
 	public Direction1D DodgeDirection { get; private set; }
 	public Direction1D DodgeDirectionVisual { get; private set; }
 
 	public override void Load()
 	{
 		// Make GUI-related sounds ignored by reverb & other filters.
-		AudioEffectsSystem.IgnoreSoundStyle(FailureSound);
-		AudioEffectsSystem.IgnoreSoundStyle(RechargedSound);
+		AudioEffectsSystem.SetEnabledForSoundStyle(FailureSound, false);
+		AudioEffectsSystem.SetEnabledForSoundStyle(RechargedSound, false);
 
 		DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
 
@@ -79,11 +97,20 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 	public override void Initialize()
 	{
-		CurrentCharges = MaxCharges = DefaultDodgeMaxCharges;
+		ResetEffects();
+
+		CurrentCharges = Stats.MaxCharges;
+	}
+
+	public override void ResetEffects()
+	{
+		Stats = DefaultStats;
 	}
 
 	public override bool PreItemCheck()
 	{
+		CurrentCharges = Math.Min(CurrentCharges, Stats.MaxCharges);
+
 		UpdateCooldowns();
 		UpdateDodging();
 
@@ -113,7 +140,6 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public void QueueDodgeroll(uint minAttemptTimer, Direction1D direction, bool force = false)
 	{
 		if (force) {
-			DodgerollCooldownTimer = 0;
 			CurrentCharges = Math.Max(CurrentCharges, 1);
 		} else if (CurrentCharges == 0) {
 			if (!Main.dedServ && Player.IsLocal()) {
@@ -125,16 +151,29 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 		DodgeAttemptTimer.Set(minAttemptTimer);
 
-		WantedDodgerollDirection = direction;
+		WantedDirection = direction;
 	}
 
 	private void UpdateCooldowns()
 	{
-		if (!DodgerollTirednessTimer.Active && CurrentCharges < MaxCharges) {
-			CurrentCharges = MaxCharges;
+		if (!TirednessTimer.Active && CurrentCharges < Stats.MaxCharges) {
+			var soundStyle = RechargedSound;
+
+			if (TirednessTimer.Length > Stats.CooldownLength) {
+				CurrentCharges = Stats.MaxCharges;
+
+				soundStyle.Pitch = 0.1f;
+				soundStyle.Volume = 1.0f;
+			} else {
+				CurrentCharges += 1;
+				TirednessTimer.Set(Stats.CooldownLength);
+
+				soundStyle.PitchVariance /= 3f;
+				soundStyle.Pitch = MathHelper.Lerp(-0.5f, 0.0f, CurrentCharges / (float)Stats.MaxCharges);
+			}
 
 			if (!Main.dedServ && Player.IsLocal()) {
-				SoundEngine.PlaySound(RechargedSound);
+				SoundEngine.PlaySound(soundStyle);
 			}
 		}
 	}
@@ -151,7 +190,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 				_ => (Direction1D)Player.direction,
 			};
 
-			QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.333f), chosenDirection);
+			QueueDodgeroll(Stats.BufferingLength, chosenDirection);
 		}
 
 		if (!ForceDodgeroll) {
@@ -177,7 +216,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 					: playerItemUse.TimeSinceLastUseAnimation;
 
 				// Enforce a minimal commitment timeframe.
-				if (timeSinceItemUseStart < MinItemUseCommitment) {
+				if (timeSinceItemUseStart < Stats.MinItemUseCommitment) {
 					return false;
 				}
 
@@ -196,16 +235,16 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 		DodgeAttemptTimer = 0;
 
-		/*if(onFire) {
+		/*if (onFire) {
 			// Don't stop but roll
 			int fireBuff = player.FindBuffIndex(24);
 			int fireBuff2 = player.FindBuffIndex(39);
 		
-			if(fireBuff!=-1) {
+			if (fireBuff != -1) {
 				player.buffTime[fireBuff] -= 90;
 			}
 		
-			if(fireBuff2!=-1) {
+			if (fireBuff2 != -1) {
 				player.buffTime[fireBuff2] -= 90;
 			}
 		}*/
@@ -220,20 +259,25 @@ public sealed class PlayerDodgerolls : ModPlayer
 		Player.eocHit = 1;
 
 		IsDodging = true;
-		DodgeStartRotation = Player.GetModPlayer<PlayerBodyRotation>().Rotation;
-		DodgeItemRotation = Player.itemRotation;
-		DodgeTime = 0f;
+		DodgeTime = 0;
+		StartVelocity = Player.velocity;
+		StartRotation = Player.GetModPlayer<PlayerBodyRotation>().Rotation;
+		StartItemRotation = Player.itemRotation;
 		DodgeDirectionVisual = (Direction1D)Player.direction;
-		DodgeDirection = WantedDodgerollDirection != 0 ? WantedDodgerollDirection : (Direction1D)Player.direction;
+		DodgeDirection = WantedDirection != 0 ? WantedDirection : (Direction1D)Player.direction;
 
 		// Handle cooldowns
 
 		CurrentCharges = Math.Max(0, CurrentCharges - 1);
 
 		// Activate tiredness, which doesn't stop the next dodgeroll on its own
-		uint tirednessTime = CurrentCharges == 0 ? DefaultDodgeCooldownTime : DefaultDodgeTirednessTime;
+		uint tirednessTime = Stats.CooldownLength;
 
-		DodgerollTirednessTimer.Set(tirednessTime);
+		if (CurrentCharges == 0 && Stats.MaxCharges > 1) {
+			tirednessTime += Stats.CooldownLength * (Stats.MaxCharges - 1);
+		}
+
+		TirednessTimer.Set(tirednessTime);
 
 		if (!isLocal) {
 			ForceDodgeroll = false;
@@ -248,7 +292,6 @@ public sealed class PlayerDodgerolls : ModPlayer
 	{
 		if (Player.mount.Active) {
 			IsDodging = false;
-
 			return;
 		}
 
@@ -262,21 +305,43 @@ public sealed class PlayerDodgerolls : ModPlayer
 			return;
 		}
 
+		float dodgeProgress = DodgeTime / (float)Stats.DodgerollLength;
+
 		// Lower fall damage
-		if (DodgeTime < DodgeTimeMax / 1.5f && onGround && !wasOnGround) {
-			Player.fallStart = (int)MathHelper.Lerp(Player.fallStart, (int)(Player.position.Y / 16f), 0.35f);
+		if (onGround && !wasOnGround && dodgeProgress < Stats.FallDamageReductionPeriod) {
+			int tilePositionY = (int)(Player.position.Y / 16f);
+
+			Player.fallStart = (int)MathHelper.Lerp(Player.fallStart, tilePositionY, Stats.FallDamageReductionMultiplier);
 		}
 
 		// Open doors
 		TryOpeningDoors();
 
 		// Apply velocity
-		if (DodgeTime < DodgeTimeMax * 0.5f) {
-			float newVelX = (onGround ? 6f : 4f) * (sbyte)DodgeDirection;
+		float lesserSpeed = MathF.Min(Stats.GroundSpeed, Stats.AirSpeed);
+		float greaterSpeed = MathF.Max(Stats.GroundSpeed, Stats.AirSpeed);
+		float speedTypeDiff = greaterSpeed - lesserSpeed;
+
+		if (dodgeProgress <= Stats.VelocityApplicationPeriod) {
+			float newVelX = (onGround ? Stats.GroundSpeed : Stats.AirSpeed) * (sbyte)DodgeDirection;
 
 			if (Math.Abs(Player.velocity.X) < Math.Abs(newVelX) || Math.Sign(newVelX) != Math.Sign(Player.velocity.X)) {
 				Player.velocity.X = newVelX;
 			}
+		}
+
+		if (!onGround && wasOnGround && MathF.Abs(Player.velocity.X) >= lesserSpeed) {
+			int sign = Math.Sign(Player.velocity.X);
+			float newVelX = MathUtils.MaxAbs(
+				Player.velocity.X - (speedTypeDiff * sign),
+				lesserSpeed * sign
+			);
+
+			if (Math.Sign(newVelX) == Math.Sign(StartVelocity.X)) {
+				newVelX = MathUtils.MaxAbs(newVelX, StartVelocity.X);
+			}
+
+			Player.velocity.X = newVelX;
 		}
 
 		if (!Main.dedServ) {
@@ -287,24 +352,23 @@ public sealed class PlayerDodgerolls : ModPlayer
 		Player.pulley = false;
 
 		// Apply rotations & direction
-		Player.GetModPlayer<PlayerItemRotation>().ForcedItemRotation = DodgeItemRotation;
+		Player.GetModPlayer<PlayerItemRotation>().ForcedItemRotation = StartItemRotation;
 		Player.GetModPlayer<PlayerAnimations>().ForcedLegFrame = PlayerFrames.Jump;
 		Player.GetModPlayer<PlayerDirectioning>().SetDirectionOverride(DodgeDirectionVisual, 2, PlayerDirectioning.OverrideFlags.IgnoreItemAnimation);
 
 		rotation = DodgeDirection == Direction1D.Right
-			? Math.Min(MathHelper.Pi * 2f, MathHelper.Lerp(DodgeStartRotation, MathHelper.TwoPi, DodgeTime / (DodgeTimeMax * 1f)))
-			: Math.Max(-MathHelper.Pi * 2f, MathHelper.Lerp(DodgeStartRotation, -MathHelper.TwoPi, DodgeTime / (DodgeTimeMax * 1f)));
+			? Math.Min(+MathHelper.TwoPi, MathHelper.Lerp(StartRotation, +MathHelper.TwoPi, dodgeProgress))
+			: Math.Max(-MathHelper.TwoPi, MathHelper.Lerp(StartRotation, -MathHelper.TwoPi, dodgeProgress));
 
 		// Progress the dodgeroll
-		DodgeTime += 1f / 60f;
+		DodgeTime++;
 
 		// Prevent other actions
 		Player.GetModPlayer<PlayerClimbing>().ClimbCooldown.Set(1);
 
-		if (DodgeTime >= DodgeTimeMax) {
+		if (DodgeTime >= Stats.DodgerollLength) {
 			IsDodging = false;
 			Player.eocDash = 0;
-
 			//forceSyncControls = true;
 		} else {
 			Player.runAcceleration = 0f;
@@ -313,10 +377,13 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 	private bool TryOpeningDoors()
 	{
-		var tilePos = Player.position.ToTileCoordinates16();
-		int x = DodgeDirection > 0 ? tilePos.X + 2 : tilePos.X - 1;
+		const int DoorWidth = 2;
+		const int DoorHeight = 3;
 
-		for (int y = tilePos.Y; y < tilePos.Y + 3; y++) {
+		var tilePos = Player.position.ToTileCoordinates16();
+		int x = DodgeDirection > 0 ? tilePos.X + DoorWidth : tilePos.X - 1;
+
+		for (int y = tilePos.Y; y < tilePos.Y + DoorHeight; y++) {
 			if (!Main.tile.TryGet(x, y, out var tile)) {
 				continue;
 			}
@@ -330,12 +397,12 @@ public sealed class PlayerDodgerolls : ModPlayer
 					var damageRect = new Rectangle(x * 16, y * 16 - 8, 48, 64);
 
 					if (DodgeDirection == Direction1D.Left) {
-						damageRect.X -= 32;
+						damageRect.X -= DoorWidth * 16;
 					}
 
 					foreach (var npc in ActiveEntities.NPCs) {
 						if (npc.GetRectangle().Intersects(damageRect)) {
-							Player.ApplyDamageToNPC(npc, DoorRollDamage, DoorRollKnockback, (int)DodgeDirection, crit: true);
+							Player.ApplyDamageToNPC(npc, Stats.TransferredDamage, Stats.TransferredKnockback, (int)DodgeDirection, crit: true);
 
 							if (!npc.boss && !NPCID.Sets.ShouldBeCountedAsBoss[npc.type] && npc.TryGetGlobalNPC(out NPCAttackCooldowns cooldowns)) {
 								cooldowns.SetAttackCooldown(npc, 60, true);
@@ -362,7 +429,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 			*/
 		}
 
-		player.AddBuff(ModContent.BuffType<CriticalJudgement>(), 90);
+		player.AddBuff(ModContent.BuffType<CriticalJudgement>(), (int)Stats.CounterBuffLength);
 	}
 
 	private static bool LateCanBeHitByEntity(Player player, Entity entity)

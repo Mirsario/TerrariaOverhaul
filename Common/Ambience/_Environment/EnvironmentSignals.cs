@@ -21,6 +21,12 @@ public static class EnvironmentSignals
 	private static float NightTime(in EnvironmentContext context)
 		=> TimeGradients.Night.GetValue(TimeOfDay.InTicks);
 
+	// State
+
+	[EnvironmentSignalUpdater]
+	private static float Underwater(in EnvironmentContext context)
+		=> Main.LocalPlayer.IsUnderwater() ? 1f : 0f;
+
 	// Altitude
 
 	[EnvironmentSignalUpdater]

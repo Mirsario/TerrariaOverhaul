@@ -13,6 +13,7 @@ public struct AmbienceTrack
 	public float Volume = 0.0f;
 	public bool IsLooped = true;
 	public bool SoundIsWallOccluded = false;
+	public bool DisableSoundFiltering = false;
 
 	[JsonRequired]
 	public SoundStyle Sound = default;

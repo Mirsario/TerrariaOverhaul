@@ -28,7 +28,7 @@ public sealed class PlayerHealthEffects : ModPlayer
 
 	public override void Load()
 	{
-		AudioEffectsSystem.IgnoreSoundStyle(LowHealthSound);
+		AudioEffectsSystem.SetEnabledForSoundStyle(LowHealthSound, false);
 	}
 
 	public override void PostUpdate() => Update();

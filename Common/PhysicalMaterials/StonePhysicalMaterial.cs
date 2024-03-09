@@ -12,8 +12,10 @@ public sealed class StonePhysicalMaterial : PhysicalMaterial, ITileTagAssociated
 	// Footsteps
 	public SoundStyle? FootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Stone/Step", 8) {
 		Volume = 0.5f,
+		PitchVariance = 0.1f,
 	};
 	public SoundStyle? JumpFootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Stone/Jump", 3) {
-		Volume = 0.5f,
+		Volume = 0.375f,
+		PitchVariance = 0.1f,
 	};
 }

@@ -150,7 +150,7 @@ dotnet_diagnostic.IDE0011.severity = warning # Always ask for curly braces every
 	csharp_indent_block_contents = true
 	csharp_indent_braces = false
 	csharp_indent_case_contents = true
-	csharp_indent_case_contents_when_block = true
+	csharp_indent_case_contents_when_block = false
 	csharp_indent_labels = one_less_than_current
 	csharp_indent_switch_labels = true
 

@@ -147,8 +147,14 @@ public sealed class AudioEffectsSystem : ModSystem
 		modifiers[existingIndex] = modifier;
 	}
 
-	public static void IgnoreSoundStyle(SoundStyle ISoundStyle)
-		=> soundStylesToIgnore.Add(ISoundStyle);
+	public static void SetEnabledForSoundStyle(in SoundStyle soundStyle, bool value)
+	{
+		if (value) {
+			soundStylesToIgnore.Remove(soundStyle);
+		} else {
+			soundStylesToIgnore.Add(soundStyle);
+		}
+	}
 
 	internal static void AddAudioError(string errorMessage)
 	{

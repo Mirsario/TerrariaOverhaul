@@ -20,8 +20,6 @@ public sealed class TileSoundOcclusion : ModSystem
 
 	private static void ApplyOcclusionToSounds(Span<AudioEffectsSystem.SoundData> sounds)
 	{
-		float occlusionFactor = WallSoundOcclusion.OcclusionFactor;
-
 		for (int i = 0; i < sounds.Length; i++) {
 			ref var data = ref sounds[i];
 

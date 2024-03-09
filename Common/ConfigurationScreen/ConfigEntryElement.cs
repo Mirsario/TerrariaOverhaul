@@ -75,7 +75,7 @@ public class ConfigEntryElement : FancyUIPanel
 			controller.OnModified += () => {
 				ConfigEntry.LocalValue = Convert.ChangeType(controller.Value, ConfigEntry.ValueType);
 
-				ConfigSystem.SaveConfig();
+				ConfigIO.SaveConfig();
 			};
 
 			configuratorContainer.AddElement(element);

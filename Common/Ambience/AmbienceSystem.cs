@@ -10,6 +10,7 @@ using ReLogic.Utilities;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
+using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.Tags;
@@ -31,7 +32,7 @@ public sealed class AmbienceSystem : ModSystem
 		LoadAmbienceTracksFromMod(Mod);
 	}
 
-	public override void PostUpdateWorld()
+	public override void PostUpdateEverything()
 	{
 		var tracksSpan = CollectionsMarshal.AsSpan(Tracks);
 		bool isAmbienceEnabled = EnableAmbientSounds;
@@ -148,6 +149,10 @@ public sealed class AmbienceSystem : ModSystem
 		track.Name = name;
 
 		VerifyAmbienceTrack(in track);
+
+		if (track.DisableSoundFiltering) {
+			AudioEffectsSystem.SetEnabledForSoundStyle(track.Sound, false);
+		}
 
 		if (track.SoundIsWallOccluded) {
 			WallSoundOcclusion.SetEnabledForSoundStyle(track.Sound, true);

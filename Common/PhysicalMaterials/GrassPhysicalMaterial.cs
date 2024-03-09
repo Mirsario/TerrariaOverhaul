@@ -14,6 +14,7 @@ public sealed class GrassPhysicalMaterial : PhysicalMaterial, ITileTagAssociated
 	// Footsteps
 	public SoundStyle? FootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Grass/Step", 8) {
 		Volume = 0.5f,
+		PitchVariance = 0.1f,
 	};
 
 	public SoundStyle? JumpFootstepSound => ModContent.GetInstance<DirtPhysicalMaterial>().JumpFootstepSound;

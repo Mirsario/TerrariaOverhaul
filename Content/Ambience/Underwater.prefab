@@ -1,0 +1,20 @@
+Underwater: {
+	AmbienceTrack: {
+		Sound: {
+			SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/UnderwaterLoop"
+			Type: Ambient
+			Volume: 0.80
+			IsLooped: true
+		}
+
+		VolumeChangeSpeed: 2.5
+		DisableSoundFiltering: true
+
+		Variables: {
+			Volume: {
+				Inputs: [ "Underwater" ]
+				Operation: Multiply
+			}
+		}
+	}
+}

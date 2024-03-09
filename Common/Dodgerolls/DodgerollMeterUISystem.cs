@@ -41,7 +41,7 @@ public sealed class DodgerollMeterUISystem : ModSystem
 			var basePosition = player.Bottom + new Vector2(0f, 10f) - Main.screenPosition;
 			int? forcedFrame = null;
 
-			if (dodgerolls.CurrentCharges >= dodgerolls.MaxCharges) {
+			if (dodgerolls.CurrentCharges >= dodgerolls.Stats.MaxCharges) {
 				// If fully charged
 				int numTicksFullyChargedFor = -lastNotChargedTime.UnclampedValue;
 
@@ -57,7 +57,7 @@ public sealed class DodgerollMeterUISystem : ModSystem
 
 			var drawColor = new Color(Opacity, Opacity, Opacity, Opacity);
 
-			for (int i = 0; i < dodgerolls.MaxCharges; i++) {
+			for (int i = 0; i < dodgerolls.Stats.MaxCharges; i++) {
 				int frame;
 
 				if (forcedFrame.HasValue) {
@@ -69,7 +69,7 @@ public sealed class DodgerollMeterUISystem : ModSystem
 					// Missing
 					frame = 1;
 
-					if (dodgerolls.DodgerollTirednessTimer.Value < 5) {
+					if (dodgerolls.TirednessTimer.Value < 5) {
 						// All are about to be recharged
 						frame = 2;
 					} else if (dodgerolls.CurrentCharges == 0) {
@@ -80,7 +80,7 @@ public sealed class DodgerollMeterUISystem : ModSystem
 
 				var srcRect = new Rectangle(frame * 12, 0, 12, 12);
 
-				float x = ((dodgerolls.MaxCharges - 1) * -0.5f) + i;
+				float x = ((dodgerolls.Stats.MaxCharges - 1) * -0.5f) + i;
 				var drawPosition = basePosition + new Vector2(x * 10f, 0f);
 
 				Main.spriteBatch.Draw(texture, drawPosition, srcRect, drawColor, 0f, new Vector2(6f, 6f), 1f, SpriteEffects.None, 0f);
