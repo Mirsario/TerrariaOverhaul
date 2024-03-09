@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items;
 
 public interface IHoldItemWhileDead
 {
-	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(new GlobalHookList<GlobalItem>(typeof(Hook).GetMethod(nameof(HoldItemWhileDead))));
+	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).HoldItemWhileDead));
 
 	void HoldItemWhileDead(Item item, Player player);
 

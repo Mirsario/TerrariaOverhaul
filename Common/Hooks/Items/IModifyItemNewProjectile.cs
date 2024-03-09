@@ -25,7 +25,7 @@ public interface IModifyItemNewProjectile
 		public float AI2;
 	}
 
-	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(new GlobalHookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyShootProjectile))));
+	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).ModifyShootProjectile));
 
 	void ModifyShootProjectile(Player player, Item item, in Args args, ref Args result);
 

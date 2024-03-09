@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items;
 
 public interface IModifyItemUseSound
 {
-	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(new GlobalHookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyItemUseSound))));
+	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).ModifyItemUseSound));
 
 	void ModifyItemUseSound(Item item, Player player, ref SoundStyle? useSound);
 

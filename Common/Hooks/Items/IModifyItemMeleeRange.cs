@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items;
 
 public interface IModifyItemMeleeRange
 {
-	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(new GlobalHookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyMeleeRange))));
+	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).ModifyMeleeRange));
 
 	void ModifyMeleeRange(Item item, Player player, ref float range);
 
