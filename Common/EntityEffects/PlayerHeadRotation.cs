@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Common.EntityEffects;
 
 public class PlayerHeadRotation : ModPlayer
 {
-	public static readonly ConfigEntry<bool> EnablePlayerHeadRotation = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnablePlayerHeadRotation), () => true);
+	public static readonly ConfigEntry<bool> EnablePlayerHeadRotation = new(ConfigSide.ClientOnly, "Visuals", nameof(EnablePlayerHeadRotation), () => true);
 
 	private static bool active;
 

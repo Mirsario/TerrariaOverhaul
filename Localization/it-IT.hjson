@@ -53,18 +53,39 @@ Mods: {
 					Description: "Aggiunge loop audio come: uccelli, cavallette, vento, rumori cavernosi, etc."
 				}
 
-				EnableAudioFiltering: {
-					DisplayName: "Attiva Filtraggio Audio"
-					Description:
-						'''
-						Aggiunge tutti gli effetti di filtraggio low pass (ovattamento) e reverbero.
-						Disattivalo se il gioco si chiude ogni volta che entri in un mondo.
-						'''
-				}
-
 				EnablePlayerFootsteps: {
 					DisplayName: "Attiva rumore Passi del Giocatore"
 					Description: "Aggiunge il rumore dei passi del personaggio giocabile"
+				}
+
+				EnableLowPassFiltering: {
+					// DisplayName: "Enable Low Pass Filtering"
+					// Description: ""
+				}
+
+				EnableReverb: {
+					// DisplayName: "Enable Reverb"
+					// Description: ""
+				}
+			}
+
+			Aesthetics: {
+				// DisplayName: "Aesthetics"
+				// Description: "This category contains nice-to-have features that mainly aim to increase immersion or beauty of the game, but may affect gameplay in the process."
+
+				DestroyStumpsAfterTreeFalls: {
+					// DisplayName: "Destroy Stumps After Tree Falling Animations"
+					// Description: "When enabled, tree falling animations' behavior of redirecting stump hits a block higher will be compensated with removal of the stump after the animation's end.'"
+				}
+
+				EnableAimableFlashlights: {
+					// DisplayName: "Enable Aimable Flashlights"
+					// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
+				}
+
+				EnableTreeFallingAnimations: {
+					// DisplayName: "Enable Tree Falling Animations"
+					// Description: "When enabled, trees will physically fall down instead of exploding into items."
 				}
 			}
 
@@ -270,7 +291,7 @@ Mods: {
 				}
 			}
 
-			PlayerMovement: {
+			Movement: {
 				DisplayName: "Movimento giocatore"
 				Description: "Overhaul migliora ampiamente e rinfresca quasi ogni aspetto del muoversi in giro, cosa che fai molto."
 
@@ -332,18 +353,13 @@ Mods: {
 				}
 			}
 
-			PlayerVisuals: {
+			Visuals: {
 				// DisplayName: "Player Visuals"
 				// Description: "Overhaul contains a few improvements to player characters' visual appearance, so that the game feels more responsive."
 
 				AlwaysShowAimableWeapons: {
 					// DisplayName: "Always Show Aimable Weapons"
 					// Description: "Toggle weapons with the 'holding out' use style being visible when not firing."
-				}
-
-				EnableAimableFlashlights: {
-					// DisplayName: "Enable Aimable Flashlights"
-					// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
 				}
 
 				EnableImprovedMeleeAnimations: {
@@ -372,6 +388,11 @@ Mods: {
 				EnablePlayerTilting: {
 					// DisplayName: "Enable Player Tilting"
 					// Description: "Toggles player characters being slightly tilted based on their velocity. This makes them look a lot more alive."
+				}
+
+				EnableEnemyTiltingEffects: {
+					// DisplayName: "Enable Enemy Tilting Effects"
+					// Description: ""
 				}
 			}
 

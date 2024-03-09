@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Common.EntityEffects;
 
 public sealed class PlayerHoldOutAnimation : ModPlayer
 {
-	public static readonly ConfigEntry<bool> AlwaysShowAimableWeapons = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(AlwaysShowAimableWeapons), () => true);
+	public static readonly ConfigEntry<bool> AlwaysShowAimableWeapons = new(ConfigSide.ClientOnly, "Visuals", nameof(AlwaysShowAimableWeapons), () => true);
 
 	private float directItemRotation;
 	private float directTargetItemRotation;

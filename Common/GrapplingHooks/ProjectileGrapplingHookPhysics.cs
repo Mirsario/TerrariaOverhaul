@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.GrapplingHooks;
 // Could use more comments.
 public class ProjectileGrapplingHookPhysics : GlobalProjectile
 {
-	public static readonly ConfigEntry<bool> EnableGrapplingHookPhysics = new(ConfigSide.Both, "PlayerMovement", nameof(EnableGrapplingHookPhysics), () => true);
+	public static readonly ConfigEntry<bool> EnableGrapplingHookPhysics = new(ConfigSide.Both, "Movement", nameof(EnableGrapplingHookPhysics), () => true);
 
 	public const int GrapplingHookAIStyle = ProjAIStyleID.Hook;
 

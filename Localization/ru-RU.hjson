@@ -53,18 +53,39 @@ Mods: {
 					Description: "Переключение зацикленных атмосферных звуков, например птиц, сверчков, ветра, пещер, и т.п."
 				}
 
-				EnableAudioFiltering: {
-					// DisplayName: "Enable Audio Filtering"
-					/* Description:
-						'''
-						Toggles low pass filtering and reverberation effects as a whole.
-						Disable this if your game is crashing every time you enter a world.
-						''' */
-				}
-
 				EnablePlayerFootsteps: {
 					DisplayName: "Включить звуки шагов игроков"
 					Description: "Переключение проигрывание звуков шагов у играбельных персонажей."
+				}
+
+				EnableLowPassFiltering: {
+					// DisplayName: "Enable Low Pass Filtering"
+					// Description: ""
+				}
+
+				EnableReverb: {
+					// DisplayName: "Enable Reverb"
+					// Description: ""
+				}
+			}
+
+			Aesthetics: {
+				// DisplayName: "Aesthetics"
+				// Description: "This category contains nice-to-have features that mainly aim to increase immersion or beauty of the game, but may affect gameplay in the process."
+
+				DestroyStumpsAfterTreeFalls: {
+					// DisplayName: "Destroy Stumps After Tree Falling Animations"
+					// Description: "When enabled, tree falling animations' behavior of redirecting stump hits a block higher will be compensated with removal of the stump after the animation's end.'"
+				}
+
+				EnableAimableFlashlights: {
+					// DisplayName: "Enable Aimable Flashlights"
+					// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
+				}
+
+				EnableTreeFallingAnimations: {
+					// DisplayName: "Enable Tree Falling Animations"
+					// Description: "When enabled, trees will physically fall down instead of exploding into items."
 				}
 			}
 
@@ -266,8 +287,8 @@ Mods: {
 				}
 			}
 
-			PlayerMovement: {
-				// DisplayName: "Player Movement"
+			Movement: {
+				// DisplayName: "Movement"
 				// Description: "Overhaul greatly improves and refreshes almost every aspect of moving around, which you do a lot of."
 
 				EnableAutoJump: {
@@ -328,18 +349,13 @@ Mods: {
 				}
 			}
 
-			PlayerVisuals: {
+			Visuals: {
 				// DisplayName: "Player Visuals"
 				// Description: "Overhaul contains a few improvements to player characters' visual appearance, so that the game feels more responsive."
 
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Всегда показывать направляемое оружие"
 					Description: "Переключение постоянного отображения оружия с стилем использования как у огнестрельного, даже вне использования."
-				}
-
-				EnableAimableFlashlights: {
-					// DisplayName: "Enable Aimable Flashlights"
-					// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
 				}
 
 				EnableImprovedMeleeAnimations: {
@@ -368,6 +384,11 @@ Mods: {
 				EnablePlayerTilting: {
 					DisplayName: "Включить наклон персонажей игроков"
 					Description: "Если включено, персонажи игроков будут немного наклоняться в зависимости от их скорости. Это заставляет их выглядеть чуть-чуть живее, и добавляет чувство скорости."
+				}
+
+				EnableEnemyTiltingEffects: {
+					// DisplayName: "Enable Enemy Tilting Effects"
+					// Description: ""
 				}
 			}
 

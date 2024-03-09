@@ -53,18 +53,39 @@ Mods: {
 					Description: "各式各样的环境音效，如鸟、蟋蟀、风、洞穴声等"
 				}
 
-				EnableAudioFiltering: {
-					DisplayName: "启用音频过滤"
-					Description:
-						'''
-						整体的低通滤波和混响效果。
-						如果一进入世界游戏就崩溃，请禁用此功能。
-						'''
-				}
-
 				EnablePlayerFootsteps: {
 					DisplayName: "启用脚步声"
 					Description: "玩家角色的脚步声"
+				}
+
+				EnableLowPassFiltering: {
+					// DisplayName: "Enable Low Pass Filtering"
+					// Description: ""
+				}
+
+				EnableReverb: {
+					// DisplayName: "Enable Reverb"
+					// Description: ""
+				}
+			}
+
+			Aesthetics: {
+				// DisplayName: "Aesthetics"
+				// Description: "This category contains nice-to-have features that mainly aim to increase immersion or beauty of the game, but may affect gameplay in the process."
+
+				DestroyStumpsAfterTreeFalls: {
+					// DisplayName: "Destroy Stumps After Tree Falling Animations"
+					// Description: "When enabled, tree falling animations' behavior of redirecting stump hits a block higher will be compensated with removal of the stump after the animation's end.'"
+				}
+
+				EnableAimableFlashlights: {
+					// DisplayName: "Enable Aimable Flashlights"
+					// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
+				}
+
+				EnableTreeFallingAnimations: {
+					// DisplayName: "Enable Tree Falling Animations"
+					// Description: "When enabled, trees will physically fall down instead of exploding into items."
 				}
 			}
 
@@ -262,7 +283,7 @@ Mods: {
 				}
 			}
 
-			PlayerMovement: {
+			Movement: {
 				DisplayName: "移动"
 				Description: "Overhaul极大地改善和重制了贯穿全游的玩家角色移动的每个方面。"
 
@@ -324,18 +345,13 @@ Mods: {
 				}
 			}
 
-			PlayerVisuals: {
+			Visuals: {
 				DisplayName: "角色视效"
 				Description: "Overhaul包含一些对玩家角色视觉效果的改进，以提升游戏反馈"
 
 				AlwaysShowAimableWeapons: {
 					DisplayName: "总是显示可瞄准的武器"
 					Description: "可瞄准武器在不使用时是否会被持握于玩家手中。"
-				}
-
-				EnableAimableFlashlights: {
-					DisplayName: "照明光源可瞄准"
-					Description: "启用后，“采矿头盔”等设备的光照将朝向光标方向。"
 				}
 
 				EnableImprovedMeleeAnimations: {
@@ -364,6 +380,11 @@ Mods: {
 				EnablePlayerTilting: {
 					DisplayName: "启用玩家倾斜"
 					Description: "玩家是否会基于速度，向运动方向略微倾斜。这将使他们看起来更有活力。"
+				}
+
+				EnableEnemyTiltingEffects: {
+					// DisplayName: "Enable Enemy Tilting Effects"
+					// Description: ""
 				}
 			}
 

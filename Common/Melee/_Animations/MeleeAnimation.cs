@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Common.Melee;
 
 public abstract class MeleeAnimation : ItemComponent
 {
-	public static readonly ConfigEntry<bool> EnableImprovedMeleeAnimations = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnableImprovedMeleeAnimations), () => true);
+	public static readonly ConfigEntry<bool> EnableImprovedMeleeAnimations = new(ConfigSide.ClientOnly, "Visuals", nameof(EnableImprovedMeleeAnimations), () => true);
 
 	public abstract float GetItemRotation(Player player, Item item);
 

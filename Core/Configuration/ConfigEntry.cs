@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -8,6 +9,10 @@ namespace TerrariaOverhaul.Core.Configuration;
 
 public class ConfigEntry<T> : IConfigEntry
 {
+	private static Regex? defaultDisplayNameRegex;
+
+	private static Regex DefaultDisplayNameRegex => defaultDisplayNameRegex ??= new(@"([A-Z][a-z]+)(?=[A-Z])", RegexOptions.Compiled);
+
 	private readonly Func<T> defaultValueGetter;
 
 	private T? localValue;
@@ -84,8 +89,14 @@ public class ConfigEntry<T> : IConfigEntry
 	public void Initialize(Mod mod)
 	{
 		Mod = mod;
-		DisplayName = Language.GetText($"Mods.{Mod.Name}.Configuration.{Category}.{Name}.DisplayName");
-		Description = Language.GetText($"Mods.{Mod.Name}.Configuration.{Category}.{Name}.Description");
+		DisplayName = Language.GetOrRegister(
+			$"Mods.{Mod.Name}.Configuration.{Category}.{Name}.DisplayName",
+			() => DefaultDisplayNameRegex.Replace(Name, "$1 ")
+		);
+		Description = Language.GetOrRegister(
+			$"Mods.{Mod.Name}.Configuration.{Category}.{Name}.Description",
+			() => string.Empty
+		);
 	}
 
 	public static implicit operator T?(ConfigEntry<T> configEntry) => configEntry.Value;
