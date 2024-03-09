@@ -1,9 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.UI;
+using TerrariaOverhaul.Core.Input;
 using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
@@ -14,12 +17,20 @@ public class EditableUIText : UIElement
 	public UISearchBar TextInput { get; }
 
 	public int MaxTextInputLength { get; set; }
-	public bool IsFocused { get; set; }
-	public string? TextContent { get; set; }
+	public string TextContent { get; set; }
+
+	public bool IsFocused {
+		get => TextInput.IsWritingText;
+		set {
+			if (IsFocused != value) {
+				TextInput.ToggleTakingText();
+			}
+		}
+	}
 
 	public EditableUIText(string? textContent = null) : base()
 	{
-		TextContent = textContent;
+		TextContent = textContent ?? string.Empty;
 
 		Height = StyleDimension.FromPixels(28f);
 
@@ -49,13 +60,12 @@ public class EditableUIText : UIElement
 		}));
 	}
 
-	public virtual bool TextFilter(string text) => true;
-
-	public void ToggleFocus()
+	private void OnLeftClickCurrentState(UIMouseEvent evt, UIElement listeningElement)
 	{
-		TextInput.ToggleTakingText();
-		IsFocused = TextInput.IsWritingText;
+		IsFocused = ContainsPoint(evt.MousePosition);
 	}
+
+	public virtual bool TextFilter(string text) => true;
 
 	public void SetText(string text)
 	{
@@ -65,15 +75,24 @@ public class EditableUIText : UIElement
 
 	public override void LeftClick(UIMouseEvent evt)
 	{
-		ToggleFocus();
+		//IsFocused = !IsFocused;
 	}
 
 	public override void Update(GameTime gameTime)
 	{
 		base.Update(gameTime);
 
-		if (Main.keyState.IsKeyDown(Keys.Enter) && !Main.oldKeyState.IsKeyDown(Keys.Enter) && IsFocused) {
+		if (InputSystem.GetMouseButtonDown(0)) {
+			if (ContainsPoint(UserInterface.ActiveInstance.MousePosition)) {
+				IsFocused = !IsFocused;
+			} else {
+				IsFocused = false;
+			}
+		}
+
+		if (Main.keyState.IsKeyDown(Keys.Enter) && !Main.oldKeyState.IsKeyDown(Keys.Enter)) {
 			IsFocused = false;
+			SoundEngine.PlaySound(SoundID.MenuTick);
 		}
 	}
 }

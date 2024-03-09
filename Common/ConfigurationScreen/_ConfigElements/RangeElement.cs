@@ -15,14 +15,19 @@ namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public class RangeElement : UIElement, IConfigEntryController
 {
+	private static readonly SoundStyle SoundDrag = SoundID.MenuTick with { Identifier = "Drag", Volume = 0.6f, Pitch = 0.025f, PitchVariance = 0.1f };
+	private static readonly SoundStyle SoundStart = SoundID.MenuTick with { Identifier = "StartStop", Pitch = 0.1f };
+	private static readonly SoundStyle SoundStop = SoundID.MenuTick with { Identifier = "StartStop", Pitch = -0.15f, PitchVariance = 0.03f };
+
 	private readonly UIElement container;
 	private readonly UIPanel background;
 	private readonly UIImageButton statePanel;
 	private readonly EditableUIText text;
 	private bool dragging;
 	private float soundCooldownEndTime;
-	private string lastTextContents = string.Empty;
 	private bool skipTextUpdates;
+	private bool lastTextIsFocused;
+	private string lastTextContents = string.Empty;
 
 	public double MinValue { get; set; }
 	public double MaxValue { get; set; }
@@ -100,7 +105,7 @@ public class RangeElement : UIElement, IConfigEntryController
 			return;
 		}
 
-		SoundEngine.PlaySound(SoundID.MenuTick with { Identifier = "StartStop", Pitch = 0.1f });
+		SoundEngine.PlaySound(in SoundStart);
 
 		dragging = true;
 	}
@@ -111,67 +116,94 @@ public class RangeElement : UIElement, IConfigEntryController
 
 		int scrollDirection = Math.Sign(evt.ScrollWheelValue);
 
+		text.IsFocused = false;
 		Value = MathUtils.Clamp(Value + scrollDirection * 0.01, MinValue, MaxValue);
 
 		UpdateState();
 		OnModified?.Invoke();
+		SoundEngine.PlaySound(in SoundDrag);
 	}
 
 	public override void Update(GameTime gameTime)
 	{
 		base.Update(gameTime);
 
-		if (text.TextContent != lastTextContents) {
-			if (double.TryParse(text.TextContent, out double value)) {
-				Value = MathUtils.Clamp(value, MinValue, MaxValue);
+		UpdateTextInput();
+		UpdateDragging();
+	}
+
+	private void UpdateTextInput()
+	{
+		bool textContentChanged = text.TextContent != lastTextContents;
+		bool textFocusChanged = text.IsFocused != lastTextIsFocused;
+
+		if (textContentChanged || textFocusChanged) {
+			bool parsed = double.TryParse(text.TextContent, out double value);
+
+			if (!parsed) {
+				value = MinValue;
+			}
+
+			if (parsed || text.TextContent.Length == 0) {
+				double clampedValue = MathUtils.Clamp(value, MinValue, MaxValue);
+				bool shouldSkipTextUpdates = clampedValue == value && lastTextIsFocused;
+
+				Value = clampedValue;
 
 				try {
-					skipTextUpdates = true;
+					skipTextUpdates = shouldSkipTextUpdates;
 					OnModified?.Invoke();
 					UpdateState();
 				}
 				finally {
 					skipTextUpdates = false;
 				}
-
-				lastTextContents = text.TextContent;
 			} else {
 				text.SetText(lastTextContents!);
 			}
 		}
 
-		if (dragging) {
-			var soundDrag = SoundID.MenuTick with { Identifier = "Drag", Volume = 0.6f, Pitch = 0.025f, PitchVariance = 0.1f };
-			var soundStop = SoundID.MenuTick with { Identifier = "StartStop", Pitch = -0.15f, PitchVariance = 0.03f };
+		if (textContentChanged) {
+			SoundEngine.PlaySound(in SoundDrag);
+		}
 
-			if (!Main.mouseLeft) {
-				dragging = false;
-				OnModified?.Invoke();
-				SoundEngine.PlaySound(soundStop);
-			} else {
-				var dimensions = background.GetInnerDimensions();
+		lastTextContents = text.TextContent;
+		lastTextIsFocused = text.IsFocused;
+	}
 
-				var dragDimensions = dimensions with {
-					X = dimensions.X + (-2f * statePanel.HAlign + 1f) * 11f,
-					Width = dimensions.Width,
-				};
+	private void UpdateDragging()
+	{
+		if (!dragging) {
+			return;
+		}
 
-				double newPosition = MathUtils.Clamp01((Main.MenuUI.MousePosition.X - dragDimensions.X) / dragDimensions.Width);
+		if (!Main.mouseLeft) {
+			dragging = false;
+			OnModified?.Invoke();
+			SoundEngine.PlaySound(in SoundStop);
+		} else {
+			var dimensions = background.GetInnerDimensions();
 
-				if (newPosition != Position) {
-					Position = newPosition;
+			var dragDimensions = dimensions with {
+				X = dimensions.X + (-2f * statePanel.HAlign + 1f) * 11f,
+				Width = dimensions.Width,
+			};
 
-					float time = (float)TimeSystem.GlobalStopwatch.Elapsed.TotalSeconds;
+			double newPosition = MathUtils.Clamp01((Main.MenuUI.MousePosition.X - dragDimensions.X) / dragDimensions.Width);
 
-					if (soundCooldownEndTime < time) {
-						SoundEngine.PlaySound(soundDrag);
+			if (newPosition != Position) {
+				Position = newPosition;
 
-						soundCooldownEndTime = time + 1f / 15f;
-					}
+				float time = (float)TimeSystem.GlobalStopwatch.Elapsed.TotalSeconds;
+
+				if (soundCooldownEndTime < time) {
+					SoundEngine.PlaySound(in SoundDrag);
+
+					soundCooldownEndTime = time + 1f / 15f;
 				}
-
-				UpdateState();
 			}
+
+			UpdateState();
 		}
 	}
 
