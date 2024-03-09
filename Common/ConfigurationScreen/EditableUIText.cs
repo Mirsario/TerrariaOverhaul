@@ -60,11 +60,6 @@ public class EditableUIText : UIElement
 		}));
 	}
 
-	private void OnLeftClickCurrentState(UIMouseEvent evt, UIElement listeningElement)
-	{
-		IsFocused = ContainsPoint(evt.MousePosition);
-	}
-
 	public virtual bool TextFilter(string text) => true;
 
 	public void SetText(string text)
@@ -73,21 +68,12 @@ public class EditableUIText : UIElement
 		TextInput.SetContents(TextContent, true);
 	}
 
-	public override void LeftClick(UIMouseEvent evt)
-	{
-		//IsFocused = !IsFocused;
-	}
-
 	public override void Update(GameTime gameTime)
 	{
 		base.Update(gameTime);
 
 		if (InputSystem.GetMouseButtonDown(0)) {
-			if (ContainsPoint(UserInterface.ActiveInstance.MousePosition)) {
-				IsFocused = !IsFocused;
-			} else {
-				IsFocused = false;
-			}
+			IsFocused = ContainsPoint(UserInterface.ActiveInstance.MousePosition);
 		}
 
 		if (Main.keyState.IsKeyDown(Keys.Enter) && !Main.oldKeyState.IsKeyDown(Keys.Enter)) {

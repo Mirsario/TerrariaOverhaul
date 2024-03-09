@@ -20,6 +20,7 @@ public class CardPanel : FancyUIPanel
 		=> defaultBorderTexture ??= ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/ThumbnailBorder").EnsureLoaded();
 
 	public LocalizedText TitleText { get; set; }
+	public object? UserObject { get; set; }
 
 	// Elements
 	public UIElement ThumbnailContainer { get; }

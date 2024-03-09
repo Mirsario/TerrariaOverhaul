@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -33,6 +33,8 @@ public class SettingsPanel : UIElement
 	private static Asset<Texture2D>[] BackgroundTextures
 		=> backgroundTextures ??= Enumerable.Range(1, 7).Select(i => ModContent.Request<Texture2D>($"{BasePath}/Background{i}").EnsureLoaded()).ToArray();
 
+	private readonly List<ConfigEntryElement> entries = new();
+
 	// Rows
 	public UIGrid OptionRowsGrid { get; }
 	public UIElement OptionRowsContainer { get; }
@@ -46,6 +48,8 @@ public class SettingsPanel : UIElement
 	public UIElement OptionIconContainer { get; }
 	public UIImage UnselectedIconBorder { get; }
 	public UIConfigIcon UnselectedIconImage { get; }
+
+	public IReadOnlyList<ConfigEntryElement> OptionElements => entries;
 
 	public SettingsPanel() : base()
 	{
@@ -133,12 +137,15 @@ public class SettingsPanel : UIElement
 
 	public void AddOption(IConfigEntry configEntry)
 	{
-		OptionRowsGrid.AddElement(new ConfigEntryElement(configEntry).With(e => {
+		var entryElement = new ConfigEntryElement(configEntry).With(e => {
 			e.CollisionExtents = new(3, 3, 3, 4);
 
 			e.OnMouseOver += (_, element) => UpdateDescription((ConfigEntryElement)element);
 			e.OnMouseOut += (_, _) => ResetDescription();
-		}));
+		});
+
+		entries.Add(entryElement);
+		OptionRowsGrid.Add(entryElement);
 	}
 
 	private void UpdateDescription(ConfigEntryElement element)

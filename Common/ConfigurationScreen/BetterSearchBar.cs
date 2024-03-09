@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
@@ -7,6 +8,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.UI;
+using TerrariaOverhaul.Core.Input;
 using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
@@ -16,13 +18,22 @@ public class BetterSearchBar : UIElement
 	public FancyUIPanel Container { get; }
 	public UISearchBar TextInput { get; }
 	public UIImageButton ClearTextInputButton { get; }
+	public string SearchString { get; set; }
 
-	public bool IsFocused { get; set; }
-	public string? SearchString { get; set; }
+	public bool IsFocused {
+		get => TextInput.IsWritingText;
+		set {
+			if (IsFocused != value) {
+				TextInput.ToggleTakingText();
+			}
+		}
+	}
+
+	public event Action? OnSearchStringUpdated;
 
 	public BetterSearchBar(string? searchString = null) : base()
 	{
-		SearchString = searchString;
+		SearchString = searchString ?? string.Empty;
 
 		Height = StyleDimension.FromPixels(28f);
 
@@ -46,7 +57,11 @@ public class BetterSearchBar : UIElement
 			e.VAlign = 0.5f;
 
 			e.SetContents(searchString, true);
-			e.OnContentsChanged += (string obj) => SearchString = obj;
+			e.OnContentsChanged += (string obj) => {
+				SoundEngine.PlaySound(SoundID.MenuTick with { Volume = 0.75f, PitchVariance = 0.05f, MaxInstances = 1 });
+				SearchString = obj ?? string.Empty;
+				OnSearchStringUpdated?.Invoke();
+			};
 		}));
 
 		ClearTextInputButton = TextInput.AddElement(new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/SearchCancel")).With(e => {
@@ -71,27 +86,17 @@ public class BetterSearchBar : UIElement
 			SoundEngine.PlaySound(SoundID.MenuTick);
 		}
 
-		if (IsFocused) {
-			ToggleFocus();
-		}
-	}
-
-	public void ToggleFocus()
-	{
-		TextInput.ToggleTakingText();
-		IsFocused = TextInput.IsWritingText;
-	}
-
-	public override void LeftClick(UIMouseEvent evt)
-	{
-		if (evt.Target != ClearTextInputButton) {
-			ToggleFocus();
-		}
+		IsFocused = false;
 	}
 
 	public override void Update(GameTime gameTime)
 	{
 		base.Update(gameTime);
+
+		if (InputSystem.GetMouseButtonDown(0)) {
+			var mousePosition = UserInterface.ActiveInstance.MousePosition;
+			IsFocused = ContainsPoint(mousePosition) && !ClearTextInputButton.ContainsPoint(mousePosition);
+		}
 
 		if (Main.keyState.IsKeyDown(Keys.Enter) && !Main.oldKeyState.IsKeyDown(Keys.Enter) && IsFocused) {
 			IsFocused = false;

@@ -25,7 +25,8 @@ public sealed class ConfigurationState : UIState
 
 	public static ConfigurationState Instance => instance ??= new();
 
-	private bool inCategoryMenu = true;
+	private readonly List<CardPanel> categoryPanels = new();
+	private SettingsPanel? currentSettingsPanel;
 
 	public BetterSearchBar SearchBar { get; set; } = null!;
 	// Main
@@ -35,6 +36,9 @@ public sealed class ConfigurationState : UIState
 	public UIElement ContentContainer { get; private set; } = null!;
 	public UIElement PanelGridContainer { get; private set; } = null!;
 	public UIGrid PanelGrid { get; private set; } = null!;
+	public UIScrollbar PanelGridScrollbar { get; private set; } = null!;
+
+	public bool OnMainScreen => currentSettingsPanel == null;
 
 	public override void OnInitialize()
 	{
@@ -81,7 +85,7 @@ public sealed class ConfigurationState : UIState
 			e.Top = StyleDimension.FromPixels(10f);
 			e.VAlign = 0f;
 
-			e.TextInput.OnContentsChanged += HighlightPanelsViaSearchString;
+			e.OnSearchStringUpdated += RefreshState;
 		}));
 
 		ContentContainer = MainPanel.AddElement(new UIElement().With(e => {
@@ -107,7 +111,7 @@ public sealed class ConfigurationState : UIState
 			e.PaddingRight = 15f;
 		}));
 
-		var panelGridScrollbar = PanelGridContainer.AddElement(new UIScrollbar().With(e => {
+		PanelGridScrollbar = PanelGridContainer.AddElement(new UIScrollbar().With(e => {
 			e.HAlign = 1f;
 			e.VAlign = 0.5f;
 			e.Height = StyleDimension.FromPixelsAndPercent(-16f, 1f);
@@ -116,6 +120,12 @@ public sealed class ConfigurationState : UIState
 			PanelGrid.AddComponent(new ScrollbarListenerUIComponent { Scrollbar = e, });
 		}));
 
+		InitializeCategoryPanels();
+		RefreshState();
+	}
+
+	private void InitializeCategoryPanels()
+	{
 		var configCategories = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s);
 		var thumbnailPlaceholder = ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Assets/Textures/UI/Config/NoPreview");
 
@@ -130,107 +140,48 @@ public sealed class ConfigurationState : UIState
 				_ => new CardPanel(localizedCategoryName, thumbnailPlaceholder),
 			};
 
-			PanelGrid.Add(cardPanel);
+			cardPanel.UserObject = category;
+			cardPanel.OnLeftClick += (_, _) => {
+				SoundEngine.PlaySound(in SoundID.MenuOpen);
+				SetCategoryScreen(category);
+			};
 
-			cardPanel.OnLeftClick += (_, _) => SwitchToCategorySettings(category);
+			categoryPanels.Add(cardPanel);
 		}
 	}
 
-	private void SwitchToCategorySettings(string category)
+	private void SetCategoryScreen(string? category)
 	{
-		SoundEngine.PlaySound(in SoundID.MenuOpen);
+		if (category == null) {
+			currentSettingsPanel = null;
 
-		PanelGridContainer.Remove();
+			ContentContainer.RemoveAllChildren();
+			ContentContainer.Append(PanelGridContainer);
+		} else {
+			currentSettingsPanel = new SettingsPanel().With(e => {
+				var categoryData = ConfigSystem.CategoriesByName[category!];
 
-		ContentContainer.AddElement(new SettingsPanel().With(e => {
-			var categoryData = ConfigSystem.CategoriesByName[category];
+				foreach (var configEntry in categoryData.EntriesByName.Values) {
+					e.AddOption(configEntry);
+				}
+			});
 
-			foreach (var configEntry in categoryData.EntriesByName.Values) {
-				e.AddOption(configEntry);
-			}
-		}));
+			PanelGridContainer.Remove();
+			ContentContainer.AddElement(currentSettingsPanel);
+		}
 
-		inCategoryMenu = false;
-
-		HighlightPanelsViaSearchString(SearchBar.SearchString);
+		RefreshState();
 	}
 
 	private void BackButtonLogic()
 	{
 		SoundEngine.PlaySound(SoundID.MenuClose);
 
-		if (inCategoryMenu) {
+		if (OnMainScreen) {
 			Main.menuMode = MenuID.Title;
 		} else {
-			ContentContainer.RemoveAllChildren();
-			ContentContainer.Append(PanelGridContainer);
-
-			inCategoryMenu = true;
-
-			HighlightPanelsViaSearchString(SearchBar.SearchString);
+			SetCategoryScreen(null);
 		}
-	}
-
-	private void HighlightPanelsViaSearchString(string? searchString)
-	{
-		IEnumerable<UIElement> panels;
-
-		if (inCategoryMenu) {
-			panels = PanelGrid.Children.First().Children;
-		} else {
-			panels = ContentContainer.GetFirstChildAt<UIElement>(5, e => e is UIGrid)?.Children?.FirstOrDefault()?.Children 
-				?? Enumerable.Empty<UIElement>();
-		}
-
-		// Searchbar is empty, reset all panels
-		if (string.IsNullOrEmpty(searchString)) {
-			foreach (FancyUIPanel panel in panels.Cast<FancyUIPanel>()) {
-				panel.Colors.OverrideBorderColor = null;
-			}
-
-			return;
-		}
-
-		var comparison = StringComparison.InvariantCultureIgnoreCase;
-
-		bool TextContains(LocalizedText text, string searchString)
-			=> text.Value.Contains(searchString, comparison);
-
-		if (inCategoryMenu) {
-			int index = -1;
-
-			foreach (var panel in panels.Cast<CardPanel>()) {
-				index++;
-				string categoryId = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s).ElementAt(index);
-
-				if (!ConfigSystem.CategoriesByName.TryGetValue(categoryId, out var category)) {
-					continue;
-				}
-
-				var categoryEntries = category.EntriesByName.Values;
-				bool categoryNameHasSearchString = TextContains(panel.TitleText, searchString);
-				bool categoryEntryNameHasSearchString = categoryEntries.Any(i => TextContains(Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.{i.Name}.DisplayName"), searchString));
-				bool either = categoryNameHasSearchString || categoryEntryNameHasSearchString;
-
-				// Change to whatever color the border should be when highlighted. Note: theres also OverrideBackgroundColor
-				panel.Colors.OverrideBorderColor = either ? CommonColors.DefaultHover : null;
-			}
-		} else {
-			foreach (var entry in panels.Cast<ConfigEntryElement>()) {
-				bool isMatched = TextContains(entry.DisplayName, searchString);
-
-				entry.Colors.OverrideBorderColor = isMatched ? CommonColors.DefaultHover : null;
-			}
-		}
-	}
-
-	public override void LeftClick(UIMouseEvent evt)
-	{
-		if (SearchBar.IsFocused) {
-			SearchBar.ToggleFocus();
-		}
-
-		base.LeftClick(evt);
 	}
 
 	public override void Update(GameTime gameTime)
@@ -244,5 +195,121 @@ public sealed class ConfigurationState : UIState
 				BackButtonLogic();
 			}
 		}
+	}
+
+	public bool IsElementMatchedBySearch(UIElement element)
+	{
+		var comparison = StringComparison.InvariantCultureIgnoreCase;
+		string searchString = SearchBar.SearchString;
+
+		if (searchString.Length == 0) {
+			return true;
+		}
+
+		bool StringMatches(string text)
+			=> text.Contains(searchString, comparison);
+
+		bool TextMatches(LocalizedText text)
+			=> text.Value.Contains(searchString, comparison);
+
+		if (element is ConfigEntryElement entryElement) {
+			return StringMatches(entryElement.ConfigEntry.Name)
+				|| TextMatches(entryElement.DisplayName);
+		}
+
+		if (element is CardPanel { UserObject: string categoryName } categoryPanel
+		&& ConfigSystem.CategoriesByName.TryGetValue(categoryName, out var categoryData)) {
+			if (StringMatches(categoryName)
+			|| TextMatches(categoryPanel.TitleText)) {
+				return true;
+			}
+
+			foreach (var entry in categoryData.EntriesByName.Values) {
+				if (StringMatches(entry.Name)) {
+					return true;
+				}
+
+				if (TextMatches(Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{categoryName}.{entry.Name}.DisplayName"))) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		return false;
+	}
+
+	private void RefreshState()
+	{
+		bool enableHighlighting = SearchBar.SearchString.Length >= 1;
+
+		if (OnMainScreen) {
+			RefreshCategories(enableHighlighting);
+		} else {
+			RefreshOptions(enableHighlighting);
+		}
+
+		Recalculate();
+	}
+
+	private void RefreshCategories(bool enableHighlighting)
+	{
+		static void SetHighlight(CardPanel cardPanel, bool? highlight)
+		{
+			cardPanel.Colors.CopyFrom(CommonColors.InnerPanelMediumDynamic);
+
+			if (highlight == true) {
+				cardPanel.Colors.Background = CommonColors.InnerPanelBright.Background;
+				cardPanel.Colors.Border.Hover = CommonColors.DefaultHover;
+				cardPanel.Colors.Border.Normal = Color.Lerp(cardPanel.Colors.Border.Normal, CommonColors.DefaultHover, 0.5f);
+			} else if (highlight == false) {
+				cardPanel.Colors.Background.Normal = CommonColors.OuterPanelDark.Background.Normal;
+			}
+		}
+
+		var container = PanelGrid;
+		var panels = categoryPanels.Select(p => (p, isMatched: IsElementMatchedBySearch(p))).OrderByDescending(t => t.isMatched);
+
+		container.Clear();
+
+		foreach (var (cardPanel, isMatched) in panels) {
+			SetHighlight(cardPanel, enableHighlighting ? isMatched : null);
+			container.Add(cardPanel);
+		}
+
+		container.Recalculate();
+	}
+
+	private void RefreshOptions(bool enableHighlighting)
+	{
+		if (currentSettingsPanel is not SettingsPanel settingsPanel) {
+			return;
+		}
+
+		static void SetHighlight(ConfigEntryElement element, bool? highlight)
+		{
+			element.Colors.CopyFrom(CommonColors.InnerPanelDarkDynamic);
+
+			if (highlight == true) {
+				element.Colors.Background = CommonColors.InnerPanelBright.Background;
+				element.Colors.Border.Hover = CommonColors.DefaultHover;
+				element.Colors.Border.Normal = Color.Lerp(element.Colors.Border.Normal, CommonColors.DefaultHover, 0.5f);
+			} else if (highlight == false) {
+				element.Colors.Background.Normal = CommonColors.OuterPanelDark.Background.Normal;
+			}
+		}
+
+		var container = settingsPanel.OptionRowsGrid;
+		var entries = settingsPanel.OptionElements.Select(p => (p, isMatched: IsElementMatchedBySearch(p))).OrderByDescending(t => t.isMatched);
+
+		container.Clear();
+
+		foreach (var (cardPanel, isMatched) in entries) {
+			SetHighlight(cardPanel, enableHighlighting ? isMatched : null);
+			container.Add(cardPanel);
+		}
+
+		container.Recalculate();
 	}
 }
