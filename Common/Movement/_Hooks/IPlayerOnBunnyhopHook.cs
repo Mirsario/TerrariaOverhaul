@@ -7,7 +7,7 @@ namespace TerrariaOverhaul.Common.Movement;
 
 public interface IPlayerOnBunnyhopHook
 {
-	public static readonly HookList<ModPlayer> Hook = PlayerLoader.AddModHook(new HookList<ModPlayer>(typeof(Hook).GetMethod(nameof(OnBunnyhop))));
+	public static readonly HookList<ModPlayer> Hook = PlayerLoader.AddModHook(HookList<ModPlayer>.Create(i => ((Hook)i).OnBunnyhop));
 
 	void OnBunnyhop(Player player, ref float boost, ref float boostMultiplier);
 

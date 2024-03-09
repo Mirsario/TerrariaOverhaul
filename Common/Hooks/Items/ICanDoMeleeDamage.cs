@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using System;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
 using Hook = TerrariaOverhaul.Common.Hooks.Items.ICanDoMeleeDamage;
@@ -7,7 +8,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items;
 
 public interface ICanDoMeleeDamage
 {
-	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(new GlobalHookList<GlobalItem>(typeof(Hook).GetMethod(nameof(CanDoMeleeDamage))));
+	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).CanDoMeleeDamage));
 
 	bool CanDoMeleeDamage(Item item, Player player);
 

@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Common.Hooks.Items;
 
 public interface IModifyItemNPCDeathSound
 {
-	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(new GlobalHookList<GlobalItem>(typeof(Hook).GetMethod(nameof(ModifyItemNPCDeathSound))));
+	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).ModifyItemNPCDeathSound));
 
 	void ModifyItemNPCDeathSound(Item item, Player player, NPC target, ref SoundStyle? customDeathSound, ref bool playNPCDeathSound);
 
