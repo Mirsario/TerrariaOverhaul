@@ -21,8 +21,17 @@ public class RangeElement : UIElement, IConfigEntryController
 	private readonly EditableUIText text;
 	private bool dragging;
 	private float soundCooldownEndTime;
+	private string lastTextContents = string.Empty;
+	private bool skipTextUpdates;
 
-	public double Value { get; set; }
+	public double MinValue { get; set; }
+	public double MaxValue { get; set; }
+	public double Position { get; set; }
+
+	public double Value {
+		get => MathUtils.Lerp(MinValue, MaxValue, Position);
+		set => Position = MathUtils.InverseLerp(value, MinValue, MaxValue);
+	}
 
 	object? IConfigEntryController.Value {
 		get => Value;
@@ -34,8 +43,12 @@ public class RangeElement : UIElement, IConfigEntryController
 
 	public event Action? OnModified;
 
-	public RangeElement()
+	public RangeElement() : this(0.0, 1.0) { }
+
+	public RangeElement(double minValue, double maxValue)
 	{
+		MinValue = minValue;
+		MaxValue = maxValue;
 		MaxWidth = Width = StyleDimension.FromPixels(250f);
 		MaxHeight = Height = StyleDimension.FromPercent(1.0f);
 
@@ -98,7 +111,8 @@ public class RangeElement : UIElement, IConfigEntryController
 
 		int scrollDirection = Math.Sign(evt.ScrollWheelValue);
 
-		Value = MathUtils.Clamp01((float)Value + scrollDirection * 0.01f);
+		Value = MathUtils.Clamp(Value + scrollDirection * 0.01, MinValue, MaxValue);
+
 		UpdateState();
 		OnModified?.Invoke();
 	}
@@ -107,9 +121,23 @@ public class RangeElement : UIElement, IConfigEntryController
 	{
 		base.Update(gameTime);
 
-		if (double.TryParse(text.TextContent, out double value) && value >= 0 && value <= 1) {
-			Value = value;
-			UpdateState(false);
+		if (text.TextContent != lastTextContents) {
+			if (double.TryParse(text.TextContent, out double value)) {
+				Value = MathUtils.Clamp(value, MinValue, MaxValue);
+
+				try {
+					skipTextUpdates = true;
+					OnModified?.Invoke();
+					UpdateState();
+				}
+				finally {
+					skipTextUpdates = false;
+				}
+
+				lastTextContents = text.TextContent;
+			} else {
+				text.SetText(lastTextContents!);
+			}
 		}
 
 		if (dragging) {
@@ -128,10 +156,10 @@ public class RangeElement : UIElement, IConfigEntryController
 					Width = dimensions.Width,
 				};
 
-				double newValue = MathUtils.Clamp01((Main.MenuUI.MousePosition.X - dragDimensions.X) / dragDimensions.Width);
+				double newPosition = MathUtils.Clamp01((Main.MenuUI.MousePosition.X - dragDimensions.X) / dragDimensions.Width);
 
-				if (newValue != Value) {
-					Value = newValue;
+				if (newPosition != Position) {
+					Position = newPosition;
 
 					float time = (float)TimeSystem.GlobalStopwatch.Elapsed.TotalSeconds;
 
@@ -147,14 +175,13 @@ public class RangeElement : UIElement, IConfigEntryController
 		}
 	}
 
-	private void UpdateState(bool setText = true)
+	private void UpdateState()
 	{
-		float percent = MathHelper.Lerp(0, 1f, (float)Value);
 		string valueString = Value.ToString("0.00");
 
-		statePanel.HAlign = percent;
+		statePanel.HAlign = (float)Position;
 
-		if (setText) {
+		if (!skipTextUpdates) {
 			text.SetText(valueString);
 		}
 

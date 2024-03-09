@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Configuration;
 
@@ -8,30 +9,28 @@ namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public static class ConfigElementLookup
 {
-	public delegate UIElement Constructor();
+	public delegate UIElement Constructor<TEntry>(TEntry entry) where TEntry : IConfigEntry;
 
-	private static readonly Dictionary<Type, Constructor> constructorByEntryType = new();
+	private static readonly Dictionary<Type, Constructor<IConfigEntry>> constructorByEntryType = new();
 
 	static ConfigElementLookup()
 	{
 		// Bool
-		Register<ConfigEntry<bool>, ToggleElement>();
+		Register<ConfigEntry<bool>>(_ => new ToggleElement());
 		// Range
-		Register<RangeConfigEntry<float>, RangeElement>();
-		Register<RangeConfigEntry<double>, RangeElement>();
+		Register<RangeConfigEntry<float>>(e => new RangeElement(e.MinValue, e.MaxValue));
+		Register<RangeConfigEntry<double>>(e => new RangeElement(e.MinValue, e.MaxValue));
 	}
 
-	public static void Register<TEntry, TElement>()
+	public static void Register<TEntry>(Constructor<TEntry> elementConstructor)
 		where TEntry : IConfigEntry
-		where TElement : UIElement, IConfigEntryController, new()
 	{
-		Register<TEntry>(static () => new TElement());
-	}
+		if (elementConstructor == null) {
+			throw new ArgumentNullException(nameof(elementConstructor));
+		}
 
-	public static void Register<TEntry>(Constructor elementConstructor)
-		where TEntry : IConfigEntry
-	{
-		constructorByEntryType[typeof(TEntry)] = elementConstructor ?? throw new ArgumentNullException(nameof(elementConstructor));
+		// Type-erased
+		constructorByEntryType[typeof(TEntry)] = Unsafe.As<Constructor<IConfigEntry>>(elementConstructor);
 	}
 
 	public static UIElement CreateElement(IConfigEntry configEntry)
@@ -53,7 +52,7 @@ public static class ConfigElementLookup
 			return false;
 		}
 
-		result = constructor();
+		result = constructor(configEntry);
 
 		if (result == null) {
 			throw new InvalidOperationException($"Config element constructor for entry type '{entryType.Name}' has returned a null value.");
