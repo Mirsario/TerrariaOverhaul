@@ -150,9 +150,6 @@
 ### Optimizations
 - Crosshair impulse registration no longer causes any heap allocations.
 
-### Fixes
-- Fixed vanilla mining helmet light not appearing if `PlayerVisuals.EnableAimableFlashlights` is disabled.
-
 # 5.0 BETA 12C
 
 ### Changes

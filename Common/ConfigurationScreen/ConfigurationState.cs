@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -22,6 +21,10 @@ namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 public sealed class ConfigurationState : UIState
 {
+	private static ConfigurationState? instance;
+
+	public static ConfigurationState Instance => instance ??= new();
+
 	private bool inCategoryMenu = true;
 
 	public BetterSearchBar SearchBar { get; set; } = null!;
@@ -149,7 +152,7 @@ public sealed class ConfigurationState : UIState
 
 		inCategoryMenu = false;
 
-		HighlightPanelsViaSearchString(SearchBar.searchString);
+		HighlightPanelsViaSearchString(SearchBar.SearchString);
 	}
 
 	private void BackButtonLogic()
@@ -164,13 +167,20 @@ public sealed class ConfigurationState : UIState
 
 			inCategoryMenu = true;
 
-			HighlightPanelsViaSearchString(SearchBar.searchString);
+			HighlightPanelsViaSearchString(SearchBar.SearchString);
 		}
 	}
 
 	private void HighlightPanelsViaSearchString(string? searchString)
 	{
-		var panels = inCategoryMenu ? PanelGrid.Children.First().Children.ToList() : ContentContainer.GetFirstChildAt<UIElement>(5, e => e is UIGrid).Children.First().Children.ToList();
+		IEnumerable<UIElement> panels;
+
+		if (inCategoryMenu) {
+			panels = PanelGrid.Children.First().Children;
+		} else {
+			panels = ContentContainer.GetFirstChildAt<UIElement>(5, e => e is UIGrid)?.Children?.FirstOrDefault()?.Children 
+				?? Enumerable.Empty<UIElement>();
+		}
 
 		// Searchbar is empty, reset all panels
 		if (string.IsNullOrEmpty(searchString)) {
@@ -187,15 +197,18 @@ public sealed class ConfigurationState : UIState
 			=> text.Value.Contains(searchString, comparison);
 
 		if (inCategoryMenu) {
+			int index = -1;
+
 			foreach (var panel in panels.Cast<CardPanel>()) {
-				string categoryId = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s).ElementAt(panels.IndexOf(panel));
+				index++;
+				string categoryId = ConfigSystem.CategoriesByName.Keys.OrderBy(s => s).ElementAt(index);
 
 				if (!ConfigSystem.CategoriesByName.TryGetValue(categoryId, out var category)) {
 					continue;
 				}
 
 				var categoryEntries = category.EntriesByName.Values;
-				bool categoryNameHasSearchString = TextContains(panel.titleText, searchString);
+				bool categoryNameHasSearchString = TextContains(panel.TitleText, searchString);
 				bool categoryEntryNameHasSearchString = categoryEntries.Any(i => TextContains(Language.GetText($"Mods.{nameof(TerrariaOverhaul)}.Configuration.{category}.{i.Name}.DisplayName"), searchString));
 				bool either = categoryNameHasSearchString || categoryEntryNameHasSearchString;
 

@@ -106,7 +106,7 @@ public class RangeElement : UIElement, IConfigEntryController
 	{
 		base.Update(gameTime);
 
-		if (double.TryParse(text.textContent, out double value) && value >= 0 && value <= 1) {
+		if (double.TryParse(text.TextContent, out double value) && value >= 0 && value <= 1) {
 			Value = value;
 			UpdateState(false);
 		}

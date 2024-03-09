@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
-using Terraria.Audio;
 using Terraria.GameContent.UI.Elements;
-using Terraria.ID;
 using Terraria.Localization;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
+
 public class EditableUIText : UIElement
 {
-	FancyUIPanel Container { get; }
+	public FancyUIPanel Container { get; }
 	public UISearchBar TextInput { get; }
 
-	public int MaxTextInputLength;
-
-	public bool IsFocused = false;
-	public string? textContent;
+	public int MaxTextInputLength { get; set; }
+	public bool IsFocused { get; set; }
+	public string? TextContent { get; set; }
 
 	public EditableUIText(string? textContent = null) : base()
 	{
-		this.textContent = textContent;
+		TextContent = textContent;
 
 		Height = StyleDimension.FromPixels(28f);
 
@@ -50,7 +44,7 @@ public class EditableUIText : UIElement
 
 			e.SetContents(textContent, true);
 			e.OnContentsChanged += (string obj) => {
-				this.textContent = obj.Length <= MaxTextInputLength ? obj : this.textContent;
+				TextContent = obj.Length <= MaxTextInputLength ? obj : TextContent;
 			};
 		}));
 	}
@@ -65,8 +59,8 @@ public class EditableUIText : UIElement
 
 	public void SetText(string text)
 	{
-		textContent = text;
-		TextInput.SetContents(textContent, true);
+		TextContent = text;
+		TextInput.SetContents(TextContent, true);
 	}
 
 	public override void LeftClick(UIMouseEvent evt)

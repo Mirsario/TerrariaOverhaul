@@ -51,26 +51,26 @@ public sealed class UIConfigIcon : UIElement, ILoadable
 		effect.Parameters["Time"]?.SetValue(TimeSystem.RenderTime);
 		effect.Parameters["Resolution"]?.SetValue(ResolutionOverride ?? foreground.Size());
 		effect.Parameters["Background"]?.SetValue(background);
-		//effect.Parameters["OutlineColor"]?.SetValue(Main.DiscoColor.ToVector4());
+		//	effect.Parameters["OutlineColor"]?.SetValue(Main.DiscoColor.ToVector4());
 
 		var dimensions = GetDimensions();
 		var rect = dimensions.ToRectangle();
-		//var matrix = Main.UIScaleMatrix;
-		//bool matrixDiffers = matrix != lastMatrix;
-
-		//if (!sbBegan || matrixDiffers) {
-			//if (sbBegan) {
-				//personalSb!.End();
-			//}
-
-			//personalSb!.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, OverflowHiddenRasterizerState, effect, matrix);
-			//sbBegan = true;
-			//lastMatrix = matrix;
-		//}
-
-		//personalSb!.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, OverflowHiddenRasterizerState, effect, matrix);
-		//personalSb!.Draw(foreground, rect, Color);
-		//personalSb!.End();
+		//	var matrix = Main.UIScaleMatrix;
+		//	bool matrixDiffers = matrix != lastMatrix;
+		//	
+		//	if (!sbBegan || matrixDiffers) {
+		//		if (sbBegan) {
+		//			personalSb!.End();
+		//		}
+		//
+		//		personalSb!.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, OverflowHiddenRasterizerState, effect, matrix);
+		//		sbBegan = true;
+		//		lastMatrix = matrix;
+		//	}
+		//	
+		//	personalSb!.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointWrap, DepthStencilState.None, OverflowHiddenRasterizerState, effect, matrix);
+		//	personalSb!.Draw(foreground, rect, Color);
+		//	personalSb!.End();
 
 		// This is very slow, but this will hopefully only happen once per frame.
 		spriteBatch.End();
@@ -86,13 +86,13 @@ public sealed class UIConfigIcon : UIElement, ILoadable
 	{
 		shader = mod.Assets.Request<Effect>($"Assets/Shaders/ConfigIcon");
 
-		//Main.QueueMainThreadAction(static () => personalSb = new SpriteBatch(Main.graphics.GraphicsDevice));
+		//	Main.QueueMainThreadAction(static () => personalSb = new SpriteBatch(Main.graphics.GraphicsDevice));
 	}
 
 	void ILoadable.Unload()
 	{
-		//personalSb?.Dispose();	
+		//	personalSb?.Dispose();	
 		shader = null;
-		//personalSb = null;
+		//	personalSb = null;
 	}
 }

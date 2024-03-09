@@ -10,18 +10,19 @@ using Terraria.UI;
 using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
+
 public class BetterSearchBar : UIElement
 {
-	FancyUIPanel Container { get; }
+	public FancyUIPanel Container { get; }
 	public UISearchBar TextInput { get; }
-	UIImageButton ClearTextInputButton { get; }
+	public UIImageButton ClearTextInputButton { get; }
 
-	public bool IsFocused = false;
-	public string? searchString;
+	public bool IsFocused { get; set; }
+	public string? SearchString { get; set; }
 
 	public BetterSearchBar(string? searchString = null) : base()
 	{
-		this.searchString = searchString;
+		SearchString = searchString;
 
 		Height = StyleDimension.FromPixels(28f);
 
@@ -45,7 +46,7 @@ public class BetterSearchBar : UIElement
 			e.VAlign = 0.5f;
 
 			e.SetContents(searchString, true);
-			e.OnContentsChanged += (string obj) => this.searchString = obj;
+			e.OnContentsChanged += (string obj) => SearchString = obj;
 		}));
 
 		ClearTextInputButton = TextInput.AddElement(new UIImageButton(Main.Assets.Request<Texture2D>("Images/UI/SearchCancel")).With(e => {

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿#if DEBUG
+using System.IO;
 using System.Linq;
 using System.Text;
 using Terraria.ModLoader;
@@ -7,7 +8,6 @@ using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.Commands;
 
-#if DEBUG
 internal sealed class DumpConfigIconsCommand : ModCommand
 {
 	public override string Command => "oDumpConfigIcons";
@@ -16,7 +16,7 @@ internal sealed class DumpConfigIconsCommand : ModCommand
 
 	public override void Action(CommandCaller caller, string input, string[] args)
 	{
-		const string UrlPrefix = "https://raw.githubusercontent.com/justreq/TerrariaOverhaul/1.4";
+		const string UrlPrefix = "https://raw.githubusercontent.com/Mirsario/TerrariaOverhaul/dev";
 		const string AssetLocation = "Assets/Textures/UI/Config";
 
 		var sb = new StringBuilder();
