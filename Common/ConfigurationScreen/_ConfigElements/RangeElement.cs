@@ -100,6 +100,7 @@ public class RangeElement : UIElement, IConfigEntryController
 
 		Value = MathUtils.Clamp01((float)Value + scrollDirection * 0.01f);
 		UpdateState();
+		OnModified?.Invoke();
 	}
 
 	public override void Update(GameTime gameTime)
