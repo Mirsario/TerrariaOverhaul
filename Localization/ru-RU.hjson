@@ -38,7 +38,6 @@ Mods: {
 					/* Description:
 						'''
 						When enabled, almost every item in the game will be able to be used repeatedly by holding down the use button.
-						Tiny rebalancing measures take place to prevent unintended "60 times a second" usages.
 						Prevents carpal tunnel syndrome, recommended by 10 out of 10 doctors.
 						''' */
 				}

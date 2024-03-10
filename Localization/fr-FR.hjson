@@ -38,7 +38,6 @@ Mods: {
 					Description:
 						'''
 						Permet la réutilisation automatique de quasi tout les objets dans le jeu en gardant pressée la touche d'usage.
-						Petites retouches pour empêcher le comportement involontaire de "60 usages par seconde".
 						Préserve du syndrome du canal carpien, recommandé par 10 docteurs sur 10.
 						'''
 				}
