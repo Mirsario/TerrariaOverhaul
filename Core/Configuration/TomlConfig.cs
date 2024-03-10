@@ -51,11 +51,12 @@ public static class TomlConfig
 				ValueSyntax valueSyntax = ObjectToSyntax(value);
 				var keyValueSyntax = new KeyValueSyntax(entry.Name, valueSyntax);
 
-				string descriptionKey = $"Mods.{mod.Name}.Configuration.{entry.Category}.{entry.Name}.Description";
-				string description = Language.GetTextValue(descriptionKey);
-
 				keyValueSyntax.AddLeadingTriviaNewLine();
-				if (description != descriptionKey) {
+
+				string? description = entry.Description?.Value;
+				string? descriptionKey = entry.Description?.Key;
+
+				if (!string.IsNullOrWhiteSpace(description) && description != descriptionKey) {
 					foreach (string line in description.Split(new string[] { "\r\n", "\n" }, StringSplitOptions.TrimEntries)) {
 						keyValueSyntax.AddLeadingTrivia(new SyntaxTrivia(TokenKind.Comment, $"\t# {line}\r\n"));
 					}

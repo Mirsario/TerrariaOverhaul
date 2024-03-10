@@ -40,7 +40,6 @@ Mods: {
 					Description:
 						'''
 						Gdy włączone, prawie każdy przedmiot w grze będzie uzywany ponownie jeśli przycisk myszy jest trzymany.
-						Drobne modyfikacje zapobiegają przpadkom nadużyć "60 razy na sekundę".
 						Zapobiega też zespołowi cieśni nadgarstka, polecane przez 10 na 10 lekarzy.
 						'''
 				}
@@ -55,18 +54,39 @@ Mods: {
 					Description: "Włącza dżwięki otoczenia takie jak ptaki, świerszcze czy szumy jaskiń."
 				}
 
-				EnableAudioFiltering: {
-					DisplayName: "Włącz Filtrowanie Dźwięku"
-					Description:
-						'''
-						Przełącza filtrowanie dolnoprzepustowe i efekt pogłosu.
-						Wyłącz to jeśli gra się zawiesza kiedy dołączasz do świata.
-						'''
-				}
-
 				EnablePlayerFootsteps: {
 					DisplayName: "Włącz Kroki Gracza"
 					Description: "Włącza dźwięki kroków gracza"
+				}
+
+				EnableLowPassFiltering: {
+					// DisplayName: "Enable Low Pass Filtering"
+					// Description: ""
+				}
+
+				EnableReverb: {
+					// DisplayName: "Enable Reverb"
+					// Description: ""
+				}
+			}
+
+			Aesthetics: {
+				// DisplayName: "Aesthetics"
+				// Description: "This category contains nice-to-have features that mainly aim to increase immersion or beauty of the game, but may affect gameplay in the process."
+
+				DestroyStumpsAfterTreeFalls: {
+					// DisplayName: "Destroy Stumps After Tree Falling Animations"
+					// Description: "When enabled, tree falling animations' behavior of redirecting stump hits a block higher will be compensated with removal of the stump after the animation's end.'"
+				}
+
+				EnableAimableFlashlights: {
+					// DisplayName: "Enable Aimable Flashlights"
+					// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
+				}
+
+				EnableTreeFallingAnimations: {
+					// DisplayName: "Enable Tree Falling Animations"
+					// Description: "When enabled, trees will physically fall down instead of exploding into items."
 				}
 			}
 
@@ -268,7 +288,7 @@ Mods: {
 				}
 			}
 
-			PlayerMovement: {
+			Movement: {
 				DisplayName: "Poruszanie się Gracza"
 				Description: "Overhaul znacznie ulepsza i odświeża prawie każdy aspekt poruszania sie, czego jest sporo."
 
@@ -326,18 +346,13 @@ Mods: {
 				}
 			}
 
-			PlayerVisuals: {
+			Visuals: {
 				DisplayName: "Efekty Wizualne Gracza"
 				Description: "Overhaul zawiera parę zmian w wyglądzie gracza, żeby gra była bardziej responsywna."
 
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Zawsze Pokazuj Bronie Mierzone"
 					Description: "Włącz pokazywanie broni typu 'wyciąganego' gdy nie jest w użyciu."
-				}
-
-				EnableAimableFlashlights: {
-					DisplayName: "Włącz Celowanie Latarkami"
-					Description: "Gdy włączone, oświetlenie z przedmiotów takich jak 'Hełm Góniczy' będzie podączać za kursorem."
 				}
 
 				EnableImprovedMeleeAnimations: {
@@ -366,6 +381,11 @@ Mods: {
 				EnablePlayerTilting: {
 					DisplayName: "Włącz Pochylenie Gracza"
 					Description: "Włącza pochylanie się gracza wraz z jego prędkością. Sprawia że wygląda bardziej żywo."
+				}
+
+				EnableEnemyTiltingEffects: {
+					// DisplayName: "Enable Enemy Tilting Effects"
+					// Description: ""
 				}
 			}
 

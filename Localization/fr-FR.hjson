@@ -40,7 +40,6 @@ Mods: {
 					Description:
 						'''
 						Permet la réutilisation automatique de quasi tout les objets dans le jeu en gardant pressée la touche d'usage.
-						Petites retouches pour empêcher le comportement involontaire de "60 usages par seconde".
 						Préserve du syndrome du canal carpien, recommandé par 10 docteurs sur 10.
 						'''
 				}
@@ -55,18 +54,39 @@ Mods: {
 					Description: "Rajoute des sons ambiants comme des oiseaux, bruits de cave, grillons, du vent, etc."
 				}
 
-				EnableAudioFiltering: {
-					DisplayName: "Activer le Filtrage Audio"
-					Description:
-						'''
-						Rajoute le filtrage passe-bas et les effets de réverbération.
-						Désactiver si le jeu plante à chaque fois pendant l'entrée dans un monde.
-						'''
-				}
-
 				EnablePlayerFootsteps: {
 					DisplayName: "Activer les Bruits de Pas"
 					Description: "Rajoute des bruits de pas du joueur."
+				}
+
+				EnableLowPassFiltering: {
+					// DisplayName: "Enable Low Pass Filtering"
+					// Description: ""
+				}
+
+				EnableReverb: {
+					// DisplayName: "Enable Reverb"
+					// Description: ""
+				}
+			}
+
+			Aesthetics: {
+				// DisplayName: "Aesthetics"
+				// Description: "This category contains nice-to-have features that mainly aim to increase immersion or beauty of the game, but may affect gameplay in the process."
+
+				DestroyStumpsAfterTreeFalls: {
+					// DisplayName: "Destroy Stumps After Tree Falling Animations"
+					// Description: "When enabled, tree falling animations' behavior of redirecting stump hits a block higher will be compensated with removal of the stump after the animation's end.'"
+				}
+
+				EnableAimableFlashlights: {
+					// DisplayName: "Enable Aimable Flashlights"
+					// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
+				}
+
+				EnableTreeFallingAnimations: {
+					// DisplayName: "Enable Tree Falling Animations"
+					// Description: "When enabled, trees will physically fall down instead of exploding into items."
 				}
 			}
 
@@ -268,7 +288,7 @@ Mods: {
 				}
 			}
 
-			PlayerMovement: {
+			Movement: {
 				DisplayName: "Mobilité"
 				Description: "Overhaul renouvelle et perfectionne presque tout les aspects de la mobilité du joueur, qui est très utilisée."
 
@@ -330,18 +350,13 @@ Mods: {
 				}
 			}
 
-			PlayerVisuals: {
+			Visuals: {
 				DisplayName: "Apparence"
 				Description: "Overhaul améliore quelque peu l'apparence visuelle de l'avatar, pour rendre le jeu plus interactif."
 
 				AlwaysShowAimableWeapons: {
 					DisplayName: "Toujours Montrer les Armes à Visée"
 					Description: "Montre les armes au repos en main."
-				}
-
-				EnableAimableFlashlights: {
-					DisplayName: "Activer la Lumière Dirigeable"
-					Description: "Les équipements fournissant de la lumière (comme le 'Casque de Mineur') deviendront visables avec le curseur."
 				}
 
 				EnableImprovedMeleeAnimations: {
@@ -370,6 +385,11 @@ Mods: {
 				EnablePlayerTilting: {
 					DisplayName: "Activer le Tanguage"
 					Description: "L'avatar s'incline légèrement en fonction de sa vitesse. Rend l'avatar plus vivant."
+				}
+
+				EnableEnemyTiltingEffects: {
+					// DisplayName: "Enable Enemy Tilting Effects"
+					// Description: ""
 				}
 			}
 

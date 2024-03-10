@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Terraria.Localization;
-using Terraria.ModLoader;
+﻿using Terraria.Localization;
 
 namespace TerrariaOverhaul.Core.Localization;
 
@@ -12,8 +10,6 @@ public sealed class Text
 		Literal,
 		Localized,
 	}
-
-	private static readonly Regex modKeyRegex = new(@"Mods\.(\w+)\.([\s\S]+)", RegexOptions.Compiled);
 
 	private static int ActiveCultureId => Language.ActiveCulture.LegacyId;
 
@@ -64,26 +60,14 @@ public sealed class Text
 		UpdateDeltas();
 
 		switch (type) {
-			case Type.Localized:
-				cachedValue = Language.GetTextValue(source);
-
-				if (cachedValue == source && lastLanguageRefreshCount == 0) {
-					//TODO: Verify that everything is okay.
-					/*
-					var modTranslation = LocalizationLoader.GetOrCreateTranslation(source, defaultEmpty: true);
-					
-					cachedValue = modTranslation.GetTranslation(ActiveCultureId);
-					*/
-
-					if (string.IsNullOrWhiteSpace(cachedValue) || cachedValue == source) {
-						cachedValue = "Localizations loading...";
-					}
-				}
-				
+			case Type.Localized: {
+				cachedValue = TextSystem.GetTextValueSafe(source);
 				break;
-			default:
+			}
+			default: {
 				cachedValue = source;
 				break;
+			}
 		}
 
 		return cachedValue;

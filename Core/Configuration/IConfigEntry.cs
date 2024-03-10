@@ -1,4 +1,5 @@
 ﻿using System;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Configuration;
@@ -14,6 +15,8 @@ public interface IConfigEntry
 	object? RemoteValue { get; set; }
 	object DefaultValue { get; }
 	ConfigSide Side { get; }
+	public LocalizedText? DisplayName { get; }
+	public LocalizedText? Description { get; }
 
 	void Initialize(Mod mod);
 }

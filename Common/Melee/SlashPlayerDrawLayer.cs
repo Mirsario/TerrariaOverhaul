@@ -18,7 +18,7 @@ public class SlashPlayerDrawLayer : PlayerDrawLayer
 	private static readonly SpriteFrame TextureFrame = new(1, 3);
 	private static Asset<Texture2D>? texture;
 
-	public static readonly ConfigEntry<bool> EnableMeleeSlashVisualization = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnableMeleeSlashVisualization), () => true);
+	public static readonly ConfigEntry<bool> EnableMeleeSlashVisualization = new(ConfigSide.ClientOnly, "Visuals", nameof(EnableMeleeSlashVisualization), () => true);
 
 	public override void Load()
 	{

@@ -44,6 +44,7 @@
 - Base bunnyhop effectivity has been much reduced. Utilize rolljumps & mantling to remain swift in early game.
 - Improved the underwater sound loop, previously it might've been getting muffled itself.
 - Reduced volume of jump/land footsteps, added pitch variance to every footstep sound.
+- Main menu buttons' localization text now loads immediately.
 ### Configuration
 - Configuration files now use the `.toml` format instead of `.json`. It's a lot more human-friendly, and has a much simpler syntax. In addition to that, it also supports comments, so config entries' descriptions will now be included there.
 - Redesigned a half of the config backend, hopefully making it more robust in networking, filesystem operations, and error handling.

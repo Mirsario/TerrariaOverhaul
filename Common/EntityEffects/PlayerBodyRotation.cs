@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.EntityEffects;
 
 public sealed class PlayerBodyRotation : ModPlayer
 {
-	public static readonly ConfigEntry<bool> EnablePlayerTilting = new(ConfigSide.ClientOnly, "PlayerVisuals", nameof(EnablePlayerTilting), () => true);
+	public static readonly ConfigEntry<bool> EnablePlayerTilting = new(ConfigSide.ClientOnly, "Visuals", nameof(EnablePlayerTilting), () => true);
 
 	public float Rotation;
 	public float RotationOffsetScale;

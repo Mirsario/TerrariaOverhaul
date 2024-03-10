@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Debugging;
+using TerrariaOverhaul.Core.Localization;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Core.Configuration;
@@ -223,6 +224,9 @@ public sealed class ConfigIO : ModSystem
 	public static Result WriteConfig(string filePath, in ConfigFormat format, in ConfigExport export)
 	{
 		EnsureInitialized();
+
+		// Some writers utilize localization strings.
+		TextSystem.ForceInitializeLocalization();
 
 		if (!IOUtils.TryOperation(() => File.OpenWrite(filePath), out var stream)) {
 			return Result.FileInaccessible;

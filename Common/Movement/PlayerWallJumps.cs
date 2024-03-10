@@ -16,8 +16,8 @@ namespace TerrariaOverhaul.Common.Movement;
 // This class implements both wall jumps and wall rolls.
 public class PlayerWallJumps : ModPlayer
 {
-	public static readonly ConfigEntry<bool> EnableWallJumping = new(ConfigSide.Both, "PlayerMovement", nameof(EnableWallJumping), () => true);
-	public static readonly ConfigEntry<bool> EnableWallFlips = new(ConfigSide.Both, "PlayerMovement", nameof(EnableWallFlips), () => true);
+	public static readonly ConfigEntry<bool> EnableWallJumping = new(ConfigSide.Both, "Movement", nameof(EnableWallJumping), () => true);
+	public static readonly ConfigEntry<bool> EnableWallFlips = new(ConfigSide.Both, "Movement", nameof(EnableWallFlips), () => true);
 
 	public const float MinSpeedForWallRoll = 3f;
 
