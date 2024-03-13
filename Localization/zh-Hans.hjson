@@ -345,7 +345,7 @@ Mods: {
 			}
 
 			Visuals: {
-				DisplayName: "角色视效"
+				DisplayName: "视效"
 				Description: "Overhaul包含一些对玩家角色视觉效果的改进，以提升游戏反馈"
 
 				AlwaysShowAimableWeapons: {
