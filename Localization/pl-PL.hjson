@@ -347,7 +347,7 @@ Mods: {
 			}
 
 			Visuals: {
-				DisplayName: "Efekty Wizualne Gracza"
+				DisplayName: "Efekty Wizualne"
 				Description: "Overhaul zawiera parę zmian w wyglądzie gracza, żeby gra była bardziej responsywna."
 
 				AlwaysShowAimableWeapons: {

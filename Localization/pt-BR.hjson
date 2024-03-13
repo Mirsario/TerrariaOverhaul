@@ -347,7 +347,7 @@ Mods: {
 			}
 
 			Visuals: {
-				// DisplayName: "Player Visuals"
+				// DisplayName: "Visuals"
 				// Description: "Overhaul contains a few improvements to player characters' visual appearance, so that the game feels more responsive."
 
 				AlwaysShowAimableWeapons: {
