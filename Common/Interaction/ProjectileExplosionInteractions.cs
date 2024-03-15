@@ -101,6 +101,10 @@ public sealed class ProjectileExplosionInteractions : GlobalProjectile
 				=> entity.velocity += velocity;
 
 			foreach (var gore in ActiveEntities.Gores) {
+				if (gore is OverhaulGore g && g.Time == 0) {
+					continue;
+				}
+
 				ApplySplashEffects(gore, ApplyVelocity, gore.AABBRectangle, center, range, rangeSquared, knockback);
 			}
 		}
@@ -108,17 +112,14 @@ public sealed class ProjectileExplosionInteractions : GlobalProjectile
 
 	private void ApplySplashEffects<T>(T entity, Action<T, Vector2> applyVelocityFunction, Rectangle entityAabb, Vector2 center, float range, float rangeSquared, float knockback)
 	{
-		if (entity is Gore { sticky: false }) {
-			return;
-		}
-
 		float sqrDistance = Vector2.DistanceSquared(entityAabb.GetCorner(center), center);
 
 		if (sqrDistance >= rangeSquared) {
 			return;
 		}
 
-		var direction = (entityAabb.Center() - center).SafeNormalize(default);
+		var entityCenter = entityAabb.Center();
+		var direction = (entityCenter - center).SafeNormalize(default);
 		float distance = (float)Math.Sqrt(sqrDistance);
 
 		if (float.IsNaN(distance) || direction == default) {

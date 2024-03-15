@@ -42,6 +42,7 @@
 - Jumping out of a dodgeroll no longer gives players insane horizontal speed, with it instead going down to the speed value you get when dodgerolling mid-air.
 - Rolljumps (also referred to as 'bunnyrolls'), which are performed by combining bunnyhops with a dodgeroll, now convert vertical/falling speed into horizontal speed. Jump from a-high and combine dodgerolling (which also reduces or nulls fall damage) with a jump to launch yourself horizontally.
 - Base bunnyhop effectivity has been much reduced. Utilize rolljumps & mantling to remain swift in early game.
+- Explosions now again affect large non-solid particles like smoke & dust (internally collisionless gores), excluding the ones they themselves produce. Shoot two rockets in a row and the second one will push away the first one's smoke.
 - Improved the underwater sound loop, previously it might've been getting muffled itself.
 - Reduced volume of jump/land footsteps, added pitch variance to every footstep sound.
 - Main menu buttons' localization text now loads immediately.
