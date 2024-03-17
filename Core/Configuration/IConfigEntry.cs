@@ -9,6 +9,7 @@ public interface IConfigEntry
 	Type ValueType { get; }
 	string Name { get; }
 	string Category { get; }
+	string[] ExtraCategories { get; }
 	object? Value { get; set; }
 	object? LocalValue { get; set; }
 	object? RemoteValue { get; set; }

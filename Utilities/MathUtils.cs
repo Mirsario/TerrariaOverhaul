@@ -79,8 +79,14 @@ public static class MathUtils
 	public static float Clamp(float value, float min, float max)
 		=> value <= min ? min : (value >= max ? max : value);
 
+	public static double Clamp(double value, double min, double max)
+		=> value <= min ? min : (value >= max ? max : value);
+
 	public static float Clamp01(float value)
 		=> value <= 0f ? 0f : (value >= 1f ? 1f : value);
+
+	public static double Clamp01(double value)
+		=> value <= 0.0 ? 0.0 : (value >= 1.0 ? 1.0 : value);
 
 	public static int MaxAbs(int a, int b)
 		=> Math.Abs(a) >= Math.Abs(b) ? a : b;
@@ -94,7 +100,16 @@ public static class MathUtils
 	public static float MinAbs(float a, float b)
 		=> Math.Abs(a) <= Math.Abs(b) ? a : b;
 
+	public static float Lerp(float value1, float value2, float amount)
+		=> value1 + (value2 - value1) * amount;
+
+	public static double Lerp(double value1, double value2, double amount)
+		=> value1 + (value2 - value1) * amount;
+
 	public static float InverseLerp(float value, float start, float end)
+		=> (value - start) / (end - start);
+
+	public static double InverseLerp(double value, double start, double end)
 		=> (value - start) / (end - start);
 
 	public static float StepTowards(float value, float goal, float step)

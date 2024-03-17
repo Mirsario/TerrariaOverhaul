@@ -9,6 +9,7 @@
 		<PlatformTarget>AnyCPU</PlatformTarget>
 		<LangVersion>10.0</LangVersion>
 		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>

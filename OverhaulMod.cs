@@ -2,9 +2,11 @@
 using System.IO;
 using System.Reflection;
 using Microsoft.Xna.Framework;
+using ReLogic.Content.Sources;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Networking;
+using TerrariaOverhaul.Core.VideoPlayback;
 
 namespace TerrariaOverhaul;
 
@@ -41,6 +43,15 @@ public class OverhaulMod : Mod
 		/*if(ModLoader.version < MinimalTMLVersion) {
 			throw new OutdatedTModLoaderException(MinimalTMLVersion);
 		}*/
+	}
+
+	public override IContentSource CreateDefaultContentSource()
+	{
+		if (!Main.dedServ) {
+			AddContent(new OgvReader()); // This manual ILoadable adds readers to AssetReaderCollections.
+		}
+
+		return base.CreateDefaultContentSource();
 	}
 
 	public override void HandlePacket(BinaryReader reader, int sender)

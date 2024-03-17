@@ -4,8 +4,8 @@ namespace TerrariaOverhaul.Core.Configuration;
 
 public class RangeConfigEntry<T> : ConfigEntry<T> where T : IComparable<T>
 {
-	private readonly T MinValue;
-	private readonly T MaxValue;
+	public T MinValue { get; }
+	public T MaxValue { get; }
 
 	public RangeConfigEntry(ConfigSide side, string categoryId, string nameId, T minValue, T maxValue, Func<T> defaultValueGetter) : base(side, categoryId, nameId, defaultValueGetter)
 	{

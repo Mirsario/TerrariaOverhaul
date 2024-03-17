@@ -29,6 +29,8 @@ Mods: {
 		}
 
 		Configuration: {
+			// HoverForDescriptionTip: "Hover over an option to see its description"
+
 			Accessibility: {
 				DisplayName: "Accesibilidad"
 				Description: "Overhaul contiene algunos simples cambios que permiten a todos experimentar el juego de manera más cómoda."

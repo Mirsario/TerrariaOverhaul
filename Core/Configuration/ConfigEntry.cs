@@ -23,6 +23,7 @@ public class ConfigEntry<T> : IConfigEntry
 	public ConfigSide Side { get; }
 	//TODO: Make use of this in the yet to be made GUIs.
 	public bool RequiresRestart { get; set; }
+	public string[] ExtraCategories { get; set; } = Array.Empty<string>();
 	public LocalizedText? DisplayName { get; internal set; }
 	public LocalizedText? Description { get; internal set; }
 	public Mod? Mod { get; private set; }
@@ -78,8 +79,6 @@ public class ConfigEntry<T> : IConfigEntry
 		this.defaultValueGetter = defaultValueGetter;
 		RemoteValue = DefaultValue;
 		LocalValue = DefaultValue;
-
-		ConfigSystem.RegisterEntry(this);
 	}
 
 	protected virtual T? ModifyGetValue(T? value) => value;
