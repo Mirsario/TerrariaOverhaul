@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities;
 using ASharedSliderPower = Terraria.GameContent.Creative.CreativePowers.ASharedSliderPower;
 using DifficultySliderPower = Terraria.GameContent.Creative.CreativePowers.DifficultySliderPower;
 
-namespace TerrariaOverhaul.Common.DifficultyLevels;
+namespace TerrariaOverhaul.Common.Balance;
 
 /// <summary>
 /// Makes the journey mode difficulty slider actually use values from the Main.RegisteredGameModes collection.

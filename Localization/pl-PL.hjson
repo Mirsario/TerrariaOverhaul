@@ -117,9 +117,9 @@ Mods: {
 				}
 			}
 
-			Banners: {
-				DisplayName: "Sztandary"
-				Description: "Overhaul zmienia w jaki sposób działają sztandary, żeby przeciwnicy nie stawali się za słabi."
+			Balance: {
+				// DisplayName: "Balance & Difficulty"
+				// Description: "Overhaul implements multiple changes to game balance, and strives to turn game modes to into proper difficulty levels."
 
 				BannerReworkEnabled: {
 					DisplayName: "Zmiany Działania Sztandarów"
@@ -128,6 +128,11 @@ Mods: {
 						Zmienia działanie sztandarów, zamiast zmniejszać zdrowie i obrażenia przeciwników, podwaja upuszczane przedmioty i monety.
 						Ma wpływ na zarówno częstotliwość i ilość.
 						'''
+				}
+
+				EnableDifficultyChanges: {
+					DisplayName: "Włącz Zmiany Poziomów Trudności"
+					Description: "Przełącza zmiany wobec poziomów trudności."
 				}
 			}
 
@@ -175,22 +180,6 @@ Mods: {
 				ScreenShakeStrength: {
 					DisplayName: "Siła Wstrząsów Ekranu"
 					Description: "Kontroluje siłę efektów wstrząsów na ekranie. Ustaw na zero by je całkowicie wyłączyć."
-				}
-			}
-
-			DifficultyLevels: {
-				DisplayName: "Poziomy Trudności"
-				Description:
-					'''
-					Overhaul zmienia tryby gry na faktyczne poziomy trudności, osiągając poniższe cele:
-					- Wyrównianie większości statystyk, usunięcie bullet sponge'ów z wyższych poziomów trudności i żałośnie kruchych przeciwników z niższych;
-					- (WIP) Usunięcie zawartości ekskluzywnej dla trybów gry i zachowania SI, mniej ableizmu;
-					- (WIP) Skupienie na urozmaiceniu w koncepcje takie jak szanse na reakcję zamiast "więcej zdrowia i obrażeń";
-					'''
-
-				EnableDifficultyChanges: {
-					DisplayName: "Włącz Zmiany Poziomów Trudności"
-					Description: "Przełącza zmiany wobec poziomów trudności."
 				}
 			}
 

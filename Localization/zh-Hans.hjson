@@ -113,17 +113,18 @@ Mods: {
 				}
 			}
 
-			Banners: {
-				DisplayName: "旗帜"
-				Description: "Overhaul包含对敌怪旗效果的修改，其效果不再止步于令敌怪变弱。"
+			Balance: {
+				// DisplayName: "Balance & Difficulty"
+				// Description: "Overhaul implements multiple changes to game balance, and strives to turn game modes to into proper difficulty levels."
 
 				BannerReworkEnabled: {
-					DisplayName: "启用旗帜重制"
-					Description:
-						'''
-						旗帜重制移除了旗帜降低敌人生命值和伤害的效果，取而代之的是双倍掉落物和金币。
-						物品掉落几率和掉落数量都会受到影响。
-						'''
+					DisplayName: "旗帜"
+					Description: "Overhaul包含对敌怪旗效果的修改，其效果不再止步于令敌怪变弱。"
+				}
+
+				EnableDifficultyChanges: {
+					DisplayName: "启用难度修改"
+					Description: "本模组对游戏整体难度的重新平衡。"
 				}
 			}
 
@@ -171,22 +172,6 @@ Mods: {
 				ScreenShakeStrength: {
 					DisplayName: "屏幕震动强度"
 					Description: "控制屏幕震动效果的强度，要完全禁用屏幕抖动请设为零。"
-				}
-			}
-
-			DifficultyLevels: {
-				DisplayName: "难度"
-				Description:
-					'''
-					Overhaul对游戏难度进行了重新平衡，以实现以下目标：
-					- 大部分数据的平衡，避免了高难度中部分敌怪血量奇高和低难度中无双割草的情况
-					- [未完成] 原先特定难度独占的AI和内容现在全难度通用，关怀手残党
-					- [未完成] 专注于敌怪行为上的变化（如提升反应力需求）而不是无脑增加伤害和血量
-					'''
-
-				EnableDifficultyChanges: {
-					DisplayName: "启用难度修改"
-					Description: "本模组对游戏整体难度的重新平衡。"
 				}
 			}
 

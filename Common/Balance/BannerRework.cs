@@ -1,19 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Banners;
+namespace TerrariaOverhaul.Common.Balance;
 
 public sealed class BannerReworkSystem : ModSystem
 {
 	private static bool bannerDamageDisabled;
 	private static ItemID.BannerEffect[]? defaultBannerEffects;
 
-	public static readonly ConfigEntry<bool> BannerReworkEnabled = new(ConfigSide.Both, "Banners", nameof(BannerReworkEnabled), () => true);
+	public static readonly ConfigEntry<bool> BannerReworkEnabled = new(ConfigSide.Both, "Balance", nameof(BannerReworkEnabled), () => true);
 
 	public override void Load()
 	{
@@ -43,9 +45,7 @@ public sealed class BannerReworkSystem : ModSystem
 
 		if (enable != bannerDamageDisabled) {
 			if (enable) {
-				if (defaultBannerEffects == null) {
-					defaultBannerEffects = ItemID.Sets.BannerStrength;
-				}
+				defaultBannerEffects ??= ItemID.Sets.BannerStrength;
 
 				ItemID.Sets.BannerStrength = ItemID.Sets.Factory.CreateCustomSet(new ItemID.BannerEffect(1f, 1f, 1f, 1f));
 			} else {
@@ -79,5 +79,38 @@ public sealed class BannerReworkSystem : ModSystem
 		}
 
 		return false;
+	}
+}
+
+public sealed class BuffBannerRework : GlobalBuff
+{
+	public override void ModifyBuffText(int type, ref string buffName, ref string tip, ref int rare)
+	{
+		if (BannerReworkSystem.BannerReworkEnabled && type == BuffID.MonsterBanner) {
+			tip = OverhaulMod.Instance.GetTextValue("Banners.BannerBuffDescription");
+		}
+	}
+}
+
+public sealed class ItemBannerRework : GlobalItem
+{
+	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+	{
+		if (!BannerReworkSystem.BannerReworkEnabled || !item.consumable || item.createTile <= -1) {
+			return;
+		}
+
+		string vanillaDescription = Language.GetTextValue("CommonItemTooltip.BannerBonus");
+		string overhaulDescription = OverhaulMod.Instance.GetTextValue("Banners.BannerItemDescription");
+
+		foreach (var line in tooltips) {
+			string text = line.Text;
+
+			line.Text = line.Text.Replace(vanillaDescription, $"{overhaulDescription}\r\n[c/a5fc8d:");
+
+			if (line.Text != text) {
+				line.Text += "]";
+			}
+		}
 	}
 }

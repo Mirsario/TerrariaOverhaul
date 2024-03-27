@@ -117,9 +117,9 @@ Mods: {
 				}
 			}
 
-			Banners: {
-				// DisplayName: "Banners"
-				// Description: "Overhaul changes the way banners work, so that they don't end up making enemies feeling too weak."
+			Balance: {
+				// DisplayName: "Balance & Difficulty"
+				// Description: "Overhaul implements multiple changes to game balance, and strives to turn game modes to into proper difficulty levels."
 
 				BannerReworkEnabled: {
 					// DisplayName: "Banner Rework Enabled"
@@ -128,6 +128,11 @@ Mods: {
 						The banner rework removes banners' effects of lowering enemies' health and damage, instead replacing that with double loot and coin drops.
 						Both the drop chance and drop quantity are affected.
 						''' */
+				}
+
+				EnableDifficultyChanges: {
+					// DisplayName: "Enable Difficulty Changes"
+					// Description: "Toggles the mod's changes to difficulty levels as a whole."
 				}
 			}
 
@@ -175,22 +180,6 @@ Mods: {
 				ScreenShakeStrength: {
 					DisplayName: "Intensidade do Chacoalhar da Tela"
 					Description: "Controla a intensidade dos efeitos de vibração da tela. Deixe em zero para desligar as vibrações por completo."
-				}
-			}
-
-			DifficultyLevels: {
-				// DisplayName: "Difficulty Levels"
-				/* Description:
-					'''
-					Overhaul reimplements game modes as actual difficulty levels, fulfilling the following goals:
-					- Equalization of most stats, removal of bullet sponges from high difficulties and glass enemies from low ones;
-					- (WIP) Removal of mode-exclusivity on content and AI behaviors, less ableism;
-					- (WIP) Focus on variation in concepts such as reaction windows rather than "more damage and health";
-					''' */
-
-				EnableDifficultyChanges: {
-					// DisplayName: "Enable Difficulty Changes"
-					// Description: "Toggles the mod's changes to difficulty levels as a whole."
 				}
 			}
 

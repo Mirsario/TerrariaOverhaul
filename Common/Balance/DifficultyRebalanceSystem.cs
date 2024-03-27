@@ -5,11 +5,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 
-namespace TerrariaOverhaul.Common.DifficultyLevels;
+namespace TerrariaOverhaul.Common.Balance;
 
 internal sealed class DifficultyRebalanceSystem : ModSystem
 {
-	public static readonly ConfigEntry<bool> EnableDifficultyChanges = new(ConfigSide.Both, "DifficultyLevels", nameof(EnableDifficultyChanges), () => true);
+	public static readonly ConfigEntry<bool> EnableDifficultyChanges = new(ConfigSide.Both, "Balance", nameof(EnableDifficultyChanges), () => true);
 
 	private static bool isEnabled;
 
