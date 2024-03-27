@@ -150,11 +150,11 @@ public sealed class PlayerGore : ModPlayer
 		var camera = Main.Camera;
 
 		// Overrides necessary for successful rendering
-		using var fullBrightOverride = new ValueOverride<bool>(typeof(Main), nameof(Main.gameMenu), true);
-		using var screenPositionOverride = new ValueOverride<Vector2>(typeof(Main), nameof(Main.screenPosition), default);
-		using var rotationOriginOverride = new ValueOverride<Vector2>(typeof(Player), nameof(Terraria.Player.fullRotationOrigin), player, default);
-		using var headRotationOverride = new ValueOverride<float>(typeof(Player), nameof(Terraria.Player.headRotation), player, default);
-		using var alphaOverride = new ValueOverride<int>(typeof(Player), nameof(Terraria.Player.immuneAlpha), player, 0);
+		using var fullBrightOverride = new ValueOverride<bool>(ref Main.gameMenu, true);
+		using var screenPositionOverride = new ValueOverride<Vector2>(ref Main.screenPosition, default);
+		using var rotationOriginOverride = new ValueOverride<Vector2>(ref player.fullRotationOrigin, default);
+		using var headRotationOverride = new ValueOverride<float>(ref player.headRotation, default);
+		using var alphaOverride = new ValueOverride<int>(ref player.immuneAlpha, 0);
 
 		// Prepare for rendering
 
@@ -178,7 +178,7 @@ public sealed class PlayerGore : ModPlayer
 			player.legFrame = legsFrame ?? defaultFrame;
 
 			bool wearsRobe = player.wearsRobe && part != DrawnPart.Legs;
-			using var robeOverride = new ValueOverride<bool>(typeof(Player), nameof(Terraria.Player.wearsRobe), player, wearsRobe);
+			using var robeOverride = new ValueOverride<bool>(ref player.wearsRobe, wearsRobe);
 
 			Main.PlayerRenderer.DrawPlayer(Main.Camera, player, position, rotation, default);
 		}

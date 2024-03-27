@@ -20,24 +20,26 @@ namespace TerrariaOverhaul.Common.BloodAndGore;
 public sealed class ParticleSystem : ModSystem
 {
 	[StructLayout(LayoutKind.Auto)]
-	public struct ParticleData
+	public unsafe struct ParticleData
 	{
-		public static readonly ParticleData Default = new();
+		private const int NumOldPositions = 3;
 
+		public static readonly ParticleData Default = new();
 		private static readonly Vector2 DefaultGravity = new(0.0f, 300.0f);
 
-		public uint LifeTime = default;
-		public float Rotation = default;
-		public Vector2 Position = default;
-		public Vector2 Velocity = default;
+		public uint LifeTime;
+		public float Rotation;
+		public Vector2 Position;
+		public Vector2 Velocity;
 		public Vector2 VelocityScale = Vector2.One;
 		public Vector2 Scale = Vector2.One;
 		public Vector2 Gravity = DefaultGravity;
 		public Color Color = Color.White;
-		// I hate this.
-		public Vector2 OldPosition1 = default; //public fixed float OldPositions[6];
-		public Vector2 OldPosition2 = default;
-		public Vector2 OldPosition3 = default;
+
+		private fixed float oldPositions[NumOldPositions * 2];
+
+		public Span<Vector2> OldPositions
+			=> MemoryMarshal.CreateSpan(ref Unsafe.As<float, Vector2>(ref oldPositions[0]), NumOldPositions);
 
 		public ParticleData() { }
 	}
@@ -83,10 +85,9 @@ public sealed class ParticleSystem : ModSystem
 			int index = AllocateIndex();
 
 			ref var particle = ref particles[index];
-
 			particle = newParticles[i];
-			particle.OldPosition1 = particle.OldPosition2 = particle.OldPosition3 = particle.Position;
 
+			particle.OldPositions.Fill(particle.Position);
 			colorSpan[i] = particle.Color;
 		}
 
@@ -164,12 +165,15 @@ public sealed class ParticleSystem : ModSystem
 				RemoveBit(ref maskCopy);
 
 				ref var particle = ref particles[baseIndex + bitIndex];
+				var oldPositions = particle.OldPositions;
 				var tilePosition = particle.Position.ToTileCoordinates();
 
-				// Keep position history up to date, caveman style.
-				particle.OldPosition3 = particle.OldPosition2;
-				particle.OldPosition2 = particle.OldPosition1;
-				particle.OldPosition1 = particle.Position;
+				// Keep position history up to date.
+				for (int i = oldPositions.Length - 1; i >= 1; i--) {
+					oldPositions[i] = oldPositions[i - 1];
+				}
+				oldPositions[0] = particle.Position;
+
 				particle.Velocity += particle.Gravity * logicDeltaTime;
 
 				if (Vector2.DistanceSquared(particle.Position, screenCenter) >= MaxParticleDistanceSqr || !Main.tile.TryGet(tilePosition.X, tilePosition.Y, out var tile)) {
@@ -230,7 +234,7 @@ public sealed class ParticleSystem : ModSystem
 				var tilePosition = particle.Position.ToTileCoordinates();
 				var usedColor = Lighting.GetColor(tilePosition.X, tilePosition.Y, particle.Color);
 				var lineStart = particle.Position;
-				var lineEnd = particle.OldPosition3;
+				var lineEnd = particle.OldPositions[^1];
 
 				var delta = lineEnd - lineStart;
 				float length = MathF.Ceiling(delta.SafeLength(0f) / 2f) * 2f;

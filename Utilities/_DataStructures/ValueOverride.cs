@@ -1,36 +1,24 @@
 ﻿using System;
-using System.Reflection;
-
-#pragma warning disable IDE0064 // Make readonly fields writable
+using System.Runtime.InteropServices;
 
 namespace TerrariaOverhaul.Utilities;
 
-//TODO: Unscrew with ref fields when TML moves to .NET 7
 public ref struct ValueOverride<T>
 {
-	private readonly T oldValue;
-	private readonly FieldInfo field;
-	private readonly object? obj;
+	//TODO: Replace with ref field when TML moves to .NET 8.
+	private Span<T> valueRef;
+	private T oldValue;
 
-	public ValueOverride(Type type, string fieldName, T value)
-		: this(type.GetField(fieldName, ReflectionUtils.AnyBindingFlags)!, null, value) { }
-
-	public ValueOverride(Type type, string fieldName, object? obj, T value)
-		: this(type.GetField(fieldName)!, obj, value) { }
-
-	public ValueOverride(FieldInfo field, object? obj, T value)
+	public ValueOverride(ref T valueRef, T value)
 	{
-		this.field = field;
-		this.obj = obj;
-		oldValue = (T)field.GetValue(obj)!;
-
-		field.SetValue(obj, value);
+		this.valueRef = MemoryMarshal.CreateSpan(ref valueRef, 1);
+		oldValue = valueRef;
+		valueRef = value;
 	}
 
 	public void Dispose()
 	{
-		field?.SetValue(obj, oldValue);
-
+		valueRef[0] = oldValue;
 		this = default;
 	}
 }

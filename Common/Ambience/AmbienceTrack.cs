@@ -10,20 +10,17 @@ public struct AmbienceTrack
 	public string Name = string.Empty;
 	public SlotId InstanceReference = SlotId.Invalid;
 	public float VolumeChangeSpeed = 0.5f;
-	public float Volume = 0.0f;
+	public float Volume;
 	public bool IsLooped = true;
-	public bool SoundIsWallOccluded = false;
-	public bool DisableSoundFiltering = false;
+	public bool SoundIsWallOccluded;
+	public bool DisableSoundFiltering;
 
 	[JsonRequired]
-	public SoundStyle Sound = default;
+	public SoundStyle Sound;
 
 	[JsonRequired]
 	[JsonConverter(typeof(CalculatedSignalArrayJsonConverter))]
 	public CalculatedSignal[] Variables = Array.Empty<CalculatedSignal>();
 
-	public AmbienceTrack()
-	{
-
-	}
+	public AmbienceTrack() { }
 }

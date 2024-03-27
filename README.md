@@ -17,13 +17,14 @@ It's missing many features from the 1.3 version, but what's currently implemente
 
 Below is a step by step instruction for that. It only assumes that you know at least how to use command prompts, shells, or terminals. You should.
 
-- Get [TModLoader from Steam](https://store.steampowered.com/app/1281930/tModLoader).
-- Get [Git from git-scm](https://git-scm.com/download). Most defaults suffice for installation.
+- Get TModLoader from [Steam](https://store.steampowered.com/app/1281930/tModLoader) or [GitHub](https://github.com/tModLoader/tModLoader/releases).
+- Get Git from [git-scm](https://git-scm.com/download) or from a Linux package manager. Most defaults suffice in the installer.
+- Get .NET 6 SDK from [dotnet.microsoft.com](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
 - Clone the mod into `%userprofile%/Documents/My games/Terraria/tModLoader/ModSources`.
 The git command for that would be `git clone https://github.com/Mirsario/TerrariaOverhaul -b dev`, where `dev` is the branch you want to clone.
-- Head over to Mod Sources in-game and `Build & Reload` TerrariaOverhaul.
+- Build the mod by running `dotnet build` in the cloned folder.
 
-That's all. Use `git fetch` and `git pull` to keep up with updates. Note that you'll need to rerun patching in the tML setup tool when updating tML.
+That's all. Use `git pull` to pull new commits, and `git reset origin/dev --hard` to force-reset your local repository.
 
 # 📖 License
 All code of this repository is provided under [the MIT License](https://github.com/Mirsario/TerrariaOverhaul/blob/dev/LICENSE.md).
