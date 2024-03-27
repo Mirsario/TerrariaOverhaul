@@ -4,9 +4,8 @@ root = true
 # JSON files
 [*.json]
 	indent_style = tab
-	# Unfortunately, anything other than tab_width and indent_size 1 causes VS to become whimsical about indenting.
-	indent_size = 1
-	tab_width = 1
+	indent_size = 4
+	tab_width = 4
 	end_of_line = lf
 
 # C# files
