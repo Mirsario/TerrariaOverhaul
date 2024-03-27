@@ -74,8 +74,8 @@ public class GoreStaySystem : ModSystem
 
 		while (il.TryGotoNext(
 			MoveType.Before,
-			i => (i.MatchLdsfld(typeof(GoreID.Sets), nameof(GoreID.Sets.DisappearSpeed)) && !(alphaMatch = false))
-			  || (i.MatchLdsfld(typeof(GoreID.Sets), nameof(GoreID.Sets.DisappearSpeedAlpha)) && (alphaMatch = true)),
+			iii => (iii.MatchLdsfld(typeof(GoreID.Sets), nameof(GoreID.Sets.DisappearSpeed)) && !(alphaMatch = false))
+				|| (iii.MatchLdsfld(typeof(GoreID.Sets), nameof(GoreID.Sets.DisappearSpeedAlpha)) && (alphaMatch = true)),
 			i => i.MatchLdarg(0),
 			i => i.MatchLdfld(typeof(Gore), nameof(Gore.type)),
 			i => i.MatchLdelemI4()

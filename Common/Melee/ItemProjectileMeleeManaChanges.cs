@@ -52,7 +52,7 @@ public sealed class ItemProjectileMeleeManaChanges : GlobalItem
 
 	public override void Load()
 	{
-		On_Player.ItemCheck_PayMana += static  (orig, player, item, canUse) => {
+		On_Player.ItemCheck_PayMana += static (orig, player, item, canUse) => {
 			// Don't pay mana during use, it should instead happen during shooting.
 			if (item.TryGetGlobalItem(out ItemProjectileMeleeManaChanges _) && EnableProjectileSwordManaUsage) {
 				return true;

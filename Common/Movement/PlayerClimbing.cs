@@ -123,7 +123,7 @@ public sealed class PlayerClimbing : ModPlayer
 				continue;
 			}
 
-			StartClimbing(Player.position, new Vector2(pos.X * 16f + (Player.direction == 1 ? -4f : 0f), (pos.Y - 3) * 16f  + 6));
+			StartClimbing(Player.position, new Vector2(pos.X * 16f + (Player.direction == 1 ? -4f : 0f), (pos.Y - 3) * 16f + 6));
 			UpdateClimbing();
 			break;
 		}
