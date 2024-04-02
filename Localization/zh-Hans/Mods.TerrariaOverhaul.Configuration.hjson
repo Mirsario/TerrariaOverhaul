@@ -1,4 +1,4 @@
-// HoverForDescriptionTip: "Hover over an option to see its description"
+HoverForDescriptionTip: "将鼠标悬停在选项上可查看其说明"
 
 Accessibility: {
 	DisplayName: "无障碍"
@@ -14,8 +14,8 @@ Accessibility: {
 	}
 
 	EnableJumpInputBuffering: {
-		// DisplayName: "Enable Jump Input Buffering"
-		// Description: "Allows you to press the jump button a bit prior landing, having your jump still be performed."
+		DisplayName: "启用跳跃输入缓冲"
+		Description: "允许您在着陆前按下跳跃按钮，但仍会执行跳跃。"
 	}
 }
 
@@ -34,77 +34,77 @@ Ambience: {
 	}
 
 	EnableLowPassFiltering: {
-		// DisplayName: "Enable Low Pass Filtering"
-		// Description: "Whether to enable any 'muffling' sound processing."
+		DisplayName: "启用低通滤波"
+		Description: "是否启用任何‘消音’声音处理。"
 	}
 
 	EnableReverb: {
-		// DisplayName: "Enable Reverb"
-		// Description: "Whether to enable any reverberation sound processing."
+		DisplayName: "启用混响"
+		Description: "是否启用任何混响声音处理。"
 	}
 
 	EnableUnderwaterMuffling: {
-		// DisplayName: "Enable Underwater Muffling"
-		// Description: "If enabled - going underwater will reduce the sound frequency range via 'low-pass filtering'."
+		DisplayName: "启用水下消音"
+		Description: "如果启用 - 进入水下将通过‘低通滤波’减少声音频率范围。"
 	}
 }
 
 Aesthetics: {
-	// DisplayName: "Aesthetics"
-	// Description: "This category contains nice-to-have features that mainly aim to increase immersion or beauty of the game, but may affect gameplay in the process."
+	DisplayName: "美学"
+	Description: "此类别包含主要旨在增加游戏的沉浸感或美感的好玩功能，但可能会在过程中影响游戏性。"
 
 	DestroyStumpsAfterTreeFalls: {
-		// DisplayName: "Destroy Stumps After Tree Falling Animations"
-		// Description: "When enabled, tree falling animations' behavior of redirecting stump hits a block higher will be compensated with removal of the stump after the animation's end.'"
+		DisplayName: "树木倒下动画后销毁树桩"
+		Description: "启用后，树木倒下动画的行为在击中较高的方块后将在动画结束后补偿树桩的移除。"
 	}
 
 	EnableAimableFlashlights: {
-		// DisplayName: "Enable Aimable Flashlights"
-		// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
+		DisplayName: "启用可瞄准手电筒"
+		Description: "启用后，诸如'采矿头盔'等设备的照明将可朝向鼠标光标。"
 	}
 
 	EnableTreeFallingAnimations: {
-		// DisplayName: "Enable Tree Falling Animations"
-		// Description: "When enabled, trees will physically fall down instead of exploding into items."
+		DisplayName: "启用树木倒下动画"
+		Description: "启用后，树木将会物理倒下，而不是爆炸成物品。"
 	}
 }
 
 Archery: {
-	// DisplayName: "Archery"
+	DisplayName: "射箭"
 
 	EnableArrowFragments: {
-		// DisplayName: "Enable Arrow Fragments"
-		// Description: "When enabled, destroyed arrows will break into tiny pieces."
+		DisplayName: "启用箭矢碎片"
+		Description: "启用后，被摧毁的箭矢将会分成小块。"
 	}
 
 	EnableBowFiringDelays: {
-		// DisplayName: "Enable Bow Firing Delays"
-		// Description: "When enabled, bows' primary use will be slightly delayed to make them more unique. This does not affect their damage output."
+		DisplayName: "启用弓射击延迟"
+		Description: "启用后，弓的主要用途将略有延迟，使其更加独特。这不会影响其伤害输出。"
 	}
 
 	EnableBowSoundReplacements: {
-		// DisplayName: "Enable Bow Sound Replacements"
-		// Description: "When enabled, bows will receive new sound effects."
+		DisplayName: "启用弓音效替换"
+		Description: "启用后，弓将获得新的音效。"
 	}
 
 	EnableBowChargedShots: {
-		// DisplayName: "Enable Bow Charged Shots"
-		// Description: "When enabled, most bows will be able to be charged via right click."
+		DisplayName: "启用弓充能射击"
+		Description: "启用后，大多数弓可以通过右键充能。"
 	}
 
 	EnableBowChargeHovering: {
-		// DisplayName: "Enable Bow Charge Hovering"
-		// Description: "When enabled, archers will be able to temporarily hover in mid-air by charging a bow and holding the jump button."
+		DisplayName: "启用弓充能悬停"
+		Description: "启用后，射手将能够通过充能弓并按住跳跃按钮暂时悬停在半空中。"
 	}
 
 	EnableBowHoverJumps: {
-		// DisplayName: "Enable Bow Hover Jumps"
-		// Description: "When enabled, bows will launch archers when firing during a hover charge, acting as a double jump."
+		DisplayName: "启用弓悬停跳跃"
+		Description: "启用后，当悬停充能时，弓将在射击时发射射手，起到双重跳跃的作用。"
 	}
 
 	EnableArcheryArrowVisualization: {
-		// DisplayName: "Enable Archery Arrow Visualization"
-		// Description: "When enabled, arrows will be visible on bows and repeaters before they're fired."
+		DisplayName: "启用射箭箭矢可视化"
+		Description: "启用后，箭矢将在弓和连发弓上可见，直到它们被射出。"
 	}
 }
 
@@ -134,8 +134,8 @@ Awareness: {
 }
 
 Balance: {
-	// DisplayName: "Balance & Difficulty"
-	// Description: "Overhaul implements multiple changes to game balance, and strives to turn game modes to into proper difficulty levels."
+	DisplayName: "平衡与难度"
+	Description: "Overhaul实施多项游戏平衡变化，并努力将游戏模式转变为适当的难度级别。"
 
 	EnableBannerRework: {
 		DisplayName: "旗帜"
@@ -148,18 +148,18 @@ Balance: {
 	}
 
 	EnableDamageRandomizationRemoval: {
-		// DisplayName: "Enable Damage Randomization Removal"
-		// Description: "When enabled, all damage numbers in the game will be made fair and predictable."
+		DisplayName: "启用伤害随机化移除"
+		Description: "启用后，游戏中所有伤害数字将变得公平可预测。"
 	}
 
 	EnableHealthDropsRework: {
-		// DisplayName: "Enable Health Drops Rework"
-		// Description: ""
+		DisplayName: "启用生命值掉落重制"
+		Description: ""
 	}
 
 	EnableManaDropsRework: {
-		// DisplayName: "Enable Mana Drops Rework"
-		// Description: ""
+		DisplayName: "启用法力值掉落重制"
+		Description: ""
 	}
 }
 
@@ -182,48 +182,48 @@ BloodAndGore: {
 	}
 
 	EnablePlayerCharacterGore: {
-		// DisplayName: "Enable Player Character Gore"
-		// Description: "When enabled, player characters will create dynamically-generated gore on death, instead of having their bits fly off-screen."
+		DisplayName: "启用玩家角色暴力效果"
+		Description: "启用后，玩家角色在死亡时会产生动态生成的暴力效果，而不是将其部分飞到屏幕外。"
 	}
 
 	EnableAdvancedParticles: {
-		// DisplayName: "Enable Advanced Particles"
-		// Description: "When enabled, vanilla blood & similar particles will be replaced with Overhaul's advanced linear particles, which are able to leave decals."
+		DisplayName: "启用高级粒子效果"
+		Description: "启用后，原版的血液和类似的粒子将被Overhaul的高级线性粒子替换，这些粒子能够留下血迹。"
 	}
 
 	EnableGoreAudio: {
-		// DisplayName: "Enable Gore Audio"
-		// Description: "Whether interactions with gores can produce sounds."
+		DisplayName: "启用暴力音效"
+		Description: "暴力交互是否会产生声音。"
 	}
 
 	EnableGoreGibbing: {
-		// DisplayName: "Enable Gore Gibbing"
-		// Description: "Whether gores can be destroyed, with some breaking into smaller pieces."
+		DisplayName: "启用暴力碎片效果"
+		Description: "暴力是否会被摧毁，有些暴力会破裂成更小的碎片。"
 	}
 
 	EnableGorePhysics: {
-		// DisplayName: "Enable Gore Physics"
-		// Description: "Whether gores (& similar clutter, like bullet casings) can bounce and float in water."
+		DisplayName: "启用暴力物理效果"
+		Description: "暴力（和类似的杂乱物，如弹壳）是否可以在水中弹跳和漂浮。"
 	}
 
 	EnableGoreBleeding: {
-		// DisplayName: "Enable Gore Bleeding"
-		// Description: "Whether gores can spawn particles when flying through the air."
+		DisplayName: "启用暴力流血效果"
+		Description: "暴力是否会在空中飞行时产生粒子。"
 	}
 
 	EnableGoreBurning: {
-		// DisplayName: "Enable Gore Burning"
-		// Description: "Whether gores can be set on fire."
+		DisplayName: "启用暴力燃烧效果"
+		Description: "暴力是否可以被点燃。"
 	}
 
 	ParticleMultiplierSafe: {
-		// DisplayName: "Particle Spawn Rate (Safe)"
-		// Description: "If set below 1.0 - reduces the amount of normal (non-bloody) particles. Set to '0.0' to completely disable them."
+		DisplayName: "粒子生成率（安全）"
+		Description: "如果设置低于1.0-减少正常（非血腥）粒子的数量。设置为'0.0'可完全禁用它们。"
 	}
 
 	ParticleMultiplierViolent: {
-		// DisplayName: "Particle Spawn Rate (Violent)"
-		// Description: "If set below 1.0 - reduces the amount of blood particles. Set to '0.0' to completely disable them."
+		DisplayName: "粒子生成率（暴力）"
+		Description: "如果设置低于1.0-减少血液粒子的数量。设置为'0.0'可完全禁用它们。"
 	}
 }
 
@@ -279,81 +279,81 @@ Guns: {
 	}
 
 	EnableBulletImpactAudio: {
-		// DisplayName: "Enable Bullet Impact Audio"
-		// Description: "When enabled, bullet-like projectiles produce a new sound when hitting the ground."
+		DisplayName: "启用子弹命中音效"
+		Description: "启用后，类似子弹的抛射物击中地面时会产生新的声音。"
 	}
 
 	EnableGunSoundReplacements: {
-		// DisplayName: "Enable Gun Sound Replacements"
-		// Description: "When enabled, all guns affected by Overhaul will receive new satisfying sound effects."
+		DisplayName: "启用枪械音效替换"
+		Description: "启用后，所有受Overhaul影响的枪械都将获得新的令人满意的音效。"
 	}
 
 	EnableAlternateGunFiringModes: {
-		// DisplayName: "Enable Alternate Gun Firing Modes"
-		// Description: "When enabled, some guns will get new alternate firing modes."
+		DisplayName: "启用枪械替代射击模式"
+		Description: "启用后，一些枪械将获得新的替代射击模式。"
 	}
 
 	EnableBulletCasings: {
-		// DisplayName: "Enable Bullet Casings"
-		// Description: "When enabled, some weapons will emit ammo casings that fit them."
+		DisplayName: "启用子弹壳"
+		Description: "启用后，一些武器将发射适合它们的弹壳。"
 	}
 
 	EnableMuzzleflashes: {
-		// DisplayName: "Enable Muzzleflashes"
-		// Description: "When enabled, firing weapons will produce pretty muzzleflashes."
+		DisplayName: "启用枪口火焰"
+		Description: "启用后，射击武器将产生漂亮的枪口火焰。"
 	}
 
 	EnableMinigunRecoilHovering: {
-		// DisplayName: "Enable Minigun Recoil Hovering"
-		// Description: "When enabled, minigun-like weapons will allow players to slightly hover in the air by firing downwards."
+		DisplayName: "启用机枪后坐力悬停"
+		Description: "启用后，类似机枪的武器将允许玩家通过向下开火在空中轻微悬停。"
 	}
 
 	EnableStarCannonRecoilHovering: {
-		// DisplayName: "Enable Star Cannon Recoil Hovering"
-		// Description: "When enabled, the Star Cannon (and similar weapons) will allow players to slightly hover in the air by firing downwards."
+		DisplayName: "启用星星加农炮后坐力悬停"
+		Description: "启用后，星星加农炮（以及类似的武器）将允许玩家通过向下开火在空中轻微悬停。"
 	}
 }
 
 Interface: {
-	// DisplayName: "Interface"
-	// Description: "Everything relating to Graphical User Interface and Heads-Up Displays."
-
+	DisplayName: "界面"
+	Description: "一切与图形用户界面和头顶显示有关的内容。"
+  
 	EnableCrosshair: {
-		// DisplayName: "Enable Crosshair"
-		// Description: "When enabled, the mouse cursor will be replaced with an advanced animated crosshair when using projectile-firing weapons."
+		DisplayName: "启用准星"
+		Description: "启用后，当使用投射物发射武器时，鼠标光标将被替换为先进的动画准星。"
 	}
-
+  
 	EnableCrosshairAnimations: {
-		// DisplayName: "Enable Crosshair Animations"
-		// Description: "Whether the crosshair should animate in reaction to weapons firing and going on cooldowns."
+		DisplayName: "启用准星动画"
+		Description: "准星是否应对武器射击和进入冷却状态进行动画处理。"
 	}
 }
 
 Magic: {
-	// DisplayName: "Magic"
+	DisplayName: "魔法"
 
 	EnableMagicSoundReplacements: {
-		// DisplayName: "Enable Magic Sound Replacements"
-		// Description: "Whether to give new sound effects to some magic weapons."
+		DisplayName: "启用魔法音效替换"
+		Description: "是否为一些魔法武器提供新的音效。"
 	}
 
 	EnableMagicPowerAttacks: {
-		// DisplayName: "Enable Magic Power Attacks"
-		// Description: "When enabled, most magic weapons will be able to perform a charged attack via alternate use."
+		DisplayName: "启用魔法强力攻击"
+		Description: "启用后，大多数魔法武器将能够通过替代使用执行充能攻击。"
 	}
 
 	EnableManaRegenerationRework: {
-		// DisplayName: "Enable Mana Regeneration Rework"
-		// Description: "When enabled, mana regeneration logic will be reworked and rebalanced to encourage movement."
+		DisplayName: "启用法力值再生重制"
+		Description: "启用后，法力值再生逻辑将被重新制作和平衡，以鼓励移动。"
 	}
 
 	EnableManaRegenerationIcon: {
-		// DisplayName: "Enable Mana Regeneration Icon"
-		/* Description:
+		DisplayName: "启用法力值再生图标"
+		Description:
 			'''
-			Whether to show the 'Mana Absorption' buff icon when magic weapon are equipped.
-			This option does not affect gameplay.
-			''' */
+			是否在装备魔法武器时显示'法力吸收'的buff图标。
+			此选项不影响游戏玩法。
+			'''
 	}
 }
 
@@ -406,60 +406,60 @@ Melee: {
 	}
 
 	EnableMeleeKillingBlows: {
-		// DisplayName: "Enable Melee Killing Blows"
-		// Description: "When enabled, broadswords will be able to perform 'Killing Blows' by power-striking already hurt foes, increasing damage whenever that would finish the enemy."
+		DisplayName: "启用近战击杀要害"
+		Description: "启用后，阔剑将能够通过对已经受伤的敌人进行强力打击来执行'击杀要害'，增加伤害，以便结束敌人。"
 	}
 
 	EnableMeleeAttackAiming: {
-		// DisplayName: "Enable Melee Attack Aiming"
-		/* Description:
+		DisplayName: "启用近战攻击瞄准"
+		Description:
 			'''
-			When enabled, melee weapons will become fully aimable.
-			Requires the 'Enable Improved Melee Collision' option to be enabled to actually affect gameplay.
-			''' */
+			启用后，近战武器将变得完全可瞄准。
+			需要启用'启用改进的近战碰撞'选项才能真正影响游戏玩法。
+			'''
 	}
 
 	EnableImprovedMeleeCollision: {
-		// DisplayName: "Enable Improved Melee Collision"
-		/* Description:
+		DisplayName: "启用改进的近战碰撞"
+		Description:
 			'''
-			When enabled, melee weapons' collision will be changed from a static rectangle to that of a circular arc.
-			Enabling the 'Enable Melee Attack Aiming' option is heavily recommended.
-			''' */
+			启用后，近战武器的碰撞将从静态矩形改为圆弧。
+			强烈建议启用'启用近战攻击瞄准'选项。
+			'''
 	}
 
 	EnableMeleeVelocityBasedDamage: {
-		// DisplayName: "Enable Melee Velocity Based Damage"
-		// Description: "When enabled, all your melee damage will be affected by how fast you're moving."
+		DisplayName: "启用基于速度的近战伤害"
+		Description: "启用后，所有你的近战伤害将受到你移动速度的影响。"
 	}
 
 	EnableMeleeVelocityBasedDamageIcon: {
-		// DisplayName: "Enable Melee Velocity Based Damage Icon"
-		/* Description:
+		DisplayName: "启用基于速度的近战伤害图标"
+		Description:
 			'''
-			Whether to show the 'Hack and Slash' buff icon when broadswords are equipped.
-			This option does not affect gameplay.
-			''' */
+			是否在装备阔剑时显示'砍杀'的buff图标。
+			此选项不影响游戏玩法。
+			'''
 	}
 
 	EnableAxeSoundReplacements: {
-		// DisplayName: "Enable Axe Sound Replacements"
-		// Description: "Whether to give new sound effects to axes."
+		DisplayName: "启用斧头音效替换"
+		Description: "是否为斧头提供新的音效。"
 	}
 
 	EnableBroadswordSoundReplacements: {
-		// DisplayName: "Enable Broadsword Sound Replacements"
-		// Description: "Whether to give new sound effects to broadswords."
+		DisplayName: "启用阔剑音效替换"
+		Description: "是否为阔剑提供新的音效。"
 	}
 
 	EnableHammerSoundReplacements: {
-		// DisplayName: "Enable Hammer Sound Replacements"
-		// Description: "Whether to give new sound effects to hammers."
+		DisplayName: "启用锤子音效替换"
+		Description: "是否为锤子提供新的音效。"
 	}
 
 	EnablePickaxeSoundReplacements: {
-		// DisplayName: "Enable Pickaxe Sound Replacements"
-		// Description: "Whether to give new sound effects to pickaxes."
+		DisplayName: "启用镐音效替换"
+		Description: "是否为镐提供新的音效。"
 	}
 }
 
@@ -482,8 +482,8 @@ Music: {
 	}
 
 	EnableBossDeathMusicStop: {
-		// DisplayName: "Enable Boss Death Music Stop"
-		// Description: "When enabled, music will be temporarily stopped whenever a boss is killed. For a dramatic effect."
+		DisplayName: "启用Boss死亡音乐停止"
+		Description: "启用后，每当击败Boss时，音乐将暂时停止。以获得戏剧性效果。"
 	}
 }
 
@@ -521,7 +521,7 @@ Movement: {
 	}
 
 	EnableGrapplingHookPhysics: {
-		DisplayName: "启用钩爪物理"
+		DisplayName: "启用钩爪物理效果"
 		Description:
 			'''
 			启用后，钩爪的行为将改变，可以通过方向键绕着钩子晃荡。
@@ -549,22 +549,22 @@ Movement: {
 	}
 
 	EnableRollJumps: {
-		// DisplayName: "Enable Roll Jumps"
-		// Description: "When enabled, the players will be able to perform a 'Roll Jump' by combining a landing jump (bunnyhop) with a well-timed dodgeroll."
+		DisplayName: "启用翻滚跳跃"
+		Description: "启用后，玩家将能够通过结合着陆跳跃（兔子跳）和适时的闪避滚动来执行'翻滚跳跃'。"
 	}
 
 	EnableDodgerolls: {
-		// DisplayName: "Enable Dodgerolls"
-		/* Description:
+		DisplayName: "启用闪避滚动"
+		Description:
 			'''
-			When enabled, players will be able to perform a dodgeroll via an assigned button.
-			Dodgerolls grant short-term invincibility, as well as tons of movement opportunities.
-			''' */
+			启用后，玩家将能够通过指定的按钮执行闪避滚动。
+			闪避滚动授予短期无敌状态，以及大量的移动机会。
+			'''
 	}
 
 	EnableDodgerollAudioCues: {
-		// DisplayName: "Enable Dodgeroll Audio Cues"
-		// Description: "Toggles sounds that denote that a dodgeroll charge has been refilled, or that there's no charges left."
+		DisplayName: "启用闪避滚动音频提示"
+		Description: "切换指示闪避滚动充能已重新填充，或者没有剩余充能的声音。"
 	}
 }
 
@@ -606,13 +606,13 @@ Visuals: {
 	}
 
 	EnableEnemyTiltingEffects: {
-		// DisplayName: "Enable Enemy Tilting Effects"
-		// Description: "Toggles enemy sprites being slightly tilted depending on their velocity"
+		DisplayName: "启用敌怪倾斜效果"
+		Description: "根据其速度切换敌怪精灵略微倾斜的效果"
 	}
 
 	EnableVisualWeaponRecoil: {
-		// DisplayName: "Enable Visual Weapon Recoil"
-		// Description: "When enabled, firing weapons will slightly rotate their sprites in player characters' hands."
+		DisplayName: "启用视觉武器后坐力"
+		Description: "启用后，射击武器将略微旋转玩家角色手中的精灵。"
 	}
 }
 
