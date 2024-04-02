@@ -32,7 +32,8 @@
 
 # Work In Progress
 
-Nothing yet!
+### Localization
+- Chinese (`59.1%` -> `100%`) - PR [#232](https://github.com/Mirsario/TerrariaOverhaul/pull/232) by [**xiaoyvyv**](https://github.com/xiaoyvyv).
 
 # 5.0 BETA 14
 
