@@ -25,7 +25,7 @@ DifficultyLevels: {
 	# The English text was originally "Bone Me Plenty", a Terraria/Skeleton-related pun on "Hurt Me Plenty" from DOOM 1, but got renamed to "Turn Me Undead" since then due to unintended sexual connotations.
 	# If translating that can be done without them - that's valid.
 	# Otherwise, the translation must be a Terraria-related pun on something slightly fearless or badass, along the lines of "Come At Me!", or "Give Me Pain".
-	Expert: "Bone Me Plenty"
+	Expert: "Montre Moi C'Que T'As Dans L'Crâne!"
 	# The English text is a Terraria-related pun on "I Am Death Incarnate" of Wolfenstein (which quoted 'Babylon 5').
 	# Basically, the translation must be a Terraria-related pun on something super empowering like "I AM A GOD", or exciting for dangers the way "Ultra Nightmare!" sounds.
 	Master: "Je Suis Cthulhu Incarné"
@@ -86,15 +86,15 @@ ItemOverhauls: {
 		PowerStrikeInfo: "Charge les [[Attaques Puissantes]] via des méthodes alternatives!"
 		VelocityBasedDamageInfo:
 			'''
-			[[Plus vite ça bouge - plus dûr ça frappe!]]
+			[[Plus vite ça bouge - plus dur ça frappe!]]
 			Combine les attaques avec des ruées et use même de la gravité pour gagner un avantage!
 			'''
 
 		Broadsword: {
-			KillingBlow: "Coup Fatal!"
+			KillingBlow: "Coup de Grâce!"
 			KillingBlowInfo:
 				'''
-				Effectue un [[Coup Fatal]] en utilisant une [[attaque puissante]] sur des ennemis blessés,
+				Effectue un [[Coup de Grâce]] en utilisant une [[attaque puissante]] sur des ennemis blessés,
 				multipliant les dégâts par [[x{0}]] quand ça pourrait vaincre l'ennemi
 				'''
 		}
