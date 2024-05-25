@@ -1,7 +1,7 @@
-// HoverForDescriptionTip: "Hover over an option to see its description"
-// OptionOn: "On"
-// OptionOff: "Off"
-// Search: "Search options..."
+HoverForDescriptionTip: "Coloca el cursor sobre cualquier opción para ver su descripción"
+OptionOn: "Activado"
+OptionOff: "Desactivado"
+Search: "Buscar opciones..."
 
 Accessibility: {
 	DisplayName: "Accesibilidad"
@@ -17,8 +17,8 @@ Accessibility: {
 	}
 
 	EnableJumpInputBuffering: {
-		// DisplayName: "Enable Jump Input Buffering"
-		// Description: "Allows you to press the jump button a bit prior landing, having your jump still be performed."
+		DisplayName: "Activar salto preventivo"
+		Description: "Te permite saltar habiendo presionado el botón de salto un poco antes de haber llegado al suelo"
 	}
 }
 
@@ -37,77 +37,77 @@ Ambience: {
 	}
 
 	EnableLowPassFiltering: {
-		// DisplayName: "Enable Low Pass Filtering"
-		// Description: "Whether to enable any 'muffling' sound processing."
+		DisplayName: "Activar filtro paso bajo"
+		Description: "Activa la atenuación de sonidos."
 	}
 
 	EnableReverb: {
-		// DisplayName: "Enable Reverb"
-		// Description: "Whether to enable any reverberation sound processing."
+		DisplayName: "Activar eco"
+		Description: "Activa el eco."
 	}
 
 	EnableUnderwaterMuffling: {
-		// DisplayName: "Enable Underwater Muffling"
-		// Description: "If enabled - going underwater will reduce the sound frequency range via 'low-pass filtering'."
+		DisplayName: "Activar atenuación de sonidos bajo el agua"
+		Description: "Si está activa, al estar bajo agua se atenúan los sonidos por medio de un filtro paso bajo"
 	}
 }
 
 Aesthetics: {
-	// DisplayName: "Aesthetics"
-	// Description: "This category contains nice-to-have features that mainly aim to increase immersion or beauty of the game, but may affect gameplay in the process."
+	DisplayName: "Estética"
+	Description: "Esta categoria contiene ajustes que buscan aumentar la inmersión y esplendor del juego, pero que a su vez podrían impactar la jugabilidad."
 
 	DestroyStumpsAfterTreeFalls: {
-		// DisplayName: "Destroy Stumps After Tree Falling Animations"
-		// Description: "When enabled, tree falling animations' behavior of redirecting stump hits a block higher will be compensated with removal of the stump after the animation's end."
+		DisplayName: "Destruir tocones luego de animación de talar árbol"
+		Description: "Si está activa, al talar un árbol de la base, al terminar la animación se removerá también el tocón del árbol."
 	}
 
 	EnableAimableFlashlights: {
-		// DisplayName: "Enable Aimable Flashlights"
-		// Description: "When enabled, lighting from equipment such as the 'Mining Helmet' will become aimable towards the cursor."
+		DisplayName: "Activar linternas apuntables"
+		Description: "Si está activa, la iluminación proporcionada por equipamiento como el casco de minero podrá ser apuntada en dirección al cursor."
 	}
 
 	EnableTreeFallingAnimations: {
-		// DisplayName: "Enable Tree Falling Animations"
-		// Description: "When enabled, trees will physically fall down instead of exploding into items."
+		DisplayName: "Activar animacion de arboles caidos"
+		Description: "Si está activa, los árboles tendrán una animación al ser destruídos en vez de explotar en un montón de ítems."
 	}
 }
 
 Archery: {
-	// DisplayName: "Archery"
+	DisplayName: "Arquería"
 
 	EnableArrowFragments: {
-		// DisplayName: "Enable Arrow Fragments"
-		// Description: "When enabled, destroyed arrows will break into tiny pieces."
+		DisplayName: "Activar fragmentos de flechas"
+		Description: "Si está activa, las flechas destruídas se romperán en pequeños pedazos."
 	}
 
 	EnableBowFiringDelays: {
-		// DisplayName: "Enable Bow Firing Delays"
-		// Description: "When enabled, bows' primary use will be slightly delayed to make them more unique. This does not affect their damage output."
+		DisplayName: "Activar intérvalo de disparo en arcos"
+		Description: "Si está activa, habrá un pequeño intérvalo entre disparos en los arcos. Esto no afecta su desempeño en combate."
 	}
 
 	EnableBowSoundReplacements: {
-		// DisplayName: "Enable Bow Sound Replacements"
-		// Description: "When enabled, bows will receive new sound effects."
+		DisplayName: "Activar reemplazo de sonido de arcos"
+		Description: "Si está activa, los arcos tendrán nuevos efectos de sonido."
 	}
 
 	EnableBowChargedShots: {
-		// DisplayName: "Enable Bow Charged Shots"
-		// Description: "When enabled, most bows will be able to be charged via right click."
+		DisplayName: "Activar disparos cargados con arcos"
+		Description: "Si está activa, la mayoría de los arcos podrán realizar un disparo cargado con el clic derecho."
 	}
 
 	EnableBowChargeHovering: {
-		// DisplayName: "Enable Bow Charge Hovering"
-		// Description: "When enabled, archers will be able to temporarily hover in mid-air by charging a bow and holding the jump button."
+		DisplayName: "Activar flotacion con disparo cargado de arco"
+		Description: "Si está activa, podrás flotar brevemente en el aire al realizar un disparo cargado mientras mantienes presionado el botón de salto."
 	}
 
 	EnableBowHoverJumps: {
-		// DisplayName: "Enable Bow Hover Jumps"
-		// Description: "When enabled, bows will launch archers when firing during a hover charge, acting as a double jump."
+		DisplayName: "Activar saltos flotantes con arco"
+		Description: "Si está activa, los arcos te impulsarán hacia arriba al realizar un disparo cargado en el aire, funcionando como un salto doble."
 	}
 
 	EnableArcheryArrowVisualization: {
-		// DisplayName: "Enable Archery Arrow Visualization"
-		// Description: "When enabled, arrows will be visible on bows and repeaters before they're fired."
+		DisplayName: "Activar visualización de flechas en arcos"
+		Description: "Si está activa, las flechas serán visibles en arcos y repetidores antes de ser disparadas."
 	}
 }
 
@@ -141,8 +141,8 @@ Awareness: {
 }
 
 Balance: {
-	// DisplayName: "Balance & Difficulty"
-	// Description: "Overhaul implements multiple changes to game balance, and strives to turn game modes to into proper difficulty levels."
+	DisplayName: "Balance y dificultad"
+	Description: "Overhaul implementa multiples cambios al balance del juego, y se enfoca en convertir los distintos modos de juego en niveles de dificultad de verdad."
 
 	EnableBannerRework: {
 		DisplayName: "Activar ajuste de estandartes"
@@ -159,18 +159,18 @@ Balance: {
 	}
 
 	EnableDamageRandomizationRemoval: {
-		// DisplayName: "Enable Damage Randomization Removal"
-		// Description: "When enabled, all damage numbers in the game will be made fair and predictable."
+		DisplayName: "Activar eliminación de variación en daño"
+		Description: "Si está activa, todas las fuentes de daño serán justas y predecibles."
 	}
 
 	EnableHealthDropsRework: {
-		// DisplayName: "Enable Health Drops Rework"
-		// Description: "When enabled, random health drops on enemy deaths are replaced with small guaranteed ones, with the amount depending on the closest players' health."
+		DisplayName: "Activar ajuste a curación en combate"
+		Description: "Si está activa, los corazones curativos dejados aleatoriamente por los enemigos se reemplazan por unos garantizados que curan menos, cuya cantidad varía dependiendo de la vida del jugador más cercano."
 	}
 
 	EnableManaDropsRework: {
-		// DisplayName: "Enable Mana Drops Rework"
-		// Description: "When enabled, random mana drops on enemy deaths are replaced with enemies dropping mana over time as they receive damage, as long as a nearby player is not on full mana."
+		DisplayName: "Activar ajuste a regeneración de maná en combate"
+		Description: "Si está activa, las estrellas de maná dejadas aleatoriamente por los enemigos se reemplazan con estrellitas que dejarán caer a medida que reciban daño, mientras haya jugadores cerca sin el maná lleno."
 	}
 }
 
@@ -189,52 +189,52 @@ BloodAndGore: {
 
 	EnableGoreStay: {
 		DisplayName: "Activar sangre y restos permanentes"
-		Description: "Al activar, la sangre y restos no desaparecerán luego de ~10 segundos."
+		Description: "Si está activa, la sangre y restos no desaparecerán luego de ~10 segundos."
 	}
 
 	EnablePlayerCharacterGore: {
-		// DisplayName: "Enable Player Character Gore"
-		// Description: "When enabled, player characters will create dynamically-generated gore on death, instead of having their bits fly off-screen."
+		DisplayName: "Activar restos de jugador"
+		Description: "Si está activa, al morir, los jugadores dejarán sus restos en vez de que estos desaparezcan fuera de pantalla."
 	}
 
 	EnableAdvancedParticles: {
-		// DisplayName: "Enable Advanced Particles"
-		// Description: "When enabled, vanilla blood & similar particles will be replaced with Overhaul's advanced linear particles, which are able to leave decals."
+		DisplayName: "Activar partículas avanzadas"
+		Description: "Si está activa, las partículas de sangre y similares serán reemplazadas por partículas más avanzadas que pueden dejar manchas en el terreno."
 	}
 
 	EnableGoreAudio: {
-		// DisplayName: "Enable Gore Audio"
-		// Description: "Whether interactions with gores can produce sounds."
+		DisplayName: "Activar sonido de restos"
+		Description: "Indica si la interacción con los restos de cadáveres producirá algún sonido."
 	}
 
 	EnableGoreGibbing: {
-		// DisplayName: "Enable Gore Gibbing"
-		// Description: "Whether gores can be destroyed, with some breaking into smaller pieces."
+		DisplayName: "Activar destrucción de restos"
+		Description: "Indica si los restos de cadáveres pueden ser destruídos, convirtiendo algunos en restos más pequeños."
 	}
 
 	EnableGorePhysics: {
-		// DisplayName: "Enable Gore Physics"
-		// Description: "Whether gores (& similar clutter, like bullet casings) can bounce and float in water."
+		DisplayName: "Activar físicas de restos"
+		Description: "Indica si los restos de cadáveres y similares, como restos de balas, pueden rebotar y flotar en el agua."
 	}
 
 	EnableGoreBleeding: {
-		// DisplayName: "Enable Gore Bleeding"
-		// Description: "Whether gores can spawn particles when flying through the air."
+		DisplayName: "Activar restos sangrientos"
+		Description: "Indica si los restos de cadáveres pueden generar partículas de sangre al ser lanzados en el aire."
 	}
 
 	EnableGoreBurning: {
-		// DisplayName: "Enable Gore Burning"
-		// Description: "Whether gores can be set on fire."
+		DisplayName: "Activar quemado de restos"
+		Description: "Indica si los restos de cadáveres pueden prenderse fuego."
 	}
 
 	ParticleMultiplierSafe: {
-		// DisplayName: "Particle Spawn Rate (Safe)"
-		// Description: "If set below 1.0 - reduces the amount of normal (non-bloody) particles. Set to '0.0' to completely disable them."
+		DisplayName: "Frecuencia de generación de partículas no sangrientas"
+		Description: "Si está por debajo de 1.0 reduce la cantidad de partículas no sangrientas. Deja este valor en 0.0 para desactivarlas por completo."
 	}
 
 	ParticleMultiplierViolent: {
-		// DisplayName: "Particle Spawn Rate (Violent)"
-		// Description: "If set below 1.0 - reduces the amount of blood particles. Set to '0.0' to completely disable them."
+		DisplayName: "Frecuencia de generación de partículas sangrientas"
+		Description: "Si está por debajo de 1.0 reduce la cantidad de partículas sangrientas. Deja este valor en 0.0 para desactivarlas por completo."
 	}
 }
 
@@ -255,7 +255,7 @@ Camera: {
 		DisplayName: "Limitar frecuencia de refrescado de cámara"
 		Description:
 			'''
-			Al activar, la frecuencia de refrescado de cámara se bloquea a 60hz para prevenir errores visuales en monitores con frecuencias de refrescado mayores.
+			Si está activa, la frecuencia de refrescado de cámara se bloquea a 60hz para prevenir errores visuales en monitores con frecuencias de refrescado mayores.
 			Es recomendable que mantengas esta opción activada.
 			'''
 	}
@@ -272,7 +272,7 @@ Enemies: {
 
 	EnableEnemyLunges: {
 		DisplayName: "Activar embestidas de enemigos"
-		Description: "Al activar, algunos enemigos podrán embestir al estar cerca."
+		Description: "Si está activa, algunos enemigos podrán embestir al estar cerca."
 	}
 }
 
@@ -284,97 +284,97 @@ Guns: {
 		DisplayName: "Activar retroceso (Experimental)"
 		Description:
 			'''
-			Al activar, las armas de fuego podrán mover el cursor al ser disparadas.
+			Si está activa, las armas de fuego podrán mover el cursor al ser disparadas.
 			Funcionalidad experimental, desactivada por defecto.
 			'''
 	}
 
 	EnableBulletImpactAudio: {
-		// DisplayName: "Enable Bullet Impact Audio"
-		// Description: "When enabled, bullet-like projectiles produce a new sound when hitting the ground."
+		DisplayName: "Activar sonido de impacto de balas"
+		Description: "Si está activa, los proyectiles de bala y similares emitirán un sonido al impactar el suelo."
 	}
 
 	EnableGunSoundReplacements: {
-		// DisplayName: "Enable Gun Sound Replacements"
-		// Description: "When enabled, all guns affected by Overhaul will receive new satisfying sound effects."
+		DisplayName: "Activar reemplazo de sonidos de armas"
+		Description: "Si está activa, todas las armas afectadas por Overhaul recibirán nuevos efectos de sonido mas satisfactorios."
 	}
 
 	EnableAlternateGunFiringModes: {
-		// DisplayName: "Enable Alternate Gun Firing Modes"
-		// Description: "When enabled, some guns will get new alternate firing modes."
+		DisplayName: "Activar modos de disparo alternativos"
+		Description: "Si está activa, algunas armas tendrán nuevos modos de disparo alternativos."
 	}
 
 	EnableBulletCasings: {
-		// DisplayName: "Enable Bullet Casings"
-		// Description: "When enabled, some weapons will emit ammo casings that fit them."
+		DisplayName: "Activar restos de balas"
+		Description: "Si está activa, algunas armas dejarán restos de la munición que disparen."
 	}
 
 	EnableMuzzleflashes: {
-		// DisplayName: "Enable Muzzleflashes"
-		// Description: "When enabled, firing weapons will produce pretty muzzleflashes."
+		DisplayName: "Activar fogonazos"
+		Description: "Si está activa, disparar armas producirá fogonazos."
 	}
 
 	EnableMinigunDynamicFireRate: {
-		// DisplayName: "Enable Minigun Dynamic Firerate"
-		// Description: "When enabled, minigun-like weapons will speed up as they continue to fire."
+		DisplayName: "Activar velocidad de disparo dinámica para ametralladoras"
+		Description: "Si está activa, las ametralladoras aumentarán su velocidad de disparo a medida que continúen disparando."
 	}
 
 	EnableMinigunRecoilHovering: {
-		// DisplayName: "Enable Minigun Recoil Hovering"
-		// Description: "When enabled, minigun-like weapons will allow players to slightly hover in the air by firing downwards."
+		DisplayName: "Activar impulso de retroceso de ametralladoras"
+		Description: "Si está activa, las ametralladoras permitirán a los jugadores flotar levemente al ser disparadas hacia abajo."
 	}
 
 	EnableStarCannonDynamicFireRate: {
-		// DisplayName: "Enable Star Cannon Dynamic Firerate"
-		// Description: "When enabled, the Star Cannon (and similar weapons) will speed up as they continue to fire."
+		DisplayName: "Activar velocidad de disparo dinámica para cañón de estrellas"
+		Description: "Si está activa, el cañón de estrellas y armas similares aumentarán su velocidad de disparo a medida que continúen disparando."
 	}
 
 	EnableStarCannonRecoilHovering: {
-		// DisplayName: "Enable Star Cannon Recoil Hovering"
-		// Description: "When enabled, the Star Cannon (and similar weapons) will allow players to slightly hover in the air by firing downwards."
+		DisplayName: "Activar impulso de retroceso de cañón de estrellas"
+		Description: "Si está activa, el cañón de estrellas y armas similares permitirán a los jugadores flotar levemente al ser disparadas hacia abajo."
 	}
 }
 
 Interface: {
-	// DisplayName: "Interface"
-	// Description: "Everything relating to Graphical User Interface and Heads-Up Displays."
+	DisplayName: "Interfaz"
+	Description: "Todo lo relacionado a la interfaz gráfica del juego e indicadores visuales."
 
 	EnableCrosshair: {
-		// DisplayName: "Enable Crosshair"
-		// Description: "When enabled, the mouse cursor will be replaced with an advanced animated crosshair when using projectile-firing weapons."
+		DisplayName: "Activar cursor de punto de mira"
+		Description: "Si está activa, el cursor se reemplazará por un punto de mira animado al usar armas que disparen proyectiles."
 	}
 
 	EnableCrosshairAnimations: {
-		// DisplayName: "Enable Crosshair Animations"
-		// Description: "Whether the crosshair should animate in reaction to weapons firing and going on cooldowns."
+		DisplayName: "Activar animaciones de cursor de punto de mira"
+		Description: "Indica si el cursor de punto de mira deberá animarse en respuesta a las armas siendo disparadas y sus períodos de enfriamiento."
 	}
 }
 
 Magic: {
-	// DisplayName: "Magic"
+	DisplayName: "Magia"
 
 	EnableMagicSoundReplacements: {
-		// DisplayName: "Enable Magic Sound Replacements"
-		// Description: "Whether to give new sound effects to some magic weapons."
+		DisplayName: "Activar reemplazo de sonidos mágicos"
+		Description: "Indica si algunas armas mágicas tendrán nuevos efectos de sonido."
 	}
 
 	EnableMagicPowerAttacks: {
-		// DisplayName: "Enable Magic Power Attacks"
-		// Description: "When enabled, most magic weapons will be able to perform a charged attack via alternate use."
+		DisplayName: "Activar ataque mágico cargado"
+		Description: "Si está activa, la mayoría de armas mágicas podrán realizar un ataque cargado."
 	}
 
 	EnableManaRegenerationRework: {
-		// DisplayName: "Enable Mana Regeneration Rework"
-		// Description: "When enabled, mana regeneration logic will be reworked and rebalanced to encourage movement."
+		DisplayName: "Activar ajustes a la regeneración de maná"
+		Description: "Si está activa, la lógica para el cálculo de regeneración de maná será ajustada para promover el movimiento."
 	}
 
 	EnableManaRegenerationIcon: {
-		// DisplayName: "Enable Mana Regeneration Icon"
-		/* Description:
+		DisplayName: "Activar ícono de regeneración de maná"
+		Description:
 			'''
-			Whether to show the 'Mana Absorption' buff icon when magic weapon are equipped.
-			This option does not affect gameplay.
-			''' */
+			Indica si se mostrará el ícono de 'Absorción de maná' al tener equipada un arma mágica.
+			Esta opción no influye en la jugabilidad.
+			'''
 	}
 }
 
@@ -396,7 +396,7 @@ Melee: {
 		Description:
 			'''
 			Experimental.
-			Al activar, las espadas que disparen proyectiles requerirán maná para hacerlo.
+			Si está activa, las espadas que disparen proyectiles requerirán maná para hacerlo.
 			Aplican las mismas reglas de regeneración de maná que para los magos, así que no es muy significativo.
 			'''
 	}
@@ -405,7 +405,7 @@ Melee: {
 		DisplayName: "Activar aceleración al atacar"
 		Description:
 			'''
-			Al activar, los ataques con armas cuerpo a cuerpo podrán acelerarte en la dirección del ataque.
+			Si está activa, los ataques con armas cuerpo a cuerpo podrán acelerarte en la dirección del ataque.
 			Puedes controlar la aceleración con las teclas de movimiento, ya que nunca serás acelerado en la dirección contraria a la que te estés moviendo.
 			Utiliza esta aceleración junto con los ataques potenciados para potenciar aún más tu daño.
 			'''
@@ -427,60 +427,60 @@ Melee: {
 	}
 
 	EnableMeleeKillingBlows: {
-		// DisplayName: "Enable Melee Killing Blows"
-		// Description: "When enabled, broadswords will be able to perform 'Killing Blows' by power-striking already hurt foes, increasing damage whenever that would finish the enemy."
+		DisplayName: "Activar golpes mortales"
+		Description: "Si está activa, las espadas largas podrán realizar golpes mortales al acertar a un enemigo herido con un ataque potenciado, aumentando el daño cuando ese ataque hubiera matado al enemigo."
 	}
 
 	EnableMeleeAttackAiming: {
-		// DisplayName: "Enable Melee Attack Aiming"
-		/* Description:
+		DisplayName: "Activar apuntado de ataques cuerpo a cuerpo"
+		Description:
 			'''
-			When enabled, melee weapons will become fully aimable.
-			Requires the 'Enable Improved Melee Collision' option to be enabled to actually affect gameplay.
-			''' */
+			Si está activa, podrás direccionar tus ataques con armas cuerpo a cuerpo.
+			Requiere que la opción 'Activar mejoras de colisión de ataques cuerpo a cuerpo' esté activada para funcionar correctamente.
+			'''
 	}
 
 	EnableImprovedMeleeCollision: {
-		// DisplayName: "Enable Improved Melee Collision"
-		/* Description:
+		DisplayName: "Activar mejoras de colisión de ataques cuerpo a cuerpo"
+		Description:
 			'''
-			When enabled, melee weapons' collision will be changed from a static rectangle to that of a circular arc.
-			Enabling the 'Enable Melee Attack Aiming' option is heavily recommended.
-			''' */
+			Si está activa, la colisión de las armas cuerpo a cuerpo cambia de un rectángulo estático a un arco circular.
+			Se recomienda activar esta opción junto con 'Activar apuntado de ataques cuerpo a cuerpo'.
+			'''
 	}
 
 	EnableMeleeVelocityBasedDamage: {
-		// DisplayName: "Enable Melee Velocity Based Damage"
-		// Description: "When enabled, all your melee damage will be affected by how fast you're moving."
+		DisplayName: "Activar daño cuerpo a cuerpo afectado por velocidad"
+		Description: "Si está activa, todo el daño cuerpo a cuerpo realizado se verá afectado por qué tan rápido te mueves."
 	}
 
 	EnableMeleeVelocityBasedDamageIcon: {
-		// DisplayName: "Enable Melee Velocity Based Damage Icon"
-		/* Description:
+		DisplayName: "Activar ícono indicador de daño por velocidad"
+		Description:
 			'''
-			Whether to show the 'Hack and Slash' buff icon when broadswords are equipped.
-			This option does not affect gameplay.
-			''' */
+			Indica si se mostrará el ícono de 'Cortar y tajar' al equipar espadas largas.
+			Esta opción no influye en la jugabilidad.
+			'''
 	}
 
 	EnableAxeSoundReplacements: {
-		// DisplayName: "Enable Axe Sound Replacements"
-		// Description: "Whether to give new sound effects to axes."
+		DisplayName: "Activar efectos de sonido para hachas"
+		Description: "Indica si las hachas tendrán nuevos efectos de sonidos."
 	}
 
 	EnableBroadswordSoundReplacements: {
-		// DisplayName: "Enable Broadsword Sound Replacements"
-		// Description: "Whether to give new sound effects to broadswords."
+		DisplayName: "Activar efectos de sonido para espadas"
+		Description: "Indica si las espadas tendrán nuevos efectos de sonidos."
 	}
 
 	EnableHammerSoundReplacements: {
-		// DisplayName: "Enable Hammer Sound Replacements"
-		// Description: "Whether to give new sound effects to hammers."
+		DisplayName: "Activar efectos de sonido para martillos"
+		Description: "Indica si los martillos tendrán nuevos efectos de sonidos."
 	}
 
 	EnablePickaxeSoundReplacements: {
-		// DisplayName: "Enable Pickaxe Sound Replacements"
-		// Description: "Whether to give new sound effects to pickaxes."
+		DisplayName: "Activar efectos de sonido para picos"
+		Description: "Indica si los picos tendrán nuevos efectos de sonidos."
 	}
 }
 
@@ -496,15 +496,15 @@ Music: {
 		DisplayName: "Activar reanudación de la música"
 		Description:
 			'''
-			Al activar, cuando haya un cambio en la música, esta siempre se pausará en lugar de detenerse.
+			Si está activa, cuando haya un cambio en la música, esta siempre se pausará en lugar de detenerse.
 			Esto quiere decir que cuando regreses a un bioma en el que ya habías estado, la música continuará donde se había quedado cuando te fuiste.
 			Mejora significativamente la sensación de juego, ya que no estarás escuchando siempre el inicio de las músicas cuando vayas por el mundo.
 			'''
 	}
 
 	EnableBossDeathMusicStop: {
-		// DisplayName: "Enable Boss Death Music Stop"
-		// Description: "When enabled, music will be temporarily stopped whenever a boss is killed. For a dramatic effect."
+		DisplayName: "Activar pausa dramática de jefes"
+		Description: "Si está activa, la música se pausará brevemente al matar a un jefe para un efecto dramático."
 	}
 }
 
@@ -514,7 +514,7 @@ Movement: {
 
 	EnableAutoJump: {
 		DisplayName: "Activar salto automático"
-		Description: "Al activar, podrás mantener presionada la tecla de salto para seguir saltando repetidamente."
+		Description: "Si está activa, podrás mantener presionada la tecla de salto para seguir saltando repetidamente."
 	}
 
 	EnableVerticalAccelerationChanges: {
@@ -545,14 +545,14 @@ Movement: {
 		DisplayName: "Activar físicas de ganchos"
 		Description:
 			'''
-			Al activar, cambia el comportamiento de los ganchos para permitirte columpiarte con ellos usando las teclas de movimiento.
+			Si está activa, cambia el comportamiento de los ganchos para permitirte columpiarte con ellos usando las teclas de movimiento.
 			OBS: Puedes mantener presionado el botón de gancho para halarte como lo harías normalmente, permitiéndote combinar el viejo comportamiento con el nuevo.
 			OBS: Esta funcionalidad no aplica a todos los ganchos del juego y los ganchos múltiples se comportan como lo harían normalmente cuando hay más de un gancho conectado.
 			'''
 	}
 
 	EnableWallJumping: {
-		DisplayName: "Activar Salto de pared"
+		DisplayName: "Activar salto de pared"
 		Description:
 			'''
 			El salto de pared es una nueva mecánica de movimiento que requiere equipo de escalada o zapatos de púa.
@@ -570,22 +570,22 @@ Movement: {
 	}
 
 	EnableRollJumps: {
-		// DisplayName: "Enable Roll Jumps"
-		// Description: "When enabled, the players will be able to perform a 'Roll Jump' by combining a landing jump (bunnyhop) with a well-timed dodgeroll."
+		DisplayName: "Activar saltos volteretas"
+		Description: "Si está activa, podrás realizar un 'salto voltereta' al realizar una voltereta justo después de aterrizar de un salto."
 	}
 
 	EnableDodgerolls: {
-		// DisplayName: "Enable Dodgerolls"
-		/* Description:
+		DisplayName: "Activar volteretas"
+		Description:
 			'''
-			When enabled, players will be able to perform a dodgeroll via an assigned button.
-			Dodgerolls grant short-term invincibility, as well as tons of movement opportunities.
-			''' */
+			Si está activa, podrás realizar una voltereta presionando el botón asignado.
+			Las volteretas otorgan un breve período de invencibilidad, además de un montón de opciones de movimiento.
+			'''
 	}
 
 	EnableDodgerollAudioCues: {
-		// DisplayName: "Enable Dodgeroll Audio Cues"
-		// Description: "Toggles sounds that denote that a dodgeroll charge has been refilled, or that there's no charges left."
+		DisplayName: "Activar indicador auditivos de volteretas"
+		Description: "Activa indicadores auditivos que denotan que se han recargado las volteretas o que no quedan cargas."
 	}
 }
 
@@ -602,7 +602,7 @@ Visuals: {
 		DisplayName: "Activar animaciones cuerpo a cuerpo mejoradas"
 		Description:
 			'''
-			Al activar, las animaciones de ataques cuerpo a cuerpo cambiarán para indicar un movimiento más inmediato, alternando la dirección con cada ataque.
+			Si está activa, las animaciones de ataques cuerpo a cuerpo cambiarán para indicar un movimiento más inmediato, alternando la dirección con cada ataque.
 			Es recomendable activar esta opción, ya que da un mejor indicio de la dirección y el ritmo de los ataques.
 			'''
 	}
@@ -611,7 +611,7 @@ Visuals: {
 		DisplayName: "Activar visualización de golpes cuerpo a cuerpo"
 		Description:
 			'''
-			Al activar, un indicador visual aparecerá al atacar con armas cuerpo a cuerpo.
+			Si está activa, un indicador visual aparecerá al atacar con armas cuerpo a cuerpo.
 			Es recomendable activar esta opción, ya que el indicador muestra el rango y colisión del arma.
 			'''
 	}
@@ -627,13 +627,13 @@ Visuals: {
 	}
 
 	EnableEnemyTiltingEffects: {
-		// DisplayName: "Enable Enemy Tilting Effects"
-		// Description: "Toggles enemy sprites being slightly tilted depending on their velocity"
+		DisplayName: "Activar inclinación de enemigos"
+		Description: "Hace que los enemigos se vean ligeramente inclinados en la dirección de su movimiento dependiendo de su velocidad."
 	}
 
 	EnableVisualWeaponRecoil: {
-		// DisplayName: "Enable Visual Weapon Recoil"
-		// Description: "When enabled, firing weapons will slightly rotate their sprites in player characters' hands."
+		DisplayName: "Activar retroceso visual en armas"
+		Description: "Si está activa, al disparar armas, estas tendrán un efecto de retroceso visual."
 	}
 }
 
@@ -645,7 +645,7 @@ Tweaks: {
 		DisplayName: "Mostrar cursor del sistema con interfaz deshabilitada"
 		Description:
 			'''
-			Al activar, el cursor de tu sistema operativo se mostrará cuando la interfaz del juego esté desactivada con la tecla F11.
+			Si está activa, el cursor de tu sistema operativo se mostrará cuando la interfaz del juego esté desactivada con la tecla F11.
 			Esta es una pequeña utilidad que facilita hacer grabaciones del juego cuando la interfaz esté deshabilitada.
 			'''
 	}

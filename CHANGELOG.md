@@ -41,6 +41,7 @@
   **Guns:** `EnableMinigunDynamicFirerate`, `EnableStarCannonDynamicFirerate`.
 ### Localization
 - Chinese (`59.1%` -> `100%`) - PRs [#232](https://github.com/Mirsario/TerrariaOverhaul/pull/232) & [#233](https://github.com/Mirsario/TerrariaOverhaul/pull/233) by [**xiaoyvyv**](https://github.com/xiaoyvyv) & [**Cyrillya**](https://github.com/Cyrillya).
+- Spanish (`57.7%` -> `100%`) - PR [#243](https://github.com/Mirsario/TerrariaOverhaul/pull/243) by [**cottonman132**](https://github.com/cottonman132).
 - Fixed Overhaul's main menu buttons sometimes being incorrectly shown in English when a different language is selected.
 - A few more GUI elements were made localizable.
 ### Fixes

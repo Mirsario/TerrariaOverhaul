@@ -18,9 +18,9 @@
 - **Translated:** `293` out of `293` (`0` missing!)
 
 ## es-ES
-- **Status:** ⚠️ Incomplete!
-- **Completion:** ***57.7%***
-- **Translated:** `169` out of `293` (`124` missing!)
+- **Status:** ✅ Full!
+- **Completion:** ***100.0%***
+- **Translated:** `293` out of `293` (`0` missing!)
 
 ## fr-FR
 - **Status:** ⚠️ Incomplete!
