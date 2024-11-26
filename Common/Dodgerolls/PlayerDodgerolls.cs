@@ -461,6 +461,10 @@ public sealed class PlayerDodgerolls : ModPlayer
 			*/
 		}
 
+		if (entity is NPC npc) {
+			npc.AddBuff(BuffID.Confused, 20);
+		}
+
 		//player.AddBuff(ModContent.BuffType<CriticalJudgement>(), (int)Stats.CounterBuffLength);
 	}
 
