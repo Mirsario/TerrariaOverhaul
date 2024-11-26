@@ -461,7 +461,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 			*/
 		}
 
-		player.AddBuff(ModContent.BuffType<CriticalJudgement>(), (int)Stats.CounterBuffLength);
+		//player.AddBuff(ModContent.BuffType<CriticalJudgement>(), (int)Stats.CounterBuffLength);
 	}
 
 	private static bool LateCanBeHitByEntity(Player player, Entity entity)
