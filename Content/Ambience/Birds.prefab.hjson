@@ -2,28 +2,26 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-Birds: {
-	AmbienceTrack: {
-		Sound: {
-			SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/Forest/ForestBirds"
-			Type: Ambient
-			Volume: 0.45
-			IsLooped: true
-		}
-
-		// Plays around surface-level trees at daytime when outside specific biomes and if it's not raining.
-		Variables: {
-			NotInExcludedBiomes: {
-				Inputs: [ "Corruption", "Crimson", "Jungle", "Desert", "Tundra" ]
-				Operation: Max
-				Modifiers: Inverse
-			}
-			Volume: {
-				Inputs: [ "NotInExcludedBiomes", "DayTime", "SurfaceAltitude", "NotRainWeather", "TreesAround" ]
-				Operation: Multiply
-			}
-		}
-		
-		SoundIsWallOccluded: true
+AmbienceTrack: {
+	Sound: {
+		SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/Forest/ForestBirds"
+		Type: Ambient
+		Volume: 0.45
+		IsLooped: true
 	}
+
+	// Plays around surface-level trees at daytime when outside specific biomes and if it's not raining.
+	Variables: {
+		NotInExcludedBiomes: {
+			Inputs: [ "Corruption", "Crimson", "Jungle", "Desert", "Tundra" ]
+			Operation: Max
+			Modifiers: Inverse
+		}
+		Volume: {
+			Inputs: [ "NotInExcludedBiomes", "DayTime", "SurfaceAltitude", "NotRainWeather", "TreesAround" ]
+			Operation: Multiply
+		}
+	}
+		
+	SoundIsWallOccluded: true
 }
