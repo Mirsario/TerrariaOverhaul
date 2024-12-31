@@ -6,7 +6,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Weakpoints;
+namespace TerrariaOverhaul.Common.CriticalStrikes;
 
 public struct Weakpoint
 {

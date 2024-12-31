@@ -1,8 +1,8 @@
-﻿using Terraria;
+using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
 
-namespace TerrariaOverhaul.Common.Weakpoints;
+namespace TerrariaOverhaul.Common.CriticalStrikes;
 
 public sealed class CriticalStrikeRework : ModSystem
 {
