@@ -111,6 +111,7 @@ CommonTooltips: {
 	RightClickAudioCuesToggle: "右键点击以开关音效提示"
 	RightClickAudioCuesEnabled: "音效提示已开启"
 	RightClickAudioCuesDisabled: "音效提示已关闭"
+	// CriticalDamageTooltip: "{0} critical damage"
 
 	GrapplingHooks: {
 		ClassicPullTip: "按住钩爪快捷键使用以像原版一样将玩家拉动"

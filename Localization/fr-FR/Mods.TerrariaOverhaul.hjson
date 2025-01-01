@@ -111,6 +111,7 @@ CommonTooltips: {
 	RightClickAudioCuesToggle: "Clic droit sur l'objet pour changer les indices sonores"
 	RightClickAudioCuesEnabled: "Indices Sonores activés"
 	RightClickAudioCuesDisabled: "Indices Sonores désactivés"
+	// CriticalDamageTooltip: "{0} critical damage"
 
 	GrapplingHooks: {
 		ClassicPullTip: "Garder pressé la touche pour effectuer un lancer de grappin classique"

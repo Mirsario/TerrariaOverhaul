@@ -111,6 +111,7 @@ CommonTooltips: {
 	RightClickAudioCuesToggle: "Presiona clic derecho en el ítem para activar/desactivar indicadores auditivos"
 	RightClickAudioCuesEnabled: "Indicadores auditivos activados"
 	RightClickAudioCuesDisabled: "Indicadores auditivos desactivados"
+	// CriticalDamageTooltip: "{0} critical damage"
 
 	GrapplingHooks: {
 		ClassicPullTip: "Mantén presionada la tecla de gancho para una tracción clásica"

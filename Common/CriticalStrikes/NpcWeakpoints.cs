@@ -90,7 +90,11 @@ public sealed class NpcWeakpoints : GlobalNPC
 		int attackDirection = Math.Sign(npc.DirectionTo(player.Center).X);
 
 		if (CheckWeakpoints(npc, corner, attackDirection)) {
-			TriggerCrit(ref modifiers);
+			using var _ = CriticalStrikeRework.AllowCritChanceReturn();
+			
+			int critChance = Main.LocalPlayer.GetWeaponCrit(item);
+			float critMult = CriticalStrikeRework.CritChanceToScale(critChance);
+			TriggerCrit(ref modifiers, critMult);
 		}
 	}
 
@@ -102,7 +106,12 @@ public sealed class NpcWeakpoints : GlobalNPC
 		int attackDirection = -Math.Sign(projectile.velocity.X);
 
 		if (CheckWeakpoints(npc, corner, attackDirection)) {
-			TriggerCrit(ref modifiers);
+			using var _ = CriticalStrikeRework.AllowCritChanceReturn();
+			
+			var ownerPlayer = projectile.GetOwner();
+			int critChance = ownerPlayer?.GetWeaponCrit(ownerPlayer?.HeldItem) ?? 0;
+			float critMult = CriticalStrikeRework.CritChanceToScale(critChance);
+			TriggerCrit(ref modifiers, critMult);
 		}
 	}
 
@@ -130,11 +139,11 @@ public sealed class NpcWeakpoints : GlobalNPC
 		return false;
 	}
 
-	private static void TriggerCrit(ref NPC.HitModifiers modifiers)
+	private static void TriggerCrit(ref NPC.HitModifiers modifiers, float multiplier)
 	{
 		modifiers.SetCrit();
-		modifiers.FinalDamage *= 0.5f * 1.25f;
-		modifiers.Knockback *= 0.5f * 1.25f;
+		modifiers.FinalDamage *= 0.5f * multiplier;
+		modifiers.Knockback *= 0.5f * multiplier;
 
 		if (!Main.dedServ) {
 			SoundEngine.PlaySound(new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast") {

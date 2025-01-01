@@ -111,6 +111,7 @@ CommonTooltips: {
 	RightClickAudioCuesToggle: "Naciśnij prawym przyciskiem myszy na przedmiot aby przełączać wskazówki audio"
 	RightClickAudioCuesEnabled: "Wskazówki audio są włączone"
 	RightClickAudioCuesDisabled: "Wskazówki audio są wyłączone"
+	// CriticalDamageTooltip: "{0} critical damage"
 
 	GrapplingHooks: {
 		ClassicPullTip: "Przytrzymaj klawisz haka dla klasycznego przyciągnięcia"

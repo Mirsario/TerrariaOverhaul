@@ -111,6 +111,7 @@ CommonTooltips: {
 	RightClickAudioCuesToggle: "Нажмите правой кнопкой на предмете, чтобы переключить звуковые подсказки"
 	RightClickAudioCuesEnabled: "Звуковые подсказки теперь включены"
 	RightClickAudioCuesDisabled: "Звуковые подсказки теперь выключены"
+	// CriticalDamageTooltip: "{0} critical damage"
 
 	GrapplingHooks: {
 		ClassicPullTip: "Зажмите кнопку захвата крюка для классической тяги"
