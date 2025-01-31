@@ -111,7 +111,16 @@ CommonTooltips: {
 	RightClickAudioCuesToggle: "Clic droit sur l'objet pour changer les indices sonores"
 	RightClickAudioCuesEnabled: "Indices Sonores activés"
 	RightClickAudioCuesDisabled: "Indices Sonores désactivés"
-	// CriticalDamageTooltip: "{0} critical damage"
+
+	CriticalDamage: {
+		// Tooltip: "{0} critical strike damage"
+		# These are (case insensitive) regular expressions used to replace '{...}% critical chance' lines with '+X% critical damage'.
+		# If you aren't familiar with regex - please ask the developers for help!
+		# Always provide a 'value' capture!
+		
+		// Expression: '''(?<value>[\d.]+)(?<sign>%)?(?<operation>[ ]+(?:increased|bonus|additional)+)?(?<misc>.+)?(?:critical|crit)[ ]+(?:strike[ ]+)?chance'''
+		// Replacement: "${value}${sign}${operation}${misc}critical damage"
+	}
 
 	GrapplingHooks: {
 		ClassicPullTip: "Garder pressé la touche pour effectuer un lancer de grappin classique"

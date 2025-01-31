@@ -111,7 +111,16 @@ CommonTooltips: {
 	RightClickAudioCuesToggle: "右键点击以开关音效提示"
 	RightClickAudioCuesEnabled: "音效提示已开启"
 	RightClickAudioCuesDisabled: "音效提示已关闭"
-	// CriticalDamageTooltip: "{0} critical damage"
+
+	CriticalDamage: {
+		// Tooltip: "{0} critical strike damage"
+		# These are (case insensitive) regular expressions used to replace '{...}% critical chance' lines with '+X% critical damage'.
+		# If you aren't familiar with regex - please ask the developers for help!
+		# Always provide a 'value' capture!
+		
+		// Expression: '''(?<value>[\d.]+)(?<sign>%)?(?<operation>[ ]+(?:increased|bonus|additional)+)?(?<misc>.+)?(?:critical|crit)[ ]+(?:strike[ ]+)?chance'''
+		// Replacement: "${value}${sign}${operation}${misc}critical damage"
+	}
 
 	GrapplingHooks: {
 		ClassicPullTip: "按住钩爪快捷键使用以像原版一样将玩家拉动"

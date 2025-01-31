@@ -19,8 +19,10 @@ public sealed class CriticalStrikeRework : ModSystem
 	public static Counter.Handle AllowCritChanceReturn()
 		=> skipTotalCritCounter.Increase();
 
-	public static float CritChanceToScale(int chance)
-		=> 1.2f + Math.Max(0, chance - 4) * 0.01f;
+	public static int CritChanceToDamagePercentage(int chance) => chance;
+	public static int TotalCritChanceToDamagePercentage(int chance) => 120 + Math.Max(0, chance - 4);
+	public static float CritChanceToDamageScale(int chance) => chance * 0.01f;
+	public static float TotalCritChanceToDamageScale(int chance) => CritChanceToDamageScale(TotalCritChanceToDamagePercentage(chance));
 
 	// Force all crit chances to be zero.
 	private static int GetWeaponCritInjection(On_Player.orig_GetWeaponCrit orig, Player player, Item sItem)

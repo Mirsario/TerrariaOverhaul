@@ -93,7 +93,7 @@ public sealed class NpcWeakpoints : GlobalNPC
 			using var _ = CriticalStrikeRework.AllowCritChanceReturn();
 			
 			int critChance = Main.LocalPlayer.GetWeaponCrit(item);
-			float critMult = CriticalStrikeRework.CritChanceToScale(critChance);
+			float critMult = CriticalStrikeRework.TotalCritChanceToDamageScale(critChance);
 			TriggerCrit(ref modifiers, critMult);
 		}
 	}
@@ -110,7 +110,7 @@ public sealed class NpcWeakpoints : GlobalNPC
 			
 			var ownerPlayer = projectile.GetOwner();
 			int critChance = ownerPlayer?.GetWeaponCrit(ownerPlayer?.HeldItem) ?? 0;
-			float critMult = CriticalStrikeRework.CritChanceToScale(critChance);
+			float critMult = CriticalStrikeRework.TotalCritChanceToDamageScale(critChance);
 			TriggerCrit(ref modifiers, critMult);
 		}
 	}
