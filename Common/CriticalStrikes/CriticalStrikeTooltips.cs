@@ -15,24 +15,14 @@ namespace TerrariaOverhaul.Common.CriticalStrikes;
 public sealed class CriticalStrikeTooltips : GlobalItem
 {
 	private static readonly int maxCacheEntries = 128;
-	private static readonly Text expression = Text.Localized($"Mods.{nameof(TerrariaOverhaul)}.CommonTooltips.CriticalDamage.Expression");
-	private static readonly Text replacement = Text.Localized($"Mods.{nameof(TerrariaOverhaul)}.CommonTooltips.CriticalDamage.Replacement");
 	private static readonly Dictionary<string, string> cache = new();
-	private static string? lastExpression;
-	private static Regex? regex;
-
-	private static Regex CritRegex {
-		get {
-			string text = expression.Value;
-			
-			if (regex == null || text != lastExpression) {
-				lastExpression = text;
-				regex = new Regex(text, RegexOptions.Compiled);
-			}
-
-			return regex;
-		}
-	}
+	private static readonly Text expressionPrimary = Text.Localized($"Mods.{nameof(TerrariaOverhaul)}.CommonTooltips.CriticalDamage.Expression");
+	private static readonly Text replacementPrimary = Text.Localized($"Mods.{nameof(TerrariaOverhaul)}.CommonTooltips.CriticalDamage.Replacement");
+	private static readonly Text expressionFallback = Text.Localized($"Mods.{nameof(TerrariaOverhaul)}.CommonTooltips.CriticalDamage.ExpressionFallback");
+	private static readonly Text replacementFallback = Text.Localized($"Mods.{nameof(TerrariaOverhaul)}.CommonTooltips.CriticalDamage.ReplacementFallback");
+	private static int lastLanguageRefreshCount;
+	private static Regex? regexPrimary;
+	private static Regex? regexFallback;
 
 	public override void Load()
 	{
@@ -70,7 +60,7 @@ public sealed class CriticalStrikeTooltips : GlobalItem
 
 			foreach (var line in lines) {
 				if (!cache.TryGetValue(line.Text, out string? newText)) {
-					newText = CritRegex.Replace(line.Text, replacement);
+					newText = ApplyRegexFilter(line.Text);
 					cache[line.Text] = newText;
 				}
 
@@ -80,5 +70,20 @@ public sealed class CriticalStrikeTooltips : GlobalItem
 			// Put lines back on the stack so that the Ret opcode still works.
 			return lines;
 		});
+	}
+
+	private static string ApplyRegexFilter(string text)
+	{
+		int languageRefreshCount = TextSystem.LanguageRefreshCount;
+		if (regexPrimary == null || lastLanguageRefreshCount != languageRefreshCount) {
+			regexPrimary = new Regex(expressionPrimary, RegexOptions.Compiled);
+			regexFallback = expressionFallback != expressionPrimary ? new Regex(expressionFallback, RegexOptions.Compiled) : null;
+			lastLanguageRefreshCount = languageRefreshCount;
+		}
+
+		text = regexPrimary.Replace(text, replacementPrimary);
+		text = regexFallback?.Replace(text, replacementFallback) ?? text;
+
+		return text;
 	}
 }

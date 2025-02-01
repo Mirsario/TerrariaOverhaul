@@ -120,6 +120,10 @@ CommonTooltips: {
 		
 		Expression: '''(?<value>[\d.]+)(?<sign>%)?(?<operation>[ ]+(?:increased|bonus|additional)+)?(?<misc>.+)?(?:critical|crit)[ ]+(?:strike[ ]+)?chance'''
 		Replacement: "${value}${sign}${operation}${misc}critical damage"
+		# Do not alter unless necessary:
+		ExpressionFallback: '''(?<value>[\d.]+)(?<sign>%)?(?<operation>[ ]+(?:increased|bonus|additional)+)?(?<misc>.+)?(?:critical|crit)[ ]+(?:strike[ ]+)?chance'''
+		# Do not alter unless necessary:
+		ReplacementFallback: "${value}${sign}${operation}${misc}critical damage"
 	}
 
 	GrapplingHooks: {
