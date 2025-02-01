@@ -2,6 +2,9 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+using Microsoft.Xna.Framework;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
@@ -18,8 +21,41 @@ public sealed class PlayerFootsteps : ModPlayer
 
 	private byte stepState;
 	private double lastFootstepTime;
+	private bool bouncedThisFrame;
+
+	public override void Load()
+	{
+		IL_Player.TryBouncingBlocks += TryBouncingBlocksInjection;
+	}
 
 	public override void PostItemCheck()
+	{
+		UpdateFootsteps();
+		bouncedThisFrame = false;
+	}
+
+	private static void TryBouncingBlocksInjection(ILContext context)
+	{
+		var il = new ILCursor(context);
+
+		il.GotoNext(
+			MoveType.Before,
+			i => i.MatchRet(),
+			i => i.MatchLdarg0(),
+			i => i.MatchLdflda(typeof(Entity), nameof(Entity.velocity)),
+			i => i.MatchLdflda(typeof(Vector2), nameof(Vector2.Y))
+		);
+		il.Index++;
+		il.HijackIncomingLabels();
+
+		il.Emit(OpCodes.Ldarg_0);
+		il.EmitDelegate(static (Player p) => {
+			if (p.TryGetModPlayer(out PlayerFootsteps footsteps))
+				footsteps.bouncedThisFrame = true;
+		});
+	}
+
+	private void UpdateFootsteps()
 	{
 		if (Main.dedServ || !EnablePlayerFootsteps) {
 			return;
@@ -31,7 +67,7 @@ public sealed class PlayerFootsteps : ModPlayer
 
 		FootstepType? footstepType = null;
 
-		if (onGround != wasOnGround) {
+		if (onGround != wasOnGround || bouncedThisFrame) {
 			if (!onGround || Player.controlJump) {
 				footstepType = FootstepType.Jump;
 			} else {

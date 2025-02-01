@@ -110,6 +110,7 @@
 - Fixed weapon aiming animations not taking the player's full body rotation into account.
 - Fixed crosshair animations stacking up when user interface is turned off via F11.
 - Fixed issue [#252](https://github.com/Mirsario/TerrariaOverhaul/issues/252) (Spirit Flame & Mystic Coil Snake wrongfully rotated by AlwaysShowAimableWeapons).
+- Fixed footsteps not playing when bouncing on 'Silly Balloon Blocks'.
 ### Performance
 - Improved performance of falling tree texture generation.
 
