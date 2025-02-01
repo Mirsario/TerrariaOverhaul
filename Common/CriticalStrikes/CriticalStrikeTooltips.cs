@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text.RegularExpressions;
 using MonoMod.Cil;
@@ -31,6 +30,8 @@ public sealed class CriticalStrikeTooltips : GlobalItem
 
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 	{
+		if (!CriticalStrikeRework.EnableCriticalStrikeRework) return;
+
 		if (tooltips.FirstOrDefault(t => t is { Mod: "Terraria", Name: "CritChance" }) is { } critTooltip) {
 			using var _ = CriticalStrikeRework.AllowCritChanceReturn();
 
@@ -54,6 +55,9 @@ public sealed class CriticalStrikeTooltips : GlobalItem
 		while (il.TryGotoNext(i => i.MatchRet())) { }
 
 		il.EmitDelegate(static (List<TooltipLine> lines) => {
+			if (!CriticalStrikeRework.EnableCriticalStrikeRework)
+				return lines;
+
 			if (cache.Count > maxCacheEntries) {
 				cache.Clear();
 			}

@@ -5,6 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using MonoMod.Cil;
 using Terraria.Localization;
@@ -16,14 +17,11 @@ namespace TerrariaOverhaul.Core.Localization;
 
 public sealed class TextSystem : ModSystem
 {
-	//TODO: Use unsafe accessors in .NET 8.
-	private delegate void LocalizedTextSetValueDelegate(LocalizedText text, string value);
 	private delegate List<(string, string)> LoadTranslationsDelegate(Mod mod, GameCulture culture);
-
+	
 	private static bool isLoaded;
 	private static bool forcedLocalizationLoad;
 	private static LoadTranslationsDelegate? loadTranslations;
-	private static LocalizedTextSetValueDelegate? localizedTextSetValue;
 	private static int languageRefreshCount;
 
 	internal static int LanguageRefreshCount => languageRefreshCount;
@@ -57,14 +55,11 @@ public sealed class TextSystem : ModSystem
 			DebugSystem.Logger.Error($"{nameof(TextSystem)}: Failed to acquire LoadModTranslations method.");
 		}
 
-		if (localizedTextSetValueMethod != null && localizedTextSetValueMethod.ReturnType == typeof(void)) {
-			localizedTextSetValue = localizedTextSetValueMethod.CreateDelegate<LocalizedTextSetValueDelegate>();
-		} else {
-			DebugSystem.Logger.Error($"{nameof(TextSystem)}: Failed to acquire LocalizedText.SetValue method.");
-		}
-
 		isLoaded = true;
 	}
+
+	[UnsafeAccessor(UnsafeAccessorKind.Method, Name = "SetValue")]
+	public static extern void SetLocalizedTextValue(LocalizedText text, string value);
 
 	public static string GetTextValueSafe(string key)
 	{
@@ -89,7 +84,7 @@ public sealed class TextSystem : ModSystem
 
 		forcedLocalizationLoad = true;
 
-		if (loadTranslations == null || localizedTextSetValue == null ) {
+		if (loadTranslations == null) {
 			return false;
 		}
 
@@ -116,11 +111,6 @@ public sealed class TextSystem : ModSystem
 		Interlocked.Increment(ref languageRefreshCount);
 
 		return true;
-	}
-
-	public static void SetLocalizedTextValue(LocalizedText localizedText, string value)
-	{
-		localizedTextSetValue!(localizedText, value);
 	}
 
 	private static void InjectLanguageRefreshCounter(ILContext context)

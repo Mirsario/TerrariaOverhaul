@@ -36,7 +36,7 @@ public struct DodgerollStats
 	public uint MovementActionDenialLength = 22 / 3 * 2;
 	public uint BufferingLength = 20;
 	public uint MinItemUseCommitment = 20;
-	public uint CounterBuffLength = 90;
+	public uint ConfusionDebuffLength = 20;
 	// Velocity
 	public float AirSpeed = 3.90f;
 	public float GroundSpeed = 6.00f;
@@ -461,11 +461,11 @@ public sealed class PlayerDodgerolls : ModPlayer
 			*/
 		}
 
-		if (entity is NPC npc) {
-			npc.AddBuff(BuffID.Confused, 20);
-		}
-
 		//player.AddBuff(ModContent.BuffType<CriticalJudgement>(), (int)Stats.CounterBuffLength);
+		
+		if (entity is NPC npc) {
+			npc.AddBuff(BuffID.Confused, (int)Stats.ConfusionDebuffLength);
+		}
 	}
 
 	private static bool LateCanBeHitByEntity(Player player, Entity entity)

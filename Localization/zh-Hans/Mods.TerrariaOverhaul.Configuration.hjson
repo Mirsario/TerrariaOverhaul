@@ -159,6 +159,16 @@ Balance: {
 		Description: "Overhaul包含对敌怪旗效果的修改，其效果不再止步于令敌怪变弱。"
 	}
 
+	EnableCriticalStrikeRework: {
+		// DisplayName: "Enable Critical Strike Rework"
+		/* Description:
+			'''
+			The critical strike rework replaces random critical strikes with a consistent system of enemy weakpoints, hitting which guarantees critical damage, most weakpoints being enemies' backs'.
+			Critical Strike Chance stat is replaced with Critical Strike Damage, directly increasing effectiveness of the mechanic.
+			Dodgerolls integrate with this, confusing enemies you roll through and thus delaying their direction change.
+			''' */
+	}
+
 	EnableDifficultyChanges: {
 		DisplayName: "难度修改"
 		Description: "本模组对游戏整体难度的重新平衡。"

@@ -50,6 +50,12 @@
 - Leaves particles will now be baked as decals whenever they hit the ground.
 - New ambience tracks: `Beach Waves` (Thanks, **@ZestyMace**!).
 - Introduced many new randomly played ambience sounds (previously we've only had loops).
+### Critical Strikes
+- The critical strike rework is here, replacing random critical strikes with a consistent system of enemy weakpoints, hitting which guarantees critical damage, most weakpoints being enemies' backs'.
+- Critical Strike Chance stat is replaced with Critical Strike Damage, directly increasing effectiveness of the mechanic.
+- There's a 1/6 second grace period for enemy direction switch, so enemies that have just turned around will receive critical damage regardless of intent.
+- Dodgerolls' Critical Judgement buff is removed for the time being. Dodgerolls instead now give the Confusion debuff to enemies rolled through, thus delaying their direction changes for about half a second.
+- Weakpoint crits are indicated by a quiet blast sound and an exclamation point next to damage.
 ### Difficulty
 - Various changes to compensate all the extra power given to the player by the mod.
 - Enemy health multipliers across all difficulties were increased from `x2.0` to `x2.25`.

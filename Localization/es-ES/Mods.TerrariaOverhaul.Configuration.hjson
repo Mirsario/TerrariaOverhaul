@@ -167,6 +167,16 @@ Balance: {
 			'''
 	}
 
+	EnableCriticalStrikeRework: {
+		// DisplayName: "Enable Critical Strike Rework"
+		/* Description:
+			'''
+			The critical strike rework replaces random critical strikes with a consistent system of enemy weakpoints, hitting which guarantees critical damage, most weakpoints being enemies' backs'.
+			Critical Strike Chance stat is replaced with Critical Strike Damage, directly increasing effectiveness of the mechanic.
+			Dodgerolls integrate with this, confusing enemies you roll through and thus delaying their direction change.
+			''' */
+	}
+
 	EnableDifficultyChanges: {
 		DisplayName: "Activar cambios de dificultad"
 		Description: "Activa o desactiva los cambios de dificultad en general."

@@ -41,6 +41,12 @@ public sealed class NpcWeakpoints : GlobalNPC
 {
 	private const int DirectionChangeGracePeriod = 10;
 
+	private static readonly SoundStyle WeakpointCritSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast") {
+		Pitch = 0.70f,
+		PitchVariance = 0.2f,
+		Volume = 0.45f,
+	};
+
 	private static WeakpointInfo[] weakpointsByType = Array.Empty<WeakpointInfo>();
 	public static WeakpointInfo[] WeakpointsByType => weakpointsByType;
 
@@ -50,11 +56,6 @@ public sealed class NpcWeakpoints : GlobalNPC
 	private bool JustChangedDirections => Main.GameUpdateCount - lastDirectionSwitchTime < DirectionChangeGracePeriod;
 
 	public override bool InstancePerEntity => true;
-
-	public override void SetStaticDefaults()
-	{
-		
-	}
 
 	public override void SetDefaults(NPC npc)
 	{
@@ -75,16 +76,14 @@ public sealed class NpcWeakpoints : GlobalNPC
 			lastDirectionSwitchTime = Main.GameUpdateCount;
 			lastDirection = direction;
 		}
-
-		//	foreach (var weakpoint in WeakpointsByType[npc.type].Weakpoints) {
-		//		var rect = (Rectangle)weakpoint.GetWorldRectangle(npc);
-		//	
-		//		DebugSystem.DrawRectangle(rect, Main.GameUpdateCount / 4 % 2 == 0 ? Color.Black : Color.White, 2);
-		//	}
 	}
 
 	public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers)
 	{
+		if (!CriticalStrikeRework.EnableCriticalStrikeRework) {
+			return;
+		}
+
 		var npcRect = npc.getRect();
 		var corner = npcRect.GetCorner(player.Center);
 		int attackDirection = Math.Sign(npc.DirectionTo(player.Center).X);
@@ -100,6 +99,10 @@ public sealed class NpcWeakpoints : GlobalNPC
 
 	public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
 	{
+		if (!CriticalStrikeRework.EnableCriticalStrikeRework) {
+			return;
+		}
+
 		var npcRect = npc.getRect();
 		var oldProjCenter = projectile.oldPosition + projectile.Size * 0.5f;
 		var corner = npcRect.GetCorner(oldProjCenter);
@@ -146,11 +149,7 @@ public sealed class NpcWeakpoints : GlobalNPC
 		modifiers.Knockback *= 0.5f * multiplier;
 
 		if (!Main.dedServ) {
-			SoundEngine.PlaySound(new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast") {
-				Pitch = 0.70f,
-				PitchVariance = 0.2f,
-				Volume = 0.45f,
-			});
+			SoundEngine.PlaySound(in WeakpointCritSound);
 		}
 	}
 }
