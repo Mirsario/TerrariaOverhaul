@@ -14,7 +14,7 @@ public sealed class BalloonPhysicalMaterial : PhysicalMaterial, ITileTagAssociat
 {
 	public TagData TileTag { get; } = OverhaulTileTags.Balloon;
 	// Footsteps
-	public SoundStyle? FootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Balloon/Step", 3) {
+	public SoundStyle? FootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Balloon/Step", 7) {
 		Volume = 0.5f,
 		PitchVariance = 0.1f,
 	};

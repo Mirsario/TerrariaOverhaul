@@ -15,7 +15,7 @@ public sealed class BrickPhysicalMaterial : PhysicalMaterial, ITileTagAssociated
 	public TagData TileTag { get; } = OverhaulTileTags.Brick;
 	// Footsteps
 	public SoundStyle? FootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Brick/Step", 8) {
-		Volume = 0.5f,
+		Volume = 0.3f,
 		PitchVariance = 0.1f,
 	};
 }
