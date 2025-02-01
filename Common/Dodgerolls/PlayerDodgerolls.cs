@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2024 Mirsario & Contributors.
+﻿// Copyright (c) 2020-2025 Mirsario & Contributors.
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
@@ -36,7 +36,7 @@ public struct DodgerollStats
 	public uint MovementActionDenialLength = 22 / 3 * 2;
 	public uint BufferingLength = 20;
 	public uint MinItemUseCommitment = 20;
-	public uint CounterBuffLength = 90;
+	public uint ConfusionDebuffLength = 20;
 	// Velocity
 	public float AirSpeed = 3.90f;
 	public float GroundSpeed = 6.00f;
@@ -461,7 +461,11 @@ public sealed class PlayerDodgerolls : ModPlayer
 			*/
 		}
 
-		player.AddBuff(ModContent.BuffType<CriticalJudgement>(), (int)Stats.CounterBuffLength);
+		//player.AddBuff(ModContent.BuffType<CriticalJudgement>(), (int)Stats.CounterBuffLength);
+		
+		if (entity is NPC npc) {
+			npc.AddBuff(BuffID.Confused, (int)Stats.ConfusionDebuffLength);
+		}
 	}
 
 	private static bool LateCanBeHitByEntity(Player player, Entity entity)
