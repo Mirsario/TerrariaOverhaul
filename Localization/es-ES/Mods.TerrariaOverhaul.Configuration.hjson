@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2024 Mirsario & Contributors.
+// Copyright (c) 2020-2025 Mirsario & Contributors.
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
@@ -165,6 +165,16 @@ Balance: {
 			El ajuste de los estandartes remueve su efecto de disminuir el daño y la vida de los enemigos. A cambio, los enemigos sueltan el doble de botín y dinero.
 			Tanto la probabilidad como la cantidad se verán afectadas.
 			'''
+	}
+
+	EnableCriticalStrikeRework: {
+		// DisplayName: "Enable Critical Strike Rework"
+		/* Description:
+			'''
+			The critical strike rework replaces random critical strikes with a consistent system of enemy weakpoints, hitting which guarantees critical damage, most weakpoints being enemies' backs'.
+			Critical Strike Chance stat is replaced with Critical Strike Damage, directly increasing effectiveness of the mechanic.
+			Dodgerolls integrate with this, confusing enemies you roll through and thus delaying their direction change.
+			''' */
 	}
 
 	EnableDifficultyChanges: {

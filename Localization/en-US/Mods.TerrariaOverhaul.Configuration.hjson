@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2024 Mirsario & Contributors.
+// Copyright (c) 2020-2025 Mirsario & Contributors.
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
@@ -164,6 +164,16 @@ Balance: {
 			'''
 			The banner rework removes banners' effects of lowering enemies' health and damage, instead replacing that with double loot and coin drops.
 			Both the drop chance and drop quantity are affected.
+			'''
+	}
+
+	EnableCriticalStrikeRework: {
+		DisplayName: "Enable Critical Strike Rework"
+		Description:
+			'''
+			The critical strike rework replaces random critical strikes with a consistent system of enemy weakpoints, hitting which guarantees critical damage, most weakpoints being enemies' backs'.
+			Critical Strike Chance stat is replaced with Critical Strike Damage, directly increasing effectiveness of the mechanic.
+			Dodgerolls integrate with this, confusing enemies you roll through and thus delaying their direction change.
 			'''
 	}
 
