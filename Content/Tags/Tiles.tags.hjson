@@ -1,0 +1,40 @@
+// Tile tags
+
+Dirt: {
+	LegacySets.TileID: [ "Dirt" ]
+}
+
+Stone: {
+	LegacySets.TileID: [ "Stone" ]
+}
+
+Grass: {
+	LegacySets.TileID: [ "Grass" ]
+}
+
+GrassSpecial: {
+	LegacySets.TileID: [ "GrassSpecial" ]
+}
+
+Mud: {
+	LegacySets.TileID: [ "Mud" ]
+}
+
+Sand: {
+	LegacySets.TileID: [ "isDesertBiomeSand" ]
+}
+
+Snow: {
+	LegacySets.TileID: [ "Snow" ]
+}
+
+Wood: {
+	Includes.TileID: [
+		"WoodBlock"
+		"BorealWood"
+		"DynastyWood"
+		"LivingWood"
+		"PalmWood"
+		"SpookyWood"
+	]
+}

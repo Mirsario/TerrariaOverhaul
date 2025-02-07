@@ -8,14 +8,17 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.BloodAndGore;
-using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Debugging;
+using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Interaction;
 
 public sealed class ProjectileExplosionInteractions : GlobalProjectile
 {
+	private static readonly ContentSet Bullet = nameof(Bullet);
+	private static readonly ContentSet Explosive = nameof(Explosive);
+
 	private Vector2Int maxSize;
 
 	public bool Enabled { get; set; }
@@ -29,13 +32,13 @@ public sealed class ProjectileExplosionInteractions : GlobalProjectile
 
 	public override void SetDefaults(Projectile projectile)
 	{
-		if (OverhaulProjectileTags.Bullet.Has(projectile.type)) {
+		if (Bullet.Has(projectile)) {
 			Enabled = true;
 			AffectsGameplayEntities = false;
 			MinPower = 25f;
 		}
 
-		if (OverhaulProjectileTags.Explosive.Has(projectile.type)) {
+		if (Explosive.Has(projectile)) {
 			Enabled = true;
 			AffectsGameplayEntities = true;
 			SetsGoreOnFire = true;

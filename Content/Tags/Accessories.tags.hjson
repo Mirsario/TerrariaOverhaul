@@ -1,0 +1,24 @@
+ClimbingClaws: {
+	Includes.ItemID: [
+		"ClimbingClaws"
+		"TigerClimbingGear"
+		"MasterNinjaGear"
+	]
+}
+
+ShoeSpikes: {
+	Includes.ItemID: [
+		"ShoeSpikes"
+		"TigerClimbingGear"
+		"MasterNinjaGear"
+	]
+}
+
+NinjaGear: {
+	Includes.ItemID: [
+		"ClimbingClaws"
+		"ShoeSpikes"
+		"TigerClimbingGear"
+		"MasterNinjaGear"
+	]
+}

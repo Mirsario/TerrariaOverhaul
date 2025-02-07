@@ -12,9 +12,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Common.EntityEffects;
-using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;
+using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
@@ -23,6 +23,9 @@ namespace TerrariaOverhaul.Common.Movement;
 public sealed class PlayerClimbing : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnableClimbing = new(ConfigSide.Both, true, "Movement");
+	private static readonly ContentSet ClimbingClaws = nameof(ClimbingClaws);
+	private static readonly ContentSet AllowsClimbing = nameof(AllowsClimbing);
+	private static readonly ContentSet DisallowsClimbing = nameof(DisallowsClimbing);
 
 	private Vector2 climbStartPos;
 	private Vector2 climbStartVelocity;
@@ -34,7 +37,7 @@ public sealed class PlayerClimbing : ModPlayer
 	public float ClimbProgress { get; private set; }
 	public bool IsClimbing { get; private set; }
 
-	public bool HasClimbingGear => Player.EnumerateAccessories().Any(tuple => OverhaulItemTags.ClimbingClaws.Has(tuple.item.type));
+	public bool HasClimbingGear => Player.EnumerateAccessories().Any(tuple => ClimbingClaws.Has(tuple.item));
 	public float ClimbTime => HasClimbingGear ? 0.133f : 0.175f;
 
 	public override bool PreItemCheck()
@@ -112,12 +115,12 @@ public sealed class PlayerClimbing : ModPlayer
 			}
 
 			// Ice can't climbed on, unless you have climbing gear
-			if (OverhaulTileTags.NoClimbing.Has(tile.TileType) && !HasClimbingGear) {
+			if (DisallowsClimbing.HasTile(tile) && !HasClimbingGear) {
 				continue;
 			}
 
 			static bool CheckFree(int x, int y, Tile t)
-				=> !(t.HasTile && !t.IsActuated) || !Main.tileSolid[t.TileType] || OverhaulTileTags.AllowClimbing.Has(t.TileType);
+				=> !(t.HasTile && !t.IsActuated) || !Main.tileSolid[t.TileType] || AllowsClimbing.HasTile(t);
 
 			if (!(
 				TileCheckUtils.CheckAreaAll(pos.X, pos.Y - 3, 1, 3, CheckFree)

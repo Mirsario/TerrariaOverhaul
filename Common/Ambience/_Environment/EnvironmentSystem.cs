@@ -9,8 +9,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Utilities;
+using EnvironmentTag = TerrariaOverhaul.Core.Tags.Tag<TerrariaOverhaul.Common.Ambience.EnvironmentSystem>;
 
 namespace TerrariaOverhaul.Common.Ambience;
 
@@ -35,9 +35,9 @@ public sealed partial class EnvironmentSystem : ModSystem
 {
 	public delegate float SignalUpdater(in EnvironmentContext context);
 
-	private static readonly Dictionary<Tag, float> environmentSignals = new();
-	private static readonly List<(Tag tag, SignalUpdater function)> signalUpdaters = new();
-	private static readonly Tag[,] biomeTagsByMaskIndex = new Tag[4, 8];
+	private static readonly Dictionary<EnvironmentTag, float> environmentSignals = new();
+	private static readonly List<(EnvironmentTag tag, SignalUpdater function)> signalUpdaters = new();
+	private static readonly EnvironmentTag[,] biomeTagsByMaskIndex = new EnvironmentTag[4, 8];
 
 	private static int[]? tileCounts;
 
@@ -117,22 +117,22 @@ public sealed partial class EnvironmentSystem : ModSystem
 		}
 	}
 
-	public static void RegisterSignalUpdater(Tag tag, SignalUpdater function)
+	public static void RegisterSignalUpdater(EnvironmentTag tag, SignalUpdater function)
 		=> signalUpdaters.Add((tag, function));
 
-	public static bool TryGetSignal(Tag tag, out float signal)
+	public static bool TryGetSignal(EnvironmentTag tag, out float signal)
 	{
 		return environmentSignals.TryGetValue(tag, out signal);
 	}
 
-	public static float GetSignal(Tag tag)
+	public static float GetSignal(EnvironmentTag tag)
 	{
 		TryGetSignal(tag, out float signal);
 
 		return signal;
 	}
 
-	public static void SetSignal(Tag tag, float value)
+	public static void SetSignal(EnvironmentTag tag, float value)
 	{
 		if (tag == default) {
 			return;
@@ -146,7 +146,7 @@ public sealed partial class EnvironmentSystem : ModSystem
 		environmentSignals.Remove(tag);
 	}
 
-	private static void FillZoneBitmaskMapping(Tag[,] map)
+	private static void FillZoneBitmaskMapping(EnvironmentTag[,] map)
 	{
 		// Zone1
 		map[0, 0] = "Dungeon";
