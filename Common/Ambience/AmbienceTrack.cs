@@ -2,7 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-﻿using System;
+using System;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
@@ -12,6 +12,7 @@ using ReLogic.Utilities;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Ambience;
@@ -19,7 +20,7 @@ namespace TerrariaOverhaul.Common.Ambience;
 // This could be an immutable struct, but Newtonsoft.Json doesn't handle their field initializers correctly.
 // In 2024 that is!
 //[JsonConverter(typeof(AmbienceTrackJsonConverter))] // This isn't attached directly, as we need to be able to call the default converter.
-public sealed class AmbienceTrack
+public sealed class AmbienceTrack : IComponent
 {
 	public struct PositionInfo()
 	{
@@ -35,7 +36,7 @@ public sealed class AmbienceTrack
 	public int MaxInstances = 1;
 	public ExponentialRange InstanceCooldown = new();
 	public PositionInfo? Positional;
-	[JsonRequired, JsonConverter(typeof(SoundStyleJsonConverter))] public SoundStyle Sound;
+	[JsonRequired] public SoundStyle Sound;
 	[JsonRequired, JsonConverter(typeof(CalculatedSignalArrayJsonConverter))] public CalculatedSignal[] Variables = Array.Empty<CalculatedSignal>();
 
 	public AmbienceTrack() { }
@@ -97,24 +98,5 @@ public sealed class AmbienceTrackJsonConverter : JsonConverter
 		if (TileID.Search.TryGetId(identifier, out int id)) return (ushort)id;
 		if (ModContent.TryFind(identifier, out ModTile tile)) return tile.Type;
 		throw new InvalidOperationException($"Unknown tile: '{identifier}'.");
-	}
-}
-
-public sealed class SoundStyleJsonConverter : JsonConverter
-{
-	public override bool CanWrite => false;
-	public override bool CanConvert(Type objectType) => objectType == typeof(SoundStyle);
-	public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer) => throw new NotImplementedException();
-
-	public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
-	{
-		if (reader.TokenType != JsonToken.StartObject) throw new InvalidOperationException($"Expected a JSON object, but got '{reader.TokenType}' instead.");
-
-		var jObject = JObject.Load(reader);
-		var result = jObject.ToObject<SoundStyle>();
-
-		if (jObject["NumVariants"] is JValue numVariants) result.Variants = Enumerable.Range(1, Convert.ToInt32(numVariants.Value)).ToArray();
-
-		return result;
 	}
 }

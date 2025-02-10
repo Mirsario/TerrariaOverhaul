@@ -1,0 +1,94 @@
+// Projectile tags
+
+Incendiary: {
+	Includes.ProjectileID: [
+		"GreekFire1"
+		"GreekFire2"
+		"GreekFire3"
+		"MolotovCocktail"
+		"MolotovFire"
+		"MolotovFire2"
+		"MolotovFire3"
+		"CultistBossFireBall"
+		"DD2BetsyFireball"
+		"DD2BetsyFlameBreath"
+		"InfernoFriendlyBlast"
+		"InfernoHostileBlast"
+		"Fireball"
+		"BallofFire"
+		"Flamelash"
+		"Flames"
+		"FireArrow"
+		"Meteor1"
+		"Meteor2"
+		"Meteor3"
+	]
+}
+
+Snow: {
+	Includes.ProjectileID: [
+		"SnowBallFriendly"
+		"SnowBallHostile"
+	]
+}
+
+Freezing: {
+	Sets: [
+		"Snow"
+	]
+	Includes.ProjectileID: [
+		"CultistBossIceMist"
+		"IceBolt"
+		"IceBlock"
+		"IceBoomerang"
+		"IceSpike"
+		"IcewaterSpit"
+		"IceSickle"
+		"BallofFrost"
+		"FrostArrow"
+		"FrostBeam"
+		"FrostBlastFriendly"
+		"FrostBlastHostile"
+		"FrostBoltStaff"
+		"FrostBoltSword"
+		"FrostburnArrow"
+		"FrostDaggerfish"
+		"FrostHydra"
+		"FrostShard"
+		"FrostWave"
+		"BabySnowman"
+		"NorthPoleSnowflake"
+	]
+}
+
+Water: {
+	Includes.ProjectileID: [
+		"WaterStream"
+		"WaterBolt"
+		"HolyWater"
+		"UnholyWater"
+		"BloodWater"
+		"WaterGun"
+		"GoldenShowerFriendly"
+		"GoldenShowerHostile"
+		"BloodRain"
+		"BloodCloudMoving"
+		"BloodCloudRaining"
+		"BloodWater"
+		"RainCloudMoving"
+		"RainCloudRaining"
+		"RainFriendly"
+		"RainNimbus"
+	]
+}
+
+Extinguisher: {
+	Sets: [
+		"Freezing"
+		"Snow"
+		"Water"
+	]
+	Includes.ProjectileID: [
+
+	]
+}

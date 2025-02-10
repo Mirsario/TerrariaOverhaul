@@ -15,12 +15,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Common.Fires;
-using TerrariaOverhaul.Common.PhysicalMaterials;
+using TerrariaOverhaul.Common.Footsteps;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Core.PhysicalMaterials;
-using TerrariaOverhaul.Core.SimpleEntities;
-using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.BloodAndGore;
@@ -28,7 +26,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore;
 // Messy inheritance OOP.
 // It would be much preferred to split both data and logic, keeping only an index to data here.
 [Autoload(Side = ModSide.Client)]
-public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
+public class OverhaulGore : Gore, ILoadable, IMaterialProvider
 {
 	private const int GoreSoundMinCooldown = 10;
 	private const int GoreSoundMaxCooldown = 25;
@@ -53,6 +51,7 @@ public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
 	};
 
 	private static readonly Dictionary<SoundStyle, ulong> goreSoundCooldowns = new();
+	private static Prefab goreMaterialCache;
 
 	public bool OnFire;
 	//public bool NoBlood;
@@ -71,19 +70,15 @@ public class OverhaulGore : Gore, ILoadable, IPhysicalMaterialProvider
 
 	public Vector2 Center => position + Size * 0.5f;
 
-	public PhysicalMaterial? PhysicalMaterial {
+	public Prefab MaterialPrefab {
 		get {
-			PhysicalMaterial? result = null;
+			if (ModGore is IMaterialProvider provider && provider.MaterialPrefab is { IsValid: true } prefab)
+				return prefab;
 
-			if (ModGore is IPhysicalMaterialProvider provider) {
-				result ??= provider.PhysicalMaterial;
-			}
+			if (BleedColor.HasValue)
+				return !goreMaterialCache.IsValid ? (goreMaterialCache = Prefabs.GetPrefab("GoreMaterial")) : goreMaterialCache;
 
-			if (BleedColor.HasValue) {
-				result ??= ModContent.GetInstance<GorePhysicalMaterial>();
-			}
-
-			return result;
+			return Prefab.Invalid;
 		}
 	}
 

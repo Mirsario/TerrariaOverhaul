@@ -11,8 +11,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Common.Footsteps;
-using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 
@@ -55,10 +55,12 @@ public class PlayerWallJumps : ModPlayer
 		public Stats() { }
 	}
 
+	private static readonly ContentSet NinjaGear = nameof(NinjaGear);
+
 	public override void ResetEffects()
 	{
 		CanWallRoll = true;
-		CanWallJump = Player.EnumerateAccessories().Any(tuple => OverhaulItemTags.NinjaGear.Has(tuple.item.type));
+		CanWallJump = Player.EnumerateAccessories().Any(tuple => NinjaGear.Has(tuple.item));
 	}
 
 	public override bool PreItemCheck()

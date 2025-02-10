@@ -1,0 +1,5 @@
+Wooden: {
+	Includes.ItemID: [
+		"WoodenSword"
+	]
+}

@@ -1,0 +1,18 @@
+PhysicalMaterial: {
+	AssociatedSet: "GrassMaterial"
+}
+
+MaterialFootsteps: {
+	StepSound: {
+		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Grass/Step"
+		NumVariants: 8
+		Volume: 0.5
+		PitchVariance: 0.1
+	}
+	JumpSound: {
+		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Dirt/Jump"
+		NumVariants: 3
+		Volume: 0.375
+		PitchVariance: 0.1
+	}
+}
