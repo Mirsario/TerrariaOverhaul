@@ -7,19 +7,32 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.PhysicalMaterials;
-using TerrariaOverhaul.Core.PhysicalMaterials;
+using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Footsteps;
 
+public enum FootstepType
+{
+	Default,
+	Jump,
+	Land,
+}
+
+public struct MaterialFootsteps : IComponent
+{
+	public SoundStyle? StepSound;
+	public SoundStyle? JumpSound;
+	public SoundStyle? LandSound;
+}
+
 public class FootstepSystem : ModSystem
 {
-	public static IFootstepSoundProvider DefaultFootstepSoundProvider { get; private set; } = null!;
+	public static Prefab DefaultFootstepSoundProvider { get; private set; }
 
 	public override void OnModLoad()
 	{
-		DefaultFootstepSoundProvider = ModContent.GetInstance<StonePhysicalMaterial>();
+		DefaultFootstepSoundProvider = Prefabs.GetPrefab("StoneMaterial");
 	}
 
 	public static bool Footstep(Entity entity, FootstepType type, Point16? forcedPoint = null)
@@ -48,31 +61,22 @@ public class FootstepSystem : ModSystem
 			return false;
 		}
 
-		IFootstepSoundProvider? soundProvider = null;
+		Prefab? soundProvider = null;
 
 		// Check for nearby gore
 		var entityRect = entity.GetRectangle();
 
 		for (int i = 0; i < Main.maxGore; i++) {
-			var gore = Main.gore[i];
-
-			if (gore == null || !gore.active || !entityRect.Intersects(gore.AABBRectangle)) {
-				continue;
-			}
-
-			if (gore is not IPhysicalMaterialProvider materialProvider) {
-				continue;
-			}
-
-			if (materialProvider.PhysicalMaterial is IFootstepSoundProvider goreFootstepProvider) {
-				soundProvider ??= goreFootstepProvider;
+			if (Main.gore[i] is { active: true } gore && entityRect.Intersects(gore.AABBRectangle)
+			&& gore is IMaterialProvider provider && provider.MaterialPrefab is { IsValid: true } mat) {
+				soundProvider = mat;
 				break;
 			}
 		}
 
 		// Try to get a footstep provider from the tile
-		if (soundProvider == null && PhysicalMaterialSystem.TryGetTilePhysicalMaterial(tile.TileType, out var material)) {
-			soundProvider = material as IFootstepSoundProvider;
+		if (soundProvider == null && PhysicalMaterials.TryGetTileMaterial(tile.TileType, out var material)) {
+			soundProvider = material;
 		}
 
 		//TODO: Implement leaves footsteps when those are added.
@@ -80,10 +84,11 @@ public class FootstepSystem : ModSystem
 		// Use default footstep provider in case of failure
 		soundProvider ??= DefaultFootstepSoundProvider;
 
+		ref readonly var footstepInfo = ref soundProvider.Value.Get<MaterialFootsteps>();
 		var sound = type switch {
-			FootstepType.Jump => soundProvider.JumpFootstepSound,
-			FootstepType.Land => soundProvider.LandFootstepSound,
-			_ => soundProvider.FootstepSound
+			FootstepType.Jump => footstepInfo.JumpSound ?? footstepInfo.StepSound,
+			FootstepType.Land => footstepInfo.LandSound ?? footstepInfo.StepSound,
+			_ => footstepInfo.StepSound,
 		};
 
 		if (sound.HasValue) {
