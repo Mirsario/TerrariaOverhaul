@@ -20,7 +20,11 @@ public readonly struct ContentSet
 		Id = id;
 	}
 
-	public bool Has<TStorage>(int entryId) => ContentSets.Has(ContentSets.GetStorageHandle<TStorage>(), this, entryId);
+	public bool Has<TStorage>(int entryId)
+		=> ContentSets.Has(ContentSets.GetStorageHandle<TStorage>(), this, entryId);
+	
+	public ReadOnlySpan<BitMask64> Values<TStorage>()
+		=> ContentSets.Values(ContentSets.GetStorageHandle<TStorage>(), this);
 
 	public ContentSet Include<TStorage>(params ValueIndex[] indices) => Include<TStorage>((ReadOnlySpan<ValueIndex>)indices);
 	public ContentSet Include<TStorage>(ReadOnlySpan<ValueIndex> indices)
@@ -96,7 +100,7 @@ internal static class ContentSets
 	private static StorageData[] storages = new StorageData[4];
 	private static GlobalSetData[] globalSetData = [];
 
-	private static int RegisteredSetCount => stringIdMap.NextId;
+	//private static int RegisteredSetCount => stringIdMap.NextId;
 
 	static ContentSets()
 	{
@@ -160,6 +164,15 @@ internal static class ContentSets
 			return false;
 
 		return storage[set.Id].Values.GetSafe(entryId);
+	}
+
+	public static ReadOnlySpan<BitMask64> Values(SetStorage setStorage, ContentSet set)
+	{
+		var storage = GetStorageData(setStorage).Sets;
+		if (set.Id >= storage.Length)
+			return [];
+
+		return storage[set.Id].Values.Array.AsSpan();
 	}
 
 	public static void IncludeSets(ContentSet set, ReadOnlySpan<ContentSet> sets)

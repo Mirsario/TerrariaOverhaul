@@ -51,10 +51,11 @@ internal sealed partial class SetLoadingSystem : ModSystem
 		LoadDataFromMod(Mod);
 	}
 
+	public override void OnModLoad()
+		=> ContentSets.Recalculate();
+
 	public override void PostSetupContent()
-	{
-		ContentSets.Recalculate();
-	}
+		=> ContentSets.Recalculate();
 
 	public static void LoadDataFromMod(Mod mod)
 	{
