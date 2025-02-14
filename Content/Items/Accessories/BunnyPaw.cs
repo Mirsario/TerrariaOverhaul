@@ -8,7 +8,7 @@ using Terraria.GameContent.ItemDropRules;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Movement;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Content.Items.Accessories;
 
@@ -44,10 +44,10 @@ public class BunnyPaw : ModItem
 		Item.value = Item.sellPrice(0, 0, 1);
 	}
 
-	public override void AddRecipes() => this.CreateRecipe(r => {
-		r.AddIngredient(ItemID.Bunny, 5);
-		r.AddTile(TileID.Sawmill);
-	});
+	public override void AddRecipes() => CreateRecipe()
+		.AddIngredient(ItemID.Bunny, 5)
+		.AddTile(TileID.Sawmill)
+		.Register();
 
 	public override void UpdateAccessory(Player player, bool hideVisual)
 	{

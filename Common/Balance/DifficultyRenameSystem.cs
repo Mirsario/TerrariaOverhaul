@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.Balance;

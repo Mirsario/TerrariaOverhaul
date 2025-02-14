@@ -10,7 +10,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.ResourceDrops;
 
@@ -53,7 +53,7 @@ public sealed class HealthPickupChanges : ResourcePickupChanges<HealthPickupChan
 
 	public override float GetPickupRange(Item item, Player player)
 	{
-		float range = 8f * TileUtils.TileSizeInPixels;
+		float range = 8f * WorldUtils.TileSizeInPixels;
 
 		if (player.lifeMagnet) {
 			range *= 2f;

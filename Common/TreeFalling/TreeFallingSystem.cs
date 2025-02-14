@@ -13,11 +13,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.EntityCapturing;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Tiles;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.TreeFalling;
 
@@ -214,7 +214,7 @@ public sealed class TreeFallingSystem : ModSystem
 		// Create tree entity
 		SimpleEntity.Instantiate<FallingTreeEntity>(e => {
 			e.TreeHeight = data.TreeHeight;
-			e.Position = (data.BasePosition + new Vector2(0.5f, data.TextureAabbMaxOffset.Y)) * TileUtils.TileSizeInPixels;
+			e.Position = (data.BasePosition + new Vector2(0.5f, data.TextureAabbMaxOffset.Y)) * WorldUtils.TileSizeInPixels;
 			e.BottomTilePosition = data.BottomPosition;
 			e.ShouldDestroyBottomTile = data.DestroyBottomTile;
 			e.FallDirection = data.FallDirection;
@@ -223,8 +223,8 @@ public sealed class TreeFallingSystem : ModSystem
 			if (!Main.dedServ && data.Texture != null) {
 				e.Texture = data.Texture;
 				e.TextureOrigin = new Vector2(
-					(data.BasePosition.X - data.TextureAabbMin.X + 0.5f) * TileUtils.TileSizeInPixels,
-					data.Texture.Height - (data.TextureAabbMaxOffset.Y * TileUtils.TileSizeInPixels)
+					(data.BasePosition.X - data.TextureAabbMin.X + 0.5f) * WorldUtils.TileSizeInPixels,
+					data.Texture.Height - (data.TextureAabbMaxOffset.Y * WorldUtils.TileSizeInPixels)
 				);
 				e.IsTextureDisposable = true;
 			}

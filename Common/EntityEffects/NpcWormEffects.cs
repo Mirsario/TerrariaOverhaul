@@ -3,12 +3,11 @@
 // See LICENSE.md for details.
 
 using Microsoft.Xna.Framework;
-using ReLogic.Utilities;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Bosses;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.EntityEffects;
 

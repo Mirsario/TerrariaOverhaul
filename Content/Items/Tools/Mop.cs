@@ -6,7 +6,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Content.Projectiles;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.Items.Tools;
 
@@ -37,8 +36,8 @@ public class Mop : ModItem
 		return player.ownedProjectileCounts[Item.shoot] < 1;
 	}
 
-	public override void AddRecipes() => this.CreateRecipe(r => {
-		r.AddIngredient(ItemID.Wood, 5);
-		r.AddTile(TileID.WorkBenches);
-	});
+	public override void AddRecipes() => CreateRecipe()
+		.AddIngredient(ItemID.Wood, 5)
+		.AddTile(TileID.WorkBenches)
+		.Register();
 }

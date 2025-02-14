@@ -5,11 +5,11 @@
 using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using MonoMod.RuntimeDetour;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Decals;
 
@@ -43,7 +43,8 @@ public sealed class ChunkLighting : ChunkComponent
 			Colors = new Surface<Color>(textureWidth, textureHeight);
 			Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 
-			Texture.InitializeWithColor(Color.Transparent); // Initialize with transparent data to prevent driver-specific issues.
+			// Initialize with transparent data to prevent driver-specific issues.
+			TextureUtils.InitializeWithColor(Texture, Color.Transparent);
 
 			IsReady = true;
 		});

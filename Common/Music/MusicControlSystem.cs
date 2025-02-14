@@ -3,8 +3,6 @@
 // See LICENSE.md for details.
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Microsoft.Xna.Framework.Audio;
 using Mono.Cecil.Cil;
@@ -17,6 +15,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Music;
 
@@ -130,7 +129,7 @@ public sealed class MusicControlSystem : ModSystem
 			//i => i.MatchBneUn(out _)
 		);
 
-		il.HijackIncomingLabels();
+		ILUtils.HijackIncomingLabels(il);
 
 		// Insert our code
 		il.Emit(OpCodes.Ldsfld, typeof(Main).GetField(nameof(Main.audioSystem))!);

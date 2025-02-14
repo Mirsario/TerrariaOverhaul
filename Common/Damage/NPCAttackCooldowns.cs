@@ -7,14 +7,14 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Damage;
 
 public class NPCAttackCooldowns : GlobalNPC
 {
 	private Color? defaultColor;
-	private Timer cooldownPenaltyTimer;
+	private GameTimer cooldownPenaltyTimer;
 
 	public uint AttackCooldown { get; private set; }
 	public uint CooldownPenalty { get; private set; }

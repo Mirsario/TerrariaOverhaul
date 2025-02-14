@@ -8,8 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
-using TerrariaOverhaul.Core.DataStructures;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 using BitOperations = System.Numerics.BitOperations;
 
 namespace TerrariaOverhaul.Common.Decals;
@@ -45,8 +44,9 @@ public sealed class ChunkDecals : ChunkComponent
 
 		Main.QueueMainThreadAction(() => {
 			texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
-			
-			texture.InitializeWithColor(Color.Transparent); // Initialize with transparent data to prevent driver-specific issues.
+
+			// Initialize with transparent data to prevent driver-specific issues.
+			TextureUtils.InitializeWithColor(texture, Color.Transparent);
 		});
 	}
 

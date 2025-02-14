@@ -10,8 +10,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.EntitySources;
 using TerrariaOverhaul.Content.Dusts;
-using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 #pragma warning disable CA1822 // Mark members as static
 
@@ -51,7 +51,7 @@ public sealed class NPCManaDrops : GlobalNPC
 
 	public override void PostAI(NPC npc)
 	{
-		var mainNpc = npc.GetMainSegment();
+		var mainNpc = npc.FindMainSegment();
 
 		if (mainNpc != npc) {
 			if (mainNpc.TryGetGlobalNPC(out NPCManaDrops npcManaDrops)) {
@@ -90,13 +90,13 @@ public sealed class NPCManaDrops : GlobalNPC
 		}
 
 		if (!Main.dedServ && localPlayerNeedsMana) {
-			var glowingNpc = hasSegments ? npc.GetRandomSegment() : npc;
+			var glowingNpc = hasSegments ? npc.FindRandomSegment() : npc;
 			float lightPulse = (float)Math.Sin(Main.GameUpdateCount / 60f * 10f) * 0.5f + 0.5f;
 
 			Lighting.AddLight(glowingNpc.Center, Color.Lerp(Color.BlueViolet, Color.LightSkyBlue, lightPulse).ToVector3());
 
 			if (Main.GameUpdateCount % 2 == 0) {
-				Vector2 point = glowingNpc.getRect().GetRandomPoint();
+				Vector2 point = Main.rand.GetRandomPoint(glowingNpc.getRect());
 
 				Dust.NewDustPerfect(point, ModContent.DustType<ManaDust>(), Vector2.Zero);
 			}
@@ -169,7 +169,7 @@ public sealed class NPCManaDrops : GlobalNPC
 
 	public bool DropAccumulatedMana(NPC npc, int? currentExpectedAmount = null, int? maxDrops = null)
 	{
-		var mainNpc = npc.GetMainSegment();
+		var mainNpc = npc.FindMainSegment();
 
 		if (npc != mainNpc) {
 			return false;
@@ -188,7 +188,7 @@ public sealed class NPCManaDrops : GlobalNPC
 		}
 
 		int maxAmountDropped = 0;
-		var droppingNpc = hasSegments ? npc.GetRandomSegment() : npc;
+		var droppingNpc = hasSegments ? npc.FindRandomSegment() : npc;
 		var dropPosition = droppingNpc.Center;
 		var dropsByPlayer = new Dictionary<Player, int>();
 		

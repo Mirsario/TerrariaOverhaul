@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Networking;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
@@ -15,7 +15,7 @@ public sealed class PlayerClimbStartPacket : NetPacket
 {
 	public PlayerClimbStartPacket(Player player, Vector2 posFrom, Vector2 posTo)
 	{
-		Writer.TryWriteSenderPlayer(player);
+		NetUtils.TryWriteSenderPlayer(Writer, player);
 
 		Writer.WriteVector2(posFrom);
 		Writer.WriteVector2(posTo);

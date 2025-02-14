@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Recoil;
 
@@ -74,7 +74,7 @@ public sealed class RecoilSystem : ModSystem
 			info.counter += remaining - newRemainder;
 			info.remainder = newRemainder;
 
-			var flooredGain = (Vector2Int)Vector2Utils.Floor(info.counter);
+			var flooredGain = (Vector2Int)VectorUtils.Floor(info.counter);
 
 			newMousePos += flooredGain;
 			info.counter -= flooredGain;

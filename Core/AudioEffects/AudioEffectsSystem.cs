@@ -16,7 +16,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Music;
-using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Core.AudioEffects;

@@ -12,6 +12,8 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Movement;
 
@@ -23,9 +25,9 @@ public sealed class PlayerDirectioning : ModPlayer
 		{
 			var modPlayer = player.GetModPlayer<PlayerDirectioning>();
 
-			Writer.TryWriteSenderPlayer(player);
+			NetUtils.TryWriteSenderPlayer(Writer, player);
 			Writer.WriteVector2(modPlayer.MouseWorld);
-			Writer.WriteHalfVector2(modPlayer.LookPosition - modPlayer.MouseWorld);
+			Writer.WriteVector2F16(modPlayer.LookPosition - modPlayer.MouseWorld);
 		}
 
 		public override void Read(BinaryReader reader, int sender)
@@ -54,10 +56,10 @@ public sealed class PlayerDirectioning : ModPlayer
 	private struct Override<T>
 	{
 		public T Value;
-		public Timer Timer;
+		public GameTimer Timer;
 		public OverrideFlags Flags;
 
-		public Override(T value, Timer timer, OverrideFlags flags = 0)
+		public Override(T value, GameTimer timer, OverrideFlags flags = 0)
 		{
 			Value = value;
 			Timer = timer;
@@ -193,4 +195,7 @@ public sealed class PlayerDirectioning : ModPlayer
 			UpdateDirection();
 		}
 	}
+
+	public static Vector2 LookDirection(Player player)
+		=> (player.GetModPlayer<PlayerDirectioning>().MouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
 }

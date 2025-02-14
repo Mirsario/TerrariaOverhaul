@@ -2,7 +2,6 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -11,13 +10,15 @@ using MonoMod.Cil;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Debugging;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Core.Localization;
 
 public sealed class TextSystem : ModSystem
 {
 	private delegate List<(string, string)> LoadTranslationsDelegate(Mod mod, GameCulture culture);
+
+	[UnsafeAccessor(UnsafeAccessorKind.Method, Name = "SetValue")]
+	public static extern void SetLocalizedTextValue(LocalizedText text, string value);
 	
 	private static bool isLoaded;
 	private static bool forcedLocalizationLoad;
@@ -34,12 +35,9 @@ public sealed class TextSystem : ModSystem
 
 	private static void EnsureInitialized()
 	{
-		if (isLoaded) {
-			return;
-		}
+		if (isLoaded) return;
 
-		var flags = ReflectionUtils.AnyBindingFlags;
-
+		var flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static;
 		if (typeof(LocalizationLoader).GetMethod("LoadModTranslations", flags) is MethodInfo loadModTranslations) {
 			MonoModHooks.Modify(loadModTranslations, InjectLanguageRefreshCounter);
 		} else {
@@ -47,8 +45,6 @@ public sealed class TextSystem : ModSystem
 		}
 
 		var loadTranslationsMethod = typeof(LocalizationLoader).GetMethod("LoadTranslations", flags, new[] { typeof(Mod), typeof(GameCulture) });
-		var localizedTextSetValueMethod = typeof(LocalizedText).GetMethod("SetValue", flags, new[] { typeof(string) });
-
 		if (loadTranslationsMethod != null && loadTranslationsMethod.ReturnType == typeof(List<(string, string)>)) {
 			loadTranslations = loadTranslationsMethod.CreateDelegate<LoadTranslationsDelegate>();
 		} else {
@@ -57,9 +53,6 @@ public sealed class TextSystem : ModSystem
 
 		isLoaded = true;
 	}
-
-	[UnsafeAccessor(UnsafeAccessorKind.Method, Name = "SetValue")]
-	public static extern void SetLocalizedTextValue(LocalizedText text, string value);
 
 	public static string GetTextValueSafe(string key)
 	{

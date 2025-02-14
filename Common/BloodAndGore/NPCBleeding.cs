@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
@@ -18,7 +18,7 @@ public class NPCBleeding : GlobalNPC
 	{
 		// Bleed on low health.
 
-		if (ChildSafety.Disabled && npc.GetMainSegment() == npc) {
+		if (ChildSafety.Disabled && npc.FindMainSegment() == npc) {
 			float bleedingRate = 12f;
 
 			if (npc.boss || NPCID.Sets.ShouldBeCountedAsBoss[npc.type]) {
@@ -29,7 +29,7 @@ public class NPCBleeding : GlobalNPC
 
 			if (npc.life < npc.lifeMax / 2 && (Main.GameUpdateCount + npc.whoAmI * 15) % bleedEveryXTick == 0) {
 				// TODO: Optimize this via a skip of enumeration?
-				var bleedingNpc = npc.GetRandomSegment();
+				var bleedingNpc = npc.FindRandomSegment();
 
 				NPCBloodAndGore.Bleed(bleedingNpc, 1);
 			}

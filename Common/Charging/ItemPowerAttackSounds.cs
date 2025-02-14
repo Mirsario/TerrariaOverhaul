@@ -8,7 +8,7 @@ using Terraria.Audio;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Core.ItemComponents;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Charging;
 
@@ -20,7 +20,7 @@ public sealed class ItemPowerAttackSounds : ItemComponent, IModifyItemUseSound
 	public float RequiredChargeProgress;
 	public bool ReplacesUseSound;
 
-	private Timer lastCharge;
+	private GameTimer lastCharge;
 	private SlotId soundInstance;
 	private float previousChargeProgress;
 

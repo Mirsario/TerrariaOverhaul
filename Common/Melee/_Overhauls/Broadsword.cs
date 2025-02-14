@@ -13,10 +13,11 @@ using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.Interaction;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
@@ -168,7 +169,7 @@ public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 			}
 		}
 
-		TooltipUtils.ShowCombatInformation(Mod, tooltips, GetCombatInfo);
+		ItemTooltips.ShowCombatInformation(Mod, tooltips, GetCombatInfo);
 	}
 
 	void IModifyItemNPCHitSound.ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle? customHitSound, ref bool playNPCHitSound)

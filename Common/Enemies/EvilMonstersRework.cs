@@ -2,14 +2,12 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-using System;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.EntityEffects;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.Enemies;
 

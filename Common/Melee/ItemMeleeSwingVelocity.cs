@@ -11,7 +11,7 @@ using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
@@ -102,7 +102,7 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		// Couldn't just use MeleeAttackAiming.AttackDirection here due to TML lacking proper tools for controlling execution orders.
 		// By chance, this global's hooks run before MeleeAttackAiming's.
 		// -- Mirsario
-		var attackDirection = player.LookDirection();
+		var attackDirection = PlayerDirectioning.LookDirection(player);
 
 		dashVelocity *= animationMultiplier;
 

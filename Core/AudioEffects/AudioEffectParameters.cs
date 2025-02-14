@@ -3,7 +3,7 @@
 // See LICENSE.md for details.
 
 using Microsoft.Xna.Framework;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Core.AudioEffects;
 

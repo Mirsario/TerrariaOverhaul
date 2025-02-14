@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
-using MonoMod.RuntimeDetour;
 using Terraria.Localization;
 using Terraria.ModLoader;
 

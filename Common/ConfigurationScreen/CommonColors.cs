@@ -4,7 +4,7 @@
 
 using Microsoft.Xna.Framework;
 using TerrariaOverhaul.Core.Interface;
-using static TerrariaOverhaul.Utilities.ColorUtils;
+using static TerrariaOverhaul.Utilities.Xna.ColorUtils;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 

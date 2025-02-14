@@ -6,7 +6,7 @@ using System;
 
 namespace TerrariaOverhaul.Utilities;
 
-public class Surface<T> : IDisposable where T : unmanaged
+public sealed class Surface<T> : IDisposable where T : unmanaged
 {
 	public T[] Data { get; private set; }
 	public int Width { get; private set; }
@@ -23,6 +23,7 @@ public class Surface<T> : IDisposable where T : unmanaged
 
 	public void Dispose()
 	{
+		GC.SuppressFinalize(this);
 		Data = null!;
 		Width = -1;
 		Height = -1;

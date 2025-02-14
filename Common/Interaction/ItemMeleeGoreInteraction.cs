@@ -8,7 +8,7 @@ using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Hooks.Items;
 using TerrariaOverhaul.Common.Melee;
 using TerrariaOverhaul.Core.ItemComponents;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Interaction;
 

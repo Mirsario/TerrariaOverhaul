@@ -13,7 +13,8 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
@@ -102,10 +103,10 @@ public sealed class DebrisEffects : ModSystem
 
 	public static void SpawnTileDust(Rectangle rectangle)
 	{
-		int xStart = (rectangle.X / TileUtils.TileSizeInPixels) - 1;
-		int yStart = (rectangle.Y / TileUtils.TileSizeInPixels) - 1;
-		int xEnd = xStart + (int)MathF.Ceiling(rectangle.Width * TileUtils.PixelSizeInUnits) + 1;
-		int yEnd = yStart + (int)MathF.Ceiling(rectangle.Height * TileUtils.PixelSizeInUnits) + 1;
+		int xStart = (rectangle.X / WorldUtils.TileSizeInPixels) - 1;
+		int yStart = (rectangle.Y / WorldUtils.TileSizeInPixels) - 1;
+		int xEnd = xStart + (int)MathF.Ceiling(rectangle.Width * WorldUtils.PixelSizeInUnits) + 1;
+		int yEnd = yStart + (int)MathF.Ceiling(rectangle.Height * WorldUtils.PixelSizeInUnits) + 1;
 
 		for (int yy = yStart; yy < yEnd; yy++) {
 			for (int xx = xStart; xx < xEnd; xx++) {

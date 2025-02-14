@@ -16,7 +16,8 @@ using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Movement;
 
@@ -32,7 +33,7 @@ public sealed class PlayerClimbing : ModPlayer
 	private Vector2 climbEndPos;
 
 	public bool ForceClimb;
-	public Timer ClimbCooldown;
+	public GameTimer ClimbCooldown;
 
 	public float ClimbProgress { get; private set; }
 	public bool IsClimbing { get; private set; }
@@ -123,9 +124,9 @@ public sealed class PlayerClimbing : ModPlayer
 				=> !(t.HasTile && !t.IsActuated) || !Main.tileSolid[t.TileType] || AllowsClimbing.HasTile(t);
 
 			if (!(
-				TileCheckUtils.CheckAreaAll(pos.X, pos.Y - 3, 1, 3, CheckFree)
-				& TileCheckUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -1 : 1), pos.Y - 3, 1, 4, CheckFree)
-				& TileCheckUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -2 : 2), pos.Y - 2, 1, 3, CheckFree)
+				WorldUtils.CheckAreaAll(pos.X, pos.Y - 3, 1, 3, CheckFree)
+				& WorldUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -1 : 1), pos.Y - 3, 1, 4, CheckFree)
+				& WorldUtils.CheckAreaAll(pos.X + (Player.direction == 1 ? -2 : 2), pos.Y - 2, 1, 3, CheckFree)
 			)) {
 				continue;
 			}

@@ -8,7 +8,6 @@ using Hjson;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Ambience;
 
 // Prefabs are immutable entities loaded from data files.
 

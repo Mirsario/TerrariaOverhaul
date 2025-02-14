@@ -1,9 +1,10 @@
-﻿#pragma warning disable // Add braces
+﻿// Taken from
+// https://github.com/Auburn/FastNoiseLite/blob/master/CSharp/FastNoiseLite.cs?ts=4
+
+#pragma warning disable // Add braces
 
 namespace TerrariaOverhaul.Utilities;
 
-// Taken from
-// https://github.com/Auburn/FastNoiseLite/blob/master/CSharp/FastNoiseLite.cs?ts=4
 // No meaningful modifications have been done past this line.
 
 // MIT License
@@ -769,13 +770,13 @@ public class FastNoiseLite
 		switch (mNoiseType) {
 			case NoiseType.OpenSimplex2:
 			case NoiseType.OpenSimplex2S: {
-					const FNLfloat SQRT3 = (FNLfloat)1.7320508075688772935274463415059;
-					const FNLfloat F2 = 0.5f * (SQRT3 - 1);
-					FNLfloat t = (x + y) * F2;
-					x += t;
-					y += t;
-				}
-				break;
+				const FNLfloat SQRT3 = (FNLfloat)1.7320508075688772935274463415059;
+				const FNLfloat F2 = 0.5f * (SQRT3 - 1);
+				FNLfloat t = (x + y) * F2;
+				x += t;
+				y += t;
+			}
+			break;
 			default:
 				break;
 		}
@@ -790,31 +791,31 @@ public class FastNoiseLite
 
 		switch (mTransformType3D) {
 			case TransformType3D.ImproveXYPlanes: {
-					FNLfloat xy = x + y;
-					FNLfloat s2 = xy * -(FNLfloat)0.211324865405187;
-					z *= (FNLfloat)0.577350269189626;
-					x += s2 - z;
-					y = y + s2 - z;
-					z += xy * (FNLfloat)0.577350269189626;
-				}
-				break;
+				FNLfloat xy = x + y;
+				FNLfloat s2 = xy * -(FNLfloat)0.211324865405187;
+				z *= (FNLfloat)0.577350269189626;
+				x += s2 - z;
+				y = y + s2 - z;
+				z += xy * (FNLfloat)0.577350269189626;
+			}
+			break;
 			case TransformType3D.ImproveXZPlanes: {
-					FNLfloat xz = x + z;
-					FNLfloat s2 = xz * -(FNLfloat)0.211324865405187;
-					y *= (FNLfloat)0.577350269189626;
-					x += s2 - y;
-					z += s2 - y;
-					y += xz * (FNLfloat)0.577350269189626;
-				}
-				break;
+				FNLfloat xz = x + z;
+				FNLfloat s2 = xz * -(FNLfloat)0.211324865405187;
+				y *= (FNLfloat)0.577350269189626;
+				x += s2 - y;
+				z += s2 - y;
+				y += xz * (FNLfloat)0.577350269189626;
+			}
+			break;
 			case TransformType3D.DefaultOpenSimplex2: {
-					const FNLfloat R3 = (FNLfloat)(2.0 / 3.0);
-					FNLfloat r = (x + y + z) * R3; // Rotation, not skew
-					x = r - x;
-					y = r - y;
-					z = r - z;
-				}
-				break;
+				const FNLfloat R3 = (FNLfloat)(2.0 / 3.0);
+				FNLfloat r = (x + y + z) * R3; // Rotation, not skew
+				x = r - x;
+				y = r - y;
+				z = r - z;
+			}
+			break;
 			default:
 				break;
 		}
@@ -852,13 +853,13 @@ public class FastNoiseLite
 		switch (mDomainWarpType) {
 			case DomainWarpType.OpenSimplex2:
 			case DomainWarpType.OpenSimplex2Reduced: {
-					const FNLfloat SQRT3 = (FNLfloat)1.7320508075688772935274463415059;
-					const FNLfloat F2 = 0.5f * (SQRT3 - 1);
-					FNLfloat t = (x + y) * F2;
-					x += t;
-					y += t;
-				}
-				break;
+				const FNLfloat SQRT3 = (FNLfloat)1.7320508075688772935274463415059;
+				const FNLfloat F2 = 0.5f * (SQRT3 - 1);
+				FNLfloat t = (x + y) * F2;
+				x += t;
+				y += t;
+			}
+			break;
 			default:
 				break;
 		}
@@ -869,31 +870,31 @@ public class FastNoiseLite
 	{
 		switch (mWarpTransformType3D) {
 			case TransformType3D.ImproveXYPlanes: {
-					FNLfloat xy = x + y;
-					FNLfloat s2 = xy * -(FNLfloat)0.211324865405187;
-					z *= (FNLfloat)0.577350269189626;
-					x += s2 - z;
-					y = y + s2 - z;
-					z += xy * (FNLfloat)0.577350269189626;
-				}
-				break;
+				FNLfloat xy = x + y;
+				FNLfloat s2 = xy * -(FNLfloat)0.211324865405187;
+				z *= (FNLfloat)0.577350269189626;
+				x += s2 - z;
+				y = y + s2 - z;
+				z += xy * (FNLfloat)0.577350269189626;
+			}
+			break;
 			case TransformType3D.ImproveXZPlanes: {
-					FNLfloat xz = x + z;
-					FNLfloat s2 = xz * -(FNLfloat)0.211324865405187;
-					y *= (FNLfloat)0.577350269189626;
-					x += s2 - y;
-					z += s2 - y;
-					y += xz * (FNLfloat)0.577350269189626;
-				}
-				break;
+				FNLfloat xz = x + z;
+				FNLfloat s2 = xz * -(FNLfloat)0.211324865405187;
+				y *= (FNLfloat)0.577350269189626;
+				x += s2 - y;
+				z += s2 - y;
+				y += xz * (FNLfloat)0.577350269189626;
+			}
+			break;
 			case TransformType3D.DefaultOpenSimplex2: {
-					const FNLfloat R3 = (FNLfloat)(2.0 / 3.0);
-					FNLfloat r = (x + y + z) * R3; // Rotation, not skew
-					x = r - x;
-					y = r - y;
-					z = r - z;
-				}
-				break;
+				const FNLfloat R3 = (FNLfloat)(2.0 / 3.0);
+				FNLfloat r = (x + y + z) * R3; // Rotation, not skew
+				x = r - x;
+				y = r - y;
+				z = r - z;
+			}
+			break;
 			default:
 				break;
 		}

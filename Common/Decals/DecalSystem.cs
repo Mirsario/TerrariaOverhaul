@@ -14,7 +14,8 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Debugging;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Decals;
 
@@ -137,12 +138,12 @@ public sealed class DecalSystem : ModSystem
 		DebugSystem.DrawRectangle(rect, Color.Bisque);
 
 		var chunkStart = new Vector2Int(
-			(int)aabb.X / TileUtils.TileSizeInPixels / Chunk.MaxChunkSize,
-			(int)aabb.Y / TileUtils.TileSizeInPixels / Chunk.MaxChunkSize
+			(int)aabb.X / WorldUtils.TileSizeInPixels / Chunk.MaxChunkSize,
+			(int)aabb.Y / WorldUtils.TileSizeInPixels / Chunk.MaxChunkSize
 		);
 		var chunkEnd = new Vector2Int(
-			(int)aabb.Z / TileUtils.TileSizeInPixels / Chunk.MaxChunkSize,
-			(int)aabb.W / TileUtils.TileSizeInPixels / Chunk.MaxChunkSize
+			(int)aabb.Z / WorldUtils.TileSizeInPixels / Chunk.MaxChunkSize,
+			(int)aabb.W / WorldUtils.TileSizeInPixels / Chunk.MaxChunkSize
 		);
 
 		// The provided rectangle will be split between chunks, possibly into multiple draws.

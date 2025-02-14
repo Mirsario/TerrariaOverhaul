@@ -11,8 +11,8 @@ using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.TextureColors;
-using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Melee;
 
@@ -26,7 +26,7 @@ public class SlashPlayerDrawLayer : PlayerDrawLayer
 
 	public override void Load()
 	{
-		texture = Mod.Assets.Request<Texture2D>($"{GetType().GetDirectory()}/Slash");
+		texture = Mod.Assets.Request<Texture2D>("Common/Melee/Slash");
 	}
 
 	public override Position GetDefaultPosition()

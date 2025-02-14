@@ -6,7 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Networking;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Dodgerolls;
 
@@ -16,7 +16,7 @@ public sealed class PlayerDodgerollPacket : NetPacket
 	{
 		var playerDodgerolls = player.GetModPlayer<PlayerDodgerolls>();
 
-		Writer.TryWriteSenderPlayer(player);
+		NetUtils.TryWriteSenderPlayer(Writer, player);
 
 		Writer.Write((sbyte)playerDodgerolls.WantedDirection);
 		Writer.WriteVector2(player.velocity);

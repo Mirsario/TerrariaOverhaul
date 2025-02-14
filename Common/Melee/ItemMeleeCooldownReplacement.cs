@@ -2,9 +2,6 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-using System;
-using System.Linq;
-using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using TerrariaOverhaul.Core.ItemComponents;

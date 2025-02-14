@@ -5,7 +5,7 @@
 using System;
 using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Movement;
 

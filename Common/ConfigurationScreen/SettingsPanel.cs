@@ -12,7 +12,7 @@ using Terraria.ModLoader.UI.Elements;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Interface;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 

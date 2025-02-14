@@ -4,7 +4,7 @@
 
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 using static TerrariaOverhaul.Common.Interaction.WaterAndRainInteractions;
 
 namespace TerrariaOverhaul.Common.Interaction;

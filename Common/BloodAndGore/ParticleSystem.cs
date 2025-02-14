@@ -14,7 +14,8 @@ using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Decals;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 using BitOperations = System.Numerics.BitOperations;
 
 namespace TerrariaOverhaul.Common.BloodAndGore;
@@ -273,8 +274,8 @@ public sealed class ParticleSystem : ModSystem
 
 				lineEnd = lineStart + direction * length;
 
-				lineStart = Vector2Utils.Floor(lineStart / 2f) * 2f;
-				lineEnd = Vector2Utils.Floor(lineEnd / 2f) * 2f;
+				lineStart = VectorUtils.Floor(lineStart / 2f) * 2f;
+				lineEnd = VectorUtils.Floor(lineEnd / 2f) * 2f;
 
 				spriteBatch.DrawLine(lineStart - Main.screenPosition, lineEnd - Main.screenPosition, usedColor, 2);
 			}

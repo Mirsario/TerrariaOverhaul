@@ -15,7 +15,8 @@ using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
@@ -86,7 +87,7 @@ public sealed class BossDeathEffects : GlobalNPC
 				LengthInSeconds = 1.00f,
 				FadeInLength = 0.35f,
 				FadeOutLength = 3.0f,
-				Zoom = 2f,
+				Zoom = +0.75f,
 				UniqueId = "BossDeath",
 			});
 		}

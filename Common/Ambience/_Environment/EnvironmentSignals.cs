@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 #pragma warning disable IDE0060 // Remove unused parameter
 #pragma warning disable IDE0051 // Remove unused private members
@@ -29,25 +29,25 @@ public static class EnvironmentSignals
 
 	[EnvironmentSignalUpdater]
 	private static float Underwater(in EnvironmentContext context)
-		=> Main.LocalPlayer.IsUnderwater() ? 1f : 0f;
+		=> Main.LocalPlayer.CheckIfUnderwater() ? 1f : 0f;
 
 	// Altitude
 
 	[EnvironmentSignalUpdater]
 	private static float SurfaceOrSkyAltitude(in EnvironmentContext context)
-		=> WorldLocationUtils.SurfaceOrSkyGradient.GetValue(context.PlayerTilePosition.Y);
+		=> WorldLayers.SurfaceOrSky.GetValue(context.PlayerTilePosition.Y);
 
 	[EnvironmentSignalUpdater]
 	private static float SurfaceAltitude(in EnvironmentContext context)
-		=> WorldLocationUtils.SurfaceGradient.GetValue(context.PlayerTilePosition.Y);
+		=> WorldLayers.Surface.GetValue(context.PlayerTilePosition.Y);
 
 	[EnvironmentSignalUpdater]
 	private static float UnderSurfaceAltitude(in EnvironmentContext context)
-		=> WorldLocationUtils.UnderSurfaceGradient.GetValue(context.PlayerTilePosition.Y);
+		=> WorldLayers.UnderSurface.GetValue(context.PlayerTilePosition.Y);
 
 	[EnvironmentSignalUpdater]
 	private static float SpaceAltitude(in EnvironmentContext context)
-		=> WorldLocationUtils.SpaceGradient.GetValue(context.PlayerTilePosition.Y);
+		=> WorldLayers.Space.GetValue(context.PlayerTilePosition.Y);
 
 	// Weather
 

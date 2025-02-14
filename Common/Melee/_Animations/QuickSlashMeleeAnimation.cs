@@ -8,7 +8,8 @@ using Terraria;
 using Terraria.DataStructures;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Melee;
 

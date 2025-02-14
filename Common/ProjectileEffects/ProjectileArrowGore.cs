@@ -10,7 +10,7 @@ using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Tags;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 

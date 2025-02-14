@@ -11,6 +11,8 @@ namespace TerrariaOverhaul.Utilities;
 
 public static class IOUtils
 {
+	// Operation Safety
+
 	public static bool TryOperation<T>(Func<T> action, [NotNullWhen(true)] out T? result, int maxAttempts = 10, int sleepInterval = 50)
 	{
 		using var _ = new Logging.QuietExceptionHandle();

@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 

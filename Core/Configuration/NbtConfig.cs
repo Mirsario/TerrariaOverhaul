@@ -8,7 +8,6 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using Terraria.ModLoader.IO;
-using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities;
 using IOResult = TerrariaOverhaul.Core.Configuration.ConfigIO.Result;
 

@@ -19,7 +19,8 @@ using TerrariaOverhaul.Common.Footsteps;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Data;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.BloodAndGore;
 

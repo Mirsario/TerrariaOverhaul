@@ -13,7 +13,8 @@ using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.EntityCapturing;
 using TerrariaOverhaul.Core.SimpleEntities;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.TreeFalling;
 
@@ -31,7 +32,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 	public int TreeHeight;
 	public float Rotation;
 	public Direction1D FallDirection = Direction1D.Right;
-	public Vector2 Gravity = Vector2.UnitY * 30f * TileUtils.TileSizeInPixels;
+	public Vector2 Gravity = Vector2.UnitY * 30f * WorldUtils.TileSizeInPixels;
 	public Vector2 Position;
 	public Vector2 Velocity;
 	public Vector2 TextureOrigin;
@@ -102,7 +103,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 		if (allowEffects && !Main.dedServ) {
 			InstantiateDusts();
 
-			var soundPosition = Position + new Vector2(0f, -TreeHeight * TileUtils.TileSizeInPixels * 0.5f).RotatedBy(Rotation);
+			var soundPosition = Position + new Vector2(0f, -TreeHeight * WorldUtils.TileSizeInPixels * 0.5f).RotatedBy(Rotation);
 
 			SoundEngine.PlaySound(in TreeGroundHitSound, soundPosition);
 		}
@@ -121,7 +122,7 @@ public sealed class FallingTreeEntity : SimpleEntity
 		float rotation = Rotation;
 
 		for (int i = 0; i < TreeHeight; i++) {
-			var positionOffset = new Vector2(0f, -i * TileUtils.TileSizeInPixels);
+			var positionOffset = new Vector2(0f, -i * WorldUtils.TileSizeInPixels);
 			var transformedOffset = positionOffset.RotatedBy(rotation);
 
 			var offsetPosition = position + transformedOffset;

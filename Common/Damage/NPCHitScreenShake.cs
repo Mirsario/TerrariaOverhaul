@@ -6,7 +6,8 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
+
 
 #pragma warning disable IDE0060 // Remove unused parameter
 

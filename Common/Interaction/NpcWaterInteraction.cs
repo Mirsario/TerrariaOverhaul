@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 using static TerrariaOverhaul.Common.Interaction.WaterAndRainInteractions;
 
 namespace TerrariaOverhaul.Common.Interaction;
