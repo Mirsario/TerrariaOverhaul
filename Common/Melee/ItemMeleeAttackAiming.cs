@@ -55,7 +55,7 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 
 	public override void UseAnimation(Item item, Player player)
 	{
-		SourceAttackDirection = PlayerDirectioning.LookDirection(player);
+		SourceAttackDirection = PlayerDirection.LookDirection(player);
 
 		if (EnableMeleeAttackAiming) {
 			AttackDirection = SourceAttackDirection;

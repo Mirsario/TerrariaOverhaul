@@ -97,7 +97,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 
 	public override void PreUpdate()
 	{
-		var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().LookPosition;
+		var mouseWorld = Player.GetModPlayer<PlayerDirection>().LookPosition;
 		Vector2 offset = mouseWorld - Player.Center;
 		int direction = offset.X >= 0f ? 1 : -1;
 

@@ -391,7 +391,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 		// Apply rotations & direction
 		Player.GetModPlayer<PlayerItemRotation>().ForcedItemRotation = StartItemRotation;
 		Player.GetModPlayer<PlayerAnimations>().ForcedLegFrame = PlayerFrames.Jump;
-		Player.GetModPlayer<PlayerDirectioning>().SetDirectionOverride(DodgeDirectionVisual, 2, PlayerDirectioning.OverrideFlags.IgnoreItemAnimation);
+		Player.GetModPlayer<PlayerDirection>().SetDirectionOverride(DodgeDirectionVisual, 2, PlayerDirection.OverrideFlags.IgnoreItemAnimation);
 
 		rotation = DodgeDirection == Direction1D.Right
 			? Math.Min(+MathHelper.TwoPi, MathHelper.Lerp(StartRotation, +MathHelper.TwoPi, dodgeProgress))

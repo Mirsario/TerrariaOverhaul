@@ -102,7 +102,7 @@ public sealed class ItemMeleeSwingVelocity : ItemComponent
 		// Couldn't just use MeleeAttackAiming.AttackDirection here due to TML lacking proper tools for controlling execution orders.
 		// By chance, this global's hooks run before MeleeAttackAiming's.
 		// -- Mirsario
-		var attackDirection = PlayerDirectioning.LookDirection(player);
+		var attackDirection = PlayerDirection.LookDirection(player);
 
 		dashVelocity *= animationMultiplier;
 

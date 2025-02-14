@@ -17,13 +17,13 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public sealed class PlayerDirectioning : ModPlayer
+public sealed class PlayerDirection : ModPlayer
 {
 	public sealed class PlayerMousePositionPacket : NetPacket
 	{
 		public PlayerMousePositionPacket(Player player)
 		{
-			var modPlayer = player.GetModPlayer<PlayerDirectioning>();
+			var modPlayer = player.GetModPlayer<PlayerDirection>();
 
 			NetUtils.TryWriteSenderPlayer(Writer, player);
 			Writer.WriteVector2(modPlayer.MouseWorld);
@@ -32,7 +32,7 @@ public sealed class PlayerDirectioning : ModPlayer
 
 		public override void Read(BinaryReader reader, int sender)
 		{
-			if (!reader.TryReadSenderPlayer(sender, out var player) || !player.TryGetModPlayer(out PlayerDirectioning modPlayer)) {
+			if (!reader.TryReadSenderPlayer(sender, out var player) || !player.TryGetModPlayer(out PlayerDirection modPlayer)) {
 				return;
 			}
 
@@ -96,13 +96,13 @@ public sealed class PlayerDirectioning : ModPlayer
 		On_Player.HorizontalMovement += static (orig, player) => {
 			orig(player);
 
-			player.GetModPlayer<PlayerDirectioning>()?.UpdateDirection();
+			player.GetModPlayer<PlayerDirection>()?.UpdateDirection();
 		};
 
 		On_Player.ItemCheck_StartActualUse += static (On_Player.orig_ItemCheck_StartActualUse orig, Player player, Item sItem) => {
 			orig(player, sItem);
 
-			player.GetModPlayer<PlayerDirectioning>()?.UpdateDirection(ignoreItemAnim: true);
+			player.GetModPlayer<PlayerDirection>()?.UpdateDirection(ignoreItemAnim: true);
 		};
 
 		On_PlayerSleepingHelper.StartSleeping += static (On_PlayerSleepingHelper.orig_StartSleeping orig, ref PlayerSleepingHelper self, Player player, int x, int y) => {
@@ -197,5 +197,5 @@ public sealed class PlayerDirectioning : ModPlayer
 	}
 
 	public static Vector2 LookDirection(Player player)
-		=> (player.GetModPlayer<PlayerDirectioning>().MouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
+		=> (player.GetModPlayer<PlayerDirection>().MouseWorld - player.Center).SafeNormalize(Vector2.UnitY);
 }

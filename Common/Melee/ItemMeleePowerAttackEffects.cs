@@ -38,7 +38,7 @@ public sealed class ItemMeleePowerAttackEffects : ItemComponent
 
 					lastCharge = charge;
 				} else {
-					aiming.AttackDirection = Vector2.Lerp(aiming.AttackDirection, PlayerDirectioning.LookDirection(player), 5f * TimeSystem.LogicDeltaTime);
+					aiming.AttackDirection = Vector2.Lerp(aiming.AttackDirection, PlayerDirection.LookDirection(player), 5f * TimeSystem.LogicDeltaTime);
 				}
 			}
 		}

@@ -49,7 +49,7 @@ public class PlayerHeadRotation : ModPlayer
 		if (Player.sleeping.isSleeping) {
 			targetHeadRotation = 0;
 		} else {
-			var lookPosition = Player.GetModPlayer<PlayerDirectioning>().LookPosition;
+			var lookPosition = Player.GetModPlayer<PlayerDirection>().LookPosition;
 			Vector2 offset = lookPosition - Player.Center;
 
 			if (Math.Sign(offset.X) == Player.direction) {

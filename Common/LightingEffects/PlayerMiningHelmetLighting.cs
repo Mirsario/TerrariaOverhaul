@@ -47,7 +47,7 @@ public sealed class PlayerMiningHelmetLighting : ModPlayer
 
 		const int NumSteps = 24;
 
-		var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().MouseWorld;
+		var mouseWorld = Player.GetModPlayer<PlayerDirection>().MouseWorld;
 		var startPos = Player.Center - Vector2.UnitY * 8;
 		var endPos = Player.position + Vector2.Transform(new Vector2(NumSteps * 16f, 0f), Matrix.CreateRotationZ((mouseWorld - startPos).ToRotation()));
 		float maxBrightness = 1f;

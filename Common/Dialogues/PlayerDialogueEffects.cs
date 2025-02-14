@@ -20,7 +20,7 @@ public sealed class PlayerDialogueEffects : ModPlayer
 	public override void PreUpdate()
 	{
 		if (Player.TalkNPC is NPC { active: true } npc) {
-			if (Player.TryGetModPlayer(out PlayerDirectioning directions)) {
+			if (Player.TryGetModPlayer(out PlayerDirection directions)) {
 				var playerCenter = Player.Center;
 				var npcCenter = npc.Center;
 

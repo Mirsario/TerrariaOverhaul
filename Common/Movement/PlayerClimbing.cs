@@ -103,7 +103,7 @@ public sealed class PlayerClimbing : ModPlayer
 			return;
 		}
 
-		Player.GetModPlayer<PlayerDirectioning>().UpdateDirection();
+		Player.GetModPlayer<PlayerDirection>().UpdateDirection();
 
 		var tilePos = Player.position.ToTileCoordinates();
 
@@ -142,7 +142,7 @@ public sealed class PlayerClimbing : ModPlayer
 		var playerMovement = Player.GetModPlayer<PlayerMovement>();
 		var playerRotation = Player.GetModPlayer<PlayerBodyRotation>();
 		var playerAnimations = Player.GetModPlayer<PlayerAnimations>();
-		var playerDirectioning = Player.GetModPlayer<PlayerDirectioning>();
+		var playerDirectioning = Player.GetModPlayer<PlayerDirection>();
 
 		Player.gfxOffY = 0f; // Disable autostep vertical sprite offsets.
 
@@ -152,7 +152,7 @@ public sealed class PlayerClimbing : ModPlayer
 		// Force direction.
 		var climbDirection = climbStartPos.X <= climbEndPos.X ? Direction1D.Right : Direction1D.Left;
 
-		playerDirectioning.SetDirectionOverride(climbDirection, 2, PlayerDirectioning.OverrideFlags.IgnoreItemAnimation);
+		playerDirectioning.SetDirectionOverride(climbDirection, 2, PlayerDirection.OverrideFlags.IgnoreItemAnimation);
 
 		// Progress climbing.
 		ClimbProgress = MathUtils.StepTowards(ClimbProgress, 1f, 1f / ClimbTime * TimeSystem.LogicDeltaTime);
