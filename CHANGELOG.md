@@ -94,6 +94,9 @@
 - Chinese (`59.1%` -> `100%`) - PRs [#232](https://github.com/Mirsario/TerrariaOverhaul/pull/232) & [#233](https://github.com/Mirsario/TerrariaOverhaul/pull/233) by [**xiaoyvyv**](https://github.com/xiaoyvyv) & [**Cyrillya**](https://github.com/Cyrillya).
 - Fixed Overhaul's main menu buttons sometimes being incorrectly shown in English when a different language is selected.
 - A few more GUI elements were made localizable.
+### Performance
+- Improved performance of falling tree texture generation.
+- Fixed a rare sound occlusion performance dip occurring when sounds are played far away aboveground with no occluding objects between the sound and the listener.
 ### Fixes
 - Fixed issue [#217](https://github.com/Mirsario/TerrariaOverhaul/issues/217) (Decals may become offset or warped in rendering).
 - Fixed issue [#195](https://github.com/Mirsario/TerrariaOverhaul/issues/195) (Cutting down a tree makes things disappear for a moment).
@@ -111,8 +114,6 @@
 - Fixed crosshair animations stacking up when user interface is turned off via F11.
 - Fixed issue [#252](https://github.com/Mirsario/TerrariaOverhaul/issues/252) (Spirit Flame & Mystic Coil Snake wrongfully rotated by AlwaysShowAimableWeapons).
 - Fixed footsteps not playing when bouncing on 'Silly Balloon Blocks'.
-### Performance
-- Improved performance of falling tree texture generation.
 
 # 5.0 BETA 14
 
