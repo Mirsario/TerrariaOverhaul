@@ -100,8 +100,10 @@
 ### Fixes
 - Fixed issue [#217](https://github.com/Mirsario/TerrariaOverhaul/issues/217) (Decals may become offset or warped in rendering).
 - Fixed issue [#195](https://github.com/Mirsario/TerrariaOverhaul/issues/195) (Cutting down a tree makes things disappear for a moment).
+- Fixed issue [#252](https://github.com/Mirsario/TerrariaOverhaul/issues/252) (Spirit Flame & Mystic Coil Snake wrongfully rotated by AlwaysShowAimableWeapons).
 - Fixed ambience tracks being broken again. If only unit tests were a thing...
 - Fixed the "Evil Drone" ambience track unintentionally playing in the Jungle due to a mishap in the internal 'environment signal' system.
+- Fixed dodgeroll charge UI able to appear when the player is dead.
 - Fixed the Vortex Beater playing its firing sound effects every frame, via a temporary workaround.
 - Fixed the crosshair sometimes appearing together with the base cursor, when hovering over GUI elements.
 - Fixed tile-based sound occlusion not being updated whenever sounds happen to move.
@@ -112,7 +114,6 @@
 - Fixed the `Always Show Aimable Weapons` feature unintentionally being active when sleeping in a bed.
 - Fixed weapon aiming animations not taking the player's full body rotation into account.
 - Fixed crosshair animations stacking up when user interface is turned off via F11.
-- Fixed issue [#252](https://github.com/Mirsario/TerrariaOverhaul/issues/252) (Spirit Flame & Mystic Coil Snake wrongfully rotated by AlwaysShowAimableWeapons).
 - Fixed footsteps not playing when bouncing on 'Silly Balloon Blocks'.
 
 # 5.0 BETA 14

@@ -35,9 +35,7 @@ public sealed class DodgerollMeterUISystem : ModSystem
 				return true;
 			}
 
-			var player = Main.LocalPlayer;
-
-			if (player?.active != true || !player.TryGetModPlayer(out PlayerDodgerolls dodgerolls)) {
+			if (Main.LocalPlayer is not { active: true, dead: false } player || !player.TryGetModPlayer(out PlayerDodgerolls dodgerolls)) {
 				return true;
 			}
 
