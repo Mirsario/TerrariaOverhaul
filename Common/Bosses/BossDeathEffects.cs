@@ -8,9 +8,11 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
+using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Interface;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;
@@ -22,6 +24,11 @@ namespace TerrariaOverhaul.Common.Bosses;
 
 public sealed class BossDeathEffects : GlobalNPC
 {
+	public struct SharedBossLines()
+	{
+		public string[] DefeatedLines = [];
+	}
+
 	public static readonly ConfigEntry<bool> EnableBossDeathMusicStop = new(ConfigSide.ClientOnly, true, "Music", "Bosses");
 	public static readonly ConfigEntry<bool> PlayBossDeathTransitionCue = new(ConfigSide.ClientOnly, true, "Music", "Bosses");
 	public static readonly ConfigEntry<bool> FocusCameraOnBossEvents = new(ConfigSide.ClientOnly, true, "Camera", "Bosses");
@@ -49,9 +56,9 @@ public sealed class BossDeathEffects : GlobalNPC
 			var position = npc.Center;
 
 			if (Main.netMode == NetmodeID.Server) {
-				MultiplayerSystem.SendPacket(new Packet(position));
+				MultiplayerSystem.SendPacket(new Packet(npc.type, position));
 			} else {
-				Effect(position);
+				Effect(npc.type, position);
 			}
 		}
 	}
@@ -61,7 +68,7 @@ public sealed class BossDeathEffects : GlobalNPC
 		musicParameters.Volume = MathF.Min(musicParameters.Volume, volumeGradient.GetValue(1f - intensity));
 	}
 
-	private static void Effect(Vector2 position)
+	private static void Effect(int npcType, Vector2 position)
 	{
 		if (Main.dedServ) {
 			return;
@@ -84,35 +91,77 @@ public sealed class BossDeathEffects : GlobalNPC
 			CameraCurios.Create(position, new() {
 				Weight = 3.00f,
 				Range = new(Min: 512f, Max: 1536f, Exponent: 2f),
-				LengthInSeconds = 1.00f,
+				LengthInSeconds = 1.20f,
 				FadeInLength = 0.35f,
-				FadeOutLength = 3.0f,
+				FadeOutLength = 5.0f,
 				Zoom = +0.75f,
 				UniqueId = "BossDeath",
 			});
 		}
 
 		if (PlayBossDeathTransitionCue) {
-			SoundEngine.PlaySound(new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Cinematics/Transition", 2) {
+			SoundEngine.PlaySound(new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Cinematics/BossDefeated") {
 				Volume = 1.0f,
-				PitchVariance = 0.1f,
 				SoundLimitBehavior = SoundLimitBehavior.ReplaceOldest,
+			});
+		}
+
+		if (BossLines.TryGet(npcType, out var lines)) {
+			const float EffectLength = 7.5f;
+			var defeatedFadeIn = (0.25f, 0.30f);
+
+			OverlayText.Create(new OverlayTextLine {
+				AnimationLength = EffectLength,
+				Position = (new(0.5f, 0.25f), new(0f, 0f)),
+				Text = lines.Name,
+				FontOverride = FontAssets.DeathText,
+				PrimaryColor = Color.White,
+				OutlineColor = Color.DarkRed,
+
+				FadeInEffect = (0.00f, 0.20f),
+				FadeOutEffect = defeatedFadeIn,
+			});
+			OverlayText.Create(new OverlayTextLine {
+				AnimationLength = EffectLength,
+				Position = (new(0.5f, 0.25f), new(0f, 0f)),
+				Text = lines.Name,
+				FontOverride = FontAssets.DeathText,
+				PrimaryColor = ColorUtils.FromHexRgb(0x8338c0),
+				OutlineColor = Color.Black,
+
+				FadeInEffect = defeatedFadeIn,
+				FadeOutEffect = (0.60f, 1.00f),
+				ShakeEffect = (10f, Vector2.One * 3f),
+			});
+			OverlayText.Create(new OverlayTextLine {
+				AnimationLength = EffectLength,
+				Position = (new(0.5f, 0.25f), new(0f, 60f)),
+				Text = lines.DefeatLines[Main.rand.Next(lines.DefeatLines.Length)],
+				FontOverride = FontAssets.DeathText,
+				PrimaryColor = ColorUtils.FromHexRgb(0x8338c0),
+				OutlineColor = Color.Black,
+
+				FadeInEffect = defeatedFadeIn,
+				FadeOutEffect = (0.60f, 1.00f),
+				ShakeEffect = (10f, Vector2.One * 3f),
 			});
 		}
 	}
 
 	public sealed class Packet : NetPacket
 	{
-		public Packet(Vector2 position)
+		public Packet(int npcType, Vector2 position)
 		{
+			Writer.Write7BitEncodedInt(npcType);
 			Writer.WriteVector2(position);
 		}
 
 		public override void Read(BinaryReader reader, int sender)
 		{
+			int npcType = reader.Read7BitEncodedInt();
 			var position = reader.ReadVector2();
-			if (!position.HasNaNs()) {
-				Effect(position);
+			if (npcType >= 0 && npcType < NPCLoader.NPCCount && !position.HasNaNs()) {
+				Effect(npcType, position);
 			}
 		}
 	}

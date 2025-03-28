@@ -9,46 +9,46 @@
 
 ## de-DE
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***24.0%***
-- **Translated:** `82` out of `342` (`260` missing!)
+- **Completion:** ***19.2%***
+- **Translated:** `82` out of `426` (`344` missing!)
 
 ## en-US
 - **Status:** ✅ Full!
 - **Completion:** ***100.0%***
-- **Translated:** `342` out of `342` (`0` missing!)
+- **Translated:** `426` out of `426` (`0` missing!)
 
 ## es-ES
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***50.0%***
-- **Translated:** `171` out of `342` (`171` missing!)
+- **Completion:** ***40.1%***
+- **Translated:** `171` out of `426` (`255` missing!)
 
 ## fr-FR
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***50.0%***
-- **Translated:** `171` out of `342` (`171` missing!)
+- **Completion:** ***40.1%***
+- **Translated:** `171` out of `426` (`255` missing!)
 
 ## it-IT
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***25.1%***
-- **Translated:** `86` out of `342` (`256` missing!)
+- **Completion:** ***20.2%***
+- **Translated:** `86` out of `426` (`340` missing!)
 
 ## pl-PL
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***50.0%***
-- **Translated:** `171` out of `342` (`171` missing!)
+- **Completion:** ***40.1%***
+- **Translated:** `171` out of `426` (`255` missing!)
 
 ## pt-BR
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***24.0%***
-- **Translated:** `82` out of `342` (`260` missing!)
+- **Completion:** ***19.2%***
+- **Translated:** `82` out of `426` (`344` missing!)
 
 ## ru-RU
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***25.1%***
-- **Translated:** `86` out of `342` (`256` missing!)
+- **Completion:** ***31.2%***
+- **Translated:** `133` out of `426` (`293` missing!)
 
 ## zh-Hans
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***86.3%***
-- **Translated:** `295` out of `342` (`47` missing!)
+- **Completion:** ***69.2%***
+- **Translated:** `295` out of `426` (`131` missing!)
 
