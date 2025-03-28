@@ -75,7 +75,7 @@ public sealed class NpcAudioEffects : GlobalNPC
 				&& gameUpdateCount >= data.approachSoundCooldownEndTime
 				&& perceivedVelocity.LengthSquared() >= data.ApproachVelocity * data.ApproachVelocity
 			) {
-				if (SoundEngine.PlaySound(in data.ApproachSound, center, new NpcAudioTracker(npc, true).Callback) != SlotId.Invalid) {
+				if (SoundEngine.PlaySound(in data.ApproachSound, center, new NpcTracker(npc).AudioCallback) != SlotId.Invalid) {
 					ScreenShakeSystem.New(data.ApproachScreenShake, center);
 					data.approachSoundCooldownEndTime = gameUpdateCount + (ulong)Main.rand.Next(data.ApproachSoundCooldown.Min, data.ApproachSoundCooldown.Max);
 				}
@@ -86,7 +86,7 @@ public sealed class NpcAudioEffects : GlobalNPC
 
 		// Random Effects
 		if (data.RandomSound.SoundPath != null && gameUpdateCount >= data.randomSoundCooldownEndTime && data.RandomSoundCooldown.Max != 0) {
-			if (data.randomSoundCooldownEndTime == 0 || SoundEngine.PlaySound(data.RandomSound, center, new NpcAudioTracker(npc, true).Callback) != SlotId.Invalid) {
+			if (data.randomSoundCooldownEndTime == 0 || SoundEngine.PlaySound(data.RandomSound, center, new NpcTracker(npc).AudioCallback) != SlotId.Invalid) {
 				data.randomSoundCooldownEndTime = gameUpdateCount + (ulong)Main.rand.Next(data.RandomSoundCooldown.Min, data.RandomSoundCooldown.Max);
 			}
 		}

@@ -2,27 +2,26 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public sealed class NpcAudioTracker(NPC npc, bool trackCenter)
+public sealed class NpcTracker(NPC npc)
 {
 	private readonly int type = npc.type;
 	private readonly int index = npc.whoAmI;
 
-	public bool Callback(ActiveSound sound)
+	public NPC? Npc() => (!Main.gameMenu && Main.npc[index] is NPC { active: true } npc && npc.type == type) ? npc : null;
+	public Vector2? Center() => Npc()?.Center;
+	
+	public bool AudioCallback(ActiveSound sound)
 	{
-		if (Main.gameMenu)
+		if (Npc() is not NPC npc)
 			return false;
 
-		if (Main.npc[index] is not NPC { active: true } npc || npc.type != type)
-			return false;
-
-		if (trackCenter)
-			sound.Position = npc.Center;
-
+		sound.Position = npc.Center;
 		return true;
 	}
 }
