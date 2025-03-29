@@ -2,14 +2,18 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
+using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.EntityEffects;
+using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
@@ -25,6 +29,10 @@ public sealed class EyeOfCthulhuRework : GlobalNPC
 
 	public static readonly ConfigEntry<bool> EnableEyeOfCthulhuEffects = new(ConfigSide.ClientOnly, true, "Bosses");
 
+	private (uint Start, uint End) glowFadeOut;
+
+	public override bool InstancePerEntity => true;
+
 	//private (float ai0, float ai1, float ai2, float ai3) oldAI;
 
 	public override bool AppliesToEntity(NPC npc, bool lateInstantiation)
@@ -34,9 +42,8 @@ public sealed class EyeOfCthulhuRework : GlobalNPC
 
 	public override void SetDefaults(NPC npc)
 	{
-		if (!EnableEyeOfCthulhuEffects) {
+		if (!EnableEyeOfCthulhuEffects)
 			return;
-		}
 
 		npc.HitSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Bosses/PainedScreech", 3) {
 			Volume = 0.42f,
@@ -71,16 +78,44 @@ public sealed class EyeOfCthulhuRework : GlobalNPC
 
 	public override void AI(NPC npc)
 	{
+		if (Main.dedServ || !EnableEyeOfCthulhuEffects)
+			return;
+
+		uint timeInTicks = Main.GameUpdateCount;
 		var ai = new MappedAI(npc);
 
 		// If transforming.
 		if (ai.State == 1) {
 			const int TransformationLength = 99;
+			const int GibFrequency = 5;
+			const int GibChanceOneIn = 1;
+			const int NumGibsPerSplat = 3;
+			float progress = MathUtils.Clamp01(ai.Timer / TransformationLength);
+			bool isEnd = ai.Timer >= TransformationLength;
+
+			if (isEnd || ((int)ai.Timer % GibFrequency == 0 && Main.rand.NextBool(GibChanceOneIn))) {
+				SoundEngine.PlaySound(
+					OverhaulGore.GoreBreakSound with { Volume = isEnd ? 1.0f : 0.5f, MaxInstances = 3 },
+					npc.Center
+				);
+
+				for (int i = 0; i < NumGibsPerSplat; i++) {
+					var gore = Gore.NewGorePerfect(npc.GetSource_FromThis(),
+						npc.Center + Main.rand.NextVector2Circular(npc.width * 0.5f, npc.height * 0.5f),
+						Main.rand.NextVector2Circular(12.5f, 12.5f),
+						ModContent.GoreType<GenericGore>(),
+						(float)Main.rand.NextFloat(1f, 1.5f)
+					);
+					if (gore is OverhaulGore oGore) {
+						oGore.BleedColor = Color.DarkRed;
+					}
+				}
+			}
 
 			CameraCurios.Create(npc.Center, new() {
-				Weight = 2.00f,
+				Weight = 0.90f,
 				Zoom = +0.5f,
-				Range = new(Min: 512f, Max: 1536f, Exponent: 2f),
+				Range = new(Min: 256f, Max: 900f, Exponent: 3f),
 				LengthInSeconds = 0.10f,
 				FadeInLength = 0.25f,
 				FadeOutLength = 1.5f,
@@ -88,11 +123,21 @@ public sealed class EyeOfCthulhuRework : GlobalNPC
 			});
 
 			ScreenShakeSystem.New(new() {
-				Power = ai.Timer >= TransformationLength ? 1f : 0.4f,
+				Power = isEnd ? 1f : 0.4f,
 				Range = 1280f,
-				LengthInSeconds = ai.Timer >= TransformationLength ? 1f : 0.1f,
+				LengthInSeconds = isEnd ? 1f : 0.1f,
 				UniqueId = "BossTransformation",
 			}, npc.Center);
+
+			// Start or restart glow that lasts a little bit past the transformation animation.
+			const int GlowFadeOutLength = 90;
+			glowFadeOut = (timeInTicks, timeInTicks + GlowFadeOutLength);
+		}
+
+		// Glow highlight.
+		if (glowFadeOut.End > timeInTicks) {
+			float progress = glowFadeOut.Start >= timeInTicks ? 0f : MathUtils.Clamp01((timeInTicks - glowFadeOut.Start) / (float)(glowFadeOut.End - glowFadeOut.Start));
+			Lighting.AddLight(npc.Center, new Vector3(1.00f, 0.25f, 0.25f) * (1f - progress));
 		}
 	}
 }
