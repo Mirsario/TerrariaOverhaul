@@ -31,7 +31,7 @@ namespace TerrariaOverhaul.Common.Dodgerolls;
 
 public struct DodgerollStats
 {
-	public uint MaxCharges = 2;
+	public uint MaxCharges = 0;
 	// Timings
 	public uint CooldownLength = 120;
 	public uint DodgerollLength = 22;
@@ -58,11 +58,18 @@ public struct DodgerollStats
 
 public sealed class PlayerDodgerolls : ModPlayer
 {
+	public enum DodgeKind { Auto, Dash, Roll }
+
 	public static readonly ConfigEntry<bool> EnableDodgerolls = new(ConfigSide.Both, true, "Movement");
 	public static readonly ConfigEntry<bool> EnableDodgerollAudioCues = new(ConfigSide.ClientOnly, true, "Movement", "Awareness");
 
 	public static readonly SoundStyle DodgerollSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/Armor", 3) {
 		Volume = 0.65f,
+		PitchVariance = 0.2f
+	};
+	public static readonly SoundStyle DashSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/Armor", 3) {
+		Volume = 0.65f,
+		Pitch = 0.4f,
 		PitchVariance = 0.2f
 	};
 	public static readonly SoundStyle FailureSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/NoAmmo") {
@@ -82,11 +89,14 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public GameTimer TirednessTimer;
 	public GameTimer NoDodgerollsTimer;
 	public GameTimer DodgeAttemptTimer;
+	public DodgeKind DodgeAttemptKind;
 	public bool ForceDodgeroll;
 	public Direction1D WantedDirection;
+	private uint lastMaxChargeCount;
 
 	public uint CurrentCharges { get; set; }
 	public bool IsDodging { get; private set; }
+	public bool IsDashing { get; private set; }
 	public uint DodgeTime { get; private set; }
 	public float StartRotation { get; private set; }
 	public float StartItemRotation { get; private set; }
@@ -102,8 +112,37 @@ public sealed class PlayerDodgerolls : ModPlayer
 
 		DodgerollKey = KeybindLoader.RegisterKeybind(Mod, "Dodgeroll", Keys.LeftControl);
 
-		IL_Player.Update_NPCCollision += PlayerNpcCollisionInjection;
 		IL_Projectile.Damage += ProjectileDamageInjection;
+		IL_Player.Update_NPCCollision += PlayerNpcCollisionInjection;
+		On_Player.DashMovement += DashMovementDetour;
+		On_Player.HorizontalMovement += HorizontalMovementDetour;
+	}
+
+	private static void HorizontalMovementDetour(On_Player.orig_HorizontalMovement orig, Player player)
+	{
+		var dodging = player.GetModPlayer<PlayerDodgerolls>();
+
+		if (!dodging.IsDodging) {
+			orig(player);
+			return;
+		}
+
+		using var left = ValueOverride.Create(ref player.controlLeft, false);
+		using var right = ValueOverride.Create(ref player.controlRight, false);
+
+		orig(player);
+	}
+
+	private static void DashMovementDetour(On_Player.orig_DashMovement orig, Player player)
+	{
+		var dodging = player.GetModPlayer<PlayerDodgerolls>();
+		bool isDashing = dodging.IsDodging && dodging.IsDashing;
+		using var cRight = ValueOverride.Create(ref player.controlRight, isDashing && dodging.DodgeDirection == Direction1D.Right);
+		using var rRight = ValueOverride.Create(ref player.releaseRight, isDashing && dodging.DodgeDirection == Direction1D.Right);
+		using var cLeft = ValueOverride.Create(ref player.controlLeft, isDashing && dodging.DodgeDirection == Direction1D.Left);
+		using var rLeft = ValueOverride.Create(ref player.releaseLeft, isDashing && dodging.DodgeDirection == Direction1D.Left);
+
+		orig(player);
 	}
 
 	public override void Initialize()
@@ -124,7 +163,11 @@ public sealed class PlayerDodgerolls : ModPlayer
 			return base.PreItemCheck();
 		}
 
-		CurrentCharges = Math.Min(CurrentCharges, Stats.MaxCharges);
+		if (Stats.MaxCharges != lastMaxChargeCount) {
+			TirednessTimer.Set(Stats.CooldownLength);
+			CurrentCharges = Math.Min(CurrentCharges, Stats.MaxCharges);
+			lastMaxChargeCount = Stats.MaxCharges;
+		}
 
 		UpdateCooldowns();
 		UpdateDodging();
@@ -150,8 +193,8 @@ public sealed class PlayerDodgerolls : ModPlayer
 			return base.CanUseItem(item);
 		}
 
-		// Disallow item use during a dodgeroll;
-		if (IsDodging) {
+		// Disallow item use during a dodgeroll, but allow during dashes;
+		if (IsDodging && !IsDashing) {
 			return false;
 		}
 
@@ -163,7 +206,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 		return base.CanUseItem(item);
 	}
 
-	public void QueueDodgeroll(uint minAttemptTimer, Direction1D direction, bool force = false)
+	public void QueueDodgeroll(DodgeKind kind, uint minAttemptTimer, Direction1D direction, bool force = false)
 	{
 		if (!EnableDodgerolls) {
 			return;
@@ -180,7 +223,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 		}
 
 		DodgeAttemptTimer.Set(minAttemptTimer);
-
+		DodgeAttemptKind = kind == DodgeKind.Auto ? (Player.controlDown ? DodgeKind.Roll : DodgeKind.Auto) : kind;
 		WantedDirection = direction;
 	}
 
@@ -220,7 +263,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 				_ => (Direction1D)Player.direction,
 			};
 
-			QueueDodgeroll(Stats.BufferingLength, chosenDirection);
+			QueueDodgeroll(DodgeKind.Auto, Stats.BufferingLength, chosenDirection);
 		}
 
 		if (!ForceDodgeroll) {
@@ -239,8 +282,8 @@ public sealed class PlayerDodgerolls : ModPlayer
 				return false;
 			}
 
-			// Handle item use
-			if (Player.ItemAnimationActive && Player.HeldItem is Item heldItem) {
+			// Handle item use for rolls.
+			if (DodgeAttemptKind == DodgeKind.Roll && Player.ItemAnimationActive && Player.HeldItem is Item heldItem) {
 				uint timeSinceItemUseStart = !Player.TryGetModPlayer(out PlayerItemUse playerItemUse)
 					? (uint)Math.Max(0, Player.itemAnimationMax - Player.itemAnimation)
 					: playerItemUse.TimeSinceLastUseAnimation;
@@ -279,21 +322,13 @@ public sealed class PlayerDodgerolls : ModPlayer
 			}
 		}*/
 
-		if (!Main.dedServ) {
-			SoundEngine.PlaySound(DodgerollSound, Player.Center);
-
-			// Slight screenshake
-			if (Player.IsLocal()) {
-				ScreenShakeSystem.New(new ScreenShake(0.04f, 0.10f) { UniqueId = "Dodgeroll" }, null);
-			}
-		}
-
 		Player.StopGrappling();
 
 		Player.channel = false;
-		Player.eocHit = 1;
+		//Player.eocHit = 1;
 
 		IsDodging = true;
+		IsDashing = DodgeAttemptKind != DodgeKind.Roll && Player.dashType != 0;
 		DodgeTime = 0;
 		StartVelocity = Player.velocity;
 		StartRotation = Player.GetModPlayer<PlayerBodyRotation>().Rotation;
@@ -301,17 +336,25 @@ public sealed class PlayerDodgerolls : ModPlayer
 		DodgeDirectionVisual = (Direction1D)Player.direction;
 		DodgeDirection = WantedDirection != 0 ? WantedDirection : (Direction1D)Player.direction;
 
+		// Start dash
+		if (IsDashing) {
+			DodgeDirectionVisual = DodgeDirection;
+			Player.dashDelay = 0;
+			Player.dashTime = 3;
+			//Player.DashMovement();
+		}
+
 		// Prevent other actions
 		Player.GetModPlayer<PlayerClimbing>().ClimbCooldown.Set(Stats.MovementActionDenialLength);
 
 		// Handle cooldowns
-		CurrentCharges = Math.Max(0, CurrentCharges - 1);
+		CurrentCharges = (uint)Math.Max(0, (int)CurrentCharges - 1);
 
 		// Activate tiredness, which doesn't stop the next dodgeroll on its own
 		uint tirednessTime = Stats.CooldownLength;
 
 		if (CurrentCharges == 0 && Stats.MaxCharges > 1) {
-			tirednessTime += Stats.CooldownLength * (Stats.MaxCharges - 1);
+			tirednessTime += (Stats.CooldownLength * (Stats.MaxCharges - 1)) / 2;
 		}
 
 		TirednessTimer.Set(tirednessTime);
@@ -320,6 +363,15 @@ public sealed class PlayerDodgerolls : ModPlayer
 			ForceDodgeroll = false;
 		} else if (Main.netMode != NetmodeID.SinglePlayer) {
 			MultiplayerSystem.SendPacket(new PlayerDodgerollPacket(Player));
+		}
+
+		if (!Main.dedServ) {
+			SoundEngine.PlaySound(IsDashing ? DashSound : DodgerollSound, !Player.IsLocal() ? Player.Center : null);
+
+			// Slight screenshake
+			if (Player.IsLocal()) {
+				ScreenShakeSystem.New(new ScreenShake(0.04f, 0.10f) { UniqueId = "Dodgeroll" }, null);
+			}
 		}
 
 		return true;
@@ -389,20 +441,24 @@ public sealed class PlayerDodgerolls : ModPlayer
 		Player.pulley = false;
 
 		// Apply rotations & direction
-		Player.GetModPlayer<PlayerItemRotation>().ForcedItemRotation = StartItemRotation;
-		Player.GetModPlayer<PlayerAnimations>().ForcedLegFrame = PlayerFrames.Jump;
 		Player.GetModPlayer<PlayerDirection>().SetDirectionOverride(DodgeDirectionVisual, 2, PlayerDirection.OverrideFlags.IgnoreItemAnimation);
 
-		rotation = DodgeDirection == Direction1D.Right
-			? Math.Min(+MathHelper.TwoPi, MathHelper.Lerp(StartRotation, +MathHelper.TwoPi, dodgeProgress))
-			: Math.Max(-MathHelper.TwoPi, MathHelper.Lerp(StartRotation, -MathHelper.TwoPi, dodgeProgress));
+		if (!IsDashing) {
+			Player.GetModPlayer<PlayerItemRotation>().ForcedItemRotation = StartItemRotation;
+			Player.GetModPlayer<PlayerAnimations>().ForcedLegFrame = PlayerFrames.Jump;
+		}
+		if (IsDodging && true) {
+			rotation = DodgeDirection == Direction1D.Right
+				? Math.Min(+MathHelper.TwoPi, MathHelper.Lerp(StartRotation, +MathHelper.TwoPi, dodgeProgress))
+				: Math.Max(-MathHelper.TwoPi, MathHelper.Lerp(StartRotation, -MathHelper.TwoPi, dodgeProgress));
+		}
 
 		// Progress the dodgeroll
 		DodgeTime++;
 
 		if (DodgeTime >= Stats.DodgerollLength) {
 			IsDodging = false;
-			Player.eocDash = 0;
+			//Player.eocDash = 0;
 			//forceSyncControls = true;
 		} else {
 			Player.runAcceleration = 0f;

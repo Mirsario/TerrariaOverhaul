@@ -6,6 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Dodgerolls;
 
@@ -17,19 +18,25 @@ public sealed class ItemDodgerollProgression : GlobalItem
 		Jump,
 	}
 
-	public static (int delta, int[] items)[] ChargeItems { get; set; } = Array.Empty<(int, int[])>();
 	public static Dictionary<int, float>[] BoostingItems { get; set; } = Array.Empty<Dictionary<int, float>>();
+	public static (int delta, int[] items)[] ChargeItems { get; set; } = Array.Empty<(int, int[])>();
+	public static (int delta, Func<Player, bool> getter)[] ChargeEffects { get; set; } = Array.Empty<(int, Func<Player, bool>)>();
 	public static (int delta, RecoveryType type, int identifier, int[] items)[] ActionRecovery { get; set; } = Array.Empty<(int, RecoveryType, int, int[])>();
 
 	public override void SetStaticDefaults()
 	{
-		// These increase the max charge amount
+		// Effects that increase or decrease the max charge amount.
+		ChargeEffects = new (int delta, Func<Player, bool> getter)[] {
+			// + All wings reduce it by 1
+			(-1, p => p.wingsLogic != 0),
+		};
+
+		// Items that increase or decrease the max charge amount.
 		ChargeItems = new[] {
+			(+1, new int[] { ItemID.HermesBoots, ItemID.FlurryBoots, ItemID.SailfishBoots, ItemID.SandBoots, ItemID.SpectreBoots, ItemID.LightningBoots, ItemID.FairyBoots, ItemID.HellfireTreads, ItemID.FrostsparkBoots, }),
 			(+1, new int[] { ItemID.MasterNinjaGear, ItemID.Tabi, }),
 			(+1, new int[] { ItemID.EoCShield }),
 			(+1, new int[] { ItemID.Aglet, ItemID.AnkletoftheWind }),
-
-			// + All wings reduce it by 1
 		};
 
 		// These speed up recovery time
@@ -117,18 +124,18 @@ public sealed class PlayerDodgerollProgression : ModPlayer
 
 	private void Charges(PlayerDodgerolls dodgerolls)
 	{
-		var chargeItems = ItemDodgerollProgression.ChargeItems;
+		void Modify(int number)
+			=> dodgerolls.Stats.MaxCharges = (uint)Math.Max(0, (int)(dodgerolls.Stats.MaxCharges + number));
 
-		for (int i = 0; i < chargeItems.Length; i++) {
-			ref readonly var tuple = ref chargeItems[i];
-
+		foreach (var tuple in ItemDodgerollProgression.ChargeItems) {
 			if (Player.HasAccessory(any: true, tuple.items)) {
-				dodgerolls.Stats.MaxCharges = (uint)Math.Max(0, (int)(dodgerolls.Stats.MaxCharges + tuple.delta));
+				Modify(tuple.delta);
 			}
 		}
-
-		if (Player.wings > 0) {
-			dodgerolls.Stats.MaxCharges -= 1;
+		foreach (var tuple in ItemDodgerollProgression.ChargeEffects) {
+			if (tuple.getter(Player)) {
+				Modify(tuple.delta);
+			}
 		}
 	}
 

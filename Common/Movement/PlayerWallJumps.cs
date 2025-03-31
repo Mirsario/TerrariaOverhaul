@@ -148,7 +148,7 @@ public class PlayerWallJumps : ModPlayer
 		}
 
 		if (stats.TriggerDodgeroll) {
-			playerDodgerolls.QueueDodgeroll((uint)(TimeSystem.LogicFramerate * 0.1f), (Direction1D)(-prevDirX), force: true);
+			playerDodgerolls.QueueDodgeroll(PlayerDodgerolls.DodgeKind.Roll, (uint)(TimeSystem.LogicFramerate * 0.1f), (Direction1D)(-prevDirX), force: true);
 		}
 
 		Player.StopGrappling();
