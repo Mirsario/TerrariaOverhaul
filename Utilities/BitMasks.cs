@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -60,6 +61,16 @@ public struct BitMask<T> : IEnumerable<int> where T : unmanaged, IUnsignedNumber
 
 	public BitMask(T value) => Value = value;
 
+	public readonly override bool Equals(object? obj) => obj is BitMask<T> other && this.Value == other.Value;
+	public readonly override int GetHashCode() => Value.GetHashCode();
+	public readonly override string ToString()
+	{
+		Span<char> chars = stackalloc char[BitSize];
+		chars.Fill('0');
+		foreach (int i in this) chars[i] = '1';
+		return chars.ToString();
+	}
+
 	[MethodImpl(InlineFlags)] public readonly bool Get(int index) => !T.IsZero(Value & (T.One << index));
 	[MethodImpl(InlineFlags)] public void Set(int index) => Value |= T.One << index;
 	[MethodImpl(InlineFlags)] public void Unset(int index) => Value &= ~(T.One << index);
@@ -73,6 +84,8 @@ public struct BitMask<T> : IEnumerable<int> where T : unmanaged, IUnsignedNumber
 	[MethodImpl(InlineFlags)] public static BitMask<T> operator ~(BitMask<T> a) => new(~a.Value);
 	[MethodImpl(InlineFlags)] public static BitMask<T> operator &(BitMask<T> a, BitMask<T> b) => new(a.Value & b.Value);
 	[MethodImpl(InlineFlags)] public static BitMask<T> operator |(BitMask<T> a, BitMask<T> b) => new(a.Value | b.Value);
+	[MethodImpl(InlineFlags)] public static bool operator ==(BitMask<T> a, BitMask<T> b) => a.Value == b.Value;
+	[MethodImpl(InlineFlags)] public static bool operator !=(BitMask<T> a, BitMask<T> b) => a.Value != b.Value;
 
 	[MethodImpl(InlineFlags)]
 	public static int PopCount(T value)

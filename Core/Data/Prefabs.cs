@@ -17,18 +17,17 @@ public readonly struct Prefab
 {
 	public static readonly Prefab Invalid = default;
 
-	public readonly uint Id;
-	public readonly bool IsValid => Id != 0;
+	public readonly uint Index;
+	public readonly uint Version;
+	public readonly bool IsValid => DataStorage.IsEntityValid(ToEntity());
 
-	internal Prefab(uint id) => Id = id;
+	public bool Has(ComponentMask mask) => DataStorage.HasComponents(ToEntity(), mask);
+	public readonly bool Has<T>() where T : IComponent => DataStorage.HasComponent<T>(ToEntity());
+	public readonly ref readonly T Get<T>() where T : IComponent => ref DataStorage.GetComponent<T>(ToEntity());
 
-	public readonly bool Has<T>() where T : IComponent
-		=> DataStorage.HasComponent<T>(ToEntity());
-
-	public readonly ref readonly T Get<T>() where T : IComponent
-		=> ref DataStorage.GetComponent<T>(ToEntity());
-
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	private readonly DataEntity ToEntity() => Unsafe.BitCast<Prefab, DataEntity>(this);
+
 	public static implicit operator Prefab(DataEntity entity) => Unsafe.BitCast<DataEntity, Prefab>(entity);
 }
 
@@ -62,30 +61,9 @@ public static class Prefabs
 	public static bool TryGetPrefab(string identifier, [NotNullWhen(true)] out Prefab prefab)
 		=> prefabsByName.TryGetValue(identifier, out prefab);
 
-	//TODO: All Query methods could be greatly optimized if needed, skipping LINQ & IEnumerables, and using component masks.
-	public static IEnumerable<Prefab> Query<T1>() where T1 : IComponent
+	public static Query Query()
 	{
-		for (uint i = 0; i < DataStorage.EntityCount; i++) {
-			var e = new Prefab(i);
-			if (e.Has<T1>())
-				yield return e;
-		}
-	}
-	public static IEnumerable<Prefab> Query<T1, T2>() where T1 : IComponent where T2 : IComponent
-	{
-		for (uint i = 0; i < DataStorage.EntityCount; i++) {
-			var e = new Prefab(i);
-			if (e.Has<T1>() && e.Has<T2>())
-				yield return e;
-		}
-	}
-	public static IEnumerable<Prefab> Query<T1, T2, T3>() where T1 : IComponent where T2 : IComponent where T3 : IComponent
-	{
-		for (uint i = 0; i < DataStorage.EntityCount; i++) {
-			var e = new Prefab(i);
-			if (e.Has<T1>() && e.Has<T2>() && e.Has<T3>())
-				yield return e;
-		}
+		return DataStorage.CreateQuery().With<PrefabInfo>();
 	}
 }
 

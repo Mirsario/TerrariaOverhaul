@@ -31,6 +31,7 @@ public sealed class AmbienceSystem : ModSystem
 	private static readonly EnvironmentTag VolumeTag = "Volume";
 	private static readonly List<AmbienceTrackType> TrackTypes = new();
 	private static readonly AmbienceTrackInstance[] TrackInstances = new AmbienceTrackInstance[64];
+	private static readonly Query ambienceTrackQuery = Prefabs.Query().With<AmbienceTrack>();
 	private static BitMask<ulong> globalInstanceMask;
 
 	public AmbienceSystem()
@@ -40,7 +41,7 @@ public sealed class AmbienceSystem : ModSystem
 
 	public override void OnModLoad()
 	{
-		foreach (var prefab in Prefabs.Query<AmbienceTrack>()) {
+		foreach (var prefab in ambienceTrackQuery) {
 			ref readonly var ambienceTrack = ref prefab.Get<AmbienceTrack>();
 			string trackName = prefab.Has<PrefabInfo>() ? prefab.Get<PrefabInfo>() : "Unknown";
 			RegisterAmbienceTrack(trackName, ambienceTrack);
