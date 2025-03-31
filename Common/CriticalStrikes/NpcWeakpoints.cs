@@ -4,6 +4,9 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Melee;
+using TerrariaOverhaul.Core.Debugging;
+using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
 
@@ -34,8 +37,11 @@ public struct Weakpoint
 }
 public struct WeakpointInfo()
 {
-	public sbyte DirectionalWeakpoint;
-	public Weakpoint[] Weakpoints = Array.Empty<Weakpoint>();
+	public bool WeakpointIsMainSegment;
+	public bool UsesRotationAngle;
+	public bool UsesSpriteDirection = true;
+	public sbyte DirectionalWeakpoint = 1;
+	public Weakpoint[] Weakpoints = [];
 }
 
 public sealed class NpcWeakpoints : GlobalNPC
@@ -56,18 +62,24 @@ public sealed class NpcWeakpoints : GlobalNPC
 
 	private bool JustChangedDirections => Main.GameUpdateCount - lastDirectionSwitchTime < DirectionChangeGracePeriod;
 
+	private static readonly ContentSet WeakpointUsesRotationAngle = nameof(WeakpointUsesRotationAngle);
+	private static readonly ContentSet WeakpointUsesSpriteDirection = nameof(WeakpointUsesSpriteDirection);
+	private static readonly ContentSet WeakpointIsMainSegment = nameof(WeakpointIsMainSegment);
+
 	public override bool InstancePerEntity => true;
 
 	public override void SetDefaults(NPC npc)
 	{
 		Array.Resize(ref weakpointsByType, NPCLoader.NPCCount);
 
-		ref var info = ref WeakpointsByType[npc.type];
-		info = new();
+		bool CheckSet(ContentSet set) => set.Has(npc) || set.Has<NPCAIStyleID>(npc.aiStyle);
 
-		//if (npc.aiStyle is NPCAIStyleID.Fighter or NPCAIStyleID.Passive or NPCAIStyleID.TargetDummy or NPCAIStyleID.Caster) {
-		info.DirectionalWeakpoint = 1;
-		//}
+		var info = new WeakpointInfo();
+		info.UsesRotationAngle = CheckSet(WeakpointUsesRotationAngle);
+		info.UsesSpriteDirection = CheckSet(WeakpointUsesSpriteDirection);
+		info.WeakpointIsMainSegment = CheckSet(WeakpointIsMainSegment);
+
+		WeakpointsByType[npc.type] = info;
 	}
 
 	public override void PostAI(NPC npc)
@@ -77,17 +89,22 @@ public sealed class NpcWeakpoints : GlobalNPC
 			lastDirectionSwitchTime = Main.GameUpdateCount;
 			lastDirection = direction;
 		}
+
+		//npc.rotation = MathUtils.LerpRadians(npc.rotation, npc.velocity.ToRotation() - MathHelper.PiOver2, 0.75f);
 	}
 
 	public override void ModifyHitByItem(NPC npc, Player player, Item item, ref NPC.HitModifiers modifiers)
 	{
-		if (!CriticalStrikeRework.EnableCriticalStrikeRework) {
+		if (!CriticalStrikeRework.EnableCriticalStrikeRework)
 			return;
-		}
 
 		var npcRect = npc.getRect();
 		var corner = npcRect.GetCorner(player.Center);
-		int attackDirection = Math.Sign(npc.DirectionTo(player.Center).X);
+		var attackDirection = npc.DirectionTo(player.Center);
+
+		if (!player.HeldItem.IsAir && player.HeldItem.TryGetGlobalItem(out ItemMeleeAttackAiming aiming)) {
+			attackDirection = aiming.AttackDirection;
+		}
 
 		if (CheckWeakpoints(npc, corner, attackDirection)) {
 			using var _ = CriticalStrikeRework.AllowCritChanceReturn();
@@ -100,14 +117,13 @@ public sealed class NpcWeakpoints : GlobalNPC
 
 	public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref NPC.HitModifiers modifiers)
 	{
-		if (!CriticalStrikeRework.EnableCriticalStrikeRework) {
+		if (!CriticalStrikeRework.EnableCriticalStrikeRework)
 			return;
-		}
 
 		var npcRect = npc.getRect();
 		var oldProjCenter = projectile.oldPosition + projectile.Size * 0.5f;
 		var corner = npcRect.GetCorner(oldProjCenter);
-		int attackDirection = -Math.Sign(projectile.velocity.X);
+		var attackDirection = projectile.velocity.SafeNormalize(Vector2.UnitX);
 
 		if (CheckWeakpoints(npc, corner, attackDirection)) {
 			using var _ = CriticalStrikeRework.AllowCritChanceReturn();
@@ -119,23 +135,48 @@ public sealed class NpcWeakpoints : GlobalNPC
 		}
 	}
 
-	private bool CheckWeakpoints(NPC npc, Vector2 point, int attackDirection)
+	private bool CheckWeakpoints(NPC npc, Vector2 point, Vector2 attackDirection)
 	{
-		if (JustChangedDirections || attackDirection != npc.spriteDirection) {
-			return true;
+		ref readonly var info = ref WeakpointsByType[npc.type];
+		int npcDirection = info.UsesSpriteDirection ? npc.spriteDirection : npc.direction;
+		bool justChangedDirections = JustChangedDirections;
+
+		if (info.WeakpointIsMainSegment) {
+			if (npc.realLife != -1 && npc.realLife == npc.whoAmI) {
+				return true;
+			}
+		} else if (info.DirectionalWeakpoint != 0) {
+			if (justChangedDirections) return true;
+
+			if (!info.UsesRotationAngle) {
+				int intAttackDirection = attackDirection.X > 0f ? -1 : +1;
+				if (intAttackDirection != (npcDirection * info.DirectionalWeakpoint)) {
+					return true;
+				}
+			} else {
+				float radius = MathHelper.Pi;
+				float halfRadius = radius * 0.5f;
+				float npcAngle = (npc.rotation + MathHelper.PiOver2);
+				//float npcAngle = npc.velocity.ToRotation();
+				float hitAngle = (-attackDirection).ToRotation();
+				float diff = ((hitAngle - npcAngle + MathHelper.Pi + MathHelper.TwoPi) % MathHelper.TwoPi) - MathHelper.Pi;
+				bool result = diff < -halfRadius || diff > halfRadius;
+
+				DebugSystem.DrawLine(npc.Center, npc.Center + (Vector2.UnitX.RotatedBy(npcAngle) * 256f), Color.White, 4);
+				DebugSystem.DrawLine(npc.Center, npc.Center + (Vector2.UnitX.RotatedBy(hitAngle) * 256f), Color.Red, 4);
+
+				if (info.DirectionalWeakpoint > 0 ? result : !result) {
+					return true;
+				}
+			}
 		}
 
-		for (int i = 0; i < 2; i++) {
-			int direction = npc.aiStyle == NPCAIStyleID.Slime ? npc.direction : npc.spriteDirection;
-			if (i == 1) {
-				if (Main.GameUpdateCount - lastDirectionSwitchTime < DirectionChangeGracePeriod)
-					direction = -direction;
-				else
-					break;
-			}
+		// Weakpoint checks are ran twice for both directions if we're within a direction change race period.
+		for (int i = 0; i < (justChangedDirections ? 2 : 1); i++) {
+			int checkDirection = i == 0 ? npcDirection : -npcDirection;
 
 			foreach (var weakpoint in WeakpointsByType[npc.type].Weakpoints) {
-				if (weakpoint.GetWorldRectangle(npc, direction).ContainsInclusive(point))
+				if (weakpoint.GetWorldRectangle(npc, checkDirection).ContainsInclusive(point))
 					return true;
 			}
 		}

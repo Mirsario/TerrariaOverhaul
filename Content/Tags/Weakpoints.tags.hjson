@@ -1,0 +1,32 @@
+// Tile tags
+
+WeakpointUsesRotationAngle: {
+	Includes.NPCAIStyleID: [
+		"Flying"
+		"Bat"
+		"DemonEye"
+		"EyeOfCthulhu"
+		"Retinazer"
+		"Spaazmatism" # Typo in vanilla.
+	]
+	Includes.NPCID: [
+
+	]
+}
+WeakpointUsesSpriteDirection: {
+	Includes.NPCAIStyleID: [
+		"Slime"
+	]
+	Includes.NPCID: [
+
+	]
+}
+WeakpointIsMainSegment: {
+	Includes.NPCAIStyleID: [
+		"Worm"
+		"TheDestroyer"
+	]
+	Includes.NPCID: [
+
+	]
+}

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using ReLogic.Reflection;
@@ -109,6 +110,8 @@ internal static class ContentSets
 		RegisterStorage<TileID>(TileID.Search);
 		RegisterStorage<WallID>(WallID.Search);
 		RegisterStorage<ProjectileID>(ProjectileID.Search);
+		RegisterStorage<NPCAIStyleID>(NPCAIStyleID.Search);
+		RegisterStorage<ProjAIStyleID>(ProjAIStyleID.Search);
 	}
 
 	public static ContentSet Get(string identifier)
@@ -213,12 +216,14 @@ internal static class ContentSets
 
 	public static void Recalculate()
 	{
+		var visitedSets = new HashSet<int>(capacity: 4);
+
 		for (int storageId = 0; storageId < storageCount; storageId++) {
 			ref var storage = ref storages[storageId];
 
 			var sets = storage.Sets;
 			var dirtySetsMasks = storage.DirtySetsMasks;
-			int newLength = storage.Search.Count;
+			int newLength = storage.Search.Count != int.MaxValue ? storage.Search.Count : ((Dictionary<string, int>.KeyCollection)storage.Search.Names).Count;
 			int newBitLength = (newLength / BitMask64.BitSize) + 1;
 
 			// Resize all value arrays.
@@ -226,12 +231,17 @@ internal static class ContentSets
 				Array.Resize(ref storage.Sets[i].Values.Array, newBitLength);
 			}
 
-			//TODO: Detect infinite recursion.
+			visitedSets.Clear();
+
 			void Recursive(int setId)
 			{
 				ref var glbSetData = ref globalSetData[setId];
 				ref var ctxSetData = ref sets[setId];
 				ref var values = ref ctxSetData.Values;
+
+				if (!visitedSets.Add(setId))
+					throw new InvalidOperationException($"Infinite recursion detected with set '{glbSetData.Name}'.");
+
 				Array.Clear(values.Array);
 
 				if (ctxSetData.IncludedLegacySets != null) {
