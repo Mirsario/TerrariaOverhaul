@@ -1,0 +1,12 @@
+PhysicalMaterial: {
+	AssociatedSet: "CloudMaterial"
+}
+
+MaterialFootsteps: {
+	StepSound: {
+		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Cloud/Step"
+		NumVariants: 5
+		Volume: 0.5
+		PitchVariance: 0.1
+	}
+}

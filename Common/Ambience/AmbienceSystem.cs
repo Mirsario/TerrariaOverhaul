@@ -7,19 +7,24 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Text.Json;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using ReLogic.Utilities;
 using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
+using TerrariaOverhaul.Common.Footsteps;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
+using EnvironmentTag = TerrariaOverhaul.Core.Tags.Tag<TerrariaOverhaul.Common.Ambience.EnvironmentSystem>;
 
 namespace TerrariaOverhaul.Common.Ambience;
 
@@ -28,14 +33,23 @@ public sealed class AmbienceSystem : ModSystem
 {
 	public static readonly ConfigEntry<bool> EnableAmbientSounds = new(ConfigSide.ClientOnly, true, "Ambience");
 
-	private static readonly Tag VolumeTag = "Volume";
+	private static readonly EnvironmentTag VolumeTag = "Volume";
 	private static readonly List<AmbienceTrackType> TrackTypes = new();
 	private static readonly AmbienceTrackInstance[] TrackInstances = new AmbienceTrackInstance[64];
 	private static BitMask<ulong> globalInstanceMask;
 
-	public override void Load()
+	public AmbienceSystem()
 	{
-		LoadAmbienceTracksFromMod(Mod);
+		Prefabs.RegisterJsonConverter(new AmbienceTrackJsonConverter());
+	}
+
+	public override void OnModLoad()
+	{
+		foreach (var prefab in Prefabs.Query<AmbienceTrack>()) {
+			ref readonly var ambienceTrack = ref prefab.Get<AmbienceTrack>();
+			string trackName = prefab.Has<PrefabInfo>() ? prefab.Get<PrefabInfo>() : "Unknown";
+			RegisterAmbienceTrack(trackName, ambienceTrack);
+		}
 	}
 
 	public override void PostUpdateEverything()
@@ -93,39 +107,6 @@ public sealed class AmbienceSystem : ModSystem
 					instance.Slot = SlotId.Invalid;
 					type.InstanceMask.Unset(index);
 					globalInstanceMask.Unset(index);
-				}
-			}
-		}
-	}
-
-	// This parses '.prefab.hjson' files in a mod and looks for 'EntityName: { AmbienceTrack: { ... } }' constructs in them.
-	// Later, if the mod needs more data-driven approaches, it's possible to implement a universal ECS-like entity data storage not limited to ambience tracks.
-	public static void LoadAmbienceTracksFromMod(Mod mod)
-	{
-		var assets = mod.GetFileNames();
-		var jsonSerializer = new JsonSerializer();
-		jsonSerializer.Converters.Add(new AmbienceTrackJsonConverter());
-
-		const string Extension = ".prefab.hjson";
-
-		foreach (string fullFilePath in assets.Where(t => t.EndsWith(Extension))) {
-			using var stream = mod.GetFileStream(fullFilePath);
-			using var streamReader = new StreamReader(stream);
-
-			string fileName = Path.GetFileName(fullFilePath);
-			string trackName = fileName.Substring(0, fileName.Length - Extension.Length);
-			string hjsonText = streamReader.ReadToEnd();
-			string jsonText = Hjson.HjsonValue.Parse(hjsonText).ToString();
-			var json = JObject.Parse(jsonText)!;
-
-			if (json["AmbienceTrack"] is JObject ambienceTrackJson) {
-				using (new Logging.QuietExceptionHandle()) {
-					try {
-						RegisterAmbienceTrack(trackName, ambienceTrackJson.ToObject<AmbienceTrack>(jsonSerializer)!);
-					}
-					catch (Exception e) {
-						DebugSystem.Log($"Failed to parse '{fullFilePath}':\r\n{e.Message}");
-					}
 				}
 			}
 		}

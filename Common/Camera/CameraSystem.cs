@@ -44,6 +44,7 @@ public sealed class CameraSystem : ModSystem
 	}
 
 	public static bool LimitCameraUpdateRate => limitCameraUpdateRateOverride ?? limitCameraUpdateRateOption;
+	public static bool MustSkipCameraUpdate => LimitCameraUpdateRate && TimeSystem.RenderOnlyFrame && !Main.gamePaused;
 
 	public override void Load()
 	{
@@ -80,7 +81,7 @@ public sealed class CameraSystem : ModSystem
 
 					if (iCopy < cameraModifiers.Count) {
 						cameraModifiers.Values[iCopy](ModifierRecursion);
-					} else if (!LimitCameraUpdateRate || !TimeSystem.RenderOnlyFrame) {
+					} else if (!MustSkipCameraUpdate) {
 						orig();
 					}
 				}

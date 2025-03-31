@@ -1,0 +1,7 @@
+NoGrapplingHookSwinging: {
+	Includes.ItemID|ProjectileID: [
+		"QueenSlimeHook"
+		"AntiGravityHook"
+		"StaticHook"
+	]
+}

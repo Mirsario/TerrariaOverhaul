@@ -6,8 +6,8 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Tags;
 
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 
@@ -19,9 +19,10 @@ public class ProjectileRicochetSound : GlobalProjectile
 	public static readonly SoundStyle RicochetSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/Ricochet", 2) {
 		Volume = 0.1f,
 	};
+	private static readonly ContentSet Bullet = nameof(Bullet);
 
 	public override bool AppliesToEntity(Projectile projectile, bool lateInstantiation)
-		=> OverhaulProjectileTags.Bullet.Has(projectile.type);
+		=> Bullet.Has(projectile);
 
 	public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
 	{

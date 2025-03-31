@@ -12,11 +12,44 @@ using System.Runtime.InteropServices;
 
 namespace TerrariaOverhaul.Utilities;
 
+public unsafe struct BitMaskArray<T>() where T : unmanaged, IUnsignedNumber<T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, int, T>
+{
+	private const MethodImplOptions InlineFlags = MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization;
+	public static byte BitsPerMask { get; } = (byte)(Marshal.SizeOf<T>() * 8);
+
+	public BitMask<T>[] Array = [];
+
+	[MethodImpl(InlineFlags)]
+	public readonly (int maskIndex, int bitIndex) DivRem(int index)
+		=> Math.DivRem(index, BitsPerMask);
+
+	[MethodImpl(InlineFlags)]
+	public readonly bool Get((int maskIndex, int bitIndex) divrem)
+		=> Array[divrem.maskIndex].Get(divrem.bitIndex);
+
+	[MethodImpl(InlineFlags)]
+	public readonly bool GetSafe((int maskIndex, int bitIndex) divrem)
+		=> divrem.maskIndex < Array.Length && Array[divrem.maskIndex].Get(divrem.bitIndex);
+
+	[MethodImpl(InlineFlags)]
+	public readonly void Set((int maskIndex, int bitIndex) divrem)
+		=> Array[divrem.maskIndex].Set(divrem.bitIndex);
+
+	[MethodImpl(InlineFlags)]
+	public readonly void Unset((int maskIndex, int bitIndex) divrem)
+		=> Array[divrem.maskIndex].Unset(divrem.bitIndex);
+
+	[MethodImpl(InlineFlags)] public readonly bool Get(int index) => Get(DivRem(index));
+	[MethodImpl(InlineFlags)] public readonly bool GetSafe(int index) => GetSafe(DivRem(index));
+	[MethodImpl(InlineFlags)] public readonly void Set(int index) => Set(DivRem(index));
+	[MethodImpl(InlineFlags)] public readonly void Unset(int index) => Unset(DivRem(index));
+}
+
 public struct BitMask<T> : IEnumerable<int> where T : unmanaged, IUnsignedNumber<T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, int, T>
 {
 	private const MethodImplOptions InlineFlags = MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization;
 
-	public static int BitSize { get; } = Marshal.SizeOf<T>() * 8;
+	public static byte BitSize { get; } = (byte)(Marshal.SizeOf<T>() * 8);
 
 	public T Value;
 
@@ -39,7 +72,7 @@ public struct BitMask<T> : IEnumerable<int> where T : unmanaged, IUnsignedNumber
 
 	[MethodImpl(InlineFlags)] public static BitMask<T> operator ~(BitMask<T> a) => new(~a.Value);
 	[MethodImpl(InlineFlags)] public static BitMask<T> operator &(BitMask<T> a, BitMask<T> b) => new(a.Value & b.Value);
-	[MethodImpl(InlineFlags)] public static BitMask<T> operator |(BitMask<T> a, BitMask<T> b) => new(a.Value & b.Value);
+	[MethodImpl(InlineFlags)] public static BitMask<T> operator |(BitMask<T> a, BitMask<T> b) => new(a.Value | b.Value);
 
 	[MethodImpl(InlineFlags)]
 	public static int PopCount(T value)
@@ -67,6 +100,17 @@ public struct BitMask<T> : IEnumerable<int> where T : unmanaged, IUnsignedNumber
 		if (typeof(T) == typeof(uint)) { return BitOperations.TrailingZeroCount(Unsafe.As<T, uint>(ref value)); }
 		if (typeof(T) == typeof(ulong)) { return BitOperations.TrailingZeroCount(Unsafe.As<T, ulong>(ref value)); }
 		throw new NotSupportedException();
+	}
+
+	public static BitMask<T> FromBooleans(ReadOnlySpan<bool> booleans)
+	{
+		Debug.Assert(booleans.Length <= BitSize);
+
+		BitMask<T> result = default;
+		for (int i = 0; i < booleans.Length; i++)
+			result.Value |= (booleans[i] ? T.One : T.Zero) << i;
+
+		return result;
 	}
 
 	readonly IEnumerator IEnumerable.GetEnumerator() => new Iterator(this);

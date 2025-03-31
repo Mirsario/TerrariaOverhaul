@@ -46,15 +46,22 @@ public sealed class CameraCurios : ModSystem
 	public override void Load()
 	{
 		CameraSystem.RegisterCameraModifier(-200, ApplyCameraModifier);
+		Main.QueueMainThreadAction(static () => Main.OnPostDraw += PostDraw);
+	}
+	public override void Unload()
+	{
+		Main.QueueMainThreadAction(static () => Main.OnPostDraw -= PostDraw);
 	}
 
-	public override void PostUpdateEverything()
-	{
-		float deltaTime = TimeSystem.LogicDeltaTime;
+	private static void PostDraw(GameTime gameTime)
+		=> Update(TimeSystem.RenderDeltaTime);
 
+	private static void Update(float deltaTime)
+	{
 		foreach (ref var curio in CollectionsMarshal.AsSpan(curios)) {
 			float intensityTarget = curio.Active ? 1f : 0f;
 			float fadePeriod = curio.Active ? curio.Style.FadeInLength : curio.Style.FadeOutLength;
+			fadePeriod = 1f;
 			curio.Intensity = fadePeriod <= 0f ? intensityTarget : MathUtils.StepTowards(curio.Intensity, intensityTarget, (1f / fadePeriod) * deltaTime);
 		}
 
@@ -87,9 +94,8 @@ public sealed class CameraCurios : ModSystem
 		instance.Intensity = 0f;
 
 		if (style.UniqueId is string uniqueId && curios.FindIndex(i => i.Style.UniqueId == uniqueId) is (>= 0 and int index)) {
-			var existing = curios[index];
 			curios[index] = instance with {
-				Intensity = existing.Intensity,
+				Intensity = curios[index].Intensity,
 			};
 			return;
 		}
@@ -101,7 +107,10 @@ public sealed class CameraCurios : ModSystem
 	{
 		innerAction();
 
-		var screenCenter = CameraSystem.ScreenCenter;
+		if (CameraSystem.MustSkipCameraUpdate)
+			return;
+
+		var baseCameraPoint = Main.LocalPlayer.Center; //CameraSystem.ScreenCenter;
 		var offset = new WeightedValue<Vector2D>(default, 0.0) {
 			MinWeight = 1.0,
 		};
@@ -109,25 +118,31 @@ public sealed class CameraCurios : ModSystem
 			MinWeight = 1.0,
 		};
 
+		//int numCurios = 0;
+
 		foreach (ref readonly var curio in CollectionsMarshal.AsSpan(curios)) {
-			var targetOffset = curio.Position - screenCenter;
-			float intensity = curio.Intensity;
+			Vector2D targetOffset = curio.Position.ToF64() - baseCameraPoint.ToF64();
+			double intensity = curio.Intensity;
 
 			if (curio.Style.Range.HasValue) {
-				intensity *= curio.Style.Range.Value.DistanceFactor(curio.Position.Distance(screenCenter));
+				intensity *= curio.Style.Range.Value.DistanceFactor(curio.Position.Distance(baseCameraPoint));
 			}
 
-			float posWeight = curio.Style.Weight * intensity;
-			float zoomWeight = intensity;
+			double posWeight = curio.Style.Weight * intensity;
+			double zoomWeight = intensity;
 
-			offset.Add(targetOffset.ToF64(), posWeight);
+			if (posWeight > 0) {
+				offset.Add(targetOffset, posWeight);
+			}
 
-			if (curio.Style.Zoom is { } zoomValue) {
+			if (curio.Style.Zoom is { } zoomValue && zoomWeight > 0f) {
 				zoom.Add(zoomValue, zoomWeight);
 			}
 		}
 
-		if (offset.TotalWeight > 0f) Main.screenPosition += offset.Total().ToF32().ToPoint().ToVector2();
+		if (offset.TotalWeight > 0)
+			Main.screenPosition += offset.Total().ToF32().ToPoint().ToVector2();
+
 		lastCalculatedZoom = zoom;
 	}
 }

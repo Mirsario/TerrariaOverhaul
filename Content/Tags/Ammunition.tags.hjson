@@ -1,0 +1,90 @@
+Bomb: {
+	Includes.ProjectileID: [
+		"Bomb"
+		"BouncyBomb"
+		"StickyBomb"
+		"BombFish"
+	]
+}
+
+Dynamite: {
+	Includes.ProjectileID: [
+		"Dynamite"
+		"BouncyDynamite"
+		"StickyDynamite"
+	]
+}
+
+Rocket: {
+	Includes.ProjectileID: [
+		"RocketI"
+		"RocketII"
+		"RocketIII"
+		"RocketIV"
+	]
+}
+
+Grenade: {
+	Includes.ProjectileID: [
+		"Grenade"
+		"BouncyGrenade"
+		"StickyGrenade"
+		"GrenadeI"
+		"GrenadeII"
+		"GrenadeIII"
+		"GrenadeIV"
+	]
+}
+
+Explosive: {
+	Sets: [
+		"Bomb"
+		"Rocket"
+		"Grenade"
+		"Dynamite"
+	]
+	Includes.ProjectileID: [
+		"Meteor1"
+		"Meteor2"
+		"Meteor3"
+		"BlackBolt"
+		"NailFriendly"
+		"HellfireArrow"
+		"ExplosiveBullet"
+	]
+}
+
+Bullet: {
+	Includes.ItemID|ProjectileID: [
+		"ChlorophyteBullet"
+		"CrystalBullet"
+		"CursedBullet"
+		"GoldenBullet"
+		"IchorBullet"
+		"MoonlordBullet"
+		"NanoBullet"
+		"PartyBullet"
+		"VenomBullet"
+		"MeteorShot"
+	]
+	Includes.ItemID: [
+		"ExplodingBullet"
+		"HighVelocityBullet"
+	]
+	Includes.ProjectileID: [
+		"Bullet"
+		"BulletHighVelocity"
+		"BulletSnowman"
+		"BulletDeadeye"
+		"ExplosiveBullet"
+		"SniperBullet"
+	]
+}
+
+WoodenArrow: {
+	Includes.ProjectileID: [
+		"WoodenArrowFriendly"
+		"WoodenArrowHostile"
+		"FireArrow"
+	]
+}

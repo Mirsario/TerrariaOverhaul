@@ -10,8 +10,7 @@ using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Decals;
-using TerrariaOverhaul.Common.Tags;
-using TerrariaOverhaul.Core.Debugging;
+using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.ProjectileEffects;
@@ -64,21 +63,18 @@ public sealed class ProjectileDecals : GlobalProjectile
 		};
 	}
 
+	private static readonly ContentSet Bullet = nameof(Bullet);
+	private static readonly ContentSet Freezing = nameof(Freezing);
+	private static readonly ContentSet Explosive = nameof(Explosive);
+	private static readonly ContentSet Incendiary = nameof(Incendiary);
+
 	public override void SetDefaults(Projectile projectile)
 	{
-		if (OverhaulProjectileTags.Bullet.Has(projectile.type)) {
-			OnTileCollision = BulletPreset;
-		}
+		if (Bullet.Has(projectile)) OnTileCollision = BulletPreset;
+		if (Freezing.Has(projectile)) OnTileCollision = IcePreset;
+		if (Explosive.Has(projectile)) OnDestroy = ExplosionPreset;
 
-		if (OverhaulProjectileTags.Ice.Has(projectile.type)) {
-			OnTileCollision = IcePreset;
-		}
-
-		if (OverhaulProjectileTags.Explosive.Has(projectile.type)) {
-			OnDestroy = ExplosionPreset;
-		}
-
-		if (OverhaulProjectileTags.Incendiary.Has(projectile.type)) {
+		if (Incendiary.Has(projectile)) {
 			OnTick = IncendiaryPreset! with { Color = Color.White.WithAlpha(3) };
 			OnDestroy = IncendiaryPreset;
 		}

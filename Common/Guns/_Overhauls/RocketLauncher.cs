@@ -6,9 +6,9 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using TerrariaOverhaul.Common.Recoil;
-using TerrariaOverhaul.Common.Tags;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
+using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Guns;
@@ -20,6 +20,8 @@ public class RocketLauncher : ItemOverhaul
 		PitchVariance = 0.2f,
 	};
 
+	private static readonly ContentSet Grenade = nameof(Grenade);
+
 	public override bool ShouldApplyItemOverhaul(Item item)
 	{
 		if (item.useAmmo != AmmoID.Rocket) {
@@ -30,7 +32,7 @@ public class RocketLauncher : ItemOverhaul
 			return false;
 		}
 
-		if (proj.aiStyle != ProjAIStyleID.Explosive || OverhaulProjectileTags.Grenade.Has(proj.type)) {
+		if (proj.aiStyle != ProjAIStyleID.Explosive || Grenade.Has(proj)) {
 			return false;
 		}
 
