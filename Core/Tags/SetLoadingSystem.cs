@@ -22,15 +22,17 @@ internal sealed partial class SetLoadingSystem : ModSystem
 		public IdDictionary Search;
 		public Dictionary<string, bool[]> Sets;
 
-		public StorageInfo(SetStorage handle, IdDictionary search, Type setsType)
+		public StorageInfo(SetStorage handle, IdDictionary search, Type? setsType)
 		{
 			Handle = handle;
 			Search = search;
 			Sets = new();
 
-			foreach (var field in setsType.GetFields(BindingFlags.Static | BindingFlags.Public)) {
-				if (field.FieldType != typeof(bool[])) continue;
-				if (field.GetValue(null) is bool[] set) Sets[field.Name] = set;
+			if (setsType != null) {
+				foreach (var field in setsType.GetFields(BindingFlags.Static | BindingFlags.Public)) {
+					if (field.FieldType != typeof(bool[])) continue;
+					if (field.GetValue(null) is bool[] set) Sets[field.Name] = set;
+				}
 			}
 		}
 	}
@@ -46,6 +48,8 @@ internal sealed partial class SetLoadingSystem : ModSystem
 			{ "TileID", new(ContentSets.GetStorageHandle<TileID>(), TileID.Search, typeof(TileID.Sets)) },
 			{ "WallID", new(ContentSets.GetStorageHandle<WallID>(), WallID.Search, typeof(WallID.Sets)) },
 			{ "ProjectileID", new(ContentSets.GetStorageHandle<ProjectileID>(), ProjectileID.Search, typeof(ProjectileID.Sets)) },
+			{ "NPCAIStyleID", new(ContentSets.GetStorageHandle<NPCAIStyleID>(), NPCAIStyleID.Search, null) },
+			{ "ProjAIStyleID", new(ContentSets.GetStorageHandle<ProjAIStyleID>(), ProjAIStyleID.Search, null) },
 		};
 
 		LoadDataFromMod(Mod);

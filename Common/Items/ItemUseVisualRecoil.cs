@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.EntityEffects;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Items;
 

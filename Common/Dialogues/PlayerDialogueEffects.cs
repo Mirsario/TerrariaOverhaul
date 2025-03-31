@@ -2,13 +2,12 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Dialogues;
 
@@ -21,7 +20,7 @@ public sealed class PlayerDialogueEffects : ModPlayer
 	public override void PreUpdate()
 	{
 		if (Player.TalkNPC is NPC { active: true } npc) {
-			if (Player.TryGetModPlayer(out PlayerDirectioning directions)) {
+			if (Player.TryGetModPlayer(out PlayerDirection directions)) {
 				var playerCenter = Player.Center;
 				var npcCenter = npc.Center;
 

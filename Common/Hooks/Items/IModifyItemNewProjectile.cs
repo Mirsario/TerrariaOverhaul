@@ -2,7 +2,6 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;

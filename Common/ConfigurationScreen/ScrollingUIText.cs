@@ -8,7 +8,7 @@ using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 

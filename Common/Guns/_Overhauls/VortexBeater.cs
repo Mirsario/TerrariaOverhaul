@@ -16,6 +16,7 @@ using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Guns;
 
@@ -122,7 +123,7 @@ public sealed class VortexBeater : ItemOverhaul
 		// Emit weapon firing code.
 		il.Index = weaponFiringEmitIndex;
 
-		il.HijackIncomingLabels();
+		ILUtils.HijackIncomingLabels(il);
 		il.Emit(OpCodes.Ldarg_0);
 		il.EmitDelegate(OnWeaponFiring);
 	}

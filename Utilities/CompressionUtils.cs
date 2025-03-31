@@ -13,7 +13,7 @@ internal static class CompressionUtils
 	{
 		using var outputStream = new MemoryStream();
 		using var deflateStream = new DeflateStream(outputStream, compressionLevel, leaveOpen: true);
-		
+
 		deflateStream.Write(data);
 		deflateStream.Flush();
 

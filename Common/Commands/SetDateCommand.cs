@@ -4,7 +4,7 @@
 
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Seasons;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Commands;
 

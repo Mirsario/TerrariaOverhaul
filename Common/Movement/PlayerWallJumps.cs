@@ -14,7 +14,8 @@ using TerrariaOverhaul.Common.Footsteps;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Movement;
 
@@ -126,7 +127,7 @@ public class PlayerWallJumps : ModPlayer
 
 		// Collision checks.
 		var tilePos = Player.position.ToTileCoordinates();
-		if (!TileCheckUtils.CheckIfAllBlocksAreSolid(tilePos.X + (jumpDirection == 1 ? -1 : 2), tilePos.Y + 1, 1, 2)) {
+		if (!WorldUtils.CheckIfAllBlocksAreSolid(tilePos.X + (jumpDirection == 1 ? -1 : 2), tilePos.Y + 1, 1, 2)) {
 			return false;
 		}
 

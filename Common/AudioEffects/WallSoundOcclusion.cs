@@ -11,7 +11,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Debugging;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.AudioEffects;
 
@@ -46,10 +47,9 @@ public sealed class WallSoundOcclusion : ModSystem
 		int requiredWallTiles = (int)(maxTiles * RequiredWallRatio);
 		int numWalls = 0;
 
-		foreach (var p in new GeometryUtils.FloodFill(areaCenter, areaRectangle.ClampTileCoordinates())) {
+		foreach (var p in new GeometryUtils.FloodFill(areaCenter, WorldUtils.ClampTileCoordinates(areaRectangle))) {
 			var (x, y) = p.Point;
 			Tile tile = Main.tile[x, y];
-
 			bool isPointFree = p.IsPointFree = !tile.HasTile || !Main.tileSolid[tile.TileType] || Main.tileSolidTop[tile.TileType] || tile.BlockType != BlockType.Solid;
 
 			p.IsPointFree = isPointFree;

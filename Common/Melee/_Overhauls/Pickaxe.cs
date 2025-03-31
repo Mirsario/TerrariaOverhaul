@@ -9,10 +9,11 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Interaction;
+using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
@@ -84,6 +85,6 @@ public class Pickaxe : ItemOverhaul
 			yield return Mod.GetTextValue("ItemOverhauls.Melee.VelocityBasedDamageInfo");
 		}
 
-		TooltipUtils.ShowCombatInformation(Mod, tooltips, GetCombatInfo);
+		ItemTooltips.ShowCombatInformation(Mod, tooltips, GetCombatInfo);
 	}
 }

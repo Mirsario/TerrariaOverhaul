@@ -15,7 +15,7 @@ using ReLogic.Content.Readers;
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 using static Theorafile;
 
 namespace TerrariaOverhaul.Core.VideoPlayback;

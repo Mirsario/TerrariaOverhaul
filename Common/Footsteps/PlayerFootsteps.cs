@@ -10,6 +10,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Footsteps;
 
@@ -46,7 +47,7 @@ public sealed class PlayerFootsteps : ModPlayer
 			i => i.MatchLdflda(typeof(Vector2), nameof(Vector2.Y))
 		);
 		il.Index++;
-		il.HijackIncomingLabels();
+		ILUtils.HijackIncomingLabels(il);
 
 		il.Emit(OpCodes.Ldarg_0);
 		il.EmitDelegate(static (Player p) => {

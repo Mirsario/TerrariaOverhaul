@@ -4,31 +4,32 @@
 | Version									| Release Date |
 | ----------------------------------------- | ------------ |
 | [Work In Progress](#work-in-progress)		| `TBA`        |
-| [5.0 BETA 13C](#50-beta-13c)				| `2023.10.20` |
-| [5.0 BETA 13B](#50-beta-13b)				| `2023.08.02` |
-| [5.0 BETA 13](#50-beta-13)				| `2023.08.01` |
-| [5.0 BETA 12**C**](#50-beta-12c)			| `2023.03.11` |
-| [5.0 BETA 12**B**](#50-beta-12b)			| `2022.12.25` |
-| [5.0 BETA 12](#50-beta-12)				| `2022.12.24` |
-| [5.0 BETA 11**F**](#50-beta-11f)			| `2022.09.11` |
-| [5.0 BETA 11**E**](#50-beta-11e)			| `2022.06.30` |
-| [5.0 BETA 11**D**](#50-beta-11d)			| `2022.06.20` |
-| [5.0 BETA 11**C**](#50-beta-11c)			| `2022.06.06` |
-| [5.0 BETA 11**B**](#50-beta-11b)			| `2022.06.04` |
-| [5.0 BETA 11](#50-beta-11)				| `2022.06.02` |
-| [5.0 BETA 10](#50-beta-10)				| `2022.05.18` |
-| [5.0 BETA 9 **FIX 1**](#50-beta-9-fix-1)	| `2022.02.10` |
-| [5.0 BETA 9](#50-beta-9)					| `2022.01.21` |
-| [5.0 BETA 8](#50-beta-8)					| `2021.07.19` |
-| [5.0 BETA 7](#50-beta-7)					| `2021.06.14` |
-| [5.0 BETA 6](#50-beta-6)					| `2021.05.13` |
-| [5.0 BETA 5 **FIX 1**](#50-beta-5-fix-1)	| `2021.04.29` |
-| [5.0 BETA 5](#50-beta-5)					| `2021.04.29` |
-| [5.0 BETA 4](#50-beta-4)					| `2021.04.11` |
-| [5.0 BETA 3](#50-beta-3)					| `2021.03.20` |
-| [5.0 BETA 2 **FIX 1**](#50-beta-2-fix-1)	| `2021.03.14` |
-| [5.0 BETA 2](#50-beta-2)					| `2021.03.06` |
-| [5.0 BETA 1](#50-beta-1)					| `2021.02.27` |
+| [5.0 BETA 14](#50-beta-14)				| `2024-04-01` |
+| [5.0 BETA 13C](#50-beta-13c)				| `2023-10-20` |
+| [5.0 BETA 13B](#50-beta-13b)				| `2023-08-02` |
+| [5.0 BETA 13](#50-beta-13)				| `2023-08-01` |
+| [5.0 BETA 12**C**](#50-beta-12c)			| `2023-03-11` |
+| [5.0 BETA 12**B**](#50-beta-12b)			| `2022-12-25` |
+| [5.0 BETA 12](#50-beta-12)				| `2022-12-24` |
+| [5.0 BETA 11**F**](#50-beta-11f)			| `2022-09-11` |
+| [5.0 BETA 11**E**](#50-beta-11e)			| `2022-06-30` |
+| [5.0 BETA 11**D**](#50-beta-11d)			| `2022-06-20` |
+| [5.0 BETA 11**C**](#50-beta-11c)			| `2022-06-06` |
+| [5.0 BETA 11**B**](#50-beta-11b)			| `2022-06-04` |
+| [5.0 BETA 11](#50-beta-11)				| `2022-06-02` |
+| [5.0 BETA 10](#50-beta-10)				| `2022-05-18` |
+| [5.0 BETA 9 **FIX 1**](#50-beta-9-fix-1)	| `2022-02-10` |
+| [5.0 BETA 9](#50-beta-9)					| `2022-01-21` |
+| [5.0 BETA 8](#50-beta-8)					| `2021-07-19` |
+| [5.0 BETA 7](#50-beta-7)					| `2021-06-14` |
+| [5.0 BETA 6](#50-beta-6)					| `2021-05-13` |
+| [5.0 BETA 5 **FIX 1**](#50-beta-5-fix-1)	| `2021-04-29` |
+| [5.0 BETA 5](#50-beta-5)					| `2021-04-29` |
+| [5.0 BETA 4](#50-beta-4)					| `2021-04-11` |
+| [5.0 BETA 3](#50-beta-3)					| `2021-03-20` |
+| [5.0 BETA 2 **FIX 1**](#50-beta-2-fix-1)	| `2021-03-14` |
+| [5.0 BETA 2](#50-beta-2)					| `2021-03-06` |
+| [5.0 BETA 1](#50-beta-1)					| `2021-02-27` |
 
 # Work In Progress
 
@@ -36,13 +37,15 @@
 - Implemented a 'camera curio system'. Subtly shifting and zooming on important areas, the system will be used to hint the player's attention towards important objects and events, increasing cinematic feel on top of all.
 - The following camera curios have been implemented:
 	- **NPCs in dialogues**;
+	- **Boss intros**;
 	- **Boss tracking** (subtle);
 	- **Boss deaths**;
 	- **Local player's remains**;
 	- **Rare enemies** (subtle);
 	- **Rare critters and NPCs** (subtle);
 	- **Boss bags and rare pickups**;
-- `The Eye of Cthulhu` has received an audiovisual overhaul, featuring new sound effects and transformation camera effects.
+- Implemented Boss Intros and Outros. Simple but effective text lines that introduce bosses as they spawn, and announce their defeat in a way more elegant than chat text.
+- `The Eye of Cthulhu` has received an audiovisual overhaul, featuring new sound effects, and new transformation audiovisual effects.
 - **`The Destroyer`** has received a full audiovisual overhaul, featuring a new massive sprite, debris effect system, movement & digging audio, as well as robotic screeches meant to intimidate and warn players of their impending doom. This comes with two options, one for the sprite and another for the whole set of effects.
 - **`The Eater of Worlds`** has received an audiovisual overhaul, featuring a debris effect system, disgusting movement & digging audio, as well as terrifying attack and pain screeches that make it look like the victim during its battle. Who knew worms could sing?
 - When the last alive boss is killed, a cinematic transition cue is now played in addition to the aforementioned camera focus.
@@ -94,11 +97,16 @@
 - Chinese (`59.1%` -> `100%`) - PRs [#232](https://github.com/Mirsario/TerrariaOverhaul/pull/232) & [#233](https://github.com/Mirsario/TerrariaOverhaul/pull/233) by [**xiaoyvyv**](https://github.com/xiaoyvyv) & [**Cyrillya**](https://github.com/Cyrillya).
 - Fixed Overhaul's main menu buttons sometimes being incorrectly shown in English when a different language is selected.
 - A few more GUI elements were made localizable.
+### Performance
+- Improved performance of falling tree texture generation.
+- Fixed a rare sound occlusion performance dip occurring when sounds are played far away aboveground with no occluding objects between the sound and the listener.
 ### Fixes
 - Fixed issue [#217](https://github.com/Mirsario/TerrariaOverhaul/issues/217) (Decals may become offset or warped in rendering).
 - Fixed issue [#195](https://github.com/Mirsario/TerrariaOverhaul/issues/195) (Cutting down a tree makes things disappear for a moment).
+- Fixed issue [#252](https://github.com/Mirsario/TerrariaOverhaul/issues/252) (Spirit Flame & Mystic Coil Snake wrongfully rotated by AlwaysShowAimableWeapons).
 - Fixed ambience tracks being broken again. If only unit tests were a thing...
 - Fixed the "Evil Drone" ambience track unintentionally playing in the Jungle due to a mishap in the internal 'environment signal' system.
+- Fixed dodgeroll charge UI able to appear when the player is dead.
 - Fixed the Vortex Beater playing its firing sound effects every frame, via a temporary workaround.
 - Fixed the crosshair sometimes appearing together with the base cursor, when hovering over GUI elements.
 - Fixed tile-based sound occlusion not being updated whenever sounds happen to move.
@@ -109,10 +117,7 @@
 - Fixed the `Always Show Aimable Weapons` feature unintentionally being active when sleeping in a bed.
 - Fixed weapon aiming animations not taking the player's full body rotation into account.
 - Fixed crosshair animations stacking up when user interface is turned off via F11.
-- Fixed issue [#252](https://github.com/Mirsario/TerrariaOverhaul/issues/252) (Spirit Flame & Mystic Coil Snake wrongfully rotated by AlwaysShowAimableWeapons).
 - Fixed footsteps not playing when bouncing on 'Silly Balloon Blocks'.
-### Performance
-- Improved performance of falling tree texture generation.
 
 # 5.0 BETA 14
 

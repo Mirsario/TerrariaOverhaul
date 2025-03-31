@@ -12,6 +12,8 @@ using Terraria.Graphics;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Camera;
 
@@ -24,6 +26,7 @@ public struct CameraCurio()
 	public float FadeOutLength = 0.5f;
 	public float? Zoom = null;
 	public string? UniqueId;
+	public Func<Vector2?>? PositionGetter;
 }
 
 [Autoload(Side = ModSide.Client)]
@@ -58,11 +61,17 @@ public sealed class CameraCurios : ModSystem
 
 	private static void Update(float deltaTime)
 	{
+		if (Main.gamePaused || !Main.hasFocus)
+			return;
+
 		foreach (ref var curio in CollectionsMarshal.AsSpan(curios)) {
 			float intensityTarget = curio.Active ? 1f : 0f;
 			float fadePeriod = curio.Active ? curio.Style.FadeInLength : curio.Style.FadeOutLength;
 			fadePeriod = 1f;
 			curio.Intensity = fadePeriod <= 0f ? intensityTarget : MathUtils.StepTowards(curio.Intensity, intensityTarget, (1f / fadePeriod) * deltaTime);
+
+			if (curio.Style.PositionGetter?.Invoke() is { } newPosition)
+				curio.Position = newPosition;
 		}
 
 		curios.RemoveAll(i => !i.Active & i.Intensity <= 0f);

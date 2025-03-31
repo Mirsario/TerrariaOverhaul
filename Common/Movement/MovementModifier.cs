@@ -4,7 +4,6 @@
 
 using Microsoft.Xna.Framework;
 using Terraria;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Movement;
 

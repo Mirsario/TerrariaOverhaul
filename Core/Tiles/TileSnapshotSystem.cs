@@ -12,6 +12,8 @@ using Terraria.DataStructures;
 using Terraria.GameContent.Drawing;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Core.Tiles;
 
@@ -46,7 +48,7 @@ public sealed class TileSnapshotSystem : ModSystem
 		var graphicsDevice = Main.graphics.GraphicsDevice;
 		var originalRenderTargets = graphicsDevice.GetRenderTargets();
 
-		var textureSize = sizeInTiles * Vector2Int.One * TileUtils.TileSizeInPixels;
+		var textureSize = sizeInTiles * Vector2Int.One * WorldUtils.TileSizeInPixels;
 		var renderTarget = new RenderTarget2D(graphicsDevice, textureSize.X, textureSize.Y, false, SurfaceFormat.Color, DepthFormat.None);
 
 		graphicsDevice.SetRenderTarget(renderTarget);
@@ -70,7 +72,7 @@ public sealed class TileSnapshotSystem : ModSystem
 		// Override renderer
 		using var _1 = ValueOverride.Create(ref Main.instance.TilesRenderer, tileRenderer);
 		// Adjust draw position
-		using var _2 = ValueOverride.Create(ref Main.screenPosition, baseTilePosition * TileUtils.TileSizeInPixels);
+		using var _2 = ValueOverride.Create(ref Main.screenPosition, baseTilePosition * WorldUtils.TileSizeInPixels);
 		// This hack forces Lighting.GetColor to yield with Color.White
 		using var _3 = ValueOverride.Create(ref Main.gameMenu, true);
 		// Get rid of scaling

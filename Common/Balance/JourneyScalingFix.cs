@@ -11,7 +11,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent.Creative;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 using ASharedSliderPower = Terraria.GameContent.Creative.CreativePowers.ASharedSliderPower;
 using DifficultySliderPower = Terraria.GameContent.Creative.CreativePowers.DifficultySliderPower;
 

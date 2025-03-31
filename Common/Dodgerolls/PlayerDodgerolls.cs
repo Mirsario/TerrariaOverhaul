@@ -22,6 +22,8 @@ using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 #pragma warning disable IDE0060 // Remove unused parameter
 
@@ -77,9 +79,9 @@ public sealed class PlayerDodgerolls : ModPlayer
 	public static DodgerollStats DefaultStats { get; set; } = new();
 
 	public DodgerollStats Stats = DefaultStats;
-	public Timer TirednessTimer;
-	public Timer NoDodgerollsTimer;
-	public Timer DodgeAttemptTimer;
+	public GameTimer TirednessTimer;
+	public GameTimer NoDodgerollsTimer;
+	public GameTimer DodgeAttemptTimer;
 	public bool ForceDodgeroll;
 	public Direction1D WantedDirection;
 
@@ -389,7 +391,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 		// Apply rotations & direction
 		Player.GetModPlayer<PlayerItemRotation>().ForcedItemRotation = StartItemRotation;
 		Player.GetModPlayer<PlayerAnimations>().ForcedLegFrame = PlayerFrames.Jump;
-		Player.GetModPlayer<PlayerDirectioning>().SetDirectionOverride(DodgeDirectionVisual, 2, PlayerDirectioning.OverrideFlags.IgnoreItemAnimation);
+		Player.GetModPlayer<PlayerDirection>().SetDirectionOverride(DodgeDirectionVisual, 2, PlayerDirection.OverrideFlags.IgnoreItemAnimation);
 
 		rotation = DodgeDirection == Direction1D.Right
 			? Math.Min(+MathHelper.TwoPi, MathHelper.Lerp(StartRotation, +MathHelper.TwoPi, dodgeProgress))
@@ -524,7 +526,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 			);
 		}
 
-		il.HijackIncomingLabels();
+		ILUtils.HijackIncomingLabels(il);
 
 		il.Emit(OpCodes.Ldarg_0);
 		il.Emit(OpCodes.Ldsfld, typeof(Main).GetField(nameof(Main.npc))!);
@@ -559,7 +561,7 @@ public sealed class PlayerDodgerolls : ModPlayer
 			);
 		}
 
-		il.HijackIncomingLabels();
+		ILUtils.HijackIncomingLabels(il);
 
 		int emitLocation = il.Index;
 

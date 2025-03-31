@@ -13,7 +13,6 @@ using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Interface;
 

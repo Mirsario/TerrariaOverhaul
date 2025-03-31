@@ -3,7 +3,7 @@
 // See LICENSE.md for details.
 
 using Terraria;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Time;
 

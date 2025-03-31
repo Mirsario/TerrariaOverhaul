@@ -7,12 +7,12 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Debugging;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.AudioEffects;
 
@@ -21,6 +21,9 @@ public sealed class TileSoundOcclusion : ModSystem
 	private static readonly HashSet<SoundStyle> excludedSoundStyles = [];
 
 	public static float OcclusionFactor { get; private set; }
+
+	public static int MaxOccludingTiles { get; set; } = 15;
+	public static int MaxDistanceForOcclusionChecks { get; set; } = 4096;
 
 	public override void Load()
 	{
@@ -38,40 +41,42 @@ public sealed class TileSoundOcclusion : ModSystem
 
 	private static void ApplyOcclusionToSounds(Span<AudioEffectsSystem.SoundData> sounds)
 	{
-		for (int i = 0; i < sounds.Length; i++) {
-			ref var data = ref sounds[i];
+		var listenerPos = CameraSystem.ScreenCenter;
+		var listenerTilePos = CameraSystem.ScreenCenter.ToTileCoordinates();
+		float maxSqrDistance = MaxDistanceForOcclusionChecks * MaxDistanceForOcclusionChecks;
 
+		foreach (ref var data in sounds) {
 			if (data.TrackedSound?.TryGetTarget(out var activeSound) == true && activeSound.Position is Vector2 position) {
-				if (excludedSoundStyles.Contains(data.SoundStyle)) {
+				if (excludedSoundStyles.Contains(data.SoundStyle))
 					continue;
-				}
 
-				float occlusion = CalculateSoundOcclusion(position.ToTileCoordinates());
+				// Halt if too far away, else the line check will be too expensive.
+				if (position.DistanceSQ(listenerPos) >= maxSqrDistance)
+					continue;
 
+				float occlusion = CalculateSoundOcclusion(listenerTilePos, position.ToTileCoordinates());
 				data.Parameters.LowPassFiltering += occlusion;
 			}
 		}
 	}
 
-	private static float CalculateSoundOcclusion(Vector2Int position)
+	private static float CalculateSoundOcclusion(Vector2Int center, Vector2Int position)
 	{
 		int occludingTiles = 0;
 
-		const int MaxOccludingTiles = 15;
-
-		foreach (var point in new GeometryUtils.BresenhamLine(CameraSystem.ScreenCenter.ToTileCoordinates(), position)) {
-			if (!Main.tile.TryGet(point, out var tile)) {
+		foreach (var point in new GeometryUtils.BresenhamLine(center, position)) {
+			if (!Main.tile.TryGet(point, out var tile))
 				break;
-			}
 
 			bool solid = tile.HasTile && Main.tileSolid[tile.TileType];
 
-			if (solid && ++occludingTiles >= MaxOccludingTiles) {
-				break;
-			}
-
-			if (DebugSystem.EnableDebugRendering) {
+			if (DebugSystem.EnableDebugRendering)
 				DebugSystem.DrawRectangle(new Rectangle(point.X, point.Y, 1, 1).ToWorldCoordinates(), solid ? Color.Orange : Color.GreenYellow, 1);
+
+			if (solid) {
+				occludingTiles += 1;
+				if (occludingTiles >= MaxOccludingTiles)
+					break;
 			}
 		}
 

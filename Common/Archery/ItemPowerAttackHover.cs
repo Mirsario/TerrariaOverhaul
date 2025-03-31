@@ -10,7 +10,8 @@ using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Common.EntityEffects;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Archery;
 

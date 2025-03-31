@@ -12,6 +12,8 @@ using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Charging;
 
@@ -25,11 +27,11 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 	public float ChargeLengthMultiplier = 2f;
 	public SingleOrGradient<CommonStatModifiers> StatModifiers = new();
 
-	private Timer charge;
+	private GameTimer charge;
 
 	public bool PowerAttack { get; private set; }
 
-	public Timer Charge => charge;
+	public GameTimer Charge => charge;
 	public bool IsCharging => Charge.Active;
 
 	public override void Load()
@@ -64,9 +66,9 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 				i => i.MatchLdcI4(1)
 				// ...
 			);
-			il.HijackIncomingLabels();
+			ILUtils.HijackIncomingLabels(il);
 
-			int initialCheckSuccessLocalId = il.AddLocalVariable(typeof(bool));
+			int initialCheckSuccessLocalId = ILUtils.AddLocalVariable(il, typeof(bool));
 
 			il.Emit(OpCodes.Ldarg_0);
 			il.Emit(OpCodes.Ldloc, isButtonHeldLocalId);
@@ -77,7 +79,7 @@ public sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifiers
 
 			// Move to right before the end of the method
 			il.GotoNext(MoveType.Before, i => i.Match(OpCodes.Ret));
-			il.HijackIncomingLabels();
+			ILUtils.HijackIncomingLabels(il);
 
 			il.Emit(OpCodes.Ldarg_0);
 			il.Emit(OpCodes.Ldloc, initialCheckSuccessLocalId);

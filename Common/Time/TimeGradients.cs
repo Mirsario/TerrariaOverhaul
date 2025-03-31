@@ -2,7 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Time;
 

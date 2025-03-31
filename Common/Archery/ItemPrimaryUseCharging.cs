@@ -7,18 +7,18 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Archery;
 
 internal class ItemPrimaryUseCharging : ItemComponent
 {
-	private Timer charge;
+	private GameTimer charge;
 
 	public float UseLengthMultiplier { get; set; } = 0.5f;
 	public float ChargeLengthMultiplier { get; set; } = 0.5f;
 
-	public Timer Charge => charge;
+	public GameTimer Charge => charge;
 
 	public override void Load()
 	{

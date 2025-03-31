@@ -10,8 +10,9 @@ using TerrariaOverhaul.Common.CombatTexts;
 using TerrariaOverhaul.Content.Buffs;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
-using TerrariaOverhaul.Utilities;
-using static TerrariaOverhaul.Utilities.ColorUtils;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
+using static TerrariaOverhaul.Utilities.Xna.ColorUtils;
 
 namespace TerrariaOverhaul.Common.Melee;
 

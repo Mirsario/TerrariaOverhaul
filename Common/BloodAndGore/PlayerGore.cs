@@ -21,6 +21,7 @@ using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 #pragma warning disable IDE0060 // Remove unused parameter
 

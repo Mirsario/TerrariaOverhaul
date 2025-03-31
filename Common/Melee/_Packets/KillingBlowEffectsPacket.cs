@@ -7,6 +7,8 @@ using Terraria;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Melee;
 
@@ -14,7 +16,7 @@ public sealed class KillingBlowEffectsPacket : NetPacket
 {
 	public KillingBlowEffectsPacket(Player player, Vector2Int worldPosition)
 	{
-		Writer.TryWriteSenderPlayer(player);
+		NetUtils.TryWriteSenderPlayer(Writer, player);
 		Writer.WriteVector2Int(worldPosition);
 	}
 

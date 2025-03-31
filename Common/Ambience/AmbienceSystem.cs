@@ -4,26 +4,21 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.Json;
 using Microsoft.Xna.Framework;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using ReLogic.Utilities;
+using Terraria;
 using Terraria.Audio;
-using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.AudioEffects;
-using TerrariaOverhaul.Common.Footsteps;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Core.Debugging;
-using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 using EnvironmentTag = TerrariaOverhaul.Core.Tags.Tag<TerrariaOverhaul.Common.Ambience.EnvironmentSystem>;
 
 namespace TerrariaOverhaul.Common.Ambience;
@@ -36,6 +31,7 @@ public sealed class AmbienceSystem : ModSystem
 	private static readonly EnvironmentTag VolumeTag = "Volume";
 	private static readonly List<AmbienceTrackType> TrackTypes = new();
 	private static readonly AmbienceTrackInstance[] TrackInstances = new AmbienceTrackInstance[64];
+	private static readonly Query ambienceTrackQuery = Prefabs.Query().With<AmbienceTrack>();
 	private static BitMask<ulong> globalInstanceMask;
 
 	public AmbienceSystem()
@@ -45,7 +41,7 @@ public sealed class AmbienceSystem : ModSystem
 
 	public override void OnModLoad()
 	{
-		foreach (var prefab in Prefabs.Query<AmbienceTrack>()) {
+		foreach (var prefab in ambienceTrackQuery) {
 			ref readonly var ambienceTrack = ref prefab.Get<AmbienceTrack>();
 			string trackName = prefab.Has<PrefabInfo>() ? prefab.Get<PrefabInfo>() : "Unknown";
 			RegisterAmbienceTrack(trackName, ambienceTrack);
@@ -66,7 +62,7 @@ public sealed class AmbienceSystem : ModSystem
 			bool isActive = type.CurrentVolume > 0f;
 
 			static uint RollCooldown(ExponentialRange? range)
-				=> range is { } r ? (uint)(r.RandomValue() * TimeSystem.LogicFramerate) : 0;
+				=> range is { } r ? (uint)(r.Translate(Main.rand.NextFloat()) * TimeSystem.LogicFramerate) : 0;
 
 			// Create new instances.
 			if (isActive) {

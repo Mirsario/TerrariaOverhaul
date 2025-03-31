@@ -67,6 +67,148 @@ Banners: {
 	BannerItemDescription: "附近的玩家从以下生物中获得双倍战利品和钱币掉落："
 }
 
+Bosses: {
+	# Numbered localizations may not include less entries than the base English set contains, but can include more!
+	# If you can't think of at least a matching amount of translations - please just repeat some entries to fill the space!
+	
+	Common: {
+		# Gendered semicolon-separated lines, with the zero-starting ID coming from GenderId values below.
+		# Example in a gendered language: "Уничтожен;Уничтожена;Уничтожено;Уничтожены" (male/female/neuter/plural).
+		// Defeated1: "Defeated"
+		// Defeated2: "Slain"
+		// Defeated3: "Slaughtered"
+		// Defeated4: "Obliterated"
+		// Defeated5: "Eradicated"
+		// Defeated6: "Executed"
+		// Defeated7: "Butchered"
+		// Defeated8: "Decimated"
+		// Defeated9: "Conquered"
+		// Defeated10: "Vanquished"
+		// Defeated11: "Crushed"
+		// Defeated12: "Eliminated"
+		// Defeated13: "Perished"
+		// Defeated14: "Downed"
+		// Defeated15: "Extinguished"
+	}
+
+	KingSlime: {
+		// Name: "The King Slime"
+		// GenderId: "0"
+		// SubLine1: "Gellatinous Monarch"
+		// SubLine2: "Slime Hive Mind"
+		// SubLine3: "A Thousand As One"
+		// SubLine4: "Crowned Monstrosity"
+	}
+
+	EyeofCthulhu: {
+		// Name: "The Eye of Cthulhu"
+		// GenderId: "0"
+		// SubLine1: "Sight of Terror"
+		// SubLine2: "Night Stalker"
+	}
+
+	EaterofWorldsHead: {
+		// Name: "The Eater of Worlds"
+		// GenderId: "0"
+		// SubLine1: "Corruption's Hive Mind"
+		// SubLine2: "Fractal Abomination"
+	}
+
+	BrainofCthulhu: {
+		// Name: "The Brain of Cthulhu"
+		// GenderId: "0"
+		// SubLine1: "Heart of Madness"
+		// SubLine2: "Psychic Flesh"
+	}
+
+	QueenBee: {
+		// Name: "The Queen Bee"
+		// GenderId: "0"
+		// SubLine1: "Swarm's Matriarch"
+		// SubLine2: "Stinging Predator"
+		// SubLine3: "Her Majesty"
+	}
+
+	SkeletronHead: {
+		// Name: "Skeletron"
+		// GenderId: "0"
+		// SubLine1: "The Curse Embodied"
+		// SubLine2: "Dungeon Guardian"
+		// SubLine3: "Master of Puppets"
+	}
+
+	WallOfFlesh: {
+		// Name: "The Wall of Flesh"
+		// GenderId: "0"
+		// SubLine1: "Demonic Peacekeeper"
+		// SubLine2: "Ceaseless Hunger"
+	}
+
+	TheTwins: {
+		// Name: "The Twins"
+		// GenderId: "0"
+		// SubLine1: "Spazmatism and Retinazer"
+		// SubLine2: "Tracking Your Every Move"
+	}
+
+	TheDestroyer: {
+		// Name: "The Destroyer"
+		// GenderId: "0"
+		// SubLine1: "Planetary Menace"
+		// SubLine2: "Metallic Rampage"
+	}
+
+	SkeletronPrime: {
+		// Name: "Skeletron Prime"
+		// GenderId: "0"
+		// SubLine1: "Cursed Killing Machine"
+		// SubLine2: "Weapons of Massacre"
+	}
+
+	Plantera: {
+		// Name: "Plantera"
+		// GenderId: "0"
+		// SubLine1: "Uprooted Fury"
+		// SubLine2: "Nature's Last Resort"
+	}
+
+	Golem: {
+		// Name: "Golem"
+		// GenderId: "0"
+		// SubLine1: "Crumbling Guardian"
+		// SubLine2: "Ancient Sentinel"
+	}
+
+	DukeFishron: {
+		// Name: "Duke Fishron"
+		// GenderId: "0"
+		// SubLine1: "Served Cold"
+		// SubLine2: "Crime Against Nature"
+		// SubLine3: "Wild Mutation"
+	}
+
+	EmpressOfLight: {
+		// Name: "The Empress of Light"
+		// GenderId: "0"
+		// SubLine1: "False Idol"
+		// SubLine2: "Blinding Diva"
+	}
+
+	LunaticCultist: {
+		// Name: "The Lunatic Cultist"
+		// GenderId: "0"
+		// SubLine1: "Harbinger of Doom"
+	}
+
+	MoonLord: {
+		// Name: "The Moon Lord"
+		// GenderId: "0"
+		// SubLine1: "Cosmic Horror"
+		// SubLine2: "The End of It All"
+		// SubLine3: "Your True God"
+	}
+}
+
 ItemOverhauls: {
 	Archery: {
 		HoverShots:

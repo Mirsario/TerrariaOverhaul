@@ -11,7 +11,8 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.EntityEffects;
 
@@ -96,7 +97,7 @@ public sealed class PlayerHoldOutAnimation : ModPlayer
 
 	public override void PreUpdate()
 	{
-		var mouseWorld = Player.GetModPlayer<PlayerDirectioning>().LookPosition;
+		var mouseWorld = Player.GetModPlayer<PlayerDirection>().LookPosition;
 		Vector2 offset = mouseWorld - Player.Center;
 		int direction = offset.X >= 0f ? 1 : -1;
 

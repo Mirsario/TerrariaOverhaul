@@ -7,7 +7,7 @@ using Terraria;
 using TerrariaOverhaul.Common.Decals;
 using TerrariaOverhaul.Common.Interaction;
 using TerrariaOverhaul.Common.ProjectileEffects;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Content.Projectiles;
 

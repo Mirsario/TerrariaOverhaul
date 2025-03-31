@@ -6,7 +6,7 @@ using System.IO;
 using Terraria;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Networking;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Charging;
 
@@ -14,7 +14,7 @@ public sealed class PowerAttackStartPacket : NetPacket
 {
 	public PowerAttackStartPacket(Player player, int chargeLength)
 	{
-		Writer.TryWriteSenderPlayer(player);
+		NetUtils.TryWriteSenderPlayer(Writer, player);
 
 		Writer.Write7BitEncodedInt(player.selectedItem);
 		Writer.Write7BitEncodedInt(chargeLength);

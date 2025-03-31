@@ -8,7 +8,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities;
 using BitOperations = System.Numerics.BitOperations;
 using BitMask = TerrariaOverhaul.Utilities.BitMask<ulong>;
 

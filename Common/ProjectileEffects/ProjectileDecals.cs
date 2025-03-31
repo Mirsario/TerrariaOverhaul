@@ -11,7 +11,7 @@ using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Decals;
 using TerrariaOverhaul.Core.Tags;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 

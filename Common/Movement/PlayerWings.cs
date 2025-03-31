@@ -3,13 +3,13 @@
 // See LICENSE.md for details.
 
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
 public sealed class PlayerWings : ModPlayer
 {
-	public Timer WingsCooldown { get; set; }
+	public GameTimer WingsCooldown { get; set; }
 
 	public override void PreUpdate()
 	{

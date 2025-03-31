@@ -17,7 +17,7 @@ internal sealed class CanMeleeCollideWithNPCImplementation : GlobalItem
 	public override void Load()
 	{
 		IL_Player.ProcessHitAgainstNPC += context => {
-			var cursor = new ILCursor(context);
+			var il = new ILCursor(context);
 
 			// Match:
 			// NPC npc = Main.npc[npcIndex];
@@ -25,7 +25,7 @@ internal sealed class CanMeleeCollideWithNPCImplementation : GlobalItem
 
 			int npcLocalId = 0;
 
-			cursor.GotoNext(
+			il.GotoNext(
 				MoveType.Before,
 				i => i.MatchLdsfld(typeof(Main), nameof(Main.npc)),
 				i => i.MatchLdarg(out _),
@@ -40,7 +40,7 @@ internal sealed class CanMeleeCollideWithNPCImplementation : GlobalItem
 			int itemRectangleArgId = 0;
 			int checkResultLocalId = 0;
 
-			cursor.GotoNext(
+			il.GotoNext(
 				MoveType.Before,
 				i => i.MatchLdarga(out itemRectangleArgId),
 				i => i.MatchLdloc(out _),
@@ -59,24 +59,24 @@ internal sealed class CanMeleeCollideWithNPCImplementation : GlobalItem
 				return hookResult.HasValue;
 			}
 
-			cursor.HijackIncomingLabels(); // Just in case.
+			ILUtils.HijackIncomingLabels(il); // Just in case.
 
-			cursor.Emit(OpCodes.Ldarg_1); // Load 'item' argument.
-			cursor.Emit(OpCodes.Ldarg_0); // Load 'this' (player) argument.
-			cursor.Emit(OpCodes.Ldloc, npcLocalId); // Load the 'npc' local.
-			cursor.Emit(OpCodes.Ldarga, itemRectangleArgId); // Load the address of the item rectangle argument.
-			cursor.Emit(OpCodes.Ldloca, checkResultLocalId); // Load the address of the check result local.
-			cursor.EmitDelegate(TryGetOverride);
+			il.Emit(OpCodes.Ldarg_1); // Load 'item' argument.
+			il.Emit(OpCodes.Ldarg_0); // Load 'this' (player) argument.
+			il.Emit(OpCodes.Ldloc, npcLocalId); // Load the 'npc' local.
+			il.Emit(OpCodes.Ldarga, itemRectangleArgId); // Load the address of the item rectangle argument.
+			il.Emit(OpCodes.Ldloca, checkResultLocalId); // Load the address of the check result local.
+			il.EmitDelegate(TryGetOverride);
 
 			// If the above method returns true - jump over the vanilla code, onto a yet-to-be-written label.
 
-			var skipRectangleIntersectionLabel = cursor.DefineLabel();
+			var skipRectangleIntersectionLabel = il.DefineLabel();
 
-			cursor.Emit(OpCodes.Brtrue, skipRectangleIntersectionLabel);
+			il.Emit(OpCodes.Brtrue, skipRectangleIntersectionLabel);
 
-			cursor.Index += 4; // Not that great!
+			il.Index += 4; // Not that great!
 
-			cursor.MarkLabel(skipRectangleIntersectionLabel);
+			il.MarkLabel(skipRectangleIntersectionLabel);
 		};
 	}
 }

@@ -2,7 +2,6 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -10,7 +9,8 @@ using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.Tags;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.AudioEffects;
 
@@ -51,7 +51,7 @@ public sealed class SurroundingsReverb : ModSystem
 		int maxTiles = areaRectangle.Width * areaRectangle.Height;
 		int maxReverbTiles = (int)(maxTiles * MaxReverbTileRatio) + 1;
 
-		foreach (var p in new GeometryUtils.FloodFill(areaCenter, areaRectangle.ClampTileCoordinates())) {
+		foreach (var p in new GeometryUtils.FloodFill(areaCenter, WorldUtils.ClampTileCoordinates(areaRectangle))) {
 			var (x, y) = p.Point;
 			Tile tile = Main.tile[x, y];
 

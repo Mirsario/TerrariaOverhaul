@@ -12,7 +12,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Content.Dusts;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.ResourceDrops;
 
@@ -64,7 +64,7 @@ public sealed class ManaPickupChanges : ResourcePickupChanges<ManaPickupChanges>
 
 	public override float GetPickupRange(Item item, Player player)
 	{
-		float range = 12f * TileUtils.TileSizeInPixels;
+		float range = 12f * WorldUtils.TileSizeInPixels;
 
 		if (player.lifeMagnet) {
 			range *= 2f;

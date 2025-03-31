@@ -3,9 +3,6 @@
 // See LICENSE.md for details.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,6 +30,7 @@ public struct PhysicalMaterial : IComponent
 
 public sealed class PhysicalMaterials : ModSystem
 {
+	private static readonly Query physicalMaterials = Prefabs.Query().With<PhysicalMaterial>();
 	private static Prefab[] tileMaterialLookup = [];
 	private static Prefab[] wallMaterialLookup = [];
 
@@ -61,7 +59,7 @@ public sealed class PhysicalMaterials : ModSystem
 			}
 		}
 
-		foreach (var prefab in Prefabs.Query<PhysicalMaterial>()) {
+		foreach (var prefab in physicalMaterials) {
 			ref readonly var material = ref prefab.Get<PhysicalMaterial>();
 
 			if (material.AssociatedSet is ContentSet set) {

@@ -11,10 +11,11 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Damage;
 using TerrariaOverhaul.Common.Hooks.Items;
+using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.ItemComponents;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
@@ -54,7 +55,7 @@ public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithN
 
 	public override void UseAnimation(Item item, Player player)
 	{
-		SourceAttackDirection = player.LookDirection();
+		SourceAttackDirection = PlayerDirection.LookDirection(player);
 
 		if (EnableMeleeAttackAiming) {
 			AttackDirection = SourceAttackDirection;

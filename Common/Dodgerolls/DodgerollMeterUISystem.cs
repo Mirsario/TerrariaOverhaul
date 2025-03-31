@@ -11,7 +11,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Dodgerolls;
 
@@ -24,7 +24,7 @@ public sealed class DodgerollMeterUISystem : ModSystem
 
 	private static Asset<Texture2D>? meterTexture;
 	private static LegacyGameInterfaceLayer? layer;
-	private static Timer lastNotChargedTime;
+	private static GameTimer lastNotChargedTime;
 
 	public override void Load()
 	{
@@ -35,9 +35,7 @@ public sealed class DodgerollMeterUISystem : ModSystem
 				return true;
 			}
 
-			var player = Main.LocalPlayer;
-
-			if (player?.active != true || !player.TryGetModPlayer(out PlayerDodgerolls dodgerolls)) {
+			if (Main.LocalPlayer is not { active: true, dead: false } player || !player.TryGetModPlayer(out PlayerDodgerolls dodgerolls)) {
 				return true;
 			}
 

@@ -2,11 +2,10 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-using System;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 

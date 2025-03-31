@@ -9,7 +9,7 @@ using TerrariaOverhaul.Common.Charging;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Items;
 
@@ -25,7 +25,7 @@ public sealed class ItemUseVelocityRecoil : ItemComponent
 			return base.UseItem(item, player);
 		}
 
-		var mouseWorld = player.GetModPlayer<PlayerDirectioning>().MouseWorld;
+		var mouseWorld = player.GetModPlayer<PlayerDirection>().MouseWorld;
 		var direction = (player.Center - mouseWorld).SafeNormalize(default);
 		var modifiedDirection = new Vector2(direction.X, direction.Y * Math.Abs(direction.Y));
 

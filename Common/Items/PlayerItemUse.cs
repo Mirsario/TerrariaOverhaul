@@ -7,7 +7,7 @@ using System.Reflection;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Items;
 

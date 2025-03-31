@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Numerics;
 
 namespace TerrariaOverhaul.Core.Data;
@@ -24,7 +25,11 @@ public struct SparseSet<TData>()
 	}
 
 	public readonly bool Has(uint index) => index < sparse.Length && sparse[index] != Invalid;
-	public readonly ref TData Get(uint index) => ref dense[sparse[index]];
+	public readonly ref TData Get(uint index)
+	{
+		Debug.Assert(Has(index));
+		return ref dense[sparse[index]];
+	}
 
 	public ref TData Put(uint index, in TData value)
 	{
@@ -46,5 +51,15 @@ public struct SparseSet<TData>()
 		dense[denseIndex] = value;
 
 		return ref dense[denseIndex];
+	}
+	public readonly TData Remove(uint index)
+	{
+		Debug.Assert(Has(index));
+
+		ref var address = ref dense[sparse[index]];
+		var result = address;
+		sparse[index] = Invalid;
+		address = default;
+		return result;
 	}
 }

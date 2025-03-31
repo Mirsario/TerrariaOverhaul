@@ -13,7 +13,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
@@ -29,7 +29,7 @@ public sealed class PlayerMovement : ModPlayer
 
 	//public Timer NoJumpTime { get; set; }
 	//public Vector2 PrevVelocity { get; set; }
-	public Timer NoMovementTime { get; set; }
+	public GameTimer NoMovementTime { get; set; }
 	public int VanillaAccelerationTime { get; set; }
 	public Vector2? ForcedPosition { get; set; }
 	public Vector2[] VelocityRecord { get; private set; } = new Vector2[VelocityRecordSize];

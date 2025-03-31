@@ -36,8 +36,10 @@ public sealed class AmbienceTrack : IComponent
 	public int MaxInstances = 1;
 	public ExponentialRange InstanceCooldown = new();
 	public PositionInfo? Positional;
-	[JsonRequired] public SoundStyle Sound;
-	[JsonRequired, JsonConverter(typeof(CalculatedSignalArrayJsonConverter))] public CalculatedSignal[] Variables = Array.Empty<CalculatedSignal>();
+	[JsonRequired, JsonConverter(typeof(SoundStyleJsonConverter))]
+	public SoundStyle Sound;
+	[JsonRequired, JsonConverter(typeof(CalculatedSignalArrayJsonConverter))]
+	public CalculatedSignal[] Variables = Array.Empty<CalculatedSignal>();
 
 	public AmbienceTrack() { }
 }

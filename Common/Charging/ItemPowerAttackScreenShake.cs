@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Charging;
 
@@ -16,7 +16,7 @@ public sealed class ItemPowerAttackScreenShake : ItemComponent
 {
 	public ScreenShake ScreenShake;
 
-	private Timer lastCharge;
+	private GameTimer lastCharge;
 
 	public override void HoldItem(Item item, Player player)
 	{

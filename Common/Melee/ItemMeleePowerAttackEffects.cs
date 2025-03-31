@@ -5,15 +5,16 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using TerrariaOverhaul.Common.Charging;
+using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
 public sealed class ItemMeleePowerAttackEffects : ItemComponent
 {
-	private Timer lastCharge;
+	private GameTimer lastCharge;
 
 	public override void HoldItem(Item item, Player player)
 	{
@@ -37,7 +38,7 @@ public sealed class ItemMeleePowerAttackEffects : ItemComponent
 
 					lastCharge = charge;
 				} else {
-					aiming.AttackDirection = Vector2.Lerp(aiming.AttackDirection, player.LookDirection(), 5f * TimeSystem.LogicDeltaTime);
+					aiming.AttackDirection = Vector2.Lerp(aiming.AttackDirection, PlayerDirection.LookDirection(player), 5f * TimeSystem.LogicDeltaTime);
 				}
 			}
 		}

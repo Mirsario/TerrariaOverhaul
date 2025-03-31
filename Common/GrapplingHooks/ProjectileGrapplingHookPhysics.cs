@@ -3,7 +3,6 @@
 // See LICENSE.md for details.
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Microsoft.Xna.Framework;
@@ -13,9 +12,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.GrapplingHooks;
 
@@ -221,7 +220,7 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 			i => i.MatchStfld(typeof(Player), nameof(Player.GoingDownWithGrapple))
 		);
 
-		il.HijackIncomingLabels();
+		ILUtils.HijackIncomingLabels(il);
 
 		int codeInsertionLocation = il.Index;
 
@@ -283,8 +282,8 @@ public class ProjectileGrapplingHookPhysics : GlobalProjectile
 		// Emit code that skips over this check whenever we override physics.
 
 		var skipThisCheckLabel = il.DefineLabel();
-		
-		il.HijackIncomingLabels();
+
+		ILUtils.HijackIncomingLabels(il);
 
 		il.Emit(OpCodes.Ldarg_0);
 		il.EmitDelegate<Func<Player, bool>>(ShouldOverrideGrapplingHookPhysics);

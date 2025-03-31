@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 using EnvironmentTag = TerrariaOverhaul.Core.Tags.Tag<TerrariaOverhaul.Common.Ambience.EnvironmentSystem>;
 
 namespace TerrariaOverhaul.Common.Ambience;
@@ -86,7 +86,7 @@ public sealed partial class EnvironmentSystem : ModSystem
 		var localPlayer = Main.LocalPlayer;
 		var context = new EnvironmentContext {
 			Player = Main.LocalPlayer,
-			PlayerTilePosition = localPlayer.Center * TileUtils.PixelSizeInUnits,
+			PlayerTilePosition = localPlayer.Center * WorldUtils.PixelSizeInUnits,
 			TileCounts = tileCounts,
 			Metrics = Main.SceneMetrics,
 		};

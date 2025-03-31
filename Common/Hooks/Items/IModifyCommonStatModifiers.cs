@@ -5,7 +5,7 @@
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyCommonStatModifiers;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;

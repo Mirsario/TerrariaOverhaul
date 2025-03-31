@@ -15,7 +15,8 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.TextureColors;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.ItemComponents;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Guns;
 
@@ -51,7 +52,7 @@ public sealed class ItemMuzzleflashes : ItemComponent
 	public uint DefaultMuzzleflashLength = 6;
 	public int CurrentStyleIndex;
 
-	private Timer timer;
+	private GameTimer timer;
 	private uint timerMaxValue;
 	private Color[] colors = defaultColors;
 	private MuzzleflashStyle[] styles = defaultStyles;

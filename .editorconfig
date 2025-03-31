@@ -20,6 +20,8 @@ dotnet_diagnostic.CS1998.severity = silent
 dotnet_diagnostic.CA1822.severity = none
 # CA2211: Non-constant fields should not be visible
 dotnet_diagnostic.CA2211.severity = none
+# IDE0017: Object initialization can be simplified
+dotnet_diagnostic.IDE0017.severity = none
 # IDE0028: Collection initialization can be simplified
 # IDE0300: Collection initialization can be simplified
 # IDE0301: Collection initialization can be simplified
@@ -53,10 +55,10 @@ dotnet_diagnostic.IDE0042.severity = none
 	dotnet_sort_system_directives_first = true
 
 # this. and Me. preferences
-	dotnet_style_qualification_for_event = false:silent
-	dotnet_style_qualification_for_field = false:silent
-	dotnet_style_qualification_for_method = false:silent
-	dotnet_style_qualification_for_property = false:silent
+	dotnet_style_qualification_for_event = false:none
+	dotnet_style_qualification_for_field = false:none
+	dotnet_style_qualification_for_method = false:none
+	dotnet_style_qualification_for_property = false:none
 
 # Language keywords vs BCL types preferences
 	dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion

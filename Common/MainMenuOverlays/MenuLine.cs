@@ -13,7 +13,8 @@ using Terraria.GameContent;
 using Terraria.ID;
 using TerrariaOverhaul.Core.Input;
 using TerrariaOverhaul.Core.Localization;
-using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
+using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays;
 

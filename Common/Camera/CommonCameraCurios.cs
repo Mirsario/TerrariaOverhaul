@@ -8,6 +8,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Camera;
 
@@ -73,13 +74,14 @@ public sealed class CommonCameraCurios : ModSystem
 			return;
 		}
 
-		CameraCurio curio;
-		curio.Zoom = +0.125f;
-		curio.Range = new(Min: 100f, Max: 450f, Exponent: 1.50f);
-		curio.Weight = 0.325f;
-		curio.LengthInSeconds = 0.25f;
-		curio.FadeInLength = 1.0f;
-		curio.FadeOutLength = 1.0f;
+		var curio = new CameraCurio {
+			Zoom = +0.125f,
+			Range = new(Min: 100f, Max: 450f, Exponent: 1.50f),
+			Weight = 0.325f,
+			LengthInSeconds = 0.25f,
+			FadeInLength = 1.0f,
+			FadeOutLength = 1.0f,
+		};
 
 		var playerCenter = Main.LocalPlayer.Center;
 		var position = new WeightedValue<Vector2D>(default, 0.0);
