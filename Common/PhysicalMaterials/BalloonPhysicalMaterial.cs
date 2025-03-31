@@ -18,4 +18,9 @@ public sealed class BalloonPhysicalMaterial : PhysicalMaterial, ITileTagAssociat
 		Volume = 0.5f,
 		PitchVariance = 0.1f,
 	};
+
+	public SoundStyle? JumpFootstepSound { get; } = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/Balloon/Land") {
+		Volume = 0.5f,
+		PitchVariance = 0.1f,
+	};
 }

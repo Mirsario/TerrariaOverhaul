@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Audio;
+using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -98,6 +99,15 @@ public sealed class DestroyerRework : GlobalNPC
 					RangeInPixels = 64f,
 				},
 			};
+			npc.HitSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Bosses/MetalNPCHitSound") {
+				Pitch = -0.5f,
+				PitchVariance = 0.3f,
+			};
+
+			npc.DeathSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Bosses/MetalNPCDeathSound") {
+				Pitch = 0.5f,
+				PitchVariance = 0.3f,
+			};
 		}
 	}
 
@@ -156,3 +166,32 @@ public sealed class DestroyerRework : GlobalNPC
 		return null;
 	}
 }
+
+/*public sealed class ProbeSoundRework : GlobalNPC
+{
+	public override bool AppliesToEntity(NPC npc, bool lateInstantiation) => npc.type is NPCID.Probe;
+
+	public override void SetDefaults(NPC npc)
+	{
+		npc.HitSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Bosses/MetalNPCHitSound") {
+			Pitch = 0.5f,
+			PitchVariance = 0.3f,
+		};
+		npc.DeathSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Bosses/MetalNPCDeathSound") {
+			Pitch = 0.5f,
+			PitchVariance = 0.3f,
+		};
+	}
+
+	public override void PostAI(NPC npc)
+	{
+		if (npc.active) {
+			if (npc.ai[0] % 180 == 0) {
+				SoundEngine.PlaySound(new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Bosses/MetalNPCIdleSound") {
+					MaxInstances = 3,
+					PitchVariance = 0.1f,
+				}, npc.position);
+			}
+		}
+	}
+}*/
