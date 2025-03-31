@@ -100,21 +100,21 @@ Bosses: {
 		// SubLine4: "Crowned Monstrosity"
 	}
 
-	EyeofCthulhu: {
+	EyeOfCthulhu: {
 		// Name: "The Eye of Cthulhu"
 		// GenderId: "0"
 		// SubLine1: "Sight of Terror"
 		// SubLine2: "Night Stalker"
 	}
 
-	EaterofWorldsHead: {
+	EaterOfWorlds: {
 		// Name: "The Eater of Worlds"
 		// GenderId: "0"
 		// SubLine1: "Corruption's Hive Mind"
 		// SubLine2: "Fractal Abomination"
 	}
 
-	BrainofCthulhu: {
+	BrainOfCthulhu: {
 		// Name: "The Brain of Cthulhu"
 		// GenderId: "0"
 		// SubLine1: "Heart of Madness"
@@ -129,7 +129,7 @@ Bosses: {
 		// SubLine3: "Her Majesty"
 	}
 
-	SkeletronHead: {
+	Skeletron: {
 		// Name: "Skeletron"
 		// GenderId: "0"
 		// SubLine1: "The Curse Embodied"

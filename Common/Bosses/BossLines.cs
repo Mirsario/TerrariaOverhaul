@@ -27,10 +27,22 @@ public sealed class BossLines : ModSystem
 	private const string BaseKey = $"Mods.{nameof(TerrariaOverhaul)}.Bosses";
 	private static Common commons;
 	private static int lastLanguageRefreshCount;
-	private static readonly Dictionary<int, Specific?> cache = new();
+	private static readonly Dictionary<int, string> nameRemap = [];
+	private static readonly Dictionary<int, Specific?> cache = [];
 
 	static BossLines()
 	{
+		nameRemap[NPCID.EyeofCthulhu] = "EyeOfCthulhu";
+		nameRemap[NPCID.EaterofWorldsHead] = "EaterOfWorlds";
+		nameRemap[NPCID.BrainofCthulhu] = "BrainOfCthulhu";
+		nameRemap[NPCID.SkeletronHead] = "Skeletron";
+		nameRemap[NPCID.WallofFlesh] = "WallOfFlesh";
+		nameRemap[NPCID.Spazmatism] = "TheTwins";
+		nameRemap[NPCID.Retinazer] = "TheTwins";
+		nameRemap[NPCID.EmpressButterfly] = "EmpressOfLight";
+		nameRemap[NPCID.CultistBoss] = "LunaticCultist";
+		nameRemap[NPCID.MoonLordCore] = "MoonLord";
+
 #if DEBUG
 		string[] input = ["a;b;c", "d;e;f"];
 		string[][] expect = [["a", "d"], ["b", "e"], ["c", "f"]];
@@ -65,7 +77,7 @@ public sealed class BossLines : ModSystem
 			return linesOrNull.HasValue;
 		}
 
-		if (!NPCID.Search.TryGetName(type, out string idName)) {
+		if (!nameRemap.TryGetValue(type, out string? idName) && !NPCID.Search.TryGetName(type, out idName)) {
 			cache[type] = null;
 			lines = default;
 			return false;
