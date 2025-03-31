@@ -37,7 +37,7 @@ public sealed class EyeOfCthulhuRework : GlobalNPC
 
 	public override bool AppliesToEntity(NPC npc, bool lateInstantiation)
 	{
-		return npc.type is NPCID.EyeofCthulhu;
+		return npc.type is NPCID.EyeofCthulhu or NPCID.Spazmatism or NPCID.Retinazer;
 	}
 
 	public override void SetDefaults(NPC npc)
