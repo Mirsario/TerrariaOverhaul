@@ -65,9 +65,7 @@ internal static class ContentSets
 
 	private struct GlobalSetData()
 	{
-#if DEBUG
 		public string Name = "Unknown";
-#endif
 		public HashSet<ContentSet>? IncludedSets = null;
 	}
 	private struct StorageSetData()
