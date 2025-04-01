@@ -1,33 +1,108 @@
-// Footstep tags
+BalloonMaterial: {
+	Includes.TileID: [
+		"SillyBalloonGreen"
+		"SillyBalloonPink"
+		"SillyBalloonPurple"
+		"SillyBalloonTile"
+	]
+}
+
+BrickMaterial: {
+	Includes.TileID: [
+		"GrayBrick"
+		"RedBrick"
+		"SandstoneBrick"
+		"SnowBrick"
+		"IceBrick"
+		"Mudstone"
+		"IridescentBrick"
+		"CopperBrick"
+		"TinBrick"
+		"IronBrick"
+		"LeadBrick"
+		"SilverBrick"
+		"TungstenBrick"
+		"GoldBrick"
+		"PlatinumBrick"
+		"EbonstoneBrick"
+		"CrimstoneBrick"
+		"DemoniteBrick"
+		"CrimtaneBrick"
+		"MeteoriteBrick"
+		"ObsidianBrick"
+		"HellstoneBrick"
+		"PearlstoneBrick"
+		"CobaltBrick"
+		"MythrilBrick"
+		"ChlorophyteBrick"
+		"LunarBrick"
+		"HeavenforgeBrick"
+		"LunarRustBrick"
+		"AstraBrick"
+		"DarkCelestialBrick"
+		"MercuryBrick"
+		"StarRoyaleBrick"
+		"CryocoreBrick"
+		"CosmicEmberBrick"
+		"RainbowBrick"
+		"ShimmerBrick"
+		"BlueDungeonBrick"
+		"GreenDungeonBrick"
+		"PinkDungeonBrick"
+		"CrackedBlueDungeonBrick"
+		"CrackedGreenDungeonBrick"
+		"CrackedPinkDungeonBrick"
+		"LihzahrdBrick"
+		"SolarBrick"
+		"NebulaBrick"
+		"StardustBrick"
+		"VortexBrick"
+		"AncientCopperBrick"
+		"AncientSilverBrick"
+		"AncientGoldBrick"
+		"AncientObsidianBrick"
+		"AncientHellstoneBrick"
+		"AncientCobaltBrick"
+		"AncientMythrilBrick"
+		"AncientBlueBrick"
+		"AncientGreenBrick"
+		"AncientPinkBrick"
+	]
+}
+
+CloudMaterial: {
+	Includes.TileID: [
+		"Cloud"
+		"RainCloud"
+		"SnowCloud"
+	]
+}
 
 DirtMaterial: {
 	Sets: [ "Dirt" ]
 	Includes.TileID: [
 		"ClayBlock"
-		"Ash"
-		"Silt"
-		"Slush"
 		"Hive"
 	]
 }
 
-StoneMaterial: {
-	Sets: [ "Stone" ]
+GlassMaterial: {
 	Includes.TileID: [
-		"StoneSlab"
-		"ActiveStoneBlock"
-		"SandStoneSlab"
-		"GrayBrick"
-		// Moss
-		"ArgonMoss"
-		"BlueMoss"
-		"BrownMoss"
-		"GreenMoss"
-		"KryptonMoss"
-		"LavaMoss"
-		"RedMoss"
-		"PurpleMoss"
-		"XenonMoss"
+		"Glass"
+		"AmberGemspark" 
+		"AmberGemsparkOff"
+		"AmethystGemspark" 
+		"AmethystGemsparkOff"
+		"DiamondGemspark" 
+		"DiamondGemsparkOff"
+		"EmeraldGemspark" 
+		"EmeraldGemsparkOff"
+		"RubyGemspark" 
+		"RubyGemsparkOff"
+		"SapphireGemspark" 
+		"SapphireGemsparkOff"
+		"TopazGemspark" 
+		"TopazGemsparkOff"
 	]
 }
 
@@ -38,12 +113,68 @@ GrassMaterial: {
 	]
 }
 
+MossStoneMaterial: {
+	Includes.TileID: [
+		// Moss
+		"ArgonMoss"
+		"BlueMoss"
+		"BrownMoss"
+		"GreenMoss"
+		"KryptonMoss"
+		"LavaMoss"
+		"RedMoss"
+		"PurpleMoss"
+		"XenonMoss"
+		"LongMoss"
+		"RainbowMoss"
+		"VioletMoss"
+		// Moss Block
+		"ArgonMossBlock"
+		"KryptonMossBlock"
+		"LavaMossBlock"
+		"XenonMossBlock"
+		"RainbowMossBlock"
+		"VioletMossBlock"
+		// Moss Brick
+		"ArgonMossBrick"
+		"BlueMossBrick"
+		"BrownMossBrick"
+		"GreenMossBrick"
+		"KryptonMossBrick"
+		"LavaMossBrick"
+		"RedMossBrick"
+		"PurpleMossBrick"
+		"XenonMossBrick"
+		"RainbowMossBrick"
+		"VioletMossBrick"
+	]
+}
+
 MudMaterial: {
 	Sets: [ "Mud" ]
+	Includes.TileID: [
+		"Mud"
+		"SlimeBlock"
+		"FrozenSlimeBlock"
+		"PinkSlimeBlock"
+		"FleshBlock"
+	]
 }
 
 SandMaterial: {
 	Sets: [ "Sand" ]
+	Includes.TileID: [
+		"Ash"
+		"Silt"
+		"Slush"
+		"Pearlsand"
+		"Ebonsand"
+		"Crimsand"
+		"HardenedSand"
+		"CorruptHardenedSand"
+		"CrimsonHardenedSand"
+		"HallowHardenedSand"
+	]
 }
 
 SnowMaterial: {
@@ -53,12 +184,27 @@ SnowMaterial: {
 	]
 }
 
+StoneMaterial: {
+	Sets: [ "Stone" ]
+	Includes.TileID: [
+		"Stone"
+		"StoneSlab"
+		"ActiveStoneBlock"
+		"SandStoneSlab"
+		"Ebonstone"
+		"Crimstone"
+		"Pearlstone"
+		"MarbleBlock"
+		"GraniteBlock"
+	]
+}
+
 WoodMaterial: {
 	Sets: [ "Wood" ]
 	Includes.TileID: [
 		"WoodenSpikes"
 		"WarTable"
-		// FrameImportant
+		# FrameImportant
 		"Platforms"
 		"ClosedDoor"
 		"OpenDoor"
