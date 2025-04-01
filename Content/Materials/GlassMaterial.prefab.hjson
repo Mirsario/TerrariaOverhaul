@@ -1,0 +1,13 @@
+PhysicalMaterial: {
+	AssociatedSet: "GlassMaterial"
+}
+
+MaterialFootsteps: {
+	StepSound: {
+		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Glass/Step"
+		NumVariants: 5
+		Volume: 0.3
+		Pitch: -0.25
+		PitchVariance: 0.15
+	}
+}

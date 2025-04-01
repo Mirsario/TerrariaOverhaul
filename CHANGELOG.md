@@ -50,6 +50,7 @@
 - **`The Eater of Worlds`** has received an audiovisual overhaul, featuring a debris effect system, disgusting movement & digging audio, as well as terrifying attack and pain screeches that make it look like the victim during its battle. Who knew worms could sing?
 - When the last alive boss is killed, a cinematic transition cue is now played in addition to the aforementioned camera focus.
 - Crimson and Corruption enemies now have new hit and death audio.
+- Added new footstep sounds for Bricks, Clouds, Glass, Mossy Stone, and Silly Balloon Blocks (Thanks, **`@Motaii`!).
 - Leaves particles will now be baked as decals whenever they hit the ground.
 - New ambience tracks: `Beach Waves` (Thanks, **@ZestyMace**!).
 - Introduced many new randomly played ambience sounds (previously we've only had loops).
