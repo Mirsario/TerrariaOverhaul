@@ -5,8 +5,9 @@ PhysicalMaterial: {
 MaterialFootsteps: {
 	StepSound: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Brick/Step"
-		NumVariants: 8
-		Volume: 0.3
-		PitchVariance: 0.1
+		NumVariants: 6
+		Volume: 0.2
+		Pitch: -0.05
+		PitchVariance: 0.15
 	}
 }

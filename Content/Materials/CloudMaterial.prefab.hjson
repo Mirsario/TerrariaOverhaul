@@ -6,7 +6,8 @@ MaterialFootsteps: {
 	StepSound: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Cloud/Step"
 		NumVariants: 5
-		Volume: 0.5
+		Volume: 0.4
+		Pitch: 0.2
 		PitchVariance: 0.1
 	}
 }
