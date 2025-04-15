@@ -39,12 +39,11 @@ public sealed class PlayerFootsteps : ModPlayer
 	{
 		var il = new ILCursor(context);
 
+		// Match before 'if (controlJump)'
 		il.GotoNext(
-			MoveType.Before,
-			i => i.MatchRet(),
-			i => i.MatchLdarg0(),
-			i => i.MatchLdflda(typeof(Entity), nameof(Entity.velocity)),
-			i => i.MatchLdflda(typeof(Vector2), nameof(Vector2.Y))
+			MoveType.Before
+			, i => i.MatchLdarg0()
+			, i => i.MatchLdfld(typeof(Player), nameof(Player.controlJump))
 		);
 		il.Index++;
 		ILUtils.HijackIncomingLabels(il);
