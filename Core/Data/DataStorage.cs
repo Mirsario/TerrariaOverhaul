@@ -109,6 +109,7 @@ public readonly struct Query
 					}
 					BaseIndex += BitMask64.BitSize;
 					PresenceMask = DataStorage.EntityPresenceMasks[PresenceMaskIndex];
+					continue;
 				}
 
 				int bitIndex = PresenceMask.TrailingZeroCount();
