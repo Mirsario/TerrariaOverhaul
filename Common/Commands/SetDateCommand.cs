@@ -2,6 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+#if ENABLE_SEASONS
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Seasons;
 using TerrariaOverhaul.Utilities.Terraria;
@@ -24,3 +25,4 @@ public sealed class SetDateCommand : ModCommand
 		SeasonSystem.SetDate(dayNum, true);
 	}
 }
+#endif

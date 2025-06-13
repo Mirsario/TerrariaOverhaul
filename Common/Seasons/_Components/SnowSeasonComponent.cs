@@ -2,6 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+#if ENABLE_SEASONS
 using System;
 using System.Reflection;
 using Terraria;
@@ -59,3 +60,4 @@ public sealed class SnowSeasonComponent : SeasonComponent
 		}
 	}
 }
+#endif

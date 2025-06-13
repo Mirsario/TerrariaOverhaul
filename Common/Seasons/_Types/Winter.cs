@@ -2,6 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+#if ENABLE_SEASONS
 namespace TerrariaOverhaul.Common.Seasons;
 
 public class Winter : Season
@@ -11,3 +12,4 @@ public class Winter : Season
 		Components.Add(new SnowSeasonComponent());
 	}
 }
+#endif

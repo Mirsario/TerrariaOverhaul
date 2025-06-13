@@ -2,6 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+#if ENABLE_SEASONS
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Components;
 
@@ -26,3 +27,4 @@ public abstract class SeasonComponent : ModComponent<Season>
 		ModTypeLookup<SeasonComponent>.Register(this);
 	}
 }
+#endif

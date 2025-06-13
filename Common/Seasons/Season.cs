@@ -2,6 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+#if ENABLE_SEASONS
 using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Components;
@@ -34,3 +35,4 @@ public abstract class Season : ModType
 
 	}
 }
+#endif

@@ -2,6 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+#if ENABLE_SEASONS
 using System;
 using Terraria;
 using Terraria.ID;
@@ -129,3 +130,4 @@ public partial class SeasonSystem : ModSystem
 		}
 	}
 }
+#endif

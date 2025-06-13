@@ -2,6 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+#if ENABLE_SEASONS
 using Terraria;
 using TerrariaOverhaul.Core.Components;
 
@@ -15,3 +16,4 @@ public sealed class ArrivalAnnouncementSeasonComponent : SeasonComponent
 		Main.NewText($"Season {season.Name} is here.");
 	}
 }
+#endif
