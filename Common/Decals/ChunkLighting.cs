@@ -3,27 +3,32 @@
 // See LICENSE.md for details.
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
+using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Utilities;
+using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Decals;
 
+public struct ChunkLighting : IComponent
+{
+	public RenderTarget2D? Texture;
+	public Surface<Color>? Colors;
+	public bool IsReady;
+}
+
 // This class provides lighting on per-chunk basis. In the future, this could be replaced with a screen-space buffer.
 [Autoload(Side = ModSide.Client)]
-public sealed class ChunkLighting : ChunkComponent
+public sealed class LightingSystem : ModSystem
 {
 	private static uint lastLightingUpdateCount;
-
 	public static int LightingUpdateFrequency => 10;
-
-	public RenderTarget2D? Texture { get; private set; }
-	public Surface<Color>? Colors { get; private set; }
-	public bool IsReady { get; private set; }
 
 	public override void Load()
 	{
@@ -32,117 +37,115 @@ public sealed class ChunkLighting : ChunkComponent
 			typeof(Main).GetProperty(nameof(Main.RenderTargetsRequired))!.GetMethod!,
 			new Func<Func<bool>, bool>(orig => true)
 		);
+
+		Main.OnPreDraw += OnPreDraw;
+	}
+	public override void Unload()
+	{
+		Main.OnPreDraw -= OnPreDraw;
 	}
 
-	public override void OnInit(Chunk chunk)
+	public static bool TryGetChunkLightingBuffer(Chunk chunk, [NotNullWhen(true)] out RenderTarget2D? result)
 	{
-		int textureWidth = chunk.TileRectangle.Width;
-		int textureHeight = chunk.TileRectangle.Height;
+		if (chunk.Entity.Has<ChunkLighting>() && chunk.Entity.Get<ChunkLighting>() is { IsReady: true } lighting) {
+			result = lighting.Texture!;
+			return true;
+		}
 
-		Main.QueueMainThreadAction(() => {
-			Colors = new Surface<Color>(textureWidth, textureHeight);
-			Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+		result = default;
+		return false;
+	}
 
+	private static void OnPreDraw(GameTime obj) => TryUpdateLighting();
+
+	private static void AddChunkComponent(Chunk chunk)
+	{
+		var chunkInfo = chunk.Entity.Get<ChunkInfo>();
+		int textureWidth = chunkInfo.TileRectangle.Width;
+		int textureHeight = chunkInfo.TileRectangle.Height;
+
+		chunk.Entity.Add(new ChunkLighting());
+
+		ThreadUtils.RunOnMainThread(() => {
+			ref var chunkLighting = ref chunk.Entity.Get<ChunkLighting>();
+
+			chunkLighting.Colors = new Surface<Color>(textureWidth, textureHeight);
+			chunkLighting.Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
 			// Initialize with transparent data to prevent driver-specific issues.
-			TextureUtils.InitializeWithColor(Texture, Color.Transparent);
+			TextureUtils.InitializeWithColor(chunkLighting.Texture, Color.Transparent);
 
-			IsReady = true;
+			chunkLighting.IsReady = true;
 		});
 	}
-
-	public override void OnDispose(Chunk chunk)
+	private static void RemoveChunkComponent(Chunk chunk)
 	{
-		IsReady = false;
+		ref var chunkLighting = ref chunk.Entity.Get<ChunkLighting>();
+		chunkLighting.IsReady = false;
 
-		if (Texture != null) {
-			lock (Texture) {
-				var textureHandle = Texture;
-
-				Main.QueueMainThreadAction(() => {
-					textureHandle.Dispose();
-				});
-
-				Texture = null;
+		if (chunkLighting.Texture != null) {
+			lock (chunkLighting.Texture) {
+				var textureHandle = chunkLighting.Texture;
+				ThreadUtils.RunOnMainThread(textureHandle.Dispose);
+				chunkLighting.Texture = null;
 			}
 		}
 	}
 
-	public override void PreGameDraw(Chunk chunk)
+	private static void TryUpdateLighting()
 	{
 		uint gameUpdateCount = Main.GameUpdateCount;
-
 		if (gameUpdateCount != lastLightingUpdateCount && gameUpdateCount % LightingUpdateFrequency == 0) {
-			UpdateLighting();
-
 			lastLightingUpdateCount = gameUpdateCount;
+			UpdateLighting();
 		}
 	}
-
-	public void UpdateArea(Chunk chunk, Vector4Int area)
-	{
-		if (!IsReady) {
-			throw new InvalidOperationException("Chunk lighting was not yet ready.");
-		}
-
-		for (int y = area.Y; y <= area.W; y++) {
-			for (int x = area.X; x <= area.Z; x++) {
-				Colors![x - chunk.TileRectangle.X, y - chunk.TileRectangle.Y] = Lighting.GetColor(x, y);
-			}
-		}
-	}
-
-	public void ApplyColors()
-	{
-		if (!IsReady) {
-			throw new InvalidOperationException("Chunk lighting was not yet ready.");
-		}
-
-		lock (Texture!) {
-			Texture.SetData(Colors!.Data);
-		}
-	}
-
 	private static void UpdateLighting()
 	{
 		const int Offset = 4;
 
 		Vector4Int loopArea;
-
 		loopArea.X = (int)Math.Floor(Main.screenPosition.X / 16f) - Offset;
 		loopArea.Y = (int)Math.Floor(Main.screenPosition.Y / 16f) - Offset;
 		loopArea.Z = loopArea.X + (int)Math.Ceiling(Main.screenWidth / 16f) + Offset * 2;
 		loopArea.W = loopArea.Y + (int)Math.Ceiling(Main.screenHeight / 16f) + Offset * 2;
 
 		var chunkLoopArea = new Vector4Int(
-			ChunkSystem.TileToChunkCoordinates(loopArea.X),
-			ChunkSystem.TileToChunkCoordinates(loopArea.Y),
-			ChunkSystem.TileToChunkCoordinates(loopArea.Z),
-			ChunkSystem.TileToChunkCoordinates(loopArea.W)
+			Chunks.TileToChunkCoordinates(loopArea.X),
+			Chunks.TileToChunkCoordinates(loopArea.Y),
+			Chunks.TileToChunkCoordinates(loopArea.Z),
+			Chunks.TileToChunkCoordinates(loopArea.W)
 		);
 
 		for (int chunkY = chunkLoopArea.Y; chunkY <= chunkLoopArea.W; chunkY++) {
 			for (int chunkX = chunkLoopArea.X; chunkX <= chunkLoopArea.Z; chunkX++) {
-				if (!ChunkSystem.TryGetChunk(new Vector2Int(chunkX, chunkY), out var chunk)) {
+				if (!Chunks.TryGetChunk(new Vector2Int(chunkX, chunkY), out var chunk)) {
 					continue;
 				}
 
-				var lighting = chunk.Components.Get<ChunkLighting>();
+				if (!chunk.Entity.Has<ChunkLighting>()) {
+					AddChunkComponent(chunk);
+				}
 
-				if (lighting.Texture == null) {
+				ref var lighting = ref chunk.Entity.Get<ChunkLighting>();
+				if (!lighting.IsReady) {
 					continue;
 				}
 
-				lighting.UpdateArea(
-					chunk,
-					new Vector4Int(
-						Math.Max(loopArea.X, chunk.TileRectangle.X),
-						Math.Max(loopArea.Y, chunk.TileRectangle.Y),
-						Math.Min(loopArea.Z, chunk.TileRectangle.Right - 1),
-						Math.Min(loopArea.W, chunk.TileRectangle.Bottom - 1)
-					)
-				);
+				ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
+				int x1 = Math.Max(loopArea.X, chunkInfo.TileRectangle.X);
+				int y1 = Math.Max(loopArea.Y, chunkInfo.TileRectangle.Y);
+				int x2 = Math.Min(loopArea.Z, chunkInfo.TileRectangle.Right - 1);
+				int y2 = Math.Min(loopArea.W, chunkInfo.TileRectangle.Bottom - 1);
 
-				lighting.ApplyColors();
+				for (int y = y1; y <= y2; y++) {
+					for (int x = x1; x <= x2; x++) {
+						lighting.Colors![x - chunkInfo.TileRectangle.X, y - chunkInfo.TileRectangle.Y] = Lighting.GetColor(x, y);
+					}
+				}
+
+				lock (lighting.Texture!) {
+					lighting.Texture.SetData(lighting.Colors!.Data);
+				}
 			}
 		}
 	}

@@ -8,6 +8,7 @@ using Hjson;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Utilities.Terraria;
 
 // Prefabs are immutable entities loaded from data files.
 
@@ -83,7 +84,8 @@ internal sealed partial class PrefabLoading : ModSystem
 	public override void Load()
 	{
 		RegisterJsonConverter(new SoundStyleJsonConverter());
-		LoadDataFromMod(Mod);
+
+		ThreadUtils.RunOnMainThread(() => LoadDataFromMod(Mod));
 	}
 
 	public static void LoadDataFromMod(Mod mod)

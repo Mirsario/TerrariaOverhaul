@@ -13,11 +13,24 @@ using Terraria.GameContent;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Core.Configuration;
+using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
+using BitOperations = System.Numerics.BitOperations;
 
 namespace TerrariaOverhaul.Common.Decals;
+
+public struct DecalStyleData()
+{
+	public uint NumDecalsToDraw = 0;
+	public DecalInfo[] DecalsToDraw = [];
+}
+public struct ChunkDecals() : IComponent
+{
+	public RenderTarget2D? Texture;
+	public DecalStyleData[] DecalStyleData = [];
+}
 
 public struct DecalInfo
 {
@@ -56,10 +69,8 @@ public struct DecalInfo
 			MathF.Max(MathF.Abs(xy.Y), MathF.Abs(zy.Y))
 		);
 		var result = new Vector4(
-			Position.X - newSize.X,
-			Position.Y - newSize.Y,
-			Position.X + newSize.X,
-			Position.Y + newSize.Y
+			Position.X - newSize.X, Position.Y - newSize.Y,
+			Position.X + newSize.X, Position.Y + newSize.Y
 		);
 
 		return result;
@@ -71,7 +82,7 @@ public sealed class DecalSystem : ModSystem
 {
 	public static readonly BlendState DefaultBlendState = BlendState.AlphaBlend;
 	public static readonly ConfigEntry<bool> EnableDecals = new(ConfigSide.ClientOnly, true, "BloodAndGore");
-	
+
 	private static readonly List<DecalStyle> decalStyles = new();
 
 	public static Asset<Effect>? BloodShader { get; private set; }
@@ -80,9 +91,26 @@ public sealed class DecalSystem : ModSystem
 
 	public override void Load()
 	{
-		BloodShader = Mod.Assets.Request<Effect>("Assets/Shaders/Blood");
+		Main.OnPreDraw += OnPreDraw;
 
 		DecalStyle.RegisterDefaultStyles();
+
+		ThreadUtils.RunOnMainThread(() => {
+			BloodShader = Mod.Assets.Request<Effect>("Assets/Shaders/Blood");
+		});
+	}
+	public override void Unload()
+	{
+		Main.OnPreDraw -= OnPreDraw;
+	}
+
+	private void OnPreDraw(GameTime gameTime)
+	{
+		AddPendingDecals();
+	}
+	public override void PostDrawTiles()
+	{
+		RenderDecalsInWorld();
 	}
 
 #if DEBUG && false // Decal debugging hotkey.
@@ -110,25 +138,28 @@ public sealed class DecalSystem : ModSystem
 	}
 
 	public static void ClearDecals(Rectangle dst)
-		=> AddDecals(DecalStyle.Opaque, new DecalInfo {
+	{
+		AddDecals(DecalStyle.Opaque, new DecalInfo {
 			Position = new Vector2(dst.X + dst.Width * 0.5f, dst.Y + dst.Height * 0.5f),
 			Size = dst.Size(),
 			Color = Color.Transparent,
 			IfChunkExists = true,
 		});
-
+	}
 	public static void ClearDecals(Texture2D texture, Rectangle dst, Color color)
-		=> AddDecals(DecalStyle.Subtractive, new DecalInfo {
+	{
+		AddDecals(DecalStyle.Subtractive, new DecalInfo {
 			Texture = texture,
 			Position = new Vector2(dst.X + dst.Width * 0.5f, dst.Y + dst.Height * 0.5f),
 			Size = dst.Size(),
 			Color = color,
 			IfChunkExists = true,
 		});
+	}
 
 	public static void AddDecals(DecalStyle style, in DecalInfo decal)
 	{
-		if (Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode || !EnableDecals) { // || !ConfigSystem.local.Clientside.BloodAndGore.enableTileBlood) {
+		if (Main.dedServ || WorldGen.gen || WorldGen.IsGeneratingHardMode || !EnableDecals) {
 			return;
 		}
 
@@ -138,12 +169,12 @@ public sealed class DecalSystem : ModSystem
 		DebugSystem.DrawRectangle(rect, Color.Bisque);
 
 		var chunkStart = new Vector2Int(
-			(int)aabb.X / WorldUtils.TileSizeInPixels / Chunk.MaxChunkSize,
-			(int)aabb.Y / WorldUtils.TileSizeInPixels / Chunk.MaxChunkSize
+			(int)aabb.X / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize,
+			(int)aabb.Y / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize
 		);
 		var chunkEnd = new Vector2Int(
-			(int)aabb.Z / WorldUtils.TileSizeInPixels / Chunk.MaxChunkSize,
-			(int)aabb.W / WorldUtils.TileSizeInPixels / Chunk.MaxChunkSize
+			(int)aabb.Z / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize,
+			(int)aabb.W / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize
 		);
 
 		// The provided rectangle will be split between chunks, possibly into multiple draws.
@@ -151,59 +182,174 @@ public sealed class DecalSystem : ModSystem
 			for (int chunkX = chunkStart.X; chunkX <= chunkEnd.X; chunkX++) {
 				var chunkPoint = new Vector2Int(chunkX, chunkY);
 
-				if (!(decal.IfChunkExists ? ChunkSystem.TryGetChunk(chunkPoint, out Chunk chunk) : ChunkSystem.TryGetOrCreateChunk(chunkPoint, out chunk!))) {
+				if (!(decal.IfChunkExists ? Chunks.TryGetChunk(chunkPoint, out Chunk chunk) : Chunks.TryGetOrCreateChunk(chunkPoint, out chunk!))) {
 					continue;
 				}
 
-				chunk.Components.Get<ChunkDecals>().AddDecals(style, in decal);
+				if (!chunk.Entity.Has<ChunkDecals>()) {
+					AddChunkComponent(chunk);
+				}
 
-				// So much unnecessary overengineering below!
-				/*
-				var localDstRect = (RectFloat)decal.DstRect;
+				ref var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
+				ref var styleData = ref chunkDecals.DecalStyleData[style.Id];
+				uint index = styleData.NumDecalsToDraw++;
 
-				// Clip the destination rectangle to the chunk's bounds.
-				localDstRect = RectFloat.FromPoints(
-					Math.Max(localDstRect.x, chunk.WorldRectangle.x),
-					Math.Max(localDstRect.y, chunk.WorldRectangle.y),
-					Math.Min(localDstRect.Right, chunk.WorldRectangle.Right),
-					Math.Min(localDstRect.Bottom, chunk.WorldRectangle.Bottom)
-				);
+				if (index >= styleData.DecalsToDraw.Length) {
+					Array.Resize(ref styleData.DecalsToDraw, (int)BitOperations.RoundUpToPowerOf2(index + 1));
+				}
 
-				// Move the destination rectangle to local space.
-				localDstRect.x -= chunk.WorldRectangle.x;
-				localDstRect.y -= chunk.WorldRectangle.y;
-				// Divide the destination rectangle, since decal RTs have halved resolution.
-				localDstRect.x /= 2;
-				localDstRect.y /= 2;
-				localDstRect.width /= 2;
-				localDstRect.height /= 2;
-
-				// Clip the source rectangle.
-				var destinationRectInChunkSpace = RectFloat.FromPoints(((RectFloat)decal.DstRect).Points / Chunk.MaxChunkSizeInPixels);
-				var clippedRectInChunkSpace = RectFloat.FromPoints(
-					Math.Max(destinationRectInChunkSpace.Left, chunk.Rectangle.Left),
-					Math.Max(destinationRectInChunkSpace.Top, chunk.Rectangle.Top),
-					Math.Min(destinationRectInChunkSpace.Right, chunk.Rectangle.Right),
-					Math.Min(destinationRectInChunkSpace.Bottom, chunk.Rectangle.Bottom)
-				);
-
-				var srcRect = decal.SrcRect ?? decal.Texture.Bounds;
-				var localSrcRect = (Rectangle)new RectFloat(
-					srcRect.X + (clippedRectInChunkSpace.x - destinationRectInChunkSpace.x) * (chunk.WorldRectangle.width / decal.DstRect.Width) * srcRect.Width,
-					srcRect.Y + (clippedRectInChunkSpace.y - destinationRectInChunkSpace.y) * (chunk.WorldRectangle.height / decal.DstRect.Height) * srcRect.Height,
-					(clippedRectInChunkSpace.width / destinationRectInChunkSpace.width) * srcRect.Width,
-					(clippedRectInChunkSpace.height / destinationRectInChunkSpace.height) * srcRect.Height
-				);
-
-				// Enqueue a draw for the chunk component to do on its own.
-				var chunkDecal = decal with {
-					SrcRect = localSrcRect,
-					DstRect = (Rectangle)localDstRect,
-				};
-
-				chunk.Components.Get<ChunkDecals>().AddDecals(style, in chunkDecal);
-				*/
+				styleData.DecalsToDraw[index] = decal;
 			}
+		}
+	}
+
+	private static void AddPendingDecals()
+	{
+		if (!EnableDecals)
+			return;
+
+		bool renderTargetSet = false;
+
+		foreach (Chunk chunk in Chunks.IterateAllChunks()) {
+			ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
+			ref var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
+
+			if (chunkDecals.Texture == null || chunkDecals.DecalStyleData is not { Length: > 0 })
+				return;
+
+			var sb = Main.spriteBatch;
+			var chunkPosition = chunkInfo.WorldRectangle.Position;
+
+			for (int i = 0; i < chunkDecals.DecalStyleData.Length; i++) {
+				ref var styleData = ref chunkDecals.DecalStyleData[i];
+
+				if (styleData.NumDecalsToDraw == 0) {
+					continue;
+				}
+
+				if (!renderTargetSet) {
+					Main.instance.GraphicsDevice.SetRenderTarget(chunkDecals.Texture);
+					renderTargetSet = true;
+				}
+
+				var style = DecalStyles[i];
+
+				sb.Begin(SpriteSortMode.Deferred, style.BlendState, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+
+				for (int j = 0; j < styleData.NumDecalsToDraw; j++) {
+					DecalInfo info = styleData.DecalsToDraw[j];
+					var halfSize = (Vector2Int)(info.SrcRect?.Size() ?? info.Texture.Size()) * 0.5f;
+					var halfScale = info.Scale * 0.5f;
+					var origin = halfSize;
+					var position = new Vector2(
+						MathF.Floor((info.Position.X - chunkPosition.X) * 0.5f) + (halfSize.X % 2f != 0f ? 0.5f : 0f),
+						MathF.Floor((info.Position.Y - chunkPosition.Y) * 0.5f) + (halfSize.Y % 2f != 0f ? 0.5f : 0f)
+					);
+
+					sb.Draw(info.Texture, position, info.SrcRect, info.Color, info.Rotation, origin, halfScale, 0, 0f);
+				}
+
+				sb.End();
+
+				styleData.NumDecalsToDraw = 0;
+			}
+		}
+
+		if (renderTargetSet) {
+			Main.instance.GraphicsDevice.SetRenderTarget(null);
+		}
+	}
+
+	private static readonly short[] QuadTriangles = { 0, 2, 3, 0, 1, 2 };
+
+	private static void RenderDecalsInWorld()
+	{
+		if (!EnableDecals) return;
+
+		foreach (var chunk in Chunks.IterateVisibleChunks()) {
+			if (!LightingSystem.TryGetChunkLightingBuffer(chunk, out var lightingBuffer)) {
+				return;
+			}
+
+			ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
+			ref readonly var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
+
+			var destination = chunkInfo.WorldRectangle;
+			destination.X -= Main.screenPosition.X;
+			destination.Y -= Main.screenPosition.Y;
+			var shader = BloodShader?.Value;
+
+			if (shader == null || chunkDecals.Texture == null || Main.instance.tileTarget == null) {
+				return;
+			}
+
+			var graphicsDevice = Main.instance.GraphicsDevice;
+
+			lock (lightingBuffer) {
+				const int NumTextures = 3;
+
+				shader.Parameters["texture0"].SetValue(chunkDecals.Texture);
+				shader.Parameters["texture1"].SetValue(Main.instance.tileTarget);
+				shader.Parameters["lightingBuffer"].SetValue(lightingBuffer);
+				shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.NormalizedTransformationmatrix);
+
+				graphicsDevice.BlendState = BlendState.AlphaBlend;
+
+				foreach (var pass in shader.CurrentTechnique.Passes) {
+					pass.Apply();
+
+					//TODO: Comment the following.
+					var tOffset = Main.sceneTilePos - Main.screenPosition;
+					var vec = new Vector2(
+						chunkInfo.WorldRectangle.Width / Main.instance.tileTarget.Width / chunkInfo.WorldRectangle.Width,
+						chunkInfo.WorldRectangle.Height / Main.instance.tileTarget.Height / chunkInfo.WorldRectangle.Height
+					);
+					var vertices = new[] {
+						new VertexPositionUv2(new Vector3(destination.Left, destination.Top, 0f), new Vector2(0f, 0f), (destination.TopLeft - tOffset) * vec),
+						new VertexPositionUv2(new Vector3(destination.Right, destination.Top, 0f), new Vector2(1f, 0f), (destination.TopRight - tOffset) * vec),
+						new VertexPositionUv2(new Vector3(destination.Right, destination.Bottom, 0f), new Vector2(1f, 1f), (destination.BottomRight - tOffset) * vec),
+						new VertexPositionUv2(new Vector3(destination.Left, destination.Bottom, 0f), new Vector2(0f, 1f), (destination.BottomLeft - tOffset) * vec)
+					};
+
+					graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, QuadTriangles, 0, QuadTriangles.Length / 3);
+				}
+
+				// Very important to unbind the textures.
+				for (int i = 0; i < NumTextures; i++) {
+					graphicsDevice.Textures[i] = null;
+				}
+			}
+		}
+	}
+
+	private static void AddChunkComponent(Chunk chunk)
+	{
+		ref var chunkDecals = ref chunk.Entity.Add(new ChunkDecals());
+
+		Array.Resize(ref chunkDecals.DecalStyleData, DecalStyles.Length);
+		for (int i = 0; i < chunkDecals.DecalStyleData.Length; i++) {
+			chunkDecals.DecalStyleData[i] = new();
+		}
+
+		ThreadUtils.RunOnMainThread(() => {
+			ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
+			ref var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
+			int textureWidth = chunkInfo.TileRectangle.Width * 8;
+			int textureHeight = chunkInfo.TileRectangle.Height * 8;
+
+			chunkDecals.Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+			// Initialize with transparent data to prevent driver-specific issues.
+			TextureUtils.InitializeWithColor(chunkDecals.Texture, Color.Transparent);
+		});
+	}
+	private static void RemoveChunkComponent(Chunk chunk)
+	{
+		ref var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
+
+		if (chunkDecals.Texture != null) {
+			var textureHandle = chunkDecals.Texture;
+			ThreadUtils.RunOnMainThread(textureHandle.Dispose);
+			chunkDecals.Texture = null;
 		}
 	}
 }

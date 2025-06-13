@@ -14,14 +14,14 @@ public struct SparseSet<TData>()
 
 	public int Count { get; private set; }
 
-	public readonly int[] Sparse => sparse;
-	public readonly TData[] Dense => dense;
+	public readonly Span<int> Sparse => sparse;
+	public readonly Span<TData> Dense => dense;
 
 	public SparseSet(int sparseCapacity, int denseCapacity) : this()
 	{
 		dense = denseCapacity > 0 ? new TData[denseCapacity] : [];
 		sparse = sparseCapacity > 0 ? new int[sparseCapacity] : [];
-		for (int i = 0; i < sparseCapacity; i++) Sparse[i] = Invalid;
+		for (int i = 0; i < sparseCapacity; i++) sparse[i] = Invalid;
 	}
 
 	public readonly bool Has(uint index) => index < sparse.Length && sparse[index] != Invalid;
@@ -37,7 +37,7 @@ public struct SparseSet<TData>()
 			int oldLength = sparse.Length;
 			int newLength = (int)BitOperations.RoundUpToPowerOf2((index + 1));
 			Array.Resize(ref sparse, newLength);
-			for (int i = oldLength; i < newLength; i++) Sparse[i] = Invalid;
+			for (int i = oldLength; i < newLength; i++) sparse[i] = Invalid;
 		}
 
 		int denseIndex = sparse[index];
