@@ -101,6 +101,8 @@
 ### Performance
 - Improved performance of falling tree texture generation.
 - Fixed a rare sound occlusion performance dip occurring when sounds are played far away aboveground with no occluding objects between the sound and the listener.
+- Overhaul's internal chunk system is now data-oriented, with improved CPU caching and slightly reduced memory usage.
+- Overhaul's internal chunks will now be unloaded from memory when unused for some time.
 ### Fixes
 - Fixed issue [#217](https://github.com/Mirsario/TerrariaOverhaul/issues/217) (Decals may become offset or warped in rendering).
 - Fixed issue [#195](https://github.com/Mirsario/TerrariaOverhaul/issues/195) (Cutting down a tree makes things disappear for a moment).

@@ -15,6 +15,7 @@ using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Core.Debugging;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
 using BitOperations = System.Numerics.BitOperations;
@@ -92,6 +93,7 @@ public sealed class DecalSystem : ModSystem
 	public override void Load()
 	{
 		Main.OnPreDraw += OnPreDraw;
+		Chunks.OnChunkDestroyed += RemoveChunkComponent;
 
 		DecalStyle.RegisterDefaultStyles();
 
@@ -267,6 +269,8 @@ public sealed class DecalSystem : ModSystem
 		if (!EnableDecals) return;
 
 		foreach (var chunk in Chunks.IterateVisibleChunks()) {
+			if (!chunk.Entity.Has<ChunkDecals>()) continue;
+
 			if (!LightingSystem.TryGetChunkLightingBuffer(chunk, out var lightingBuffer)) {
 				return;
 			}
@@ -324,8 +328,10 @@ public sealed class DecalSystem : ModSystem
 
 	private static void AddChunkComponent(Chunk chunk)
 	{
-		ref var chunkDecals = ref chunk.Entity.Add(new ChunkDecals());
+		ref var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
+		chunkInfo.ValuableComponentCount++;
 
+		ref var chunkDecals = ref chunk.Entity.Add(new ChunkDecals());
 		Array.Resize(ref chunkDecals.DecalStyleData, DecalStyles.Length);
 		for (int i = 0; i < chunkDecals.DecalStyleData.Length; i++) {
 			chunkDecals.DecalStyleData[i] = new();
@@ -344,6 +350,8 @@ public sealed class DecalSystem : ModSystem
 	}
 	private static void RemoveChunkComponent(Chunk chunk)
 	{
+		if (!chunk.Entity.Has<ChunkDecals>()) return;
+
 		ref var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
 
 		if (chunkDecals.Texture != null) {
@@ -351,5 +359,7 @@ public sealed class DecalSystem : ModSystem
 			ThreadUtils.RunOnMainThread(textureHandle.Dispose);
 			chunkDecals.Texture = null;
 		}
+
+		checked { chunk.Entity.Get<ChunkInfo>().ValuableComponentCount--; }
 	}
 }

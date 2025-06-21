@@ -4,12 +4,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Data;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
 
@@ -20,13 +23,15 @@ public readonly struct Chunk(DataEntity entity)
 	public readonly DataEntity Entity = entity;
 }
 
-public readonly struct ChunkInfo : IComponent
+public struct ChunkInfo : IComponent
 {
 	public readonly Vector2Int Position;
 	public readonly long EncodedPosition;
 	public readonly RectFloat Rectangle;
 	public readonly Rectangle TileRectangle;
 	public readonly RectFloat WorldRectangle;
+	public ulong LastKeepAliveTick;
+	public uint ValuableComponentCount;
 
 	public ChunkInfo(int x, int y)
 	{
@@ -63,12 +68,19 @@ public class Chunks : ModSystem
 	public const float MaxChunkSizeInPixels = MaxChunkSize * WorldUtils.TileSizeInPixels;
 
 	private static Dictionary<long, Chunk>? chunks;
+	private static readonly Query activeChunks = Entities.Query().With<ChunkInfo>();
+	private static uint ChunkUnloadFrequency => 60 * (uint)TimeSystem.LogicFramerate;
 
 	public static Vector2Int WorldSize => new(Main.maxTilesX, Main.maxTilesY);
 	public static Vector2Int WorldSizeInChunks => new(
 		(int)MathF.Ceiling(Main.maxTilesX / (float)MaxChunkSize),
 		(int)MathF.Ceiling(Main.maxTilesY / (float)MaxChunkSize)
 	);
+
+	public delegate void OnChunkCreatedDelegate(Chunk chunk);
+	public delegate void OnChunkDestroyedDelegate(Chunk chunk);
+	public static event OnChunkCreatedDelegate? OnChunkCreated;
+	public static event OnChunkDestroyedDelegate? OnChunkDestroyed;
 
 	public override void Load()
 	{
@@ -77,10 +89,42 @@ public class Chunks : ModSystem
 	public override void Unload()
 	{
 		if (chunks != null) {
-			//foreach (var chunk in chunks.Values) chunk.Dispose();
-			chunks.Clear();
+			var allChunks = chunks.Values;
 			chunks = null;
+			foreach (var chunk in allChunks) {
+				DestroyChunk(chunk);
+			}
 		}
+	}
+	public override void PostUpdateEverything()
+	{
+		// Destroy unused chunks after some time passes.
+		if (chunks == null) return;
+
+		ulong currentTick = TimeSystem.UpdateCount;
+		ulong cutoffTick = unchecked(currentTick - ChunkUnloadFrequency);
+		if (cutoffTick < currentTick) {
+			foreach (var chunkEntity in activeChunks) {
+				var chunkInfo = chunkEntity.Get<ChunkInfo>();
+				if (chunkInfo.LastKeepAliveTick > cutoffTick) continue;
+				if (chunkInfo.ValuableComponentCount != 0) continue;
+
+				DestroyChunk(new Chunk(chunkEntity));
+				chunks.Remove(chunkInfo.EncodedPosition);
+			}
+		}
+	}
+
+	private static void DestroyChunk(Chunk chunk)
+	{
+		OnChunkDestroyed?.Invoke(chunk);
+		Debug.Assert(chunk.Entity.Get<ChunkInfo>().ValuableComponentCount == 0);
+		chunk.Entity.Destroy();
+	}
+
+	public static void KeepAlive(Chunk chunk)
+	{
+		chunk.Entity.Get<ChunkInfo>().LastKeepAliveTick = TimeSystem.UpdateCount;
 	}
 
 	public static IEnumerable<Chunk> IterateAllChunks()
@@ -170,8 +214,9 @@ public class Chunks : ModSystem
 
 		long encodedPosition = PackPosition(chunkPosition.X, chunkPosition.Y);
 		if (!chunks.TryGetValue(encodedPosition, out chunk)) {
-			chunks[encodedPosition] = chunk = new(DataStorage.CreateEntity());
+			chunks[encodedPosition] = chunk = new(Entities.Create());
 			chunk.Entity.Add(new ChunkInfo(chunkPosition.X, chunkPosition.Y));
+			KeepAlive(chunk);
 		}
 		
 		return true;

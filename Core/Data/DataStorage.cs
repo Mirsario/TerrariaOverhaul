@@ -11,8 +11,6 @@ using BitMask64 = TerrariaOverhaul.Utilities.BitMask<ulong>;
 
 namespace TerrariaOverhaul.Core.Data;
 
-// A basic Entity-Component data storage, meant for entirely immutable use.
-
 public interface IComponent { }
 
 public readonly struct Component
@@ -61,11 +59,14 @@ public readonly struct DataEntity
 
 	internal DataEntity(uint index, uint version) => (Index, Version) = (index, version);
 
-	public bool Has(ComponentMask mask) => DataStorage.HasComponents(this, mask);
 	public bool Has<T>() where T : IComponent => DataStorage.HasComponent<T>(this);
 	public ref T Get<T>() where T : IComponent => ref DataStorage.GetComponent<T>(this);
 	public ref T Add<T>(in T value) where T : IComponent => ref DataStorage.AddComponent(this, in value);
-	public void Add(Component component, object value) => DataStorage.AddComponent(this, component, value);
+	public void Remove<T>() where T : IComponent => DataStorage.RemoveComponent<T>(this);
+	public bool HasAll(ComponentMask mask) => DataStorage.HasAllComponents(this, mask);
+	public bool HasAny(ComponentMask mask) => DataStorage.HasAnyComponents(this, mask);
+	public void AddByHandle(Component component, object value) => DataStorage.AddComponent(this, component, value);
+	public void Destroy() => DataStorage.DestroyEntity(this);
 }
 
 public readonly struct Query
@@ -74,29 +75,35 @@ public readonly struct Query
 
 	internal Query(uint index) => Index = index;
 
-	public Iterator GetEnumerator() => new(this, GetMask());
-	public ComponentMask GetMask() => DataStorage.GetQueryComponentMask(this);
+	public Iterator GetEnumerator() => new(GetIncludedMask(), GetExcludedMask());
+	public ComponentMask GetIncludedMask() => DataStorage.GetQueryIncludedComponentMask(this);
+	public ComponentMask GetExcludedMask() => DataStorage.GetQueryExcludedComponentMask(this);
 
 	public Query With<T>() where T : IComponent
 	{
-		GetMask().Set<T>();
+		GetIncludedMask().Set<T>();
+		return this;
+	}
+	public Query Without<T>() where T : IComponent
+	{
+		GetExcludedMask().Set<T>();
 		return this;
 	}
 
 	public ref struct Iterator
 	{
-		public readonly Query Query;
-		public readonly ComponentMask ComponentMask;
+		public readonly ComponentMask IncludedComponents;
+		public readonly ComponentMask ExcludedComponents;
 		public BitMask64 PresenceMask;
 		public int PresenceMaskIndex = -1;
 		public int BaseIndex = -BitMask64.BitSize;
 
 		public DataEntity Current { get; private set; }
 
-		public Iterator(Query query, ComponentMask componentMask) : this()
+		public Iterator(ComponentMask includedComponents, ComponentMask excludedComponents) : this()
 		{
-			Query = query;
-			ComponentMask = componentMask;
+			IncludedComponents = includedComponents;
+			ExcludedComponents = excludedComponents;
 		}
 
 		public bool MoveNext()
@@ -118,7 +125,7 @@ public readonly struct Query
 				uint entityIndex = (uint)(BaseIndex + bitIndex);
 				Current = new DataEntity(entityIndex, DataStorage.EntityVersions[entityIndex]);
 
-				if (Current.Has(ComponentMask))
+				if (Current.HasAll(IncludedComponents) && !Current.HasAny(ExcludedComponents))
 					return true;
 			}
 		}
@@ -165,7 +172,8 @@ internal static class DataStorage
 	private static BitMask64[] entityComponentMasks = [];
 	// Queries
 	private static uint queryCount;
-	private static BitMask64[] queryComponentMasks = [];
+	private static BitMask64[] queryExcludedComponentMasks = [];
+	private static BitMask64[] queryIncludedComponentMasks = [];
 
 	public static uint EntityCount => entityCount;
 	public static uint ComponentMasksPerEntity => componentMasksPerEntity;
@@ -192,7 +200,8 @@ internal static class DataStorage
 			}
 
 			GrowComponentMasks(ref entityComponentMasks, entityCount);
-			GrowComponentMasks(ref queryComponentMasks, queryCount);
+			GrowComponentMasks(ref queryIncludedComponentMasks, queryCount);
+			GrowComponentMasks(ref queryExcludedComponentMasks, queryCount);
 			componentMasksPerEntity = newMasksPerEntity;
 		}
 
@@ -229,18 +238,33 @@ internal static class DataStorage
 	public static bool HasComponent<T>(DataEntity entity) where T : IComponent
 		=> ComponentData<T>.SparseSet.Has(entity.Index);
 
-	public static bool HasComponents(DataEntity entity, ComponentMask mask)
+	public static bool HasAllComponents(DataEntity entity, ComponentMask mask)
 	{
-		if (componentMasksPerEntity == 1)
-			return (mask.Span[0] & entityComponentMasks[entity.Index]) == mask.Span[0];
+		//	if (componentMasksPerEntity == 1)
+		//		return (mask.Span[0] & entityComponentMasks[entity.Index]) == mask.Span[0];
 
 		uint baseIndex = entity.Index * componentMasksPerEntity;
 		for (int i = 0; i < componentMasksPerEntity; i++) {
+			// Halt with a negative result if AND'ing the masks loses any expected bits.
 			if ((mask.Span[i] & entityComponentMasks[baseIndex + i]) != mask.Span[i]) {
 				return false;
 			}
 		}
 		return true;
+	}
+	public static bool HasAnyComponents(DataEntity entity, ComponentMask mask)
+	{
+		//	if (componentMasksPerEntity == 1)
+		//		return !(mask.Span[0] & entityComponentMasks[entity.Index]).IsZero;
+
+		uint baseIndex = entity.Index * componentMasksPerEntity;
+		for (int i = 0; i < componentMasksPerEntity; i++) {
+			// Halt with a positive result if AND'ing the masks results in anything but a zero.
+			if (!(mask.Span[i] & entityComponentMasks[baseIndex + i]).IsZero) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public static ref T GetComponent<T>(DataEntity entity) where T : IComponent
@@ -297,10 +321,12 @@ internal static class DataStorage
 	public static Query CreateQuery()
 	{
 		uint index = queryCount++;
-		Array.Resize(ref queryComponentMasks, (int)(BitOperations.RoundUpToPowerOf2(index + 1) * componentMasksPerEntity));
+		int masksArrayLength = (int)(BitOperations.RoundUpToPowerOf2(index + 1) * componentMasksPerEntity);
+		Array.Resize(ref queryIncludedComponentMasks, masksArrayLength);
+		Array.Resize(ref queryExcludedComponentMasks, masksArrayLength);
 		return new(index);
 	}
 
-	internal static ComponentMask GetQueryComponentMask(Query query)
-		=> ComponentMask.InDynamicArray(queryComponentMasks, query.Index);
+	internal static ComponentMask GetQueryIncludedComponentMask(Query query) => ComponentMask.InDynamicArray(queryIncludedComponentMasks, query.Index);
+	internal static ComponentMask GetQueryExcludedComponentMask(Query query) => ComponentMask.InDynamicArray(queryExcludedComponentMasks, query.Index);
 }

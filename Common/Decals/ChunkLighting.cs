@@ -3,6 +3,7 @@
 // See LICENSE.md for details.
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -10,6 +11,7 @@ using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Core.Data;
+using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
@@ -20,6 +22,7 @@ public struct ChunkLighting : IComponent
 {
 	public RenderTarget2D? Texture;
 	public Surface<Color>? Colors;
+	public ulong TickLastSeenAt;
 	public bool IsReady;
 }
 
@@ -30,6 +33,8 @@ public sealed class LightingSystem : ModSystem
 	private static uint lastLightingUpdateCount;
 	public static int LightingUpdateFrequency => 10;
 
+	private static readonly Query lightingChunksQuery = Entities.Query().With<ChunkLighting>();
+
 	public override void Load()
 	{
 		// This fixes tileTarget not being available in many cases. And other dumb issues.
@@ -39,6 +44,7 @@ public sealed class LightingSystem : ModSystem
 		);
 
 		Main.OnPreDraw += OnPreDraw;
+		Chunks.OnChunkDestroyed += RemoveChunkComponent;
 	}
 	public override void Unload()
 	{
@@ -60,9 +66,10 @@ public sealed class LightingSystem : ModSystem
 
 	private static void AddChunkComponent(Chunk chunk)
 	{
-		var chunkInfo = chunk.Entity.Get<ChunkInfo>();
+		ref var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
 		int textureWidth = chunkInfo.TileRectangle.Width;
 		int textureHeight = chunkInfo.TileRectangle.Height;
+		chunkInfo.ValuableComponentCount++;
 
 		chunk.Entity.Add(new ChunkLighting());
 
@@ -77,8 +84,11 @@ public sealed class LightingSystem : ModSystem
 			chunkLighting.IsReady = true;
 		});
 	}
+	//TODO: Reuse render targets in a slot-based manner instead of disposing and recreating them.
 	private static void RemoveChunkComponent(Chunk chunk)
 	{
+		if (!chunk.Entity.Has<ChunkLighting>()) return;
+
 		ref var chunkLighting = ref chunk.Entity.Get<ChunkLighting>();
 		chunkLighting.IsReady = false;
 
@@ -89,6 +99,10 @@ public sealed class LightingSystem : ModSystem
 				chunkLighting.Texture = null;
 			}
 		}
+
+		chunk.Entity.Remove<ChunkLighting>();
+
+		checked { chunk.Entity.Get<ChunkInfo>().ValuableComponentCount--; }
 	}
 
 	private static void TryUpdateLighting()
@@ -115,6 +129,7 @@ public sealed class LightingSystem : ModSystem
 			Chunks.TileToChunkCoordinates(loopArea.Z),
 			Chunks.TileToChunkCoordinates(loopArea.W)
 		);
+		ulong currentTick = TimeSystem.UpdateCount;
 
 		for (int chunkY = chunkLoopArea.Y; chunkY <= chunkLoopArea.W; chunkY++) {
 			for (int chunkX = chunkLoopArea.X; chunkX <= chunkLoopArea.Z; chunkX++) {
@@ -127,6 +142,8 @@ public sealed class LightingSystem : ModSystem
 				}
 
 				ref var lighting = ref chunk.Entity.Get<ChunkLighting>();
+				lighting.TickLastSeenAt = currentTick;
+
 				if (!lighting.IsReady) {
 					continue;
 				}
@@ -145,6 +162,19 @@ public sealed class LightingSystem : ModSystem
 
 				lock (lighting.Texture!) {
 					lighting.Texture.SetData(lighting.Colors!.Data);
+				}
+			}
+		}
+
+		// Unload unnecessary chunk RTs.
+		const uint TicksNotSeenToUnload = 5 * 60;
+		ulong cutoffTick = unchecked(currentTick - TicksNotSeenToUnload);
+		if (cutoffTick < currentTick) {
+			foreach (var chunkEntity in lightingChunksQuery) {
+				ref var lighting = ref chunkEntity.Get<ChunkLighting>();
+				if (lighting.TickLastSeenAt <= cutoffTick) {
+					RemoveChunkComponent(new Chunk(chunkEntity));
+					Debug.Assert(!chunkEntity.Has<ChunkLighting>());
 				}
 			}
 		}

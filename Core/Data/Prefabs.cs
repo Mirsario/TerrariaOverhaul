@@ -22,7 +22,7 @@ public readonly struct Prefab
 	public readonly uint Version;
 	public readonly bool IsValid => DataStorage.IsEntityValid(ToEntity());
 
-	public bool Has(ComponentMask mask) => DataStorage.HasComponents(ToEntity(), mask);
+	public bool Has(ComponentMask mask) => DataStorage.HasAllComponents(ToEntity(), mask);
 	public readonly bool Has<T>() where T : IComponent => DataStorage.HasComponent<T>(ToEntity());
 	public readonly ref readonly T Get<T>() where T : IComponent => ref DataStorage.GetComponent<T>(ToEntity());
 
@@ -118,7 +118,7 @@ internal sealed partial class PrefabLoading : ModSystem
 					var componentType = component.GetComponentType();
 					var value = componentJson.ToObject(componentType, jsonSerializer);
 
-					entity.Add(component, value!);
+					entity.AddByHandle(component, value!);
 				}
 			}
 			catch (Exception e) {
