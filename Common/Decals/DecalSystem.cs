@@ -3,6 +3,7 @@
 // See LICENSE.md for details.
 
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
@@ -15,7 +16,8 @@ using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Core.Debugging;
-using TerrariaOverhaul.Core.Time;
+using TerrariaOverhaul.Core.Lighting;
+using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
 using BitOperations = System.Numerics.BitOperations;
@@ -113,20 +115,17 @@ public sealed class DecalSystem : ModSystem
 	public override void PostDrawTiles()
 	{
 		RenderDecalsInWorld();
-	}
 
-#if DEBUG && false // Decal debugging hotkey.
-	public override void PostDrawTiles()
-	{
+#if DEBUG && true // Decal debugging hotkey.
 		if (Core.Input.InputSystem.GetKey(Microsoft.Xna.Framework.Input.Keys.K)) {
-			DecalSystem.AddDecals(DecalStyle.Opaque, new DecalInfo {
+			AddDecals(DecalStyle.Default, new DecalInfo {
 				Position = Main.MouseWorld,
 				Texture = Mod.Assets.Request<Texture2D>("Content/Menus/Logo", AssetRequestMode.ImmediateLoad).Value,
 				Scale = new Vector2(1f, 1f),
 			});
 		}
-	}
 #endif
+	}
 
 	public static void RegisterStyle(DecalStyle style)
 	{
@@ -267,31 +266,29 @@ public sealed class DecalSystem : ModSystem
 	private static void RenderDecalsInWorld()
 	{
 		if (!EnableDecals) return;
+		if (!LightingSystem.TryGetLightingBuffer(out var lightingBuffer)) return;
+
+		const int NumTextures = 3;
+		var graphicsDevice = Main.instance.GraphicsDevice;
+
+		var vertices = ArrayPool<VertexPositionUv3>.Shared.Rent(4);
+		using var _ = new Defer(() => ArrayPool<VertexPositionUv3>.Shared.Return(vertices));
 
 		foreach (var chunk in Chunks.IterateVisibleChunks()) {
 			if (!chunk.Entity.Has<ChunkDecals>()) continue;
 
-			if (!LightingSystem.TryGetChunkLightingBuffer(chunk, out var lightingBuffer)) {
-				return;
-			}
-
 			ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
 			ref readonly var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
 
-			var destination = chunkInfo.WorldRectangle;
-			destination.X -= Main.screenPosition.X;
-			destination.Y -= Main.screenPosition.Y;
+			var dstRect = chunkInfo.WorldRectangle;
+			dstRect.X -= Main.screenPosition.X;
+			dstRect.Y -= Main.screenPosition.Y;
 			var shader = BloodShader?.Value;
 
-			if (shader == null || chunkDecals.Texture == null || Main.instance.tileTarget == null) {
-				return;
-			}
-
-			var graphicsDevice = Main.instance.GraphicsDevice;
+			if (shader == null || chunkDecals.Texture == null || Main.instance.tileTarget == null)
+				continue;
 
 			lock (lightingBuffer) {
-				const int NumTextures = 3;
-
 				shader.Parameters["texture0"].SetValue(chunkDecals.Texture);
 				shader.Parameters["texture1"].SetValue(Main.instance.tileTarget);
 				shader.Parameters["lightingBuffer"].SetValue(lightingBuffer);
@@ -302,27 +299,37 @@ public sealed class DecalSystem : ModSystem
 				foreach (var pass in shader.CurrentTechnique.Passes) {
 					pass.Apply();
 
-					//TODO: Comment the following.
-					var tOffset = Main.sceneTilePos - Main.screenPosition;
-					var vec = new Vector2(
-						chunkInfo.WorldRectangle.Width / Main.instance.tileTarget.Width / chunkInfo.WorldRectangle.Width,
-						chunkInfo.WorldRectangle.Height / Main.instance.tileTarget.Height / chunkInfo.WorldRectangle.Height
+					var tileExtensionOffset = Main.sceneTilePos - Main.screenPosition;
+					var tileTargetSize = Main.instance.tileTarget.Size();
+
+					var pos = new Vector4(dstRect.Left, dstRect.Top, dstRect.Right, dstRect.Bottom);
+					var uvDecal = new Vector4(0f, 0f, 1f, 1f);
+					var uvTiles = new Vector4(
+						(dstRect.Left - tileExtensionOffset.X) / tileTargetSize.X,
+						(dstRect.Top - tileExtensionOffset.Y) / tileTargetSize.Y,
+						(dstRect.Right - tileExtensionOffset.X) / tileTargetSize.X,
+						(dstRect.Bottom - tileExtensionOffset.Y) / tileTargetSize.Y
 					);
-					var vertices = new[] {
-						new VertexPositionUv2(new Vector3(destination.Left, destination.Top, 0f), new Vector2(0f, 0f), (destination.TopLeft - tOffset) * vec),
-						new VertexPositionUv2(new Vector3(destination.Right, destination.Top, 0f), new Vector2(1f, 0f), (destination.TopRight - tOffset) * vec),
-						new VertexPositionUv2(new Vector3(destination.Right, destination.Bottom, 0f), new Vector2(1f, 1f), (destination.BottomRight - tOffset) * vec),
-						new VertexPositionUv2(new Vector3(destination.Left, destination.Bottom, 0f), new Vector2(0f, 1f), (destination.BottomLeft - tOffset) * vec)
-					};
+					var uvLight = new Vector4(
+						dstRect.Left / (float)Main.screenWidth,
+						dstRect.Top / (float)Main.screenHeight,
+						dstRect.Right / (float)Main.screenWidth,
+						dstRect.Bottom / (float)Main.screenHeight
+					);
+
+					vertices[0] = new(new(pos.X, pos.Y, 0f), new(uvDecal.X, uvDecal.Y), new(uvTiles.X, uvTiles.Y), new(uvLight.X, uvLight.Y));
+					vertices[1] = new(new(pos.Z, pos.Y, 0f), new(uvDecal.Z, uvDecal.Y), new(uvTiles.Z, uvTiles.Y), new(uvLight.Z, uvLight.Y));
+					vertices[2] = new(new(pos.Z, pos.W, 0f), new(uvDecal.Z, uvDecal.W), new(uvTiles.Z, uvTiles.W), new(uvLight.Z, uvLight.W));
+					vertices[3] = new(new(pos.X, pos.W, 0f), new(uvDecal.X, uvDecal.W), new(uvTiles.X, uvTiles.W), new(uvLight.X, uvLight.W));
 
 					graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, QuadTriangles, 0, QuadTriangles.Length / 3);
 				}
-
-				// Very important to unbind the textures.
-				for (int i = 0; i < NumTextures; i++) {
-					graphicsDevice.Textures[i] = null;
-				}
 			}
+		}
+
+		// It is important to unbind the textures.
+		for (int i = 0; i < NumTextures; i++) {
+			graphicsDevice.Textures[i] = null;
 		}
 	}
 

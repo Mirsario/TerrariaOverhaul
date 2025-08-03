@@ -217,6 +217,7 @@ public class Chunks : ModSystem
 			chunks[encodedPosition] = chunk = new(Entities.Create());
 			chunk.Entity.Add(new ChunkInfo(chunkPosition.X, chunkPosition.Y));
 			KeepAlive(chunk);
+			OnChunkCreated?.Invoke(chunk);
 		}
 		
 		return true;

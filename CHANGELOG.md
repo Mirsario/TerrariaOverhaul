@@ -99,6 +99,7 @@
 - Fixed Overhaul's main menu buttons sometimes being incorrectly shown in English when a different language is selected.
 - A few more GUI elements were made localizable.
 ### Performance
+- Improved performance and reduced memory usage of the decal system by replacing per-chunk lighting buffers with a single screen-space lighting buffer.
 - Improved performance of falling tree texture generation.
 - Fixed a rare sound occlusion performance dip occurring when sounds are played far away aboveground with no occluding objects between the sound and the listener.
 - Overhaul's internal chunk system is now data-oriented, with improved CPU caching and slightly reduced memory usage.

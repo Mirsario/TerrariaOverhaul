@@ -3,6 +3,7 @@
 // See LICENSE.md for details.
 
 using System;
+using System.Runtime.CompilerServices;
 
 namespace TerrariaOverhaul.Utilities;
 
@@ -12,7 +13,10 @@ public sealed class Surface<T> : IDisposable where T : unmanaged
 	public int Width { get; private set; }
 	public int Height { get; private set; }
 
-	public ref T this[int x, int y] => ref Data[Width * y + x];
+	public ref T this[int x, int y] {
+		[MethodImpl(MethodImplOptions.AggressiveInlining)]
+		get => ref Data[Index(x, y)];
+	}
 
 	public Surface(int width, int height)
 	{
@@ -28,4 +32,7 @@ public sealed class Surface<T> : IDisposable where T : unmanaged
 		Width = -1;
 		Height = -1;
 	}
+
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public int Index(int x, int y) => Width * y + x;
 }
