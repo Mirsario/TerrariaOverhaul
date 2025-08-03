@@ -1,0 +1,17 @@
+{
+	// Formatting and whitespace.
+	"editor.insertSpaces": false,
+	"editor.indentSize": 4,
+	"editor.tabSize": 4,
+	// Hide files.
+	"files.exclude": {
+		".github/": true,
+		"**/bin": true,
+		"**/obj": true,
+		"**/.git": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"**/*.png": true,
+		"**/*.ase": true
+	}
+}
