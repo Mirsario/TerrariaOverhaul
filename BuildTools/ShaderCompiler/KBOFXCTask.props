@@ -1,0 +1,11 @@
+<Project>
+	<UsingTask AssemblyFile="$(MSBuildThisFileDirectory)KBOFXCTask.dll" TaskName="KBOEffectCompilerTask"/>
+
+	<PropertyGroup>
+		<KBOEffectsIgnoreErrors Condition="$(KBOEffectsIgnoreErrors) == ''">false</KBOEffectsIgnoreErrors>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<KBOEffects Include="$(ProjectDir)**/*.fx" />
+	</ItemGroup>
+</Project>

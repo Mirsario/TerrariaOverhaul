@@ -1,5 +1,7 @@
 // Config icon shader
 
+#pragma warning (disable : 4717)
+
 texture2D Texture;
 sampler TextureSampler : register(ps, s0) = sampler_state {
 	Texture = (Texture);

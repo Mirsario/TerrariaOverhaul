@@ -1,0 +1,7 @@
+<Project>
+
+	<!-- BeforeCompile so source generators can pick up the .fxc binaries -->
+	<Target Name="KBOCompileEffects" BeforeTargets="BeforeCompile" Inputs="@(KBOEffects->'%(RecursiveDir)%(FileName)%(Extension)')" Outputs="@(KBOEffects->'%(RecursiveDir)%(FileName).fxc')" Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+		<KBOEffectCompilerTask EffectFiles="@(KBOEffects)" IgnoreErrors="$(KBOEffectsIgnoreErrors)"/>
+	</Target>
+</Project>

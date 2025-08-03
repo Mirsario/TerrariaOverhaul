@@ -1,3 +1,5 @@
+#pragma warning (disable : 4717)
+
 struct vInput
 {
 	float4 position : POSITION;
@@ -15,7 +17,7 @@ struct vOutput
 };
 
 sampler textureSampler0 = sampler_state {
-	Texture = <texture0>;
+	Texture = texture0;
 	AddressU = Clamp;
 	AddressV = Clamp;
 	AddressW = Clamp;
@@ -26,7 +28,7 @@ sampler textureSampler0 = sampler_state {
 
 sampler textureSampler1 = sampler_state
 {
-	Texture = <texture1>;
+	Texture = texture1;
 	AddressU = Clamp;
 	AddressV = Clamp;
 	AddressW = Clamp;
@@ -37,7 +39,7 @@ sampler textureSampler1 = sampler_state
 
 sampler lightingSampler = sampler_state
 {
-	Texture = <lightingBuffer>;
+	Texture = lightingBuffer;
 	AddressU = Clamp;
 	AddressV = Clamp;
 	AddressW = Clamp;
@@ -70,7 +72,7 @@ float4 frag(vOutput input) : COLOR
 	float4 tiles = tex2D(textureSampler1, input.uvTiles);
 	
 	if (tiles.a < 0.5) {
-		blood = float4(0.0);
+		blood = float4(0.0, 0.0, 0.0, 0.0);
 	} else {
 		blood *= tex2D(lightingSampler, input.uvLighting);
 	}

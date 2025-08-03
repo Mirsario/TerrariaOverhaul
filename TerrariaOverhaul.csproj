@@ -2,6 +2,9 @@
 
 	<Import Project="..\tModLoader.targets" />
 	<Import Project="BuildTools\BuildTools.targets" />
+	<!-- Shader compiler -->
+	<Import Project="BuildTools\ShaderCompiler\KBOFXCTask.props" />
+	<Import Project="BuildTools\ShaderCompiler\KBOFXCTask.targets" />
 
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
