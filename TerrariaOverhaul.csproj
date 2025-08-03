@@ -9,14 +9,16 @@
 	<PropertyGroup>
 		<Nullable>enable</Nullable>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<!-- Fix 'processor architecture mismatch' warnings -->
+		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
 	</PropertyGroup>
 
+	<!-- References -->
 	<ItemGroup>
-		<Reference Include="Tomlyn">
-			<HintPath>lib/Tomlyn.dll</HintPath>
-		</Reference>
+		<Reference Include="Tomlyn" HintPath="lib/Tomlyn.dll" />
 	</ItemGroup>
 
+	<!-- Content -->
 	<ItemGroup>
 		<!-- This wasn't expanding right for whatever reason. No time to figure this out. -->
 		<!-- <LocalizationFiles Include="Localization\**\*.hjson" /> -->
@@ -56,6 +58,7 @@
 		<AdditionalFiles Remove="**" />
 	</ItemGroup>
 
+	<!-- Generate localization statistics -->
 	<Target Name="UpdateLocalizationFiles" BeforeTargets="BeforeCompile" DependsOnTargets="InvokeCustomTasks">
 		<!-- Obsolete since 1.4.4 TML -->
 		<!--
