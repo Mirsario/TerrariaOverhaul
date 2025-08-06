@@ -165,20 +165,20 @@ public sealed class DecalSystem : ModSystem
 		}
 
 		var aabb = decal.CalculateAabbRectangle();
-		var rect = new Rectangle((int)aabb.X, (int)aabb.Y, (int)(aabb.Z - aabb.X), (int)(aabb.W - aabb.Y));
+		var rect = new Rectangle((int)aabb.X, (int)aabb.Y, (int)(aabb.Z - aabb.X) + 1, (int)(aabb.W - aabb.Y) + 1);
 
-		DebugSystem.DrawRectangle(rect, Color.Bisque);
+		//DebugSystem.DrawRectangle(rect, Color.Bisque);
 
 		var chunkStart = new Vector2Int(
-			(int)aabb.X / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize,
-			(int)aabb.Y / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize
+			(int)(aabb.X / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize),
+			(int)(aabb.Y / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize)
 		);
 		var chunkEnd = new Vector2Int(
-			(int)aabb.Z / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize,
-			(int)aabb.W / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize
+			(int)(aabb.Z / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize),
+			(int)(aabb.W / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize)
 		);
 
-		// The provided rectangle will be split between chunks, possibly into multiple draws.
+		// The provided rectangle will be rendered across all the chunks it spans.
 		for (int chunkY = chunkStart.Y; chunkY <= chunkEnd.Y; chunkY++) {
 			for (int chunkX = chunkStart.X; chunkX <= chunkEnd.X; chunkX++) {
 				var chunkPoint = new Vector2Int(chunkX, chunkY);
@@ -186,6 +186,8 @@ public sealed class DecalSystem : ModSystem
 				if (!(decal.IfChunkExists ? Chunks.TryGetChunk(chunkPoint, out Chunk chunk) : Chunks.TryGetOrCreateChunk(chunkPoint, out chunk!))) {
 					continue;
 				}
+
+				//DebugSystem.DrawRectangle((Rectangle)chunk.Entity.Get<ChunkInfo>().WorldRectangle, Main.DiscoColor, width: 8);
 
 				if (!chunk.Entity.Has<ChunkDecals>()) {
 					AddChunkComponent(chunk);
@@ -198,7 +200,6 @@ public sealed class DecalSystem : ModSystem
 				if (index >= styleData.DecalsToDraw.Length) {
 					Array.Resize(ref styleData.DecalsToDraw, (int)BitOperations.RoundUpToPowerOf2(index + 1));
 				}
-
 				styleData.DecalsToDraw[index] = decal;
 			}
 		}
@@ -209,17 +210,19 @@ public sealed class DecalSystem : ModSystem
 		if (!EnableDecals)
 			return;
 
-		bool renderTargetSet = false;
+		bool mustUnbindTarget = false;
 
 		foreach (Chunk chunk in Chunks.IterateAllChunks()) {
 			ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
 			ref var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
 
 			if (chunkDecals.Texture == null || chunkDecals.DecalStyleData is not { Length: > 0 })
-				return;
+				continue;
 
 			var sb = Main.spriteBatch;
-			var chunkPosition = chunkInfo.WorldRectangle.Position;
+			var chunkWorldPos = chunkInfo.WorldRectangle.Position;
+
+			bool chunkRenderTargetSet = false;
 
 			for (int i = 0; i < chunkDecals.DecalStyleData.Length; i++) {
 				ref var styleData = ref chunkDecals.DecalStyleData[i];
@@ -228,9 +231,10 @@ public sealed class DecalSystem : ModSystem
 					continue;
 				}
 
-				if (!renderTargetSet) {
+				if (!chunkRenderTargetSet) {
 					Main.instance.GraphicsDevice.SetRenderTarget(chunkDecals.Texture);
-					renderTargetSet = true;
+					mustUnbindTarget = true;
+					chunkRenderTargetSet = true;
 				}
 
 				var style = DecalStyles[i];
@@ -243,8 +247,8 @@ public sealed class DecalSystem : ModSystem
 					var halfScale = info.Scale * 0.5f;
 					var origin = halfSize;
 					var position = new Vector2(
-						MathF.Floor((info.Position.X - chunkPosition.X) * 0.5f) + (halfSize.X % 2f != 0f ? 0.5f : 0f),
-						MathF.Floor((info.Position.Y - chunkPosition.Y) * 0.5f) + (halfSize.Y % 2f != 0f ? 0.5f : 0f)
+						MathF.Floor((info.Position.X - chunkWorldPos.X) * 0.5f) + (halfSize.X % 2f != 0f ? 0.5f : 0f),
+						MathF.Floor((info.Position.Y - chunkWorldPos.Y) * 0.5f) + (halfSize.Y % 2f != 0f ? 0.5f : 0f)
 					);
 
 					sb.Draw(info.Texture, position, info.SrcRect, info.Color, info.Rotation, origin, halfScale, 0, 0f);
@@ -256,7 +260,7 @@ public sealed class DecalSystem : ModSystem
 			}
 		}
 
-		if (renderTargetSet) {
+		if (mustUnbindTarget) {
 			Main.instance.GraphicsDevice.SetRenderTarget(null);
 		}
 	}
