@@ -7,7 +7,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace TerrariaOverhaul.Content.Projectiles;
+namespace TerrariaOverhaul.Content.Decals;
 
 public abstract class SpearProjectileBase : ModProjectile
 {

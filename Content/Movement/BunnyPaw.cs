@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Utilities.Terraria;
 
-namespace TerrariaOverhaul.Content.Items.Accessories;
+namespace TerrariaOverhaul.Content.Movement;
 
 [AutoloadEquip(EquipType.Neck)]
 public class BunnyPaw : ModItem

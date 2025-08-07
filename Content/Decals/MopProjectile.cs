@@ -9,7 +9,7 @@ using TerrariaOverhaul.Common.Interaction;
 using TerrariaOverhaul.Common.ProjectileEffects;
 using TerrariaOverhaul.Utilities.Xna;
 
-namespace TerrariaOverhaul.Content.Projectiles;
+namespace TerrariaOverhaul.Content.Decals;
 
 public class MopProjectile : SpearProjectileBase
 {

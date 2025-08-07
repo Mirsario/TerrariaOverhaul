@@ -5,9 +5,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Content.Projectiles;
 
-namespace TerrariaOverhaul.Content.Items.Tools;
+namespace TerrariaOverhaul.Content.Decals;
 
 public class Mop : ModItem
 {
