@@ -121,6 +121,7 @@ public sealed class DecalSystem : ModSystem
 	public static readonly ConfigEntry<bool> EnableDecals = new(ConfigSide.ClientOnly, true, "BloodAndGore");
 
 	private static readonly List<DecalStyle> decalStyles = new();
+	private static readonly Query decalChunks = Entities.Query().With<ChunkInfo>().With<ChunkDecals>();
 
 	public static Asset<Effect>? BloodShader { get; private set; }
 
@@ -251,9 +252,9 @@ public sealed class DecalSystem : ModSystem
 
 		bool mustUnbindTarget = false;
 
-		foreach (Chunk chunk in Chunks.IterateAllChunks()) {
-			ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
-			ref var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
+		foreach (DataEntity chunkEntity in decalChunks) {
+			ref var chunkDecals = ref chunkEntity.Get<ChunkDecals>();
+			ref readonly var chunkInfo = ref chunkEntity.Get<ChunkInfo>();
 
 			var sb = Main.spriteBatch;
 			var chunkWorldPos = chunkInfo.WorldRectangle.Position;
