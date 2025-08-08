@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.GameContent;
@@ -24,6 +25,7 @@ public class NPCBloodAndGore : GlobalNPC
 	private static Counter disableReplacementsCounter;
 
 	public int LastHitBloodAmount { get; private set; }
+	public Color LastHitBloodColor { get; private set; }
 
 	public override bool InstancePerEntity => true;
 
@@ -152,22 +154,21 @@ public class NPCBloodAndGore : GlobalNPC
 		}
 
 		npcBloodAndGore.LastHitBloodAmount = bloodColors.Count;
-
-		if (spawnedGores.Count == 0 || bloodColors.Count == 0) {
-			return;
-		}
+		npcBloodAndGore.LastHitBloodColor = bloodColors.FirstOrDefault();
 
 		// Enumerate the spawned gores, and register blood information to them.
-		var bloodColor = bloodColors[0]; //TODO: Do something smarter?
-		bool onFire = npc.onFire;
+		if (spawnedGores.Count != 0 && bloodColors.Count != 0) {
+			var bloodColor = bloodColors[0]; //TODO: Do something smarter?
+			bool onFire = npc.onFire;
 
-		foreach (var (gore, _) in spawnedGores) {
-			if (gore is OverhaulGore goreExt) {
-				if (!ChildSafety.SafeGore[gore.type]) {
-					goreExt.BleedColor = bloodColor;
+			foreach (var (gore, _) in spawnedGores) {
+				if (gore is OverhaulGore goreExt) {
+					if (!ChildSafety.SafeGore[gore.type]) {
+						goreExt.BleedColor = bloodColor;
+					}
+
+					goreExt.OnFire = onFire;
 				}
-
-				goreExt.OnFire = onFire;
 			}
 		}
 	}

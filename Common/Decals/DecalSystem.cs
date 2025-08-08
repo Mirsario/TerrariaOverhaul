@@ -15,7 +15,6 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Chunks;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Data;
-using TerrariaOverhaul.Core.Debugging;
 using TerrariaOverhaul.Core.Lighting;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Terraria;
@@ -24,21 +23,56 @@ using BitOperations = System.Numerics.BitOperations;
 
 namespace TerrariaOverhaul.Common.Decals;
 
+public enum DecalLayer : byte
+{
+	Foreground,
+	Background,
+	Count,
+}
+[Flags]
+public enum DecalLayerFlags : byte
+{
+	None = 0,
+	Foreground = 1,
+	Background = 2,
+	All = Foreground | Background,
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct ChunkDecals() : IComponent
+{
+	private static RenderTarget2D[] masks = [];
+
+	public DecalLayerData Foreground;
+	public DecalLayerData Background;
+
+	public static unsafe Span<DecalLayerData> Layers(ref ChunkDecals self)
+		=> MemoryMarshal.CreateSpan(ref self.Foreground, (int)DecalLayer.Count);
+
+	public static unsafe ReadOnlySpan<RenderTarget2D> LayerMasks()
+	{
+		Array.Resize(ref masks, (int)DecalLayer.Count);
+		masks[(int)DecalLayer.Foreground] = Main.instance.tileTarget;
+		masks[(int)DecalLayer.Background] = Main.instance.wallTarget;
+		return masks;
+	}
+}
+public struct DecalLayerData()
+{
+	public RenderTarget2D? Texture;
+	public DecalStyleData[] Styles = [];
+}
 public struct DecalStyleData()
 {
 	public uint NumDecalsToDraw = 0;
 	public DecalInfo[] DecalsToDraw = [];
-}
-public struct ChunkDecals() : IComponent
-{
-	public RenderTarget2D? Texture;
-	public DecalStyleData[] DecalStyleData = [];
 }
 
 public struct DecalInfo
 {
 	public static Texture2D DefaultTexture => TextureAssets.BlackTile.Value;
 
+	public required DecalLayerFlags Layers;
 	public Texture2D Texture = DefaultTexture;
 	public Rectangle? SrcRect;
 	public Vector2 Position;
@@ -101,6 +135,10 @@ public sealed class DecalSystem : ModSystem
 
 		ThreadUtils.RunOnMainThread(() => {
 			BloodShader = Mod.Assets.Request<Effect>("Assets/Shaders/Blood");
+			On_Main.DoDraw_Waterfalls += static (orig, self) => {
+				orig(self);
+				PostDrawWalls();
+			};
 		});
 	}
 	public override void Unload()
@@ -110,21 +148,16 @@ public sealed class DecalSystem : ModSystem
 
 	private void OnPreDraw(GameTime gameTime)
 	{
+		DebugDecals();
 		AddPendingDecals();
 	}
 	public override void PostDrawTiles()
 	{
-		RenderDecalsInWorld();
-
-#if DEBUG && true // Decal debugging hotkey.
-		if (Core.Input.InputSystem.GetKey(Microsoft.Xna.Framework.Input.Keys.K)) {
-			AddDecals(DecalStyle.Default, new DecalInfo {
-				Position = Main.MouseWorld,
-				Texture = Mod.Assets.Request<Texture2D>("Content/Menus/Logo", AssetRequestMode.ImmediateLoad).Value,
-				Scale = new Vector2(1f, 1f),
-			});
-		}
-#endif
+		RenderDecalsInWorld(DecalLayer.Foreground);
+	}
+	private static void PostDrawWalls()
+	{
+		RenderDecalsInWorld(DecalLayer.Background);
 	}
 
 	public static void RegisterStyle(DecalStyle style)
@@ -141,6 +174,7 @@ public sealed class DecalSystem : ModSystem
 	public static void ClearDecals(Rectangle dst)
 	{
 		AddDecals(DecalStyle.Opaque, new DecalInfo {
+			Layers = DecalLayerFlags.All,
 			Position = new Vector2(dst.X + dst.Width * 0.5f, dst.Y + dst.Height * 0.5f),
 			Size = dst.Size(),
 			Color = Color.Transparent,
@@ -150,6 +184,7 @@ public sealed class DecalSystem : ModSystem
 	public static void ClearDecals(Texture2D texture, Rectangle dst, Color color)
 	{
 		AddDecals(DecalStyle.Subtractive, new DecalInfo {
+			Layers = DecalLayerFlags.All,
 			Texture = texture,
 			Position = new Vector2(dst.X + dst.Width * 0.5f, dst.Y + dst.Height * 0.5f),
 			Size = dst.Size(),
@@ -177,6 +212,7 @@ public sealed class DecalSystem : ModSystem
 			(int)(aabb.Z / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize),
 			(int)(aabb.W / WorldUtils.TileSizeInPixels / Chunks.MaxChunkSize)
 		);
+		var layerBitMask = new BitMask<byte>((byte)decal.Layers);
 
 		// The provided rectangle will be rendered across all the chunks it spans.
 		for (int chunkY = chunkStart.Y; chunkY <= chunkEnd.Y; chunkY++) {
@@ -193,14 +229,17 @@ public sealed class DecalSystem : ModSystem
 					AddChunkComponent(chunk);
 				}
 
-				ref var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
-				ref var styleData = ref chunkDecals.DecalStyleData[style.Id];
-				uint index = styleData.NumDecalsToDraw++;
+				var layers = ChunkDecals.Layers(ref chunk.Entity.Get<ChunkDecals>());
+				foreach (int layerIndex in layerBitMask) {
+					ref var layer = ref layers[layerIndex];
+					ref var styleData = ref layer.Styles[style.Id];
 
-				if (index >= styleData.DecalsToDraw.Length) {
-					Array.Resize(ref styleData.DecalsToDraw, (int)BitOperations.RoundUpToPowerOf2(index + 1));
+					uint index = styleData.NumDecalsToDraw++;
+					if (index >= styleData.DecalsToDraw.Length) {
+						Array.Resize(ref styleData.DecalsToDraw, (int)BitOperations.RoundUpToPowerOf2(index + 1));
+					}
+					styleData.DecalsToDraw[index] = decal;
 				}
-				styleData.DecalsToDraw[index] = decal;
 			}
 		}
 	}
@@ -216,47 +255,46 @@ public sealed class DecalSystem : ModSystem
 			ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
 			ref var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
 
-			if (chunkDecals.Texture == null || chunkDecals.DecalStyleData is not { Length: > 0 })
-				continue;
-
 			var sb = Main.spriteBatch;
 			var chunkWorldPos = chunkInfo.WorldRectangle.Position;
 
-			bool chunkRenderTargetSet = false;
+			foreach (ref var layer in ChunkDecals.Layers(ref chunkDecals)) {
+				bool chunkRenderTargetSet = false;
 
-			for (int i = 0; i < chunkDecals.DecalStyleData.Length; i++) {
-				ref var styleData = ref chunkDecals.DecalStyleData[i];
+				for (int i = 0; i < layer.Styles.Length; i++) {
+					ref var styleData = ref layer.Styles[i];
 
-				if (styleData.NumDecalsToDraw == 0) {
-					continue;
+					if (styleData.NumDecalsToDraw == 0) {
+						continue;
+					}
+
+					if (!chunkRenderTargetSet) {
+						Main.instance.GraphicsDevice.SetRenderTarget(layer.Texture);
+						mustUnbindTarget = true;
+						chunkRenderTargetSet = true;
+					}
+
+					var style = DecalStyles[i];
+
+					sb.Begin(SpriteSortMode.Deferred, style.BlendState, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
+
+					for (int j = 0; j < styleData.NumDecalsToDraw; j++) {
+						DecalInfo info = styleData.DecalsToDraw[j];
+						var halfSize = (Vector2Int)(info.SrcRect?.Size() ?? info.Texture.Size()) * 0.5f;
+						var halfScale = info.Scale * 0.5f;
+						var origin = halfSize;
+						var position = new Vector2(
+							MathF.Floor((info.Position.X - chunkWorldPos.X) * 0.5f) + (halfSize.X % 2f != 0f ? 0.5f : 0f),
+							MathF.Floor((info.Position.Y - chunkWorldPos.Y) * 0.5f) + (halfSize.Y % 2f != 0f ? 0.5f : 0f)
+						);
+
+						sb.Draw(info.Texture, position, info.SrcRect, info.Color, info.Rotation, origin, halfScale, 0, 0f);
+					}
+
+					sb.End();
+
+					styleData.NumDecalsToDraw = 0;
 				}
-
-				if (!chunkRenderTargetSet) {
-					Main.instance.GraphicsDevice.SetRenderTarget(chunkDecals.Texture);
-					mustUnbindTarget = true;
-					chunkRenderTargetSet = true;
-				}
-
-				var style = DecalStyles[i];
-
-				sb.Begin(SpriteSortMode.Deferred, style.BlendState, SamplerState.LinearClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise);
-
-				for (int j = 0; j < styleData.NumDecalsToDraw; j++) {
-					DecalInfo info = styleData.DecalsToDraw[j];
-					var halfSize = (Vector2Int)(info.SrcRect?.Size() ?? info.Texture.Size()) * 0.5f;
-					var halfScale = info.Scale * 0.5f;
-					var origin = halfSize;
-					var position = new Vector2(
-						MathF.Floor((info.Position.X - chunkWorldPos.X) * 0.5f) + (halfSize.X % 2f != 0f ? 0.5f : 0f),
-						MathF.Floor((info.Position.Y - chunkWorldPos.Y) * 0.5f) + (halfSize.Y % 2f != 0f ? 0.5f : 0f)
-					);
-
-					sb.Draw(info.Texture, position, info.SrcRect, info.Color, info.Rotation, origin, halfScale, 0, 0f);
-				}
-
-				sb.End();
-
-				styleData.NumDecalsToDraw = 0;
 			}
 		}
 
@@ -267,7 +305,7 @@ public sealed class DecalSystem : ModSystem
 
 	private static readonly short[] QuadTriangles = { 0, 2, 3, 0, 1, 2 };
 
-	private static void RenderDecalsInWorld()
+	private static void RenderDecalsInWorld(DecalLayer layerIndex)
 	{
 		if (!EnableDecals) return;
 		if (!LightingSystem.TryGetLightingBuffer(out var lightingBuffer)) return;
@@ -275,6 +313,7 @@ public sealed class DecalSystem : ModSystem
 		const int NumTextures = 3;
 		var graphicsDevice = Main.instance.GraphicsDevice;
 
+		var maskTexture = ChunkDecals.LayerMasks()[(int)layerIndex];
 		var vertices = ArrayPool<VertexPositionUv3>.Shared.Rent(4);
 		using var _ = new Defer(() => ArrayPool<VertexPositionUv3>.Shared.Return(vertices));
 
@@ -282,52 +321,50 @@ public sealed class DecalSystem : ModSystem
 			if (!chunk.Entity.Has<ChunkDecals>()) continue;
 
 			ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
-			ref readonly var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
+			ref readonly var layer = ref ChunkDecals.Layers(ref chunk.Entity.Get<ChunkDecals>())[(int)layerIndex];
 
 			var dstRect = chunkInfo.WorldRectangle;
 			dstRect.X -= Main.screenPosition.X;
 			dstRect.Y -= Main.screenPosition.Y;
 			var shader = BloodShader?.Value;
 
-			if (shader == null || chunkDecals.Texture == null || Main.instance.tileTarget == null)
+			if (shader == null || Main.instance.tileTarget == null)
 				continue;
 
-			lock (lightingBuffer) {
-				shader.Parameters["texture0"].SetValue(chunkDecals.Texture);
-				shader.Parameters["texture1"].SetValue(Main.instance.tileTarget);
-				shader.Parameters["lightingBuffer"].SetValue(lightingBuffer);
-				shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.NormalizedTransformationmatrix);
+			shader.Parameters["texture0"].SetValue(layer.Texture);
+			shader.Parameters["maskTexture"].SetValue(maskTexture);
+			shader.Parameters["lightingBuffer"].SetValue(lightingBuffer);
+			shader.Parameters["transformMatrix"].SetValue(Main.GameViewMatrix.NormalizedTransformationmatrix);
 
-				graphicsDevice.BlendState = BlendState.AlphaBlend;
+			graphicsDevice.BlendState = BlendState.AlphaBlend;
 
-				foreach (var pass in shader.CurrentTechnique.Passes) {
-					pass.Apply();
+			foreach (var pass in shader.CurrentTechnique.Passes) {
+				pass.Apply();
 
-					var tileExtensionOffset = Main.sceneTilePos - Main.screenPosition;
-					var tileTargetSize = Main.instance.tileTarget.Size();
+				var tileExtensionOffset = Main.sceneTilePos - Main.screenPosition;
+				var tileTargetSize = Main.instance.tileTarget.Size();
 
-					var pos = new Vector4(dstRect.Left, dstRect.Top, dstRect.Right, dstRect.Bottom);
-					var uvDecal = new Vector4(0f, 0f, 1f, 1f);
-					var uvTiles = new Vector4(
-						(dstRect.Left - tileExtensionOffset.X) / tileTargetSize.X,
-						(dstRect.Top - tileExtensionOffset.Y) / tileTargetSize.Y,
-						(dstRect.Right - tileExtensionOffset.X) / tileTargetSize.X,
-						(dstRect.Bottom - tileExtensionOffset.Y) / tileTargetSize.Y
-					);
-					var uvLight = new Vector4(
-						dstRect.Left / (float)Main.screenWidth,
-						dstRect.Top / (float)Main.screenHeight,
-						dstRect.Right / (float)Main.screenWidth,
-						dstRect.Bottom / (float)Main.screenHeight
-					);
+				var pos = new Vector4(dstRect.Left, dstRect.Top, dstRect.Right, dstRect.Bottom);
+				var uvDecal = new Vector4(0f, 0f, 1f, 1f);
+				var uvTiles = new Vector4(
+					(dstRect.Left - tileExtensionOffset.X) / tileTargetSize.X,
+					(dstRect.Top - tileExtensionOffset.Y) / tileTargetSize.Y,
+					(dstRect.Right - tileExtensionOffset.X) / tileTargetSize.X,
+					(dstRect.Bottom - tileExtensionOffset.Y) / tileTargetSize.Y
+				);
+				var uvLight = new Vector4(
+					dstRect.Left / (float)Main.screenWidth,
+					dstRect.Top / (float)Main.screenHeight,
+					dstRect.Right / (float)Main.screenWidth,
+					dstRect.Bottom / (float)Main.screenHeight
+				);
 
-					vertices[0] = new(new(pos.X, pos.Y, 0f), new(uvDecal.X, uvDecal.Y), new(uvTiles.X, uvTiles.Y), new(uvLight.X, uvLight.Y));
-					vertices[1] = new(new(pos.Z, pos.Y, 0f), new(uvDecal.Z, uvDecal.Y), new(uvTiles.Z, uvTiles.Y), new(uvLight.Z, uvLight.Y));
-					vertices[2] = new(new(pos.Z, pos.W, 0f), new(uvDecal.Z, uvDecal.W), new(uvTiles.Z, uvTiles.W), new(uvLight.Z, uvLight.W));
-					vertices[3] = new(new(pos.X, pos.W, 0f), new(uvDecal.X, uvDecal.W), new(uvTiles.X, uvTiles.W), new(uvLight.X, uvLight.W));
+				vertices[0] = new(new(pos.X, pos.Y, 0f), new(uvDecal.X, uvDecal.Y), new(uvTiles.X, uvTiles.Y), new(uvLight.X, uvLight.Y));
+				vertices[1] = new(new(pos.Z, pos.Y, 0f), new(uvDecal.Z, uvDecal.Y), new(uvTiles.Z, uvTiles.Y), new(uvLight.Z, uvLight.Y));
+				vertices[2] = new(new(pos.Z, pos.W, 0f), new(uvDecal.Z, uvDecal.W), new(uvTiles.Z, uvTiles.W), new(uvLight.Z, uvLight.W));
+				vertices[3] = new(new(pos.X, pos.W, 0f), new(uvDecal.X, uvDecal.W), new(uvTiles.X, uvTiles.W), new(uvLight.X, uvLight.W));
 
-					graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, QuadTriangles, 0, QuadTriangles.Length / 3);
-				}
+				graphicsDevice.DrawUserIndexedPrimitives(PrimitiveType.TriangleList, vertices, 0, vertices.Length, QuadTriangles, 0, QuadTriangles.Length / 3);
 			}
 		}
 
@@ -343,9 +380,11 @@ public sealed class DecalSystem : ModSystem
 		chunkInfo.ValuableComponentCount++;
 
 		ref var chunkDecals = ref chunk.Entity.Add(new ChunkDecals());
-		Array.Resize(ref chunkDecals.DecalStyleData, DecalStyles.Length);
-		for (int i = 0; i < chunkDecals.DecalStyleData.Length; i++) {
-			chunkDecals.DecalStyleData[i] = new();
+		foreach (ref var layer in ChunkDecals.Layers(ref chunkDecals)) {
+			Array.Resize(ref layer.Styles, DecalStyles.Length);
+			for (int i = 0; i < layer.Styles.Length; i++) {
+				layer.Styles[i] = new();
+			}
 		}
 
 		ThreadUtils.RunOnMainThread(() => {
@@ -354,9 +393,11 @@ public sealed class DecalSystem : ModSystem
 			int textureWidth = chunkInfo.TileRectangle.Width * 8;
 			int textureHeight = chunkInfo.TileRectangle.Height * 8;
 
-			chunkDecals.Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
-			// Initialize with transparent data to prevent driver-specific issues.
-			TextureUtils.InitializeWithColor(chunkDecals.Texture, Color.Transparent);
+			foreach (ref var layer in ChunkDecals.Layers(ref chunkDecals)) {
+				layer.Texture = new RenderTarget2D(Main.graphics.GraphicsDevice, textureWidth, textureHeight, false, SurfaceFormat.Color, DepthFormat.None, 0, RenderTargetUsage.PreserveContents);
+				// Initialize with transparent data to prevent driver-specific issues.
+				TextureUtils.InitializeWithColor(layer.Texture, Color.Transparent);
+			}
 		});
 	}
 	private static void RemoveChunkComponent(Chunk chunk)
@@ -365,12 +406,28 @@ public sealed class DecalSystem : ModSystem
 
 		ref var chunkDecals = ref chunk.Entity.Get<ChunkDecals>();
 
-		if (chunkDecals.Texture != null) {
-			var textureHandle = chunkDecals.Texture;
-			ThreadUtils.RunOnMainThread(textureHandle.Dispose);
-			chunkDecals.Texture = null;
+		foreach (ref var layer in ChunkDecals.Layers(ref chunkDecals)) {
+			if (layer.Texture != null) {
+				var handle = layer.Texture;
+				ThreadUtils.RunOnMainThread(handle.Dispose);
+				layer.Texture = null;
+			}
 		}
 
 		checked { chunk.Entity.Get<ChunkInfo>().ValuableComponentCount--; }
+	}
+
+	private static void DebugDecals()
+	{
+#if DEBUG && true // Decal debugging hotkey.
+		if (!Main.dedServ && Core.Input.InputSystem.GetKey(Microsoft.Xna.Framework.Input.Keys.K)) {
+			AddDecals(DecalStyle.Default, new DecalInfo {
+				Layers = DecalLayerFlags.All,
+				Position = Main.MouseWorld,
+				Texture = ModContent.Request<Texture2D>($"{nameof(TerrariaOverhaul)}/Content/Menus/Logo", AssetRequestMode.ImmediateLoad).Value,
+				Scale = new Vector2(1f, 1f),
+			});
+		}
+#endif
 	}
 }

@@ -25,6 +25,7 @@ public sealed class ProjectileDecals : GlobalProjectile
 		public bool IfChunkExists { get; init; }
 		public DecalStyle DecalStyle { get; init; } = DecalStyle.Default;
 		public Asset<Texture2D>? Texture { get; init; }
+		public DecalLayerFlags Layers { get; init; } = DecalLayerFlags.Foreground;
 	}
 
 	public static Data? IcePreset { get; private set; }
@@ -46,18 +47,15 @@ public sealed class ProjectileDecals : GlobalProjectile
 			Texture = Mod.Assets.Request<Texture2D>("Assets/Textures/Decals/BulletDecal"),
 			Size = new Vector2Int(8, 8),
 		};
-
 		IcePreset = new() {
 			Texture = Mod.Assets.Request<Texture2D>("Assets/Textures/Decals/IceDecal"),
 			Color = Color.White.WithAlpha(64),
 			Size = new Vector2Int(16, 16),
 		};
-
 		ExplosionPreset = new() {
 			Texture = Mod.Assets.Request<Texture2D>("Assets/Textures/Decals/ExplosionDecal"),
 			Color = Color.White.WithAlpha(48),
 		};
-
 		IncendiaryPreset = ExplosionPreset with {
 			Color = Color.White.WithAlpha(32),
 		};
@@ -87,7 +85,6 @@ public sealed class ProjectileDecals : GlobalProjectile
 
 		return true;
 	}
-
 	public override bool OnTileCollide(Projectile projectile, Vector2 oldVelocity)
 	{
 		UpdateMaxSize(projectile);
@@ -95,13 +92,19 @@ public sealed class ProjectileDecals : GlobalProjectile
 
 		return true;
 	}
-
 	public override void OnKill(Projectile projectile, int timeLeft)
 	{
 		UpdateMaxSize(projectile);
 		TryCreateDecal(projectile, OnDestroy);
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	private void TryCreateDecal(Projectile projectile, Data? data, Vector2 offset = default)
+	{
+		if (data != null) {
+			CreateDecal((projectile.Center + offset), data);
+		}
+	}
 	public void CreateDecal(Vector2 position, Data data)
 	{
 		if (data.Texture is not { IsLoaded: true, Value: Texture2D texture }) {
@@ -119,6 +122,7 @@ public sealed class ProjectileDecals : GlobalProjectile
 		}
 
 		DecalSystem.AddDecals(data.DecalStyle, new DecalInfo {
+			Layers = data.Layers,
 			Texture = texture,
 			Position = position,
 			Size = data.Size is Vector2Int size ? size : maxSize,
@@ -126,14 +130,6 @@ public sealed class ProjectileDecals : GlobalProjectile
 			Color = color,
 			IfChunkExists = data.IfChunkExists,
 		});
-	}
-
-	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	private void TryCreateDecal(Projectile projectile, Data? data, Vector2 offset = default)
-	{
-		if (data != null) {
-			CreateDecal(projectile.Center + offset, data);
-		}
 	}
 
 	private void UpdateMaxSize(Projectile projectile)

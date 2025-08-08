@@ -5,6 +5,7 @@
 using System;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
+using Terraria.DataStructures;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
@@ -67,8 +68,10 @@ public struct Vector2Int(int x, int y)
 	public static bool operator !=(Vector2 a, Vector2Int b) => a.X != b.X || a.Y != b.Y;
 
 	// Casts
-	public static implicit operator Vector2(Vector2Int value) => new(value.X, value.Y);
-	public static explicit operator Vector2Int(Vector2 value) => new((int)value.X, (int)value.Y);
 	public static implicit operator Point(Vector2Int value) => new(value.X, value.Y);
+	public static explicit operator Point16(Vector2Int value) => new(value.X, value.Y);
+	public static implicit operator Vector2(Vector2Int value) => new(value.X, value.Y);
 	public static implicit operator Vector2Int(Point value) => new(value.X, value.Y);
+	public static implicit operator Vector2Int(Point16 value) => new(value.X, value.Y);
+	public static explicit operator Vector2Int(Vector2 value) => new((int)value.X, (int)value.Y);
 }

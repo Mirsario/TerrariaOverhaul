@@ -60,6 +60,7 @@ public sealed class GoreBaking : ModSystem
 		var frame = gore.Frame.GetSourceRectangle(texture);
 
 		DecalSystem.AddDecals(DecalStyle.Default, new DecalInfo {
+			Layers = DecalLayerFlags.Foreground,
 			Texture = texture,
 			SrcRect = frame,
 			Position = gore.position + gore.drawOffset,

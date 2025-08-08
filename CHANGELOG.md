@@ -34,6 +34,7 @@
 # Work In Progress
 
 ### Additions
+- The decal system has been expanded with support for background decals. In other words, blood and impacts can now stain walls as well as floors.
 - Implemented a 'camera curio system'. Subtly shifting and zooming on important areas, the system will be used to hint the player's attention towards important objects and events, increasing cinematic feel on top of all.
 - The following camera curios have been implemented:
 	- **NPCs in dialogues**;

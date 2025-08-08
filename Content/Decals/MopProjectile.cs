@@ -21,6 +21,7 @@ public class MopProjectile : SpearProjectileBase
 	public override void Load()
 	{
 		DecalPreset = new() {
+			Layers = DecalLayerFlags.All,
 			Texture = Mod.Assets.Request<Texture2D>("Assets/Textures/Decals/CleaningDecal"),
 			Size = new Vector2Int(48, 48),
 			DecalStyle = DecalStyle.Subtractive,

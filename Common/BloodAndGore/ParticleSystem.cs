@@ -216,6 +216,7 @@ public sealed class ParticleSystem : ModSystem
 						SoundEngine.PlaySound(BloodDripSound, particle.Position);
 					}
 					DecalSystem.AddDecals(DecalStyle.Default, new DecalInfo {
+						Layers = DecalLayerFlags.Foreground,
 						Position = particle.Position + particle.Velocity.SafeNormalize(default) * Main.rand.NextFloat(5f),
 						Color = particle.Color,
 						Size = new Vector2(2f, 2f),
