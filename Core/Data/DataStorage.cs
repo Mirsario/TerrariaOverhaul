@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
@@ -159,6 +158,7 @@ internal static class DataStorage
 		public required Action<DataEntity, object> AddComponentFromObject;
 	}
 
+	private static object operationLock = new();
 	// Components
 	private static uint componentCount;
 	private static uint componentMasksPerEntity = 1;
@@ -320,11 +320,13 @@ internal static class DataStorage
 
 	public static Query CreateQuery()
 	{
-		uint index = queryCount++;
-		int masksArrayLength = (int)(BitOperations.RoundUpToPowerOf2(index + 1) * componentMasksPerEntity);
-		Array.Resize(ref queryIncludedComponentMasks, masksArrayLength);
-		Array.Resize(ref queryExcludedComponentMasks, masksArrayLength);
-		return new(index);
+		lock (operationLock) {
+			uint index = queryCount++;
+			int masksArrayLength = (int)(BitOperations.RoundUpToPowerOf2(index + 1) * componentMasksPerEntity);
+			Array.Resize(ref queryIncludedComponentMasks, masksArrayLength);
+			Array.Resize(ref queryExcludedComponentMasks, masksArrayLength);
+			return new(index);
+		}
 	}
 
 	internal static ComponentMask GetQueryIncludedComponentMask(Query query) => ComponentMask.InDynamicArray(queryIncludedComponentMasks, query.Index);
