@@ -1,0 +1,31 @@
+Flammable: {
+	Sets: [
+		"Wood"
+		"WoodMaterial"
+		"Grass"
+	]
+	Includes.TileID: [
+		"Trees"
+		"WoodenBeam"
+	]
+	Includes.WallID: [
+		"Wood"
+		"Planked"
+	]
+}
+NonIgnitable: {
+	Sets: [
+		"GlassMaterial"
+	]
+}
+
+AlwaysCharred: {
+	Sets: [
+		"GlassMaterial"
+	]
+}
+NeverCharred: {
+	Sets: [
+		"Grass"
+	]
+}
