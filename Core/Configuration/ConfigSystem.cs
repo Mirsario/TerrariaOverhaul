@@ -9,10 +9,39 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Core.Configuration;
+
+public enum ConfigSide
+{
+	Both,
+	ClientOnly,
+	ServerOnly
+}
+
+public interface IConfigEntry
+{
+	Type ValueType { get; }
+	bool IsHidden { get; }
+	string Name { get; }
+	string Category { get; }
+	ReadOnlySpan<string> Categories { get; }
+	object? Value { get; set; }
+	object? LocalValue { get; set; }
+	object? RemoteValue { get; set; }
+	object DefaultValue { get; }
+	ConfigSide Side { get; }
+	LocalizedText? DisplayName { get; }
+	LocalizedText? Description { get; }
+
+	// Dumb.
+	void Initialize(Mod mod, string? nameFallback = null);
+
+	void Modified();
+}
 
 public sealed class ConfigSystem : ModSystem
 {

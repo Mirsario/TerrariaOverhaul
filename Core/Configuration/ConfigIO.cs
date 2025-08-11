@@ -330,22 +330,22 @@ public sealed class ConfigIO : ModSystem
 
 		// Try to ignore repeating calls...
 		DateTime lastWriteTime = File.GetLastWriteTime(e.FullPath);
+		if (lastWriteTime <= lastConfigWatcherWriteTime) {
+			return;
+		}
 
-		if (lastWriteTime > lastConfigWatcherWriteTime) {
-			lastConfigWatcherWriteTime = lastWriteTime;
+		lastConfigWatcherWriteTime = lastWriteTime;
 
-			MessageUtils.NewText("Automatically reloading config file...", Color.Orange, logAsInfo: true);
+		MessageUtils.NewText("Automatically reloading config file...", Color.Orange, logAsInfo: true);
+		LoadConfig();
 
-			LoadConfig();
+		if (!Main.dedServ) {
+			var sound = Common.Magic.MagicWeapon.MagicBlastSound;
 
-			if (!Main.dedServ) {
-				var sound = Common.Magic.MagicWeapon.MagicBlastSound;
-
-				try {
-					SoundEngine.PlaySound(sound with { Volume = 0.33f });
-				}
-				catch { }
+			try {
+				SoundEngine.PlaySound(sound with { Volume = 0.33f });
 			}
+			catch { }
 		}
 	}
 }
