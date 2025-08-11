@@ -9,6 +9,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Input;
 using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
@@ -19,6 +20,8 @@ namespace TerrariaOverhaul.Common.Items;
 
 public static partial class ItemTooltips
 {
+	public static readonly ConfigEntry<bool> ShowCombatInfoHintTooltip = new(ConfigSide.ClientOnly, true, "Interface");
+
 	private static readonly Regex combatInfoAccentRegex = CombatInfoAccentRegex();
 	private static readonly Color combatInfoBaseColor = Color.LightSteelBlue;
 	private static readonly Color combatInfoAccentColor = Color.MediumVioletRed;
@@ -51,8 +54,10 @@ public static partial class ItemTooltips
 			return true;
 		}
 
-		string showCombatInfoText = mod.GetTextValue("CommonTooltips.ShowCombatInfo").Replace("{Key}", combatInfoModifierKey.ToString());
-		AddTooltip("ShowCombatInfo", showCombatInfoText, combatInfoAccentColor);
+		if (ShowCombatInfoHintTooltip) {
+			string showCombatInfoText = mod.GetTextValue("CommonTooltips.ShowCombatInfo").Replace("{Key}", combatInfoModifierKey.ToString());
+			AddTooltip("ShowCombatInfo", showCombatInfoText, combatInfoAccentColor);
+		}
 
 		return false;
 	}

@@ -451,6 +451,11 @@ Interface: {
 		DisplayName: "Crosshair Scale"
 		Description: "Controls the crosshair's size, allowing you to make it larger if you want."
 	}
+
+	ShowCombatInfoHintTooltip: {
+		DisplayName: "Show Combat Information Hint Tooltip"
+		Description: "If disabled, the '{$Mods.TerrariaOverhaul.CommonTooltips.ShowCombatInfo}' item tooltip line will not be shown."
+	}
 }
 
 Magic: {

@@ -86,7 +86,7 @@
 - Existing features received the following new options:
   **Awareness:** `EnableHealthPickupSounds`, `EnableManaPickupSounds`.
   **Guns:** `EnableMinigunDynamicFirerate`, `EnableStarCannonDynamicFirerate`.
-  **Interface:** `CrosshairScale`, `ForceInterfacePointFiltering`.
+  **Interface:** `CrosshairScale`, `ForceInterfacePointFiltering`, `ShowCombatInfoHintTooltip`.
   **Music:** `AlwaysRestartBossMusicTracks`, `AlwaysRestartedMusicTracks`.
   **Visuals:** `EnableEnemyFlinchingEffects`.
 - New features were introduced with the following options:
