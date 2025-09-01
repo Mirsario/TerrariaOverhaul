@@ -10,7 +10,7 @@ using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.CombatTexts;
 
-public sealed class CombatTextSystem : ModSystem
+internal sealed class CombatTextSystem : ModSystem
 {
 	private struct Filter
 	{

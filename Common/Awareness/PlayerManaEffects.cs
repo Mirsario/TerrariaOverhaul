@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.Awareness;
 
 [Autoload(Side = ModSide.Client)]
-public class PlayerManaEffects : ModPlayer
+internal class PlayerManaEffects : ModPlayer
 {
 	public static readonly SoundStyle ManaRegenSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/ManaRegenLoop") {
 		Volume = 0.03f

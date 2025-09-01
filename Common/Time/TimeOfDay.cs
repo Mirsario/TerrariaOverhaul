@@ -7,7 +7,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Time;
 
-public static class TimeOfDay
+internal static class TimeOfDay
 {
 	private const float DayHourCount = 24f;
 	private static float DayHourOffset => -7.5f + 12f;

@@ -1,6 +1,6 @@
 ﻿namespace TerrariaOverhaul.Core.Data;
 
-public static class Entities
+internal static class Entities
 {
 	public static DataEntity Create()
 		=> DataStorage.CreateEntity();

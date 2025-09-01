@@ -16,7 +16,7 @@ using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.Interface;
 
-public struct CrosshairEffects
+internal struct CrosshairEffects
 {
 	public (float Value, float LengthFactor) Offset;
 	public (float Value, float LengthFactor) Rotation;
@@ -25,7 +25,7 @@ public struct CrosshairEffects
 }
 
 [Autoload(Side = ModSide.Client)]
-public sealed class CrosshairSystem : ModSystem
+internal sealed class CrosshairSystem : ModSystem
 {
 	private struct CrosshairImpulse
 	{

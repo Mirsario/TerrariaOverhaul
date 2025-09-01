@@ -13,7 +13,7 @@ using TerrariaOverhaul.Common.Decals;
 namespace TerrariaOverhaul.Common.Damage;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class NPCDamageVisuals : GlobalNPC
+internal sealed class NPCDamageVisuals : GlobalNPC
 {
 	public override void HitEffect(NPC npc, NPC.HitInfo hit)
 	{

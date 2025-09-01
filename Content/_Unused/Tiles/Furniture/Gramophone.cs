@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.Tiles.Furniture;
 
-public class Gramophone : ModTile
+internal class Gramophone : ModTile
 {
 	public override void SetStaticDefaults()
 	{

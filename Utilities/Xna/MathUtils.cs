@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
-public static class MathUtils
+internal static class MathUtils
 {
 	public static float Modulo(float value, float length)
 		=> value - (float)Math.Floor(value / length) * length;

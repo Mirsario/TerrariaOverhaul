@@ -6,7 +6,7 @@ using System;
 
 namespace TerrariaOverhaul.Core.Configuration;
 
-public class RangeConfigEntry<T> : ConfigEntry<T> where T : IComparable<T>
+internal class RangeConfigEntry<T> : ConfigEntry<T> where T : IComparable<T>
 {
 	public T MinValue { get; }
 	public T MaxValue { get; }

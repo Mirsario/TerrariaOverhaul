@@ -28,7 +28,7 @@ internal static class WeightedValue
 	}
 }
 
-public struct WeightedValue<T>(T Value, double Weight)
+internal struct WeightedValue<T>(T Value, double Weight)
 {
 	public struct Functions
 	{

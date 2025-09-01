@@ -14,7 +14,7 @@ using TerrariaOverhaul.Common.Melee;
 
 namespace TerrariaOverhaul.Content.Buffs;
 
-public sealed class HackAndSlash : ModBuff
+internal sealed class HackAndSlash : ModBuff
 {
 	private static Asset<Texture2D>? meterTexture;
 

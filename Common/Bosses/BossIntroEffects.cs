@@ -21,7 +21,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
-public sealed class BossIntroEffects : ModSystem
+internal sealed class BossIntroEffects : ModSystem
 {
 	private static GameTimer cooldown;
 
@@ -93,7 +93,7 @@ public sealed class BossIntroEffects : ModSystem
 	}
 }
 
-public sealed class NpcBossIntroEffects : GlobalNPC
+internal sealed class NpcBossIntroEffects : GlobalNPC
 {
 	public bool IntroPending;
 

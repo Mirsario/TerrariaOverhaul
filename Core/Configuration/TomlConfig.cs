@@ -15,7 +15,7 @@ using IOResult = TerrariaOverhaul.Core.Configuration.ConfigIO.Result;
 
 namespace TerrariaOverhaul.Core.Configuration;
 
-public static class TomlConfig
+internal static class TomlConfig
 {
 	public static readonly ConfigFormat Format;
 

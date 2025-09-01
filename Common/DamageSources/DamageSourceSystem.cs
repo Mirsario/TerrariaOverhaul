@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Common.DamageSources;
 
 // This weird system tries to guess damage sources based on callstack locations.
 // Used in places like StrikeNPC hooks.
-public class DamageSourceSystem : ModSystem
+internal class DamageSourceSystem : ModSystem
 {
 	public static DamageSource? CurrentDamageSource { get; private set; }
 

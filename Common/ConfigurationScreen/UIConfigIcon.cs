@@ -13,7 +13,7 @@ using TerrariaOverhaul.Core.Time;
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class UIConfigIcon : UIElement, ILoadable
+internal sealed class UIConfigIcon : UIElement, ILoadable
 {
 	private static readonly RasterizerState OverflowHiddenRasterizerState = new() {
 		CullMode = CullMode.None,

@@ -13,7 +13,7 @@ using IOResult = TerrariaOverhaul.Core.Configuration.ConfigIO.Result;
 
 namespace TerrariaOverhaul.Core.Configuration;
 
-public static class NbtConfig
+internal static class NbtConfig
 {
 	public static readonly ConfigFormat Format;
 

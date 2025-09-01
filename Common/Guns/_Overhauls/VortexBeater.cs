@@ -21,7 +21,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.Guns;
 
 [ItemAttachment(ItemID.VortexBeater)]
-public sealed class VortexBeater : ItemOverhaul
+internal sealed class VortexBeater : ItemOverhaul
 {
 	public static readonly SoundStyle FireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3) {
 		Volume = 0.130f,

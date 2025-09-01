@@ -12,7 +12,7 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class ItemUtils
+internal static class ItemUtils
 {
 	public static void NewItemInstanced(IEntitySource source, Vector2 position, int type, int stack = 1, IEnumerable<Player>? players = null, int maxExpectedLifeTime = 54000, int prefix = 0)
 	{

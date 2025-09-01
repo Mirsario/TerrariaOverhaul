@@ -13,7 +13,7 @@ using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Core.Localization;
 
-public sealed class TextSystem : ModSystem
+internal sealed class TextSystem : ModSystem
 {
 	private delegate List<(string, string)> LoadTranslationsDelegate(Mod mod, GameCulture culture);
 

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 namespace TerrariaOverhaul.Core.SimpleEntities;
 
 // Because screw dusts and bloated vanilla classes.
-public class SimpleEntity : ILoadable
+internal class SimpleEntity : ILoadable
 {
 	public bool Destroyed { get; private set; }
 

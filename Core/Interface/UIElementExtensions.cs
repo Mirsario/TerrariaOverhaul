@@ -9,7 +9,7 @@ using Terraria.UI;
 
 namespace TerrariaOverhaul.Core.Interface;
 
-public static class UIElementExtensions
+internal static class UIElementExtensions
 {
 	public static T With<T>(this T element, Action<T> action) where T : UIElement
 	{

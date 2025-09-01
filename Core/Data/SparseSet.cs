@@ -5,7 +5,7 @@ using System.Numerics;
 namespace TerrariaOverhaul.Core.Data;
 
 /// <summary> Basic sparse set without any entry removal support. </summary>
-public struct SparseSet<TData>()
+internal struct SparseSet<TData>()
 {
 	private const int Invalid = -1;
 

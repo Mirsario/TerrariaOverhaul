@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.CriticalStrikes;
 
-public struct Weakpoint
+internal struct Weakpoint
 {
 	public RectFloat Area;
 
@@ -35,7 +35,7 @@ public struct Weakpoint
 		return result;
 	}
 }
-public struct WeakpointInfo()
+internal struct WeakpointInfo()
 {
 	public bool WeakpointIsMainSegment;
 	public bool UsesRotationAngle;
@@ -44,7 +44,7 @@ public struct WeakpointInfo()
 	public Weakpoint[] Weakpoints = [];
 }
 
-public sealed class NpcWeakpoints : GlobalNPC
+internal sealed class NpcWeakpoints : GlobalNPC
 {
 	private const int DirectionChangeGracePeriod = 10;
 

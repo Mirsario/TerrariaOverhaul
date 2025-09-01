@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Core.VideoPlayback;
 #pragma warning disable SYSLIB0050 // Type or member is obsolete
 
 [Autoload(false)]
-public sealed class OgvReader : IAssetReader, ILoadable
+internal sealed class OgvReader : IAssetReader, ILoadable
 {
 	private const BindingFlags ReflectionFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
 

@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class CardPanel : FancyUIPanel
+internal class CardPanel : FancyUIPanel
 {
 	private static Asset<Texture2D>? defaultBorderTexture;
 

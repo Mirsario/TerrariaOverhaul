@@ -10,7 +10,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.EntityEffects;
 
-public sealed class PlayerBodyRotation : ModPlayer
+internal sealed class PlayerBodyRotation : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnablePlayerTilting = new(ConfigSide.ClientOnly, true, "Visuals");
 

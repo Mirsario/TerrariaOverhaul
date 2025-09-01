@@ -18,7 +18,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays;
 
-public class MenuLine
+internal class MenuLine
 {
 	public Vector2 Size { get; set; }
 	public Text Text { get; set; }

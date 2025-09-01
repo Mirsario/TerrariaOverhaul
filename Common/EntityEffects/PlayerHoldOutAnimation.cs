@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.EntityEffects;
 
-public sealed class PlayerHoldOutAnimation : ModPlayer
+internal sealed class PlayerHoldOutAnimation : ModPlayer
 {
 	public static readonly ConfigEntry<bool> AlwaysShowAimableWeapons = new(ConfigSide.ClientOnly, true, "Visuals");
 	public static bool[] IsItemExcluded = null!;

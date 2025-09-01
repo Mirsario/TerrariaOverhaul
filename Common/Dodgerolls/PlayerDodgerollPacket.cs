@@ -10,7 +10,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Dodgerolls;
 
-public sealed class PlayerDodgerollPacket : NetPacket
+internal sealed class PlayerDodgerollPacket : NetPacket
 {
 	public PlayerDodgerollPacket(Player player)
 	{

@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.Damage;
 
-public sealed class ProjectileNpcStuns : GlobalProjectile
+internal sealed class ProjectileNpcStuns : GlobalProjectile
 {
 	private uint cooldownTicks = 0;
 

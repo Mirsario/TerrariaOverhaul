@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
-public struct RectFloat(float x, float y, float width, float height)
+internal struct RectFloat(float x, float y, float width, float height)
 {
 	public static readonly RectFloat Default = new(0f, 0f, 1f, 1f);
 	public static readonly RectFloat Empty = new(0f, 0f, 0f, 0f);

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrariaOverhaul.Common.Decals;
 
-public sealed class DecalStyle
+internal sealed class DecalStyle
 {
 	public static DecalStyle Default { get; } = new DecalStyle(BlendState.AlphaBlend);
 	public static DecalStyle Opaque { get; } = new DecalStyle(BlendState.Opaque);

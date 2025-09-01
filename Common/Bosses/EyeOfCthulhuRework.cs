@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
-public sealed class EyeOfCthulhuRework : GlobalNPC
+internal sealed class EyeOfCthulhuRework : GlobalNPC
 {
 	private ref struct MappedAI(NPC npc)
 	{

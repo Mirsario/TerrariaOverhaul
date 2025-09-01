@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.AI;
 // And that a jumping player will decelrate from gravity, and not fly to the moon.
 
 [Autoload(false)]
-public sealed class NpcTargeting : GlobalNPC
+internal sealed class NpcTargeting : GlobalNPC
 {
 	private Vector2[] interpolatedTargetVelocities = new Vector2[10];
 	private Vector2 previousInterpolatedTargetVelocity;

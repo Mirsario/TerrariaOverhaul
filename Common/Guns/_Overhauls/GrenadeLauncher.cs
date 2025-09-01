@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Guns;
 
-public class GrenadeLauncher : ItemOverhaul
+internal class GrenadeLauncher : ItemOverhaul
 {
 	public static readonly SoundStyle GrenadeLauncherFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/GrenadeLauncher/GrenadeLauncherFire") {
 		Volume = 0.15f,

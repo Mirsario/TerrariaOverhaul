@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.ResourceDrops;
 
-public sealed class ManaPickupChanges : ResourcePickupChanges<ManaPickupChanges>
+internal sealed class ManaPickupChanges : ResourcePickupChanges<ManaPickupChanges>
 {
 	public static readonly ConfigEntry<bool> EnableManaDropsRework = new(ConfigSide.Both, true, "Balance", "Magic");
 	public static readonly ConfigEntry<bool> EnableManaPickupSounds = new(ConfigSide.ClientOnly, true, "Awareness", "Magic");

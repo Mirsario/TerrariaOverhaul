@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class ScrollingUIText : UIText
+internal class ScrollingUIText : UIText
 {
 	public bool StopOnHover { get; set; }
 	public bool NoScroll { get; set; }

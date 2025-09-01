@@ -9,7 +9,7 @@ using Hook = TerrariaOverhaul.Common.Hooks.Items.ICanTurnDuringItemUse;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;
 
-public interface ICanTurnDuringItemUse
+internal interface ICanTurnDuringItemUse
 {
 	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).CanTurnDuringItemUse));
 

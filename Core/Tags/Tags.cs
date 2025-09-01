@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Tags;
 
-public readonly struct Tag<TSpace>
+internal readonly struct Tag<TSpace>
 {
 	public readonly int Id;
 
@@ -30,7 +30,7 @@ public readonly struct Tag<TSpace>
 	public static implicit operator Tag<TSpace>(string? name) => Tags<TSpace>.TagFromString(name);
 }
 
-public static class Tags<T>
+internal static class Tags<T>
 {
 	public static string StringFromTag(Tag<T> tag)
 		=> TagSystem.GenericStorage<T>.Storage.StringFromId((int)tag.Id);

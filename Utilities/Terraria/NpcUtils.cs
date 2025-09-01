@@ -8,7 +8,7 @@ using Terraria;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class NpcUtils
+internal static class NpcUtils
 {
 	public static Entity? GetTarget(this NPC npc)
 	{

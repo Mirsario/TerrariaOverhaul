@@ -13,7 +13,7 @@ using TerrariaOverhaul.Content.Items.Materials;
 
 namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes;
 
-public abstract class AshMonster : ModNPC
+internal abstract class AshMonster : ModNPC
 {
 	protected abstract int BaseNPC { get; }
 

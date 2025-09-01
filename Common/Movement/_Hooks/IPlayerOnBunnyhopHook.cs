@@ -9,7 +9,7 @@ using Hook = TerrariaOverhaul.Common.Movement.IPlayerOnBunnyhopHook;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public interface IPlayerOnBunnyhopHook
+internal interface IPlayerOnBunnyhopHook
 {
 	public static readonly HookList<ModPlayer> Hook = PlayerLoader.AddModHook(HookList<ModPlayer>.Create(i => ((Hook)i).OnBunnyhop));
 

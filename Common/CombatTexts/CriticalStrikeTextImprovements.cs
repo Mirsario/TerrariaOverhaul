@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.CombatTexts;
 
-public sealed class CriticalStrikeTextImprovements : ModSystem
+internal sealed class CriticalStrikeTextImprovements : ModSystem
 {
 	public override void Load()
 	{

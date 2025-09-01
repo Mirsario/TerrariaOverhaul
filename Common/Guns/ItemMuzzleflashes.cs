@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.Guns;
 // Too many array shenanigans over here.
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ItemMuzzleflashes : ItemComponent
+internal sealed class ItemMuzzleflashes : ItemComponent
 {
 	public struct MuzzleflashStyle
 	{

@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Items.Placeables;
 
-public class Gramophone : ModItem
+internal class Gramophone : ModItem
 {
 	public override void SetDefaults()
 	{

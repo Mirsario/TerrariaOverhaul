@@ -7,7 +7,7 @@ using System.IO;
 
 namespace TerrariaOverhaul.Core.Networking;
 
-public abstract class NetPacket : IDisposable
+internal abstract class NetPacket : IDisposable
 {
 	public int Id { get; internal set; }
 

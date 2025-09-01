@@ -9,7 +9,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Content.Dusts;
 
-public class ManaDust : ModDust
+internal class ManaDust : ModDust
 {
 	public override void OnSpawn(Dust dust)
 	{

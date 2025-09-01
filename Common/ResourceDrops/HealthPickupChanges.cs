@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.ResourceDrops;
 
-public sealed class HealthPickupChanges : ResourcePickupChanges<HealthPickupChanges>
+internal sealed class HealthPickupChanges : ResourcePickupChanges<HealthPickupChanges>
 {
 	public static readonly ConfigEntry<bool> EnableHealthDropsRework = new(ConfigSide.Both, true, "Balance");
 	public static readonly ConfigEntry<bool> EnableHealthPickupSounds = new(ConfigSide.ClientOnly, true, "Awareness");

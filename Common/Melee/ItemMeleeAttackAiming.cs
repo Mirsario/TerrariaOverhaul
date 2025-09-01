@@ -19,7 +19,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithNPC, IModifyItemNewProjectile
+internal sealed class ItemMeleeAttackAiming : ItemComponent, ICanMeleeCollideWithNPC, IModifyItemNewProjectile
 {
 	public static readonly ConfigEntry<bool> EnableMeleeAttackAiming = new(ConfigSide.Both, true, "Melee");
 	public static readonly ConfigEntry<bool> EnableImprovedMeleeCollision = new(ConfigSide.Both, true, "Melee");

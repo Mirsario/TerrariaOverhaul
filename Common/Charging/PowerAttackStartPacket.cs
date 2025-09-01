@@ -10,7 +10,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Charging;
 
-public sealed class PowerAttackStartPacket : NetPacket
+internal sealed class PowerAttackStartPacket : NetPacket
 {
 	public PowerAttackStartPacket(Player player, int chargeLength)
 	{

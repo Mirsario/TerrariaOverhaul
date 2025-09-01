@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.Items.Tools;
 
-public class StonePickaxe : ModItem
+internal class StonePickaxe : ModItem
 {
 	public override void SetDefaults()
 	{

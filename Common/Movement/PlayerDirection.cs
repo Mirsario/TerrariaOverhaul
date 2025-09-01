@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public sealed class PlayerDirection : ModPlayer
+internal sealed class PlayerDirection : ModPlayer
 {
 	public sealed class PlayerMousePositionPacket : NetPacket
 	{

@@ -14,7 +14,7 @@ using TerrariaOverhaul.Core.ItemOverhauls;
 
 namespace TerrariaOverhaul.Common.Guns;
 
-public class AssaultRifle : ItemOverhaul
+internal class AssaultRifle : ItemOverhaul
 {
 	public static readonly SoundStyle AssaultRifleFireSound = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/AssaultRifle/AssaultRifleFire", 3) {
 		Volume = 0.125f,

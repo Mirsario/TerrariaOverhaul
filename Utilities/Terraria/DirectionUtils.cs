@@ -27,7 +27,7 @@ public enum Direction2D : byte
 	BottomRight = Down | Right,
 }
 
-public static class DirectionUtils
+internal static class DirectionUtils
 {
 	public static sbyte X(this Direction2D direction)
 		=> !direction.HasFlag(Direction2D.Left) ? direction.HasFlag(Direction2D.Right) ? (sbyte)1 : (sbyte)0 : (sbyte)-1;

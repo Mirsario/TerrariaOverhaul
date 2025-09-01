@@ -7,19 +7,19 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
-public struct SingleOrGradient<T>() where T : new()
+internal struct SingleOrGradient<T>() where T : new()
 {
 	public T Single = new();
 	public Gradient<T>? Gradient;
 }
 
-public struct SingleOrGradient<TSingle, TGradientValue>() where TSingle : new() where TGradientValue : new()
+internal struct SingleOrGradient<TSingle, TGradientValue>() where TSingle : new() where TGradientValue : new()
 {
 	public TSingle Single = new();
 	public Gradient<TGradientValue>? Gradient;
 }
 
-public class Gradient
+internal class Gradient
 {
 	internal Gradient() { }
 
@@ -41,7 +41,7 @@ public class Gradient
 	}
 }
 
-public sealed class Gradient<T> : Gradient
+internal sealed class Gradient<T> : Gradient
 {
 	public struct Key
 	{

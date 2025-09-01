@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.Damage;
 
-public sealed class ProjectileDirectionalNPCKnockback : GlobalProjectile
+internal sealed class ProjectileDirectionalNPCKnockback : GlobalProjectile
 {
 	public override void ModifyHitNPC(Projectile projectile, NPC target, ref NPC.HitModifiers modifiers)
 	{

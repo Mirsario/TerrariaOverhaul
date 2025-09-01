@@ -19,7 +19,7 @@ using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public sealed class ConfigurationState : UIState
+internal sealed class ConfigurationState : UIState
 {
 	private static ConfigurationState? instance;
 

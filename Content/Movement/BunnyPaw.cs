@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Content.Movement;
 
 [AutoloadEquip(EquipType.Neck)]
-public class BunnyPaw : ModItem
+internal class BunnyPaw : ModItem
 {
 	public override void ModifyItemLoot(ItemLoot itemLoot)
 	{

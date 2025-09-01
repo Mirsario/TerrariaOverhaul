@@ -13,7 +13,7 @@ using TerrariaOverhaul.Core.ItemOverhauls;
 
 namespace TerrariaOverhaul.Common.Guns;
 
-public class Handgun : ItemOverhaul
+internal class Handgun : ItemOverhaul
 {
 	public static readonly SoundStyle HandgunFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire") {
 		Volume = 0.15f,

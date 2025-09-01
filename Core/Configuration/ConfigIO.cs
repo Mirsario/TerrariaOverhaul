@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Core.Configuration;
 
 //TODO: Add 'required' to all fields in .NET 8.
-public struct ConfigFormat
+internal struct ConfigFormat
 {
 	public delegate ConfigIO.Result ReadConfigDelegate(Stream stream, out ConfigExport configExport);
 	public delegate ConfigIO.Result WriteConfigDelegate(Stream stream, in ConfigExport configExport);
@@ -27,7 +27,7 @@ public struct ConfigFormat
 	public string Extension;
 }
 
-public ref struct ConfigExport
+internal ref struct ConfigExport
 {
 	public Version? ModVersion = null;
 	public Dictionary<string, object> EntryValuesByName = new();
@@ -35,7 +35,7 @@ public ref struct ConfigExport
 	public ConfigExport() { }
 }
 
-public sealed class ConfigIO : ModSystem
+internal sealed class ConfigIO : ModSystem
 {
 	public ref struct LoadingEntryContext
 	{

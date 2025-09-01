@@ -8,7 +8,7 @@ using Terraria.UI;
 
 namespace TerrariaOverhaul.Core.Interface;
 
-public sealed class SoundPlaybackUIComponent : UIComponent
+internal sealed class SoundPlaybackUIComponent : UIComponent
 {
 	private bool wasHovered;
 	private bool wasPressed;

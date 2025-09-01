@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.GrapplingHooks;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ItemGrapplingHookTooltips : GlobalItem
+internal sealed class ItemGrapplingHookTooltips : GlobalItem
 {
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 	{

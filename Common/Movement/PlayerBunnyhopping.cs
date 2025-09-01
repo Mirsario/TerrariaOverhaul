@@ -9,7 +9,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public sealed class PlayerBunnyhopping : ModPlayer
+internal sealed class PlayerBunnyhopping : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnableBunnyhopping = new(ConfigSide.Both, true, "Movement");
 

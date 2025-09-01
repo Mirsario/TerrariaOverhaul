@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Configuration;
 
-public class ConfigEntry<T> : IConfigEntry
+internal class ConfigEntry<T> : IConfigEntry
 {
 	private static Regex? defaultDisplayNameRegex;
 

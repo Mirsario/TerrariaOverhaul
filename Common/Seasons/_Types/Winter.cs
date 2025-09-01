@@ -5,7 +5,7 @@
 #if ENABLE_SEASONS
 namespace TerrariaOverhaul.Common.Seasons;
 
-public class Winter : Season
+internal class Winter : Season
 {
 	protected internal override void Init()
 	{

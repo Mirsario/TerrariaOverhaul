@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.Accessibility;
 //		item.useAnimation += 2;
 //	}
 // Nowadays we just override 'Main.SettingsEnabled_AutoReuseAllItems' so that the option is enabled by default.
-public sealed class AutoReuseOverrideSystem : ModSystem
+internal sealed class AutoReuseOverrideSystem : ModSystem
 {
 	public static readonly ConfigEntry<bool> ForceAutoReuse = new(ConfigSide.Both, true, "Accessibility");
 

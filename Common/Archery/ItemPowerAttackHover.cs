@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.Archery;
 
 //TODO: Disallow hovering few pixels above the ground.
-public sealed class ItemPowerAttackHover : ItemComponent
+internal sealed class ItemPowerAttackHover : ItemComponent
 {
 	private ref struct Context
 	{

@@ -10,7 +10,7 @@ using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyItemNPCHitSound;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;
 
-public interface IModifyItemNPCHitSound
+internal interface IModifyItemNPCHitSound
 {
 	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).ModifyItemNPCHitSound));
 

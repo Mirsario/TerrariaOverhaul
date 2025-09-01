@@ -8,13 +8,13 @@ using static TerrariaOverhaul.Utilities.Xna.ColorUtils;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public struct UIPanelColors
+internal struct UIPanelColors
 {
 	public UIColors Border;
 	public UIColors Background;
 }
 
-public static class CommonColors
+internal static class CommonColors
 {
 	private static class DefaultPalette
 	{

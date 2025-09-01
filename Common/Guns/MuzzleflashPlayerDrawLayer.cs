@@ -15,7 +15,7 @@ using TerrariaOverhaul.Utilities;
 namespace TerrariaOverhaul.Common.Guns;
 
 [Autoload(Side = ModSide.Client)]
-public class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
+internal class MuzzleflashPlayerDrawLayer : PlayerDrawLayer
 {
 	private static Dictionary<int, Vector2>? weaponBarrelEndPositions;
 

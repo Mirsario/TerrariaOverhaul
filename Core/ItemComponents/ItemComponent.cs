@@ -11,7 +11,7 @@ namespace TerrariaOverhaul.Core.ItemComponents;
 /// A <see cref="GlobalItem"/> that can be enabled and disabled at will.
 /// <br/> Might be removed in the future in favor of TML redesigns/additions.
 /// </summary>
-public abstract class ItemComponent : GlobalItem
+internal abstract class ItemComponent : GlobalItem
 {
 	private bool enabled;
 

@@ -30,7 +30,7 @@ public struct CameraCurio()
 }
 
 [Autoload(Side = ModSide.Client)]
-public sealed class CameraCurios : ModSystem
+internal sealed class CameraCurios : ModSystem
 {
 	public struct CameraCurioInstance()
 	{

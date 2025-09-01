@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.Melee;
 
 [Autoload(Side = ModSide.Client)]
-public class SlashPlayerDrawLayer : PlayerDrawLayer
+internal class SlashPlayerDrawLayer : PlayerDrawLayer
 {
 	private static readonly SpriteFrame TextureFrame = new(1, 3);
 	private static Asset<Texture2D>? texture;

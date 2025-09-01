@@ -28,7 +28,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.ModEntities.Players;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class PlayerGore : ModPlayer
+internal sealed class PlayerGore : ModPlayer
 {
 	private enum DrawnPart
 	{

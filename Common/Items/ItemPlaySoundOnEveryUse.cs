@@ -11,7 +11,7 @@ using TerrariaOverhaul.Core.ItemComponents;
 namespace TerrariaOverhaul.Common.Items;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ItemPlaySoundOnEveryUse : ItemComponent
+internal sealed class ItemPlaySoundOnEveryUse : ItemComponent
 {
 	public override bool? UseItem(Item item, Player player)
 	{

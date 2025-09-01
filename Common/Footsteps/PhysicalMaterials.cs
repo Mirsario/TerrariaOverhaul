@@ -12,23 +12,23 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Footsteps;
 
-public interface IMaterialProvider
+internal interface IMaterialProvider
 {
 	Prefab MaterialPrefab { get; }
 }
 
-public interface IContentSetAssociated
+internal interface IContentSetAssociated
 {
 	public ContentSet ContentSet { get; }
 }
 
-public struct PhysicalMaterial : IComponent
+internal struct PhysicalMaterial : IComponent
 {
 	public SoundStyle? HitSound;
 	public ContentSet AssociatedSet;
 }
 
-public sealed class PhysicalMaterials : ModSystem
+internal sealed class PhysicalMaterials : ModSystem
 {
 	private static readonly Query physicalMaterials = Prefabs.Query().With<PhysicalMaterial>();
 	private static Prefab[] tileMaterialLookup = [];

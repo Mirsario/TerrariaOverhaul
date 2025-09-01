@@ -12,7 +12,7 @@ namespace TerrariaOverhaul.Utilities.Terraria;
 
 // Tons of shenanigans that intend to optimize enumerations of active entities.
 // ...inb4 it's worse.
-public static class ActiveEntities
+internal static class ActiveEntities
 {
 	public struct EntityEnumerator<T> : IEnumerable<T>, IEnumerator<T>
 	{

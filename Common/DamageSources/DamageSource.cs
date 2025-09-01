@@ -6,7 +6,7 @@ using Terraria;
 
 namespace TerrariaOverhaul.Common.DamageSources;
 
-public sealed class DamageSource
+internal sealed class DamageSource
 {
 	public readonly Entity Source;
 	public readonly DamageSource? Parent;

@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.Seasons;
 
-public partial class SeasonSystem : ModSystem
+internal partial class SeasonSystem : ModSystem
 {
 	private static Season[]? seasons;
 	private static int currentSeasonId;

@@ -13,7 +13,7 @@ using TerrariaOverhaul.Core.Debugging;
 namespace TerrariaOverhaul.Core.AudioEffects;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class LowPassFilteringSystem : ModSystem
+internal sealed class LowPassFilteringSystem : ModSystem
 {
 	public static readonly ConfigEntry<bool> EnableLowPassFiltering = new(ConfigSide.ClientOnly, true, "Ambience");
 

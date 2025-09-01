@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.AudioEffects;
 
-public sealed class TileSoundOcclusion : ModSystem
+internal sealed class TileSoundOcclusion : ModSystem
 {
 	private static readonly HashSet<SoundStyle> excludedSoundStyles = [];
 

@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.Camera;
 // Static utility properties and core code for other camera systems.
 
 [Autoload(Side = ModSide.Client)]
-public sealed class CameraSystem : ModSystem
+internal sealed class CameraSystem : ModSystem
 {
 	public delegate void CameraModifierDelegate(Action innerAction);
 

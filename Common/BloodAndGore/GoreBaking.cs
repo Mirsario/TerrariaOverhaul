@@ -13,7 +13,7 @@ using TerrariaOverhaul.Common.Decals;
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class GoreBaking : ModSystem
+internal sealed class GoreBaking : ModSystem
 {
 	public static bool[] IsGoreToBeBaked = GoreID.Sets.Factory.CreateBoolSet([
 		GoreID.TreeLeaf_Normal,

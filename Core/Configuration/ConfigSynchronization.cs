@@ -12,7 +12,7 @@ using TerrariaOverhaul.Core.Networking;
 
 namespace TerrariaOverhaul.Core.Configuration;
 
-public sealed class ConfigPacket : NetPacket
+internal sealed class ConfigPacket : NetPacket
 {
 	public ConfigPacket()
 	{
@@ -25,7 +25,7 @@ public sealed class ConfigPacket : NetPacket
 	}
 }
 
-public sealed class ConfigSynchronization : ModSystem
+internal sealed class ConfigSynchronization : ModSystem
 {
 	private static bool configNeedsSynchronization;
 

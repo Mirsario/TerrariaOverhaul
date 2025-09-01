@@ -9,7 +9,7 @@ using Hook = TerrariaOverhaul.Common.Charging.ICanStartPowerAttack;
 
 namespace TerrariaOverhaul.Common.Charging;
 
-public interface ICanStartPowerAttack
+internal interface ICanStartPowerAttack
 {
 	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).CanStartPowerAttack));
 

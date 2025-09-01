@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.Damage;
 // Offsets, rotates, and scales enemies whenever they're hit, so that they look less static even when they're not moving.
 // Looks like some sort of flinching.
 [Autoload(Side = ModSide.Client)]
-public sealed class NPCHitEffects : GlobalNPC
+internal sealed class NPCHitEffects : GlobalNPC
 {
 	public static readonly ConfigEntry<bool> EnableEnemyFlinchingEffects = new(ConfigSide.ClientOnly, true, "Visuals", "Enemies");
 

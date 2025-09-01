@@ -12,7 +12,7 @@ using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public sealed class ItemProjectileMeleeManaChanges : GlobalItem
+internal sealed class ItemProjectileMeleeManaChanges : GlobalItem
 {
 	public static readonly ConfigEntry<bool> EnableProjectileSwordManaUsage = new(ConfigSide.Both, true, "Melee");
 

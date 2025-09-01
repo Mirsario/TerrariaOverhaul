@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Core.Data;
 
-public readonly struct Prefab
+internal readonly struct Prefab
 {
 	public static readonly Prefab Invalid = default;
 
@@ -32,14 +32,14 @@ public readonly struct Prefab
 	public static implicit operator Prefab(DataEntity entity) => Unsafe.BitCast<DataEntity, Prefab>(entity);
 }
 
-public struct PrefabInfo : IComponent
+internal struct PrefabInfo : IComponent
 {
 	public required string Identifier;
 
 	public static implicit operator string(in PrefabInfo info) => info.Identifier;
 }
 
-public static class Prefabs
+internal static class Prefabs
 {
 	private static readonly Dictionary<string, Prefab> prefabsByName = [];
 

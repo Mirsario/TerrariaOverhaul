@@ -14,7 +14,7 @@ using TerrariaOverhaul.Core.VideoPlayback;
 
 namespace TerrariaOverhaul;
 
-public class OverhaulMod : Mod
+internal class OverhaulMod : Mod
 {
 	public static readonly uint BetaNumber = 14;
 	public static readonly bool IsBeta = BetaNumber > 0;

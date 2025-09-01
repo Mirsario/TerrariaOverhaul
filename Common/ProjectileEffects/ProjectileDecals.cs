@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ProjectileDecals : GlobalProjectile
+internal sealed class ProjectileDecals : GlobalProjectile
 {
 	public record class Data
 	{

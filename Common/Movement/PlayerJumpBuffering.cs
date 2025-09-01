@@ -10,7 +10,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public sealed class PlayerJumpBuffering : ModPlayer
+internal sealed class PlayerJumpBuffering : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnableJumpInputBuffering = new(ConfigSide.ClientOnly, true, "Accessibility", "Movement");
 

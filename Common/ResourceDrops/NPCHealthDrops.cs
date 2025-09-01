@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.ResourceDrops;
 
-public sealed class NPCHealthDrops : GlobalNPC
+internal sealed class NPCHealthDrops : GlobalNPC
 {
 	public static readonly float DefaultHealthDropRange = ResourceDropUtils.DefaultResourceDropRange;
 	public static readonly int HealthDropItemType = ItemID.Heart;

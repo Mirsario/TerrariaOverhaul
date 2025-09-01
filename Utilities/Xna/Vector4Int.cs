@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
-public struct Vector4Int(int x, int y, int z, int w)
+internal struct Vector4Int(int x, int y, int z, int w)
 {
 	public static readonly int SizeInBytes = Marshal.SizeOf(typeof(Vector4Int));
 	public static readonly Vector4Int Zero = default;

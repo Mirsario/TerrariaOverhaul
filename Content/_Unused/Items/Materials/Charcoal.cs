@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Items.Materials;
 
-public sealed class Charcoal : ModItem
+internal sealed class Charcoal : ModItem
 {
 	public override void SetDefaults()
 	{

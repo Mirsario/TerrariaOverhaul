@@ -18,7 +18,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Core.Tiles;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class TileSnapshotSystem : ModSystem
+internal sealed class TileSnapshotSystem : ModSystem
 {
 	private static SpriteBatch? spriteBatch;
 	private static TileDrawing? tileRenderer;

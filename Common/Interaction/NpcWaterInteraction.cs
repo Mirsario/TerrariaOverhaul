@@ -11,7 +11,7 @@ using static TerrariaOverhaul.Common.Interaction.WaterAndRainInteractions;
 
 namespace TerrariaOverhaul.Common.Interaction;
 
-public sealed class NpcWaterInteraction : GlobalNPC
+internal sealed class NpcWaterInteraction : GlobalNPC
 {
 	public override void Load()
 	{

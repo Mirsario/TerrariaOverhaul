@@ -12,7 +12,7 @@ using TerrariaOverhaul.Common.BloodAndGore;
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ProjectileSlimeGunParticles : GlobalProjectile
+internal sealed class ProjectileSlimeGunParticles : GlobalProjectile
 {
 	public override void AI(Projectile projectile)
 	{

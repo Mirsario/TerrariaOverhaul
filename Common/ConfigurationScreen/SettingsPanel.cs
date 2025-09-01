@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class SettingsPanel : UIElement
+internal class SettingsPanel : UIElement
 {
 	private readonly List<ConfigEntryElement> entries = new();
 

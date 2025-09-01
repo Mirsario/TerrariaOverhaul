@@ -12,7 +12,7 @@ using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays;
 
-public class MusicPackMenuButton : MenuLink
+internal class MusicPackMenuButton : MenuLink
 {
 	private enum MusicPackState
 	{

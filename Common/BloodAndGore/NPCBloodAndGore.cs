@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities;
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
 [Autoload(Side = ModSide.Client)]
-public class NPCBloodAndGore : GlobalNPC
+internal class NPCBloodAndGore : GlobalNPC
 {
 	public static readonly ConfigEntry<bool> EnableAdvancedParticles = new(ConfigSide.ClientOnly, true, "BloodAndGore");
 

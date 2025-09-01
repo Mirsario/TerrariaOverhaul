@@ -11,7 +11,7 @@ using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public static class ConfigElementLookup
+internal static class ConfigElementLookup
 {
 	public delegate UIElement Constructor<TEntry>(TEntry entry) where TEntry : IConfigEntry;
 

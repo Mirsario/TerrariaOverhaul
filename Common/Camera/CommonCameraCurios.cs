@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Camera;
 
-public sealed class CommonCameraCurios : ModSystem
+internal sealed class CommonCameraCurios : ModSystem
 {
 	private static readonly ConfigEntry<bool> FocusCameraOnBosses = new(ConfigSide.ClientOnly, true, "Camera");
 	private static readonly ConfigEntry<bool> FocusCameraOnRareEnemies = new(ConfigSide.ClientOnly, true, "Camera");

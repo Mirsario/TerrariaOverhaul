@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Core.EntityCapturing;
 
 public readonly record struct DustCapture(int Type, Vector2 Position, Vector2 Velocity, int Alpha, Color NewColor, float Scale);
 
-public sealed class DustCapturing : ModSystem
+internal sealed class DustCapturing : ModSystem
 {
 	private static readonly Stack<List<DustCapture>> listStack = new();
 	private static Counter skipCounter;

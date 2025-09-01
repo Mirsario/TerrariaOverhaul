@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Decals;
 
-public abstract class SpearProjectileBase : ModProjectile
+internal abstract class SpearProjectileBase : ModProjectile
 {
 	protected abstract float HoldoutRangeMin { get; }
 	protected abstract float HoldoutRangeMax { get; }

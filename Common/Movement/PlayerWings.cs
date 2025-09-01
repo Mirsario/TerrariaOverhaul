@@ -7,7 +7,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public sealed class PlayerWings : ModPlayer
+internal sealed class PlayerWings : ModPlayer
 {
 	public GameTimer WingsCooldown { get; set; }
 

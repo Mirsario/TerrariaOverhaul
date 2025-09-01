@@ -25,7 +25,7 @@ public enum SignalModifiers
 	Inverse = 1,
 }
 
-public struct CalculatedSignal
+internal struct CalculatedSignal
 {
 	[JsonRequired] public SignalOperation Operation;
 	[JsonRequired] public EnvironmentTag[] Inputs;
@@ -35,7 +35,7 @@ public struct CalculatedSignal
 	public float Value;
 }
 
-public sealed class CalculatedSignalArrayJsonConverter : JsonConverter
+internal sealed class CalculatedSignalArrayJsonConverter : JsonConverter
 {
 	public override bool CanWrite => false;
 

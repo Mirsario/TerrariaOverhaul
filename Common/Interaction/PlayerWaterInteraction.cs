@@ -9,7 +9,7 @@ using static TerrariaOverhaul.Common.Interaction.WaterAndRainInteractions;
 
 namespace TerrariaOverhaul.Common.Interaction;
 
-public sealed class PlayerWaterInteraction : ModPlayer
+internal sealed class PlayerWaterInteraction : ModPlayer
 {
 	public override void PostUpdate()
 	{

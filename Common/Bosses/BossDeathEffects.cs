@@ -22,7 +22,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
-public sealed class BossDeathEffects : GlobalNPC
+internal sealed class BossDeathEffects : GlobalNPC
 {
 	public struct SharedBossLines()
 	{

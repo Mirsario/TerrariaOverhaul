@@ -10,7 +10,7 @@ using Terraria;
 namespace TerrariaOverhaul.Common.Seasons;
 
 // Replaces rain with snow
-public sealed class SnowSeasonComponent : SeasonComponent
+internal sealed class SnowSeasonComponent : SeasonComponent
 {
 	private static Action<SceneMetrics, int>? snowTileCountSetter;
 

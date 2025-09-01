@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.Movement;
 
 // Or 'Roll Jumps'. A bunnyhop performed while roll-landing.
-public sealed class PlayerBunnyrolls : ModPlayer, IPlayerOnBunnyhopHook
+internal sealed class PlayerBunnyrolls : ModPlayer, IPlayerOnBunnyhopHook
 {
 	public static readonly ConfigEntry<bool> EnableRollJumps = new(ConfigSide.Both, true, "Movement");
 

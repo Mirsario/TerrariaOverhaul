@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Items;
 
-public sealed class ItemUseVelocityRecoil : ItemComponent
+internal sealed class ItemUseVelocityRecoil : ItemComponent
 {
 	public Vector2 BaseVelocity { get; set; } = new(5.0f, 5.0f);
 	public Vector2 MaxVelocity { get; set; } = new(5f, 5f);

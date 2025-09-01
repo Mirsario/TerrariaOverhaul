@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Guns;
 
-public class Minigun : ItemOverhaul
+internal class Minigun : ItemOverhaul
 {
 	public static readonly ConfigEntry<bool> EnableMinigunRecoilHovering = new(ConfigSide.Both, true, "Guns");
 	public static readonly ConfigEntry<bool> EnableMinigunDynamicFireRate = new(ConfigSide.Both, true, "Guns");

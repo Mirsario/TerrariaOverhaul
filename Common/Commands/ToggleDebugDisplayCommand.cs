@@ -8,7 +8,7 @@ using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Common.Commands;
 
-public class ToggleDebugDisplayCommand : ModCommand
+internal class ToggleDebugDisplayCommand : ModCommand
 {
 	public override string Command => "oToggleDebugDisplay";
 	public override string Description => "Toggles Overhaul's visual debugging features";

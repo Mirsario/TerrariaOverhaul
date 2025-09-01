@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Core.Networking;
 
 #pragma warning disable SYSLIB0050 // Type or member is obsolete
 
-public sealed class MultiplayerSystem : ModSystem
+internal sealed class MultiplayerSystem : ModSystem
 {
 	public static MultiplayerSystem Instance => ModContent.GetInstance<MultiplayerSystem>();
 

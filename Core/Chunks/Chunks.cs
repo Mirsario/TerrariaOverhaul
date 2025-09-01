@@ -18,12 +18,12 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Core.Chunks;
 
-public readonly struct Chunk(DataEntity entity)
+internal readonly struct Chunk(DataEntity entity)
 {
 	public readonly DataEntity Entity = entity;
 }
 
-public struct ChunkInfo : IComponent
+internal struct ChunkInfo : IComponent
 {
 	public readonly Vector2Int Position;
 	public readonly long EncodedPosition;
@@ -62,7 +62,7 @@ public struct ChunkInfo : IComponent
 	}
 }
 
-public class Chunks : ModSystem
+internal class Chunks : ModSystem
 {
 	public const int MaxChunkSize = 64;
 	public const float MaxChunkSizeInPixels = MaxChunkSize * WorldUtils.TileSizeInPixels;

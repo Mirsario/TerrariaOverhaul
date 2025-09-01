@@ -7,7 +7,7 @@ using Terraria.UI;
 
 namespace TerrariaOverhaul.Core.Interface;
 
-public abstract class UIComponent
+internal abstract class UIComponent
 {
 	public UIElement Element { get; private set; } = null!;
 

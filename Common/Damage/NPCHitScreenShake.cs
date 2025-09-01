@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.Damage;
 
 [Autoload(Side = ModSide.Client)]
-public class NPCHitScreenShake : GlobalNPC
+internal class NPCHitScreenShake : GlobalNPC
 {
 	public ScreenShake? OnHitShake { get; set; }
 	public ScreenShake? OnDeathShake { get; set; }

@@ -10,7 +10,7 @@ using TerrariaOverhaul.Core.Tags;
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ProjectileScreenShake : GlobalProjectile
+internal sealed class ProjectileScreenShake : GlobalProjectile
 {
 	private static readonly ContentSet Explosive = nameof(Explosive);
 

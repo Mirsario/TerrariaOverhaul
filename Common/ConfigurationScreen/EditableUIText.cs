@@ -15,7 +15,7 @@ using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class EditableUIText : UIElement
+internal class EditableUIText : UIElement
 {
 	public FancyUIPanel Container { get; }
 	public UISearchBar TextInput { get; }

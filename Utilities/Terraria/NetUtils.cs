@@ -8,7 +8,7 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class NetUtils
+internal static class NetUtils
 {
 	public static void TryWriteSenderPlayer(this BinaryWriter writer, Player player)
 	{

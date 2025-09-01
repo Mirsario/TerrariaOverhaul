@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Common.Dialogues;
 
 // Forces players to face their conversation partners.
 // This also fixes inability to pet pets.
-public sealed class PlayerDialogueEffects : ModPlayer
+internal sealed class PlayerDialogueEffects : ModPlayer
 {
 	private static readonly ConfigEntry<bool> FocusCameraOnDialogues = new(ConfigSide.ClientOnly, true, "Camera");
 

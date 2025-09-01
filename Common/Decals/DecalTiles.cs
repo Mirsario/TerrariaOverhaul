@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.Decals;
 
 [Autoload(Side = ModSide.Client)]
-public class DecalTiles : GlobalTile
+internal class DecalTiles : GlobalTile
 {
 	public override bool TileFrame(int x, int y, int type, ref bool resetFrame, ref bool noBreak)
 	{

@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.Charging;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ItemPowerAttackScreenShake : ItemComponent
+internal sealed class ItemPowerAttackScreenShake : ItemComponent
 {
 	public ScreenShake ScreenShake;
 

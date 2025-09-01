@@ -21,7 +21,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
+internal partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 {
 	public static readonly SoundStyle SwordMediumSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2) {
 		Volume = 0.8f,

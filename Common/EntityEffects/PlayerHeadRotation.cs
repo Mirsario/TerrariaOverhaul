@@ -13,7 +13,7 @@ using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.EntityEffects;
 
-public class PlayerHeadRotation : ModPlayer
+internal class PlayerHeadRotation : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnablePlayerHeadRotation = new(ConfigSide.ClientOnly, true, "Visuals");
 

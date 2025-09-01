@@ -10,7 +10,7 @@ using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyCommonStatModifiers;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;
 
-public interface IModifyCommonStatModifiers
+internal interface IModifyCommonStatModifiers
 {
 	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).ModifyCommonStatMultipliers));
 

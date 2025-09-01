@@ -15,12 +15,12 @@ using EnvironmentTag = TerrariaOverhaul.Core.Tags.Tag<TerrariaOverhaul.Common.Am
 namespace TerrariaOverhaul.Common.Ambience;
 
 [AttributeUsage(AttributeTargets.Method)]
-public sealed class EnvironmentSignalUpdaterAttribute(string? tagNameOverride = null) : Attribute
+internal sealed class EnvironmentSignalUpdaterAttribute(string? tagNameOverride = null) : Attribute
 {
 	public readonly string? TagNameOverride = tagNameOverride;
 }
 
-public readonly ref struct EnvironmentContext
+internal readonly ref struct EnvironmentContext
 {
 	public Player Player { get; init; }
 	public Vector2 PlayerTilePosition { get; init; }
@@ -31,7 +31,7 @@ public readonly ref struct EnvironmentContext
 /// <summary>
 /// Utility system for setting and getting dynamic tags of the local player's environment.
 /// </summary>
-public sealed partial class EnvironmentSystem : ModSystem
+internal sealed partial class EnvironmentSystem : ModSystem
 {
 	public delegate float SignalUpdater(in EnvironmentContext context);
 

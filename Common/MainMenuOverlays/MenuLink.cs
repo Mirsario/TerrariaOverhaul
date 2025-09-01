@@ -8,7 +8,7 @@ using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays;
 
-public class MenuLink : MenuButton
+internal class MenuLink : MenuButton
 {
 	public string Url { get; }
 	public bool PreferSteamBrowser { get; init; }

@@ -6,14 +6,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace TerrariaOverhaul.Utilities;
 
-public unsafe struct BitMaskArray<T>() where T : unmanaged, IUnsignedNumber<T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, int, T>
+internal unsafe struct BitMaskArray<T>() where T : unmanaged, IUnsignedNumber<T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, int, T>
 {
 	private const MethodImplOptions InlineFlags = MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization;
 	public static byte BitsPerMask { get; } = (byte)(Marshal.SizeOf<T>() * 8);
@@ -46,7 +45,7 @@ public unsafe struct BitMaskArray<T>() where T : unmanaged, IUnsignedNumber<T>, 
 	[MethodImpl(InlineFlags)] public readonly void Unset(int index) => Unset(DivRem(index));
 }
 
-public struct BitMask<T> : IEnumerable<int> where T : unmanaged, IUnsignedNumber<T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, int, T>
+internal struct BitMask<T> : IEnumerable<int> where T : unmanaged, IUnsignedNumber<T>, IBitwiseOperators<T, T, T>, IShiftOperators<T, int, T>
 {
 	private const MethodImplOptions InlineFlags = MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization;
 

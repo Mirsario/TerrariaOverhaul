@@ -22,7 +22,7 @@ namespace TerrariaOverhaul.Core.AudioEffects;
 
 //TODO: Add configuration.
 [Autoload(Side = ModSide.Client)]
-public sealed class AudioEffectsSystem : ModSystem
+internal sealed class AudioEffectsSystem : ModSystem
 {
 	public struct SoundData
 	{

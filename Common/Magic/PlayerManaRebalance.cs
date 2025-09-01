@@ -13,7 +13,7 @@ using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.Magic;
 
-public class PlayerManaRebalance : ModPlayer
+internal class PlayerManaRebalance : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnableManaRegenerationRework = new(ConfigSide.Both, true, "Magic");
 	// Both-sided just in case it causes network issues. May not be true.

@@ -9,7 +9,7 @@ using Terraria.DataStructures;
 
 namespace TerrariaOverhaul.Common.EntitySources;
 
-public abstract class EntitySource_Gore : IEntitySource
+internal abstract class EntitySource_Gore : IEntitySource
 {
 	public Gore Gore { get; }
 	public string? Context { get; }

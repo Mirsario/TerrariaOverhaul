@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Items.Placeables;
 
-public class Calendar : ModItem
+internal class Calendar : ModItem
 {
 	public override void SetDefaults()
 	{

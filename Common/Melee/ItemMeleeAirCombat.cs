@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public sealed class ItemMeleeAirCombat : ItemComponent
+internal sealed class ItemMeleeAirCombat : ItemComponent
 {
 	public static readonly ConfigEntry<bool> EnableMeleeAirCombat = new(ConfigSide.Both, true, "Melee");
 

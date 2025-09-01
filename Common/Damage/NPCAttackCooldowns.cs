@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Damage;
 
-public class NPCAttackCooldowns : GlobalNPC
+internal class NPCAttackCooldowns : GlobalNPC
 {
 	private Color? defaultColor;
 	private GameTimer cooldownPenaltyTimer;

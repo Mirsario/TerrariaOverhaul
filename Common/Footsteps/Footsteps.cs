@@ -20,14 +20,14 @@ public enum FootstepType
 	Land,
 }
 
-public struct MaterialFootsteps : IComponent
+internal struct MaterialFootsteps : IComponent
 {
 	public SoundStyle? StepSound;
 	public SoundStyle? JumpSound;
 	public SoundStyle? LandSound;
 }
 
-public class FootstepSystem : ModSystem
+internal class FootstepSystem : ModSystem
 {
 	public static Prefab DefaultFootstepSoundProvider { get; private set; }
 

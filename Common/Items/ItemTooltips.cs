@@ -18,7 +18,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Items;
 
-public static partial class ItemTooltips
+internal static partial class ItemTooltips
 {
 	public static readonly ConfigEntry<bool> ShowCombatInfoHintTooltip = new(ConfigSide.ClientOnly, true, "Interface");
 

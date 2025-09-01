@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Gores;
 
-public class ArrowMiddle : ModGore
+internal class ArrowMiddle : ModGore
 {
 	public override void SetStaticDefaults()
 	{

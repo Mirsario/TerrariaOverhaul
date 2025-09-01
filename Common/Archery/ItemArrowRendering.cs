@@ -18,7 +18,7 @@ using TerrariaOverhaul.Core.Time;
 namespace TerrariaOverhaul.Common.Archery;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ItemArrowRendering : ItemComponent
+internal sealed class ItemArrowRendering : ItemComponent
 {
 	public static readonly ConfigEntry<bool> EnableArcheryArrowVisualization = new(ConfigSide.ClientOnly, true, "Archery");
 
@@ -76,7 +76,7 @@ public sealed class ItemArrowRendering : ItemComponent
 }
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ArrowPlayerDrawLayer : PlayerDrawLayer
+internal sealed class ArrowPlayerDrawLayer : PlayerDrawLayer
 {
 	public override Position GetDefaultPosition()
 		=> new AfterParent(PlayerDrawLayers.HeldItem);

@@ -10,7 +10,7 @@ using Terraria;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class PlayerUtils
+internal static class PlayerUtils
 {
 	// Essentials
 

@@ -15,7 +15,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Interaction;
 
-public sealed class ProjectileExplosionInteractions : GlobalProjectile
+internal sealed class ProjectileExplosionInteractions : GlobalProjectile
 {
 	private static readonly ContentSet Bullet = nameof(Bullet);
 	private static readonly ContentSet Explosive = nameof(Explosive);

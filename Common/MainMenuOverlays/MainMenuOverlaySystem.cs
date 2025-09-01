@@ -17,7 +17,7 @@ using TerrariaOverhaul.Core.Localization;
 namespace TerrariaOverhaul.Common.MainMenuOverlays;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class MainMenuOverlaySystem : ModSystem
+internal sealed class MainMenuOverlaySystem : ModSystem
 {
 	private static DynamicSpriteFont Font => FontAssets.MouseText.Value;
 

@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.AI;
 
 // This makes fighter AIs jump at their targets when they get close enough.
-public class NPCFighterJumpAttacks : GlobalNPC
+internal class NPCFighterJumpAttacks : GlobalNPC
 {
 	public static readonly ConfigEntry<bool> EnableEnemyLunges = new(ConfigSide.Both, true, "Enemies");
 

@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 namespace TerrariaOverhaul.Common.EntityEffects;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class PlayerTrailEffects : ModPlayer
+internal sealed class PlayerTrailEffects : ModPlayer
 {
 	private int forceTrailEffectTime;
 

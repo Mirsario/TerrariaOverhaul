@@ -17,7 +17,7 @@ namespace TerrariaOverhaul.Common.Melee;
 /// Quick swing that lasts 1/2 of the use animation time.
 /// Affects gameplay.
 /// </summary>
-public class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage, IModifyItemNewProjectile
+internal class QuickSlashMeleeAnimation : MeleeAnimation, ICanDoMeleeDamage, IModifyItemNewProjectile
 {
 	public bool IsAttackFlipped { get; set; }
 	public bool FlipAttackEachSwing { get; set; }

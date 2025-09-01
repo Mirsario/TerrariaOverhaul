@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Common.TextureColors;
 
 /// <summary> This system provides information about average colors of texturse. </summary>
 [Autoload(Side = ModSide.Client)]
-public class TextureColorSystem : ModSystem
+internal class TextureColorSystem : ModSystem
 {
 	private readonly Dictionary<Asset<Texture2D>, Color> cache = new(); // Non-static to not trigger anything on servers.
 

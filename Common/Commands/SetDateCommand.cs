@@ -9,7 +9,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Commands;
 
-public sealed class SetDateCommand : ModCommand
+internal sealed class SetDateCommand : ModCommand
 {
 	public override string Command => "oSetDate";
 	public override string Description => "Sets the seasonal day to the provided integer.";

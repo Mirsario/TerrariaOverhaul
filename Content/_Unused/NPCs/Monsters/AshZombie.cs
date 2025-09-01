@@ -9,7 +9,7 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes;
 
-public class AshZombie : AshMonster
+internal class AshZombie : AshMonster
 {
 	protected override int BaseNPC => NPCID.BloodZombie;
 

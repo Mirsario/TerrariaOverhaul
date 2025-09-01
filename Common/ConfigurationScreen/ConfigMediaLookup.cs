@@ -18,7 +18,7 @@ public enum ConfigMediaKind : byte
 	Any = Image | Video,
 }
 
-public static class ConfigMediaLookup
+internal static class ConfigMediaLookup
 {
 	public static bool TryGetMediaPath(IConfigEntry configEntry, out (string mediaPath, ConfigMediaKind kind) result, ConfigMediaKind filter = ConfigMediaKind.Any)
 		=> TryGetMediaPath(configEntry.Category, configEntry.Name, out result, filter);

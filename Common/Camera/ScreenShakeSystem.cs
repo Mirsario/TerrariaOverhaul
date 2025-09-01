@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.Camera;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ScreenShakeSystem : ModSystem
+internal sealed class ScreenShakeSystem : ModSystem
 {
 	private struct ScreenShakeInstance
 	{

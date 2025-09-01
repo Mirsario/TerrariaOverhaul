@@ -12,7 +12,7 @@ using TerrariaOverhaul.Core.Tags;
 namespace TerrariaOverhaul.Common.Interaction;
 
 [Autoload(Side = ModSide.Client)]
-public class ProjectileGoreInteraction : GlobalProjectile
+internal class ProjectileGoreInteraction : GlobalProjectile
 {
 	public enum FireProperties : byte
 	{

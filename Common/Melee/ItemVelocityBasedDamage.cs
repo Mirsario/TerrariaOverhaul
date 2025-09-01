@@ -16,7 +16,7 @@ using static TerrariaOverhaul.Utilities.Xna.ColorUtils;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public sealed class ItemVelocityBasedDamage : ItemComponent
+internal sealed class ItemVelocityBasedDamage : ItemComponent
 {
 	public static readonly ConfigEntry<bool> EnableMeleeVelocityBasedDamage = new(ConfigSide.Both, true, "Melee");
 	// Both-sided just in case it causes network issues. May not be true.

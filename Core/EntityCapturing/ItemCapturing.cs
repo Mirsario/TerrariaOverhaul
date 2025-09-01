@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Core.EntityCapturing;
 
 public readonly record struct ItemCapture(IEntitySource Source, Vector2 Position, int Type, int Stack, int Prefix);
 
-public sealed class ItemCapturing : ModSystem
+internal sealed class ItemCapturing : ModSystem
 {
 	private static readonly Stack<List<ItemCapture>> listStack = new();
 	private static Counter skipCounter;

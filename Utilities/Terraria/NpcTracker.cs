@@ -8,7 +8,7 @@ using Terraria.Audio;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public sealed class NpcTracker(NPC npc)
+internal sealed class NpcTracker(NPC npc)
 {
 	private readonly int type = npc.type;
 	private readonly int index = npc.whoAmI;

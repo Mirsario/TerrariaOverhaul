@@ -10,7 +10,7 @@ using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
-public sealed class BossLines : ModSystem
+internal sealed class BossLines : ModSystem
 {
 	private struct Common()
 	{
