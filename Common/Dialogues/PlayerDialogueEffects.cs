@@ -4,7 +4,7 @@
 
 using Terraria;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Api.Camera;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities.Terraria;
@@ -29,13 +29,14 @@ internal sealed class PlayerDialogueEffects : ModPlayer
 			}
 
 			if (!Main.dedServ && FocusCameraOnDialogues) {
-				CameraCurios.Create(npc.Center, new() {
+				CameraCurios.Create(new() {
+					Identifier = "TalkNPC",
+					Position = npc.Center,
 					Zoom = +1f,
 					Weight = 1.5f,
 					LengthInSeconds = 0.1f,
 					FadeInLength = 0.40f,
 					FadeOutLength = 0.40f,
-					UniqueId = "TalkNPC",
 				});
 			}
 		}

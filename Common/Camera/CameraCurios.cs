@@ -10,6 +10,7 @@ using ReLogic.Utilities;
 using Terraria;
 using Terraria.Graphics;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Api.Camera;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Terraria;
@@ -17,20 +18,8 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Camera;
 
-public struct CameraCurio()
-{
-	public required float Weight;
-	public required float LengthInSeconds;
-	public ExponentialRange? Range = null;
-	public float FadeInLength = 0.5f;
-	public float FadeOutLength = 0.5f;
-	public float? Zoom = null;
-	public string? UniqueId;
-	public Func<Vector2?>? PositionGetter;
-}
-
 [Autoload(Side = ModSide.Client)]
-internal sealed class CameraCurios : ModSystem
+internal sealed class CameraCuriosImpl : ModSystem
 {
 	public struct CameraCurioInstance()
 	{
@@ -70,7 +59,7 @@ internal sealed class CameraCurios : ModSystem
 			fadePeriod = 1f;
 			curio.Intensity = fadePeriod <= 0f ? intensityTarget : MathUtils.StepTowards(curio.Intensity, intensityTarget, (1f / fadePeriod) * deltaTime);
 
-			if (curio.Style.PositionGetter?.Invoke() is { } newPosition)
+			if (curio.Style.Callback?.Invoke() is { } newPosition)
 				curio.Position = newPosition;
 		}
 
@@ -89,7 +78,7 @@ internal sealed class CameraCurios : ModSystem
 		}
 	}
 
-	public static void Create(Vector2 position, CameraCurio style)
+	public static void Create(in CameraCurio style)
 	{
 		if (Main.dedServ) {
 			return;
@@ -97,12 +86,12 @@ internal sealed class CameraCurios : ModSystem
 
 		CameraCurioInstance instance;
 		instance.Style = style;
-		instance.Position = position;
+		instance.Position = style.Position;
 		instance.StartTime = TimeSystem.RenderTime;
 		instance.EndTime = instance.StartTime + style.LengthInSeconds;
 		instance.Intensity = 0f;
 
-		if (style.UniqueId is string uniqueId && curios.FindIndex(i => i.Style.UniqueId == uniqueId) is (>= 0 and int index)) {
+		if (style.Identifier is string identifier && curios.FindIndex(i => i.Style.Identifier == identifier) is (>= 0 and int index)) {
 			curios[index] = instance with {
 				Intensity = curios[index].Intensity,
 			};

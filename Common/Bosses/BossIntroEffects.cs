@@ -11,9 +11,8 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Api.Camera;
 using TerrariaOverhaul.Common.Interface;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Core.Time;
@@ -72,15 +71,16 @@ internal sealed class BossIntroEffects : ModSystem
 			});
 		}
 
-		CameraCurios.Create(npc.Center, new() {
+		CameraCurios.Create(new() {
+			Identifier = "BossIntro",
+			Position = npc.Center,
 			Weight = 0.85f,
 			Range = new(Min: 512f, Max: 2000f, Exponent: 2f),
 			LengthInSeconds = EffectLength * 0.5f,
 			FadeInLength = 0.35f,
 			FadeOutLength = EffectLength * 0.5f,
 			Zoom = +0.50f,
-			UniqueId = "BossIntro",
-			PositionGetter = new NpcTracker(npc).Center,
+			Callback = new NpcTracker(npc).Center,
 		});
 
 		SoundEngine.PlaySound(new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Cinematics/BossEncounter") {

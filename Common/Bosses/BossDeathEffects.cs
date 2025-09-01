@@ -11,7 +11,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Api.Camera;
 using TerrariaOverhaul.Common.Interface;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Configuration;
@@ -88,14 +88,15 @@ internal sealed class BossDeathEffects : GlobalNPC
 		}
 
 		if (FocusCameraOnBossEvents) {
-			CameraCurios.Create(position, new() {
+			CameraCurios.Create(new() {
+				Identifier = "BossDeath",
+				Position = position,
 				Weight = 3.00f,
 				Range = new(Min: 512f, Max: 1536f, Exponent: 2f),
 				LengthInSeconds = 1.20f,
 				FadeInLength = 0.35f,
 				FadeOutLength = 5.0f,
 				Zoom = +0.75f,
-				UniqueId = "BossDeath",
 			});
 		}
 
