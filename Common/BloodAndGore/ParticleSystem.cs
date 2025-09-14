@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore;
 // This code doesn't support adding different types of particles, but is extremely optimized.
 // If there's a need for that customization then perhaps the mod needs an ECS at this point.
 [Autoload(Side = ModSide.Client)]
-public sealed class ParticleSystem : ModSystem
+internal sealed class ParticleSystem : ModSystem
 {
 	[StructLayout(LayoutKind.Auto)]
 	public unsafe struct ParticleData

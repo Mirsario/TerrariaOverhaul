@@ -15,7 +15,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.AudioEffects;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class SurroundingsReverb : ModSystem
+internal sealed class SurroundingsReverb : ModSystem
 {
 	private const int UpdateRate = 5;
 

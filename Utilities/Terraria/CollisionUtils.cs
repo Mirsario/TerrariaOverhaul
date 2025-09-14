@@ -8,7 +8,7 @@ using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class CollisionUtils
+internal static class CollisionUtils
 {
 	public static bool CheckRectangleVsCircleCollision(Rectangle aabb, Vector2 circleCenter, float circleRadius)
 		=> CheckRectangleVsCircleCollision(aabb, circleCenter, circleRadius, out _);

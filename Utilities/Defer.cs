@@ -8,7 +8,7 @@ using System;
 
 namespace TerrariaOverhaul.Utilities;
 
-public ref struct Defer(Action action)
+internal ref struct Defer(Action action)
 {
 	public readonly Action? Action = action;
 

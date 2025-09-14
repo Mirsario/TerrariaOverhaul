@@ -10,7 +10,7 @@ using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class FancyUIPanel : UIPanel
+internal class FancyUIPanel : UIPanel
 {
 	private static Asset<Texture2D>? panelBorder;
 	private static Asset<Texture2D>? panelBackground;

@@ -9,7 +9,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Utilities.Terraria;
 
 [StructLayout(LayoutKind.Sequential, Size = SizeConstant)]
-public struct CommonStatModifiers
+internal struct CommonStatModifiers
 {
 	private const int SizeInFloats = 6;
 	private const int SizeConstant = sizeof(float) * SizeInFloats;

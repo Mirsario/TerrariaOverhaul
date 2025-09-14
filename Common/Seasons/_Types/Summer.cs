@@ -5,7 +5,7 @@
 #if ENABLE_SEASONS
 namespace TerrariaOverhaul.Common.Seasons;
 
-public class Summer : Season
+internal class Summer : Season
 {
 
 }

@@ -18,7 +18,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.TreeFalling;
 
-public sealed class FallingTreeEntity : SimpleEntity
+internal sealed class FallingTreeEntity : SimpleEntity
 {
 	public static readonly SoundStyle TreeFallingSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Aesthetics/Trees/TreeFalling", 2) {
 		Volume = 0.5f,

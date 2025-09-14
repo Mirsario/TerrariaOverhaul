@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities;
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
 [Autoload(Side = ModSide.Client)]
-public class GoreSystem : ModSystem
+internal class GoreSystem : ModSystem
 {
 	private static readonly List<List<(Gore gore, int index)>> goreRecordingLists = new();
 	

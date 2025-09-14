@@ -8,7 +8,7 @@ using Terraria.Audio;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class SoundUtils
+internal static class SoundUtils
 {
 	public static void UpdateLoopingSound(ref SlotId slot, in SoundStyle style, float volume, Vector2? position)
 	{

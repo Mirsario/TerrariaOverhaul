@@ -9,7 +9,7 @@ using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.RngRemoval;
 
-public sealed class RemoveDamageRandomization : ILoadable
+internal sealed class RemoveDamageRandomization : ILoadable
 {
 	public static readonly ConfigEntry<bool> EnableDamageRandomizationRemoval = new(ConfigSide.Both, true, "Balance");
 

@@ -4,7 +4,7 @@
 
 namespace TerrariaOverhaul.Core.AudioEffects;
 
-public struct AudioEffectsModifier
+internal struct AudioEffectsModifier
 {
 	public delegate void ModifierDelegate(float intensity, ref AudioEffectParameters soundParameters, ref AudioEffectParameters musicParameters);
 

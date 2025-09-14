@@ -15,7 +15,7 @@ using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Content.Buffs;
 
-public class ManaAbsorption : ModBuff
+internal class ManaAbsorption : ModBuff
 {
 	private static float pulse;
 	private static Asset<Texture2D>? meterTexture;

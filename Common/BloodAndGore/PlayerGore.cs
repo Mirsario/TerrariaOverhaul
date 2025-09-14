@@ -16,8 +16,8 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Api.Camera;
 using TerrariaOverhaul.Common.BloodAndGore;
-using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
@@ -28,7 +28,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.ModEntities.Players;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class PlayerGore : ModPlayer
+internal sealed class PlayerGore : ModPlayer
 {
 	private enum DrawnPart
 	{
@@ -93,8 +93,9 @@ public sealed class PlayerGore : ModPlayer
 			focusPoint = weightedPosition.Total().ToF32();
 		}
 
-		CameraCurios.Create(focusPoint, new CameraCurio {
-			UniqueId = "PlayerDeath",
+		CameraCurios.Create(new CameraCurio {
+			Identifier = "PlayerDeath",
+			Position = focusPoint,
 			LengthInSeconds = 0.05f,
 			Range = null,
 			Weight = 1f,

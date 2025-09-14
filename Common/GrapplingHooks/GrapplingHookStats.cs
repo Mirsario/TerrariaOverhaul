@@ -11,7 +11,7 @@ using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Common.GrapplingHooks;
 
-public struct GrapplingHookStats
+internal struct GrapplingHookStats
 {
 	private static readonly Dictionary<int, GrapplingHookStats> stats = [];
 	private static readonly HashSet<int> grapplingTypesWarnedAbout = [];

@@ -10,7 +10,7 @@ using Hook = TerrariaOverhaul.Common.Hooks.Items.ICanMeleeCollideWithNPC;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;
 
-public interface ICanMeleeCollideWithNPC
+internal interface ICanMeleeCollideWithNPC
 {
 	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).CanMeleeCollideWithNPC));
 

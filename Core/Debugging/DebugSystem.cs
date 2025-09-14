@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Debugging;
 
-public sealed partial class DebugSystem : ModSystem
+internal sealed partial class DebugSystem : ModSystem
 {
 	private static ILog? logger;
 

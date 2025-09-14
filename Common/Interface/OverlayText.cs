@@ -18,7 +18,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Interface;
 
-public struct OverlayTextLine()
+internal struct OverlayTextLine()
 {
 	public required float AnimationLength;
 	public required string Text;
@@ -34,7 +34,7 @@ public struct OverlayTextLine()
 	public (float Start, float End, Vector2 Scale)? ScaleOutEffect = null;
 }
 
-public sealed class OverlayText : ModSystem
+internal sealed class OverlayText : ModSystem
 {
 	private struct Instance()
 	{

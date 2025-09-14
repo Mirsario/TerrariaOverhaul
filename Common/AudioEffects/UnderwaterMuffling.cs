@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.AudioEffects;
 
-public sealed class UnderwaterMuffling : ModSystem
+internal sealed class UnderwaterMuffling : ModSystem
 {
 	public static readonly ConfigEntry<bool> EnableUnderwaterMuffling = new(ConfigSide.ClientOnly, true, "Ambience");
 

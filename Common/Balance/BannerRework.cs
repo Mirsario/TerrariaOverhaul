@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Balance;
 
-public sealed class BannerReworkSystem : ModSystem
+internal sealed class BannerReworkSystem : ModSystem
 {
 	private static bool bannerDamageDisabled;
 	private static ItemID.BannerEffect[]? defaultBannerEffects;
@@ -86,7 +86,7 @@ public sealed class BannerReworkSystem : ModSystem
 	}
 }
 
-public sealed class BuffBannerRework : GlobalBuff
+internal sealed class BuffBannerRework : GlobalBuff
 {
 	public override void ModifyBuffText(int type, ref string buffName, ref string tip, ref int rare)
 	{
@@ -96,7 +96,7 @@ public sealed class BuffBannerRework : GlobalBuff
 	}
 }
 
-public sealed class ItemBannerRework : GlobalItem
+internal sealed class ItemBannerRework : GlobalItem
 {
 	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
 	{

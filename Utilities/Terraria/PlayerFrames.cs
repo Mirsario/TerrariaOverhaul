@@ -31,7 +31,7 @@ public enum PlayerFrames
 	Count,
 }
 
-public static class PlayerFramesExtensions
+internal static class PlayerFramesExtensions
 {
 	private const int PlayerSheetWidth = 40;
 	private const int PlayerSheetHeight = 56;

@@ -9,7 +9,7 @@ using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays;
 
-public class PatreonMenuLink : MenuLink
+internal class PatreonMenuLink : MenuLink
 {
 	public PatreonMenuLink(Text text, string url) : base(text, url) { }
 

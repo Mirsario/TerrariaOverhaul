@@ -11,7 +11,7 @@ using Terraria.UI;
 
 namespace TerrariaOverhaul.Core.Interface;
 
-public class UIVideo : UIElement
+internal class UIVideo : UIElement
 {
 	private Asset<Video>? video;
 	private VideoPlayer? videoPlayer;

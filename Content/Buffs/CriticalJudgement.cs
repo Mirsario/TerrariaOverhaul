@@ -13,7 +13,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Buffs;
 
-public sealed class CriticalJudgement : ModBuff
+internal sealed class CriticalJudgement : ModBuff
 {
 	private static readonly SoundStyle StrikeSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Magic/MagicPowerfulBlast") {
 		Pitch = 0.50f,

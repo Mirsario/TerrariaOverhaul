@@ -12,7 +12,7 @@ using TerrariaOverhaul.Core.Tags;
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 
 [Autoload(Side = ModSide.Client)]
-public class ProjectileRicochetSound : GlobalProjectile
+internal class ProjectileRicochetSound : GlobalProjectile
 {
 	public static readonly ConfigEntry<bool> EnableBulletImpactAudio = new(ConfigSide.ClientOnly, true, "Guns");
 

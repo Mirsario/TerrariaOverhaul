@@ -18,7 +18,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public class Hammer : ItemOverhaul
+internal class Hammer : ItemOverhaul
 {
 	public static readonly SoundStyle HammerNormalSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/BluntSwingHeavy", 4) {
 		Volume = 0.75f,

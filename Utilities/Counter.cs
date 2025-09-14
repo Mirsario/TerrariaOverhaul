@@ -8,7 +8,7 @@ namespace TerrariaOverhaul.Utilities;
 
 #pragma warning disable CS9084 // Struct member returns 'this' or other instance members by reference
 
-public struct Counter
+internal struct Counter
 {
 	private uint value;
 

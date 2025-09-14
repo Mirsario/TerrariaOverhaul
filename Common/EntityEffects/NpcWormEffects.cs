@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.EntityEffects;
 
-public sealed class NpcWormEffects : GlobalNPC
+internal sealed class NpcWormEffects : GlobalNPC
 {
 	public enum PartType : byte
 	{

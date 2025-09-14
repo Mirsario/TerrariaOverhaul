@@ -15,7 +15,7 @@ using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
-public sealed class DestroyerRework : GlobalNPC
+internal sealed class DestroyerRework : GlobalNPC
 {
 	private const string BaseModTexturePath = "Assets/Textures/Bosses";
 

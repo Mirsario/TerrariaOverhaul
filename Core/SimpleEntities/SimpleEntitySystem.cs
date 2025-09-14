@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.SimpleEntities;
 
-public class SimpleEntitySystem : ModSystem
+internal class SimpleEntitySystem : ModSystem
 {
 	private static Dictionary<Type, LinkedList<SimpleEntity>> entitiesByType = new();
 

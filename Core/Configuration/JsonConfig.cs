@@ -12,7 +12,7 @@ using IOResult = TerrariaOverhaul.Core.Configuration.ConfigIO.Result;
 
 namespace TerrariaOverhaul.Core.Configuration;
 
-public static class JsonConfig
+internal static class JsonConfig
 {
 	public static readonly ConfigFormat Format;
 

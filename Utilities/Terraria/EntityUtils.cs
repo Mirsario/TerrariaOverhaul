@@ -8,7 +8,7 @@ using Terraria;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class EntityUtils
+internal static class EntityUtils
 {
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static Rectangle GetRectangle(this Entity entity)

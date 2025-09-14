@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.ResourceDrops;
 
-public sealed class NPCManaDrops : GlobalNPC
+internal sealed class NPCManaDrops : GlobalNPC
 {
 	public static readonly float DefaultManaDropRange = ResourceDropUtils.DefaultResourceDropRange;
 	public static readonly int ManaDropItemType = ItemID.Star;

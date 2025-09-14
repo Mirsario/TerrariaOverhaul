@@ -10,7 +10,7 @@ using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyItemUseSound;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;
 
-public interface IModifyItemUseSound
+internal interface IModifyItemUseSound
 {
 	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).ModifyItemUseSound));
 

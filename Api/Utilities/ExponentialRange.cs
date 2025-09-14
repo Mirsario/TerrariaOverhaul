@@ -6,13 +6,16 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace TerrariaOverhaul.Utilities;
+namespace TerrariaOverhaul.Api.Utilities;
 
 [JsonConverter(typeof(NewtonsoftJsonConverter))]
 public struct ExponentialRange()
 {
+	/// <summary> Minimum range. </summary>
 	public float Min;
+	/// <summary> Maximum range. </summary>
 	public float Max;
+	/// <summary> The power that the distance factor will be raised to. </summary>
 	public float Exponent = 1f;
 
 	public ExponentialRange(float Min, float Max, float Exponent = 1f) : this()
@@ -22,9 +25,11 @@ public struct ExponentialRange()
 		this.Exponent = Exponent;
 	}
 
+	/// <summary> Maps a [0..1] factor to the [Min..Max] range, with the exponent applied. </summary>
 	public readonly float Translate(float value01)
-		=> Min + ((Max - Min) * (1f - MathF.Pow(1f - value01, Exponent)));
+		=> Min + (Max - Min) * (1f - MathF.Pow(1f - value01, Exponent));
 
+	/// <summary> Given a distance value, calculates the [0..1] distance factor using this range's parameters. </summary>
 	public readonly float DistanceFactor(float distance)
 	{
 		if (distance < Min) return 1f;
@@ -35,7 +40,7 @@ public struct ExponentialRange()
 		return MathF.Pow(factor, Exponent);
 	}
 
-	public sealed class NewtonsoftJsonConverter : JsonConverter
+	private sealed class NewtonsoftJsonConverter : JsonConverter
 	{
 		public override bool CanWrite => false;
 		public override bool CanConvert(Type objectType) => objectType == typeof(ExponentialRange);

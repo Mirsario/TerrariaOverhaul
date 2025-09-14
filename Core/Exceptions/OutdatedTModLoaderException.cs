@@ -6,7 +6,7 @@ using System;
 
 namespace TerrariaOverhaul.Core.Exceptions;
 
-public class OutdatedTModLoaderException : Exception
+internal class OutdatedTModLoaderException : Exception
 {
 	public OutdatedTModLoaderException(Version minVersion) : base(GetMessage(minVersion)) { }
 

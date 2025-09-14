@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Damage;
 
-public sealed class NPCDirectionalKnockback : GlobalNPC
+internal sealed class NPCDirectionalKnockback : GlobalNPC
 {
 	private Vector2? knockbackDirection;
 

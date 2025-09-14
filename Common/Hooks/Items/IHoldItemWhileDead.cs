@@ -9,7 +9,7 @@ using Hook = TerrariaOverhaul.Common.Hooks.Items.IHoldItemWhileDead;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;
 
-public interface IHoldItemWhileDead
+internal interface IHoldItemWhileDead
 {
 	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).HoldItemWhileDead));
 

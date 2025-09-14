@@ -12,7 +12,7 @@ using ValueIndex = ushort;
 
 namespace TerrariaOverhaul.Core.Tags;
 
-public readonly struct ContentSet
+internal readonly struct ContentSet
 {
 	public readonly int Id;
 
@@ -287,7 +287,7 @@ internal static class ContentSets
 	}
 }
 
-public static class ContentSetExtensions
+internal static class ContentSetExtensions
 {
 	public static bool Has(this ContentSet set, NPC entity) => set.Has<NPCID>(entity.type);
 	public static bool Has(this ContentSet set, Item entity) => set.Has<ItemID>(entity.type);

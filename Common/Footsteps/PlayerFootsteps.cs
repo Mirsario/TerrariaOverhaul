@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Footsteps;
 
-public sealed class PlayerFootsteps : ModPlayer
+internal sealed class PlayerFootsteps : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnablePlayerFootsteps = new(ConfigSide.ClientOnly, true, "Ambience");
 

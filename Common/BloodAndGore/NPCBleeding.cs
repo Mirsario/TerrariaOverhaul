@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
 [Autoload(Side = ModSide.Client)]
-public class NPCBleeding : GlobalNPC
+internal class NPCBleeding : GlobalNPC
 {
 	public override bool PreAI(NPC npc)
 	{

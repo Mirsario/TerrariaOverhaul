@@ -15,7 +15,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Guns;
 
-public class StarCannon : ItemOverhaul
+internal class StarCannon : ItemOverhaul
 {
 	public static readonly ConfigEntry<bool> EnableStarCannonRecoilHovering = new(ConfigSide.Both, true, "Guns");
 	public static readonly ConfigEntry<bool> EnableStarCannonDynamicFireRate = new(ConfigSide.Both, true, "Guns");

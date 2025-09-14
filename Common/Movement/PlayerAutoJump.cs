@@ -8,7 +8,7 @@ using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public sealed class PlayerAutoJump : ModPlayer
+internal sealed class PlayerAutoJump : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnableAutoJump = new(ConfigSide.Both, true, "Movement", "Accessibility");
 

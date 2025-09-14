@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public sealed class KillingBlowEffectsPacket : NetPacket
+internal sealed class KillingBlowEffectsPacket : NetPacket
 {
 	public KillingBlowEffectsPacket(Player player, Vector2Int worldPosition)
 	{

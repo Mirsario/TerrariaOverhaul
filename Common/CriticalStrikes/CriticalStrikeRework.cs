@@ -6,7 +6,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.CriticalStrikes;
 
-public sealed class CriticalStrikeRework : ModSystem
+internal sealed class CriticalStrikeRework : ModSystem
 {
 	public static readonly ConfigEntry<bool> EnableCriticalStrikeRework = new(ConfigSide.Both, true, "Balance");
 

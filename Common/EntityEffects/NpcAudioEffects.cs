@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.EntityEffects;
 
-public sealed class NpcAudioEffects : GlobalNPC
+internal sealed class NpcAudioEffects : GlobalNPC
 {
 	public class EffectData
 	{

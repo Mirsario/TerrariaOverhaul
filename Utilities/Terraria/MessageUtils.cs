@@ -9,7 +9,7 @@ using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class MessageUtils
+internal static class MessageUtils
 {
 	public static void NewText(object text, Color? color = null, bool logAsInfo = false)
 	{

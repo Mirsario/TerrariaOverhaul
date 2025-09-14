@@ -11,7 +11,7 @@ using Hook = TerrariaOverhaul.Common.Hooks.Npcs.INpcModifyShootProjectile;
 
 namespace TerrariaOverhaul.Common.Hooks.Npcs;
 
-public interface INpcModifyShootProjectile
+internal interface INpcModifyShootProjectile
 {
 	public static readonly GlobalHookList<GlobalNPC> Hook = NPCLoader.AddModHook(GlobalHookList<GlobalNPC>.Create(i => ((Hook)i).ModifyShootProjectile));
 
@@ -27,7 +27,7 @@ public interface INpcModifyShootProjectile
 	}
 }
 
-public sealed class NpcOnShootProjectileImplementation : ILoadable
+internal sealed class NpcOnShootProjectileImplementation : ILoadable
 {
 	public void Load(Mod mod)
 	{

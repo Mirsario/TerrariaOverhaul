@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class WorldUtils
+internal static class WorldUtils
 {
 	public const int TileSizeInPixels = 16;
 	public const float PixelSizeInUnits = 1f / TileSizeInPixels;

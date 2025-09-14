@@ -4,7 +4,7 @@
 
 namespace TerrariaOverhaul.Content.Gores;
 
-public class ShellCasing : BulletCasing
+internal class ShellCasing : BulletCasing
 {
 
 }

@@ -14,7 +14,7 @@ using TerrariaOverhaul.Core.Debugging;
 namespace TerrariaOverhaul.Core.AudioEffects;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ReverbSystem : ModSystem
+internal sealed class ReverbSystem : ModSystem
 {
 	public static readonly ConfigEntry<bool> EnableReverb = new(ConfigSide.ClientOnly, true, "Ambience");
 

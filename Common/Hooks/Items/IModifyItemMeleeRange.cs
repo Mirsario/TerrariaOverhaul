@@ -9,7 +9,7 @@ using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyItemMeleeRange;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;
 
-public interface IModifyItemMeleeRange
+internal interface IModifyItemMeleeRange
 {
 	public static readonly GlobalHookList<GlobalItem> Hook = ItemLoader.AddModHook(GlobalHookList<GlobalItem>.Create(i => ((Hook)i).ModifyMeleeRange));
 

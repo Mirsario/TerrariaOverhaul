@@ -11,7 +11,7 @@ using Hook = TerrariaOverhaul.Common.Hooks.Items.IModifyItemNewProjectile;
 
 namespace TerrariaOverhaul.Common.Hooks.Items;
 
-public interface IModifyItemNewProjectile
+internal interface IModifyItemNewProjectile
 {
 	//TODO: Use ref fields when they are available.
 	public ref struct Args
@@ -42,7 +42,7 @@ public interface IModifyItemNewProjectile
 	}
 }
 
-public sealed class ItemOnShootProjectileImplementation : ILoadable
+internal sealed class ItemOnShootProjectileImplementation : ILoadable
 {
 	public void Load(Mod mod)
 	{

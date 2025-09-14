@@ -10,7 +10,7 @@ using TerrariaOverhaul.Common.BloodAndGore;
 
 namespace TerrariaOverhaul.Content.Gores;
 
-public class GenericGore : ModGore
+internal class GenericGore : ModGore
 {
 	public override void OnSpawn(Gore gore, IEntitySource source)
 	{

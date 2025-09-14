@@ -18,7 +18,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Magic;
 
-public partial class MagicWeapon : ItemOverhaul
+internal partial class MagicWeapon : ItemOverhaul
 {
 	public static readonly ConfigEntry<bool> EnableMagicSoundReplacements = new(ConfigSide.ClientOnly, true, "Magic");
 	public static readonly ConfigEntry<bool> EnableMagicPowerAttacks = new(ConfigSide.Both, true, "Magic");

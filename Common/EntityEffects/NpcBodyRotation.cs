@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.EntityEffects;
 
-public sealed class NpcBodyRotation : GlobalNPC
+internal sealed class NpcBodyRotation : GlobalNPC
 {
 	public static readonly ConfigEntry<bool> EnableEnemyTiltingEffects = new(ConfigSide.ClientOnly, true, "Visuals", "Enemies");
 

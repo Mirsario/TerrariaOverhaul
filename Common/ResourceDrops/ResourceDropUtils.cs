@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.ResourceDrops;
 
-public static class ResourceDropUtils
+internal static class ResourceDropUtils
 {
 	public static readonly float DefaultResourceDropRange = 1280f;
 

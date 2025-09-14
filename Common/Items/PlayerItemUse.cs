@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Items;
 
-public sealed class PlayerItemUse : ModPlayer
+internal sealed class PlayerItemUse : ModPlayer
 {
 	public delegate void UseMiningToolDelegate(Player player, Item sItem, out bool canHitWalls, int x, int y);
 

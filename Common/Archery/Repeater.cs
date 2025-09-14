@@ -8,7 +8,7 @@ using TerrariaOverhaul.Core.ItemOverhauls;
 
 namespace TerrariaOverhaul.Common.Archery;
 
-public partial class Repeater : ItemOverhaul
+internal partial class Repeater : ItemOverhaul
 {
 	public override bool ShouldApplyItemOverhaul(Item item)
 	{

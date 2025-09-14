@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Core.Time;
 
-public sealed class TimeSystem : ModSystem
+internal sealed class TimeSystem : ModSystem
 {
 	public static readonly DateTime FirstLoadDate = DateTime.Now;
 

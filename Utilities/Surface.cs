@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace TerrariaOverhaul.Utilities;
 
-public sealed class Surface<T> : IDisposable where T : unmanaged
+internal sealed class Surface<T> : IDisposable where T : unmanaged
 {
 	public T[] Data { get; private set; }
 	public int Width { get; private set; }

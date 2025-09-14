@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Decals;
 
-public class Mop : ModItem
+internal class Mop : ModItem
 {
 	public override void SetDefaults()
 	{

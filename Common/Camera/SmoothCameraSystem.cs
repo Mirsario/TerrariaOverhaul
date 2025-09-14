@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.Camera;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class SmoothCameraSystem : ModSystem
+internal sealed class SmoothCameraSystem : ModSystem
 {
 	//public static readonly ConfigEntry<bool> SmoothCamera = new(ConfigSide.ClientOnly, true, "Camera");
 	public static readonly RangeConfigEntry<float> CameraSmoothness = new(ConfigSide.ClientOnly, 1f, (0f, 1f), "Camera");

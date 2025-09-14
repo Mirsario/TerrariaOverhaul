@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.Items.Tools;
 
-public class StoneAxe : ModItem
+internal class StoneAxe : ModItem
 {
 	public override void SetDefaults()
 	{

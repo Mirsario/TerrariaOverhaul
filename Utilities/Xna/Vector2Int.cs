@@ -9,7 +9,7 @@ using Terraria.DataStructures;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
-public struct Vector2Int(int x, int y)
+internal struct Vector2Int(int x, int y)
 {
 	public static readonly int SizeInBytes = Marshal.SizeOf(typeof(Vector2Int));
 	public static readonly Vector2Int Zero = default;

@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
+internal sealed class PlayerBunnyhopCombos : ModPlayer, IPlayerOnBunnyhopHook
 {
 	public static readonly SoundStyle BunnyhopComboSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/BunnyhopCombo") {
 		Volume = 0.175f,

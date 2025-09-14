@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.Items;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ItemUseVisualRecoil : ItemComponent
+internal sealed class ItemUseVisualRecoil : ItemComponent
 {
 	public static readonly ConfigEntry<bool> EnableVisualWeaponRecoil = new(ConfigSide.Both, true, "Visuals", "Guns");
 

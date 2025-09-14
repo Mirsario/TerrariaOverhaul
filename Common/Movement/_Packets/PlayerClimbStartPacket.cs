@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public sealed class PlayerClimbStartPacket : NetPacket
+internal sealed class PlayerClimbStartPacket : NetPacket
 {
 	public PlayerClimbStartPacket(Player player, Vector2 posFrom, Vector2 posTo)
 	{

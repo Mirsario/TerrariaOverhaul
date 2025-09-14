@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public sealed class PlayerMovement : ModPlayer
+internal sealed class PlayerMovement : ModPlayer
 {
 	public static readonly int VelocityRecordSize = 5;
 

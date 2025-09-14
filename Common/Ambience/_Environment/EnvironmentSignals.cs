@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Ambience;
 
-public static class EnvironmentSignals
+internal static class EnvironmentSignals
 {
 	// Time
 

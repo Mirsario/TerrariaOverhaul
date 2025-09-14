@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Common.Damage;
 
-public sealed class ItemNpcStuns : GlobalItem
+internal sealed class ItemNpcStuns : GlobalItem
 {
 	public override void OnHitNPC(Item item, Player player, NPC target, NPC.HitInfo hit, int damageDone)
 	{

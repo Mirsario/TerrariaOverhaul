@@ -23,7 +23,7 @@ namespace TerrariaOverhaul.Common.Music;
 // - Improves music fading.
 // - Replaces music stopping with pausing in some cases.
 // - Hooks other systems for modification of music volume and etc.
-public sealed class MusicControlSystem : ModSystem
+internal sealed class MusicControlSystem : ModSystem
 {
 	public delegate void TrackUpdateCallback(bool isActiveTrack, int trackIndex, ref float musicVolume, ref float musicFade);
 

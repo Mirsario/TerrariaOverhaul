@@ -10,7 +10,7 @@ using TerrariaOverhaul.Core.Tags;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public sealed class ItemHitSoundReplacements : GlobalItem, IModifyItemNPCHitSound
+internal sealed class ItemHitSoundReplacements : GlobalItem, IModifyItemNPCHitSound
 {
 	public static readonly SoundStyle WoodenHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/WoodenHit", 3) {
 		Volume = 0.3f,

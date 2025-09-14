@@ -19,7 +19,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Archery;
 
-public partial class Bow : ItemOverhaul
+internal partial class Bow : ItemOverhaul
 {
 	public static readonly ConfigEntry<bool> EnableBowFiringDelays = new(ConfigSide.Both, true, "Archery");
 	public static readonly ConfigEntry<bool> EnableBowSoundReplacements = new(ConfigSide.ClientOnly, true, "Archery");

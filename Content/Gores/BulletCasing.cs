@@ -12,7 +12,7 @@ using TerrariaOverhaul.Common.BloodAndGore;
 
 namespace TerrariaOverhaul.Content.Gores;
 
-public class BulletCasing : ModGore
+internal class BulletCasing : ModGore
 {
 	public static readonly SoundStyle BounceSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/CasingBounce", 4) {
 		Volume = 0.085f,

@@ -7,7 +7,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Core.AudioEffects;
 
-public struct AudioEffectParameters
+internal struct AudioEffectParameters
 {
 	private float volumeScale = 1f;
 	private float reverbIntensity = 0f;

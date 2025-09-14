@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
-public static class VectorUtils
+internal static class VectorUtils
 {
 	public static Vector2 StepTowards(Vector2 value, Vector2 goal, float step)
 		=> StepTowards(value, goal, new Vector2(step, step));

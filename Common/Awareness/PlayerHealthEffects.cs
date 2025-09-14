@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.Awareness;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class PlayerHealthEffects : ModPlayer
+internal sealed class PlayerHealthEffects : ModPlayer
 {
 	public static readonly SoundStyle LowHealthSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/LowHealthLoop");
 	public static readonly Gradient<float> LowHealthEffectGradient = new(

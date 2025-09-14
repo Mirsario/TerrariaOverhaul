@@ -18,7 +18,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class RangeElement : UIElement, IConfigEntryController
+internal class RangeElement : UIElement, IConfigEntryController
 {
 	private static readonly SoundStyle SoundDrag = SoundID.MenuTick with { Identifier = "Drag", Volume = 0.6f, Pitch = 0.025f, PitchVariance = 0.1f };
 	private static readonly SoundStyle SoundStart = SoundID.MenuTick with { Identifier = "StartStop", Pitch = 0.1f };

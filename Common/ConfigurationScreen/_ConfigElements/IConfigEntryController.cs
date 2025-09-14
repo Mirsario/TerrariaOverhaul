@@ -6,7 +6,7 @@ using System;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public interface IConfigEntryController
+internal interface IConfigEntryController
 {
 	object? Value { get; set; }
 

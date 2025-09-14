@@ -8,7 +8,7 @@ using Terraria.UI;
 
 namespace TerrariaOverhaul.Core.Interface;
 
-public sealed class ScrollbarListenerUIComponent : UIComponent
+internal sealed class ScrollbarListenerUIComponent : UIComponent
 {
 	private bool updateNextTick;
 	private float? lastViewPosition;

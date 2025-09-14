@@ -39,7 +39,7 @@ public enum DecalLayerFlags : byte
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct ChunkDecals() : IComponent
+internal struct ChunkDecals() : IComponent
 {
 	private static RenderTarget2D[] masks = [];
 
@@ -57,18 +57,18 @@ public struct ChunkDecals() : IComponent
 		return masks;
 	}
 }
-public struct DecalLayerData()
+internal struct DecalLayerData()
 {
 	public RenderTarget2D? Texture;
 	public DecalStyleData[] Styles = [];
 }
-public struct DecalStyleData()
+internal struct DecalStyleData()
 {
 	public uint NumDecalsToDraw = 0;
 	public DecalInfo[] DecalsToDraw = [];
 }
 
-public struct DecalInfo
+internal struct DecalInfo
 {
 	public static Texture2D DefaultTexture => TextureAssets.BlackTile.Value;
 
@@ -115,7 +115,7 @@ public struct DecalInfo
 }
 
 [Autoload(Side = ModSide.Client)]
-public sealed class DecalSystem : ModSystem
+internal sealed class DecalSystem : ModSystem
 {
 	public static readonly BlendState DefaultBlendState = BlendState.AlphaBlend;
 	public static readonly ConfigEntry<bool> EnableDecals = new(ConfigSide.ClientOnly, true, "BloodAndGore");

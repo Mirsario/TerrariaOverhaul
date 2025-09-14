@@ -27,7 +27,7 @@ namespace TerrariaOverhaul.Common.BloodAndGore;
 // Messy inheritance OOP.
 // It would be much preferred to split both data and logic, keeping only an index to data here.
 [Autoload(Side = ModSide.Client)]
-public class OverhaulGore : Gore, ILoadable, IMaterialProvider
+internal class OverhaulGore : Gore, ILoadable, IMaterialProvider
 {
 	private const int GoreSoundMinCooldown = 10;
 	private const int GoreSoundMaxCooldown = 25;

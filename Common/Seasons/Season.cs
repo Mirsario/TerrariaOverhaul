@@ -9,7 +9,7 @@ using TerrariaOverhaul.Core.Components;
 
 namespace TerrariaOverhaul.Common.Seasons;
 
-public abstract class Season : ModType
+internal abstract class Season : ModType
 {
 	public readonly ModComponentContainer<Season, SeasonComponent> Components;
 

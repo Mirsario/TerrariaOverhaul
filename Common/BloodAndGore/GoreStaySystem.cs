@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities;
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
 [Autoload(Side = ModSide.Client)]
-public class GoreStaySystem : ModSystem
+internal class GoreStaySystem : ModSystem
 {
 	public static readonly ConfigEntry<bool> EnableGoreStay = new(ConfigSide.ClientOnly, true, "BloodAndGore");
 

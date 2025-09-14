@@ -9,7 +9,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Commands;
 
-public class ReloadConfigCommand : ModCommand
+internal class ReloadConfigCommand : ModCommand
 {
 	public override string Command => "oReloadConfig";
 	public override string Description => "Reloads Overhaul's config from disk";

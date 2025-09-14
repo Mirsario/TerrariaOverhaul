@@ -7,7 +7,7 @@ using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays;
 
-public abstract class MenuButton : MenuLine
+internal abstract class MenuButton : MenuLine
 {
 	public MenuButton(Text text) : base(text)
 	{

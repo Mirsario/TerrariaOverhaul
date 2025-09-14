@@ -12,6 +12,7 @@ using ReLogic.Utilities;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Api.Utilities;
 using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Utilities;
 
@@ -20,7 +21,7 @@ namespace TerrariaOverhaul.Common.Ambience;
 // This could be an immutable struct, but Newtonsoft.Json doesn't handle their field initializers correctly.
 // In 2024 that is!
 //[JsonConverter(typeof(AmbienceTrackJsonConverter))] // This isn't attached directly, as we need to be able to call the default converter.
-public sealed class AmbienceTrack : IComponent
+internal sealed class AmbienceTrack : IComponent
 {
 	public struct PositionInfo()
 	{
@@ -44,7 +45,7 @@ public sealed class AmbienceTrack : IComponent
 	public AmbienceTrack() { }
 }
 
-public struct AmbienceTrackType()
+internal struct AmbienceTrackType()
 {
 	public required string Name;
 	public required AmbienceTrack Description;
@@ -55,7 +56,7 @@ public struct AmbienceTrackType()
 	public readonly int InstanceCount => InstanceMask.PopCount();
 }
 
-public struct AmbienceTrackInstance()
+internal struct AmbienceTrackInstance()
 {
 	public required ushort TypeIndex;
 	public required Vector2? Position;
@@ -63,7 +64,7 @@ public struct AmbienceTrackInstance()
 	public uint? PlaybackCooldown;
 }
 
-public sealed class AmbienceTrackJsonConverter : JsonConverter
+internal sealed class AmbienceTrackJsonConverter : JsonConverter
 {
 	private static readonly IdDictionary liquidSearch = IdDictionary.Create(typeof(short), typeof(LiquidID));
 

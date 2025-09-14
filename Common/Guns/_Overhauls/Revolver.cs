@@ -17,7 +17,7 @@ using TerrariaOverhaul.Core.ItemOverhauls;
 namespace TerrariaOverhaul.Common.Guns;
 
 [ItemAttachment(ItemID.Revolver, ItemID.TheUndertaker)]
-public class Revolver : ItemOverhaul
+internal class Revolver : ItemOverhaul
 {
 	//public static readonly SoundStyle RevolverFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Revolver/RevolverFire") {
 	public static readonly SoundStyle RevolverFireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Handgun/HandgunFire") {

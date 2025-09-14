@@ -16,7 +16,7 @@ namespace TerrariaOverhaul.Common.ProjectileEffects;
 /// Applies low pass filtering nearby whenever this projectile is destroyed.
 /// </summary>
 [Autoload(Side = ModSide.Client)]
-public sealed class ProjectileAudioMuffling : GlobalProjectile
+internal sealed class ProjectileAudioMuffling : GlobalProjectile
 {
 	private static readonly ContentSet Explosive = nameof(Explosive);
 

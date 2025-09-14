@@ -9,7 +9,7 @@ namespace TerrariaOverhaul.Common.GameFixes;
 
 // Quite specific.
 // Prevents other mods from accidentally calling calling Main.ResetGameCounter during gameplay.
-public sealed class PreventUpdateCountResets : ILoadable
+internal sealed class PreventUpdateCountResets : ILoadable
 {
 	public void Load(Mod mod)
 	{

@@ -11,7 +11,7 @@ using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.Enemies;
 
-public sealed class EvilMonstersRework : GlobalNPC
+internal sealed class EvilMonstersRework : GlobalNPC
 {
 	public static readonly ConfigEntry<bool> EnableNormalEnemyEffects = new(ConfigSide.ClientOnly, true, "Enemies");
 

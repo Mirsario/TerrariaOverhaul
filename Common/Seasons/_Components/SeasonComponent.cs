@@ -8,7 +8,7 @@ using TerrariaOverhaul.Core.Components;
 
 namespace TerrariaOverhaul.Common.Seasons;
 
-public abstract class SeasonComponent : ModComponent<Season>
+internal abstract class SeasonComponent : ModComponent<Season>
 {
 	public virtual void OnUpdate(Season season) { }
 

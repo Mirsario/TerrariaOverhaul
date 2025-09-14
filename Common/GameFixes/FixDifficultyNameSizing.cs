@@ -17,7 +17,7 @@ using TerrariaOverhaul.Core.Debugging;
 namespace TerrariaOverhaul.Common.GameFixes;
 
 // Very much not ideal.
-public sealed class FixDifficultyNameSizing : ILoadable
+internal sealed class FixDifficultyNameSizing : ILoadable
 {
 	void ILoadable.Load(Mod mod)
 	{

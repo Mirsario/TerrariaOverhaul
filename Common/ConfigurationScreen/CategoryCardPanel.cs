@@ -13,7 +13,7 @@ using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class CategoryCardPanel : CardPanel
+internal class CategoryCardPanel : CardPanel
 {
 	private readonly UIVideo? video;
 	private readonly UIConfigIcon icon;

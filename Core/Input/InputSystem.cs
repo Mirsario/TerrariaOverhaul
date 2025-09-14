@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 namespace TerrariaOverhaul.Core.Input;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class InputSystem : ModSystem
+internal sealed class InputSystem : ModSystem
 {
 	private static MouseState mouseState;
 	private static MouseState mouseStatePrev;

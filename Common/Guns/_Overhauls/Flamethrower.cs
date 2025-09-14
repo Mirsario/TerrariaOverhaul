@@ -12,7 +12,7 @@ using TerrariaOverhaul.Core.ItemOverhauls;
 
 namespace TerrariaOverhaul.Common.Guns;
 
-public class Flamethrower : ItemOverhaul
+internal class Flamethrower : ItemOverhaul
 {
 	private static readonly SoundStyle FireSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Guns/Flamethrower/FlamethrowerFireLoop") {
 		IsLooped = true,

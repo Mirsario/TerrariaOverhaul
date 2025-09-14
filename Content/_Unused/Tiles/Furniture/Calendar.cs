@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Content.Tiles.Furniture;
 
-public class Calendar : ModTile
+internal class Calendar : ModTile
 {
 	public override void SetStaticDefaults()
 	{

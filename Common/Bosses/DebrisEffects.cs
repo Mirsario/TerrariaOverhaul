@@ -18,7 +18,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
-public sealed class DebrisEffects : ModSystem
+internal sealed class DebrisEffects : ModSystem
 {
 	public struct Style
 	{

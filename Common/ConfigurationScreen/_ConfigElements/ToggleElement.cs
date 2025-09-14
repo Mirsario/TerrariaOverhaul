@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class ToggleElement : UIElement, IConfigEntryController
+internal class ToggleElement : UIElement, IConfigEntryController
 {
 	private static UIPanelColors colorOn = new() {
 		Background = new(ColorUtils.FromHexRgb(0x6cb622)),

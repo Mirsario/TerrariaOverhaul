@@ -16,7 +16,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.Dodgerolls;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class DodgerollMeterUISystem : ModSystem
+internal sealed class DodgerollMeterUISystem : ModSystem
 {
 	private static readonly int TicksBeforeFading = (int)(TimeSystem.LogicFramerate * 1.5f);
 	private static readonly int FadingLength = (int)(TimeSystem.LogicFramerate * 0.3f);

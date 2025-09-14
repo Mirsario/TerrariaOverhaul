@@ -15,7 +15,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ProjectileArrowGore : GlobalProjectile
+internal sealed class ProjectileArrowGore : GlobalProjectile
 {
 	public static readonly ConfigEntry<bool> EnableArrowFragments = new(ConfigSide.ClientOnly, true, "Archery");
 	private static readonly ContentSet WoodenArrows = nameof(WoodenArrows);

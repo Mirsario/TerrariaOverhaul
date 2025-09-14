@@ -2,17 +2,19 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Api.Camera;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Camera;
 
-public sealed class CommonCameraCurios : ModSystem
+internal sealed class CommonCameraCurios : ModSystem
 {
 	private static readonly ConfigEntry<bool> FocusCameraOnBosses = new(ConfigSide.ClientOnly, true, "Camera");
 	private static readonly ConfigEntry<bool> FocusCameraOnRareEnemies = new(ConfigSide.ClientOnly, true, "Camera");
@@ -28,18 +30,20 @@ public sealed class CommonCameraCurios : ModSystem
 		var rarePosition = new WeightedValue<Vector2D>(default, 0.0);
 
 		var baseCurio = new CameraCurio() {
+			Identifier = null!,
+			Position = Vector2.Zero,
 			Weight = float.NaN,
 			LengthInSeconds = 0.01f,
 			FadeInLength = 2.0f,
 			FadeOutLength = 1.0f,
 		};
 		var bossCurio = baseCurio with {
-			UniqueId =  player.dead ? "BossesWhileDead" : "Bosses",
+			Identifier =  player.dead ? "BossesWhileDead" : "Bosses",
 			Weight = player.dead ? 1.00f : 0.15f,
 			Range = new(Min: 512f, Max: 1536f, Exponent: 2f),
 		};
 		var rareCurio = baseCurio with {
-			UniqueId = "RareNPCs",
+			Identifier = "RareNPCs",
 			Weight = 0.15f,
 			Range = lifeAnalyzer ? new(Min: 512f, Max: 2048f, Exponent: 2.0f) : new(Min: 64f, Max: 768f, Exponent: 2.0f),
 			Zoom = +0.125f,
@@ -64,8 +68,8 @@ public sealed class CommonCameraCurios : ModSystem
 			}
 		}
 
-		if (bossPosition.TotalWeight > 0f) CameraCurios.Create(bossPosition.Total().ToF32(), bossCurio);
-		if (rarePosition.TotalWeight > 0f) CameraCurios.Create(rarePosition.Total().ToF32(), rareCurio);
+		if (bossPosition.TotalWeight > 0f) CameraCurios.Create(bossCurio with { Position = bossPosition.Total().ToF32() });
+		if (rarePosition.TotalWeight > 0f) CameraCurios.Create(rareCurio with { Position = rarePosition.Total().ToF32() });
 	}
 
 	public override void PostUpdateItems()
@@ -75,6 +79,8 @@ public sealed class CommonCameraCurios : ModSystem
 		}
 
 		var curio = new CameraCurio {
+			Identifier = "Loot",
+			Position = Vector2.Zero,
 			Zoom = +0.125f,
 			Range = new(Min: 100f, Max: 450f, Exponent: 1.50f),
 			Weight = 0.325f,
@@ -97,8 +103,7 @@ public sealed class CommonCameraCurios : ModSystem
 		}
 
 		if (position.TotalWeight > 0f) {
-			curio.UniqueId = "Loot";
-			CameraCurios.Create(position.Total().ToF32(), curio);
+			CameraCurios.Create(curio with { Position = position.Total().ToF32() });
 		}
 	}
 }

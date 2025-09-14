@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 namespace TerrariaOverhaul.Content.Menus;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class OverhaulMenu : ModMenu
+internal sealed class OverhaulMenu : ModMenu
 {
 	private Asset<Texture2D>? logoTerraria;
 	private Asset<Texture2D>? logoOverhaul;

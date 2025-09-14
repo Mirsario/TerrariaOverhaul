@@ -19,7 +19,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public sealed class ItemKillingBlows : ItemComponent
+internal sealed class ItemKillingBlows : ItemComponent
 {
 	private delegate void NPCDamageModifier(NPC npc, ref double damage);
 

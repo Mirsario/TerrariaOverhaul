@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Utilities;
 
-public static class IOUtils
+internal static class IOUtils
 {
 	// Operation Safety
 

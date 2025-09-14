@@ -6,8 +6,7 @@ using System.Collections.Generic;
 
 namespace TerrariaOverhaul.Core.EntityCapturing;
 
-public ref struct CaptureHandle<T>
-	where T : struct
+internal ref struct CaptureHandle<T> where T : struct
 {
 	private Stack<List<T>>? stack;
 

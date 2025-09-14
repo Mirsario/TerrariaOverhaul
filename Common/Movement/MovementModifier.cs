@@ -7,7 +7,7 @@ using Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public struct MovementModifier
+internal struct MovementModifier
 {
 	public static readonly MovementModifier Default = new();
 

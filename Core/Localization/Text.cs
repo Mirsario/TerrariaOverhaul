@@ -7,7 +7,7 @@ using Terraria.Localization;
 namespace TerrariaOverhaul.Core.Localization;
 
 // The vanilla classes are too all over the place.
-public sealed class Text
+internal sealed class Text
 {
 	private enum Type
 	{

@@ -7,7 +7,7 @@ using Terraria;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class ProjectileUtils
+internal static class ProjectileUtils
 {
 	public static float RealSpeed(this Projectile proj)
 		=> proj.velocity.Length() * (1 + proj.extraUpdates);

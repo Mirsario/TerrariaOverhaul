@@ -3,7 +3,7 @@ using Terraria;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class ThreadUtils
+internal static class ThreadUtils
 {
 	public static void RunOnMainThread(Action action)
 	{

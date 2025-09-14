@@ -18,7 +18,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public class Axe : ItemOverhaul
+internal class Axe : ItemOverhaul
 {
 	public static readonly SoundStyle AxeNormalSwingSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMediumAlt", 3) {
 		Volume = 0.4f,

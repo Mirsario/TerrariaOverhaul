@@ -8,7 +8,7 @@ using Terraria.ObjectData;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class ModTileUtils
+internal static class ModTileUtils
 {
 	public static void AddObjectData(this ModTile modTile, TileObjectData copyFrom, Action<TileObjectData> action)
 	{

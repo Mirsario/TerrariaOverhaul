@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
-public static class GeometryUtils
+internal static class GeometryUtils
 {
 	/// <summary>
 	/// Enumerator, to be used within a foreach.

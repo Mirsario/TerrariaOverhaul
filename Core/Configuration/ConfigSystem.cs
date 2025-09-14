@@ -22,7 +22,7 @@ public enum ConfigSide
 	ServerOnly
 }
 
-public interface IConfigEntry
+internal interface IConfigEntry
 {
 	Type ValueType { get; }
 	bool IsHidden { get; }
@@ -43,7 +43,7 @@ public interface IConfigEntry
 	void Modified();
 }
 
-public sealed class ConfigSystem : ModSystem
+internal sealed class ConfigSystem : ModSystem
 {
 	public class CategoryData
 	{

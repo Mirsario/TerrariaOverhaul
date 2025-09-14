@@ -21,7 +21,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public sealed class PlayerClimbing : ModPlayer
+internal sealed class PlayerClimbing : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnableClimbing = new(ConfigSide.Both, true, "Movement");
 	private static readonly ContentSet ClimbingClaws = nameof(ClimbingClaws);

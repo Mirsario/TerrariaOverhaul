@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Core.ItemOverhauls;
 /// <summary>
 /// A <see cref="GlobalItem"/> category, out of which only one instance can be present on an item at a time.
 /// </summary>
-public abstract class ItemOverhaul : GlobalItem
+internal abstract class ItemOverhaul : GlobalItem
 {
 	private static readonly List<ItemOverhaul> ItemOverhauls = new();
 	private static readonly Dictionary<int, int> ItemIdMapping = new();

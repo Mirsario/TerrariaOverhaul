@@ -6,12 +6,12 @@ using System.Runtime.CompilerServices;
 
 namespace TerrariaOverhaul.Utilities;
 
-public static class ValueOverride
+internal static class ValueOverride
 {
 	public static ValueOverride<T> Create<T>(ref T reference, T value) => new(ref reference, value);
 }
 
-public ref struct ValueOverride<T>
+internal ref struct ValueOverride<T>
 {
 	private T oldValue;
 	private ref T reference;

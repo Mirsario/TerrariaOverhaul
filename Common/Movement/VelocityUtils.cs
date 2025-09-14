@@ -9,7 +9,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Movement;
 
-public static class VelocityUtils
+internal static class VelocityUtils
 {
 	/// <summary>
 	/// Returns a vector multiplier that can be used to insert directional input reliance into velocity boosts.

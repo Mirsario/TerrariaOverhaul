@@ -17,7 +17,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public class Pickaxe : ItemOverhaul
+internal class Pickaxe : ItemOverhaul
 {
 	public static readonly ConfigEntry<bool> EnablePickaxeSoundReplacements = new(ConfigSide.ClientOnly, true, "Melee");
 

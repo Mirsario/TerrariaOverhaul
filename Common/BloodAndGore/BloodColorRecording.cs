@@ -10,7 +10,7 @@ using Terraria.ModLoader;
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class BloodColorRecording : ModSystem
+internal sealed class BloodColorRecording : ModSystem
 {
 	private static readonly Stack<List<Color>> recordingLists = new();
 	private static readonly Stack<List<Color>> listPool = new(); // Pool to minimize array growth & GC stress.

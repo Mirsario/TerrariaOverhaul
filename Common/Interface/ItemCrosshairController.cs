@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.Interface;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ItemCrosshairController : ItemComponent
+internal sealed class ItemCrosshairController : ItemComponent
 {
 	public CrosshairEffects? UseItemEffects { get; set; }
 	public CrosshairEffects? UseAnimationEffects { get; set; }

@@ -7,7 +7,7 @@ using Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public class GenericMeleeAnimation : MeleeAnimation
+internal class GenericMeleeAnimation : MeleeAnimation
 {
 	public override float GetItemRotation(Player player, Item item)
 	{

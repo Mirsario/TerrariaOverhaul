@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.Recoil;
 // Very experimental feature.
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ItemAimRecoil : ItemComponent
+internal sealed class ItemAimRecoil : ItemComponent
 {
 	public float RecoilMultiplier { get; set; } = 1f;
 

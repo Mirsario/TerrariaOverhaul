@@ -12,7 +12,7 @@ using TerrariaOverhaul.Core.Localization;
 
 namespace TerrariaOverhaul.Common.MainMenuOverlays;
 
-public class ConfigurationMenuButton : MenuButton
+internal class ConfigurationMenuButton : MenuButton
 {
 	public ConfigurationMenuButton(Text text) : base(text) { }
 

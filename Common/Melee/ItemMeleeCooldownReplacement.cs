@@ -9,7 +9,7 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public sealed class ItemMeleeCooldownReplacement : ItemComponent
+internal sealed class ItemMeleeCooldownReplacement : ItemComponent
 {
 	public override void Load()
 	{

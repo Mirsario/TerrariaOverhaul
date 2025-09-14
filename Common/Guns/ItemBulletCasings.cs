@@ -11,7 +11,7 @@ using TerrariaOverhaul.Core.ItemComponents;
 namespace TerrariaOverhaul.Common.Guns;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ItemBulletCasings : ItemComponent
+internal sealed class ItemBulletCasings : ItemComponent
 {
 	public static readonly ConfigEntry<bool> EnableBulletCasings = new(ConfigSide.ClientOnly, true, "Guns");
 

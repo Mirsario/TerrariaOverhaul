@@ -8,7 +8,7 @@ using Terraria.Utilities;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
-public static class RandomUtils
+internal static class RandomUtils
 {
 	public static Vector2 NextVector2(this UnifiedRandom random, float minX, float minY, float maxX, float maxY) => new(
 		random.NextFloat(minX, maxX),

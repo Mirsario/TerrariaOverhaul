@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class SpriteBatchUtils
+internal static class SpriteBatchUtils
 {
 	[UnsafeAccessor(UnsafeAccessorKind.Field, Name = "samplerState")]
 	public extern static ref SamplerState GetSamplerState(this SpriteBatch sb);

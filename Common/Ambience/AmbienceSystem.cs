@@ -11,6 +11,7 @@ using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Api.Utilities;
 using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Core.AudioEffects;
 using TerrariaOverhaul.Core.Configuration;
@@ -24,7 +25,7 @@ using EnvironmentTag = TerrariaOverhaul.Core.Tags.Tag<TerrariaOverhaul.Common.Am
 namespace TerrariaOverhaul.Common.Ambience;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class AmbienceSystem : ModSystem
+internal sealed class AmbienceSystem : ModSystem
 {
 	public static readonly ConfigEntry<bool> EnableAmbientSounds = new(ConfigSide.ClientOnly, true, "Ambience");
 

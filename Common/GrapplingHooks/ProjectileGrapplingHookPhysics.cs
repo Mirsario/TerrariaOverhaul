@@ -19,7 +19,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.GrapplingHooks;
 
 // Could use more comments.
-public class ProjectileGrapplingHookPhysics : GlobalProjectile
+internal class ProjectileGrapplingHookPhysics : GlobalProjectile
 {
 	public static readonly ConfigEntry<bool> EnableGrapplingHookPhysics = new(ConfigSide.Both, true, "Movement");
 

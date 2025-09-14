@@ -18,7 +18,7 @@ namespace TerrariaOverhaul.Common.Melee;
 /// <summary>
 /// Launches players towards attack direction on use animation beginning.
 /// </summary>
-public sealed class ItemMeleeSwingVelocity : ItemComponent
+internal sealed class ItemMeleeSwingVelocity : ItemComponent
 {
 	public struct ContextMatch
 	{

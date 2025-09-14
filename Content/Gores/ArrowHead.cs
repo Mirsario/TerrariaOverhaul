@@ -11,7 +11,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Content.Gores;
 
-public class ArrowHead : ModGore
+internal class ArrowHead : ModGore
 {
 	public override void SetStaticDefaults()
 	{

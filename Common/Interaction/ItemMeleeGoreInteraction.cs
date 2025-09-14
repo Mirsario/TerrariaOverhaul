@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Interaction;
 
-public sealed class ItemMeleeGoreInteraction : ItemComponent
+internal sealed class ItemMeleeGoreInteraction : ItemComponent
 {
 	public override void HoldItem(Item item, Player player)
 	{

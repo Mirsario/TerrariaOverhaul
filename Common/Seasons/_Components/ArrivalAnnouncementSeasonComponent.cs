@@ -9,7 +9,7 @@ using TerrariaOverhaul.Core.Components;
 namespace TerrariaOverhaul.Common.Seasons;
 
 [GlobalComponent]
-public sealed class ArrivalAnnouncementSeasonComponent : SeasonComponent
+internal sealed class ArrivalAnnouncementSeasonComponent : SeasonComponent
 {
 	public override void OnSeasonBegin(Season season)
 	{

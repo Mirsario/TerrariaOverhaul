@@ -4,7 +4,7 @@
 
 namespace TerrariaOverhaul.Common.Camera;
 
-public struct ScreenShake
+internal struct ScreenShake
 {
 	public delegate float PowerDelegate(float progress);
 

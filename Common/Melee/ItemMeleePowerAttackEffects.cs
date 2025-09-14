@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Melee;
 
-public sealed class ItemMeleePowerAttackEffects : ItemComponent
+internal sealed class ItemMeleePowerAttackEffects : ItemComponent
 {
 	private GameTimer lastCharge;
 

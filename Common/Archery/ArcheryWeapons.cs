@@ -8,7 +8,7 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Common.Archery;
 
-public static class ArcheryWeapons
+internal static class ArcheryWeapons
 {
 	public enum Kind
 	{

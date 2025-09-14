@@ -15,7 +15,7 @@ namespace TerrariaOverhaul.Common.GameFixes;
 /// <summary>
 /// A simple tweak that makes the Operational System's cursor be displayed whenever UI is toggled off.
 /// </summary>
-public sealed class SystemCursorDisplay : ILoadable
+internal sealed class SystemCursorDisplay : ILoadable
 {
 	public static readonly ConfigEntry<bool> DisplaySystemCursorWithDisabledUI = new(ConfigSide.ClientOnly, true, "Tweaks") {
 		IsHidden = true,

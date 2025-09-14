@@ -6,7 +6,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Time;
 
-public static class TimeGradients
+internal static class TimeGradients
 {
 	public static readonly Gradient<float> Day = new(
 		(TimeOfDay.HoursToTicks(0.00f), 0.00f),

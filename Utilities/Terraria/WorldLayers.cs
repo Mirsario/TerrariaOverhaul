@@ -7,7 +7,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class WorldLayers
+internal static class WorldLayers
 {
 	public static Gradient<float> SurfaceOrSky => new(
 		(0f, 0f),

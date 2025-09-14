@@ -15,7 +15,7 @@ using TerrariaOverhaul.Core.Time;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
-public sealed class EaterOfWorldsRework : GlobalNPC
+internal sealed class EaterOfWorldsRework : GlobalNPC
 {
 	public static readonly ConfigEntry<bool> EnableEaterOfWorldsEffects = new(ConfigSide.ClientOnly, true, "Bosses");
 

@@ -17,7 +17,7 @@ namespace TerrariaOverhaul.Common.ResourceDrops;
 
 // Ugh, inheritance.
 // Aim to do things here rather than in derivatives, using them mostly for data setup.
-public abstract class ResourcePickupChanges<TThis> : GlobalItem
+internal abstract class ResourcePickupChanges<TThis> : GlobalItem
 {
 	public static int MaxLifeTime { get; set; }
 	public static int? ForcedItemType { get; set; }

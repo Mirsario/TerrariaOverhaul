@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
-public struct VertexPositionUv3(Vector3 position, Vector2 uv0, Vector2 uv1, Vector2 uv2) : IVertexType
+internal struct VertexPositionUv3(Vector3 position, Vector2 uv0, Vector2 uv1, Vector2 uv2) : IVertexType
 {
 	public static readonly VertexDeclaration VertexDeclaration = new(
 		new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),

@@ -9,7 +9,7 @@ using Terraria;
 namespace TerrariaOverhaul.Utilities.Terraria;
 
 /// <summary> A game tick based timer. Saves a lot of troubles caused by entity component execution orders. </summary>
-public struct GameTimer
+internal struct GameTimer
 {
 	private static uint RealTime => Main.GameUpdateCount;
 

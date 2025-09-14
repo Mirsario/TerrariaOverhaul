@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Content.Decals;
 
-public class MopProjectile : SpearProjectileBase
+internal class MopProjectile : SpearProjectileBase
 {
 	public static ProjectileDecals.Data? DecalPreset { get; private set; }
 

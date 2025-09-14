@@ -7,6 +7,7 @@ using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Api.Camera;
 using TerrariaOverhaul.Common.AudioEffects;
 using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Camera;
@@ -17,7 +18,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Bosses;
 
-public sealed class EyeOfCthulhuRework : GlobalNPC
+internal sealed class EyeOfCthulhuRework : GlobalNPC
 {
 	private ref struct MappedAI(NPC npc)
 	{
@@ -112,21 +113,22 @@ public sealed class EyeOfCthulhuRework : GlobalNPC
 				}
 			}
 
-			CameraCurios.Create(npc.Center, new() {
+			CameraCurios.Create(new() {
+				Identifier = "BossTransformation",
+				Position = npc.Center,
 				Weight = 0.90f,
 				Zoom = +0.5f,
 				Range = new(Min: 256f, Max: 900f, Exponent: 3f),
 				LengthInSeconds = 0.10f,
 				FadeInLength = 0.25f,
 				FadeOutLength = 1.5f,
-				UniqueId = "BossTransformation",
 			});
 
 			ScreenShakeSystem.New(new() {
+				UniqueId = "BossTransformation",
 				Power = isEnd ? 1f : 0.4f,
 				Range = 1280f,
 				LengthInSeconds = isEnd ? 1f : 0.1f,
-				UniqueId = "BossTransformation",
 			}, npc.Center);
 
 			// Start or restart glow that lasts a little bit past the transformation animation.

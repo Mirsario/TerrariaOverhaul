@@ -7,7 +7,7 @@ using Terraria.ModLoader;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public static class ModUtils
+internal static class ModUtils
 {
 	public static string GetTextValue(this Mod mod, string key)
 		=> Language.GetTextValue($"Mods.{mod.Name}.{key}");

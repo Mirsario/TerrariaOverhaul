@@ -21,7 +21,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.TreeFalling;
 
-public sealed class TreeFallingSystem : ModSystem
+internal sealed class TreeFallingSystem : ModSystem
 {
 	private struct TreeCreationData
 	{

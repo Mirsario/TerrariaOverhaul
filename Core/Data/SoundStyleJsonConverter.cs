@@ -10,7 +10,7 @@ using Terraria.Audio;
 
 namespace TerrariaOverhaul.Core.Data;
 
-public sealed class SoundStyleJsonConverter : JsonConverter
+internal sealed class SoundStyleJsonConverter : JsonConverter
 {
 	public override bool CanWrite => false;
 	public override bool CanConvert(Type objectType) => objectType == typeof(SoundStyle) || objectType == typeof(SoundStyle?);

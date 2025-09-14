@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities.Xna;
 
-public static class RectangleUtils
+internal static class RectangleUtils
 {
 	// Contains
 

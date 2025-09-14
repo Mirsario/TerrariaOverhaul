@@ -10,9 +10,9 @@ using BitMask64 = TerrariaOverhaul.Utilities.BitMask<ulong>;
 
 namespace TerrariaOverhaul.Core.Data;
 
-public interface IComponent { }
+internal interface IComponent { }
 
-public readonly struct Component
+internal readonly struct Component
 {
 	public static readonly Component Invalid = default;
 
@@ -24,7 +24,7 @@ public readonly struct Component
 	public Type GetComponentType() => DataStorage.GetComponentType(this);
 }
 
-public unsafe readonly ref struct ComponentMask
+internal unsafe readonly ref struct ComponentMask
 {
 	public readonly Span<BitMask64> Span;
 
@@ -48,7 +48,7 @@ public unsafe readonly ref struct ComponentMask
 		=> new(new Span<BitMask64>(arr, (int)(entryIndex * ExpectedLength), (int)ExpectedLength));
 }
 
-public readonly struct DataEntity
+internal readonly struct DataEntity
 {
 	public static readonly DataEntity Invalid = default;
 
@@ -68,7 +68,7 @@ public readonly struct DataEntity
 	public void Destroy() => DataStorage.DestroyEntity(this);
 }
 
-public readonly struct Query
+internal readonly struct Query
 {
 	public readonly uint Index;
 

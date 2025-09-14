@@ -13,7 +13,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 namespace TerrariaOverhaul.Common.Charging;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class ItemPowerAttackSounds : ItemComponent, IModifyItemUseSound
+internal sealed class ItemPowerAttackSounds : ItemComponent, IModifyItemUseSound
 {
 	public SoundStyle? Sound;
 	public bool CancelPlaybackOnEnd;

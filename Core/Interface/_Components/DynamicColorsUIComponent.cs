@@ -11,7 +11,7 @@ using TerrariaOverhaul.Common.ConfigurationScreen;
 
 namespace TerrariaOverhaul.Core.Interface;
 
-public sealed class DynamicColorsUIComponent : UIComponent
+internal sealed class DynamicColorsUIComponent : UIComponent
 {
 	public UIColors Border;
 	public UIColors Background;

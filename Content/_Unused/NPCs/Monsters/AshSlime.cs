@@ -9,7 +9,7 @@ using Terraria.ID;
 
 namespace TerrariaOverhaul.Content.NPCs.Monsters.TheAshes;
 
-public class AshSlime : AshMonster
+internal class AshSlime : AshMonster
 {
 	protected override int BaseNPC => NPCID.BlueSlime;
 

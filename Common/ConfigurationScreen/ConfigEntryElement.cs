@@ -14,7 +14,7 @@ using TerrariaOverhaul.Core.Interface;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public class ConfigEntryElement : FancyUIPanel
+internal class ConfigEntryElement : FancyUIPanel
 {
 	public IConfigEntry ConfigEntry { get; }
 	public LocalizedText DisplayName { get; }

@@ -29,7 +29,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Dodgerolls;
 
-public struct DodgerollStats
+internal struct DodgerollStats
 {
 	public uint MaxCharges = 2;
 	// Timings
@@ -56,7 +56,7 @@ public struct DodgerollStats
 	public DodgerollStats() { }
 }
 
-public sealed class PlayerDodgerolls : ModPlayer
+internal sealed class PlayerDodgerolls : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnableDodgerolls = new(ConfigSide.Both, true, "Movement");
 	public static readonly ConfigEntry<bool> EnableDodgerollAudioCues = new(ConfigSide.ClientOnly, true, "Movement", "Awareness");

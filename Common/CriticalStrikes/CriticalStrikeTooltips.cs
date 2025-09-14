@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.CriticalStrikes;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class CriticalStrikeTooltips : GlobalItem
+internal sealed class CriticalStrikeTooltips : GlobalItem
 {
 	private static readonly int maxCacheEntries = 128;
 	private static readonly Dictionary<string, string> cache = new();

@@ -8,7 +8,7 @@ using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.EntityEffects;
 
-public sealed class PlayerAnimations : ModPlayer
+internal sealed class PlayerAnimations : ModPlayer
 {
 	public PlayerFrames? ForcedHeadFrame;
 	public PlayerFrames? ForcedBodyFrame;

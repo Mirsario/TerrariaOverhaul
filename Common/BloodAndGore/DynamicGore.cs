@@ -14,7 +14,7 @@ using BitMask = TerrariaOverhaul.Utilities.BitMask<ulong>;
 namespace TerrariaOverhaul.Common.BloodAndGore;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class DynamicGore : ModGore
+internal sealed class DynamicGore : ModGore
 {
 	public struct TextureHandle
 	{

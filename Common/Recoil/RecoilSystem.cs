@@ -14,7 +14,7 @@ using TerrariaOverhaul.Utilities.Xna;
 namespace TerrariaOverhaul.Common.Recoil;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class RecoilSystem : ModSystem
+internal sealed class RecoilSystem : ModSystem
 {
 	private struct CursorOffset
 	{

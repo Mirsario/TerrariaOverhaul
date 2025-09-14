@@ -21,7 +21,7 @@ namespace TerrariaOverhaul.Core.Lighting;
 
 // Creates and maintains a small screen-bound buffer containing lighting information.
 [Autoload(Side = ModSide.Client)]
-public sealed class LightingSystem : ModSystem
+internal sealed class LightingSystem : ModSystem
 {
 	private static bool buffersCreated;
 	private static bool buffersFilled;
