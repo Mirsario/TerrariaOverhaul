@@ -201,6 +201,11 @@ Balance: {
 		// DisplayName: "Enable Mana Drops Rework"
 		// Description: "When enabled, random mana drops on enemy deaths are replaced with enemies dropping mana over time as they receive damage, as long as a nearby player is not on full mana."
 	}
+
+	EnableEnemyEncounters: {
+		// DisplayName: "Enable Enemy Encounters"
+		// Description: ""
+	}
 }
 
 BloodAndGore: {

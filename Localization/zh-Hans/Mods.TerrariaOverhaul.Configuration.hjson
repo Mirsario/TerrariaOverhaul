@@ -193,6 +193,11 @@ Balance: {
 		DisplayName: "重制小蓝星掉落机制"
 		Description: ""
 	}
+
+	EnableEnemyEncounters: {
+		// DisplayName: "Enable Enemy Encounters"
+		// Description: ""
+	}
 }
 
 BloodAndGore: {
