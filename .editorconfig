@@ -161,7 +161,7 @@ dotnet_diagnostic.IDE0042.severity = none
 	csharp_indent_braces = false
 	csharp_indent_case_contents = true
 	csharp_indent_case_contents_when_block = false
-	csharp_indent_labels = one_less_than_current
+	csharp_indent_labels = false
 	csharp_indent_switch_labels = true
 
 # Space preferences
@@ -199,11 +199,11 @@ dotnet_diagnostic.IDE0042.severity = none
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 	dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
-	
+
 dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
 	dotnet_naming_rule.types_should_be_pascal_case.symbols = types
 dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
-	
+
 dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 	dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
@@ -213,11 +213,11 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 	dotnet_naming_symbols.interface.applicable_kinds = interface
 	dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 	dotnet_naming_symbols.interface.required_modifiers =
-	
+
 	dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
 	dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 	dotnet_naming_symbols.types.required_modifiers =
-	
+
 	dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
 	dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 	dotnet_naming_symbols.non_field_members.required_modifiers =
@@ -228,9 +228,11 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 	dotnet_naming_style.pascal_case.required_suffix =
 	dotnet_naming_style.pascal_case.word_separator =
 	dotnet_naming_style.pascal_case.capitalization = pascal_case
-	
+
 	dotnet_naming_style.begins_with_i.required_prefix = I
 	dotnet_naming_style.begins_with_i.required_suffix =
 	dotnet_naming_style.begins_with_i.word_separator =
 	dotnet_naming_style.begins_with_i.capitalization = pascal_case
-	
+
+# IDE0305: Simplify collection initialization
+dotnet_style_prefer_collection_expression = never
