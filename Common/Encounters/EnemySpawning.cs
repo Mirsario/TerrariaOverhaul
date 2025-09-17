@@ -138,8 +138,9 @@ internal static class EnemySpawning
 			LengthInSeconds = 2.5f,
 			FadeInLength = 0.5f,
 			FadeOutLength = 0.5f,
-			Weight = 0.05f,
+			Weight = 0.04f,
 			Callback = new NpcTracker(npc).Center,
+			Range = new(Min: 512f, Max: 1125f, Exponent: 1.25f),
 		});
 	}
 

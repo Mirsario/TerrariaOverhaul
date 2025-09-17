@@ -14,6 +14,8 @@ using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Common.Encounters;
 
+internal delegate void EncounterCallback(ref Encounter encounter, in EncounterContext ctx);
+
 /// <summary> Description used to create an enemy encounter. </summary>
 internal struct Encounter()
 {
@@ -33,12 +35,20 @@ internal struct Encounter()
 	public int MusicIndex { get; set; } = -1;
 	/// <summary> The priority to use for effects such as <see cref="MusicIndex"/>. </summary>
 	public SceneEffectPriority SceneEffectPriority { get; set; }
+
+	/// <summary> Callback invoked when the encounter is started. </summary>
+	public EncounterCallback? OnActivated { get; set; }
 }
 
 internal struct EncounterWave()
 {
 	/// <summary> The enemies to spawn. </summary>
 	public required EnemySpawn[] Spawns { get; set; }
+}
+
+internal struct EncounterContext()
+{
+	public required Player Player { get; set; }
 }
 
 internal enum EncounterState
@@ -86,8 +96,12 @@ internal sealed class EnemyEncounters : ModSystem
 	{
 		base.Load();
 
-		IL_Main.DoUpdateInWorld += DoUpdateInWorldInjection;
 		MonoModHooks.Modify(typeof(SceneEffectLoader).GetMethod(nameof(SceneEffectLoader.UpdateMusic)), SceneEffectLoaderUpdateMusicInjection);
+	}
+
+	public override void PostUpdateWorld()
+	{
+		UpdateEncounters();
 	}
 
 	/// <summary> Creates an encounter with the given parameters. </summary>
@@ -123,15 +137,20 @@ internal sealed class EnemyEncounters : ModSystem
 
 			foreach (var player in Main.ActivePlayers) {
 				if (player.Center.DistanceSQ(encounter.ActivationOrigin) <= sqrRange) {
-					StartEncounter(ref instance);
+					var ctx = new EncounterContext {
+						Player = player,
+					};
+
+					StartEncounter(ref instance, in ctx);
 					break;
 				}
 			}
 		}
 	}
 
-	private static void StartEncounter(ref EncounterInstance instance)
+	private static void StartEncounter(ref EncounterInstance instance, in EncounterContext ctx)
 	{
+		instance.Encounter.OnActivated?.Invoke(ref instance.Encounter, in ctx);
 		instance.State = EncounterState.InProgress;
 	}
 
@@ -151,10 +170,11 @@ internal sealed class EnemyEncounters : ModSystem
 			for (int enemyIndexInWave = instance.EnemiesSpawnedThisWave; enemyIndexInWave < wave.Spawns.Length; enemyIndexInWave++) {
 				var spawn = wave.Spawns[enemyIndexInWave];
 
-				// Supply overrides for 
+				// Supply overrides for placement.
 				if (spawn.SpawnPlacement is { } placement) {
 					if (placement.Area == default) placement.Area = encounter.SpawnArea;
 					if (placement.AreaOrigin == default) placement.AreaOrigin = encounter.SpawnOrigin;
+					spawn.SpawnPlacement = placement;
 				}
 
 				source ??= Entity.GetSource_NaturalSpawn();
@@ -220,36 +240,6 @@ internal sealed class EnemyEncounters : ModSystem
 		}
 
 		return result;
-	}
-
-	private static bool ShouldSkipVanillaLogic()
-	{
-		return EnableEnemyEncounters;
-	}
-
-	private static void DoUpdateInWorldInjection(ILContext ctx)
-	{
-		var il = new ILCursor(ctx);
-
-		// Match 'NPC.SpawnNPC() in a try block'.
-		ILLabel? tryBlockEnd = null!;
-		il.GotoNext(MoveType.Before,
-			i => i.MatchNop(),
-			i => i.MatchCall(typeof(NPC), nameof(NPC.SpawnNPC)),
-			i => i.MatchLeave(out tryBlockEnd)
-		);
-
-		// Before the try block.
-		ILUtils.HijackIncomingLabels(il);
-		var skipVanillaSpawnLogicLabel = il.DefineLabel();
-		il.EmitDelegate(ShouldSkipVanillaLogic);
-		il.EmitBrtrue(skipVanillaSpawnLogicLabel);
-
-		// After the try block.
-		il.GotoNext(MoveType.AfterLabel, i => i == tryBlockEnd.Target);
-		il.EmitNop();
-		skipVanillaSpawnLogicLabel.Target = il.Prev;
-		il.EmitDelegate(UpdateEncounters);
 	}
 
 	private static void SceneEffectLoaderUpdateMusicInjection(ILContext ctx)
