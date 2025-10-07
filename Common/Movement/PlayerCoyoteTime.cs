@@ -11,7 +11,8 @@ internal sealed class PlayerCoyoteTime : ModPlayer
     public static readonly ConfigEntry<bool> EnableCoyoteTime = new(ConfigSide.ClientOnly, true, "Movement");
 
     private float coyoteTimer;
-    private const float CoyoteDuration = 0.3f;
+    private const float CoyoteDuration = 0.15f;
+    private const int ForcedJumpHoldAmount = 10;
 
     public override void PostUpdate()
     {
@@ -53,10 +54,9 @@ internal sealed class PlayerCoyoteTime : ModPlayer
         float jumpVel = (0f - Player.jumpSpeed) * player.gravDir;
         player.velocity = new Microsoft.Xna.Framework.Vector2(originalVelX, jumpVel);
 
+        // Make the coyote jump behave more like a held jump
         player.releaseJump = false;
-        if (player.jump <= 0) {
-            player.jump = 1;
-        }
+        player.jump = System.Math.Max(player.jump, ForcedJumpHoldAmount);
 
     }
     else
