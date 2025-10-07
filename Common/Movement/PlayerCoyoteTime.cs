@@ -3,6 +3,7 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities.Xna;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
@@ -19,9 +20,8 @@ internal sealed class PlayerCoyoteTime : ModPlayer
         if (!EnableCoyoteTime) {
             return;
         }
-        // Start the coyote timer when the player *leaves* the ground. Setting it while
-        // the player is grounded would make the window active at the wrong time.
-        if (Player.oldVelocity.Y == 0f && Player.velocity.Y != 0f) {
+        // Start the coyote timer when the player starts falling off a ledge.
+        if (Player.oldVelocity.Y == 0f && Player.velocity.Y > 0f) {
             coyoteTimer = CoyoteDuration;
         } else {
             coyoteTimer = MathUtils.StepTowards(coyoteTimer, 0f, TimeSystem.LogicDeltaTime);
