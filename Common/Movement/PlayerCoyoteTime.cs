@@ -9,60 +9,60 @@ namespace TerrariaOverhaul.Common.Movement;
 
 internal sealed class PlayerCoyoteTime : ModPlayer
 {
-    public static readonly ConfigEntry<bool> EnableCoyoteTime = new(ConfigSide.ClientOnly, true, "Movement");
+	public static readonly ConfigEntry<bool> EnableCoyoteTime = new(ConfigSide.ClientOnly, true, "Movement");
 
-    private float coyoteTimer;
-    private const float CoyoteDuration = 0.15f;
-    private const int ForcedJumpHoldAmount = 10;
+	private float coyoteTimer;
+	private const float CoyoteDuration = 0.15f;
+	private const int ForcedJumpHoldAmount = 10;
 
-    public override void PostUpdate()
-    {
-        if (!EnableCoyoteTime) {
-            return;
-        }
-        // Start the coyote timer when the player starts falling off a ledge.
-        if (Player.oldVelocity.Y == 0f && Player.velocity.Y > 0f) {
-            coyoteTimer = CoyoteDuration;
-        } else {
-            coyoteTimer = MathUtils.StepTowards(coyoteTimer, 0f, TimeSystem.LogicDeltaTime);
-        }
-    }
+	public override void PostUpdate()
+	{
+		if (!EnableCoyoteTime) {
+			return;
+		}
 
-    public override void Load()
-    {
-        On_Player.JumpMovement += JumpMovementHook;
-    }
+		// Start the coyote timer when the player starts falling off a ledge.
+		if (Player.oldVelocity.Y == 0f && Player.velocity.Y > 0f) {
+			coyoteTimer = CoyoteDuration;
+		} else {
+			coyoteTimer = MathUtils.StepTowards(coyoteTimer, 0f, TimeSystem.LogicDeltaTime);
+		}
+	}
 
-    private static void JumpMovementHook(On_Player.orig_JumpMovement orig, Player player)
-{
-    if (!EnableCoyoteTime) {
-        orig(player);
-        return;
-    }
-    var modPlayer = player.GetModPlayer<PlayerCoyoteTime>();
+	public override void Load()
+	{
+		On_Player.JumpMovement += JumpMovementHook;
+	}
 
-    // Only allow coyote jump if the player is airborne, the coyote window is active,
-    // and the player is actually pressing the jump key.
-    bool allowCoyote = player.velocity.Y != 0f && modPlayer.coyoteTimer > 0f && player.controlJump;
+	private static void JumpMovementHook(On_Player.orig_JumpMovement orig, Player player)
+	{
+		if (!EnableCoyoteTime) {
+			orig(player);
+			return;
+		}
 
-    if (allowCoyote)
-    {
-        modPlayer.coyoteTimer = 0f;
+		var modPlayer = player.GetModPlayer<PlayerCoyoteTime>();
 
-        float originalVelX = player.velocity.X;
+		// Only allow coyote jump if the player is airborne, the coyote window is active,
+		// and the player is actually pressing the jump key.
+		bool allowCoyote = player.velocity.Y != 0f && modPlayer.coyoteTimer > 0f && player.controlJump;
 
-        float jumpVel = (0f - Player.jumpSpeed) * player.gravDir;
-        player.velocity = new Microsoft.Xna.Framework.Vector2(originalVelX, jumpVel);
+		if (allowCoyote)
+		{
+			modPlayer.coyoteTimer = 0f;
 
-        // Make the coyote jump behave more like a held jump
-        player.releaseJump = false;
-        player.jump = System.Math.Max(player.jump, ForcedJumpHoldAmount);
+			float originalVelX = player.velocity.X;
 
-    }
-    else
-    {
-        orig(player);
-    }
-}
+			float jumpVel = (0f - Player.jumpSpeed) * player.gravDir;
+			player.velocity = new Microsoft.Xna.Framework.Vector2(originalVelX, jumpVel);
 
+			// Make the coyote jump behave more like a held jump
+			player.releaseJump = false;
+			player.jump = System.Math.Max(player.jump, ForcedJumpHoldAmount);
+		}
+		else
+		{
+			orig(player);
+		}
+	}
 }
