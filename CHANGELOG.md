@@ -34,6 +34,12 @@
 # Work In Progress
 
 ### Additions
+- Implemented Coyote Time. Walking off a ledge now activates a grace period, during which the player will still be able to jump as if they are still on the ground.
+  (Thanks, **`@K3vlar159`**!)
+- Added new footstep sounds for Bricks, Clouds, Glass, Mossy Stone, and Silly Balloon Blocks.
+  (Thanks, **`@Motaii`!)
+- New ambience tracks: `Beach Waves`.
+  (Thanks, **@ZestyMace**!)
 - The decal system has been expanded with support for background decals. In other words, blood and impacts can now stain walls as well as floors.
 - Implemented a 'camera curio system'. Subtly shifting and zooming on important areas, the system will be used to hint the player's attention towards important objects and events, increasing cinematic feel on top of all.
 - The following camera curios have been implemented:
@@ -51,9 +57,7 @@
 - **`The Eater of Worlds`** has received an audiovisual overhaul, featuring a debris effect system, disgusting movement & digging audio, as well as terrifying attack and pain screeches that make it look like the victim during its battle. Who knew worms could sing?
 - When the last alive boss is killed, a cinematic transition cue is now played in addition to the aforementioned camera focus.
 - Crimson and Corruption enemies now have new hit and death audio.
-- Added new footstep sounds for Bricks, Clouds, Glass, Mossy Stone, and Silly Balloon Blocks (Thanks, **`@Motaii`!).
 - Leaves particles will now be baked as decals whenever they hit the ground.
-- New ambience tracks: `Beach Waves` (Thanks, **@ZestyMace**!).
 - Introduced many new randomly played ambience sounds (previously we've only had loops).
 ### Critical Strikes
 - The critical strike rework is here, replacing random critical strikes with a consistent system of enemy weakpoints, hitting which guarantees critical damage, most weakpoints being enemies' backs'.
