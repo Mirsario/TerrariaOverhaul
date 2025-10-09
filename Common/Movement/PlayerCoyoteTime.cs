@@ -19,7 +19,7 @@ internal sealed class PlayerCoyoteTime : ModPlayer
 
 	public override void ResetEffects()
 	{
-		DurationInTicks = 10;
+		DurationInTicks = 13;
 	}
 
 	public override void Load()
@@ -36,6 +36,11 @@ internal sealed class PlayerCoyoteTime : ModPlayer
 		// Start the coyote timer when the player starts falling off a ledge.
 		if (Player.oldVelocity.Y == 0f && Player.velocity.Y > 0f) {
 			Timer.Set(DurationInTicks);
+		}
+
+		// Animation cue.
+		if (!Main.dedServ && Timer.Value > 3 && Player.velocity.Y > 0f && Player.bodyFrame.Y == ((int)PlayerFrames.Jump * Player.bodyFrame.Height)) {
+			Player.bodyFrame.Y = (int)PlayerFrames.Walk5 * Player.bodyFrame.Height;
 		}
 	}
 
