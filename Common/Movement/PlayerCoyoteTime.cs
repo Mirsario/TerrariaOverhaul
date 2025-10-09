@@ -3,17 +3,22 @@ using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities.Xna;
-using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
 internal sealed class PlayerCoyoteTime : ModPlayer
 {
+	private const float CoyoteDuration = 0.15f;
+	private const int ForcedJumpHoldAmount = 10;
+
 	public static readonly ConfigEntry<bool> EnableCoyoteTime = new(ConfigSide.ClientOnly, true, "Movement");
 
 	private float coyoteTimer;
-	private const float CoyoteDuration = 0.15f;
-	private const int ForcedJumpHoldAmount = 10;
+
+	public override void Load()
+	{
+		On_Player.JumpMovement += JumpMovementHook;
+	}
 
 	public override void PostUpdate()
 	{
@@ -29,11 +34,6 @@ internal sealed class PlayerCoyoteTime : ModPlayer
 		}
 	}
 
-	public override void Load()
-	{
-		On_Player.JumpMovement += JumpMovementHook;
-	}
-
 	private static void JumpMovementHook(On_Player.orig_JumpMovement orig, Player player)
 	{
 		if (!EnableCoyoteTime) {
@@ -47,21 +47,17 @@ internal sealed class PlayerCoyoteTime : ModPlayer
 		// and the player is actually pressing the jump key.
 		bool allowCoyote = player.velocity.Y != 0f && modPlayer.coyoteTimer > 0f && player.controlJump;
 
-		if (allowCoyote)
-		{
+		if (allowCoyote) {
 			modPlayer.coyoteTimer = 0f;
 
 			float originalVelX = player.velocity.X;
-
 			float jumpVel = (0f - Player.jumpSpeed) * player.gravDir;
 			player.velocity = new Microsoft.Xna.Framework.Vector2(originalVelX, jumpVel);
 
 			// Make the coyote jump behave more like a held jump
 			player.releaseJump = false;
 			player.jump = System.Math.Max(player.jump, ForcedJumpHoldAmount);
-		}
-		else
-		{
+		} else {
 			orig(player);
 		}
 	}
