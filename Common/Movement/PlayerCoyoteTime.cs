@@ -1,19 +1,26 @@
+// Copyright (c) 2020-2025 Mirsario & Contributors.
+// Released under the GNU General Public License 3.0.
+// See LICENSE.md for details.
+
+using System;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Core.Time;
-using TerrariaOverhaul.Utilities.Xna;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Movement;
 
 internal sealed class PlayerCoyoteTime : ModPlayer
 {
-	private const float CoyoteDuration = 0.15f;
-	private const int ForcedJumpHoldAmount = 10;
+	public static readonly ConfigEntry<bool> EnableCoyoteTime = new(ConfigSide.Both, true, "Movement", "Accessibility");
 
-	public static readonly ConfigEntry<bool> EnableCoyoteTime = new(ConfigSide.ClientOnly, true, "Movement");
+	public GameTimer Timer;
+	public uint DurationInTicks;
 
-	private float coyoteTimer;
+	public override void ResetEffects()
+	{
+		DurationInTicks = 10;
+	}
 
 	public override void Load()
 	{
@@ -28,9 +35,7 @@ internal sealed class PlayerCoyoteTime : ModPlayer
 
 		// Start the coyote timer when the player starts falling off a ledge.
 		if (Player.oldVelocity.Y == 0f && Player.velocity.Y > 0f) {
-			coyoteTimer = CoyoteDuration;
-		} else {
-			coyoteTimer = MathUtils.StepTowards(coyoteTimer, 0f, TimeSystem.LogicDeltaTime);
+			Timer.Set(DurationInTicks);
 		}
 	}
 
@@ -45,18 +50,14 @@ internal sealed class PlayerCoyoteTime : ModPlayer
 
 		// Only allow coyote jump if the player is airborne, the coyote window is active,
 		// and the player is actually pressing the jump key.
-		bool allowCoyote = player.velocity.Y != 0f && modPlayer.coyoteTimer > 0f && player.controlJump;
+		bool allowCoyote = player.velocity.Y != 0f && player.controlJump && modPlayer.Timer.Active;
 
 		if (allowCoyote) {
-			modPlayer.coyoteTimer = 0f;
-
-			float originalVelX = player.velocity.X;
-			float jumpVel = (0f - Player.jumpSpeed) * player.gravDir;
-			player.velocity = new Microsoft.Xna.Framework.Vector2(originalVelX, jumpVel);
-
-			// Make the coyote jump behave more like a held jump
+			// Perform the coyote jump just like a normal jump.
+			player.velocity.Y = Math.Min(player.velocity.Y, -Player.jumpSpeed * player.gravDir);
+			player.jump = Math.Max(player.jump, Player.jumpHeight);
 			player.releaseJump = false;
-			player.jump = System.Math.Max(player.jump, ForcedJumpHoldAmount);
+			modPlayer.Timer = default;
 		} else {
 			orig(player);
 		}
