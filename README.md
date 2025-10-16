@@ -29,13 +29,8 @@ That's all. Use `git pull` to pull new commits, and `git reset origin/dev --hard
 
 # 📖 License
 #### Code
-All original code of this repository is provided under the [GNU General Public License 3.0](https://github.com/Mirsario/TerrariaOverhaul/blob/dev/LICENSE.md).<br/>
-Each code file has its own license header, most but not all of them being:
-> ```cs
-> // Copyright (c) 2020-2025 Mirsario & Contributors.
-> // Released under the GNU General Public License 3.0.
-> // See LICENSE.md for details.
-> ```
+All code files in this repository have license headers.<br/>
+Most of the original code being provided under the [GNU General Public License 3.0](https://github.com/Mirsario/TerrariaOverhaul/blob/dev/LICENSE.md).<br/>
 Exceptions: `Utilities/FastNoiseLite.cs` (MIT).
 #### Assets
 All of the art, audio, and other non-code assets belong to their respective owners and are used non-commercially either with a permission, a royalty-free license, or with various modifications & trust in the holiness of videogame modding.
