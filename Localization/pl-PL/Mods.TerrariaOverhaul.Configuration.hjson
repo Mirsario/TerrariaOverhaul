@@ -707,6 +707,11 @@ Movement: {
 		// DisplayName: "Enable Dodgeroll Audio Cues"
 		// Description: "Toggles sounds that denote that a dodgeroll charge has been refilled, or that there's no charges left."
 	}
+
+	EnableCoyoteTime: {
+		// DisplayName: "Enable Coyote Time"
+		// Description: "Allows you to jump for a short time after leaving a platform, making jumps more forgiving."
+	}
 }
 
 Visuals: {

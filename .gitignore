@@ -1,9 +1,14 @@
+# Editors
 .vs/
+.vscode/
+.idea/
+*.user
+# Binaries
 bin/
 obj/
-Old/
 BuildTools/Libraries/TerrariaOverhaul.BuildTools*
+# Hidden
+Old/
 **/!Unused/
 *.ignored
-*.user
 changelog.txt

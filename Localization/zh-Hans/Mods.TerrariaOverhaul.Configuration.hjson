@@ -703,6 +703,11 @@ Movement: {
 		DisplayName: "翻滚提示音效"
 		Description: "在翻滚可用或不可用时播放音效作为提示"
 	}
+
+	EnableCoyoteTime: {
+		// DisplayName: "Enable Coyote Time"
+		// Description: "Allows you to jump for a short time after leaving a platform, making jumps more forgiving."
+	}
 }
 
 Visuals: {
