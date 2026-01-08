@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
 using TerrariaOverhaul.Utilities.Terraria;
 using EnvironmentTag = TerrariaOverhaul.Core.Tags.Tag<TerrariaOverhaul.Common.Ambience.EnvironmentSystem>;
 
@@ -45,7 +46,7 @@ internal sealed partial class EnvironmentSystem : ModSystem
 	{
 		FillZoneBitmaskMapping(biomeTagsByMaskIndex);
 
-		foreach (var type in Assembly.GetExecutingAssembly().GetTypes()) {
+		foreach (var type in AssemblyManager.GetLoadableTypes(Mod.Code)) {
 			foreach (var method in type.GetMethods(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic)) {
 				var attribute = method.GetCustomAttribute<EnvironmentSignalUpdaterAttribute>();
 
