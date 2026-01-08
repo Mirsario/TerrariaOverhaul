@@ -56,6 +56,15 @@ internal struct ChunkDecals() : IComponent
 		masks[(int)DecalLayer.Background] = Main.instance.wallTarget;
 		return masks;
 	}
+
+	public static Vector2 LayerMaskPos(DecalLayer layer)
+	{
+		return layer switch {
+			DecalLayer.Foreground => Main.sceneTilePos,
+			DecalLayer.Background => Main.sceneWallPos,
+			_ => throw new NotImplementedException(),
+		};
+	}
 }
 internal struct DecalLayerData()
 {
@@ -315,6 +324,7 @@ internal sealed class DecalSystem : ModSystem
 		var graphicsDevice = Main.instance.GraphicsDevice;
 
 		var maskTexture = ChunkDecals.LayerMasks()[(int)layerIndex];
+		var maskPos = ChunkDecals.LayerMaskPos(layerIndex);
 		var vertices = ArrayPool<VertexPositionUv3>.Shared.Rent(4);
 		using var _ = new Defer(() => ArrayPool<VertexPositionUv3>.Shared.Return(vertices));
 
@@ -329,7 +339,7 @@ internal sealed class DecalSystem : ModSystem
 			dstRect.Y -= Main.screenPosition.Y;
 			var shader = BloodShader?.Value;
 
-			if (shader == null || Main.instance.tileTarget == null)
+			if (shader == null || maskTexture == null)
 				continue;
 
 			shader.Parameters["texture0"].SetValue(layer.Texture);
@@ -342,16 +352,16 @@ internal sealed class DecalSystem : ModSystem
 			foreach (var pass in shader.CurrentTechnique.Passes) {
 				pass.Apply();
 
-				var tileExtensionOffset = Main.sceneTilePos - Main.screenPosition;
-				var tileTargetSize = Main.instance.tileTarget.Size();
+				var maskExtensionOffset = maskPos - Main.screenPosition;
+				var maskTargetSize = maskTexture.Size();
 
 				var pos = new Vector4(dstRect.Left, dstRect.Top, dstRect.Right, dstRect.Bottom);
 				var uvDecal = new Vector4(0f, 0f, 1f, 1f);
 				var uvTiles = new Vector4(
-					(dstRect.Left - tileExtensionOffset.X) / tileTargetSize.X,
-					(dstRect.Top - tileExtensionOffset.Y) / tileTargetSize.Y,
-					(dstRect.Right - tileExtensionOffset.X) / tileTargetSize.X,
-					(dstRect.Bottom - tileExtensionOffset.Y) / tileTargetSize.Y
+					(dstRect.Left - maskExtensionOffset.X) / maskTargetSize.X,
+					(dstRect.Top - maskExtensionOffset.Y) / maskTargetSize.Y,
+					(dstRect.Right - maskExtensionOffset.X) / maskTargetSize.X,
+					(dstRect.Bottom - maskExtensionOffset.Y) / maskTargetSize.Y
 				);
 				var uvLight = new Vector4(
 					dstRect.Left / (float)Main.screenWidth,
