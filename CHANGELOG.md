@@ -41,6 +41,7 @@
 - New ambience tracks: `Beach Waves`.
   (Thanks, **@ZestyMace**!)
 - The decal system has been expanded with support for background decals. In other words, blood and impacts can now stain walls as well as floors.
+	(Assisted by **@steviegt6**!)
 - Implemented a 'camera curio system'. Subtly shifting and zooming on important areas, the system will be used to hint the player's attention towards important objects and events, increasing cinematic feel on top of all.
 - The following camera curios have been implemented:
 	- **NPCs in dialogues**;
@@ -110,6 +111,7 @@
 - Overhaul's internal chunk system is now data-oriented, with improved CPU caching and slightly reduced memory usage.
 - Overhaul's internal chunks will now be unloaded from memory when unused for some time.
 ### Fixes
+- Fixed the mod using out of date assembly type iteration APIs (Thanks, `@steviegt6`!)
 - Fixed issue [#217](https://github.com/Mirsario/TerrariaOverhaul/issues/217) (Decals may become offset or warped in rendering).
 - Fixed issue [#195](https://github.com/Mirsario/TerrariaOverhaul/issues/195) (Cutting down a tree makes things disappear for a moment).
 - Fixed issue [#252](https://github.com/Mirsario/TerrariaOverhaul/issues/252) (Spirit Flame & Mystic Coil Snake wrongfully rotated by AlwaysShowAimableWeapons).

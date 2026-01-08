@@ -6,8 +6,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Media;
 using ReLogic.Content;
@@ -85,7 +85,7 @@ internal sealed class OgvReader : IAssetReader, ILoadable
 		// Here we assemble the Video instance completely by ourselves.
 		// Good thing that we no longer have to account for different frameworks being used.
 		// - Mirsario.
-		var result = (Video)FormatterServices.GetUninitializedObject(videoType);
+		var result = (Video)RuntimeHelpers.GetUninitializedObject(videoType);
 
 		int openResult = tf_open_callbacks(dataPtr, out nint theoraPtr, callbacks);
 

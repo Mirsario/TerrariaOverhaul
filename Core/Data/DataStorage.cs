@@ -6,6 +6,7 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Terraria.ModLoader.Core;
 using BitMask64 = TerrariaOverhaul.Utilities.BitMask<ulong>;
 
 namespace TerrariaOverhaul.Core.Data;
@@ -228,7 +229,7 @@ internal static class DataStorage
 
 	public static void RegisterTypesFromAssembly(Assembly assembly)
 	{
-		foreach (var type in assembly.GetTypes().Where(t => !t.IsAbstract && typeof(IComponent).IsAssignableFrom(t))) {
+		foreach (var type in AssemblyManager.GetLoadableTypes(assembly).Where(t => !t.IsAbstract && typeof(IComponent).IsAssignableFrom(t))) {
 			RegisterComponent(type);
 		}
 	}

@@ -11,6 +11,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.Core;
 using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Core.Configuration;
@@ -87,7 +88,7 @@ internal sealed class ConfigSystem : ModSystem
 				continue;
 			}
 
-			foreach (var type in modAssembly.GetTypes()) {
+			foreach (var type in AssemblyManager.GetLoadableTypes(modAssembly)) {
 				if (type.IsEnum) {
 					continue;
 				}
