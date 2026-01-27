@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2025 Mirsario & Contributors.
+﻿// Copyright (c) 2020-2026 Mirsario & Contributors.
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
@@ -94,6 +94,7 @@ internal class FootstepSystem : ModSystem
 
 		if (sound.HasValue) {
 			SoundEngine.PlaySound(sound.Value, entity.Bottom);
+			//SoundEngine.PlaySound(Terraria.ID.SoundID.AbigailCry, entity.Bottom);
 		}
 
 		return true;
