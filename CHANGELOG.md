@@ -52,6 +52,7 @@
 	- **Rare enemies** (subtle);
 	- **Rare critters and NPCs** (subtle);
 	- **Boss bags and rare pickups**;
+	- **Sleeping**;
 - Implemented Boss Intros and Outros. Simple but effective text lines that introduce bosses as they spawn, and announce their defeat in a way more elegant than chat text.
 - `The Eye of Cthulhu` has received an audiovisual overhaul, featuring new sound effects, and new transformation audiovisual effects.
 - **`The Destroyer`** has received a full audiovisual overhaul, featuring a new massive sprite, debris effect system, movement & digging audio, as well as robotic screeches meant to intimidate and warn players of their impending doom. This comes with two options, one for the sprite and another for the whole set of effects.
