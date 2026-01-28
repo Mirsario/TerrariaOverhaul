@@ -131,6 +131,7 @@
 - Fixed weapon aiming animations not taking the player's full body rotation into account.
 - Fixed crosshair animations stacking up when user interface is turned off via F11.
 - Fixed footsteps not playing when bouncing on 'Silly Balloon Blocks'.
+- Fixed jump & land footstep sounds sometimes not playing when mixed with walking/running footsteps. They now use separate cooldowns.
 
 # 5.0 BETA 14
 

@@ -144,7 +144,7 @@ internal class PlayerWallJumps : ModPlayer
 
 			// Do a footstep sound.
 			var footPoint = Player.TopLeft.ToTileCoordinates16() + new Point16(prevDirX < 0 ? -1 : 2, 1);
-			FootstepSystem.Footstep(Player, FootstepType.Jump, footPoint);
+			FootstepSystem.Footstep(Player, FootstepType.Jump, forcedPoint: footPoint);
 		}
 
 		if (stats.TriggerDodgeroll) {

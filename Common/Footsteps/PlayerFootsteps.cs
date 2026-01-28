@@ -2,13 +2,11 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
-using TerrariaOverhaul.Core.Time;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Terraria;
 
@@ -18,10 +16,11 @@ internal sealed class PlayerFootsteps : ModPlayer
 {
 	public static readonly ConfigEntry<bool> EnablePlayerFootsteps = new(ConfigSide.ClientOnly, true, "Ambience");
 
-	private const double FootstepCooldown = 0.1;
+	private const uint FootstepCooldown = 5;
 
 	private byte stepState;
-	private double lastFootstepTime;
+	private uint lastNormalStepTick;
+	private uint lastSpecialStepTick;
 	private bool bouncedThisFrame;
 
 	public override void Load()
@@ -78,11 +77,12 @@ internal sealed class PlayerFootsteps : ModPlayer
 		}
 
 		if (footstepType.HasValue && (footstepType.Value != FootstepType.Default || stepState == 1 && (legFrame == 16 || legFrame == 17) || stepState == 0 && (legFrame == 9 || legFrame == 10))) {
-			double time = TimeSystem.LogicTime;
+			uint tick = Main.GameUpdateCount;
+			ref uint lastStep = ref (footstepType.Value == FootstepType.Default ? ref lastNormalStepTick : ref lastSpecialStepTick);
 
-			if (time - lastFootstepTime > FootstepCooldown && FootstepSystem.Footstep(Player, footstepType.Value)) {
+			if ((tick - lastStep) > FootstepCooldown && FootstepSystem.Footstep(Player, footstepType.Value)) {
 				stepState = (byte)(stepState == 0 ? 1 : 0);
-				lastFootstepTime = TimeSystem.LogicTime;
+				lastStep = tick;
 			}
 		}
 
