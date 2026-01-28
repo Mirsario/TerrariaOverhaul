@@ -32,12 +32,12 @@ Ambience: {
 
 	EnableAmbientSounds: {
 		DisplayName: "环境音效"
-		Description: "各式各样的环境音效，如鸟、蟋蟀、风、洞穴声等"
+		Description: "各式各样的环境音效，如鸟、蟋蟀、风、洞穴声等。"
 	}
 
 	EnablePlayerFootsteps: {
 		DisplayName: "脚步声"
-		Description: "玩家角色的脚步声"
+		Description: "玩家角色的脚步声。"
 	}
 
 	EnableLowPassFiltering: {
@@ -53,6 +53,11 @@ Ambience: {
 	EnableUnderwaterMuffling: {
 		DisplayName: "水下消音"
 		Description: "开启后，潜入水中后会通过“低通滤波”降低声音的频率范围。"
+	}
+
+	EnableNpcFootsteps: {
+		// DisplayName: "Enable NPC Footsteps"
+		// Description: "Toggles enemies' and town NPCs' footstep effects."
 	}
 }
 

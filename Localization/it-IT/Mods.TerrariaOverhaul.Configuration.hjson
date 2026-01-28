@@ -37,7 +37,7 @@ Ambience: {
 
 	EnablePlayerFootsteps: {
 		DisplayName: "Attiva rumore Passi del Giocatore"
-		Description: "Aggiunge il rumore dei passi del personaggio giocabile"
+		Description: "Aggiunge il rumore dei passi del personaggio giocabile."
 	}
 
 	EnableLowPassFiltering: {
@@ -53,6 +53,11 @@ Ambience: {
 	EnableUnderwaterMuffling: {
 		// DisplayName: "Enable Underwater Muffling"
 		// Description: "If enabled - going underwater will reduce the sound frequency range via 'low-pass filtering'."
+	}
+
+	EnableNpcFootsteps: {
+		// DisplayName: "Enable NPC Footsteps"
+		// Description: "Toggles enemies' and town NPCs' footstep effects."
 	}
 }
 

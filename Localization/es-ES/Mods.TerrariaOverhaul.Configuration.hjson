@@ -54,6 +54,11 @@ Ambience: {
 		// DisplayName: "Enable Underwater Muffling"
 		// Description: "If enabled - going underwater will reduce the sound frequency range via 'low-pass filtering'."
 	}
+
+	EnableNpcFootsteps: {
+		// DisplayName: "Enable NPC Footsteps"
+		// Description: "Toggles enemies' and town NPCs' footstep effects."
+	}
 }
 
 Aesthetics: {
