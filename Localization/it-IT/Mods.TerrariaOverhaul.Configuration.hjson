@@ -74,6 +74,11 @@ Aesthetics: {
 		// DisplayName: "Enable Tree Falling Animations"
 		// Description: "When enabled, trees will physically fall down instead of exploding into items."
 	}
+
+	EnableSleepingEffects: {
+		// DisplayName: "Enable Sleeping Effects"
+		// Description: "Toggles sound effects that play when a player gets in a bed."
+	}
 }
 
 Archery: {

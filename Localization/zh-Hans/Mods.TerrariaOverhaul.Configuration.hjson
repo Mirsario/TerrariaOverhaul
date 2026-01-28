@@ -74,6 +74,11 @@ Aesthetics: {
 		DisplayName: "树木倒下动画"
 		Description: "开启后，树木将会有倒下的物理效果，而非直接变成物品。"
 	}
+
+	EnableSleepingEffects: {
+		// DisplayName: "Enable Sleeping Effects"
+		// Description: "Toggles sound effects that play when a player gets in a bed."
+	}
 }
 
 Archery: {
