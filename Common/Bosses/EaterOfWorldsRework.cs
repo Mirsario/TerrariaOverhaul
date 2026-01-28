@@ -86,7 +86,7 @@ internal sealed class EaterOfWorldsRework : GlobalNPC
 				},
 			};
 
-			TileSoundOcclusion.SetEnabledForSoundStyle(in audioEffects.Data.ApproachSound, false);
+			TileSoundOcclusion.SetEnabledForSoundStyle(audioEffects.Data.ApproachSound.Value, false);
 		}
 
 		if (npc.TryGetGlobalNPC(out NpcWormEffects wormEffects)) {

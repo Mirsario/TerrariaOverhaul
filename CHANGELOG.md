@@ -58,6 +58,7 @@
 - **`The Destroyer`** has received a full audiovisual overhaul, featuring a new massive sprite, debris effect system, movement & digging audio, as well as robotic screeches meant to intimidate and warn players of their impending doom. This comes with two options, one for the sprite and another for the whole set of effects.
 - **`The Eater of Worlds`** has received an audiovisual overhaul, featuring a debris effect system, disgusting movement & digging audio, as well as terrifying attack and pain screeches that make it look like the victim during its battle. Who knew worms could sing?
 - When the last alive boss is killed, a cinematic transition cue is now played in addition to the aforementioned camera focus.
+- Added bite sound effects to Zombies.
 - Crimson and Corruption enemies now have new hit and death audio.
 - Added footstep sound effects and interactions to as many NPCs as possible.
 - Added sound effects for getting in a bed, as well as sleeping.

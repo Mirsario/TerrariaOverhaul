@@ -2,13 +2,16 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+using System.IO;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
 
@@ -16,20 +19,42 @@ namespace TerrariaOverhaul.Common.EntityEffects;
 
 internal sealed class NpcAudioEffects : GlobalNPC
 {
+	public sealed class MeleePacket : NetPacket
+	{
+		public MeleePacket(NPC npc)
+		{
+			Writer.Write((ushort)npc.whoAmI);
+		}
+
+		public override void Read(BinaryReader reader, int sender)
+		{
+			ushort npcIndex = reader.ReadUInt16();
+			if (npcIndex >= Main.maxNPCs || Main.npc[npcIndex] is not { active: true } npc) return;
+
+			if (npc.TryGetGlobalNPC(out NpcAudioEffects effects)) effects.MeleeEffect(npc);
+
+			if (Main.netMode == NetmodeID.Server) {
+				MultiplayerSystem.SendPacket(new MeleePacket(npc), ignoreClient: sender);
+			}
+		}
+	}
+
 	public class EffectData
 	{
 		// Approach Sound
-		public SoundStyle ApproachSound;
+		public SoundStyle? ApproachSound;
 		public ScreenShake ApproachScreenShake;
 		public float ApproachVelocity = 3.25f;
 		public float ApproachDistance = 768f;
 		public (int Min, int Max) ApproachSoundCooldown;
 		// Random Sound
-		public SoundStyle RandomSound;
+		public SoundStyle? RandomSound;
 		public (int Min, int Max) RandomSoundCooldown;
 		// Movement Sound
-		public SoundStyle MovementSound;
+		public SoundStyle? MovementSound;
 		public (float MinSpeed, float MaxSpeed, float MinPitch, float MaxPitch) MovementSoundVelocityPitching = (2.5f, 10f, -0.50f, 0.50f);
+		// Damage Sound
+		public SoundStyle? MeleeSound;
 
 		internal ulong randomSoundCooldownEndTime;
 		internal ulong approachSoundCooldownEndTime;
@@ -48,10 +73,9 @@ internal sealed class NpcAudioEffects : GlobalNPC
 
 		return base.PreAI(npc);
 	}
-
 	public override void PostAI(NPC npc)
 	{
-		if (Data is not EffectData data || Main.dedServ) {
+		if (Main.dedServ || Data is not EffectData data) {
 			return;
 		}
 
@@ -66,7 +90,7 @@ internal sealed class NpcAudioEffects : GlobalNPC
 		ulong gameUpdateCount = Main.GameUpdateCount;
 
 		// Approach Effects
-		if (data.ApproachSound.SoundPath != null && (!centerTile.HasTile || !Main.tileSolid[centerTile.TileType] || Main.tileSolidTop[centerTile.TileType])) {
+		if (data.ApproachSound != null && (!centerTile.HasTile || !Main.tileSolid[centerTile.TileType] || Main.tileSolidTop[centerTile.TileType])) {
 			float approachDistanceSqr = data.ApproachDistance * data.ApproachDistance;
 			float minTargetDistance = ActiveEntities.Players.Min(p => Vector2.DistanceSquared(p.Center, center));
 
@@ -85,15 +109,37 @@ internal sealed class NpcAudioEffects : GlobalNPC
 		}
 
 		// Random Effects
-		if (data.RandomSound.SoundPath != null && gameUpdateCount >= data.randomSoundCooldownEndTime && data.RandomSoundCooldown.Max != 0) {
+		if (data.RandomSound != null && gameUpdateCount >= data.randomSoundCooldownEndTime && data.RandomSoundCooldown.Max != 0) {
 			if (data.randomSoundCooldownEndTime == 0 || SoundEngine.PlaySound(data.RandomSound, center, new NpcTracker(npc).AudioCallback) != SlotId.Invalid) {
 				data.randomSoundCooldownEndTime = gameUpdateCount + (ulong)Main.rand.Next(data.RandomSoundCooldown.Min, data.RandomSoundCooldown.Max);
 			}
 		}
 
-		if (data.MovementSound.SoundPath != null && !SoundEngine.TryGetActiveSound(data.movementSoundId, out _)) {
+		if (data.MovementSound != null && !SoundEngine.TryGetActiveSound(data.movementSoundId, out _)) {
 			object boxedIndex = npc.whoAmI;
 			data.movementSoundId = SoundEngine.PlaySound(in data.MovementSound, center, s => MovementSoundCallback(s, boxedIndex));
+		}
+	}
+
+	public override void OnHitPlayer(NPC npc, Player target, Player.HurtInfo hurtInfo)
+	{
+		MeleeEffect(npc);
+
+		if (Main.netMode == NetmodeID.MultiplayerClient)
+			MultiplayerSystem.SendPacket(new MeleePacket(npc));
+	}
+	public override void OnHitNPC(NPC npc, NPC target, NPC.HitInfo hit)
+	{
+		MeleeEffect(npc);
+
+		if (Main.netMode == NetmodeID.Server)
+			MultiplayerSystem.SendPacket(new MeleePacket(npc));
+	}
+
+	public void MeleeEffect(NPC npc)
+	{
+		if (Data?.MeleeSound is { } sound) {
+			SoundEngine.PlaySound(sound, npc.Center);
 		}
 	}
 

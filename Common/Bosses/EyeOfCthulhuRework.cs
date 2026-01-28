@@ -72,8 +72,6 @@ internal sealed class EyeOfCthulhuRework : GlobalNPC
 					SoundLimitBehavior = SoundLimitBehavior.IgnoreNew,
 				},
 			};
-
-			TileSoundOcclusion.SetEnabledForSoundStyle(in audioEffects.Data.ApproachSound, false);
 		}
 	}
 
