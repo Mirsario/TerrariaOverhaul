@@ -7,6 +7,6 @@ MaterialFootsteps: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Gore/GoreSmallSplatter"
 		NumVariants: 2
 		Volume: 0.4
-		PitchVariance: 0.1
+		PitchVariance: 0.2
 	}
 }

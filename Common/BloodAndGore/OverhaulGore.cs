@@ -40,15 +40,18 @@ internal class OverhaulGore : Gore, ILoadable, IMaterialProvider
 
 	public static readonly SoundStyle GoreHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreHit", 3) {
 		Volume = 0.4f,
-		PitchVariance = 0.2f
+		PitchVariance = 0.2f,
+		MaxInstances = 3,
 	};
 	public static readonly SoundStyle GoreBreakSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSplatter", 2) {
 		Volume = 0.15f,
 		PitchVariance = 0.2f,
+		MaxInstances = 3,
 	};
 	public static readonly SoundStyle GoreGroundHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Gore/GoreSmallSplatter", 2) {
 		Volume = 0.4f,
 		PitchVariance = 0.2f,
+		MaxInstances = 3,
 	};
 
 	private static readonly Dictionary<SoundStyle, ulong> goreSoundCooldowns = new();
@@ -166,7 +169,7 @@ internal class OverhaulGore : Gore, ILoadable, IMaterialProvider
 		frameCounter = gore.frameCounter;
 	}
 
-	public Vector2 GetRandomPoint() => position + Main.rand.NextVector2Square(Size.X, Size.Y);
+	public Vector2 GetRandomPoint() => position + Main.rand.NextVector2Square(Size.X, Size.Y) + new Vector2(0f, -4f);
 
 	public void ApplyForce(float velocityScale = 1f)
 	{

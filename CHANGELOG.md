@@ -89,6 +89,7 @@
 - Music Playback Position Preservation no longer affects boss tracks by default. Two options were added, a toggle for that behavior, and a list for music tracks to exclude manually. The latter however can only be modified through `Config.toml` for now.
 - Dodgerolls now produce slight screen shake effects.
 - Critical damage combat text will now be slightly more purple in color.
+- Improved the footstep system's gore interactions, jumping on gibs will now deal damage to them and spread them around.
 ### Configuration
 - Existing features received the following new options:
   **Awareness:** `EnableHealthPickupSounds`, `EnableManaPickupSounds`.
@@ -132,6 +133,7 @@
 - Fixed crosshair animations stacking up when user interface is turned off via F11.
 - Fixed footsteps not playing when bouncing on 'Silly Balloon Blocks'.
 - Fixed jump & land footstep sounds sometimes not playing when mixed with walking/running footsteps. They now use separate cooldowns.
+- Fixed gibs sometimes not creating blood particles, or spawning them inside the ground.
 
 # 5.0 BETA 14
 
