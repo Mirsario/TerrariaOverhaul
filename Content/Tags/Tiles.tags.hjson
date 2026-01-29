@@ -38,3 +38,32 @@ Wood: {
 		"SpookyWood"
 	]
 }
+
+ReverbsSound: {
+	Sets: [
+		"Stone"
+	]
+	LegacySets.TileID: [
+		"Ices"
+		"Ore"
+	]
+	Includes.TileID: [
+		"Anvils"
+		"Ebonstone"
+		"GoldBrick"
+		"SilverBrick"
+		"CopperBrick"
+		"Spikes"
+		"Obsidian"
+		"Hellstone"
+		"Ruby"
+		"Topaz"
+		"Amethyst"
+		"Diamond"
+		"ObsidianBrick"
+		"HellstoneBrick"
+		"Pearlstone"
+		"CobaltBrick"
+		"MythrilBrick"
+	]
+}

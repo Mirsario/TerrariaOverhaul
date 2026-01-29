@@ -2,8 +2,11 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+using System.Diagnostics;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.AudioEffects;
@@ -30,6 +33,11 @@ internal sealed class SurroundingsReverb : ModSystem
 	);
 
 	private static readonly ContentSet ReverbsSound = nameof(ReverbsSound);
+
+	public override void ClearWorld()
+	{
+		Debug.Assert(ReverbsSound.Values<TileID>().ToArray().Any(u => !u.IsZero));
+	}
 
 	public override void PostUpdateEverything()
 	{
@@ -59,7 +67,7 @@ internal sealed class SurroundingsReverb : ModSystem
 
 			if (isPointFree) {
 				if (DebugSystem.EnableDebugRendering) {
-					//DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.White, 1);
+					DebugSystem.DrawRectangle(new Rectangle(x * 16, y * 16, 16, 16), Color.White, 1);
 				}
 
 				continue;

@@ -92,6 +92,7 @@
 - Dodgerolls now produce slight screen shake effects.
 - Critical damage combat text will now be slightly more purple in color.
 - Improved the footstep system's gore interactions, jumping on gibs will now deal damage to them and spread them around.
+- Made more types of blocks trigger reverb audio effects.
 ### Configuration
 - Existing features received the following new options:
   **Awareness:** `EnableHealthPickupSounds`, `EnableManaPickupSounds`.
