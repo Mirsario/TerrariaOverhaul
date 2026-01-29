@@ -137,6 +137,7 @@
 - Fixed footsteps not playing when bouncing on 'Silly Balloon Blocks'.
 - Fixed jump & land footstep sounds sometimes not playing when mixed with walking/running footsteps. They now use separate cooldowns.
 - Fixed gibs sometimes not creating blood particles, or spawning them inside the ground.
+- Fixed away a regional behavior difference in the config screen's ranged value element.
 
 # 5.0 BETA 14
 

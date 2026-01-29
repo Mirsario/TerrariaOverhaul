@@ -3,6 +3,7 @@
 // See LICENSE.md for details.
 
 using System;
+using System.Globalization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
@@ -143,7 +144,7 @@ internal class RangeElement : UIElement, IConfigEntryController
 		bool textFocusChanged = text.IsFocused != lastTextIsFocused;
 
 		if (textContentChanged || textFocusChanged) {
-			bool parsed = double.TryParse(text.TextContent, out double value);
+			bool parsed = double.TryParse(text.TextContent, NumberStyles.Number, CultureInfo.InvariantCulture, out double value);
 
 			if (!parsed) {
 				value = MinValue;
