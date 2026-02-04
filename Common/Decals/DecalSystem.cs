@@ -2,6 +2,8 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+// #define DEBUG_DECALS
+
 using System;
 using System.Buffers;
 using System.Collections.Generic;
@@ -430,7 +432,7 @@ internal sealed class DecalSystem : ModSystem
 
 	private static void DebugDecals()
 	{
-#if DEBUG && true // Decal debugging hotkey.
+#if DEBUG_DECALS // Decal debugging hotkey.
 		if (!Main.dedServ && Core.Input.InputSystem.GetKey(Microsoft.Xna.Framework.Input.Keys.K)) {
 			AddDecals(DecalStyle.Default, new DecalInfo {
 				Layers = DecalLayerFlags.All,

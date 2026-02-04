@@ -2,7 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-#define DEBUG_LIGHTING
+// #define DEBUG_LIGHTING
 
 using System;
 using System.Diagnostics.CodeAnalysis;
