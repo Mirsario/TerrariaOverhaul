@@ -80,7 +80,7 @@ internal class OverhaulGore : Gore, ILoadable, IMaterialProvider
 				return prefab;
 
 			if (BleedColor.HasValue)
-				return !goreMaterialCache.IsValid ? (goreMaterialCache = Prefabs.GetPrefab("GoreMaterial")) : goreMaterialCache;
+				return !goreMaterialCache.IsValid ? (goreMaterialCache = Prefabs.Get("GoreMaterial")) : goreMaterialCache;
 
 			return Prefab.Invalid;
 		}

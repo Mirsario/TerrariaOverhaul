@@ -30,9 +30,10 @@ internal sealed class AmbienceSystem : ModSystem
 	public static readonly ConfigEntry<bool> EnableAmbientSounds = new(ConfigSide.ClientOnly, true, "Ambience");
 
 	private static readonly EnvironmentTag VolumeTag = "Volume";
-	private static readonly List<AmbienceTrackType> TrackTypes = new();
 	private static readonly AmbienceTrackInstance[] TrackInstances = new AmbienceTrackInstance[64];
-	private static readonly Query ambienceTrackQuery = Prefabs.Query().With<AmbienceTrack>();
+	private static readonly Dictionary<Prefab, DataEntity> tracksByPrefab = [];
+	private static readonly Query trackQuery = Entities.Query().With<AmbienceTrackState>();
+	private static readonly Query prefabQuery = Prefabs.Query().With<AmbienceTrack>();
 	private static BitMask<ulong> globalInstanceMask;
 
 	public AmbienceSystem()
@@ -42,44 +43,91 @@ internal sealed class AmbienceSystem : ModSystem
 
 	public override void OnModLoad()
 	{
-		foreach (var prefab in ambienceTrackQuery) {
-			ref readonly var ambienceTrack = ref prefab.Get<AmbienceTrack>();
-			string trackName = prefab.Has<PrefabInfo>() ? prefab.Get<PrefabInfo>() : "Unknown";
-			RegisterAmbienceTrack(trackName, ambienceTrack);
+		foreach (var prefab in prefabQuery) if (!tracksByPrefab.ContainsKey(prefab))
+			CreateTrack(prefab);
+	}
+
+	private static DataEntity CreateTrack(Prefab prefab)
+	{
+		ref readonly var dsc = ref prefab.Get<AmbienceTrack>();
+		string trackName = prefab.Has<PrefabInfo>() ? prefab.Get<PrefabInfo>() : "Unknown";
+
+		VerifyTrack(trackName, in dsc);
+
+		if (dsc.DisableSoundFiltering) {
+			AudioEffectsSystem.SetEnabledForSoundStyle(dsc.Sound, false);
+		}
+		if (dsc.SoundIsWallOccluded) {
+			WallSoundOcclusion.SetEnabledForSoundStyle(dsc.Sound, true);
+		}
+
+		var track = Entities.Create();
+		track.Add(new AmbienceTrackState { Prefab = prefab });
+		tracksByPrefab[prefab] = track;
+		return track;
+	}
+	private static void RemoveTrack(DataEntity track)
+	{
+		tracksByPrefab.Remove(track.Get<AmbienceTrackState>().Prefab);
+		track.Destroy();
+	}
+	private static void VerifyTrack(string name, in AmbienceTrack track)
+	{
+		if (!track.Variables.Any(v => v.Output == VolumeTag)) {
+			DebugSystem.Logger.Warn($"Ambience track {name} does not declare a '{VolumeTag.Name}' variable!");
 		}
 	}
 
 	public override void PostUpdateEverything()
 	{
-		var tracksSpan = CollectionsMarshal.AsSpan(TrackTypes);
 		bool isAmbienceEnabled = EnableAmbientSounds;
 
-		for (int i = 0; i < tracksSpan.Length; i++) {
-			ref var type = ref tracksSpan[i];
-			ref readonly var desc = ref type.Description;
+#if DEBUG
+		// Add tracks from new prefabs.
+		foreach (var prefab in prefabQuery) if (!tracksByPrefab.ContainsKey(prefab))
+			CreateTrack(prefab);
+#endif
 
-			type.TargetVolume = CalculateTrackTargetVolume(in desc);
-			type.CurrentVolume = MathUtils.StepTowards(type.CurrentVolume, type.TargetVolume, desc.VolumeChangeSpeed * TimeSystem.LogicDeltaTime);
-			bool isActive = type.CurrentVolume > 0f;
+		foreach (var track in trackQuery) {
+			ref var state = ref track.Get<AmbienceTrackState>();
+
+#if DEBUG
+			// Remove tracks with deleted or malformed prefabs.
+			if (!state.Prefab.IsValid || !state.Prefab.Has<AmbienceTrack>()) {
+				RemoveTrack(track);
+				continue;
+			}
+#endif
+			
+			ref readonly var desc = ref state.Description;
+
+			state.TargetVolume = CalculateTrackTargetVolume(in desc);
+			state.CurrentVolume = MathUtils.StepTowards(state.CurrentVolume, state.TargetVolume, desc.VolumeChangeSpeed * TimeSystem.LogicDeltaTime);
+			bool isActive = state.CurrentVolume > 0f;
 
 			static uint RollCooldown(ExponentialRange? range)
 				=> range is { } r ? (uint)(r.Translate(Main.rand.NextFloat()) * TimeSystem.LogicFramerate) : 0;
 
+			// Shutdown sounds in case the prefab is updated or stops existing.
+			uint? generation = state.Prefab.Has<PrefabInfo>() ? state.Prefab.Get<PrefabInfo>().Generation : null;
+			bool UpdateCallback(ActiveSound sound)
+				=> track.IsValid && (generation == null || generation == track.Get<AmbienceTrackState>().Prefab.Get<PrefabInfo>().Generation);
+
 			// Create new instances.
 			if (isActive) {
-				while (type.InstanceCount < desc.MaxInstances && globalInstanceMask.TrailingOneCount() is { } freeIndex && freeIndex < globalInstanceMask.Size) {
+				while (state.InstanceCount < desc.MaxInstances && globalInstanceMask.TrailingOneCount() is { } freeIndex && freeIndex < globalInstanceMask.Size) {
 					TrackInstances[freeIndex] = new AmbienceTrackInstance {
-						TypeIndex = (ushort)i,
+						Type = track,
 						PlaybackCooldown = RollCooldown(desc.InstanceCooldown),
 						Position = null,
 					};
-					type.InstanceMask.Set(freeIndex);
+					state.InstanceMask.Set(freeIndex);
 					globalInstanceMask.Set(freeIndex);
 				}
 			}
 
 			// Update active instances.
-			foreach (int index in type.InstanceMask) {
+			foreach (int index in state.InstanceMask) {
 				ref var instance = ref TrackInstances[index];
 
 				if (instance.PlaybackCooldown > 0)
@@ -98,11 +146,11 @@ internal sealed class AmbienceSystem : ModSystem
 					}
 
 					sound.Position = instance.Position;
-					sound.Volume = type.CurrentVolume;
+					sound.Volume = state.CurrentVolume;
 				} else {
 					sound?.Stop();
 					instance.Slot = SlotId.Invalid;
-					type.InstanceMask.Unset(index);
+					state.InstanceMask.Unset(index);
 					globalInstanceMask.Unset(index);
 				}
 			}
@@ -160,30 +208,5 @@ internal sealed class AmbienceSystem : ModSystem
 		}
 
 		return volume;
-	}
-
-	private static void RegisterAmbienceTrack(string name, AmbienceTrack desc)
-	{
-		VerifyAmbienceTrack(name, in desc);
-
-		if (desc.DisableSoundFiltering) {
-			AudioEffectsSystem.SetEnabledForSoundStyle(desc.Sound, false);
-		}
-
-		if (desc.SoundIsWallOccluded) {
-			WallSoundOcclusion.SetEnabledForSoundStyle(desc.Sound, true);
-		}
-
-		TrackTypes.Add(new AmbienceTrackType {
-			Name = name,
-			Description = desc,
-		});
-	}
-
-	private static void VerifyAmbienceTrack(string name, in AmbienceTrack track)
-	{
-		if (!track.Variables.Any(v => v.Output == VolumeTag)) {
-			DebugSystem.Log($"Warning - Ambience track {name} does not declare a '{VolumeTag.Name}' variable!");
-		}
 	}
 }

@@ -45,20 +45,20 @@ internal sealed class AmbienceTrack : IComponent
 	public AmbienceTrack() { }
 }
 
-internal struct AmbienceTrackType()
+internal struct AmbienceTrackState() : IComponent
 {
-	public required string Name;
-	public required AmbienceTrack Description;
+	public required Prefab Prefab;
 	public float CurrentVolume;
 	public float TargetVolume;
 	public BitMask<ulong> InstanceMask;
 
+	public readonly ref readonly AmbienceTrack Description => ref Prefab.Get<AmbienceTrack>();
 	public readonly int InstanceCount => InstanceMask.PopCount();
 }
 
 internal struct AmbienceTrackInstance()
 {
-	public required ushort TypeIndex;
+	public required DataEntity Type;
 	public required Vector2? Position;
 	public SlotId Slot = SlotId.Invalid;
 	public uint? PlaybackCooldown;

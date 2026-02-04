@@ -64,6 +64,7 @@
 - Added sound effects for getting in a bed, as well as sleeping.
 - Leaves particles will now be baked as decals whenever they hit the ground.
 - Introduced many new randomly played ambience sounds (previously we've only had loops).
+- Debug builds of the mod can now automatically reload `*.prefab.json` content files.
 ### Critical Strikes
 - The critical strike rework is here, replacing random critical strikes with a consistent system of enemy weakpoints, hitting which guarantees critical damage, most weakpoints being enemies' backs'.
 - Critical Strike Chance stat is replaced with Critical Strike Damage, directly increasing effectiveness of the mechanic.

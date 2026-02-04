@@ -66,6 +66,7 @@ internal readonly struct DataEntity
 	public bool HasAll(ComponentMask mask) => DataStorage.HasAllComponents(this, mask);
 	public bool HasAny(ComponentMask mask) => DataStorage.HasAnyComponents(this, mask);
 	public void AddByHandle(Component component, object value) => DataStorage.AddComponent(this, component, value);
+	public void Clear() => DataStorage.ClearEntity(this);
 	public void Destroy() => DataStorage.DestroyEntity(this);
 }
 
@@ -145,18 +146,21 @@ internal static class DataStorage
 
 			components[Handle.Id] = new() {
 				Type = typeof(T),
-				AddComponentFromObject = Add,
+				AddFromObject = Add,
+				Remove = Remove,
 			};
 			componentByType[typeof(T)] = Handle;
 			componentByName[typeof(T).Name] = Handle;
 		}
 
 		public static void Add(DataEntity entity, object value) => AddComponent(entity, (T)value);
+		public static void Remove(DataEntity entity) => RemoveComponent<T>(entity);
 	}
 	private struct ComponentInfo
 	{
 		public required Type Type;
-		public required Action<DataEntity, object> AddComponentFromObject;
+		public required Action<DataEntity, object> AddFromObject;
+		public required Action<DataEntity> Remove;
 	}
 
 	private static object operationLock = new();
@@ -272,7 +276,7 @@ internal static class DataStorage
 		=> ref ComponentData<T>.SparseSet.Get(entity.Index);
 
 	public static void AddComponent(DataEntity entity, Component component, object value)
-		=> components[component.Id].AddComponentFromObject(entity, value);
+		=> components[component.Id].AddFromObject(entity, value);
 
 	public static ref T AddComponent<T>(DataEntity entity, in T value) where T : IComponent
 	{
@@ -283,6 +287,15 @@ internal static class DataStorage
 	{
 		ComponentMask.InDynamicArray(entityComponentMasks, entity.Index).Unset<T>();
 		ComponentData<T>.SparseSet.Remove(entity.Index);
+	}
+	public static void ClearEntity(DataEntity entity)
+	{
+		uint baseMask = entity.Index * componentMasksPerEntity;
+		for (int maskIndex = 0, baseBit = 0; maskIndex < componentMasksPerEntity; maskIndex++, baseBit += BitMask64.BitSize) {
+			foreach (int bitIndex in entityComponentMasks[baseMask + maskIndex]) {
+				components[baseBit + bitIndex].Remove(entity);
+			}
+		}
 	}
 
 	// Entities

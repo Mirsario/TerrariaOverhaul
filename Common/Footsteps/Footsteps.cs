@@ -36,7 +36,7 @@ internal class FootstepSystem : ModSystem
 
 	public override void OnModLoad()
 	{
-		DefaultFootstepSoundProvider = Prefabs.GetPrefab("StoneMaterial");
+		DefaultFootstepSoundProvider = Prefabs.Get("StoneMaterial");
 	}
 
 	public static bool Footstep(Entity entity, FootstepType type, float volume = 1f, Point16? forcedPoint = null)
