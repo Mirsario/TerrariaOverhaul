@@ -2,8 +2,8 @@ PhysicalMaterial: {
 	AssociatedSet: "SandMaterial"
 }
 
-MaterialFootsteps: {
-	StepSound: {
+FootstepSounds: {
+	Step: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Sand/Step"
 		NumVariants: 11
 		Volume: 0.5

@@ -3,6 +3,7 @@
 // See LICENSE.md for details.
 
 using System;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Steamworks;
 using Terraria;
@@ -10,6 +11,8 @@ using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.BloodAndGore;
+using TerrariaOverhaul.Common.Camera;
+using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Data;
 using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
@@ -23,11 +26,22 @@ public enum FootstepType
 	Land,
 }
 
-internal struct MaterialFootsteps : IComponent
+internal struct FootstepSounds : IComponent
 {
-	public SoundStyle? StepSound;
-	public SoundStyle? JumpSound;
-	public SoundStyle? LandSound;
+	public SoundStyle? Step;
+	public SoundStyle? Jump;
+	public SoundStyle? Land;
+}
+
+internal struct FootstepCtx()
+{
+	public bool GoreInteraction = true;
+	public float Volume = 1f;
+	public required FootstepType Kind;
+	public required Rectangle Hitbox;
+	public required (Vector2 Cur, Vector2 Old) Velocity;
+	public Point16? PointOverride;
+	public FootstepSounds? SoundsOverride;
 }
 
 internal class FootstepSystem : ModSystem
@@ -39,85 +53,75 @@ internal class FootstepSystem : ModSystem
 		DefaultFootstepSoundProvider = Prefabs.Get("StoneMaterial");
 	}
 
-	public static bool Footstep(Entity entity, FootstepType type, float volume = 1f, Point16? forcedPoint = null)
+	public static bool Footstep(in FootstepCtx ctx)
 	{
-		if (Main.dedServ) {
-			return false;
-		}
+		if (Main.dedServ) return false;
 
-		var vec = entity.BottomLeft / 16f;
-		var point = new Vector2Int((int)Math.Floor(vec.X), (int)Math.Ceiling(vec.Y));
-		Tile tile = default;
+		var kind = ctx.Kind;
+		var tilePos = ctx.Hitbox.Bottom().ToTileCoordinates16();
+		Tile? tile = null;
 
-		if (forcedPoint.HasValue && forcedPoint.Value.IsInWorld() && Main.tile.TryGet(forcedPoint.Value, out var tempTile) && tempTile.HasTile) {
-			tile = tempTile;
-		} else {
-			for (int x = 0; x < 2; x++) {
-				if (Main.tile.TryGet(point.X + x, point.Y, out tempTile) && tempTile.HasTile) {
-					tile = tempTile;
-
-					break;
-				}
+		// Find a valid tile.
+		if (ctx.PointOverride is { } p && p.IsInWorld() && Main.tile.TryGet(p, out Tile t) && t.HasTile && Main.tileSolid[t.TileType]) {
+			tile = t;
+		} else for (int xMax = (int)MathF.Ceiling(ctx.Hitbox.Width / 16f), i = 0; i < xMax; i++) {
+			int xOffset = (i / 2) * (i % 2 == 0 ? 1 : -1);
+			if (Main.tile.TryGet(tilePos.X + xOffset, tilePos.Y, out t) && t.HasTile) {
+				tile = t;
+				break;
 			}
 		}
 
-		if (tile == null) {
-			return false;
-		}
-
+		var worldPos = tilePos.ToWorldCoordinates();
 		Prefab? mainProvider = null;
 		Prefab? extraProvider = null;
-		float mainVolume = volume;
-		float extraVolume = volume;
-
-		// Check for nearby gore
-		var entityRect = entity.GetRectangle();
-		var worldPoint = ((Point16)point).ToWorldCoordinates();
-		var extraRect = entityRect;
-		extraRect.Inflate(8, 8);
-
-		for (int i = 0; i < Main.maxGore; i++) {
-			if (Main.gore[i] is OverhaulGore { active: true } gore && extraRect.Intersects(gore.AABBRectangle)
-			&& gore is IMaterialProvider provider && provider.MaterialPrefab is { IsValid: true } mat) {
-				if (type is FootstepType.Jump or FootstepType.Land) {
-					bool strong = extraProvider == null && type is FootstepType.Land;
-					var direction = (gore.Center.DirectionFrom(worldPoint) with { Y = -1f }).SafeNormalize(-Vector2.UnitY);
-					gore.ApplyForce(direction * (strong ? 2.5f : 0.75f));
-					gore.Damage(damageScale: strong ? 0.25f : 0.05f);
-				}
-
-				if (extraProvider == null) {
-					extraProvider = mat;
-					mainVolume *= 0.5f;
-				}
-			}
-		}
+		float mainVolume = ctx.Volume;
+		float extraVolume = ctx.Volume;
 
 		// Try to get a footstep provider from the tile
-		if (mainProvider == null && PhysicalMaterials.TryGetTileMaterial(tile.TileType, out var material)) {
+		if (mainProvider == null && tile != null && PhysicalMaterials.TryGetTileMaterial(tile.Value.TileType, out var material)) {
 			mainProvider = material;
+		}
+
+		// Check for nearby gore
+		var collisionRect = ctx.Hitbox.Inflated(8, 8);
+		for (int i = 0; i < Main.maxGore; i++) {
+			if (Main.gore[i] is not OverhaulGore { active: true } gore) continue;
+			if (gore.MaterialPrefab is not { IsValid: true } mat) continue;
+			if (!collisionRect.Intersects(gore.AABBRectangle)) continue;
+
+			if (kind is FootstepType.Jump or FootstepType.Land) {
+				bool strong = extraProvider == null && kind is FootstepType.Land;
+				var direction = (gore.Center.DirectionFrom(worldPos) with { Y = -1f }).SafeNormalize(-Vector2.UnitY);
+				gore.ApplyForce(direction * (strong ? 2.5f : 0.75f));
+				gore.Damage(damageScale: strong ? 0.25f : 0.05f);
+			}
+
+			if (extraProvider == null) {
+				extraProvider = mat;
+				mainVolume *= 0.5f;
+			}
 		}
 
 		//TODO: Implement leaves footsteps when those are added.
 
-		void PlaySound(Prefab? provider, float volume)
+		void PlaySound(float volume, FootstepSounds? footstepSounds)
 		{
-			if (provider == null) return;
+			if (footstepSounds is not { } sounds) return;
 
-			ref readonly var footstepInfo = ref provider.Value.Get<MaterialFootsteps>();
-			var sound = type switch {
-				FootstepType.Jump => footstepInfo.JumpSound ?? footstepInfo.StepSound,
-				FootstepType.Land => footstepInfo.LandSound ?? footstepInfo.StepSound,
-				_ => footstepInfo.StepSound,
+			var sound = kind switch {
+				FootstepType.Jump => sounds.Jump ?? sounds.Step,
+				FootstepType.Land => sounds.Land ?? sounds.Step,
+				_ => sounds.Step,
 			};
 
 			if (sound.HasValue) {
-				SoundEngine.PlaySound(sound.Value with { Volume = sound.Value.Volume * volume }, entity.Bottom);
+				SoundEngine.PlaySound(sound.Value with { Volume = sound.Value.Volume * volume }, worldPos);
 			}
 		}
 
-		PlaySound(mainProvider ?? DefaultFootstepSoundProvider, mainVolume);
-		PlaySound(extraProvider, extraVolume);
+		PlaySound(mainVolume, ctx.SoundsOverride ?? ((mainProvider ?? DefaultFootstepSoundProvider).Get<FootstepSounds>()));
+		PlaySound(extraVolume, extraProvider?.Get<FootstepSounds>());
 
 		return true;
 	}

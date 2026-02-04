@@ -42,7 +42,6 @@ internal sealed class PlayerMovement : ModPlayer
 	public override void Load()
 	{
 		IL_Player.JumpMovement += PlayerJumpMovementInjection;
-
 		On_Player.UpdateJumpHeight += PlayerUpdateJumpHeightDetour;
 	}
 
@@ -127,6 +126,15 @@ internal sealed class PlayerMovement : ModPlayer
 		}
 
 		Player.oldVelocity = Player.velocity;
+	}
+
+	public Vector2 SelectVelocity(int historySize, Func<Vector2, Vector2, bool> aOverB)
+	{
+		var result = Player.velocity;
+		for (int iMax = Math.Min(VelocityRecord.Length, historySize), i = 0; i < iMax; i++) {
+			result = aOverB(VelocityRecord[i], result) ? VelocityRecord[i] : result;
+		}
+		return result;
 	}
 
 	public void SetMovementModifier(string id, int time, MovementModifier modifier)

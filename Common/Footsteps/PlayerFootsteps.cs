@@ -2,10 +2,12 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+using System.Linq;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
 using TerrariaOverhaul.Utilities.Terraria;
@@ -79,8 +81,13 @@ internal sealed class PlayerFootsteps : ModPlayer
 		if (footstepType.HasValue && (footstepType.Value != FootstepType.Default || stepState == 1 && (legFrame == 16 || legFrame == 17) || stepState == 0 && (legFrame == 9 || legFrame == 10))) {
 			uint tick = Main.GameUpdateCount;
 			ref uint lastStep = ref (footstepType.Value == FootstepType.Default ? ref lastNormalStepTick : ref lastSpecialStepTick);
+			var movement = Player.GetModPlayer<PlayerMovement>();
 
-			if ((tick - lastStep) > FootstepCooldown && FootstepSystem.Footstep(Player, footstepType.Value)) {
+			if ((tick - lastStep) > FootstepCooldown && FootstepSystem.Footstep(new() {
+				Kind = footstepType.Value,
+				Hitbox = Player.Hitbox,
+				Velocity = (Player.velocity, movement.SelectVelocity(3, (a, b) => a.Y > b.Y)),
+			})) {
 				stepState = (byte)(stepState == 0 ? 1 : 0);
 				lastStep = tick;
 			}

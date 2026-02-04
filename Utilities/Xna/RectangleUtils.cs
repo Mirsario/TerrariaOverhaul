@@ -44,4 +44,13 @@ internal static class RectangleUtils
 		MathHelper.Clamp(point.X, rect.X, rect.X + rect.Width),
 		MathHelper.Clamp(point.Y, rect.Y, rect.Y + rect.Height)
 	);
+
+	// Etc.
+
+	public static Rectangle Inflated(this Rectangle rect, int extendX, int extendY)
+	{
+		var copy = rect;
+		copy.Inflate(extendX, extendY);
+		return copy;
+	}
 }

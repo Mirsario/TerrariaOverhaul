@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
+using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -17,9 +18,11 @@ internal sealed class NpcFootsteps : GlobalNPC
 {
 	public class FootstepData
 	{
-		public Rectangle[] FootstepFrames = [];
 		public uint LastFootstepTick;
 		public Rectangle PreviousFrame;
+		public Rectangle[] FootstepFrames = [];
+		public FootstepSounds? SoundsOverride;
+		public Vector2 OldVelocity;
 	}
 
 	private const uint FootstepCooldown = 3;
@@ -45,9 +48,6 @@ internal sealed class NpcFootsteps : GlobalNPC
 	{
 		if (Data != null) return;
 
-		// using var _ = new Logging.QuietExceptionHandle();
-		// try { npc.FindFrame(); } catch { }
-
 		int frameCount = Main.npcFrameCount[npc.type];
 		// Generic
 		if (npc.frame.X == 0 && npc.frame.Width == 40 && npc.frame.Height == 56) {
@@ -71,11 +71,12 @@ internal sealed class NpcFootsteps : GlobalNPC
 
 		var tick = Main.GameUpdateCount;
 		var onGround = npc.velocity.Y == 0f;
-		var wasOnGround = npc.oldVelocity.Y != 0f;
+		var wasOnGround = Data.OldVelocity.Y == 0f;
+		var hopped = Data.OldVelocity.Y >= 0f && npc.velocity.Y < 0f;
 		var currentFrame = npc.frame;
 
 		FootstepType? footstepType = null;
-		if (onGround != wasOnGround && false) {
+		if (onGround != wasOnGround || hopped) {
 			if (!onGround) {
 				footstepType = FootstepType.Jump;
 			} else {
@@ -85,10 +86,17 @@ internal sealed class NpcFootsteps : GlobalNPC
 			footstepType = FootstepType.Default;
 		}
 
-		if (footstepType != null && (tick - data.LastFootstepTick) > FootstepCooldown && FootstepSystem.Footstep(npc, footstepType.Value, volume: 0.5f)) {
+		if (footstepType != null && (tick - data.LastFootstepTick) > FootstepCooldown && FootstepSystem.Footstep(new() {
+			Kind = footstepType.Value,
+			Hitbox = npc.Hitbox,
+			Velocity = (npc.velocity, npc.boss ? data.OldVelocity * 2f : npc.velocity),
+			Volume = 0.5f,
+			SoundsOverride = data.SoundsOverride,
+		})) {
 			data.LastFootstepTick = tick;
 		}
 
 		data.PreviousFrame = npc.frame;
+		data.OldVelocity = npc.velocity;
 	}
 }

@@ -2,8 +2,8 @@ PhysicalMaterial: {
 	AssociatedSet: "BalloonMaterial"
 }
 
-MaterialFootsteps: {
-	StepSound: {
+FootstepSounds: {
+	Step: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Balloon/Step"
 		NumVariants: 7
 		Volume: 0.5

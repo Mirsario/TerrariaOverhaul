@@ -2,14 +2,14 @@ PhysicalMaterial: {
 	AssociatedSet: "StoneMaterial"
 }
 
-MaterialFootsteps: {
-	StepSound: {
+FootstepSounds: {
+	Step: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Stone/Step"
 		NumVariants: 8
 		Volume: 0.5
 		PitchVariance: 0.1
 	}
-	JumpSound: {
+	Jump: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Stone/Jump"
 		NumVariants: 3
 		Volume: 0.375

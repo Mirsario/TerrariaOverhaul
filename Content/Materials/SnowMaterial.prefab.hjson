@@ -2,8 +2,8 @@ PhysicalMaterial: {
 	AssociatedSet: "SnowMaterial"
 }
 
-MaterialFootsteps: {
-	StepSound: {
+FootstepSounds: {
+	Step: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Footsteps/Snow/Step"
 		NumVariants: 11
 		Volume: 0.5

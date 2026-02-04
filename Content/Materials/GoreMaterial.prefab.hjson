@@ -2,8 +2,8 @@ PhysicalMaterial: {
 	AssociatedSet: "GoreMaterial"
 }
 
-MaterialFootsteps: {
-	StepSound: {
+FootstepSounds: {
+	Step: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Gore/GoreSmallSplatter"
 		NumVariants: 2
 		Volume: 0.4
