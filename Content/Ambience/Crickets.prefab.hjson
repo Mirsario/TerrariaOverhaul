@@ -6,7 +6,7 @@ AmbienceTrack: {
 	Sound: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/Forest/ForestCrickets"
 		Type: Ambient
-		Volume: 0.13
+		Volume: 0.04
 		IsLooped: true
 	}
 

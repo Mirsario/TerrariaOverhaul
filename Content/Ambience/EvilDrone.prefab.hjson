@@ -6,7 +6,9 @@ AmbienceTrack: {
 	Sound: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/Evil/EvilDroneLoop"
 		Type: Ambient
-		Volume: 0.6
+		Volume: 0.3
+		Pitch: -0.2
+		PitchVariance: 0.1
 		IsLooped: true
 	}
 

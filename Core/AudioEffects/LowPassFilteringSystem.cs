@@ -52,7 +52,7 @@ internal sealed class LowPassFilteringSystem : ModSystem
 	internal static void ApplyEffects(SoundEffectInstance instance, in AudioEffectParameters parameters)
 	{
 		if (Enabled) {
-			applyLowPassFilteringFunc!(instance, 1f - parameters.LowPassFiltering * 0.9f);
+			applyLowPassFilteringFunc!(instance, 1f - (parameters.LowPassFiltering * 0.92f));
 		}
 	}
 }

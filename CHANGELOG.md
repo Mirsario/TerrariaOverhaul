@@ -38,8 +38,12 @@
   (Thanks, **`@K3vlar159`**!)
 - Added new footstep sounds for Bricks, Clouds, Glass, Mossy Stone, and Silly Balloon Blocks.
   (Thanks, **`@Motaii`!)
-- New ambience tracks: `Beach Waves`.
-  (Thanks, **@ZestyMace**!)
+- Reworked surface ambience:
+	- Added wind and rain sounds to replace vanilla's.
+	- Made many tracks quiter and more subtle.
+	- Removed loops of birds singing, due to lack of visible birds in the game.
+	- Added beach ambience.
+	  (Thanks, **@ZestyMace**!)
 - The decal system has been expanded with support for background decals. In other words, blood and impacts can now stain walls as well as floors.
 	(Assisted by **@steviegt6**!)
 - Implemented a 'camera curio system'. Subtly shifting and zooming on important areas, the system will be used to hint the player's attention towards important objects and events, increasing cinematic feel on top of all.

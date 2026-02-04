@@ -2,6 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ID;
@@ -50,6 +51,10 @@ internal static class EnvironmentSignals
 		=> WorldLayers.Space.GetValue(context.PlayerTilePosition.Y);
 
 	// Weather
+
+	[EnvironmentSignalUpdater]
+	private static float WindStrength(in EnvironmentContext context)
+		=> MathHelper.Clamp(MathF.Abs(Main.windSpeedCurrent), 0f, 1f);
 
 	[EnvironmentSignalUpdater]
 	private static float RainWeather(in EnvironmentContext context)

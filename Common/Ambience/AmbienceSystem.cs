@@ -5,7 +5,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
 using ReLogic.Utilities;
 using Terraria;
@@ -41,6 +40,10 @@ internal sealed class AmbienceSystem : ModSystem
 		Prefabs.RegisterJsonConverter(new AmbienceTrackJsonConverter());
 	}
 
+	public override void Load()
+	{
+		On_LegacyAudioSystem.UpdateAmbientCueState += SilenceVanillaAmbience;
+	}
 	public override void OnModLoad()
 	{
 		foreach (var prefab in prefabQuery) if (!tracksByPrefab.ContainsKey(prefab))
@@ -208,5 +211,18 @@ internal sealed class AmbienceSystem : ModSystem
 		}
 
 		return volume;
+	}
+
+	private static void SilenceVanillaAmbience(On_LegacyAudioSystem.orig_UpdateAmbientCueState orig, LegacyAudioSystem self, int i, bool gameIsActive, ref float trackVolume, float systemVolume)
+	{
+		const int RainAmbience = 28;
+		const int WindAmbience = 45;
+
+		if (i is RainAmbience or WindAmbience) {
+			self.UpdateAmbientCueTowardStopping(i, 1f, ref trackVolume, systemVolume);
+			return;
+		}
+		
+		orig(self, i, gameIsActive, ref trackVolume, systemVolume);
 	}
 }

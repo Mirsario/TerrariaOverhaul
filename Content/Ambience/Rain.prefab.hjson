@@ -1,0 +1,21 @@
+// Copyright (c) 2020-2026 Mirsario & Contributors.
+// Released under the GNU General Public License 3.0.
+// See LICENSE.md for details.
+
+AmbienceTrack: {
+	Sound: {
+		SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/RainHeavy"
+		Type: Ambient
+		Volume: 0.08
+		IsLooped: true
+	}
+
+	Variables: {
+		Volume: {
+			Inputs: [ "RainWeather", "SurfaceAltitude" ]
+			Operation: Multiply
+		}
+	}
+
+	SoundIsWallOccluded: true
+}

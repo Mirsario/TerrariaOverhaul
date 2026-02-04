@@ -2,6 +2,7 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
+/*
 AmbienceTrack: {
 	Sound: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Ambience/Forest/ForestBirds"
@@ -25,3 +26,4 @@ AmbienceTrack: {
 		
 	SoundIsWallOccluded: true
 }
+*/
