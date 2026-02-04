@@ -13,6 +13,8 @@ root = true
 
 #### Diagnostic Rules ####
 
+# CS0649: Field is never assigned to and will always have its default value.
+dotnet_diagnostic.CS0649.severity = silent
 # CS1998: Async method lacks 'await' operators and will run synchronously
 dotnet_diagnostic.CS1998.severity = silent
 
@@ -22,6 +24,10 @@ dotnet_diagnostic.CA1822.severity = none
 dotnet_diagnostic.CA2211.severity = none
 # IDE0017: Object initialization can be simplified
 dotnet_diagnostic.IDE0017.severity = none
+# IDE0047: Parentheses can be removed
+dotnet_diagnostic.IDE0047.severity = none
+# IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0130.severity = none
 # IDE0028: Collection initialization can be simplified
 # IDE0300: Collection initialization can be simplified
 # IDE0301: Collection initialization can be simplified
