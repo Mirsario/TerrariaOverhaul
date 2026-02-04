@@ -134,7 +134,11 @@ internal sealed class AmbienceSystem : ModSystem
 				if (isActive && isAmbienceEnabled) {
 					if (sound == null) {
 						if (instance.PlaybackCooldown == 0) {
-							instance.Slot = SoundEngine.PlaySound(in desc.Sound, instance.Position);
+							var style = desc.Sound with {
+								PauseBehavior = PauseBehavior.PauseWithGame,
+							};
+							
+							instance.Slot = SoundEngine.PlaySound(in style, instance.Position, UpdateCallback);
 							instance.PlaybackCooldown = RollCooldown(desc.InstanceCooldown);
 						}
 

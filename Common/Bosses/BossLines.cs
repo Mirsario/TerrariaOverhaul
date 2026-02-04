@@ -18,10 +18,10 @@ internal sealed class BossLines : ModSystem
 	}
 	public struct Specific()
 	{
-		public string Name;
+		public required string Name;
+		public required int GenderId;
 		public string[] SubTitles = [];
 		public string[] DefeatLines = [];
-		public int GenderId;
 	}
 
 	private const string BaseKey = $"Mods.{nameof(TerrariaOverhaul)}.Bosses";

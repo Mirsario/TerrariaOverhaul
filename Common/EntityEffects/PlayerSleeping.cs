@@ -51,6 +51,7 @@ internal sealed class PlayerSleeping : ModPlayer
 		SoundUtils.UpdateLoopingSound(ref loopInstance, Player.Center, loopVolume, new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Player/Sleeping") {
 			Volume = 0.1f,
 			IsLooped = true,
+			PauseBehavior = PauseBehavior.PauseWithGame,
 		});
 
 		wasSleeping = isSleeping;
