@@ -62,6 +62,7 @@
 - Crimson and Corruption enemies now have new hit and death audio.
 - Added footstep sound effects and interactions to as many NPCs as possible.
 - Added special jumping & landing sound effects to slimes.
+- Added new sound and visual effects to falling stars and the star cannon.
 - Added sound effects for getting in a bed, as well as sleeping.
 - Leaves particles will now be baked as decals whenever they hit the ground.
 - Introduced many new randomly played ambience sounds (previously we've only had loops).

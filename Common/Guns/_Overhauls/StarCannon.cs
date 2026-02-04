@@ -56,8 +56,8 @@ internal class StarCannon : ItemOverhaul
 
 		if (EnableStarCannonRecoilHovering) {
 			item.EnableComponent<ItemUseVelocityRecoil>(e => {
-				e.BaseVelocity = new(4.0f, 20.85f);
-				e.MaxVelocity = new(3.0f, 5.0f);
+				e.BaseVelocity = new(4.0f, 22.85f);
+				e.MaxVelocity = new(3.0f, 15.0f);
 			});
 		}
 

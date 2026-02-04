@@ -18,6 +18,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Music;
 using TerrariaOverhaul.Core.Debugging;
+using TerrariaOverhaul.Utilities;
 
 namespace TerrariaOverhaul.Core.AudioEffects;
 
@@ -43,6 +44,7 @@ internal sealed class AudioEffectsSystem : ModSystem
 		}
 	}
 
+	public delegate void PlaySoundCallback(ref SoundStyle style);
 	public delegate void SoundUpdateCallback(Span<SoundData> sounds);
 
 	private static readonly List<AudioEffectsModifier> modifiers = new();
@@ -62,6 +64,7 @@ internal sealed class AudioEffectsSystem : ModSystem
 
 	public static bool IsEnabled { get; private set; }
 
+	public static event PlaySoundCallback OnSoundPlay = static (ref SoundStyle _) => {};
 	public static event SoundUpdateCallback? OnSoundUpdate;
 
 	public override void OnModLoad()
@@ -85,6 +88,7 @@ internal sealed class AudioEffectsSystem : ModSystem
 
 		// Injections
 		IL_ActiveSound.Play += ActiveSoundPlayInjection;
+		IL_SoundPlayer.Play_Inner += PlaySoundInjection;
 		// Events
 		MusicControlSystem.OnTrackUpdate += OnMusicTrackUpdate;
 
@@ -237,10 +241,9 @@ internal sealed class AudioEffectsSystem : ModSystem
 		}
 	}
 
-	private static void ActiveSoundPlayInjection(ILContext context)
+	private static void ActiveSoundPlayInjection(ILContext ctx)
 	{
-		var il = new ILCursor(context);
-
+		var il = new ILCursor(ctx);
 		int soundEffectInstanceLocalId = 0;
 
 		il.GotoNext(
@@ -267,6 +270,26 @@ internal sealed class AudioEffectsSystem : ModSystem
 
 				ApplyEffects(soundEffectInstance, in soundParameters);
 			}
+		});
+	}
+
+	private static void PlaySoundInjection(ILContext ctx)
+	{
+		var il = new ILCursor(ctx);
+	
+		var locStyle = -1;
+		il.GotoNext(
+			MoveType.Before,
+			i => i.MatchLdloc(out locStyle),
+			i => i.MatchLdloc(out _) || i.MatchLdarg(out _),
+			i => i.MatchLdloc(out _) || i.MatchLdarg(out _),
+			i => i.MatchNewobj<ActiveSound>()
+		);
+
+		ILUtils.HijackIncomingLabels(il);
+		il.Emit(OpCodes.Ldloca, locStyle);
+		il.EmitDelegate(static (ref SoundStyle style) => {
+			OnSoundPlay(ref style);
 		});
 	}
 }
