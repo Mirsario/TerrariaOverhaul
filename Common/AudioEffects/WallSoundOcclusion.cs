@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -85,8 +86,9 @@ internal sealed class WallSoundOcclusion : ModSystem
 
 		for (int i = 0; i < sounds.Length; i++) {
 			ref var data = ref sounds[i];
+			var style = data.SoundStyle;
 
-			if (soundStyles.Contains(data.SoundStyle)) {
+			if (soundStyles.Any(s => s.IsTheSameAs(style))) {
 				data.Parameters.LowPassFiltering += occlusionFactor;
 			}
 		}

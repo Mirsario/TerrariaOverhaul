@@ -54,12 +54,8 @@ internal sealed class AmbienceSystem : ModSystem
 
 		VerifyTrack(trackName, in dsc);
 
-		if (dsc.DisableSoundFiltering) {
-			AudioEffectsSystem.SetEnabledForSoundStyle(dsc.Sound, false);
-		}
-		if (dsc.SoundIsWallOccluded) {
-			WallSoundOcclusion.SetEnabledForSoundStyle(dsc.Sound, true);
-		}
+		AudioEffectsSystem.SetEnabledForSoundStyle(dsc.Sound, !dsc.DisableSoundFiltering);
+		WallSoundOcclusion.SetEnabledForSoundStyle(dsc.Sound, dsc.SoundIsWallOccluded);
 
 		var track = Entities.Create();
 		track.Add(new AmbienceTrackState { Prefab = prefab });

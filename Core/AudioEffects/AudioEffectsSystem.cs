@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework;
@@ -256,7 +257,7 @@ internal sealed class AudioEffectsSystem : ModSystem
 			}
 
 			if (soundEffectInstance?.IsDisposed == false) {
-				if (soundStylesToIgnore.Contains(activeSound.Style)) {
+				if (soundStylesToIgnore.Any(s => s.IsTheSameAs(activeSound.Style))) {
 					return;
 				}
 
