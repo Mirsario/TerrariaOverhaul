@@ -15,6 +15,8 @@ internal sealed class BossLines : ModSystem
 	private struct Common()
 	{
 		public string[][] DefeatLines = [];
+
+		public readonly bool IsValid => DefeatLines is { Length: > 0 };
 	}
 	public struct Specific()
 	{
@@ -53,12 +55,12 @@ internal sealed class BossLines : ModSystem
 #endif
 	}
 
-	public override void OnModLoad() => UpdateCache();
+	public override void OnModLoad() => PrepareCache();
 
-	private static void UpdateCache()
+	private static bool PrepareCache()
 	{
-		if (lastLanguageRefreshCount == TextSystem.LanguageRefreshCount)
-			return;
+		if (commons.IsValid && lastLanguageRefreshCount == TextSystem.LanguageRefreshCount)
+			return true;
 
 		cache.Clear();
 		lastLanguageRefreshCount = TextSystem.LanguageRefreshCount;
@@ -66,11 +68,16 @@ internal sealed class BossLines : ModSystem
 		Common c;
 		c.DefeatLines = ParseGenderedLines(GatherNumberedLines($"Mods.{nameof(TerrariaOverhaul)}.Bosses.Common.Defeated", 1));
 		commons = c;
+
+		return commons.IsValid;
 	}
 
 	public static bool TryGet(int type, [MaybeNullWhen(false)] out Specific lines)
 	{
-		UpdateCache();
+		if (!PrepareCache()) {
+			lines = default;
+			return false;
+		}
 
 		if (cache.TryGetValue(type, out var linesOrNull)) {
 			lines = linesOrNull ?? default;
@@ -121,6 +128,8 @@ internal sealed class BossLines : ModSystem
 	/// <summary> Converts <code>[ "a;b;c", "d;e;f" ]</code> into <code>[ [ "a", "d" ], [ "b", "e" ], [ "c", "f" ] ]</code> </summary>
 	private static string[][] ParseGenderedLines(string[] lines)
 	{
+		if (lines.Length == 0) return [];
+		
 		const char SplitChar = ';';
 		var results = new string[lines.Max(l => l.Count(c => c == SplitChar) + 1)][];
 
