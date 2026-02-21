@@ -98,7 +98,7 @@ internal sealed class JourneyScalingFix : ILoadable
 
 	private static int DifficultyIndexToId(int index)
 	{
-		return MathUtils.Modulo(index - 1, MaxVanillaGameModeIndex);
+		return MathUtils.Modulo(index - 1, MaxVanillaGameModeIndex + 1);
 	}
 
 	private static GameModeData MixGameModes(in GameModeData a, in GameModeData b, float step)

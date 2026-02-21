@@ -83,6 +83,7 @@
 - Enemy defense multipliers across all difficulties were increased from `x1.0` to `x1.25`.
 - Mechanics and enemies in all Overhaul difficulty levels now always behave like it's Master Mode, getting rid of arguably ableistic content & feature walling, and fixing hidden balance inconsistencies. This means that Expert-level behaviors and loot will now be found even on `I'm Too Young To Mine`. However, Boss Relics and other Master-mode exclusive rewards remain exclusive to `I Am Cthulhu Incarnate`, as they are purely visual and do not affect gameplay.
   The `EnableConsistentDifficulty` option has been added in case this leads to mod compatibility issues.
+- Fixed incorrect master-level scaling being applied when setting enemy difficulty below 1.0 in Journey Mode.
 ### Changes
 - Melee weapon swing velocity and miniguns' velocity recoil are now both scaled by the player's current gravity intensity. This resolves [#204](https://github.com/Mirsario/TerrariaOverhaul/issues/204) (Featherfall weapon combos allow infinite ascension).
 - Climbing can now be activated past the second third of any dodgeroll animation, resulting in more fluid movement combos.
@@ -125,6 +126,7 @@
 - Overhaul's internal chunks will now be unloaded from memory when unused for some time.
 ### Fixes
 - Fixed the mod using out of date assembly type iteration APIs (Thanks, `@steviegt6`!)
+- Fixed incorrect master-level scaling being applied when setting enemy difficulty below 1.0 in Journey Mode.
 - Fixed issue [#217](https://github.com/Mirsario/TerrariaOverhaul/issues/217) (Decals may become offset or warped in rendering).
 - Fixed issue [#195](https://github.com/Mirsario/TerrariaOverhaul/issues/195) (Cutting down a tree makes things disappear for a moment).
 - Fixed issue [#252](https://github.com/Mirsario/TerrariaOverhaul/issues/252) (Spirit Flame & Mystic Coil Snake wrongfully rotated by AlwaysShowAimableWeapons).
