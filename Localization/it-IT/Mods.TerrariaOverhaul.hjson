@@ -391,3 +391,9 @@ Projectiles: {
 		// DisplayName: "{$Mods.TerrariaOverhaul.Items.Mop.DisplayName}"
 	}
 }
+
+Configs: {
+	Configuration: {
+		// DisplayName: "Configuration"
+	}
+}

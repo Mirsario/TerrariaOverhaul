@@ -10,45 +10,45 @@
 ## de-DE
 - **Status:** ⚠️ Incomplete!
 - **Completion:** ***18.9%***
-- **Translated:** `82` out of `434` (`352` missing!)
+- **Translated:** `82` out of `435` (`353` missing!)
 
 ## en-US
 - **Status:** ✅ Full!
 - **Completion:** ***100.0%***
-- **Translated:** `434` out of `434` (`0` missing!)
+- **Translated:** `435` out of `435` (`0` missing!)
 
 ## es-ES
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***39.4%***
-- **Translated:** `171` out of `434` (`263` missing!)
+- **Completion:** ***39.3%***
+- **Translated:** `171` out of `435` (`264` missing!)
 
 ## fr-FR
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***39.4%***
-- **Translated:** `171` out of `434` (`263` missing!)
+- **Completion:** ***39.3%***
+- **Translated:** `171` out of `435` (`264` missing!)
 
 ## it-IT
 - **Status:** ⚠️ Incomplete!
 - **Completion:** ***19.8%***
-- **Translated:** `86` out of `434` (`348` missing!)
+- **Translated:** `86` out of `435` (`349` missing!)
 
 ## pl-PL
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***39.4%***
-- **Translated:** `171` out of `434` (`263` missing!)
+- **Completion:** ***39.3%***
+- **Translated:** `171` out of `435` (`264` missing!)
 
 ## pt-BR
 - **Status:** ⚠️ Incomplete!
 - **Completion:** ***18.9%***
-- **Translated:** `82` out of `434` (`352` missing!)
+- **Translated:** `82` out of `435` (`353` missing!)
 
 ## ru-RU
 - **Status:** ⚠️ Incomplete!
 - **Completion:** ***30.6%***
-- **Translated:** `133` out of `434` (`301` missing!)
+- **Translated:** `133` out of `435` (`302` missing!)
 
 ## zh-Hans
 - **Status:** ⚠️ Incomplete!
-- **Completion:** ***68.0%***
-- **Translated:** `295` out of `434` (`139` missing!)
+- **Completion:** ***67.8%***
+- **Translated:** `295` out of `435` (`140` missing!)
 

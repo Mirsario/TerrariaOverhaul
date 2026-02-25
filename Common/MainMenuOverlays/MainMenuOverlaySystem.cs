@@ -59,10 +59,7 @@ internal sealed class MainMenuOverlaySystem : ModSystem
 			new PatreonMenuLink(Text.Literal("patreon.com/Mirsario"), @"https://patreon.com/Mirsario") {
 				ForcedColor = isHovered => Color.Lerp(Color.White, Main.DiscoColor, isHovered ? 0.5f : 0.75f)
 			},
-			
-			// Configuration button
-			new ConfigurationMenuButton(Text.Localized($"{MenuKey}.Configuration")),
-			
+					
 			// Music Pack buttons
 			new MusicPackMenuButton(Text.Localized($"{MenuKey}.MusicPack.Get"), Text.Localized($"{MenuKey}.MusicPack.Enable"), MusicPackLink) {
 				PreferSteamBrowser = true,
@@ -104,7 +101,7 @@ internal sealed class MainMenuOverlaySystem : ModSystem
 				if (!entry.IsActive) {
 					continue;
 				}
-				
+
 				entry.Update(textPos);
 				entry.Draw(sb, textPos);
 
