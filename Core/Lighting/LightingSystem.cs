@@ -256,9 +256,8 @@ internal sealed class LightingSystem : ModSystem
 			Debugging.DebugSystem.DrawRectangle(dstB, Color.Beige, width: 4);
 		}
 		if (Input.InputSystem.GetKey(Microsoft.Xna.Framework.Input.Keys.J)) {
-			var src = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
 			var dst = new Rectangle(0, 0, Main.screenWidth, Main.screenHeight);
-			sb.Draw(screenSpaceTexture, dst, src, Color.White.WithAlpha(192));
+			sb.Draw(screenSpaceTexture, dst, null, Color.White.WithAlpha(255));
 		}
 #endif
 	}
