@@ -12,7 +12,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Core.EntityCapturing;
 
-public readonly record struct ItemCapture(IEntitySource Source, Vector2 Position, int Type, int Stack, int Prefix);
+internal readonly record struct ItemCapture(IEntitySource Source, Vector2 Position, int Type, int Stack, int Prefix);
 
 internal sealed class ItemCapturing : ModSystem
 {

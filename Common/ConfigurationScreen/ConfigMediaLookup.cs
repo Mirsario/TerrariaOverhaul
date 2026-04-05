@@ -11,7 +11,7 @@ using TerrariaOverhaul.Core.Configuration;
 
 namespace TerrariaOverhaul.Common.ConfigurationScreen;
 
-public enum ConfigMediaKind : byte
+internal enum ConfigMediaKind : byte
 {
 	Image = 1,
 	Video = 2,

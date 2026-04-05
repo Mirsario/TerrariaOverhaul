@@ -15,7 +15,7 @@
 
 	<!-- References -->
 	<ItemGroup>
-		<Reference Include="Tomlyn" HintPath="lib/Tomlyn.dll" />
+		<Reference Include="Tomlyn" HintPath="lib\Tomlyn.dll" />
 	</ItemGroup>
 
 	<!-- Content -->

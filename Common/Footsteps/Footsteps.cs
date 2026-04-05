@@ -19,7 +19,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Common.Footsteps;
 
-public enum FootstepType
+internal enum FootstepType
 {
 	Default,
 	Jump,

@@ -47,7 +47,7 @@ internal sealed class PlayerDirection : ModPlayer
 	}
 
 	[Flags]
-	public enum OverrideFlags
+	internal enum OverrideFlags
 	{
 		None = 0,
 		IgnoreItemAnimation = 1,

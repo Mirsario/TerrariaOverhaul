@@ -14,7 +14,7 @@ namespace TerrariaOverhaul.Common.Interaction;
 [Autoload(Side = ModSide.Client)]
 internal class ProjectileGoreInteraction : GlobalProjectile
 {
-	public enum FireProperties : byte
+	internal enum FireProperties : byte
 	{
 		None,
 		Incendiary,

@@ -11,7 +11,7 @@ using TerrariaOverhaul.Utilities.Xna;
 
 namespace TerrariaOverhaul.Core.EntityCapturing;
 
-public readonly record struct DustCapture(int Type, Vector2 Position, Vector2 Velocity, int Alpha, Color NewColor, float Scale);
+internal readonly record struct DustCapture(int Type, Vector2 Position, Vector2 Velocity, int Alpha, Color NewColor, float Scale);
 
 internal sealed class DustCapturing : ModSystem
 {

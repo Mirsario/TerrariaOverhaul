@@ -29,7 +29,7 @@ internal sealed class ItemMeleeSwingVelocity : ItemComponent
 		public Direction2D? KeyDirection;
 	}
 
-	public readonly record struct VelocityModifier(string Identifier)
+	internal readonly record struct VelocityModifier(string Identifier)
 	{
 		public ContextMatch Predicate { get; init; } = default;
 		public Vector2 VelocityMultiplier { get; init; } = default;

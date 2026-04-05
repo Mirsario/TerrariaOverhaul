@@ -16,7 +16,7 @@ using TerrariaOverhaul.Core.Debugging;
 
 namespace TerrariaOverhaul.Core.Configuration;
 
-public enum ConfigSide
+internal enum ConfigSide
 {
 	Both,
 	ClientOnly,

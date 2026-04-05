@@ -7,14 +7,14 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public enum Direction1D : sbyte
+internal enum Direction1D : sbyte
 {
 	Left = -1,
 	Right = 1,
 }
 
 [Flags]
-public enum Direction2D : byte
+internal enum Direction2D : byte
 {
 	None = 0,
 	Up = 1,

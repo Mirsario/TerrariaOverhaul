@@ -10,7 +10,7 @@ using EnvironmentTag = TerrariaOverhaul.Core.Tags.Tag<TerrariaOverhaul.Common.Am
 
 namespace TerrariaOverhaul.Common.Ambience;
 
-public enum SignalOperation
+internal enum SignalOperation
 {
 	Multiply,
 	Addition,
@@ -19,7 +19,7 @@ public enum SignalOperation
 }
 
 [Flags]
-public enum SignalModifiers
+internal enum SignalModifiers
 {
 	None = 0,
 	Inverse = 1,

@@ -25,14 +25,14 @@ using BitOperations = System.Numerics.BitOperations;
 
 namespace TerrariaOverhaul.Common.Decals;
 
-public enum DecalLayer : byte
+internal enum DecalLayer : byte
 {
 	Foreground,
 	Background,
 	Count,
 }
 [Flags]
-public enum DecalLayerFlags : byte
+internal enum DecalLayerFlags : byte
 {
 	None = 0,
 	Foreground = 1,

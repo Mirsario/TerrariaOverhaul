@@ -70,7 +70,7 @@ internal sealed class ConfigIO : ModSystem
 
 	// Sure would be neat to have tagged unions and not be a caveman.
 	private const int ResultOffset = 3;
-	public enum Result
+	internal enum Result
 	{
 		SuccessFlag = 1,    // 00000001
 		WarningFlag = 2,    // 00000010

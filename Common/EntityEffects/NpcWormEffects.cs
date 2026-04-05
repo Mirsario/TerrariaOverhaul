@@ -13,7 +13,7 @@ namespace TerrariaOverhaul.Common.EntityEffects;
 
 internal sealed class NpcWormEffects : GlobalNPC
 {
-	public enum PartType : byte
+	internal enum PartType : byte
 	{
 		Head,
 		Body,

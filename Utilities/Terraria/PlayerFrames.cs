@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace TerrariaOverhaul.Utilities.Terraria;
 
-public enum PlayerFrames
+internal enum PlayerFrames
 {
 	Idle,
 	Use1,

@@ -53,7 +53,7 @@ internal readonly struct ContentSet
 		=> ContentSets.GetOrCreate(identifier);
 }
 
-public readonly record struct SetStorage(int Id);
+internal readonly record struct SetStorage(int Id);
 
 internal static class ContentSets
 {

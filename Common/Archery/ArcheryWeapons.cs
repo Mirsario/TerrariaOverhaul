@@ -10,7 +10,7 @@ namespace TerrariaOverhaul.Common.Archery;
 
 internal static class ArcheryWeapons
 {
-	public enum Kind
+	internal enum Kind
 	{
 		Undefined,
 		Bow,
