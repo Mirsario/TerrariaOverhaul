@@ -112,6 +112,7 @@ internal class FootstepSystem : ModSystem
 		var collisionRect = ctx.Hitbox.Inflated(8, 8);
 		for (int i = 0; i < Main.maxGore; i++) {
 			if (Main.gore[i] is not OverhaulGore { active: true } gore) continue;
+			if (!gore.sticky) continue;
 			if (gore.MaterialPrefab is not { IsValid: true } mat) continue;
 			if (!collisionRect.Intersects(gore.AABBRectangle)) continue;
 
