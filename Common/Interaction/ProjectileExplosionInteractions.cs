@@ -19,6 +19,7 @@ internal sealed class ProjectileExplosionInteractions : GlobalProjectile
 {
 	private static readonly ContentSet Bullet = nameof(Bullet);
 	private static readonly ContentSet Explosive = nameof(Explosive);
+	private static readonly ContentSet AlwaysMovedByExplosions = nameof(AlwaysMovedByExplosions);
 
 	private Vector2Int maxSize;
 
@@ -109,9 +110,11 @@ internal sealed class ProjectileExplosionInteractions : GlobalProjectile
 				=> entity.velocity += velocity;
 
 			foreach (var gore in ActiveEntities.Gores) {
-				if (gore is OverhaulGore g && g.Time == 0) {
-					continue;
-				}
+				// Do not affect gores that have *just* been made.
+				if (gore is OverhaulGore g && g.Time == 0) continue;
+
+				// If this is a non-colliding gore, require an opt-in tag.
+				if (!gore.sticky && AlwaysMovedByExplosions.Has(gore)) continue;
 
 				ApplySplashEffects(gore, ApplyVelocity, gore.AABBRectangle, center, range, rangeSquared, knockback);
 			}

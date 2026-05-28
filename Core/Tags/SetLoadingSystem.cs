@@ -47,6 +47,7 @@ internal sealed partial class SetLoadingSystem : ModSystem
 			{ "ItemID", new(ContentSets.GetStorageHandle<ItemID>(), ItemID.Search, typeof(ItemID.Sets)) },
 			{ "TileID", new(ContentSets.GetStorageHandle<TileID>(), TileID.Search, typeof(TileID.Sets)) },
 			{ "WallID", new(ContentSets.GetStorageHandle<WallID>(), WallID.Search, typeof(WallID.Sets)) },
+			{ "GoreID", new(ContentSets.GetStorageHandle<GoreID>(), GoreID.Search, typeof(GoreID.Sets)) },
 			{ "ProjectileID", new(ContentSets.GetStorageHandle<ProjectileID>(), ProjectileID.Search, typeof(ProjectileID.Sets)) },
 			{ "NPCAIStyleID", new(ContentSets.GetStorageHandle<NPCAIStyleID>(), NPCAIStyleID.Search, null) },
 			{ "ProjAIStyleID", new(ContentSets.GetStorageHandle<ProjAIStyleID>(), ProjAIStyleID.Search, null) },

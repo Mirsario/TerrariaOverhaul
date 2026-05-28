@@ -107,6 +107,7 @@ internal static class ContentSets
 		RegisterStorage<ItemID>(ItemID.Search);
 		RegisterStorage<TileID>(TileID.Search);
 		RegisterStorage<WallID>(WallID.Search);
+		RegisterStorage<GoreID>(GoreID.Search);
 		RegisterStorage<ProjectileID>(ProjectileID.Search);
 		RegisterStorage<NPCAIStyleID>(NPCAIStyleID.Search);
 		RegisterStorage<ProjAIStyleID>(ProjAIStyleID.Search);
@@ -292,6 +293,7 @@ internal static class ContentSetExtensions
 	public static bool Has(this ContentSet set, NPC entity) => set.Has<NPCID>(entity.type);
 	public static bool Has(this ContentSet set, Item entity) => set.Has<ItemID>(entity.type);
 	public static bool Has(this ContentSet set, Projectile entity) => set.Has<ProjectileID>(entity.type);
+	public static bool Has(this ContentSet set, Gore entity) => set.Has<GoreID>(entity.type);
 
 	public static bool HasTile(this ContentSet set, Tile tile) => set.Has<TileID>(tile.TileType);
 	public static bool HasWall(this ContentSet set, Tile tile) => set.Has<WallID>(tile.WallType);

@@ -148,6 +148,7 @@
 - Fixed footsteps not playing when bouncing on 'Silly Balloon Blocks'.
 - Fixed footsteps being able to smash non-colliding "particle gores", such as smoke.
 - Fixed jump & land footstep sounds sometimes not playing when mixed with walking/running footsteps. They now use separate cooldowns.
+- Fixed explosives moving unintented "particle gores", such as fog and other mods' effects. They will still move past explosions' smoke.
 - Fixed gibs sometimes not creating blood particles, or spawning them inside the ground.
 - Fixed away a regional behavior difference in the config screen's ranged value element.
 - Ambience sound effects will now pause when the game window loses focus.
