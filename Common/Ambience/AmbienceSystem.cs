@@ -46,6 +46,11 @@ internal sealed class AmbienceSystem : ModSystem
 	}
 	public override void OnModLoad()
 	{
+		Main.QueueMainThreadAction(LoadTracks);
+	}
+
+	private static void LoadTracks()
+	{
 		foreach (var prefab in prefabQuery) if (!tracksByPrefab.ContainsKey(prefab))
 			CreateTrack(prefab);
 	}

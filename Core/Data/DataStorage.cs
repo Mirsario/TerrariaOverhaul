@@ -6,6 +6,8 @@ using System.Linq;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Terraria;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Core;
 using BitMask64 = TerrariaOverhaul.Utilities.BitMask<ulong>;
 
@@ -163,7 +165,8 @@ internal static class DataStorage
 		public required Action<DataEntity> Remove;
 	}
 
-	private static object operationLock = new();
+	// These should have almost no cost unless a second thread kicks in.
+	private static readonly object operationLock = new();
 	// Components
 	private static uint componentCount;
 	private static uint componentMasksPerEntity = 1;
@@ -276,15 +279,21 @@ internal static class DataStorage
 		=> ref ComponentData<T>.SparseSet.Get(entity.Index);
 
 	public static void AddComponent(DataEntity entity, Component component, object value)
-		=> components[component.Id].AddFromObject(entity, value);
-
+	{
+		lock (operationLock) {
+			components[component.Id].AddFromObject(entity, value);
+		}
+	}
 	public static ref T AddComponent<T>(DataEntity entity, in T value) where T : IComponent
 	{
-		ComponentMask.InDynamicArray(entityComponentMasks, entity.Index).Set<T>();
-		return ref ComponentData<T>.SparseSet.Put(entity.Index, in value);
+		lock (operationLock) {
+			ComponentMask.InDynamicArray(entityComponentMasks, entity.Index).Set<T>();
+			return ref ComponentData<T>.SparseSet.Put(entity.Index, in value);
+		}
 	}
 	public static void RemoveComponent<T>(DataEntity entity) where T : IComponent
 	{
+		Debug.Assert(Program.IsMainThread);
 		ComponentMask.InDynamicArray(entityComponentMasks, entity.Index).Unset<T>();
 		ComponentData<T>.SparseSet.Remove(entity.Index);
 	}
@@ -302,6 +311,8 @@ internal static class DataStorage
 
 	public static DataEntity CreateEntity()
 	{
+		Debug.Assert(Program.IsMainThread);
+		
 		uint index = entityCount++;
 		uint oldLength = BitOperations.RoundUpToPowerOf2(index + 0);
 		uint newLength = BitOperations.RoundUpToPowerOf2(index + 1);
@@ -321,6 +332,7 @@ internal static class DataStorage
 	}
 	public static void DestroyEntity(DataEntity entity)
 	{
+		Debug.Assert(Program.IsMainThread);
 		Debug.Assert(entity.IsValid);
 		entityVersions[entity.Index]++;
 		var (div, rem) = Math.DivRem(entity.Index, BitMask64.BitSize);
@@ -346,3 +358,50 @@ internal static class DataStorage
 	internal static ComponentMask GetQueryIncludedComponentMask(Query query) => ComponentMask.InDynamicArray(queryIncludedComponentMasks, query.Index);
 	internal static ComponentMask GetQueryExcludedComponentMask(Query query) => ComponentMask.InDynamicArray(queryExcludedComponentMasks, query.Index);
 }
+
+#if DEBUG
+internal sealed class DataTests : ModSystem
+{
+	public struct Cmp() : IComponent
+	{
+		public int Int = 123;
+	}
+	
+	public override void OnModLoad()
+	{
+		Main.QueueMainThreadAction(Test);
+	}
+
+	public static void Test()
+	{
+		var entA = DataStorage.CreateEntity();
+		var entB = DataStorage.CreateEntity();
+		var entX = new DataEntity();
+		Debug.Assert(entA.IsValid);
+		Debug.Assert(entB.IsValid);
+		Debug.Assert(!entX.IsValid);
+		entX = DataStorage.CreateEntity();
+		Debug.Assert(entX.IsValid);
+
+		var cmpA = new Component();
+		Debug.Assert(!cmpA.IsValid);
+		DataStorage.RegisterComponent<Cmp>();
+		cmpA = DataStorage.GetComponentHandle<Cmp>();
+		Debug.Assert(cmpA.IsValid);
+
+		Debug.Assert(!entX.Has<Cmp>());
+		entX.Add(new Cmp { Int = 123 });
+		Debug.Assert(entX.Has<Cmp>());
+		Debug.Assert(!entA.Has<Cmp>());
+		Debug.Assert(!entB.Has<Cmp>());
+		entB.Add(new Cmp { Int = 321 });
+		Debug.Assert(entX.Has<Cmp>());
+		Debug.Assert(!entA.Has<Cmp>());
+		Debug.Assert(entB.Has<Cmp>());
+		Debug.Assert(entX.Get<Cmp>().Int == 123);
+		Debug.Assert(entB.Get<Cmp>().Int == 321);
+		entX.Remove<Cmp>();
+		Debug.Assert(!entX.Has<Cmp>());
+	}
+}
+#endif

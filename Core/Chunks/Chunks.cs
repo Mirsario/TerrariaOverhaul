@@ -110,15 +110,19 @@ internal class Chunks : ModSystem
 				if (chunkInfo.ValuableComponentCount != 0) continue;
 
 				DestroyChunk(new Chunk(chunkEntity));
-				chunks.Remove(chunkInfo.EncodedPosition);
 			}
 		}
 	}
 
 	private static void DestroyChunk(Chunk chunk)
 	{
+		if (!chunk.Entity.IsValid) return;
+		if (!chunk.Entity.Has<ChunkInfo>()) return;
+
+		ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
+		Debug.Assert(chunkInfo.ValuableComponentCount == 0);
 		OnChunkDestroyed?.Invoke(chunk);
-		Debug.Assert(chunk.Entity.Get<ChunkInfo>().ValuableComponentCount == 0);
+		chunks.Remove(chunkInfo.EncodedPosition);
 		chunk.Entity.Destroy();
 	}
 
