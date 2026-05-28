@@ -3,9 +3,7 @@
 // See LICENSE.md for details.
 
 using System;
-using System.Linq;
 using Microsoft.Xna.Framework;
-using Steamworks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
@@ -37,6 +35,8 @@ internal struct FootstepCtx()
 {
 	public bool GoreInteraction = true;
 	public float Volume = 1f;
+	/// <summary> The origin used to alternate footstep positions when walking. </summary>
+	public Vector2 Origin = new(0.5f, 1.0f);
 	public required FootstepType Kind;
 	public required Rectangle Hitbox;
 	public required (Vector2 Cur, Vector2 Old) Velocity;
@@ -57,22 +57,47 @@ internal class FootstepSystem : ModSystem
 	{
 		if (Main.dedServ) return false;
 
-		var kind = ctx.Kind;
-		var tilePos = ctx.Hitbox.Bottom().ToTileCoordinates16();
 		Tile? tile = null;
+		var kind = ctx.Kind;
+		var originWorldPos = new Vector2(
+			MathHelper.Lerp(ctx.Hitbox.Left, ctx.Hitbox.Right, ctx.Origin.X),
+			MathHelper.Lerp(ctx.Hitbox.Top, ctx.Hitbox.Bottom, ctx.Origin.Y) - 4
+		);
+		var originTilePos = originWorldPos.ToTileCoordinates16();
+
+		var stepTilePos = default(Point16);
+		var stepWorldPos = default(Vector2);
 
 		// Find a valid tile.
 		if (ctx.PointOverride is { } p && p.IsInWorld() && Main.tile.TryGet(p, out Tile t) && t.HasTile && Main.tileSolid[t.TileType]) {
 			tile = t;
-		} else for (int xMax = (int)MathF.Ceiling(ctx.Hitbox.Width / 16f), i = 0; i < xMax; i++) {
-			int xOffset = (i / 2) * (i % 2 == 0 ? 1 : -1);
-			if (Main.tile.TryGet(tilePos.X + xOffset, tilePos.Y, out t) && t.HasTile) {
-				tile = t;
-				break;
+			stepTilePos = p;
+			stepWorldPos = p.ToWorldCoordinates(autoAddY: 0);
+		} else {
+			const float stepSize = 8;
+			var xMax = (int)MathF.Ceiling(ctx.Hitbox.Width / stepSize) + 1;
+			
+			for (int y = 0; y < 2; y++) {
+				for (int x = 0; x < xMax; x++) {
+					var xStep = ((x + 1) / 2) * (x % 2 == 0 ? 1 : -1);
+					var thisWorldPos = new Vector2(
+						originWorldPos.X + (xStep * stepSize),
+						originWorldPos.Y + (y * 16)
+					);
+					var thisTilePos = thisWorldPos.ToTileCoordinates16();
+				
+					if (Main.tile.TryGet(thisTilePos, out t) && t.HasUnactuatedTile) {
+						tile = t;
+						stepTilePos = thisTilePos;
+						stepWorldPos = thisTilePos.ToWorldCoordinates(autoAddY: 0);
+						break;
+					}
+				}
 			}
 		}
 
-		var worldPos = tilePos.ToWorldCoordinates();
+		if (tile == null) return false;
+
 		Prefab? mainProvider = null;
 		Prefab? extraProvider = null;
 		float mainVolume = ctx.Volume;
@@ -92,7 +117,7 @@ internal class FootstepSystem : ModSystem
 
 			if (kind is FootstepType.Jump or FootstepType.Land) {
 				bool strong = extraProvider == null && kind is FootstepType.Land;
-				var direction = (gore.Center.DirectionFrom(worldPos) with { Y = -1f }).SafeNormalize(-Vector2.UnitY);
+				var direction = (gore.Center.DirectionFrom(stepWorldPos) with { Y = -1f }).SafeNormalize(-Vector2.UnitY);
 				gore.ApplyForce(direction * (strong ? 2.5f : 0.75f));
 				gore.Damage(damageScale: strong ? 0.25f : 0.05f);
 			}
@@ -116,7 +141,7 @@ internal class FootstepSystem : ModSystem
 			};
 
 			if (sound.HasValue) {
-				SoundEngine.PlaySound(sound.Value with { Volume = sound.Value.Volume * volume }, worldPos);
+				SoundEngine.PlaySound(sound.Value with { Volume = sound.Value.Volume * volume }, stepWorldPos);
 			}
 		}
 

@@ -84,6 +84,7 @@ internal sealed class PlayerFootsteps : ModPlayer
 			var movement = Player.GetModPlayer<PlayerMovement>();
 
 			if ((tick - lastStep) > FootstepCooldown && FootstepSystem.Footstep(new() {
+				Origin = new(footstepType is FootstepType.Default ? (stepState == 0 ? 0.25f : 0.75f) : 0.5f, 1.00f),
 				Kind = footstepType.Value,
 				Hitbox = Player.Hitbox,
 				Velocity = (Player.velocity, movement.SelectVelocity(3, (a, b) => a.Y > b.Y)),
