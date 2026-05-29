@@ -177,10 +177,11 @@ internal sealed class ConfigurationState : UIState
 
 	private void BackButtonLogic()
 	{
-		SoundEngine.PlaySound(SoundID.MenuClose);
-
 		if (OnMainScreen) {
-			Main.menuMode = MenuID.Title;
+			if (SearchBar.TextInput.HasContents) SearchBar.TextInput.SetContents(null, forced: true);
+
+			if (Main.gameMenu) Main.menuMode = 10000;
+			else IngameFancyUI.Close();
 		} else {
 			SetCategoryScreen(null);
 		}

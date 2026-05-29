@@ -55,7 +55,7 @@ internal sealed class DynamicColorsUIComponent : UIComponent
 
 	private void UpdateBorderColor()
 	{
-		bool isHovered = Element.ContainsPoint(Main.MenuUI.MousePosition);
+		bool isHovered = Element.ContainsPoint(Main.gameMenu ? Main.MenuUI.MousePosition : Main.MouseScreen);
 		bool isPressed = isHovered && Main.mouseLeft;
 
 		Color GetColor(UIColors colors)

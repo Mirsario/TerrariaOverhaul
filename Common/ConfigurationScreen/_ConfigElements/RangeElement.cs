@@ -195,7 +195,8 @@ internal class RangeElement : UIElement, IConfigEntryController
 				Width = dimensions.Width,
 			};
 
-			double newPosition = MathUtils.Clamp01((Main.MenuUI.MousePosition.X - dragDimensions.X) / dragDimensions.Width);
+			Vector2 mousePosition = Main.gameMenu ? Main.MenuUI.MousePosition : Main.MouseScreen;
+			double newPosition = MathUtils.Clamp01((mousePosition.X - dragDimensions.X) / dragDimensions.Width);
 
 			if (newPosition != Position) {
 				Position = newPosition;
