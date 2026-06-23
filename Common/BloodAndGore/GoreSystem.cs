@@ -93,6 +93,11 @@ internal class GoreSystem : ModSystem
 				return;
 			}
 
+			// Don't convert gores from other mods.
+			if (gore.ModGore is { } modGore && modGore.Mod != Mod) {
+				return;
+			}
+
 			goreExt = ConvertGore(gore, () => Array.IndexOf(Main.gore, gore)); //TODO: Avoid this IndexOf call?
 		}
 
@@ -109,8 +114,15 @@ internal class GoreSystem : ModSystem
 		int result = orig(entitySource, position, velocity, type, scale);
 
 		if (result < Main.maxGore) {
+			// Don't convert gores from other mods.
+			var spawnedGore = Main.gore[result];
+
+			if (spawnedGore.ModGore is { } modGore && modGore.Mod != Mod) {
+				return result;
+			}
+
 			// Convert gores to a new class.
-			var goreExt = ConvertGore(Main.gore[result], () => result);
+			var goreExt = ConvertGore(spawnedGore, () => result);
 
 			// Record gores, if requested.
 			for (int i = 0; i < goreRecordingLists.Count; i++) {
