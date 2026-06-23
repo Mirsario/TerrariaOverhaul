@@ -43,7 +43,7 @@ internal sealed class PlayerJumpBuffering : ModPlayer
 
 	private static void JumpMovement(On_Player.orig_JumpMovement orig, Player player)
 	{
-		if (!EnableJumpInputBuffering) {
+		if (!EnableJumpInputBuffering || player.stoned || player.frozen || player.webbed) {
 			orig(player);
 			return;
 		}

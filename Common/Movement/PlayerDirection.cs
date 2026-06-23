@@ -161,7 +161,7 @@ internal sealed class PlayerDirection : ModPlayer
 			}
 		}
 
-		if (skipSetDirectionCounter.Active || Player.sleeping.isSleeping || Player.sitting.isSitting) {
+		if (skipSetDirectionCounter.Active || Player.sleeping.isSleeping || Player.sitting.isSitting || Player.stoned || Player.frozen || Player.webbed) {
 			return;
 		}
 
