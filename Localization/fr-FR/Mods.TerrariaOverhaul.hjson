@@ -376,16 +376,6 @@ Items: {
 	}
 }
 
-NPCs: {
-	AshSlime: {
-		DisplayName: "Caillot de Cendres"
-	}
-
-	AshZombie: {
-		DisplayName: "Cendres Animées"
-	}
-}
-
 Projectiles: {
 	MopProjectile: {
 		DisplayName: "{$Mods.TerrariaOverhaul.Items.Mop.DisplayName}"

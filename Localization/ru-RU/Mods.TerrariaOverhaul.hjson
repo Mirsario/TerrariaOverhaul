@@ -376,16 +376,6 @@ Items: {
 	}
 }
 
-NPCs: {
-	AshSlime: {
-		DisplayName: "Пепельный сгусток"
-	}
-
-	AshZombie: {
-		DisplayName: "Ходячий пепел"
-	}
-}
-
 Projectiles: {
 	MopProjectile: {
 		DisplayName: "{$Mods.TerrariaOverhaul.Items.Mop.DisplayName}"

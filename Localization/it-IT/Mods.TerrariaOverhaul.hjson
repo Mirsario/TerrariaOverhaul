@@ -376,16 +376,6 @@ Items: {
 	}
 }
 
-NPCs: {
-	AshSlime: {
-		// DisplayName: "Ash Clot"
-	}
-
-	AshZombie: {
-		// DisplayName: "Walking Ashes"
-	}
-}
-
 Projectiles: {
 	MopProjectile: {
 		// DisplayName: "{$Mods.TerrariaOverhaul.Items.Mop.DisplayName}"

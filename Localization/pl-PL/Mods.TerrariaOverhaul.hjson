@@ -376,16 +376,6 @@ Items: {
 	}
 }
 
-NPCs: {
-	AshSlime: {
-		DisplayName: "Grudka Popiołu"
-	}
-
-	AshZombie: {
-		DisplayName: "Chodzące Prochy"
-	}
-}
-
 Projectiles: {
 	MopProjectile: {
 		DisplayName: "{$Mods.TerrariaOverhaul.Items.Mop.DisplayName}"
