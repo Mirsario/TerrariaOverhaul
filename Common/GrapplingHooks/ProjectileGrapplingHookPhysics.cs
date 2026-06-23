@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
+using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Core.Configuration;
@@ -27,6 +28,8 @@ internal class ProjectileGrapplingHookPhysics : GlobalProjectile
 
 	private float maxDist;
 	private bool noPulling;
+	private int adjustSoundCooldown;
+	private int swingSoundCooldown;
 
 	public override bool InstancePerEntity => true;
 
@@ -47,7 +50,15 @@ internal class ProjectileGrapplingHookPhysics : GlobalProjectile
 		};
 
 		On_Projectile.AI_007_GrapplingHooks += static (orig, projectile) => {
+			bool wasHookedBefore = GetHooked(projectile);
 			orig(projectile);
+			bool isHookedNow = GetHooked(projectile);
+
+			if (!wasHookedBefore && isHookedNow && GrapplingHookSounds.EnableGrapplingHookSounds) {
+				GrapplingHookSounds.PlayLatchSound(projectile.Center);
+			}
+
+
 
 			if (!ShouldOverrideGrapplingHookPhysics(projectile, out var player)) {
 				return;
@@ -60,6 +71,15 @@ internal class ProjectileGrapplingHookPhysics : GlobalProjectile
 			physics.ProjectileGrappleMovement(player, projectile);
 		};
 	}
+
+				On_Projectile.NewProjectile_IEntitySource_float_float_float_float_int_int_float_int_float_float_float += (orig, entitySource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1, ai2) => {
+					int result = orig(entitySource, x, y, speedX, speedY, type, damage, knockback, owner, ai0, ai1, ai2);
+					if (result >= 0 && result < Main.maxProjectiles && Main.projectile[result].aiStyle == GrapplingHookAIStyle) {
+						GrapplingHookSounds.PlayThrowSound(new Vector2(x, y));
+					}
+					return result;
+				};
+		}
 
 	public void ProjectileGrappleMovement(Player player, Projectile proj)
 	{
@@ -140,6 +160,30 @@ internal class ProjectileGrapplingHookPhysics : GlobalProjectile
 		} else {
 			player.runAcceleration = 0f;
 			player.moveSpeed = 0f;
+
+
+			// Sound effects
+			if (GrapplingHookSounds.EnableGrapplingHookSounds) {
+				// Adjust length sound
+				if ((up || down) && up != down && adjustSoundCooldown <= 0) {
+					GrapplingHookSounds.PlayAdjustSound(proj.Center);
+					adjustSoundCooldown = 8;
+				}
+				if (adjustSoundCooldown > 0) {
+					adjustSoundCooldown--;
+				}
+
+				// Swing woosh sound
+				float speed = player.velocity.Length();
+				if (speed > 6f && swingSoundCooldown <= 0) {
+					float volumeScale = MathHelper.Clamp((speed - 6f) / 14f, 0.2f, 1f);
+					GrapplingHookSounds.PlaySwingSound(player.Center, volumeScale);
+					swingSoundCooldown = 10;
+				}
+				if (swingSoundCooldown > 0) {
+					swingSoundCooldown--;
+				}
+			}
 		}
 	}
 
