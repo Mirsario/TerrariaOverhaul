@@ -35,7 +35,11 @@ internal sealed class ItemCapturing : ModSystem
 
 	private static int NewItemDetour(On_Item.orig_NewItem_IEntitySource_int_int_int_int_int_int_bool_int_bool_bool orig, IEntitySource source, int x, int y, int width, int height, int type, int stack, bool noBroadcast, int prefix, bool noGrabDelay, bool reverseLookup)
 	{
-		if (listStack.TryPeek(out var list) && skipCounter.Active) {
+		if (skipCounter.Active) {
+			return Main.maxItems;
+		}
+
+		if (listStack.TryPeek(out var list)) {
 			list.Add(new ItemCapture(source, Main.rand.NextVector2(x, y, x + width, y + height), type, stack, prefix));
 
 			return Main.maxItems;

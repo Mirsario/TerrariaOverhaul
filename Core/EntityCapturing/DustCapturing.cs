@@ -34,7 +34,11 @@ internal sealed class DustCapturing : ModSystem
 
 	private static int NewDustDetour(On_Dust.orig_NewDust orig, Vector2 position, int width, int height, int type, float speedX, float speedY, int alpha, Color newColor, float scale)
 	{
-		if (listStack.TryPeek(out var list) && skipCounter.Active) {
+		if (skipCounter.Active) {
+			return Main.maxItems;
+		}
+
+		if (listStack.TryPeek(out var list)) {
 			var randomPosition = Main.rand.NextVector2(position.X, position.Y, position.X + width, position.Y + height);
 			var velocity = new Vector2(speedX, speedY);
 
