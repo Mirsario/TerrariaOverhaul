@@ -50,6 +50,19 @@ internal class Flamethrower : ItemOverhaul
 		return base.UseItem(item, player);
 	}
 
+	public override void UpdateInventory(Item item, Player player)
+	{
+		base.UpdateInventory(item, player);
+
+		if (Guns.EnableGunSoundReplacements && SoundEngine.TryGetActiveSound(soundId, out var activeSound)) {
+			if (player.HeldItem != item) {
+				activeSound.Stop();
+
+				soundId = SlotId.Invalid;
+			}
+		}
+	}
+
 	public override void HoldItem(Item item, Player player)
 	{
 		base.HoldItem(item, player);
