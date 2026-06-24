@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2026 Mirsario & Contributors.
+// Copyright (c) 2020-2026 Mirsario & Contributors.
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
@@ -23,160 +23,165 @@ namespace TerrariaOverhaul.Common.Melee;
 
 internal partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 {
-	public static readonly SoundStyle SwordMediumSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2) {
-		Volume = 0.8f,
-		PitchVariance = 0.1f,
-	};
-	public static readonly SoundStyle SwordHeavySwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2) {
-		PitchVariance = 0.1f,
-	};
-	public static readonly SoundStyle SwordFleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2) {
-		Volume = 0.65f,
-		PitchVariance = 0.1f
-	};
+        public static readonly SoundStyle SwordMediumSwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingMedium", 2) {
+                Volume = 0.8f,
+                PitchVariance = 0.1f,
+        };
+        public static readonly SoundStyle SwordHeavySwing = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/CuttingSwingHeavy", 2) {
+                PitchVariance = 0.1f,
+        };
+        public static readonly SoundStyle SwordFleshHitSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/HitEffects/SwordFleshHit", 2) {
+                Volume = 0.65f,
+                PitchVariance = 0.1f
+        };
 
-	public static readonly ConfigEntry<bool> EnableBroadswordPowerAttacks = new(ConfigSide.Both, true, "Melee");
-	public static readonly ConfigEntry<bool> EnableBroadswordSoundReplacements = new(ConfigSide.ClientOnly, true, "Melee");
+        public static readonly ConfigEntry<bool> EnableBroadswordPowerAttacks = new(ConfigSide.Both, true, "Melee");
+        public static readonly ConfigEntry<bool> EnableBroadswordSoundReplacements = new(ConfigSide.ClientOnly, true, "Melee");
 
-	public override bool ShouldApplyItemOverhaul(Item item)
-	{
-		// Broadswords always swing, don't have channeling, and are visible
-		if (item.useStyle != ItemUseStyleID.Swing || item.channel || item.noUseGraphic) {
-			return false;
-		}
+        public override bool ShouldApplyItemOverhaul(Item item)
+        {
+                // Broadswords always swing, don't have channeling, and are visible
+                if (item.useStyle != ItemUseStyleID.Swing || item.channel || item.noUseGraphic) {
+                        return false;
+                }
 
-		// Avoid tools and blocks
-		if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
-			return false;
-		}
+                // Avoid tools and blocks
+                if (item.pick > 0 || item.axe > 0 || item.hammer > 0 || item.createTile >= TileID.Dirt || item.createWall >= 0) {
+                        return false;
+                }
 
-		// Must be part of the melee class, or a subclass of it.
-		if (!item.DamageType.CountsAsClass(DamageClass.Melee)) {
-			return false;
-		}
+                // Must be part of the melee class, or a subclass of it.
+                if (!item.DamageType.CountsAsClass(DamageClass.Melee)) {
+                        return false;
+                }
 
-		return true;
-	}
+                return true;
+        }
 
-	public override void SetDefaults(Item item)
-	{
-		base.SetDefaults(item);
+        public override void SetDefaults(Item item)
+        {
+                base.SetDefaults(item);
 
-		// Defaults
+                // Defaults
 
-		if (EnableBroadswordSoundReplacements && item.UseSound.HasValue && !item.UseSound.Value.IsTheSameAs(SoundID.Item15)) {
-			item.UseSound = SwordMediumSwing;
-		}
+                if (EnableBroadswordSoundReplacements && item.UseSound.HasValue && !item.UseSound.Value.IsTheSameAs(SoundID.Item15)) {
+                        item.UseSound = SwordMediumSwing;
+                }
 
-		// Components
+                // Components
 
-		// Put in place until https://github.com/Mirsario/TerrariaOverhaul/issues/198 is resolved.
-		bool isProjectileOnlySword = item.noMelee;
+                // Put in place until https://github.com/Mirsario/TerrariaOverhaul/issues/198 is resolved.
+                bool isProjectileOnlySword = item.noMelee;
 
-		if (ItemMeleeAirCombat.EnableMeleeAirCombat && !isProjectileOnlySword) {
-			item.EnableComponent<ItemMeleeAirCombat>();
-		}
+                if (ItemMeleeAirCombat.EnableMeleeAirCombat && !isProjectileOnlySword) {
+                        item.EnableComponent<ItemMeleeAirCombat>();
+                }
 
-		if (ItemMeleeSwingVelocity.EnableMeleeSwingVelocity) {
-			item.EnableComponent<ItemMeleeSwingVelocity>(c => {
-				c.DashVelocity = new Vector2(2.5f, 4.0f);
-				c.MaxDashVelocity = new Vector2(0f, 5.5f);
+                if (ItemMeleeSwingVelocity.EnableMeleeSwingVelocity) {
+                        item.EnableComponent<ItemMeleeSwingVelocity>(c => {
+                                c.DashVelocity = new Vector2(2.5f, 4.0f);
+                                c.MaxDashVelocity = new Vector2(0f, 5.5f);
 
-				c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackBoost);
-				c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackGroundBoost);
-				c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableVerticalDashesForNonChargedAttacks);
-				c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableUpwardsDashesWhenFalling);
-			});
-		}
+                                c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackBoost);
+                                c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.PowerAttackGroundBoost);
+                                c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableVerticalDashesForNonChargedAttacks);
+                                c.AddVelocityModifier(in ItemMeleeSwingVelocity.Modifiers.DisableUpwardsDashesWhenFalling);
+                        });
+                }
 
-		item.EnableComponent<ItemMeleeGoreInteraction>();
-		item.EnableComponent<ItemMeleeCooldownReplacement>();
-		item.EnableComponent<ItemMeleeAttackAiming>();
+                item.EnableComponent<ItemMeleeGoreInteraction>();
+                item.EnableComponent<ItemMeleeCooldownReplacement>();
 
-		if (!isProjectileOnlySword) {
-			item.EnableComponent<ItemVelocityBasedDamage>();
-		}
+                // Attack aiming & animation - only enable when configs are active
+                if (ItemMeleeAttackAiming.EnableMeleeAttackAiming) {
+                        item.EnableComponent<ItemMeleeAttackAiming>();
+                }
 
-		// Animation
-		item.EnableComponent<QuickSlashMeleeAnimation>(c => {
-			c.FlipAttackEachSwing = true;
-			c.AnimateLegs = true;
-		});
+                if (MeleeAnimation.EnableImprovedMeleeAnimations) {
+                        item.EnableComponent<QuickSlashMeleeAnimation>(c => {
+                                c.FlipAttackEachSwing = true;
+                                c.AnimateLegs = true;
+                        });
+                }
 
-		// Power Attacks
-		if (EnableBroadswordPowerAttacks) {
-			item.EnableComponent<ItemMeleePowerAttackEffects>();
-			item.EnableComponent<ItemPowerAttacks>(c => {
-				c.ChargeLengthMultiplier = 1.5f;
+                if (!isProjectileOnlySword) {
+                        item.EnableComponent<ItemVelocityBasedDamage>();
+                }
 
-				var modifiers = new CommonStatModifiers();
+                // Power Attacks
+                if (EnableBroadswordPowerAttacks) {
+                        item.EnableComponent<ItemMeleePowerAttackEffects>();
+                        item.EnableComponent<ItemPowerAttacks>(c => {
+                                c.ChargeLengthMultiplier = 1.5f;
 
-				modifiers.MeleeDamageMultiplier = modifiers.ProjectileDamageMultiplier = 1.5f;
-				modifiers.MeleeKnockbackMultiplier = modifiers.ProjectileKnockbackMultiplier = 1.5f;
-				modifiers.MeleeRangeMultiplier = 1.4f;
-				modifiers.ProjectileSpeedMultiplier = 1.5f;
+                                var modifiers = new CommonStatModifiers();
 
-				c.StatModifiers.Single = modifiers;
-			});
+                                modifiers.MeleeDamageMultiplier = modifiers.ProjectileDamageMultiplier = 1.5f;
+                                modifiers.MeleeKnockbackMultiplier = modifiers.ProjectileKnockbackMultiplier = 1.5f;
+                                modifiers.MeleeRangeMultiplier = 1.4f;
+                                modifiers.ProjectileSpeedMultiplier = 1.5f;
 
-			if (!Main.dedServ) {
-				item.EnableComponent<ItemPowerAttackSounds>(c => {
-					c.Sound = SwordHeavySwing;
-					c.ReplacesUseSound = true;
-				});
-			}
-		}
+                                c.StatModifiers.Single = modifiers;
 
-		// Killing Blows
-		if (!isProjectileOnlySword) {
-			item.EnableComponent<ItemKillingBlows>();
-		}
-	}
+                                if (!Main.dedServ) {
+                                        item.EnableComponent<ItemPowerAttackSounds>(c => {
+                                                c.Sound = SwordHeavySwing;
+                                                c.ReplacesUseSound = true;
+                                        });
+                                }
+                        });
+                }
 
-	public override void UseAnimation(Item item, Player player)
-	{
-		// Slight screenshake for the swing.
-		if (!Main.dedServ && player.IsLocal()) {
-			var screenShake = new ScreenShake(0.30f, 0.15f);
+                // Killing Blows
+                if (!isProjectileOnlySword) {
+                        item.EnableComponent<ItemKillingBlows>();
+                }
+        }
 
-			if (item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.PowerAttack) {
-				screenShake.Power = 0.75f;
-				screenShake.LengthInSeconds = 0.25f;
-			}
+        public override void UseAnimation(Item item, Player player)
+        {
+                // Slight screenshake for the swing.
+                if (!Main.dedServ && player.IsLocal()) {
+                        var screenShake = new ScreenShake(0.30f, 0.15f);
 
-			ScreenShakeSystem.New(screenShake, null);
-		}
-	}
+                        if (item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.PowerAttack) {
+                                screenShake.Power = 0.75f;
+                                screenShake.LengthInSeconds = 0.25f;
+                        }
 
-	public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
-	{
-		base.ModifyTooltips(item, tooltips);
+                        ScreenShakeSystem.New(screenShake, null);
+                }
+        }
 
-		IEnumerable<string> GetCombatInfo()
-		{
-			yield return Mod.GetTextValue("ItemOverhauls.Melee.PowerStrikeInfo");
+        public override void ModifyTooltips(Item item, List<TooltipLine> tooltips)
+        {
+                base.ModifyTooltips(item, tooltips);
 
-			if (item.TryGetGlobalItem(out ItemKillingBlows killingBlows) && killingBlows.Enabled) {
-				yield return Mod.GetTextValue("ItemOverhauls.Melee.Broadsword.KillingBlowInfo", killingBlows.DamageMultiplier);
-			}
+                IEnumerable<string> GetCombatInfo()
+                {
+                        yield return Mod.GetTextValue("ItemOverhauls.Melee.PowerStrikeInfo");
 
-			if (item.TryGetGlobalItem(out ItemMeleeAirCombat airCombat) && airCombat.Enabled) {
-				yield return Mod.GetTextValue("ItemOverhauls.Melee.AirCombatInfo");
-			}
+                        if (item.TryGetGlobalItem(out ItemKillingBlows killingBlows) && killingBlows.Enabled) {
+                                yield return Mod.GetTextValue("ItemOverhauls.Melee.Broadsword.KillingBlowInfo", killingBlows.DamageMultiplier);
+                        }
 
-			if (item.TryGetGlobalItem(out ItemVelocityBasedDamage velocityBasedDamage) && velocityBasedDamage.Enabled) {
-				yield return Mod.GetTextValue("ItemOverhauls.Melee.VelocityBasedDamageInfo");
-			}
-		}
+                        if (item.TryGetGlobalItem(out ItemMeleeAirCombat airCombat) && airCombat.Enabled) {
+                                yield return Mod.GetTextValue("ItemOverhauls.Melee.AirCombatInfo");
+                        }
 
-		ItemTooltips.ShowCombatInformation(Mod, tooltips, GetCombatInfo);
-	}
+                        if (item.TryGetGlobalItem(out ItemVelocityBasedDamage velocityBasedDamage) && velocityBasedDamage.Enabled) {
+                                yield return Mod.GetTextValue("ItemOverhauls.Melee.VelocityBasedDamageInfo");
+                        }
+                }
 
-	void IModifyItemNPCHitSound.ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle? customHitSound, ref bool playNPCHitSound)
-	{
-		// This checks for whether or not the target has bled.
-		if (target.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore) && npcBloodAndGore.LastHitBloodAmount > 0) {
-			customHitSound = SwordFleshHitSound;
-		}
-	}
+                ItemTooltips.ShowCombatInformation(Mod, tooltips, GetCombatInfo);
+        }
+
+        void IModifyItemNPCHitSound.ModifyItemNPCHitSound(Item item, Player player, NPC target, ref SoundStyle? customHitSound, ref bool playNPCHitSound)
+        {
+                // This checks for whether or not the target has bled.
+                if (target.TryGetGlobalNPC(out NPCBloodAndGore npcBloodAndGore) && npcBloodAndGore.LastHitBloodAmount > 0) {
+                        customHitSound = SwordFleshHitSound;
+                }
+        }
 }
