@@ -52,7 +52,7 @@ Thank you to the following contributors for helping improve the mod for everyone
 
 If you would like to contribute, first of all thank you, and as for second, please read the following:
 
-- This is a creative human-made work, created as a skill showcase among other things. Please respect the effort of prior contributors, and make your code and/or assets on your own, without use of agentic AI. If you have any questions about the codebase - do not be afraid to ask.
+- This is a creative human-made work, created as a skill showcase among other things. Please respect the effort of prior contributors, and make your code and/or assets on your own, without use of agentic AI.
 
 - The [`#development`](https://discord.gg/RNGq9n8) Discord channel is public for all, feel free to ask anything there.
 - Namespaces are limited to 3 elements, counting the root.
