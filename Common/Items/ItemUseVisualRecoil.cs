@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2026 Mirsario & Contributors.
+// Copyright (c) 2020-2026 Mirsario & Contributors.
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
@@ -16,55 +16,61 @@ namespace TerrariaOverhaul.Common.Items;
 [Autoload(Side = ModSide.Client)]
 internal sealed class ItemUseVisualRecoil : ItemComponent
 {
-	public static readonly ConfigEntry<bool> EnableVisualWeaponRecoil = new(ConfigSide.Both, true, "Visuals", "Guns");
+        public static readonly ConfigEntry<bool> EnableVisualWeaponRecoil = new(ConfigSide.Both, true, "Visuals", "Guns");
 
-	public float Power { get; set; }
+        public float Power { get; set; }
 
-	public override void OnEnabled(Item item)
-	{
-		int timer = Math.Max(item.useTime, item.useAnimation);
+        public override void OnEnabled(Item item)
+        {
+                int timer = Math.Max(item.useTime, item.useAnimation);
 
-		Power = timer / 1.5f;
-	}
+                Power = timer / 1.5f;
+        }
 
-	public override void SetDefaults(Item item)
-	{
-		static bool CheckItem(Item item)
-		{
-			// Only apply to items that fire projectiles.
-			if (item.shoot <= ProjectileID.None) {
-				return false;
-			}
+        public override void SetDefaults(Item item)
+        {
+                static bool CheckItem(Item item)
+                {
+                        // Only apply to items that fire projectiles.
+                        if (item.shoot <= ProjectileID.None) {
+                                return false;
+                        }
 
-			// Ignore summons and anything that gives buffs.
-			if (item.buffType > 0) {
-				return false;
-			}
+                        // Ignore summons and anything that gives buffs.
+                        if (item.buffType > 0) {
+                                return false;
+                        }
 
-			// Ignore channeled items
-			if (item.channel) {
-				return false;
-			}
+                        // Ignore channeled items
+                        if (item.channel) {
+                                return false;
+                        }
 
-			// Ignore drills, chainsaws, and jackhammers.
-			if (item.pick > 0 || item.axe > 0 || item.hammer > 0) {
-				return false;
-			}
+                        // Ignore drills, chainsaws, and jackhammers.
+                        if (item.pick > 0 || item.axe > 0 || item.hammer > 0) {
+                                return false;
+                        }
 
-			return true;
-		}
+                        // Ignore magic weapons — they have their own projectile patterns
+                        // and visual recoil stacks uncontrollably (e.g. Tome of Infinite Wisdom)
+                        if (item.DamageType.CountsAsClass(DamageClass.Magic)) {
+                                return false;
+                        }
 
-		if (!Enabled && CheckItem(ContentSampleUtils.TryGetItem(item.type, out var baseItem) ? baseItem : item)) {
-			SetEnabled(item, true);
-		}
-	}
+                        return true;
+                }
 
-	public override bool? UseItem(Item item, Player player)
-	{
-		if (Enabled && EnableVisualWeaponRecoil && Power != 0f) {
-			player.GetModPlayer<PlayerHoldOutAnimation>().VisualRecoil += Power;
-		}
+                if (!Enabled && CheckItem(ContentSampleUtils.TryGetItem(item.type, out var baseItem) ? baseItem : item)) {
+                        SetEnabled(item, true);
+                }
+        }
 
-		return base.UseItem(item, player);
-	}
+        public override bool? UseItem(Item item, Player player)
+        {
+                if (Enabled && EnableVisualWeaponRecoil && Power != 0f) {
+                        player.GetModPlayer<PlayerHoldOutAnimation>().VisualRecoil += Power;
+                }
+
+                return base.UseItem(item, player);
+        }
 }
