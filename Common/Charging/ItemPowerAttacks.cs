@@ -1,4 +1,4 @@
-﻿// Copyright (c) 2020-2026 Mirsario & Contributors.
+// Copyright (c) 2020-2026 Mirsario & Contributors.
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
@@ -8,7 +8,6 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Hooks.Items;
-using TerrariaOverhaul.Common.Items;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.Networking;
 using TerrariaOverhaul.Utilities;
@@ -27,6 +26,8 @@ internal sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifie
 	public float ChargeLengthMultiplier = 2f;
 	public SingleOrGradient<CommonStatModifiers> StatModifiers = new();
 
+	public static bool BlockPowerAttackForFrame { get; set; }
+
 	private GameTimer charge;
 
 	public bool PowerAttack { get; private set; }
@@ -42,14 +43,12 @@ internal sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifie
 			var il = new ILCursor(context);
 
 			int isButtonHeldLocalId = -1;
-
 			il.GotoNext(
 				// bool flag2 = flag;
 				i => i.MatchLdcI4(0),
 				i => i.MatchStloc(out isButtonHeldLocalId),
 				i => i.MatchLdloc(isButtonHeldLocalId),
-				i => i.MatchStloc(out _),
-				// if (!ItemID.Sets.ItemsThatAllowRepeatedRightClick[inventory[selectedItem].type] && !Main.mouseRightRelease)
+				i => i.MatchStloc(out _), // if (!ItemID.Sets.ItemsThatAllowRepeatedRightClick[inventory[selectedItem].type] && !Main.mouseRightRelease)
 				i => i.MatchLdsfld(typeof(ItemID.Sets), nameof(ItemID.Sets.ItemsThatAllowRepeatedRightClick))
 				// ...
 			);
@@ -88,6 +87,11 @@ internal sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifie
 					return;
 				}
 
+				// NEW: Block power attack if interaction key is handling this frame
+				if (BlockPowerAttackForFrame) {
+					return;
+				}
+
 				if (player.HeldItem is not Item item) {
 					return;
 				}
@@ -97,7 +101,6 @@ internal sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifie
 				}
 
 				itemPowerAttacks.AttemptPowerAttackStart(item, player);
-
 				/*
 				player.altFunctionUse = 1;
 				player.controlUseItem = true;
@@ -124,6 +127,9 @@ internal sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifie
 		if (!IsCharging && player.itemAnimation <= 1) {
 			PowerAttack = false;
 		}
+
+		// Reset block flag at end of frame
+		BlockPowerAttackForFrame = false;
 	}
 
 	public bool AttemptPowerAttackStart(Item item, Player player)
@@ -147,7 +153,7 @@ internal sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifie
 		if (!ICanStartPowerAttack.Invoke(item, player)) {
 			return false;
 		}
-		
+
 		uint chargeLength = (uint)CombinedHooks.TotalAnimationTime(item.useAnimation * ChargeLengthMultiplier, player, item);
 
 		StartPowerAttack(item, player, chargeLength);
@@ -162,7 +168,6 @@ internal sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifie
 		}
 
 		charge.Set(chargeLength);
-
 		// How does this happen?
 		if (!player.IsLocal()) {
 			player.controlUseTile = true;
@@ -178,9 +183,7 @@ internal sealed class ItemPowerAttacks : ItemComponent, IModifyCommonStatModifie
 	private void ChargeEnd(Item item, Player player)
 	{
 		charge.Freeze();
-
 		PowerAttack = true;
-
 		player.GetModPlayer<PlayerItemUse>().ForceItemUse();
 	}
 

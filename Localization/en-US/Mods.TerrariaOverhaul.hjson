@@ -284,6 +284,10 @@ Keybinds: {
 	Dodgeroll: {
 		DisplayName: "Dodgeroll"
 	}
+	Interact: {
+		DisplayName: "Interact"
+		Tooltip: "Custom key to open chests, doors, and talk to NPCs without swinging your weapon."
+	}
 }
 
 Tiles: {
