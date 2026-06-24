@@ -54,6 +54,7 @@ If you would like to contribute, first of all thank you, and as for second, plea
 
 - This is a creative human-made work, created as a skill showcase among other things. Please respect the effort of prior contributors, and make your code and/or assets on your own, without use of agentic AI. If you have any questions about the codebase - do not be afraid to ask.
 
+- The [`#development`](https://discord.gg/RNGq9n8) Discord channel is public for all, feel free to ask anything there.
 - Namespaces are limited to 3 elements, counting the root.
   - `ModName.Core.(Area)` contains engine-like functionality, usually mod-agnostic.
   - `ModName.Common.(Area)` contains general mod logic, including that which is meant to be used by content.
@@ -62,4 +63,4 @@ If you would like to contribute, first of all thank you, and as for second, plea
   - The area does not organize code files by what types they contain, but what game design area they represent, or which `Common` concept they accompany (e.g. the mop being placed in `Content/Decals`).
 - Code files are split and merged based on the heuristic of "would X ever be of use without Y?". Large code files are good!
 - Build the mod before making commits that contain content changes, in order to run the localization file regeneration task.
-- The [`#development`](https://discord.gg/RNGq9n8) Discord channel is public for all, feel free to ask anything there.
+- Respect the whitespace, make sure that your editor does not introduce `tabs vs spaces` and `\n vs \r\n` fights.
