@@ -9,6 +9,7 @@ using Terraria.ID;
 using TerrariaOverhaul.Common.Recoil;
 using TerrariaOverhaul.Core.ItemComponents;
 using TerrariaOverhaul.Core.ItemOverhauls;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.Guns;
 
@@ -18,6 +19,7 @@ internal class Flamethrower : ItemOverhaul
 		IsLooped = true,
 		Volume = 0.15f,
 		PitchVariance = 0.2f,
+		PauseBehavior = PauseBehavior.PauseWithGame,
 	};
 
 	private SlotId soundId;
@@ -43,25 +45,13 @@ internal class Flamethrower : ItemOverhaul
 
 	public override bool? UseItem(Item item, Player player)
 	{
-		if (Guns.EnableGunSoundReplacements && !soundId.IsValid || !SoundEngine.TryGetActiveSound(soundId, out _)) {
-			soundId = SoundEngine.PlaySound(FireSound, player.Center);
+		if (Guns.EnableGunSoundReplacements && (!soundId.IsValid || !SoundEngine.TryGetActiveSound(soundId, out _))) {
+			var heldItemTracker = new HeldItemTracker(player);
+			soundId = SoundEngine.PlaySound(FireSound, player.Center, snd => {
+				return Guns.EnableGunSoundReplacements && heldItemTracker.AudioCallback(snd) && player.ItemAnimationActive;
+			});
 		}
 
 		return base.UseItem(item, player);
-	}
-
-	public override void HoldItem(Item item, Player player)
-	{
-		base.HoldItem(item, player);
-
-		if (Guns.EnableGunSoundReplacements && SoundEngine.TryGetActiveSound(soundId, out var activeSound)) {
-			if (!player.ItemAnimationActive && player.itemTime <= 0) {
-				activeSound.Stop();
-
-				soundId = SlotId.Invalid;
-			} else {
-				activeSound.Position = player.Center;
-			}
-		}
 	}
 }

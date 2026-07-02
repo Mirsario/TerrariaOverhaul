@@ -130,6 +130,7 @@
 - Fixed issue [#217](https://github.com/Mirsario/TerrariaOverhaul/issues/217) (Decals may become offset or warped in rendering).
 - Fixed issue [#195](https://github.com/Mirsario/TerrariaOverhaul/issues/195) (Cutting down a tree makes things disappear for a moment).
 - Fixed issue [#252](https://github.com/Mirsario/TerrariaOverhaul/issues/252) (Spirit Flame & Mystic Coil Snake wrongfully rotated by AlwaysShowAimableWeapons).
+- Fixed issue [#258](https://github.com/Mirsario/TerrariaOverhaul/issues/258) (Flamethrowers continue emitting sounds after swapping items while in use).
 - Fixed ambience tracks being broken again. If only unit tests were a thing...
 - Fixed the "Evil Drone" ambience track unintentionally playing in the Jungle due to a mishap in the internal 'environment signal' system.
 - Fixed dodgeroll charge UI able to appear when the player is dead.
