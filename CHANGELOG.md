@@ -124,6 +124,9 @@
 - Fixed a rare sound occlusion performance dip occurring when sounds are played far away aboveground with no occluding objects between the sound and the listener.
 - Overhaul's internal chunk system is now data-oriented, with improved CPU caching and slightly reduced memory usage.
 - Overhaul's internal chunks will now be unloaded from memory when unused for some time.
+### Audio
+- Killing Blows sounds made quiter.
+- Gore footstep sounds made quiter.
 ### Fixes
 - Fixed the mod using out of date assembly type iteration APIs (Thanks, `@steviegt6`!)
 - Fixed incorrect master-level scaling being applied when setting enemy difficulty below 1.0 in Journey Mode.

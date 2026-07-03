@@ -6,7 +6,7 @@ FootstepSounds: {
 	Step: {
 		SoundPath: "TerrariaOverhaul/Assets/Sounds/Gore/GoreSmallSplatter"
 		NumVariants: 2
-		Volume: 0.4
-		PitchVariance: 0.2
+		Volume: 0.25
+		PitchVariance: 0.3
 	}
 }

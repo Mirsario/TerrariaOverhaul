@@ -26,8 +26,8 @@ internal sealed class ItemKillingBlows : ItemComponent
 	public static readonly ConfigEntry<bool> EnableMeleeKillingBlows = new(ConfigSide.Both, true, "Melee");
 
 	public static readonly SoundStyle KillingBlowSound = new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Items/Melee/KillingBlow", 2) {
-		Volume = 0.6f,
-		PitchVariance = 0.1f,
+		Volume = 0.4f,
+		PitchVariance = 0.2f,
 	};
 
 	[ThreadStatic]
