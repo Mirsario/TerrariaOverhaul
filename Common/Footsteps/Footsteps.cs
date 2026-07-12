@@ -7,11 +7,14 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Camera;
-using TerrariaOverhaul.Common.Movement;
+using TerrariaOverhaul.Content.Gores;
+using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Core.Data;
+using TerrariaOverhaul.Core.Tags;
 using TerrariaOverhaul.Utilities.Terraria;
 using TerrariaOverhaul.Utilities.Xna;
 
@@ -33,7 +36,11 @@ internal struct FootstepSounds : IComponent
 
 internal struct FootstepCtx()
 {
-	public bool GoreInteraction = true;
+	public Entity? Entity = null;
+	public bool AllowGoreInteraction = true;
+	public bool AllowScreenShake = true;
+	public bool AllowParticles = true;
+	public bool ForceParticles = false;
 	public float Volume = 1f;
 	/// <summary> The origin used to alternate footstep positions when walking. </summary>
 	public Vector2 Origin = new(0.5f, 1.0f);
@@ -46,7 +53,10 @@ internal struct FootstepCtx()
 
 internal class FootstepSystem : ModSystem
 {
+	public static readonly ConfigEntry<bool> EnableMovementDust = new(ConfigSide.ClientOnly, true, "Visuals");
+
 	public static Prefab DefaultFootstepSoundProvider { get; private set; }
+	private static readonly ContentSet Dusty = nameof(Dusty);
 
 	public override void OnModLoad()
 	{
@@ -96,8 +106,6 @@ internal class FootstepSystem : ModSystem
 			}
 		}
 
-		if (tile == null) return false;
-
 		Prefab? mainProvider = null;
 		Prefab? extraProvider = null;
 		float mainVolume = ctx.Volume;
@@ -116,7 +124,7 @@ internal class FootstepSystem : ModSystem
 			if (gore.MaterialPrefab is not { IsValid: true } mat) continue;
 			if (!collisionRect.Intersects(gore.AABBRectangle)) continue;
 
-			if (kind is FootstepType.Jump or FootstepType.Land) {
+			if (ctx.AllowGoreInteraction && kind is FootstepType.Jump or FootstepType.Land) {
 				bool strong = extraProvider == null && kind is FootstepType.Land;
 				var direction = (gore.Center.DirectionFrom(stepWorldPos) with { Y = -1f }).SafeNormalize(-Vector2.UnitY);
 				gore.ApplyForce(direction * (strong ? 2.5f : 0.75f));
@@ -126,6 +134,29 @@ internal class FootstepSystem : ModSystem
 			if (extraProvider == null) {
 				extraProvider = mat;
 				mainVolume *= 0.5f;
+			}
+		}
+
+		// Particle effects.
+		//TODO: Add water splashes?
+		if (ctx.ForceParticles || (ctx.SoundsOverride == null && EnableMovementDust && ctx.AllowParticles)) {
+			bool landing = ctx.Kind is FootstepType.Land && ctx.Velocity.Old.Y >= 3;
+			bool jumpOrLand = ctx.Kind is FootstepType.Jump || landing;
+			bool dirtyBlock = tile != null && Dusty.HasTile(tile.Value);
+			bool fallingFast = MathF.Abs(ctx.Velocity.Old.Y) >= 10;
+			bool xSpeedLow = MathF.Abs(ctx.Velocity.Cur.X) >= 3.5f;
+			bool xSpeedMed = MathF.Abs(ctx.Velocity.Cur.X) >= 7.0f;
+			bool xSpeedHigh = MathF.Abs(ctx.Velocity.Cur.X) >= 8.5f;
+			if (ctx.ForceParticles || (((landing || xSpeedMed || (xSpeedLow && jumpOrLand)) && dirtyBlock) || xSpeedHigh)) {
+				int goreType = fallingFast ? ModContent.GoreType<DustCloudMedium>() : ModContent.GoreType<DustCloudSmall>();
+				var xVel = MathUtils.Clamp(ctx.Velocity.Cur.X * 0.05f, -1.5f, +1.5f) + Main.rand.NextFloat(-0.1f, 0.1f);
+				var goreVel = new Vector2(xVel, 0);
+				var gorePos = stepWorldPos + new Vector2(0, 2);
+			
+				if (Gore.NewGorePerfect(null, gorePos, goreVel, goreType) is { active: true } gore) {
+					Main.instance.LoadGore(goreType);
+					gore.position -= gore.AABBRectangle.Size() * new Vector2(0.5f, 1.0f);
+				}
 			}
 		}
 
@@ -146,8 +177,35 @@ internal class FootstepSystem : ModSystem
 			}
 		}
 
-		PlaySound(mainVolume, ctx.SoundsOverride ?? ((mainProvider ?? DefaultFootstepSoundProvider).Get<FootstepSounds>()));
-		PlaySound(extraVolume, extraProvider?.Get<FootstepSounds>());
+		if (ctx.Volume > 0f) {
+			PlaySound(mainVolume, ctx.SoundsOverride ?? (mainProvider?.Get<FootstepSounds>()));
+			PlaySound(extraVolume, extraProvider?.Get<FootstepSounds>());
+		}
+
+		if (kind == FootstepType.Land) {
+			const float minSpeed = 5.5f;
+			const float maxSpeed = 25.0f;
+			bool isAnyPlayer = ctx.Entity is Player;
+			bool isLocalPlayer = ctx.Entity == Main.LocalPlayer;
+			float maxPower = isLocalPlayer ? 1.0f : 0.6f;
+			var power01 = MathF.Pow(MathUtils.Clamp01((ctx.Velocity.Old.Y - minSpeed) / (maxSpeed - minSpeed)), 2.5f);
+			var powerScaled = power01 * maxPower;
+			var length = MathHelper.Lerp(0.80f, 1.60f, power01);
+			// Main.NewText($"Power01: {power01:0.00}, powerScaled: {powerScaled:0.00}, length: {length:0.00}");
+
+			if (ctx.AllowScreenShake) {
+				var shake = new ScreenShake(powerScaled, length);
+				ScreenShakeSystem.New(shake, !isLocalPlayer ? stepWorldPos : null);
+			}
+
+			if (isAnyPlayer && power01 > 0.10 && ctx.Volume > 0f) {
+				SoundEngine.PlaySound(new($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Footsteps/FallBig", 5) {
+					Volume = power01 * 0.45f,
+					PitchVariance = 0.2f,
+					Pitch = MathHelper.Lerp(0.3f, 0.1f, power01),
+				}, stepWorldPos);
+			}
+		}
 
 		return true;
 	}

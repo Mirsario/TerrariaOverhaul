@@ -39,6 +39,14 @@ Wood: {
 	]
 }
 
+Dusty: {
+	Sets: [
+		"Dirt"
+		"Grass"
+		"Stone"
+	]
+}
+
 ReverbsSound: {
 	Sets: [
 		"Stone"

@@ -7,6 +7,7 @@ using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
 using Terraria.ModLoader;
+using TerrariaOverhaul.Common.Dodgerolls;
 using TerrariaOverhaul.Common.Movement;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities;
@@ -16,7 +17,9 @@ namespace TerrariaOverhaul.Common.Footsteps;
 
 internal sealed class PlayerFootsteps : ModPlayer
 {
-	public static readonly ConfigEntry<bool> EnablePlayerFootsteps = new(ConfigSide.ClientOnly, true, "Ambience");
+	public static readonly ConfigEntry<bool> EnablePlayerFootstepSounds = new(ConfigSide.ClientOnly, true, "Ambience");
+	public static readonly ConfigEntry<bool> EnablePlayerFootstepInteractions = new(ConfigSide.ClientOnly, true, "Ambience", "BloodAndGore");
+	public static readonly ConfigEntry<bool> EnablePlayerLandingScreenShake = new(ConfigSide.ClientOnly, true, "Visuals", "Camera");
 
 	private const uint FootstepCooldown = 5;
 
@@ -58,18 +61,18 @@ internal sealed class PlayerFootsteps : ModPlayer
 
 	private void UpdateFootsteps()
 	{
-		if (Main.dedServ || !EnablePlayerFootsteps) {
-			return;
-		}
+		if (Main.dedServ) return;
+		if (!EnablePlayerFootstepSounds && !EnablePlayerFootstepInteractions && !EnablePlayerLandingScreenShake) return;
 
 		bool onGround = Player.OnGround();
 		bool wasOnGround = Player.WasOnGround();
 		int legFrame = Player.legFrame.Y / Player.legFrame.Height;
+		bool isDodging = Player.TryGetModPlayer(out PlayerDodgerolls dodges) && dodges.IsDodging;
 
 		FootstepType? footstepType = null;
 
 		if (onGround != wasOnGround || bouncedThisFrame) {
-			if (!onGround || Player.controlJump) {
+			if (!onGround) {
 				footstepType = FootstepType.Jump;
 			} else {
 				footstepType = FootstepType.Land;
@@ -84,10 +87,16 @@ internal sealed class PlayerFootsteps : ModPlayer
 			var movement = Player.GetModPlayer<PlayerMovement>();
 
 			if ((tick - lastStep) > FootstepCooldown && FootstepSystem.Footstep(new() {
+				Entity = Player,
 				Origin = new(footstepType is FootstepType.Default ? (stepState == 0 ? 0.25f : 0.75f) : 0.5f, 1.00f),
 				Kind = footstepType.Value,
 				Hitbox = Player.Hitbox,
 				Velocity = (Player.velocity, movement.SelectVelocity(3, (a, b) => a.Y > b.Y)),
+				ForceParticles = isDodging,
+				Volume = EnablePlayerFootstepSounds ? 1 : 0,
+				AllowGoreInteraction = EnablePlayerFootstepInteractions,
+				AllowScreenShake = EnablePlayerLandingScreenShake,
+				AllowParticles = !Player.wet && !Player.lavaWet && !Player.honeyWet,
 			})) {
 				stepState = (byte)(stepState == 0 ? 1 : 0);
 				lastStep = tick;

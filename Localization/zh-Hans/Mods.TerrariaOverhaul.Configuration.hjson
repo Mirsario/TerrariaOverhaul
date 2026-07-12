@@ -59,6 +59,21 @@ Ambience: {
 		// DisplayName: "Enable NPC Footsteps"
 		// Description: "Toggles enemies' and town NPCs' footstep effects."
 	}
+
+	EnableNpcFootstepSounds: {
+		// DisplayName: "Enable Npc Footstep Sounds"
+		// Description: ""
+	}
+
+	EnablePlayerFootstepSounds: {
+		// DisplayName: "Enable Player Footstep Sounds"
+		// Description: ""
+	}
+
+	EnablePlayerFootstepInteractions: {
+		// DisplayName: "Enable Player Footstep Interactions"
+		// Description: ""
+	}
 }
 
 Aesthetics: {
@@ -369,6 +384,16 @@ Enemies: {
 	EnableNormalEnemyEffects: {
 		// DisplayName: "Enable Normal Enemy Effects"
 		// Description: "When enabled, various common enemies will receive new audiovisual effects."
+	}
+
+	EnableNpcFootstepInteractions: {
+		// DisplayName: "Enable Npc Footstep Interactions"
+		// Description: ""
+	}
+
+	EnableNpcLandingScreenShake: {
+		// DisplayName: "Enable Npc Landing Screen Shake"
+		// Description: ""
 	}
 }
 
@@ -765,6 +790,16 @@ Visuals: {
 	EnableVisualWeaponRecoil: {
 		DisplayName: "武器视觉后坐力"
 		Description: "开启后，射击类武器将略微旋转贴图以模拟后坐力震动。"
+	}
+
+	EnableMovementDust: {
+		// DisplayName: "Enable Movement Dust"
+		// Description: ""
+	}
+
+	EnablePlayerLandingScreenShake: {
+		// DisplayName: "Enable Player Landing Screen Shake"
+		// Description: ""
 	}
 }
 

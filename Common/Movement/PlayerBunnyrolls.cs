@@ -10,6 +10,8 @@ using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Dodgerolls;
+using TerrariaOverhaul.Common.Footsteps;
+using TerrariaOverhaul.Content.Gores;
 using TerrariaOverhaul.Core.Configuration;
 using TerrariaOverhaul.Utilities.Terraria;
 
@@ -50,25 +52,22 @@ internal sealed class PlayerBunnyrolls : ModPlayer, IPlayerOnBunnyhopHook
 		//boostMultiplier += 0.25f;
 
 		if (!Main.dedServ) {
-			var playerCenter = Player.Center;
+			var playerBottom = Player.Bottom;
 			var entitySource = Player.GetSource_FromThis();
 
-			int effectCount = (int)MathF.Ceiling(fallBoost * 5f);
+			// Produce a particle only if footstep particles are disabled.
+			if (!FootstepSystem.EnableMovementDust) {
+				var position = playerBottom + new Vector2(Main.rand.NextFloat(-4, 4), 8);
+				var velocity = new Vector2(fallBoost * Player.direction * Main.rand.NextFloat(0.25f, 0.50f), 0);
+				var goreType = ModContent.GoreType<DustCloudMedium>();
 
-			for (int i = 0; i < effectCount; i++) {
-				int ii = i % 3;
-				var position = playerCenter + new Vector2(Main.rand.NextFloat(-4f, 4f), 8f);
-				var velocity = new Vector2(
-					(ii - 1) * fallBoost * Main.rand.NextFloat(0.75f, 1.0f),
-					Main.rand.NextFloat(-0.25f, -0.6f)
-				);
-
-				velocity = velocity.RotatedByRandom(MathHelper.ToRadians(15f));
-
-				Gore.NewGorePerfect(entitySource, position, velocity, GoreID.Smoke1 + ii);
+				if (Gore.NewGorePerfect(entitySource, position, velocity, goreType) is { active: true } gore) {
+					Main.instance.LoadGore(goreType);
+					gore.position -= gore.AABBRectangle.Size() * new Vector2(0.5f, 1.0f);
+				}
 			}
 
-			SoundEngine.PlaySound(BunnyrollSound.WithVolumeScale(Player.IsLocal() ? 1f : 0.5f), playerCenter);
+			SoundEngine.PlaySound(BunnyrollSound.WithVolumeScale(Player.IsLocal() ? 1f : 0.5f), playerBottom);
 		}
 	}
 }

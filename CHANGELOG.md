@@ -65,6 +65,8 @@
 - Added bite sound effects to Zombies.
 - Crimson and Corruption enemies now have new hit and death audio.
 - Added footstep sound effects and interactions to as many NPCs as possible.
+- Added player character jumping visual effects, such as dust clouds.
+- Added "heavy landing" sounds and visual effects, such as dust clouds and screenshakes.
 - Added special jumping & landing sound effects to slimes.
 - Added new sound and visual effects to falling stars and the star cannon.
 - Added sound effects for getting in a bed, as well as sleeping.
