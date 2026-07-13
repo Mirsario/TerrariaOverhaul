@@ -33,19 +33,28 @@
 
 # Work In Progress
 
-### Additions
-- Implemented Coyote Time. Walking off a ledge now activates a grace period, during which the player will still be able to jump as if they are still on the ground.
-  (Thanks, **`@K3vlar159`**!)
-- Added new footstep sounds for Bricks, Clouds, Glass, Mossy Stone, and Silly Balloon Blocks.
-  (Thanks, **`@Motaii`!)
+### Ambience
 - Reworked surface ambience:
 	- Added wind and rain sounds to replace vanilla's.
 	- Made many tracks quiter and more subtle.
 	- Removed loops of birds singing, due to lack of visible birds in the game.
 	- Added beach ambience.
 	  (Thanks, **@ZestyMace**!)
-- The decal system has been expanded with support for background decals. In other words, blood and impacts can now stain walls as well as floors.
-	(Assisted by **@steviegt6**!)
+- Introduced many new randomly played ambience sounds, such as underground cave-ins.
+- Added new footstep sounds for Bricks, Clouds, Glass, Mossy Stone, and Silly Balloon Blocks.
+  (Thanks, **`@Motaii`!)
+- Added footstep sound effects and interactions to as many NPCs as possible.
+- Added new sound and visual effects to falling stars and the star cannon.
+- Added sound effects for getting in a bed, as well as sleeping.
+- Made more types of blocks trigger reverb audio effects.
+- Added special jumping & landing sound effects to slimes.
+### Audio
+- Added bite sound effects to Zombies.
+- Crimson and Corruption enemies now have new hit and death audio.
+- Music Playback Position Preservation no longer affects boss tracks by default. Two options were added, a toggle for that behavior, and a list for music tracks to exclude manually. The latter however can only be modified through `Config.toml` for now.
+- Killing Blows sounds made quiter.
+- Gore footstep sounds made quiter.
+### Camera
 - Implemented a 'camera curio system'. Subtly shifting and zooming on important areas, the system will be used to hint the player's attention towards important objects and events, increasing cinematic feel on top of all.
 - The following camera curios have been implemented:
 	- **NPCs in dialogues**;
@@ -57,28 +66,26 @@
 	- **Rare critters and NPCs** (subtle);
 	- **Boss bags and rare pickups**;
 	- **Sleeping**;
+### Bosses
 - Implemented Boss Intros and Outros. Simple but effective text lines that introduce bosses as they spawn, and announce their defeat in a way more elegant than chat text.
 - `The Eye of Cthulhu` has received an audiovisual overhaul, featuring new sound effects, and new transformation audiovisual effects.
 - **`The Destroyer`** has received a full audiovisual overhaul, featuring a new massive sprite, debris effect system, movement & digging audio, as well as robotic screeches meant to intimidate and warn players of their impending doom. This comes with two options, one for the sprite and another for the whole set of effects.
 - **`The Eater of Worlds`** has received an audiovisual overhaul, featuring a debris effect system, disgusting movement & digging audio, as well as terrifying attack and pain screeches that make it look like the victim during its battle. Who knew worms could sing?
 - When the last alive boss is killed, a cinematic transition cue is now played in addition to the aforementioned camera focus.
-- Added bite sound effects to Zombies.
-- Crimson and Corruption enemies now have new hit and death audio.
-- Added footstep sound effects and interactions to as many NPCs as possible.
-- Added player character jumping visual effects, such as dust clouds.
-- Added "heavy landing" sounds and visual effects, such as dust clouds and screenshakes.
-- Added special jumping & landing sound effects to slimes.
-- Added new sound and visual effects to falling stars and the star cannon.
-- Added sound effects for getting in a bed, as well as sleeping.
+- Boss death music mute effect is now only triggered at the death of the last alive boss.
+### Decals and Blood
+- The decal system has been expanded with support for background decals. In other words, blood and impacts can now stain walls as well as floors.
+	(Assisted by **`@steviegt6`**!)
+- The decal system received some subtle improvements again. Some decals will now be randomly rotated. Involved math has been reworked and heavily simplified.
 - Leaves particles will now be baked as decals whenever they hit the ground.
-- Introduced many new randomly played ambience sounds (previously we've only had loops).
-- Debug builds of the mod can now automatically reload `*.prefab.json` content files.
+- Improved the footstep system's gore interactions. Jumping on gibs will now deal damage to them and spread them around.
 ### Critical Strikes
 - The critical strike rework is here, replacing random critical strikes with a consistent system of enemy weakpoints, hitting which guarantees critical damage, most weakpoints being enemies' backs'.
 - Critical Strike Chance stat is replaced with Critical Strike Damage, directly increasing effectiveness of the mechanic.
 - There's a 1/6 second grace period for enemy direction switch, so enemies that have just turned around will receive critical damage regardless of intent.
 - Dodgerolls' Critical Judgement buff is removed for the time being. Dodgerolls instead now give the Confusion debuff to enemies rolled through, thus delaying their direction changes for about half a second.
 - Weakpoint crits are indicated by a quiet blast sound and an exclamation point next to damage.
+- Critical damage combat text will now be slightly more purple in color.
 ### Difficulty
 - Various changes to compensate all the extra power given to the player by the mod.
 - Enemy health multipliers across all difficulties were increased from `x2.0` to `x2.25`.
@@ -86,26 +93,28 @@
 - Mechanics and enemies in all Overhaul difficulty levels now always behave like it's Master Mode, getting rid of arguably ableistic content & feature walling, and fixing hidden balance inconsistencies. This means that Expert-level behaviors and loot will now be found even on `I'm Too Young To Mine`. However, Boss Relics and other Master-mode exclusive rewards remain exclusive to `I Am Cthulhu Incarnate`, as they are purely visual and do not affect gameplay.
   The `EnableConsistentDifficulty` option has been added in case this leads to mod compatibility issues.
 - Fixed incorrect master-level scaling being applied when setting enemy difficulty below 1.0 in Journey Mode.
-### Changes
+- `Expert`'s idiosyncrattic rename was changed to `Turn Me Undead`.
+### Movement
+- Implemented Coyote Time. Walking off a ledge now activates a grace period, during which the player will still be able to jump as if they are still on the ground.
+  (Thanks, **`@K3vlar159`**!)
 - Melee weapon swing velocity and miniguns' velocity recoil are now both scaled by the player's current gravity intensity. This resolves [#204](https://github.com/Mirsario/TerrariaOverhaul/issues/204) (Featherfall weapon combos allow infinite ascension).
 - Climbing can now be activated past the second third of any dodgeroll animation, resulting in more fluid movement combos.
-- The decal system received some subtle improvements again. Some decals will now be randomly rotated. Involved math has been reworked and heavily simplified.
-- Slightly improved the melee power attack charge animation.
-- For English, changed `Expert`'s difficulty level rename to `Turn Me Undead`. For obvious reasons.
-- Removed all unused and functionless legacy content from compilation: `Charcoal`, `Calendars`, `Gramophones`, `Stone Axes`, `Stone Pickaxes`, `Ash Clots`, `Walking Ashes`. These bits will be reintroduced when required.
 - Wall flips and wall rolls were made slightly more reliable, with their code rewritten.
-- Grappling hooks' code was made more data-driven, with some vanilla hook range values corrected.
-- Boss death music mute effect is now only triggered at the death of the last alive boss.
-- The crosshair will no longer shrink when UI scale is set to less than 100%. Additionally, a crosshair scale option has been added (x1.0 to x2.0 range) to account for high resolution screen users' needs. Finally, the crosshair will also now render using nearest-neighbour texture filtering.
-- `Critical Judgement`'s guaranteed critical strike will no longer be triggered by summons' attacks.
-- Music Playback Position Preservation no longer affects boss tracks by default. Two options were added, a toggle for that behavior, and a list for music tracks to exclude manually. The latter however can only be modified through `Config.toml` for now.
+- Added player character jumping visual effects, such as dust clouds.
+- Added "heavy landing" sounds and visual effects, such as dust clouds and screenshakes.
 - Dodgerolls now produce slight screen shake effects.
-- Critical damage combat text will now be slightly more purple in color.
-- Improved the footstep system's gore interactions, jumping on gibs will now deal damage to them and spread them around.
-- Made more types of blocks trigger reverb audio effects.
+- Grappling hooks' code was made more data-driven, with some vanilla hook range values corrected.
+### Miscellaneous
+- Slightly improved the melee power attack charge animation.
+- Debug builds of the mod can now automatically reload `*.prefab.json` content files.
+- Removed all unused and functionless legacy content from compilation: `Charcoal`, `Calendars`, `Gramophones`, `Stone Axes`, `Stone Pickaxes`, `Ash Clots`, `Walking Ashes`. These bits will be reintroduced when required.
+### Interface
+- The crosshair will no longer shrink when UI scale is set to less than 100%. Additionally, a crosshair scale option has been added (x1.0 to x2.0 range) to account for high resolution screen users' needs. Finally, the crosshair will also now render using nearest-neighbour texture filtering.
 ### Configuration
 - Existing features received the following new options:
+  **Ambience:** `EnableNpcFootstepSounds`, `EnablePlayerFootstepSounds`, `EnablePlayerFootstepInteractions`.
   **Awareness:** `EnableHealthPickupSounds`, `EnableManaPickupSounds`.
+  **Enemies:** `EnableNpcFootstepInteractions`, `EnableNpcLandingScreenshake`.
   **Guns:** `EnableMinigunDynamicFirerate`, `EnableStarCannonDynamicFirerate`.
   **Interface:** `CrosshairScale`, `ForceInterfacePointFiltering`, `ShowCombatInfoHintTooltip`.
   **Music:** `AlwaysRestartBossMusicTracks`, `AlwaysRestartedMusicTracks`.
@@ -126,9 +135,6 @@
 - Fixed a rare sound occlusion performance dip occurring when sounds are played far away aboveground with no occluding objects between the sound and the listener.
 - Overhaul's internal chunk system is now data-oriented, with improved CPU caching and slightly reduced memory usage.
 - Overhaul's internal chunks will now be unloaded from memory when unused for some time.
-### Audio
-- Killing Blows sounds made quiter.
-- Gore footstep sounds made quiter.
 ### Fixes
 - Fixed the mod using out of date assembly type iteration APIs (Thanks, `@steviegt6`!)
 - Fixed incorrect master-level scaling being applied when setting enemy difficulty below 1.0 in Journey Mode.
@@ -153,7 +159,7 @@
 - Fixed footsteps not playing when bouncing on 'Silly Balloon Blocks'.
 - Fixed footsteps being able to smash non-colliding "particle gores", such as smoke.
 - Fixed jump & land footstep sounds sometimes not playing when mixed with walking/running footsteps. They now use separate cooldowns.
-- Fixed explosives moving unintented "particle gores", such as fog and other mods' effects. They will still move past explosions' smoke.
+- Fixed explosives and projectiles moving unintented "particle gores", such as fog and other mods' effects. They will still move previous explosions' smoke.
 - Fixed gibs sometimes not creating blood particles, or spawning them inside the ground.
 - Fixed away a regional behavior difference in the config screen's ranged value element.
 - Ambience sound effects will now pause when the game window loses focus.
