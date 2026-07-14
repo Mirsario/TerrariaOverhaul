@@ -11,6 +11,8 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<!-- Fix 'processor architecture mismatch' warnings -->
 		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+		<!-- Disable occasional "security audits", which break offline compilation -->
+		<NuGetAudit>false</NuGetAudit>
 	</PropertyGroup>
 
 	<!-- References -->
