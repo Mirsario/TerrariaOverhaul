@@ -213,6 +213,7 @@ internal static class ContentSets
 		storage.DirtySetsMasks.Set(set.Id);
 	}
 
+	/// <summary> Recalculates all sets' masks, pulling in the values their derive from. </summary>
 	public static void Recalculate()
 	{
 		var visitedSets = new HashSet<int>(capacity: 4);

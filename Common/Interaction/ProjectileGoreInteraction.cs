@@ -23,6 +23,7 @@ internal class ProjectileGoreInteraction : GlobalProjectile
 
 	private static readonly ContentSet Incendiary = nameof(Incendiary);
 	private static readonly ContentSet Extinguisher = nameof(Extinguisher);
+	private static readonly ContentSet AlwaysInteractable = nameof(Extinguisher);
 
 	private bool dontHitGore;
 
@@ -60,9 +61,11 @@ internal class ProjectileGoreInteraction : GlobalProjectile
 		for (int i = 0; i < Main.maxGore; i++) {
 			var gore = Main.gore[i];
 
-			if (gore == null || !gore.active || Main.gore[i] is not OverhaulGore goreExt) {
-				continue;
-			}
+			if (gore == null || !gore.active) continue;
+			if (gore is not OverhaulGore goreExt) continue;
+
+			// If this is a non-colliding gore, require an opt-in tag.
+			if (!gore.sticky && !AlwaysInteractable.Has(gore)) continue;
 
 			// Intersection check
 			if (!projectile.getRect().Intersects(new Rectangle((int)gore.position.X, (int)gore.position.Y, (int)goreExt.Width, (int)goreExt.Height))) {

@@ -5,3 +5,10 @@ AlwaysMovedByExplosions: {
 		"Smoke3",
 	]
 }
+AlwaysInteractable: {
+	Includes.GoreID: [
+		"Smoke1",
+		"Smoke2",
+		"Smoke3",
+	]
+}
