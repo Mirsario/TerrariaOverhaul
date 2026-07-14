@@ -2,17 +2,14 @@
 // Released under the GNU General Public License 3.0.
 // See LICENSE.md for details.
 
-using System;
-using Microsoft.Xna.Framework;
+
 using ReLogic.Utilities;
 using Terraria;
 using Terraria.Audio;
 using Terraria.ID;
 using Terraria.ModLoader;
-using TerrariaOverhaul.Common.BloodAndGore;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.AudioEffects;
-using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 
@@ -80,8 +77,8 @@ internal sealed class StarEffects : GlobalProjectile
 			MaxInstances = 3,
 		});
 		ScreenShakeSystem.New(new() {
-			Power = projectile.type is ProjectileID.FallingStar ? 0.09f : 0.02f,
-			Range = projectile.type is ProjectileID.FallingStar ? 2048f : 768f,
+			Power = projectile.type is ProjectileID.FallingStar ? 0.10f : 0.02f,
+			Range = projectile.type is ProjectileID.FallingStar ? 4096 : 768,
 			LengthInSeconds = 0.6f,
 		}, projectile.Center);
 	}

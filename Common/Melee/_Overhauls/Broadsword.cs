@@ -140,8 +140,8 @@ internal partial class Broadsword : ItemOverhaul, IModifyItemNPCHitSound
 			var screenShake = new ScreenShake(0.30f, 0.15f);
 
 			if (item.TryGetGlobalItem(out ItemPowerAttacks powerAttacks) && powerAttacks.PowerAttack) {
-				screenShake.Power = 0.75f;
-				screenShake.LengthInSeconds = 0.25f;
+				screenShake.Power = 0.80f;
+				screenShake.LengthInSeconds = 0.40f;
 			}
 
 			ScreenShakeSystem.New(screenShake, null);
