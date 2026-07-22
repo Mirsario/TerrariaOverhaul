@@ -114,7 +114,7 @@ internal sealed class ProjectileExplosionInteractions : GlobalProjectile
 				if (gore is OverhaulGore g && g.Time == 0) continue;
 
 				// If this is a non-colliding gore, require an opt-in tag.
-				if (!gore.sticky && AlwaysMovedByExplosions.Has(gore)) continue;
+				if (!gore.sticky && !AlwaysMovedByExplosions.Has(gore)) continue;
 
 				ApplySplashEffects(gore, ApplyVelocity, gore.AABBRectangle, center, range, rangeSquared, knockback);
 			}
