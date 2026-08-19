@@ -122,7 +122,7 @@ internal class Chunks : ModSystem
 		ref readonly var chunkInfo = ref chunk.Entity.Get<ChunkInfo>();
 		Debug.Assert(chunkInfo.ValuableComponentCount == 0);
 		OnChunkDestroyed?.Invoke(chunk);
-		chunks.Remove(chunkInfo.EncodedPosition);
+		chunks!.Remove(chunkInfo.EncodedPosition);
 		chunk.Entity.Destroy();
 	}
 
@@ -203,6 +203,8 @@ internal class Chunks : ModSystem
 		if (chunks == null) {
 			throw new InvalidOperationException("Chunks are not initialized.");
 		}
+
+		Debug.Assert(Program.IsMainThread);
 
 		if (chunkPosition.X < 0 || chunkPosition.Y < 0) {
 			chunk = default;

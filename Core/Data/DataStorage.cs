@@ -374,6 +374,7 @@ internal sealed class DataTests : ModSystem
 
 	public static void Test()
 	{
+		// Entity creation.
 		var entA = DataStorage.CreateEntity();
 		var entB = DataStorage.CreateEntity();
 		var entX = new DataEntity();
@@ -383,25 +384,52 @@ internal sealed class DataTests : ModSystem
 		entX = DataStorage.CreateEntity();
 		Debug.Assert(entX.IsValid);
 
+		// Component registration.
 		var cmpA = new Component();
 		Debug.Assert(!cmpA.IsValid);
 		DataStorage.RegisterComponent<Cmp>();
 		cmpA = DataStorage.GetComponentHandle<Cmp>();
 		Debug.Assert(cmpA.IsValid);
 
+		// Query creation.
+		// var nilQuery = DataStorage.CreateQuery();
+		// Debug.Assert(!nilQuery.GetEnumerator().MoveNext());
+		var cmpQuery = DataStorage.CreateQuery().With<Cmp>();
+		// Debug.Assert(!nilQuery.GetEnumerator().MoveNext());
+		Debug.Assert(!cmpQuery.GetEnumerator().MoveNext());
+
+		// Component mutation.
 		Debug.Assert(!entX.Has<Cmp>());
 		entX.Add(new Cmp { Int = 123 });
 		Debug.Assert(entX.Has<Cmp>());
 		Debug.Assert(!entA.Has<Cmp>());
 		Debug.Assert(!entB.Has<Cmp>());
+		// Debug.Assert(!nilQuery.GetEnumerator().MoveNext());
+
+		var it = cmpQuery.GetEnumerator();
+		Debug.Assert(it.MoveNext());
+		Debug.Assert(!it.MoveNext());
+		
 		entB.Add(new Cmp { Int = 321 });
 		Debug.Assert(entX.Has<Cmp>());
 		Debug.Assert(!entA.Has<Cmp>());
 		Debug.Assert(entB.Has<Cmp>());
 		Debug.Assert(entX.Get<Cmp>().Int == 123);
 		Debug.Assert(entB.Get<Cmp>().Int == 321);
+		// Debug.Assert(!nilQuery.GetEnumerator().MoveNext());
+
+		it = cmpQuery.GetEnumerator();
+		Debug.Assert(it.MoveNext());
+		Debug.Assert(it.MoveNext());
+		Debug.Assert(!it.MoveNext());
+
 		entX.Remove<Cmp>();
 		Debug.Assert(!entX.Has<Cmp>());
+		// Debug.Assert(!nilQuery.GetEnumerator().MoveNext());
+
+		it = cmpQuery.GetEnumerator();
+		Debug.Assert(it.MoveNext());
+		Debug.Assert(!it.MoveNext());
 	}
 }
 #endif
