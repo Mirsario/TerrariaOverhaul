@@ -15,7 +15,7 @@ internal static class RandomUtils
 		random.NextFloat(minY, maxY)
 	);
 
-	public static Vector2 GetRandomPoint(this UnifiedRandom rng, Rectangle rect) => new(
+	public static Vector2 NextVector2FromRectangle(this UnifiedRandom rng, RectFloat rect) => new(
 		rect.X + rng.NextFloat(rect.Width),
 		rect.Y + rng.NextFloat(rect.Height)
 	);

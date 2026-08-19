@@ -96,7 +96,7 @@ internal sealed class NPCManaDrops : GlobalNPC
 			Lighting.AddLight(glowingNpc.Center, Color.Lerp(Color.BlueViolet, Color.LightSkyBlue, lightPulse).ToVector3());
 
 			if (Main.GameUpdateCount % 2 == 0) {
-				Vector2 point = Main.rand.GetRandomPoint(glowingNpc.getRect());
+				Vector2 point = Main.rand.NextVector2FromRectangle(glowingNpc.getRect());
 
 				Dust.NewDustPerfect(point, ModContent.DustType<ManaDust>(), Vector2.Zero);
 			}

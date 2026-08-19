@@ -204,7 +204,7 @@ internal sealed class FallingTreeEntity : SimpleEntity
 
 		for (int i = 0, count = CapturedItems.Count; i < count; i++) {
 			var capture = CapturedItems[i];
-			var adjustedPosition = capture.Position.RotatedBy(Rotation, Position);
+			var adjustedPosition = Main.rand.NextVector2FromRectangle(capture.Area).RotatedBy(Rotation, Position);
 
 			// As some time has passed since the values in 'capture.SpawnSource' were created - we mustn't use them.
 			Item.NewItem(null, adjustedPosition, capture.Type, capture.Stack, prefixGiven: capture.Prefix);
@@ -221,9 +221,9 @@ internal sealed class FallingTreeEntity : SimpleEntity
 
 		for (int i = 0, count = CapturedDusts.Count; i < count; i++) {
 			var capture = CapturedDusts[i];
-			var adjustedPosition = capture.Position.RotatedBy(Rotation, Position);
+			var adjustedPosition = Main.rand.NextVector2FromRectangle(capture.Area).RotatedBy(Rotation, Position);
 
-			Dust.NewDust(adjustedPosition, 1, 1, capture.Type, capture.Velocity.X, capture.Velocity.Y, capture.Alpha, capture.NewColor, capture.Scale);
+			Dust.NewDust(adjustedPosition, 1, 1, capture.Type, capture.Velocity.X, capture.Velocity.Y, capture.Alpha, capture.Color, capture.Scale);
 		}
 
 		CapturedDusts = null;

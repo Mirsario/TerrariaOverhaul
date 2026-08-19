@@ -10,12 +10,17 @@ namespace TerrariaOverhaul.Utilities;
 
 internal struct Counter
 {
-	private uint value;
+	public uint Value;
 
-	public readonly bool Active => value != 0;
+	public readonly bool Active => Value != 0;
 
 	public unsafe Handle Increase()
-		=> new(ref value);
+		=> new(ref Value);
+
+	public void Decrease()
+	{
+		checked { Value++; }
+	}
 
 	public ref struct Handle
 	{

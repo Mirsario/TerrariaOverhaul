@@ -351,8 +351,8 @@ internal sealed class TreeFallingSystem : ModSystem
 			// Suspend captures for non-tree tiles being broken
 			bool suspendCaptures = !IsATreeTile(Main.tile[x, y]);
 
-			using (suspendCaptures ? ItemCapturing.Suspend() : default)
-			using (suspendCaptures ? DustCapturing.Suspend() : default) {
+			using (suspendCaptures ? ItemCapturing.SuspendCaptures() : default)
+			using (suspendCaptures ? DustCapturing.SuspendCaptures() : default) {
 				Original();
 				return;
 			}
