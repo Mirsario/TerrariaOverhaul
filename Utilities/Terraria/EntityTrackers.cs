@@ -26,6 +26,24 @@ internal readonly struct NpcTracker(NPC npc)
 	}
 }
 
+internal readonly struct ProjectileTracker(Projectile projectile)
+{
+	private readonly int type = projectile.type;
+	private readonly int index = projectile.whoAmI;
+
+	public Projectile? Projectile() => (!Main.gameMenu && Main.projectile[index] is Projectile { active: true } proj && proj.type == type) ? proj : null;
+	public Vector2? Center() => Projectile()?.Center;
+	
+	public bool AudioCallback(ActiveSound sound)
+	{
+		if (Projectile() is not Projectile proj)
+			return false;
+
+		sound.Position = proj.Center;
+		return true;
+	}
+}
+
 internal readonly struct PlayerTracker(Player player)
 {
 	private readonly int nameHash = player.name.GetHashCode();

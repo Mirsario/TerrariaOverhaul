@@ -10,13 +10,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using TerrariaOverhaul.Common.Camera;
 using TerrariaOverhaul.Core.AudioEffects;
+using TerrariaOverhaul.Utilities.Terraria;
 
 namespace TerrariaOverhaul.Common.ProjectileEffects;
 
 [Autoload(Side = ModSide.Client)]
 internal sealed class StarEffects : GlobalProjectile
 {
-	private SlotId soundSlot;
 	private bool spawnedSound;
 
 	public override bool InstancePerEntity => true;
@@ -49,7 +49,7 @@ internal sealed class StarEffects : GlobalProjectile
 	public override void AI(Projectile projectile)
 	{
 		if (!spawnedSound) {
-			var tracker = new ProjectileAudioTracker(projectile);
+			var tracker = new ProjectileTracker(projectile);
 			var style = new SoundStyle($"{nameof(TerrariaOverhaul)}/Assets/Sounds/Projectiles/StarBurn") {
 				Volume = 0.07f,
 				PitchVariance = 0.2f,
@@ -57,12 +57,7 @@ internal sealed class StarEffects : GlobalProjectile
 				IsLooped = true,
 				PauseBehavior = PauseBehavior.PauseWithGame,
 			};
-			bool Callback(ActiveSound snd)
-			{
-				snd.Position = projectile.Center;
-				return tracker.IsActiveAndInGame();
-			}
-			soundSlot = SoundEngine.PlaySound(style, projectile.Center, Callback);
+			SoundEngine.PlaySound(style, projectile.Center, tracker.AudioCallback);
 			spawnedSound = true;
 		}
 	}
