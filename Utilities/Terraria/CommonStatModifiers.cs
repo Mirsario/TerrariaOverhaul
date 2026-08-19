@@ -17,6 +17,8 @@ internal struct CommonStatModifiers
 	public static readonly int Size = SizeConstant;
 	public static readonly CommonStatModifiers Default = new();
 
+	public float ItemTimeMultiplier = 1f;
+	public float ItemAnimMultiplier = 1f;
 	public float MeleeDamageMultiplier = 1f;
 	public float MeleeKnockbackMultiplier = 1f;
 	public float MeleeRangeMultiplier = 1f;
@@ -38,6 +40,8 @@ internal struct CommonStatModifiers
 	{
 		CommonStatModifiers result;
 
+		result.ItemTimeMultiplier = MathHelper.Lerp(a.ItemTimeMultiplier, b.ItemTimeMultiplier, step);
+		result.ItemAnimMultiplier = MathHelper.Lerp(a.ItemAnimMultiplier, b.ItemAnimMultiplier, step);
 		result.MeleeRangeMultiplier = MathHelper.Lerp(a.MeleeRangeMultiplier, b.MeleeRangeMultiplier, step);
 		result.MeleeDamageMultiplier = MathHelper.Lerp(a.MeleeDamageMultiplier, b.MeleeDamageMultiplier, step);
 		result.MeleeKnockbackMultiplier = MathHelper.Lerp(a.MeleeKnockbackMultiplier, b.MeleeKnockbackMultiplier, step);
@@ -52,6 +56,8 @@ internal struct CommonStatModifiers
 	{
 		CommonStatModifiers result;
 
+		result.ItemTimeMultiplier = a.ItemTimeMultiplier * factor;
+		result.ItemAnimMultiplier = a.ItemAnimMultiplier * factor;
 		result.MeleeRangeMultiplier = a.MeleeRangeMultiplier * factor;
 		result.MeleeDamageMultiplier = a.MeleeDamageMultiplier * factor;
 		result.MeleeKnockbackMultiplier = a.MeleeKnockbackMultiplier * factor;
@@ -66,6 +72,8 @@ internal struct CommonStatModifiers
 	{
 		CommonStatModifiers result;
 
+		result.ItemTimeMultiplier = a.ItemTimeMultiplier * b.ItemTimeMultiplier;
+		result.ItemAnimMultiplier = a.ItemAnimMultiplier * b.ItemAnimMultiplier;
 		result.MeleeRangeMultiplier = a.MeleeRangeMultiplier * b.MeleeRangeMultiplier;
 		result.MeleeDamageMultiplier = a.MeleeDamageMultiplier * b.MeleeDamageMultiplier;
 		result.MeleeKnockbackMultiplier = a.MeleeKnockbackMultiplier * b.MeleeKnockbackMultiplier;

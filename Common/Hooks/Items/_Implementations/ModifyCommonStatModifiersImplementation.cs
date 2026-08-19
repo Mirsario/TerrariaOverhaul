@@ -28,6 +28,17 @@ internal sealed class ModifyCommonStatModifiersImplementation : GlobalItem, IMod
 		velocity *= multipliers.ProjectileSpeedMultiplier;
 	}
 
+	public override float UseAnimationMultiplier(Item item, Player player)
+	{
+		var multipliers = Hook.GetMultipliers(item, player);
+		return multipliers.ItemAnimMultiplier;
+	}
+	public override float UseTimeMultiplier(Item item, Player player)
+	{
+		var multipliers = Hook.GetMultipliers(item, player);
+		return multipliers.ItemTimeMultiplier;
+	}
+
 	void IModifyItemMeleeRange.ModifyMeleeRange(Item item, Player player, ref float range)
 	{
 		var multipliers = Hook.GetMultipliers(item, player);
