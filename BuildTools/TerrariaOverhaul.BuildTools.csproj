@@ -5,6 +5,8 @@
 		<LangVersion>latest</LangVersion>
 		<Nullable>enable</Nullable>
 		<OutDir>Libraries</OutDir>
+		<!-- Disable occasional "security audits", which break offline compilation -->
+		<NuGetAudit>false</NuGetAudit>
 	</PropertyGroup>
 
 	<ItemGroup>
