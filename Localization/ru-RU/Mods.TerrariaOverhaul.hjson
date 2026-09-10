@@ -213,35 +213,35 @@ ItemOverhauls: {
 	Archery: {
 		/* HoverShots:
 			'''
-			[[Hover in the air]] by charging your weapon as you're jumping
-			Perform a [[hover-shot]] to get even more velocity
+			[[Hover in the air]] при зарядке оружия во время прыжка  
+			Выполните [[hover-shot]], чтобы получить ещё больше скорости
 			''' */
 		/* ManualCharging:
 			'''
-			Hold right click to [[manually charge]] your weapon
-			Release it at any time to [[fine-tune]] the shot speed & damage
+			Зажмите правую кнопку для [[manually charge]] оружия  
+			Отпустите в любой момент, чтобы [[fine-tune]] скорость и урон выстрела
 			''' */
 	}
 
 	Melee: {
 		/* AirCombatInfo:
 			'''
-			[[Attack enemies mid-air]] to gain speed, stay elevated, or to retreat!
-			Use the movement keys during a strike to control the velocity you gain!
+			[[Attack enemies mid-air]], чтобы набрать скорость, оставаться в воздухе или отступить!  
+			Используйте клавиши движения во время удара для контроля приобретённой скорости!
 			''' */
-		// PowerStrikeInfo: "Charge up [[Power Strikes]] via alternate use!"
+		// PowerStrikeInfo: "Заряжайте [[Power Strikes]] через альтернативное использование!"
 		/* VelocityBasedDamageInfo:
 			'''
 			[[The faster you move - the harder you strike!]]
-			Combine your attacks with dashes and even use gravity to your advantage!
+			Комбинируйте атаки с рывками и даже используйте гравитацию в своих целях!
 			''' */
 
 		Broadsword: {
-			// KillingBlow: "Killing Blow!"
+			// KillingBlow: "Добивающий удар!"
 			/* KillingBlowInfo:
 				'''
-				Perform [[Killing Blows]] by [[power striking]] already hurt foes,
-				multiplying damage by [[x{0}]] whenever that would finish the enemy
+				Выполняйте [[Killing Blows]] с помощью [[power striking]] по уже раненым врагам,
+				увеличивая урон в [[x{0}]] раз, если это добивает противника
 				''' */
 		}
 	}
