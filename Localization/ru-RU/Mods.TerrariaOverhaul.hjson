@@ -211,37 +211,37 @@ Bosses: {
 
 ItemOverhauls: {
 	Archery: {
-		/* HoverShots:
+		/* Превышения:
 			'''
-			[[Hover in the air]] by charging your weapon as you're jumping
-			Perform a [[hover-shot]] to get even more velocity
+			[[Зависайте в воздухе]] заряжая оружие во время прыжка
+			Выполните [[выстрел при зависании]], чтобы увеличить скорость
 			''' */
-		/* ManualCharging:
+		/* Ручная зарядка:
 			'''
-			Hold right click to [[manually charge]] your weapon
-			Release it at any time to [[fine-tune]] the shot speed & damage
+			Удерживайте нажатой правую кнопку мыши, чтобы [[зарядить оружие вручную]]
+			Отпустите ее в любой момент, чтобы [[точно настроить]] скорость выстрела и наносимый урон
 			''' */
 	}
 
 	Melee: {
 		/* AirCombatInfo:
 			'''
-			[[Attack enemies mid-air]] to gain speed, stay elevated, or to retreat!
-			Use the movement keys during a strike to control the velocity you gain!
+			[[Атакуйте врагов в воздухе]] чтобы набрать скорость, удерживайтесь на высоте или отступайте!
+			Используйте клавиши перемещения во время удара, чтобы контролировать скорость, которую вы набираете!
 			''' */
-		// PowerStrikeInfo: "Charge up [[Power Strikes]] via alternate use!"
+		// PowerStrikeInfo: "Заряжайте [[Силовые удары]] с помощью альтернативного использования!"
 		/* VelocityBasedDamageInfo:
 			'''
-			[[The faster you move - the harder you strike!]]
-			Combine your attacks with dashes and even use gravity to your advantage!
+			[[Чем быстрее вы двигаетесь, тем сильнее наносите удары!]]
+			Комбинируйте свои атаки с бросками и даже используйте гравитацию в своих интересах!
 			''' */
 
 		Broadsword: {
-			// KillingBlow: "Killing Blow!"
+			// KillingBlow: "Смертельный удар!"
 			/* KillingBlowInfo:
 				'''
-				Perform [[Killing Blows]] by [[power striking]] already hurt foes,
-				multiplying damage by [[x{0}]] whenever that would finish the enemy
+				Наносите [[Смертельные удары]] с помощью [[силовых ударов]], которые уже нанесли урон врагам,
+умножая урон на [[x{0}]] всякий раз, когда это прикончит врага
 				''' */
 		}
 	}
