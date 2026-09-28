@@ -36,7 +36,7 @@ internal class Mop : ModItem
 	}
 
 	public override void AddRecipes() => CreateRecipe()
-		.AddIngredient(ItemID.Wood, 5)
+		.AddRecipeGroup(RecipeGroupID.Wood, 5)
 		.AddTile(TileID.WorkBenches)
 		.Register();
 }
