@@ -90,7 +90,7 @@ internal sealed class PlayerDirection : ModPlayer
 
 	public Vector2 MouseWorld { get; private set; }
 	public Vector2 LookPosition { get; private set; }
-
+	public bool HoldingPlaceable => Player.HeldItem.createTile >= TileID.Dirt;
 	public override void Load()
 	{
 		On_Player.HorizontalMovement += static (orig, player) => {
@@ -161,7 +161,7 @@ internal sealed class PlayerDirection : ModPlayer
 			}
 		}
 
-		if (skipSetDirectionCounter.Active || Player.sleeping.isSleeping || Player.sitting.isSitting) {
+		if (skipSetDirectionCounter.Active || Player.sleeping.isSleeping || Player.sitting.isSitting || HoldingPlaceable) {
 			return;
 		}
 
